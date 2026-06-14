@@ -1,0 +1,461 @@
+local AnimationSet = require("src.animation_set")
+local Collision = require("src.collision")
+local Render = require("src.render")
+
+local Player = {}
+Player.__index = Player
+
+-- Создаёт игрока из player definition.
+function Player:new(config)
+    config = config or {}
+
+    local player = setmetatable({}, Player)
+
+    player.id = config.id or "player"
+    player.entityType = "player"
+    player.targetGroup = "player"
+
+    -- x/y у игрока — это точка ног/якорь, как в OpenBOR.
+    -- offset.y обычно равен высоте canvas.
+    player.x = config.x or 0
+    player.y = config.y or 0
+
+    player.canvas = config.canvas or {
+        width = config.w or config.width or 48,
+        height = config.h or config.height or 64
+    }
+
+    player.offset = config.offset or {
+        x = player.canvas.width / 2,
+        y = player.canvas.height
+    }
+
+    -- Оставляем w/h как удобные алиасы для старой логики.
+    player.w = player.canvas.width
+    player.h = player.canvas.height
+
+    player.bboxes = config.bboxes or {}
+
+    player.bbox = config.bbox
+        or player.bboxes.stand
+        or {
+            x = 0,
+            y = 0,
+            w = player.canvas.width,
+            h = player.canvas.height
+        }
+
+    player.hitboxes = config.hitboxes or {}
+
+    player.health = config.health or 5
+    player.maxHealth = player.health
+
+    player.lives = config.lives or 3
+
+    player.speed = config.speed or 180
+    player.jumpPower = config.jumpPower or config.jump_power or -420
+    player.gravity = config.gravity or 900
+
+    -- Количество прыжков.
+    -- 1 = обычный прыжок, 2 = двойной прыжок.
+    player.maxJumps = config.maxJumps
+        or config.max_jumps
+        or 2
+
+    player.jumpCount = 0
+
+    player.vx = 0
+    player.vy = 0
+
+    player.facing = config.facing or 1
+    player.flipSprite = config.flipSprite == true
+        or config.flip_sprite == true
+
+    player.alpha = config.alpha or 1
+    player.color = config.color or {0.2, 0.55, 1.0}
+
+    player.abilities = config.abilities or {}
+
+    player.onGround = false
+    player.dead = false
+    player.deathFinished = false
+
+    player.state = "idle"
+
+    player.ammo = config.ammo or {}
+
+    player.entitySpawnRequests = {}
+
+    player.animationSet = AnimationSet:new({
+        default = config.defaultAnimation or config.default_animation or "idle",
+        animations = config.animations or {
+            idle = {
+                loop = true,
+                frames = {}
+            }
+        }
+    })
+
+    player.animationSet:set("idle", true)
+
+    return player
+end
+
+-- Возвращает true, если у игрока есть способность abilityName.
+-- Если abilities[abilityName] не указано, считаем что способность разрешена.
+function Player:can(abilityName)
+    if self.abilities[abilityName] == nil then
+        return true
+    end
+
+    return self.abilities[abilityName] == true
+end
+
+-- Возвращает true, если игрок жив.
+function Player:isAlive()
+    return not self.dead
+end
+
+-- Возвращает bbox игрока в мировых координатах.
+function Player:getHitbox()
+    return Collision.localBoxToWorld(self, self.bbox)
+end
+
+-- Устанавливает bbox по имени.
+function Player:setBbox(name)
+    local bbox = self.bboxes[name]
+
+    if bbox then
+        self.bbox = bbox
+    end
+end
+
+-- Возвращает named hitbox в мировых координатах.
+function Player:getNamedHitbox(name)
+    local hitbox = self.hitboxes[name]
+
+    if not hitbox then
+        return nil
+    end
+
+    return Collision.hitboxToWorld(self, hitbox)
+end
+
+-- Возвращает true, если текущая анимация блокирует ввод.
+function Player:isInputLocked()
+    return self.animationSet:isInputLocked()
+        and not self.animationSet:isCurrentFinished()
+end
+
+-- Запускает animation, если она есть.
+function Player:playAnimation(name, force)
+    self.state = name
+    self.animationSet:set(name, force)
+end
+
+-- Начинает движение влево/вправо.
+function Player:setMoveDirection(direction)
+    if self.dead then
+        return
+    end
+
+    if self:isInputLocked() then
+        return
+    end
+
+    if not self:can("canMove") then
+        return
+    end
+
+    self.vx = direction * self.speed
+
+    if direction ~= 0 then
+        self.facing = direction
+
+        if self.onGround then
+            self:playAnimation("run")
+        end
+    elseif self.onGround then
+        self:playAnimation("idle")
+    end
+end
+
+-- Останавливает горизонтальное движение.
+function Player:stopMoving()
+    if self.dead then
+        return
+    end
+
+    if self:isInputLocked() then
+        return
+    end
+
+    self.vx = 0
+
+    if self.onGround then
+        self:playAnimation("idle")
+    end
+end
+
+-- Выполняет прыжок.
+-- Если maxJumps = 2, работает двойной прыжок.
+function Player:jump()
+    if self.dead then
+        return
+    end
+
+    if not self:can("canJump") then
+        return
+    end
+
+    -- Важно:
+    -- input lock не должен запрещать второй прыжок,
+    -- если игрок уже находится в jump-состоянии.
+    if self:isInputLocked() and self.state ~= "jump" then
+        return
+    end
+
+    if self.jumpCount >= self.maxJumps then
+        return
+    end
+
+    self.vy = self.jumpPower
+    self.onGround = false
+    self.jumpCount = self.jumpCount + 1
+
+    self:playAnimation("jump", true)
+end
+
+-- Приземляет игрока на землю или платформу.
+-- groundY — это линия, где должны стоять ноги игрока.
+function Player:landOn(groundY)
+    self.y = groundY
+    self.vy = 0
+    self.onGround = true
+    self.jumpCount = 0
+
+    if self.dead then
+        return
+    end
+
+    if math.abs(self.vx or 0) > 1 then
+        self:playAnimation("run")
+    else
+        self:playAnimation("idle")
+    end
+end
+
+-- Запускает дальнюю атаку.
+function Player:shoot()
+    if self.dead then
+        return
+    end
+
+    if self:isInputLocked() then
+        return
+    end
+
+    if not self:can("canShoot") then
+        return
+    end
+
+    self.vx = 0
+    self:playAnimation("shoot", true)
+end
+
+-- Запускает melee-атаку.
+function Player:melee()
+    if self.dead then
+        return
+    end
+
+    if self:isInputLocked() then
+        return
+    end
+
+    if not self:can("canMelee") then
+        return
+    end
+
+    self.vx = 0
+    self:playAnimation("melee", true)
+end
+
+-- Запускает crouch-анимацию.
+function Player:crouch()
+    if self.dead then
+        return
+    end
+
+    if self:isInputLocked() then
+        return
+    end
+
+    if not self:can("canCrouch") then
+        return
+    end
+
+    self.vx = 0
+    self:playAnimation("crouch", true)
+end
+
+-- Запускает strafe/special-анимацию.
+function Player:strafe()
+    if self.dead then
+        return
+    end
+
+    if self:isInputLocked() then
+        return
+    end
+
+    if not self:can("canStrafe") then
+        return
+    end
+
+    self.vx = 0
+    self:playAnimation("strafe", true)
+end
+
+-- Добавляет патроны.
+function Player:addAmmo(ammoType, amount)
+    if not ammoType then
+        return false
+    end
+
+    self.ammo[ammoType] = (self.ammo[ammoType] or 0) + amount
+
+    return true
+end
+
+-- Лечит игрока.
+function Player:heal(amount)
+    if self.dead then
+        return false
+    end
+
+    if self.health >= self.maxHealth then
+        return false
+    end
+
+    self.health = math.min(self.maxHealth, self.health + amount)
+
+    return true
+end
+
+-- Создаёт DamageInfo для melee-hitbox игрока.
+function Player:createDamageInfo(event)
+    return {
+        amount = event.damage or 1,
+        source = self,
+        owner = self,
+        deathType = event.deathType or event.death_type or "normal",
+        damageTargets = event.damageTargets
+            or event.damage_targets
+            or {
+                enemy = true
+            }
+    }
+end
+
+-- Получает урон.
+function Player:takeDamage(damageInfo)
+    if self.dead then
+        return false
+    end
+
+    damageInfo = damageInfo or {}
+
+    local amount = damageInfo.amount or 1
+
+    self.health = math.max(0, self.health - amount)
+
+    if self.health <= 0 then
+        self:die()
+        return true
+    end
+
+    if self.animationSet:has("pain") then
+        self.vx = 0
+        self:playAnimation("pain", true)
+    end
+
+    return false
+end
+
+-- Запускает смерть игрока.
+function Player:die()
+    if self.dead then
+        return
+    end
+
+    self.dead = true
+    self.vx = 0
+    self.vy = 0
+
+    self:playAnimation("death", true)
+end
+
+-- Обновляет физику игрока.
+function Player:updatePhysics(dt)
+    if self.dead then
+        return
+    end
+
+    -- Запоминаем прошлую позицию.
+    -- Это нужно, чтобы платформы понимали:
+    -- игрок упал сверху или уже оказался внутри объекта.
+    self.previousX = self.x
+    self.previousY = self.y
+
+    self.vy = self.vy + self.gravity * dt
+
+    self.x = self.x + self.vx * dt
+    self.y = self.y + self.vy * dt
+end
+
+-- Обновляет игрока.
+function Player:update(dt)
+    self:updatePhysics(dt)
+
+    local events = self.animationSet:update(dt)
+
+    for _, event in ipairs(events) do
+        table.insert(self.entitySpawnRequests, event)
+    end
+
+    if self.dead
+        and self.animationSet:isCurrentFinished()
+    then
+        self.deathFinished = true
+    end
+
+    if not self.dead
+        and self.animationSet:isCurrentFinished()
+        and self.state ~= "idle"
+        and self.state ~= "run"
+        and self.onGround
+    then
+        if math.abs(self.vx or 0) > 1 then
+            self:playAnimation("run")
+        else
+            self:playAnimation("idle")
+        end
+    end
+end
+
+-- Возвращает и очищает события игрока.
+function Player:consumeEntitySpawnRequests()
+    local requests = self.entitySpawnRequests
+
+    self.entitySpawnRequests = {}
+
+    return requests
+end
+
+-- Рисует игрока.
+function Player:draw(camera)
+    Render.drawEntity(self, camera)
+end
+
+return Player
