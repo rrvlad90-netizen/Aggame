@@ -4,6 +4,7 @@ local Registry = require("src.registry")
 local UI = require("src.ui")
 local Input = require("src.input")
 local Save = require("src.save")
+local Debug = require("src.debug")
 
 local Level = require("src.level")
 local World = require("src.world")
@@ -214,6 +215,62 @@ local function advanceFlow()
         startLevel(item.id)
         return
     end
+end
+
+-- Запускает явный переход на scene или level.
+-- Используется для nextTarget из levelEnd, scene и player_select.
+local function startTransitionTarget(target)
+    if not target then
+        advanceFlow()
+        return
+    end
+
+    local targetType = target.type or target.kind
+
+    if targetType == "scene" then
+        startScene(target.id, "transition")
+        return
+    end
+
+    if targetType == "level" then
+        startLevel(target.id)
+        return
+    end
+
+    if targetType == "flow" then
+        advanceFlow()
+        return
+    end
+
+    game.mode = "main_menu"
+end
+
+-- Запускает явный переход на scene или level.
+-- Используется для nextTarget из levelEnd и scene.
+local function startTransitionTarget(target)
+    if not target then
+        advanceFlow()
+        return
+    end
+
+    local targetType = target.type or target.kind
+
+    if targetType == "scene" then
+        startScene(target.id, "transition")
+        return
+    end
+
+    if targetType == "level" then
+        startLevel(target.id)
+        return
+    end
+
+    if targetType == "flow" then
+        advanceFlow()
+        return
+    end
+
+    game.mode = "main_menu"
 end
 
 -- Запускает flow с указанного индекса.
@@ -427,8 +484,15 @@ local function updateScene(dt)
         game.scene:skip()
     end
 
-    if game.scene:isFinished() then
+if game.scene:isFinished() then
+        local nextTarget = game.scene:getNextTarget()
+
         stopScene()
+
+        if nextTarget then
+            startTransitionTarget(nextTarget)
+            return
+        end
 
         if game.sceneReturnMode == "game_over_menu" then
             game.mode = "game_over_menu"
@@ -444,8 +508,16 @@ local function updatePlayerSelect(dt)
     game.playerSelect:update(dt)
 
     if game.playerSelect:isFinished() then
+        local nextTarget = game.playerSelect:getNextTarget()
+
         Save.setSelectedPlayerId(game.playerSelect.selectedPlayerId)
         stopPlayerSelect()
+
+        if nextTarget then
+            startTransitionTarget(nextTarget)
+            return
+        end
+
         advanceFlow()
     end
 end
@@ -498,6 +570,16 @@ local function updateLevel(dt)
 
     game.world:update(dt)
 
+	if game.world.result == "transition" then
+        startTransitionTarget(game.world.nextTarget)
+        return
+    end
+	
+	if game.world.result == "transition" then
+        startTransitionTarget(game.world.nextTarget)
+        return
+    end
+
     if game.world.result == "victory" then
         advanceFlow()
         return
@@ -535,6 +617,10 @@ end
 
 -- love.update вызывается каждый кадр.
 function love.update(dt)
+    -- Защита физики от больших скачков времени при подвисаниях.
+    -- Без этого actor/projectile могут за один кадр пролететь сквозь платформу.
+    dt = math.min(dt, 1 / 30)
+
     Input.update(dt)
 
     if game.mode == "main_menu" then
@@ -587,6 +673,11 @@ end
 
 -- love.keypressed обрабатывает нажатие клавиши.
 function love.keypressed(key)
+    if key == "f1" then
+        Debug.toggle()
+        return
+    end
+
     if key == "return" then
         Input.press("confirm")
         return

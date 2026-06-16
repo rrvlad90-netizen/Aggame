@@ -56,10 +56,25 @@ function Projectile:new(config)
 
     projectile.flight = config.flight or "straight"
 
-    projectile.vx = config.vx or config.speedX or config.speed_x or 0
-    projectile.vy = config.vy or config.speedY or config.speed_y or 0
-
     projectile.speed = config.speed or 0
+
+    -- Если vx явно задан, используем его как раньше.
+    -- Если vx не задан, строим горизонтальную скорость из speed и facing.
+    local configuredVx = config.vx
+        or config.speedX
+        or config.speed_x
+
+    if configuredVx ~= nil then
+        projectile.vx = configuredVx
+    else
+        projectile.vx = projectile.speed * projectile.facing
+    end
+
+    projectile.vy = config.vy
+        or config.speedY
+        or config.speed_y
+        or 0
+
     projectile.gravity = config.gravity or 0
 
     projectile.maxDistance = config.maxDistance
@@ -93,12 +108,12 @@ function Projectile:new(config)
         animations = config.animations or {
             idle = {
                 loop = true,
-                frames = config.image and {config.image} or {}
+                frames = config.image and {config.image} or {{}}
             },
 
             death = {
                 loop = false,
-                frames = config.image and {config.image} or {}
+                frames = config.image and {config.image} or {{}}
             }
         }
     })
@@ -154,7 +169,14 @@ function Projectile:die()
     end
 end
 
+-- Обрабатывает попадание projectile-а.
+-- World вызывает именно hit(), поэтому этот метод должен существовать.
+function Projectile:hit()
+    self:die()
+end
+
 -- Проверяет столкновение projectile-а с землёй.
+-- После перехода на платформенную землю обычно ground отсутствует или выключен.
 function Projectile:resolveGroundCollision(level)
     if not self.collides.ground or not level or not level.ground then
         return false
@@ -205,7 +227,7 @@ function Projectile:updateMovement(dt)
     self.traveledDistance = self.traveledDistance + math.sqrt(dx * dx + dy * dy)
 end
 
--- Обновляет projectile.
+-- Обновляет projectile: движение, столкновения, animation events и смерть.
 function Projectile:update(dt, world)
     if self.dead then
         return

@@ -51,12 +51,32 @@ function Assets.createFallbackImage(width, height)
     return canvas
 end
 
+
+-- Возвращает кешированную fallback-картинку указанного размера.
+-- Важно: не создаём новый Canvas каждый кадр, если image == nil.
+function Assets.getFallbackImage(width, height)
+    width = width or Config.assets.fallbackImageWidth
+    height = height or Config.assets.fallbackImageHeight
+
+    local key = "__fallback:" .. tostring(width) .. "x" .. tostring(height)
+
+    if Assets.images[key] then
+        return Assets.images[key]
+    end
+
+    local image = Assets.createFallbackImage(width, height)
+
+    Assets.images[key] = image
+
+    return image
+end
+
 -- Возвращает картинку по пути.
 -- Если картинка уже была загружена, берёт её из кеша.
 -- Если файла нет, создаёт fallback-картинку.
 function Assets.getImage(path)
     if not path then
-        return Assets.createFallbackImage()
+        return Assets.getFallbackImage()
     end
 
     if Assets.images[path] then

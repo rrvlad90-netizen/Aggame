@@ -5,6 +5,30 @@ local UI = require("src.ui")
 local Scene = {}
 Scene.__index = Scene
 
+-- Нормализует описание следующего перехода.
+-- Поддерживает next = { type = "...", id = "..." }, nextScene и nextLevel.
+local function normalizeNextTarget(config)
+    if config.next then
+        return config.next
+    end
+
+    if config.nextScene or config.next_scene then
+        return {
+            type = "scene",
+            id = config.nextScene or config.next_scene
+        }
+    end
+
+    if config.nextLevel or config.next_level then
+        return {
+            type = "level",
+            id = config.nextLevel or config.next_level
+        }
+    end
+
+    return nil
+end
+
 -- Создаёт scene из definition.
 -- Scene используется для intro, briefing, victory/game over.
 function Scene:new(config)
@@ -24,6 +48,10 @@ function Scene:new(config)
     scene.currentFrame = 1
     scene.timer = 0
     scene.finished = false
+
+-- Цель перехода после завершения scene.
+    -- Если nil, игра продолжит старый flow через advanceFlow().
+    scene.nextTarget = normalizeNextTarget(config)
 
     scene.playedSounds = {}
 
@@ -188,6 +216,11 @@ end
 -- Возвращает true, если scene завершилась.
 function Scene:isFinished()
     return self.finished
+end
+
+-- Возвращает цель перехода после завершения scene.
+function Scene:getNextTarget()
+    return self.nextTarget
 end
 
 return Scene

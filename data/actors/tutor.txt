@@ -1,0 +1,267 @@
+Для гоблина лучше сделать 2 PNG кадра размером под его canvas:
+
+lua
+canvas = {
+    width = 64,
+    height = 80
+}
+То есть картинки:
+
+64x80
+прозрачный фон
+ноги примерно на нижней линии кадра
+центр персонажа примерно по x = 32
+Например положи файлы так:
+
+text
+assets/sprites/goblin/walk_01.png
+assets/sprites/goblin/walk_02.png
+Потом в data/actors/goblin.lua замени walk:
+
+lua
+walk = {
+            loop = true,
+            frameDuration = 0.12,
+            frames = {
+                {},
+                {},
+                {},
+                {}
+            }
+        },
+на:
+
+lua
+walk = {
+            loop = true,
+            frameDuration = 0.16,
+            frames = {
+                "assets/sprites/goblin/walk_01.png",
+                "assets/sprites/goblin/walk_02.png"
+            }
+        },
+Можно и так, если хочешь настраивать длительность каждого кадра отдельно:
+
+lua
+walk = {
+            loop = true,
+            frames = {
+                {
+                    image = "assets/sprites/goblin/walk_01.png",
+                    duration = 0.16
+                },
+                {
+                    image = "assets/sprites/goblin/walk_02.png",
+                    duration = 0.16
+                }
+            }
+        },
+Для начала я бы сделал 2 кадра:
+
+walk_01 — левая нога вперёд;
+walk_02 — правая нога вперёд.
+
+
+
+
+КАК ОПИСЫАТЬ АНИМАЦИИ
+
+
+
+ attackGroups = {
+        {
+            minDistance = 0,
+            maxDistance = 46,
+            animations = {
+                "attack_melee"
+            },
+            jumpAnimations = {
+                "jump_melee01",
+                "jump_melee02",
+                "jump_melee03"
+            }
+        }
+    },
+
+
+
+
+
+------------------
+
+animations = {.....................
+...........................
+
+		-------------------
+		spawn01 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            }
+        },
+
+        spawn02 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            }
+        },
+
+        spawn03 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            }
+        },
+
+        jump_attack01 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 2,
+                    type = "damageHitbox",
+                    hitbox = "claw",
+                    damage = 1,
+                    deathType = "normal",
+                    damageTargets = {
+                        player = true
+                    }
+                }
+            }
+        },
+
+        jump_attack02 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 2,
+                    type = "damageHitbox",
+                    hitbox = "claw",
+                    damage = 1,
+                    deathType = "normal",
+                    damageTargets = {
+                        player = true
+                    }
+                }
+            }
+        },
+
+        jump_attack03 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 2,
+                    type = "damageHitbox",
+                    hitbox = "claw",
+                    damage = 1,
+                    deathType = "normal",
+                    damageTargets = {
+                        player = true
+                    }
+                }
+            }
+        },
+
+        jump_melee01 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 2,
+                    type = "damageHitbox",
+                    hitbox = "claw",
+                    damage = 1,
+                    deathType = "normal",
+                    damageTargets = {
+                        player = true
+                    }
+                }
+            }
+        },
+
+        jump_melee02 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 2,
+                    type = "damageHitbox",
+                    hitbox = "claw",
+                    damage = 1,
+                    deathType = "normal",
+                    damageTargets = {
+                        player = true
+                    }
+                }
+            }
+        },
+
+        jump_melee03 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 2,
+                    type = "damageHitbox",
+                    hitbox = "claw",
+                    damage = 1,
+                    deathType = "normal",
+                    damageTargets = {
+                        player = true
+                    }
+                }
+            }
+        },
+		
+		--------------

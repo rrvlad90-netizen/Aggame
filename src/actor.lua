@@ -112,6 +112,10 @@ function Actor:new(config)
 
     actor.heavyDeathEffect = config.heavyDeathEffect
         or config.heavy_death_effect
+		
+	actor.heavyDeathAnimation = config.heavyDeathAnimation
+        or config.heavy_death_animation
+        or "heavydeath"		
 
     actor.dead = false
     actor.deathFinished = false
@@ -132,7 +136,7 @@ function Actor:new(config)
         }
     })
 
-    actor.animationSet:set("idle", true)
+    actor:playSpawnAnimation()
 
     return actor
 end
@@ -213,7 +217,53 @@ function Actor:getDistanceToTarget(target)
     return math.abs(target.x - self.x)
 end
 
+-- Возвращает список существующих анимаций из набора names.
+function Actor:getExistingAnimations(names)
+    local result = {}
+
+    for _, name in ipairs(names or {}) do
+        if self.animationSet:has(name) then
+            table.insert(result, name)
+        end
+    end
+
+    return result
+end
+
+-- Выбирает случайную существующую анимацию из группы.
+-- Если в группе одна анимация, вернётся она.
+function Actor:chooseAnimationFromGroup(names, fallback)
+    local available = self:getExistingAnimations(names)
+
+    if #available > 0 then
+        return Utils.randomChoice(available)
+    end
+
+    if fallback and self.animationSet:has(fallback) then
+        return fallback
+    end
+
+    return nil
+end
+
+-- Запускает случайную spawn-анимацию actor-а.
+-- Если spawn01/02/03 нет, запускает idle.
+function Actor:playSpawnAnimation()
+    local animationName = self:chooseAnimationFromGroup({
+        "spawn01",
+        "spawn02",
+        "spawn03"
+    }, "idle")
+
+    if animationName then
+        self.state = animationName
+        self.animationSet:set(animationName, true)
+    end
+end
+
 -- Выбирает attack animation по attackGroups.
+-- Если actor в воздухе, сначала пробует group.jumpAnimations.
+-- Если jumpAnimations не задан, пробует общий набор jump_attack01/02/03.
 function Actor:chooseAttackAnimation(target)
     if not target then
         return nil
@@ -226,6 +276,22 @@ function Actor:chooseAttackAnimation(target)
         local maxDistance = group.maxDistance or group.max_distance or math.huge
 
         if distance >= minDistance and distance <= maxDistance then
+            if not self.onGround then
+                local jumpAnimations = group.jumpAnimations
+                    or group.jump_animations
+                    or {
+                        "jump_attack01",
+                        "jump_attack02",
+                        "jump_attack03"
+                    }
+
+                local jumpAnimation = self:chooseAnimationFromGroup(jumpAnimations)
+
+                if jumpAnimation then
+                    return jumpAnimation
+                end
+            end
+
             return Utils.randomChoice(group.animations or {})
         end
     end
@@ -246,7 +312,16 @@ function Actor:tryStartAttack(target)
         return false
     end
 
+    if not self.animationSet:has(animationName) then
+        return false
+    end
+
     self:faceTarget(target)
+
+    -- При входе в ближнюю или дальнюю атаку враг должен остановиться.
+    -- Иначе он продолжает скользить на vx из chase-состояния.
+    self.vx = 0
+
     self.state = animationName
     self.animationSet:set(animationName, true)
 
@@ -301,6 +376,11 @@ function Actor:updatePhysics(dt)
         self.vx = 0
         return
     end
+
+    -- Запоминаем прошлую позицию для платформенной физики.
+    -- Это позволяет понять, пересёк ли actor верх платформы сверху вниз.
+    self.previousX = self.x
+    self.previousY = self.y
 
     if not self.flying then
         self.vy = self.vy + self.gravity * dt
@@ -397,11 +477,17 @@ function Actor:die(damageInfo)
 
     damageInfo = damageInfo or {}
 
-    if damageInfo.deathType == "heavy"
-        and self:createHeavyDeathEffect(damageInfo)
-    then
-        self.deathFinished = true
-        return
+    if damageInfo.deathType == "heavy" then
+        if self.animationSet:has(self.heavyDeathAnimation) then
+            self.state = self.heavyDeathAnimation
+            self.animationSet:set(self.heavyDeathAnimation, true)
+            return
+        end
+
+        if self:createHeavyDeathEffect(damageInfo) then
+            self.deathFinished = true
+            return
+        end
     end
 
     self.state = "death"
@@ -425,8 +511,7 @@ function Actor:update(dt, world)
         table.insert(self.entitySpawnRequests, event)
     end
 
-    if self.dead
-        and self.state == "death"
+	if self.dead
         and self.animationSet:isCurrentFinished()
     then
         self.deathFinished = true

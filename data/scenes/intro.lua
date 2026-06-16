@@ -1,9 +1,11 @@
-return {
+﻿return {
     id = "intro",
 
     music = nil,
 
     skipAllowed = true,
+	
+--------nextScene = "scenelevel1",	
 
     frames = {
         {

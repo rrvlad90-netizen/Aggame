@@ -1,6 +1,7 @@
 local Assets = require("src.assets")
 local Collision = require("src.collision")
 local Targeting = require("src.targeting")
+local Debug = require("src.debug")
 
 local EventRunner = {}
 
@@ -134,8 +135,20 @@ function EventRunner.createEntity(world, owner, event)
     world:createEntity(event.id, overrides.x, overrides.y, overrides)
 end
 
+-- Возвращает debug-label для damageHitbox события.
+function EventRunner.getDamageHitboxLabel(owner, event)
+    local ownerId = owner and owner.id or "unknown"
+    local hitboxName = event.hitbox
+
+    if type(hitboxName) ~= "string" then
+        hitboxName = "hitbox"
+    end
+
+    return ownerId .. ":" .. hitboxName
+end
+
 -- Выполняет событие damageHitbox.
--- Используется для melee и прямого урона на кадре анимации.
+-- Используется для melee и прямого урона на конкретном кадре анимации.
 function EventRunner.damageHitbox(world, owner, event)
     if not world or not owner then
         return
@@ -152,6 +165,13 @@ function EventRunner.damageHitbox(world, owner, event)
     if not hitbox then
         return
     end
+
+    Debug.recordHitbox(
+        owner,
+        hitbox,
+        EventRunner.getDamageHitboxLabel(owner, event),
+        event.debugDuration or event.debug_duration
+    )
 
     local damageInfo = owner:createDamageInfo(event)
 

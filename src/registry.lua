@@ -6,6 +6,7 @@ Registry.actorList = {}
 Registry.projectileList = {}
 Registry.effectList = {}
 Registry.levelList = {}
+Registry.levelEndList = {}
 Registry.sceneList = {}
 Registry.playerList = {}
 Registry.platformList = {}
@@ -52,6 +53,7 @@ function Registry.loadAll()
     Registry.projectileList = Registry.loadList("data/projectilelist.lua")
     Registry.effectList = Registry.loadList("data/effectlist.lua")
     Registry.levelList = Registry.loadList("data/levellist.lua")
+	Registry.levelEndList = Registry.loadList("data/level_endlist.lua")
     Registry.sceneList = Registry.loadList("data/scenelist.lua")
     Registry.playerList = Registry.loadList("data/players.lua")
     Registry.platformList = Registry.loadList("data/platformlist.lua")
@@ -131,6 +133,14 @@ end
 -- Загружает level definition.
 function Registry.loadLevel(id)
     local path = Registry.getPathFromList(Registry.levelList, id, "level")
+    local definition = Registry.loadDefinitionFromPath(path)
+
+    return Registry.normalizeDefinition(definition, id)
+end
+
+-- Загружает level_end definition.
+function Registry.loadLevelEnd(id)
+    local path = Registry.getPathFromList(Registry.levelEndList, id, "level_end")
     local definition = Registry.loadDefinitionFromPath(path)
 
     return Registry.normalizeDefinition(definition, id)

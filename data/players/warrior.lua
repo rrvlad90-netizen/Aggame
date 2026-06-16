@@ -63,7 +63,7 @@ return {
     abilities = {
         canMove = true,
         canJump = true,
-        canDoubleJump = false,
+        canDoubleJump = true,
         canShoot = true,
         canMelee = true,
         canCrouch = true,
@@ -79,8 +79,8 @@ return {
             loop = true,
             frameDuration = 0.16,
             frames = {
-                nil,
-                nil
+                {},
+                {}
             }
         },
 
@@ -88,10 +88,10 @@ return {
             loop = true,
             frameDuration = 0.1,
             frames = {
-                nil,
-                nil,
-                nil,
-                nil
+                {},
+                {},
+                {},
+                {}
             }
         },
 
@@ -99,7 +99,7 @@ return {
             loop = true,
             frameDuration = 0.12,
             frames = {
-                nil
+                {}
             }
         },
 
@@ -108,15 +108,15 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                nil,
-                nil,
-                nil
+                {},
+                {},
+                {}
             },
             events = {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "stone",
+                    id = "player_arc_projectile",
                     x = 34,
                     y = -42,
                     direction = "forward"
@@ -124,14 +124,144 @@ return {
             }
         },
 
-        melee = {
+		melee = {
+            loop = false,
+            lockInput = true,
+
+            -- Важно: без этого флага frame = 1 events не сработают при старте анимации.
+            fireFirstFrameEvents = true,
+
+            frameDuration = 0.08,
+            frames = {
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 1,
+                    type = "setVelocity",
+                    vx = 0
+                },
+                {
+                    frame = 2,
+                    type = "damageHitbox",
+                    hitbox = "slash",
+                    damage = 1,
+                    deathType = "heavy",
+                    damageTargets = {
+                        enemy = true
+                    }
+                }
+            }
+        },
+
+
+
+spawn01 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            }
+        },
+
+        spawn02 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            }
+        },
+
+        spawn03 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.1,
+            frames = {
+                {},
+                {},
+                {}
+            }
+        },
+
+        jump_attack01 = {
             loop = false,
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                nil,
-                nil,
-                nil
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 2,
+                    type = "createEntity",
+                    id = "player_arc_projectile",
+                    x = 34,
+                    y = -42,
+                    direction = "forward"
+                }
+            }
+        },
+
+        jump_attack02 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.08,
+            frames = {
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 2,
+                    type = "createEntity",
+                    id = "player_arc_projectile",
+                    x = 34,
+                    y = -42,
+                    direction = "forward"
+                }
+            }
+        },
+
+        jump_attack03 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.08,
+            frames = {
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 2,
+                    type = "createEntity",
+                    id = "player_arc_projectile",
+                    x = 34,
+                    y = -42,
+                    direction = "forward"
+                }
+            }
+        },
+
+        jump_melee01 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.08,
+            frames = {
+                {},
+                {},
+                {}
             },
             events = {
                 {
@@ -147,13 +277,60 @@ return {
             }
         },
 
+        jump_melee02 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.08,
+            frames = {
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 2,
+                    type = "damageHitbox",
+                    hitbox = "slash",
+                    damage = 1,
+                    deathType = "heavy",
+                    damageTargets = {
+                        enemy = true
+                    }
+                }
+            }
+        },
+
+        jump_melee03 = {
+            loop = false,
+            lockInput = true,
+            frameDuration = 0.08,
+            frames = {
+                {},
+                {},
+                {}
+            },
+            events = {
+                {
+                    frame = 2,
+                    type = "damageHitbox",
+                    hitbox = "slash",
+                    damage = 1,
+                    deathType = "heavy",
+                    damageTargets = {
+                        enemy = true
+                    }
+                }
+            }
+        },
+
+
         crouch = {
             loop = false,
             lockInput = true,
             frameDuration = 0.12,
             frames = {
-                nil,
-                nil
+                {},
+                {}
             },
             events = {
                 {
@@ -174,15 +351,15 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                nil,
-                nil,
-                nil
+                {},
+                {},
+                {}
             },
             events = {
                 {
                     frame = 2,
                     type = "move",
-                    x = -30,
+                    x = 30,
                     y = 0
                 }
             }
@@ -193,8 +370,8 @@ return {
             lockInput = true,
             frameDuration = 0.1,
             frames = {
-                nil,
-                nil
+                {},
+                {}
             }
         },
 
@@ -203,9 +380,9 @@ return {
             lockInput = true,
             frameDuration = 0.15,
             frames = {
-                nil,
-                nil,
-                nil
+                {},
+                {},
+                {}
             }
         }
     }

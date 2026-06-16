@@ -1,10 +1,11 @@
 local EntityFactory = require("src.entity_factory")
-local LevelEnd = require("src.level_end")
+local Render = require("src.render")
 
 local Level = {}
 Level.__index = Level
 
 -- Создаёт runtime-уровень из level definition.
+-- Уровень хранит bounds, старт игрока и статичные объекты сцены.
 function Level:new(config)
     config = config or {}
 
@@ -30,11 +31,9 @@ function Level:new(config)
 
     level.backgrounds = config.backgrounds or {}
 
-    level.ground = config.ground or {
-        y = 455,
-        visualY = 425,
-        visualHeight = 130
-    }
+    -- ground больше не создаётся по умолчанию.
+    -- Если уровню нужна земля, её надо делать через platforms.
+    level.ground = config.ground
 
     level.pendingActors = {}
     level.platforms = {}
@@ -53,7 +52,7 @@ function Level:new(config)
 end
 
 -- Создаёт статичные объекты уровня:
--- platforms, pickups, decors, effects и levelEnd.
+-- actors, platforms, pickups, decors, effects и levelEnd.
 function Level:createStaticObjects(config)
     for _, actorConfig in ipairs(config.actors or {}) do
         table.insert(self.pendingActors, actorConfig)
@@ -107,12 +106,22 @@ function Level:createStaticObjects(config)
         )
     end
 
-    if config.levelEnd then
-        self.levelEnd = LevelEnd:new(config.levelEnd)
+	if config.levelEnd then
+        if config.levelEnd.id then
+            self.levelEnd = EntityFactory.createLevelEnd(
+                config.levelEnd.id,
+                config.levelEnd.x,
+                config.levelEnd.y,
+                config.levelEnd
+            )
+        else
+            -- Старый формат без registry id оставляем для совместимости.
+            self.levelEnd = EntityFactory.createLevelEnd(config.levelEnd)
+        end
     end
 end
 
--- Возвращает true, если pending actor должен появиться.
+-- Возвращает true, если pending actor должен появиться рядом с игроком.
 function Level:shouldSpawnActor(actorConfig, player)
     if not player then
         return false
@@ -149,8 +158,17 @@ function Level:spawnPendingActors(player)
     return spawnedActors
 end
 
--- Обновляет объекты уровня.
+-- Обновляет scroll offsets у background/front-background слоёв.
+function Level:updateBackgrounds(dt)
+    for _, background in ipairs(self.backgrounds or {}) do
+        Render.updateScroll(background, dt)
+    end
+end
+
+-- Обновляет runtime-объекты уровня.
 function Level:update(dt, world)
+	self:updateBackgrounds(dt)
+
     for _, platform in ipairs(self.platforms) do
         platform:update(dt)
     end

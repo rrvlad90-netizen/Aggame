@@ -5,8 +5,32 @@ local AnimationSet = require("src.animation_set")
 local LevelEnd = {}
 LevelEnd.__index = LevelEnd
 
+-- Нормализует описание следующего перехода.
+-- Поддерживает next, nextLevel и nextScene.
+local function normalizeNextTarget(config)
+    if config.next then
+        return config.next
+    end
+
+    if config.nextLevel or config.next_level then
+        return {
+            type = "level",
+            id = config.nextLevel or config.next_level
+        }
+    end
+
+    if config.nextScene or config.next_scene then
+        return {
+            type = "scene",
+            id = config.nextScene or config.next_scene
+        }
+    end
+
+    return nil
+end
+
 -- Создаёт объект конца уровня.
--- Это простой объект, не Actor.
+-- LevelEnd может быть прямым config или registry-сущностью из data/level_ends.
 function LevelEnd:new(config)
     config = config or {}
 
@@ -45,6 +69,9 @@ function LevelEnd:new(config)
     levelEnd.active = config.active ~= false
     levelEnd.triggered = false
 
+    -- Если nextTarget nil, World оставит старую victory/flow-логику.
+    levelEnd.nextTarget = normalizeNextTarget(config)
+
     levelEnd.animationSet = nil
 
     if config.animations then
@@ -74,6 +101,11 @@ end
 -- Возвращает hitbox объекта конца уровня.
 function LevelEnd:getHitbox()
     return Collision.localBoxToWorld(self, self.bbox)
+end
+
+-- Возвращает цель перехода после активации LevelEnd.
+function LevelEnd:getNextTarget()
+    return self.nextTarget
 end
 
 -- Проверяет, может ли игрок завершить уровень.

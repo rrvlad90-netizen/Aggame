@@ -255,6 +255,29 @@ function UI.drawDebug(world)
         love.graphics.print("FPS: " .. tostring(love.timer.getFPS()), Config.screen.width - 90, y)
         y = y + 18
     end
+	
+	if world then
+        love.graphics.print(
+            "Actors: " .. tostring(#(world.actors or {})),
+            Config.screen.width - 180,
+            y
+        )
+        y = y + 18
+
+        love.graphics.print(
+            "Projectiles: " .. tostring(#(world.projectiles or {})),
+            Config.screen.width - 180,
+            y
+        )
+        y = y + 18
+
+        love.graphics.print(
+            "Effects: " .. tostring(#(world.effects or {})),
+            Config.screen.width - 180,
+            y
+        )
+        y = y + 18
+    end
 
     if Config.debug.drawPlayerPosition and world and world.player then
         love.graphics.print(

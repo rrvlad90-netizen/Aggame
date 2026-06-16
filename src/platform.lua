@@ -1,3 +1,5 @@
+local Render = require("src.render")
+
 local Platform = {}
 Platform.__index = Platform
 
@@ -16,75 +18,97 @@ local function loadImage(path)
 end
 
 function Platform:new(config)
-    local platform = setmetatable({}, Platform)
-
     config = config or {}
 
+    local platform = setmetatable({}, Platform)
+	
+	platform.id = config.id or "platform" --чтобы debug мог писать имя платформы
     platform.x = config.x or 0
     platform.y = config.y or 0
-    platform.w = config.w or config.width or 160
+
+    platform.w = config.w or config.width or 128
     platform.h = config.h or config.height or 24
 
-    -- walkY — линия, на которой стоят ноги игрока/актора.
-    -- Если не указана, используем y платформы.
-    platform.walkY = config.walkY or config.walk_y or platform.y
+    platform.solid = config.solid == true
 
-    -- Визуальные параметры могут отличаться от физики.
+    -- Линия, на которой стоят ноги игрока/актора.
+    platform.walkOffsetY = config.walkOffsetY
+        or config.walk_offset_y
+        or 0
+
+    platform.walkY = config.walkY
+        or config.platformWalkY
+        or platform.y + platform.walkOffsetY
+
+-- Визуальные параметры могут отличаться от физики.
     platform.visualY = config.visualY or config.visual_y or platform.y
     platform.visualHeight = config.visualHeight or config.visual_height or platform.h
+
+    -- Смещение только картинки, не физики.
+    -- Полезно для 3D-дороги: физика остаётся на y, а визуал можно поднять выше.
+    platform.imageOffsetY = config.imageOffsetY
+        or config.image_offset_y
+        or 0
 
     platform.imagePath = config.image
     platform.image = loadImage(platform.imagePath)
 
-    platform.color = config.color or {0.45, 0.35, 0.25}
+    -- Скорость движения самой платформы по уровню.
+    -- Если параметр не указан, платформа стоит на месте.
+    platform.PlatformScrollSpeed = config.PlatformScrollSpeed
+        or config.platformScrollSpeed
+        or config.platform_scroll_speed
+        or 0
 
-    -- Скорость движения платформы.
-    -- Положительное значение двигает платформу влево.
-	platform.PlatformScrollSpeed = config.PlatformScrollSpeed
-		or config.platformScrollSpeed
-		or 0
+    -- Скорость прокрутки картинки внутри платформы.
+    -- Это только визуальный эффект, физику платформы не двигает.
+    platform.imageScrollSpeed = config.imageScrollSpeed
+        or config.image_scroll_speed
+        or config.scrollSpeed
+        or config.scroll_speed
+        or 0
 
-    -- solid = true означает возвышенность/стену:
-    -- через неё нельзя проходить сбоку.
-    platform.solid = config.solid == true
+    platform.imageScrollDirection = config.imageScrollDirection
+        or config.image_scroll_direction
+        or config.scrollDirection
+        or config.scroll_direction
+        or "left"
 
-    -- oneWay = true означает обычную платформу:
-    -- на неё можно приземлиться сверху, но снизу/сбоку она не мешает.
-    platform.oneWay = config.oneWay
+    platform.scrollOffsetX = config.scrollOffsetX
+        or config.scroll_offset_x
+        or 0
 
-    if platform.oneWay == nil then
-        platform.oneWay = not platform.solid
+    platform.scrollOffsetY = config.scrollOffsetY
+        or config.scroll_offset_y
+        or 0
+
+    -- stretch = старое поведение, tile = картинка повторяется и может скроллиться.
+    platform.imageDrawMode = config.imageDrawMode
+        or config.image_draw_mode
+
+    if not platform.imageDrawMode then
+        if platform.imageScrollSpeed ~= 0 then
+            platform.imageDrawMode = "tile"
+        else
+            platform.imageDrawMode = "stretch"
+        end
     end
 
-    -- Если 0 — не удалять за экраном.
-    platform.DissaperWheOutOfScreen = config.DissaperWheOutOfScreen
-        or config.disappearWhenOutOfScreen
-        or 100
+    platform.color = config.color or {0.45, 0.35, 0.25}
 
     return platform
 end
 
--- Обновляет движение платформы.
+-- Обновляет платформу.
+-- Обновляет движение платформы и визуальный скролл картинки.
 function Platform:update(dt)
-    self.x = self.x - self.PlatformScrollSpeed * dt
-end
+    local platformScrollSpeed = self.PlatformScrollSpeed or 0
 
--- Проверяет, вышла ли платформа за экран.
-function Platform:isOffscreen()
-    if self.DissaperWheOutOfScreen == 0 then
-        return false
+    self.x = self.x - platformScrollSpeed * dt
+
+    if Render and Render.updateScroll then
+        Render.updateScroll(self, dt)
     end
-
-    local screenWidth = love.graphics.getWidth()
-    local margin = self.DissaperWheOutOfScreen
-
-    return self.x + self.w < -margin
-        or self.x > screenWidth + margin
-end
-
--- Можно ли удалить платформу.
-function Platform:isRemovable()
-    return self:isOffscreen()
 end
 
 -- Физический hitbox платформы.
@@ -97,108 +121,140 @@ function Platform:getHitbox()
     }
 end
 
--- Проверяет, пересекаются ли два прямоугольника.
-local function rectsOverlap(a, b)
-    return a.x < b.x + b.w
-        and b.x < a.x + a.w
-        and a.y < b.y + b.h
-        and b.y < a.y + a.h
+-- Проверяет пересечение по X.
+function Platform:overlapsX(rect)
+    return rect.x < self.x + self.w
+        and rect.x + rect.w > self.x
 end
 
--- Ставит игрока/актора на верх платформы и сбрасывает прыжок.
-local function landEntityOnPlatform(entity, platformTop)
+-- Проверяет, может ли entity приземлиться на платформу сверху.
+-- В новой системе entity.y — это точка ног.
+function Platform:canLandEntity(entity, previousEntityY)
+    local entityHitbox = entity:getHitbox()
+
+    local previousFeetY = previousEntityY or entity.y
+    local currentFeetY = entity.y
+
+    return (entity.vy or 0) >= 0
+        and self:overlapsX(entityHitbox)
+        and previousFeetY <= self.walkY
+        and currentFeetY >= self.walkY
+end
+
+-- Ставит entity на платформу.
+function Platform:landEntity(entity)
     if entity.landOn then
-        entity:landOn(platformTop)
-        return
+        entity:landOn(self.walkY)
+    else
+        entity.y = self.walkY
+        entity.vy = 0
+        entity.onGround = true
+
+        if entity.jumpCount ~= nil then
+            entity.jumpCount = 0
+        end
     end
 
-    entity.y = platformTop - entity.h
-    entity.vy = 0
-    entity.onGround = true
+    entity.onPlatform = true
 
-    entity.jumpCount = 0
-    entity.jumpsUsed = 0
-
-    if entity.setState and entity.state == "jump" then
-        entity:setState("idle")
-    end
+    -- Если платформа движется, она немного тащит entity вместе с собой.
+    entity.x = entity.x + self.deltaX
 end
 
--- Разруливает столкновение игрока с платформой.
--- previousPlayerX/previousPlayerY нужны, чтобы понять,
--- откуда игрок пришёл: сверху, снизу или сбоку.
-function Platform:resolvePlayerCollision(player, previousPlayerX, previousPlayerY)
-    if not player or player.dead then
+-- Разруливает столкновение entity с платформой.
+function Platform:resolveEntityCollision(entity, previousEntityX, previousEntityY)
+    if not entity or entity.dead then
         return false
     end
 
-    local playerHitbox = player:getHitbox()
-    local platformHitbox = self:getHitbox()
-
-    if not rectsOverlap(playerHitbox, platformHitbox) then
-        return false
-    end
-
-    local previousHitbox = {
-        x = previousPlayerX or player.x,
-        y = previousPlayerY or player.y,
-        w = player.w,
-        h = player.h
-    }
-
-    local platformTop = self.walkY or self.y
-
-    -- Приземление сверху.
-    -- Работает и для обычной платформы, и для solid-возвышенности.
-    local wasAbovePlatform = previousHitbox.y + previousHitbox.h <= platformTop
-    local isFalling = (player.vy or 0) >= 0
-
-    if wasAbovePlatform and isFalling then
-        landEntityOnPlatform(player, platformTop)
+    -- Сначала проверяем приземление сверху.
+    -- Для этого не требуем полного пересечения hitbox:
+    -- важно поймать момент, когда ноги пересекли walkY.
+    if self:canLandEntity(entity, previousEntityY) then
+        self:landEntity(entity)
         return true
     end
 
-    -- Обычная oneWay-платформа не мешает сбоку и снизу.
-    if self.oneWay and not self.solid then
-        return false
-    end
-
-    -- Дальше логика только для solid-возвышенности.
+    -- Обычная платформа не блокирует сбоку и снизу.
     if not self.solid then
         return false
     end
 
+    local entityHitbox = entity:getHitbox()
+    local platformHitbox = self:getHitbox()
+
+    local isOverlapping =
+        entityHitbox.x < platformHitbox.x + platformHitbox.w
+        and platformHitbox.x < entityHitbox.x + entityHitbox.w
+        and entityHitbox.y < platformHitbox.y + platformHitbox.h
+        and platformHitbox.y < entityHitbox.y + entityHitbox.h
+
+    if not isOverlapping then
+        return false
+    end
+
+    local previousHitbox = {
+        x = previousEntityX or entity.x,
+        y = previousEntityY or entity.y,
+        w = entityHitbox.w,
+        h = entityHitbox.h
+    }
+
     -- Удар снизу.
-    if previousHitbox.y >= platformHitbox.y + platformHitbox.h then
-        player.y = platformHitbox.y + platformHitbox.h
-        player.vy = math.max(0, player.vy or 0)
+    if (entity.vy or 0) < 0
+        and previousHitbox.y >= platformHitbox.y + platformHitbox.h
+    then
+        entity.vy = 0
         return true
     end
 
-    -- Упёрся в левую сторону возвышенности.
-    if previousHitbox.x >= platformHitbox.x + platformHitbox.w then
-        player.x = platformHitbox.x + platformHitbox.w
-        return true
-    end
+    -- Боковые столкновения для solid-платформ.
+    local hitboxOffsetX = entityHitbox.x - entity.x
 
-    -- Упёрся в правую сторону возвышенности.
     if previousHitbox.x + previousHitbox.w <= platformHitbox.x then
-        player.x = platformHitbox.x - player.w
+        entity.x = platformHitbox.x - hitboxOffsetX - entityHitbox.w
+        entity.vx = 0
         return true
     end
 
-    return false
+    if previousHitbox.x >= platformHitbox.x + platformHitbox.w then
+        entity.x = platformHitbox.x + platformHitbox.w - hitboxOffsetX
+        entity.vx = 0
+        return true
+    end
+
+    return true
 end
 
--- Отрисовка платформы.
+-- Совместимость со старым именем.
+function Platform:resolvePlayerCollision(player, previousPlayerX, previousPlayerY)
+    return self:resolveEntityCollision(player, previousPlayerX, previousPlayerY)
+end
+
+-- Отрисовывает платформу: физический bbox остается на месте, картинку можно сместить отдельно.
 function Platform:draw(camera)
     camera = camera or {x = 0, y = 0}
 
     local drawX = self.x - camera.x
     local drawY = self.visualY - camera.y
+    local imageDrawY = self.visualY + (self.imageOffsetY or 0) - camera.y
 
     if self.image then
         love.graphics.setColor(1, 1, 1)
+
+        if self.imageDrawMode == "tile" then
+            Render.drawTiledImage(
+                self.image,
+                drawX,
+                imageDrawY,
+                self.w,
+                self.visualHeight,
+                self.scrollOffsetX or 0,
+                self.scrollOffsetY or 0
+            )
+
+            return
+        end
 
         local scaleX = self.w / self.image:getWidth()
         local scaleY = self.visualHeight / self.image:getHeight()
@@ -206,12 +262,13 @@ function Platform:draw(camera)
         love.graphics.draw(
             self.image,
             drawX,
-            drawY,
+            imageDrawY,
             0,
             scaleX,
             scaleY
         )
 
+        love.graphics.setColor(1, 1, 1)
         return
     end
 
@@ -234,6 +291,24 @@ function Platform:draw(camera)
     )
 
     love.graphics.setColor(1, 1, 1)
+end
+
+-- Проверяет, вышла ли платформа за экран.
+function Platform:isOffscreen()
+    if self.DissaperWheOutOfScreen == 0 then
+        return false
+    end
+
+    local screenWidth = love.graphics.getWidth()
+    local margin = self.DissaperWheOutOfScreen
+
+    return self.x + self.w < -margin
+        or self.x > screenWidth + margin
+end
+
+-- Можно ли удалить платформу.
+function Platform:isRemovable()
+    return self:isOffscreen()
 end
 
 return Platform

@@ -1,6 +1,7 @@
-return {
+﻿return {
     id = "stone",
 
+    -- Прямой урон от самого камня.
     damage = 1,
     deathType = "heavy",
 
@@ -8,13 +9,13 @@ return {
         enemy = true
     },
 
-    flight = "arc",
+    -- Камень летит прямо по горизонтали.
+    flight = "straight",
 
-    -- Пока полёт задаём напрямую через vx/vy/gravity.
-    -- Позже можно будет сделать красивую обработку flight = "arc".
-    vx = 320,
-    vy = -180,
-    gravity = 700,
+    -- Projectile:new превратит speed в vx с учётом facing игрока.
+    speed = 360,
+    vy = 0,
+    gravity = 0,
 
     maxDistance = 520,
     lifeTime = 3.0,
@@ -23,7 +24,7 @@ return {
         actors = true,
         player = false,
         platforms = true,
-        ground = true
+        ground = false
     },
 
     canvas = {
@@ -43,6 +44,8 @@ return {
         h = 18
     },
 
+    -- Эффект остаётся только визуалом попадания.
+    -- Урон должен наносить сам stone через damage/damageTargets.
     impactEffect = "explosion",
 
     animations = {
@@ -50,7 +53,7 @@ return {
             loop = true,
             frameDuration = 0.08,
             frames = {
-                nil
+                {}
             }
         },
 
@@ -58,17 +61,8 @@ return {
             loop = false,
             frameDuration = 0.08,
             frames = {
-                nil,
-                nil
-            },
-            events = {
-                {
-                    frame = 1,
-                    type = "createEntity",
-                    id = "explosion",
-                    x = 0,
-                    y = 0
-                }
+                {},
+                {}
             }
         }
     }

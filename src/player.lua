@@ -1,9 +1,30 @@
 local AnimationSet = require("src.animation_set")
 local Collision = require("src.collision")
 local Render = require("src.render")
+local Utils = require("src.utils")
 
 local Player = {}
 Player.__index = Player
+
+-- Возвращает количество прыжков из config.
+-- Приоритет: явный maxJumps/max_jumps, затем abilities.canDoubleJump.
+local function resolveMaxJumps(config, abilities)
+    local configuredMaxJumps = config.maxJumps or config.max_jumps
+
+    if configuredMaxJumps then
+        return configuredMaxJumps
+    end
+
+    if config.canDoubleJump == true
+        or config.can_double_jump == true
+        or abilities.canDoubleJump == true
+        or abilities.can_double_jump == true
+    then
+        return 2
+    end
+
+    return 1
+end
 
 -- Создаёт игрока из player definition.
 function Player:new(config)
@@ -56,11 +77,12 @@ function Player:new(config)
     player.jumpPower = config.jumpPower or config.jump_power or -420
     player.gravity = config.gravity or 900
 
+    player.abilities = config.abilities or {}
+
     -- Количество прыжков.
     -- 1 = обычный прыжок, 2 = двойной прыжок.
-    player.maxJumps = config.maxJumps
-        or config.max_jumps
-        or 2
+    -- abilities.canDoubleJump = true автоматически даёт 2 прыжка.
+    player.maxJumps = resolveMaxJumps(config, player.abilities)
 
     player.jumpCount = 0
 
@@ -73,8 +95,6 @@ function Player:new(config)
 
     player.alpha = config.alpha or 1
     player.color = config.color or {0.2, 0.55, 1.0}
-
-    player.abilities = config.abilities or {}
 
     player.onGround = false
     player.dead = false
@@ -96,7 +116,7 @@ function Player:new(config)
         }
     })
 
-    player.animationSet:set("idle", true)
+    player:playSpawnAnimation()
 
     return player
 end
@@ -153,6 +173,62 @@ function Player:playAnimation(name, force)
     self.animationSet:set(name, force)
 end
 
+
+-- Возвращает список существующих анимаций из набора names.
+function Player:getExistingAnimations(names)
+    local result = {}
+
+    for _, name in ipairs(names or {}) do
+        if self.animationSet:has(name) then
+            table.insert(result, name)
+        end
+    end
+
+    return result
+end
+
+-- Выбирает случайную существующую анимацию из группы.
+-- Если в группе одна анимация, вернётся она.
+function Player:chooseAnimationFromGroup(names, fallback)
+    local available = self:getExistingAnimations(names)
+
+    if #available > 0 then
+        return Utils.randomChoice(available)
+    end
+
+    if fallback and self.animationSet:has(fallback) then
+        return fallback
+    end
+
+    return nil
+end
+
+-- Запускает случайную анимацию из группы с fallback.
+function Player:playAnimationGroup(names, fallback, force)
+    local animationName = self:chooseAnimationFromGroup(names, fallback)
+
+    if animationName then
+        self:playAnimation(animationName, force)
+        return true
+    end
+
+    return false
+end
+
+-- Запускает случайную spawn-анимацию игрока.
+-- Если spawn01/02/03 нет, запускает idle.
+function Player:playSpawnAnimation()
+    if self:playAnimationGroup({
+        "spawn01",
+        "spawn02",
+        "spawn03"
+    }, "idle", true) then
+        return
+    end
+
+    self.animationSet:set("idle", true)
+end
+
 -- Начинает движение влево/вправо.
 function Player:setMoveDirection(direction)
     if self.dead then
@@ -198,7 +274,7 @@ function Player:stopMoving()
 end
 
 -- Выполняет прыжок.
--- Если maxJumps = 2, работает двойной прыжок.
+-- Первый прыжок доступен с земли, второй — только если maxJumps больше 1.
 function Player:jump()
     if self.dead then
         return
@@ -208,8 +284,13 @@ function Player:jump()
         return
     end
 
-    -- Важно:
-    -- input lock не должен запрещать второй прыжок,
+    -- Если физика уже считает игрока стоящим, синхронизируем счётчик прыжков.
+    -- Это защищает от старых состояний после приземления на платформу.
+    if self.onGround then
+        self.jumpCount = 0
+    end
+
+    -- Input lock не должен запрещать второй прыжок,
     -- если игрок уже находится в jump-состоянии.
     if self:isInputLocked() and self.state ~= "jump" then
         return
@@ -226,15 +307,23 @@ function Player:jump()
     self:playAnimation("jump", true)
 end
 
--- Приземляет игрока на землю или платформу.
+-- Приземляет игрока на платформу.
 -- groundY — это линия, где должны стоять ноги игрока.
 function Player:landOn(groundY)
+    local wasOnGround = self.onGround
+
     self.y = groundY
     self.vy = 0
     self.onGround = true
     self.jumpCount = 0
 
     if self.dead then
+        return
+    end
+
+    -- Если игрок уже стоял на платформе, не сбрасываем текущую action-анимацию.
+    -- Иначе shoot/melee/strafe/crouch будут каждый кадр перебиваться в idle/run.
+    if wasOnGround and self.state ~= "jump" then
         return
     end
 
@@ -246,6 +335,7 @@ function Player:landOn(groundY)
 end
 
 -- Запускает дальнюю атаку.
+-- В воздухе использует jump_attack01/02/03, если они есть.
 function Player:shoot()
     if self.dead then
         return
@@ -259,11 +349,21 @@ function Player:shoot()
         return
     end
 
-    self.vx = 0
+    if not self.onGround then
+        if self:playAnimationGroup({
+            "jump_attack01",
+            "jump_attack02",
+            "jump_attack03"
+        }, "shoot", true) then
+            return
+        end
+    end
+
     self:playAnimation("shoot", true)
 end
 
 -- Запускает melee-атаку.
+-- В воздухе использует jump_melee01/02/03, если они есть.
 function Player:melee()
     if self.dead then
         return
@@ -277,7 +377,16 @@ function Player:melee()
         return
     end
 
-    self.vx = 0
+    if not self.onGround then
+        if self:playAnimationGroup({
+            "jump_melee01",
+            "jump_melee02",
+            "jump_melee03"
+        }, "melee", true) then
+            return
+        end
+    end
+
     self:playAnimation("melee", true)
 end
 
@@ -300,6 +409,7 @@ function Player:crouch()
 end
 
 -- Запускает strafe/special-анимацию.
+-- Strafe специально останавливает текущую скорость и двигает игрока animation-event-ом.
 function Player:strafe()
     if self.dead then
         return
@@ -317,7 +427,7 @@ function Player:strafe()
     self:playAnimation("strafe", true)
 end
 
--- Добавляет патроны.
+-- Добавляет патроны указанного типа.
 function Player:addAmmo(ammoType, amount)
     if not ammoType then
         return false
@@ -328,7 +438,7 @@ function Player:addAmmo(ammoType, amount)
     return true
 end
 
--- Лечит игрока.
+-- Лечит игрока на указанное количество здоровья.
 function Player:heal(amount)
     if self.dead then
         return false
@@ -358,7 +468,7 @@ function Player:createDamageInfo(event)
     }
 end
 
--- Получает урон.
+-- Получает урон и запускает pain/death-анимацию при необходимости.
 function Player:takeDamage(damageInfo)
     if self.dead then
         return false
@@ -396,7 +506,7 @@ function Player:die()
     self:playAnimation("death", true)
 end
 
--- Обновляет физику игрока.
+-- Обновляет физику игрока: gravity и движение по vx/vy.
 function Player:updatePhysics(dt)
     if self.dead then
         return
@@ -414,7 +524,7 @@ function Player:updatePhysics(dt)
     self.y = self.y + self.vy * dt
 end
 
--- Обновляет игрока.
+-- Обновляет игрока: физику, animation events и состояние death/idle/run.
 function Player:update(dt)
     self:updatePhysics(dt)
 

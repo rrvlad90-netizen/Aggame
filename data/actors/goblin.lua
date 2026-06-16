@@ -11,6 +11,7 @@ return {
     flying = false,
 
     facing = -1,
+	flipSprite = true, --если не туда нарисовал спрайты то разворачиваю
 
     hates = {
         player = true
@@ -30,8 +31,8 @@ return {
     heavyDeathEffect = "goblin_heavydeath_jump",
 
     canvas = {
-        width = 64,
-        height = 80
+        width = 69,
+        height = 77
     },
 
     offset = {
@@ -55,23 +56,23 @@ return {
         }
     },
 
-    attackGroups = {
+   attackGroups = {
         {
-            minDistance = 0,
-            maxDistance = 46,
-            animations = {
-                "attack_melee"
-            }
-        }
-    },
+           minDistance = 0,
+           maxDistance = 46,
+           animations = {
+               "attack_melee"
+           }
+       }
+   },
 
     animations = {
         idle = {
             loop = true,
             frameDuration = 0.16,
             frames = {
-                nil,
-                nil
+                "assets/goblin/walk_1.png",
+                "assets/goblin/walk_1.png"
             }
         },
 
@@ -79,10 +80,8 @@ return {
             loop = true,
             frameDuration = 0.12,
             frames = {
-                nil,
-                nil,
-                nil,
-                nil
+                "assets/goblin/walk_1.png",
+                "assets/goblin/walk_2.png"
             }
         },
 
@@ -91,9 +90,8 @@ return {
             lockInput = true,
             frameDuration = 0.1,
             frames = {
-                nil,
-                nil,
-                nil
+                "assets/goblin/walk_1.png",
+                "assets/goblin/attack_1.png"
             },
             events = {
                 {
@@ -108,31 +106,58 @@ return {
                 }
             }
         },
+		
 
         pain = {
             loop = false,
             lockInput = true,
             frameDuration = 0.1,
             frames = {
-                nil,
-                nil
+                "assets/goblin/walk_1.png",
+                "assets/goblin/walk_1.png"
+            }
+        },
+
+
+		heavydeath = {
+            loop = false,
+            lockInput = true,
+            fireFirstFrameEvents = true,
+			
+			-- Важно: без этого флага frame = 1 events не сработают при старте анимации.
+            fireFirstFrameEvents = true,
+			
+            frameDuration = 0.14,
+            frames = {
+                "assets/goblin/heavydeath_1.png",
+                "assets/goblin/heavydeath_2.png"
+            },
+            events = {
+                {
+                    frame = 1,
+                    type = "playSound",
+                    sound = "assets/sounds/hit2.wav"
+                }
             }
         },
 
         death = {
             loop = false,
             lockInput = true,
-            frameDuration = 0.14,
+			
+			-- Важно: без этого флага frame = 1 events не сработают при старте анимации.
+            fireFirstFrameEvents = true,
+			
+            frameDuration = 0.44,
             frames = {
-                nil,
-                nil,
-                nil
+                "assets/goblin/death_1.png",
+                "assets/goblin/death_2.png"
             },
             events = {
                 {
                     frame = 1,
                     type = "playSound",
-                    sound = "assets/sounds/enemy_death.wav"
+                    sound = "assets/sounds/hit2.wav"
                 }
             }
         }

@@ -70,8 +70,24 @@ Config.ui = {
 Config.debug = {
     enabled = false,
 
+    -- Рисует collision bbox entity зелёным прямоугольником.
     drawBboxes = false,
+
+    -- Рисует attack/damage hitbox entity красным прямоугольником.
     drawHitboxes = false,
+
+    -- Сколько секунд показывать melee-hitbox после damageHitbox event.
+    -- Нужна короткая задержка, потому что сам удар живёт один кадр.
+    hitboxFlashDuration = 0.12,
+
+    -- Рисует anchor-точку entity салатовой точкой.
+    -- Для игрока и actor-ов это низ сущности по центру.
+    drawOrigins = false,
+
+    -- Рисует тип и id entity рядом с anchor-точкой.
+    drawNames = false,
+
+    -- UI debug.
     drawFps = true,
     drawPlayerPosition = false,
     drawCamera = false

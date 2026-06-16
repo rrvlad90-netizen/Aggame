@@ -5,12 +5,14 @@ local Collision = require("src.collision")
 local Targeting = require("src.targeting")
 local Render = require("src.render")
 local Assets = require("src.assets")
+local Physics = require("src.physics")
+local Debug = require("src.debug")
 
 local World = {}
 World.__index = World
 
 -- Создаёт runtime-мир уровня.
--- World хранит все активные entity и управляет их update/draw.
+-- World хранит активные entity, камеру, музыку и состояние результата уровня.
 function World:new(level, player)
     local world = setmetatable({}, World)
 
@@ -45,7 +47,7 @@ function World:new(level, player)
     return world
 end
 
--- Добавляет объекты уровня в world.
+-- Добавляет статичные объекты уровня в активные списки world.
 function World:addLevelObjects()
     if not self.level then
         return
@@ -60,14 +62,14 @@ function World:addLevelObjects()
     end
 end
 
--- Останавливает музыку мира.
+-- Останавливает музыку текущего мира.
 function World:stop()
     if self.music then
         self.music:stop()
     end
 end
 
--- Создаёт entity по id и сразу добавляет её в world.
+-- Создаёт entity по id и сразу добавляет её в нужный список world.
 function World:createEntity(id, x, y, overrides)
     local kind, entity = EntityFactory.createEntity(id, x, y, overrides)
 
@@ -76,7 +78,7 @@ function World:createEntity(id, x, y, overrides)
     return entity
 end
 
--- Добавляет entity в нужный список.
+-- Добавляет entity в список по типу: actor, projectile, effect или pickup.
 function World:addEntity(kind, entity)
     if kind == "actor" then
         table.insert(self.actors, entity)
@@ -99,7 +101,7 @@ function World:addEntity(kind, entity)
     end
 end
 
--- Возвращает группы целей для targeting.
+-- Возвращает группы целей для targeting-системы.
 function World:getTargetGroups()
     return {
         player = self.player and {self.player} or {},
@@ -107,7 +109,7 @@ function World:getTargetGroups()
     }
 end
 
--- Обновляет камеру.
+-- Обновляет позицию камеры относительно игрока.
 function World:updateCamera(dt)
     if not self.player then
         return
@@ -125,7 +127,7 @@ function World:updateCamera(dt)
     end
 end
 
--- Применяет damageHitbox к actor-ам и игроку.
+-- Применяет damageHitbox к игроку и actor-ам.
 function World:applyDamageHitbox(owner, hitbox, damageInfo)
     if not hitbox or not damageInfo then
         return
@@ -149,7 +151,7 @@ function World:applyDamageHitbox(owner, hitbox, damageInfo)
     end
 end
 
--- Обрабатывает события entity.
+-- Забирает и выполняет entity events, созданные анимацией или логикой entity.
 function World:processEntityEvents(entity)
     if not entity.consumeEntitySpawnRequests then
         return
@@ -160,7 +162,7 @@ function World:processEntityEvents(entity)
     EventRunner.runAll(self, entity, events)
 end
 
--- Обрабатывает effect requests у entity.
+-- Забирает effect spawn requests у entity и создаёт нужные effects.
 function World:processEffectRequests(entity)
     if not entity.consumeEffectSpawnRequests then
         return
@@ -175,50 +177,38 @@ function World:processEffectRequests(entity)
     end
 end
 
--- Проверяет projectile collisions с player/actors.
--- Применяет простую физику платформ к entity.
-function World:resolvePlatforms(entity)
-    if not self.level then
+-- Проверяет попадания projectile по игроку и actor-ам.
+function World:resolveProjectileHits(projectile)
+    if projectile.dead then
         return
     end
 
-    local bbox = entity:getHitbox()
-    local currentBottom = bbox.y + bbox.h
+    local hitbox = projectile:getHitbox()
+    local damageInfo = projectile:createDamageInfo()
 
-    for _, platform in ipairs(self.level.platforms or {}) do
-        local platformBox = platform:getHitbox()
-        local platformTop = platformBox.y
+    if self.player
+        and self.player ~= projectile.owner
+        and Targeting.canDamage(damageInfo.damageTargets, self.player)
+        and Collision.intersects(hitbox, self.player:getHitbox())
+    then
+        self.player:takeDamage(damageInfo)
+        projectile:hit()
+        return
+    end
 
-        local overlapsX = bbox.x < platformBox.x + platformBox.w
-            and platformBox.x < bbox.x + bbox.w
-
-        -- Разрешаем небольшое "влипание" в платформу.
-        -- Это нужно, потому что после gravity игрок каждый кадр чуть проваливается вниз.
-        local landingToleranceTop = 8
-        local landingToleranceBottom = 24
-
-        local closeToPlatformTop = currentBottom >= platformTop - landingToleranceTop
-            and currentBottom <= platformTop + landingToleranceBottom
-
-        local fallingOrStanding = (entity.vy or 0) >= 0
-
-        if overlapsX and closeToPlatformTop and fallingOrStanding then
-            local correctedY = entity.y - (currentBottom - platformTop)
-
-            if entity.landOn then
-                entity:landOn(correctedY)
-            else
-                entity.y = correctedY
-                entity.vy = 0
-                entity.onGround = true
-            end
-
+    for _, actor in ipairs(self.actors) do
+        if actor ~= projectile.owner
+            and Targeting.canDamage(damageInfo.damageTargets, actor)
+            and Collision.intersects(hitbox, actor:getHitbox())
+        then
+            actor:takeDamage(damageInfo)
+            projectile:hit()
             return
         end
     end
 end
 
--- Проверяет damage от effects.
+-- Проверяет damage от effects по игроку и actor-ам.
 function World:resolveEffectDamage(effect)
     if not effect:canApplyDamage() then
         return
@@ -252,59 +242,7 @@ function World:resolveEffectDamage(effect)
     end
 end
 
--- Приземляет entity на землю уровня.
-function World:resolveGround(entity)
-    if not self.level or not self.level.ground then
-        return
-    end
-
-    if entity.flying then
-        return
-    end
-
-    local bbox = entity:getHitbox()
-    local groundY = self.level.ground.y
-    local bottom = bbox.y + bbox.h
-
-    if bottom >= groundY then
-        local correctedY = entity.y - (bottom - groundY)
-
-        if entity.landOn then
-            entity:landOn(correctedY)
-        else
-            entity.y = correctedY
-            entity.vy = 0
-            entity.onGround = true
-        end
-    else
-        entity.onGround = false
-    end
-end
-
--- Применяет простую физику платформ к entity.
-function World:resolvePlatforms(entity)
-    if not self.level then
-        return
-    end
-
-    local bbox = entity:getHitbox()
-
-    for _, platform in ipairs(self.level.platforms or {}) do
-        if Collision.intersects(bbox, platform:getHitbox()) then
-            local platformBox = platform:getHitbox()
-
-            if bbox.y + bbox.h <= platformBox.y + 16
-                and entity.vy >= 0
-            then
-                entity.y = entity.y - ((bbox.y + bbox.h) - platformBox.y)
-                entity.vy = 0
-                entity.onGround = true
-            end
-        end
-    end
-end
-
--- Обновляет игрока.
+-- Обновляет игрока, применяет платформенную физику и проверяет падение в яму.
 function World:updatePlayer(dt)
     if not self.player then
         return
@@ -312,8 +250,8 @@ function World:updatePlayer(dt)
 
     self.player:update(dt)
 
-    self:resolveGround(self.player)
-    self:resolvePlatforms(self.player)
+    Physics.resolvePlatforms(self.level, self.player)
+    Physics.killPlayerBelowScreen(self.player, self.camera)
 
     self:processEntityEvents(self.player)
 
@@ -327,15 +265,14 @@ function World:updatePlayer(dt)
     end
 end
 
--- Обновляет actor-ов.
+-- Обновляет actor-ов, применяет платформенную физику и удаляет завершивших смерть.
 function World:updateActors(dt)
     for index = #self.actors, 1, -1 do
         local actor = self.actors[index]
 
         actor:update(dt, self)
 
-        self:resolveGround(actor)
-        self:resolvePlatforms(actor)
+        Physics.resolvePlatforms(self.level, actor)
 
         self:processEntityEvents(actor)
 
@@ -355,7 +292,7 @@ function World:updateActors(dt)
     end
 end
 
--- Обновляет projectile-ы.
+-- Обновляет projectile-ы, проверяет попадания и обрабатывает их события.
 function World:updateProjectiles(dt)
     for index = #self.projectiles, 1, -1 do
         local projectile = self.projectiles[index]
@@ -373,7 +310,7 @@ function World:updateProjectiles(dt)
     end
 end
 
--- Обновляет effects.
+-- Обновляет effects, применяет их damage и удаляет завершённые effects.
 function World:updateEffects(dt)
     for index = #self.effects, 1, -1 do
         local effect = self.effects[index]
@@ -391,7 +328,7 @@ function World:updateEffects(dt)
     end
 end
 
--- Обновляет pickups.
+-- Обновляет pickups и применяет подбор игроком.
 function World:updatePickups(dt)
     for index = #self.pickups, 1, -1 do
         local pickup = self.pickups[index]
@@ -412,18 +349,29 @@ function World:updatePickups(dt)
 end
 
 -- Проверяет LevelEnd.
+-- Если у LevelEnd есть nextTarget, запускаем явный transition.
+-- Если nextTarget нет, оставляем старую victory/flow-логику.
 function World:updateLevelEnd()
     if not self.level then
         return
     end
 
     if self.level:checkLevelEnd(self.player) then
-        self.level.levelEnd:trigger()
-        self.result = "victory"
+        local levelEnd = self.level.levelEnd
+
+        levelEnd:trigger()
+
+        self.nextTarget = levelEnd:getNextTarget()
+
+        if self.nextTarget then
+            self.result = "transition"
+        else
+            self.result = "victory"
+        end
     end
 end
 
--- Обновляет world.
+-- Обновляет весь world за один кадр.
 function World:update(dt)
     if self.result then
         return
@@ -445,7 +393,8 @@ function World:update(dt)
     self:updateCamera(dt)
 end
 
--- Рисует background layers.
+-- Рисует background layers кроме переднего слоя
+-- Поддерживает parallax и optional texture scroll.
 function World:drawBackgrounds()
     if not self.level then
         return
@@ -453,17 +402,13 @@ function World:drawBackgrounds()
 
     for _, background in ipairs(self.level.backgrounds or {}) do
         if background.layer ~= "front" then
-            Render.drawTiledX(
-                background.image,
-                self.camera,
-                background.y or 0,
-                background.scrollFactor or 1
-            )
+            Render.drawBackgroundLayer(background, self.camera)
         end
     end
 end
 
 -- Рисует front background layers.
+-- Это те же backgrounds, но поверх gameplay.
 function World:drawFrontBackgrounds()
     if not self.level then
         return
@@ -471,65 +416,19 @@ function World:drawFrontBackgrounds()
 
     for _, background in ipairs(self.level.backgrounds or {}) do
         if background.layer == "front" then
-            Render.drawTiledX(
-                background.image,
-                self.camera,
-                background.y or 0,
-                background.scrollFactor or 1
-            )
+            Render.drawBackgroundLayer(background, self.camera)
         end
     end
 end
 
--- Рисует землю уровня.
-function World:drawGround()
-    if not self.level or not self.level.ground then
-        return
-    end
-
-    local ground = self.level.ground
-
-    if ground.image then
-        Render.drawTiledX(
-            ground.image,
-            self.camera,
-            ground.visualY or ground.y,
-            1
-        )
-    else
-        love.graphics.setColor(0.18, 0.22, 0.26)
-        love.graphics.rectangle(
-            "fill",
-            0,
-            (ground.visualY or ground.y) - self.camera.y,
-            Config.screen.width,
-            ground.visualHeight or 120
-        )
-        love.graphics.setColor(1, 1, 1)
-    end
-end
-
--- Рисует debug-информацию.
+-- Рисует debug-оверлей runtime entity: bbox, hitbox, origin и имя.
 function World:drawDebug()
-    if not Config.debug.enabled then
-        return
-    end
-
-    if Config.debug.drawBboxes then
-        if self.player then
-            Render.drawEntityBBox(self.player, self.camera)
-        end
-
-        for _, actor in ipairs(self.actors) do
-            Render.drawEntityBBox(actor, self.camera)
-        end
-    end
+    Debug.drawWorld(self)
 end
 
--- Рисует world.
+-- Рисует весь world в порядке слоёв.
 function World:draw()
     self:drawBackgrounds()
-    self:drawGround()
 
     for _, decor in ipairs(self.level.decors or {}) do
         if decor.layer ~= "front" then
@@ -574,6 +473,5 @@ function World:draw()
     self:drawFrontBackgrounds()
     self:drawDebug()
 end
-
 
 return World

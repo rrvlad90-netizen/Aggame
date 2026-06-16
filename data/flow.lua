@@ -14,7 +14,7 @@ return {
     },
 
     {
-        type = "level",
-        id = "level1"
+        type = "scene",
+        id = "scenelevel1"
     }
 }

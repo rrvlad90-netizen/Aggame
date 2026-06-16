@@ -75,9 +75,17 @@ function EntityFactory.createDecor(id, x, y, overrides)
     return Decor:new(config)
 end
 
--- Создаёт LevelEnd из прямого config.
--- LevelEnd пока не хранится в отдельном registry-list.
-function EntityFactory.createLevelEnd(config)
+-- Создаёт LevelEnd.
+-- Новый формат: createLevelEnd(id, x, y, overrides) через data/level_endlist.lua.
+-- Старый формат: createLevelEnd(config) оставлен для совместимости.
+function EntityFactory.createLevelEnd(idOrConfig, x, y, overrides)
+    if type(idOrConfig) == "table" then
+        return LevelEnd:new(idOrConfig)
+    end
+
+    local definition = Registry.loadLevelEnd(idOrConfig)
+    local config = EntityFactory.prepareConfig(definition, x, y, overrides)
+
     return LevelEnd:new(config)
 end
 
