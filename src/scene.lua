@@ -6,7 +6,7 @@ local Scene = {}
 Scene.__index = Scene
 
 -- Нормализует описание следующего перехода.
--- Поддерживает next = { type = "...", id = "..." }, nextScene и nextLevel.
+-- Поддерживает next = { type = "...", id = "..." }, nextScene, nextLevel и nextMode.
 local function normalizeNextTarget(config)
     if config.next then
         return config.next
@@ -25,19 +25,73 @@ local function normalizeNextTarget(config)
             id = config.nextLevel or config.next_level
         }
     end
-	
-	if config.nextMode or config.next_mode then
-		return {
-			type = "mode",
-			id = config.nextMode or config.next_mode
-		}
-	end
+
+    if config.nextMode or config.next_mode then
+        return {
+            type = "mode",
+            id = config.nextMode or config.next_mode
+        }
+    end
 
     return nil
 end
 
+-- Возвращает true, если точка находится внутри прямоугольника.
+local function pointInRect(x, y, rect)
+    return x >= rect.x
+        and x <= rect.x + rect.w
+        and y >= rect.y
+        and y <= rect.y + rect.h
+end
+
+-- Возвращает список дополнительных картинок текущего кадра.
+-- Ограничиваем список шестью элементами, чтобы scene не стала тяжёлым UI-экраном.
+local function getFrameImages(frame)
+    local result = {}
+
+    for index, imageConfig in ipairs(frame.images or {}) do
+        if index > 6 then
+            break
+        end
+
+        table.insert(result, imageConfig)
+    end
+
+    return result
+end
+
+-- Возвращает прямоугольник, в котором дополнительная картинка рисуется на экране.
+-- Если w/h не заданы, используется натуральный размер PNG.
+local function getFrameImageRect(imageConfig)
+    if not imageConfig or not imageConfig.image then
+        return nil
+    end
+
+    local image = Assets.getImage(imageConfig.image)
+
+    if not image then
+        return nil
+    end
+
+    local width = imageConfig.w
+        or imageConfig.width
+        or image:getWidth()
+
+    local height = imageConfig.h
+        or imageConfig.height
+        or image:getHeight()
+
+    return {
+        x = imageConfig.x or 0,
+        y = imageConfig.y or 0,
+        w = width,
+        h = height,
+        image = image
+    }
+end
+
 -- Создаёт scene из definition.
--- Scene используется для intro, briefing, victory/game over.
+-- Scene используется для intro, briefing, victory/game over и интерактивных кадров.
 function Scene:new(config)
     config = config or {}
 
@@ -52,13 +106,20 @@ function Scene:new(config)
     scene.skipAllowed = config.skipAllowed ~= false
         and config.skip_allowed ~= false
 
+    -- Если true, клик вне кликабельной картинки не будет скипать scene.
+    scene.clickNotSkipScene = config.clickNotSkipScene == true
+        or config.click_not_skip_scene == true
+
     scene.currentFrame = 1
     scene.timer = 0
     scene.finished = false
 
--- Цель перехода после завершения scene.
+    -- Цель перехода после завершения scene.
     -- Если nil, игра продолжит старый flow через advanceFlow().
     scene.nextTarget = normalizeNextTarget(config)
+
+    -- Цель, выбранная кликом по дополнительной картинке кадра.
+    scene.selectedNextTarget = nil
 
     scene.playedSounds = {}
 
@@ -70,6 +131,7 @@ function Scene:start()
     self.currentFrame = 1
     self.timer = 0
     self.finished = false
+    self.selectedNextTarget = nil
     self.playedSounds = {}
 
     if self.music then
@@ -124,11 +186,66 @@ function Scene:nextFrame()
     self:playFrameSound()
 end
 
--- Пропускает scene.
+-- Пропускает scene, если skip разрешён.
 function Scene:skip()
     if self.skipAllowed then
         self.finished = true
     end
+end
+
+-- Возвращает кликабельную картинку под указанной точкой.
+-- Кликабельной считается только сама PNG-картинка, текст не входит в hitbox.
+function Scene:getClickableImageAt(x, y)
+    local frame = self:getFrame()
+
+    if not frame then
+        return nil
+    end
+
+    for _, imageConfig in ipairs(getFrameImages(frame)) do
+        if imageConfig.clickable == true then
+            local rect = getFrameImageRect(imageConfig)
+
+            if rect and pointInRect(x, y, rect) then
+                return imageConfig
+            end
+        end
+    end
+
+    return nil
+end
+
+-- Обрабатывает клик/тач по scene.
+-- Клик по clickable-картинке выбирает nextScene этой картинки.
+-- Клик вне картинки скипает scene только если clickNotSkipScene не включён.
+function Scene:click(x, y)
+    if self.finished then
+        return false
+    end
+
+    local imageConfig = self:getClickableImageAt(x, y)
+
+    if imageConfig then
+        local nextScene = imageConfig.nextScene
+            or imageConfig.next_scene
+
+        if nextScene then
+            self.selectedNextTarget = {
+                type = "scene",
+                id = nextScene
+            }
+
+            self.finished = true
+            return true
+        end
+    end
+
+    if self.clickNotSkipScene then
+        return false
+    end
+
+    self:skip()
+    return true
 end
 
 -- Обновляет scene.
@@ -153,16 +270,8 @@ function Scene:update(dt)
     end
 end
 
--- Рисует текущий кадр scene.
-function Scene:draw()
-    love.graphics.clear(0.02, 0.02, 0.03)
-
-    local frame = self:getFrame()
-
-    if not frame then
-        return
-    end
-
+-- Рисует основной фон текущего кадра.
+function Scene:drawFrameBackground(frame)
     if frame.image then
         local image = Assets.getImage(frame.image)
 
@@ -175,47 +284,134 @@ function Scene:draw()
             Config.screen.width / image:getWidth(),
             (Config.screen.height - 100) / image:getHeight()
         )
-    else
-        love.graphics.setColor(0.12, 0.14, 0.18)
-        love.graphics.rectangle("fill", 0, 0, Config.screen.width, Config.screen.height - 100)
 
-        love.graphics.setFont(UI.bigFont)
+        return
+    end
+
+    love.graphics.setColor(0.12, 0.14, 0.18)
+    love.graphics.rectangle("fill", 0, 0, Config.screen.width, Config.screen.height - 100)
+
+    love.graphics.setFont(UI.bigFont)
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.printf(
+        self.id,
+        0,
+        Config.screen.height / 2 - 70,
+        Config.screen.width,
+        "center"
+    )
+end
+
+-- Рисует дополнительные картинки текущего кадра поверх основного frame.
+function Scene:drawFrameImages(frame)
+    for _, imageConfig in ipairs(getFrameImages(frame)) do
+        local rect = getFrameImageRect(imageConfig)
+
+        if rect then
+            love.graphics.setColor(1, 1, 1)
+
+            love.graphics.draw(
+                rect.image,
+                rect.x,
+                rect.y,
+                0,
+                rect.w / rect.image:getWidth(),
+                rect.h / rect.image:getHeight()
+            )
+        end
+    end
+end
+
+-- Рисует текст кадра.
+-- Если textX/textY заданы, текст рисуется в указанной зоне.
+-- Если не заданы — используется старое поведение с нижней панелью.
+function Scene:drawFrameText(frame)
+    if not frame.text then
+        return
+    end
+
+    local textX = frame.textX or frame.text_x
+    local textY = frame.textY or frame.text_y
+
+    if textX ~= nil and textY ~= nil then
+        local textW = frame.textW
+            or frame.text_w
+            or (Config.screen.width - textX)
+
+        local textH = frame.textH
+            or frame.text_h
+
+        local align = frame.textAlign
+            or frame.text_align
+            or "left"
+
+        love.graphics.setFont(UI.font)
         love.graphics.setColor(1, 1, 1)
+
+        if textH then
+            love.graphics.setScissor(textX, textY, textW, textH)
+        end
+
         love.graphics.printf(
-            self.id,
-            0,
-            Config.screen.height / 2 - 70,
-            Config.screen.width,
-            "center"
+            frame.text,
+            textX,
+            textY,
+            textW,
+            align
         )
+
+        if textH then
+            love.graphics.setScissor()
+        end
+
+        return
     end
 
     love.graphics.setColor(0.04, 0.04, 0.05, 0.95)
     love.graphics.rectangle("fill", 0, Config.screen.height - 100, Config.screen.width, 100)
 
-    if frame.text then
-        love.graphics.setFont(UI.font)
-        love.graphics.setColor(1, 1, 1)
-        love.graphics.printf(
-            frame.text,
-            30,
-            Config.screen.height - 76,
-            Config.screen.width - 60,
-            "center"
-        )
+    love.graphics.setFont(UI.font)
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.printf(
+        frame.text,
+        30,
+        Config.screen.height - 76,
+        Config.screen.width - 60,
+        "center"
+    )
+end
+
+-- Рисует подсказку skip, если scene можно пропустить.
+function Scene:drawSkipHint()
+    if not self.skipAllowed then
+        return
     end
 
-    if self.skipAllowed then
-        love.graphics.setFont(UI.font)
-        love.graphics.setColor(1, 1, 1, 0.6)
-        love.graphics.printf(
-            "Press Enter / Space / Tap to skip",
-            0,
-            Config.screen.height - 24,
-            Config.screen.width,
-            "center"
-        )
+    love.graphics.setFont(UI.font)
+    love.graphics.setColor(1, 1, 1, 0.6)
+    love.graphics.printf(
+        "Press Enter / Space / Tap to skip",
+        0,
+        Config.screen.height - 24,
+        Config.screen.width,
+        "center"
+    )
+end
+
+-- Рисует текущий кадр scene.
+function Scene:draw()
+    love.graphics.clear(0.02, 0.02, 0.03)
+
+    local frame = self:getFrame()
+
+    if not frame then
+        return
     end
+
+    self:drawFrameBackground(frame)
+    self:drawFrameImages(frame)
+    self:drawFrameText(frame)
+    self:drawSkipHint()
 
     love.graphics.setColor(1, 1, 1)
 end
@@ -226,8 +422,9 @@ function Scene:isFinished()
 end
 
 -- Возвращает цель перехода после завершения scene.
+-- Если игрок кликнул по clickable-картинке, приоритет получает её nextScene.
 function Scene:getNextTarget()
-    return self.nextTarget
+    return self.selectedNextTarget or self.nextTarget
 end
 
 return Scene

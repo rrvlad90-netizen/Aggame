@@ -811,11 +811,11 @@ function love.mousepressed(x, y, button)
                 return
             end
         end
-
-        if game.mode == "scene" and game.scene then
-            game.scene:skip()
-            return
-        end
+----логика кликов на картинки
+		if game.mode == "scene" and game.scene then
+			game.scene:click(x, y)
+			return
+		end
     end
 
     Input.mousepressed(x, y, button)
@@ -828,6 +828,12 @@ end
 
 -- love.touchpressed обрабатывает touch-нажатие.
 function love.touchpressed(id, x, y)
+
+	if game.mode == "scene" and game.scene then
+		game.scene:click(x, y)
+		return
+	end
+
     Input.touchpressed(id, x, y)
 end
 

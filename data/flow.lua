@@ -15,6 +15,6 @@ return {
 
     {
         type = "scene",
-        id = "scenelevel1"
+        id = "scene_map"
     }
 }

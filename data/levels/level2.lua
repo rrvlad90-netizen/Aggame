@@ -1,6 +1,8 @@
 return {
     id = "level2",
 
+    defeatScene = "scenelevel2", ---на какую сцену отправить игрока, при его смерти на уровне
+
     music = nil,
 
     bounds = {
