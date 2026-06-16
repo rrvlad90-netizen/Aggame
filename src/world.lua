@@ -122,8 +122,32 @@ function World:updateCamera(dt)
     self.camera.y = self.camera.y + (targetY - self.camera.y) * Config.camera.followSpeed * dt
 
     if self.level and self.level.bounds then
-        self.camera.x = math.max(self.level.bounds.left, self.camera.x)
-        self.camera.y = math.max(self.level.bounds.top, self.camera.y)
+        local bounds = self.level.bounds
+
+        local minX = bounds.left or self.camera.x
+        local minY = bounds.top or self.camera.y
+
+        local maxX = self.camera.x
+        local maxY = self.camera.y
+
+        if bounds.right then
+            maxX = bounds.right - Config.screen.width
+        end
+
+        if bounds.bottom then
+            maxY = bounds.bottom - Config.screen.height
+        end
+
+        if maxX < minX then
+            maxX = minX
+        end
+
+        if maxY < minY then
+            maxY = minY
+        end
+
+        self.camera.x = math.max(minX, math.min(self.camera.x, maxX))
+        self.camera.y = math.max(minY, math.min(self.camera.y, maxY))
     end
 end
 
@@ -255,14 +279,9 @@ function World:updatePlayer(dt)
 
     self:processEntityEvents(self.player)
 
-    if self.player.deathFinished then
-        if self.player.lives > 1 then
-            self.player.lives = self.player.lives - 1
-            self.result = "restart"
-        else
-            self.result = "game_over"
-        end
-    end
+	if self.player.deathFinished then
+		self.result = "player_dead"
+	end
 end
 
 -- Обновляет actor-ов, применяет платформенную физику и удаляет завершивших смерть.

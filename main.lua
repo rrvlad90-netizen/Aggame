@@ -30,6 +30,9 @@ local game = {
     level = nil,
     world = nil,
     player = nil,
+	
+	playerLives = nil,
+	playerMaxLives = nil,
 
     loadingProgress = 0,
     pendingStart = nil
@@ -132,6 +135,18 @@ local function createSelectedPlayer(x, y)
 
     definition.x = x
     definition.y = y
+
+    local defaultLives = definition.lives or 3
+
+    if game.playerMaxLives == nil then
+        game.playerMaxLives = defaultLives
+    end
+
+    if game.playerLives == nil then
+        game.playerLives = defaultLives
+    end
+
+    definition.lives = game.playerLives
 
     return Player:new(definition)
 end
@@ -303,6 +318,11 @@ end
 -- Начинает новую игру.
 local function startNewGame()
     Save.startNewGame()
+	
+	--сброс жизней
+	game.playerLives = nil 
+    game.playerMaxLives = nil
+	
     startFlow(1)
 end
 
@@ -322,9 +342,21 @@ local function restartCurrentLevel()
     end
 end
 
--- Запускает game over scene.
+-- Запускает defeat/game over scene текущего уровня.
+local function getLevelDefeatScene()
+    if game.level and game.level.defeatScene then
+        return game.level.defeatScene
+    end
+
+    return "game_over"
+end
+
 local function startGameOver()
     startScene("game_over", "game_over_menu")
+end
+
+local function startDefeatScene(returnMode)
+    startScene(getLevelDefeatScene(), returnMode)
 end
 
 -- Обрабатывает подтверждение пункта главного меню.
@@ -484,15 +516,19 @@ local function updateScene(dt)
         game.scene:skip()
     end
 
-if game.scene:isFinished() then
-        local nextTarget = game.scene:getNextTarget()
-
+	if game.scene:isFinished() then
+--        local nextTarget = game.scene:getNextTarget()
         stopScene()
 
-        if nextTarget then
-            startTransitionTarget(nextTarget)
-            return
-        end
+		if game.sceneReturnMode == "restart_level" then
+			restartCurrentLevel()
+			return
+		end
+
+ --       if nextTarget then
+ --           startTransitionTarget(nextTarget)
+ --           return
+ --       end
 
         if game.sceneReturnMode == "game_over_menu" then
             game.mode = "game_over_menu"
@@ -559,6 +595,26 @@ local function updatePlayerInput()
     end
 end
 
+---проверка жизней игрока
+local function handlePlayerDeath()
+    local lives = game.playerLives or (game.player and game.player.lives) or 1
+
+    lives = lives - 1
+    game.playerLives = lives
+
+    if game.player then
+        game.player.lives = lives
+    end
+
+    if lives <= 0 then
+        startGameOver()
+        return
+    end
+
+    startDefeatScene("restart_level")
+end
+
+
 -- Обновляет уровень.
 local function updateLevel(dt)
     if Input.wasPressed("pause") then
@@ -584,18 +640,26 @@ local function updateLevel(dt)
         advanceFlow()
         return
     end
+	
+	if game.world.result == "player_dead" then
+		handlePlayerDeath()
+		return
+	end
 
     if game.world.result == "restart" then
         restartCurrentLevel()
         return
     end
 
-    if game.world.result == "game_over"
-        or game.world.result == "defeat"
-    then
-        startGameOver()
-        return
-    end
+	if game.world.result == "game_over" then
+		startGameOver()
+		return
+	end
+
+	if game.world.result == "defeat" then
+		startDefeatScene("game_over_menu")
+		return
+	end
 end
 
 -- love.load вызывается Love2D при старте игры.

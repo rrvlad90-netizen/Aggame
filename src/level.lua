@@ -14,6 +14,10 @@ function Level:new(config)
     level.id = config.id or "level"
 
     level.music = config.music
+	
+	level.defeatScene = config.defeatScene --в лчае смерти игрока куда отправляем его.
+    or config.defeat_scene
+    or "game_over"
 
     level.bounds = config.bounds or {
         left = 0,

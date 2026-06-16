@@ -26,6 +26,33 @@ local function getPreviousBottom(entity, currentBottom)
     return currentBottom - deltaY
 end
 
+
+-- Не даёт entity выйти за горизонтальные границы уровня.
+local function clampEntityToLevelBounds(level, entity)
+    if not level or not level.bounds or not entity or not entity.getHitbox then
+        return false
+    end
+
+    local bounds = level.bounds
+    local bbox = entity:getHitbox()
+    local hitboxOffsetX = bbox.x - entity.x
+    local didClamp = false
+
+    if bounds.left and bbox.x < bounds.left then
+        entity.x = bounds.left - hitboxOffsetX
+        entity.vx = math.max(0, entity.vx or 0)
+        didClamp = true
+    end
+
+    if bounds.right and bbox.x + bbox.w > bounds.right then
+        entity.x = bounds.right - hitboxOffsetX - bbox.w
+        entity.vx = math.min(0, entity.vx or 0)
+        didClamp = true
+    end
+
+    return didClamp
+end
+
 -- Возвращает true, если entity пересекла верх платформы сверху вниз.
 local function crossedPlatformTop(entity, currentBottom, platformTop)
     local previousBottom = getPreviousBottom(entity, currentBottom)
@@ -37,7 +64,8 @@ local function crossedPlatformTop(entity, currentBottom, platformTop)
 end
 
 -- Обрабатывает столкновение entity с платформами уровня.
--- Платформа теперь является единственным источником "земли" для игрока и actor-ов.
+-- Платформа остаётся единственным источником "земли" для игрока и actor-ов.
+-- solid/blocking-платформы дополнительно блокируют боковые границы.
 function Physics.resolvePlatforms(level, entity)
     if not level or not entity or not entity.getHitbox then
         return false
@@ -47,10 +75,25 @@ function Physics.resolvePlatforms(level, entity)
         return false
     end
 
+    local previousX = entity.previousX or entity.x
+    local previousY = entity.previousY or entity.y
+
     local bbox = entity:getHitbox()
+    local hitboxOffsetX = bbox.x - entity.x
+    local hitboxOffsetY = bbox.y - entity.y
+
+    local previousBox = {
+        x = previousX + hitboxOffsetX,
+        y = previousY + hitboxOffsetY,
+        w = bbox.w,
+        h = bbox.h
+    }
+
     local currentBottom = bbox.y + bbox.h
     local didLand = false
+    local didBlock = false
 
+    -- Сначала обрабатываем приземление сверху.
     for _, platform in ipairs(level.platforms or {}) do
         local platformBox = platform:getHitbox()
         local platformTop = platform.walkY or platformBox.y
@@ -62,17 +105,65 @@ function Physics.resolvePlatforms(level, entity)
             local correctedY = entity.y - (currentBottom - platformTop)
 
             landEntity(entity, correctedY)
-            didLand = true
 
+            if platform.deltaX then
+                entity.x = entity.x + platform.deltaX
+            end
+
+            didLand = true
             break
         end
     end
 
-    if not didLand then
-        entity.onGround = false
+    bbox = entity:getHitbox()
+
+    -- Затем обрабатываем боковые/нижние столкновения только для solid-платформ.
+    for _, platform in ipairs(level.platforms or {}) do
+        if platform.solid then
+            local platformBox = platform:getHitbox()
+
+            local overlaps = bbox.x < platformBox.x + platformBox.w
+                and platformBox.x < bbox.x + bbox.w
+                and bbox.y < platformBox.y + platformBox.h
+                and platformBox.y < bbox.y + bbox.h
+
+            if overlaps then
+                -- Удар снизу.
+                if previousBox.y >= platformBox.y + platformBox.h
+                    and (entity.vy or 0) < 0
+                then
+                    entity.y = platformBox.y + platformBox.h - hitboxOffsetY
+                    entity.vy = 0
+                    didBlock = true
+                    break
+                end
+
+                -- Упёрся в левую сторону платформы.
+                if previousBox.x + previousBox.w <= platformBox.x then
+                    entity.x = platformBox.x - hitboxOffsetX - bbox.w
+                    entity.vx = 0
+                    didBlock = true
+                    break
+                end
+
+                -- Упёрся в правую сторону платформы.
+                if previousBox.x >= platformBox.x + platformBox.w then
+                    entity.x = platformBox.x + platformBox.w - hitboxOffsetX
+                    entity.vx = 0
+                    didBlock = true
+                    break
+                end
+            end
+        end
     end
 
-    return didLand
+	local didClamp = clampEntityToLevelBounds(level, entity)
+
+	if not didLand then
+		entity.onGround = false
+	end
+
+	return didLand or didBlock or didClamp
 end
 
 -- Убивает игрока, если его bbox полностью ушёл ниже нижней границы экрана.

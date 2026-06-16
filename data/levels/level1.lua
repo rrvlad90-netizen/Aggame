@@ -1,13 +1,15 @@
 ﻿return {
     id = "level1",
+	
+	defeatScene = "scenelevel1", ---на какую сцену отправить игрока, при его смерти на уровне
 
     music = nil,
 
     bounds = {
         left = 0,
-        right = 2200,
+        right = 3200,
         top = 0,
-        bottom = 480
+        bottom = 700
     },
 
     playerStart = {
@@ -73,8 +75,7 @@
 			
 			scaleX = 1,
 			scaleY = 1.2,
-			
-			offsetY = -40			
+						
 
  --  	    scrollSpeed = 118,
  --   	    scrollDirection = "left"
@@ -114,7 +115,8 @@
         {
             id = "wood_platform",
             x = 420,
-            y = 400
+            y = 400,
+			--solid = true --нельзя пройти сбоку и снаряды врезаются
         }
     },
 
