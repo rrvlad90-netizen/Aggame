@@ -24,6 +24,7 @@ local game = {
 
     scene = nil,
     sceneReturnMode = nil,
+	currentLevelId = nil, --запоминаем текущий уровень
 
     playerSelect = nil,
 
@@ -186,6 +187,7 @@ local function startLevel(levelId)
 
     local levelDefinition = Registry.loadLevel(levelId)
 
+	game.currentLevelId = levelId
     game.level = Level:new(levelDefinition)
 
     game.player = createSelectedPlayer(
@@ -333,6 +335,11 @@ end
 
 -- Перезапускает текущий уровень.
 local function restartCurrentLevel()
+    if game.currentLevelId then
+        startLevel(game.currentLevelId)
+        return
+    end
+
     local item = getCurrentFlowItem()
 
     if item and item.type == "level" then
@@ -517,7 +524,7 @@ local function updateScene(dt)
     end
 
 	if game.scene:isFinished() then
---        local nextTarget = game.scene:getNextTarget()
+        local nextTarget = game.scene:getNextTarget()
         stopScene()
 
 		if game.sceneReturnMode == "restart_level" then
@@ -525,10 +532,10 @@ local function updateScene(dt)
 			return
 		end
 
- --       if nextTarget then
- --           startTransitionTarget(nextTarget)
- --           return
- --       end
+        if nextTarget then
+            startTransitionTarget(nextTarget)
+            return
+        end
 
         if game.sceneReturnMode == "game_over_menu" then
             game.mode = "game_over_menu"
