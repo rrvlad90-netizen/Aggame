@@ -25,6 +25,13 @@ local function normalizeNextTarget(config)
             id = config.nextLevel or config.next_level
         }
     end
+	
+	if config.nextMode or config.next_mode then
+		return {
+			type = "mode",
+			id = config.nextMode or config.next_mode
+		}
+	end
 
     return nil
 end

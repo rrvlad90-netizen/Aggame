@@ -5,6 +5,8 @@ return {
 
     skipAllowed = true,
 
+    nextMode = "main_menu",
+
     frames = {
         {
             image = nil,

@@ -258,8 +258,15 @@ local function startTransitionTarget(target)
         advanceFlow()
         return
     end
+	
+	if target.type == "mode" then
+		stopWorld()
+		stopPlayerSelect()
+		stopScene()
 
-    game.mode = "main_menu"
+		game.mode = target.id or "main_menu"
+    return
+	end
 end
 
 -- Запускает явный переход на scene или level.
@@ -359,7 +366,7 @@ local function getLevelDefeatScene()
 end
 
 local function startGameOver()
-    startScene("game_over", "game_over_menu")
+    startScene("game_over", "main_menu")
 end
 
 local function startDefeatScene(returnMode)
@@ -529,6 +536,11 @@ local function updateScene(dt)
 
 		if game.sceneReturnMode == "restart_level" then
 			restartCurrentLevel()
+			return
+		end
+		
+		if game.sceneReturnMode == "main_menu" then
+			game.mode = "main_menu"
 			return
 		end
 
