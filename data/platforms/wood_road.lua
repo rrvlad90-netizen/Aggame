@@ -9,7 +9,7 @@
     solid = true,
 	oneWay = false, --для скролла картинки
 
-    image = "assets/levels/level1/road.png",
+    image = "assets/levels/level1/road1.png",
 
     -- Визуальная высота дороги.
     visualHeight = 160,

@@ -311,13 +311,19 @@ function Render.updateScroll(target, dt)
     target.scrollOffsetY = (target.scrollOffsetY or target.scroll_offset_y or 0) + dy
 end
 
--- Рисует слой background с поддержкой offsetY, scaleX и визуального скролла.
+-- Рисует background/front layer с поддержкой offsetY, scaleX и визуального скролла.
+-- Картинка автоматически повторяется по X после своего завершения.
+-- scaleX/scaleY сохраняются, поэтому фон можно растягивать и всё равно повторять.
 function Render.drawBackgroundLayer(background, camera)
     if not background then
         return
     end
 
     local image = Assets.getImage(background.image)
+
+    if not image then
+        return
+    end
 
     local scrollFactor = background.scrollFactor
         or background.scroll_factor
@@ -341,48 +347,44 @@ function Render.drawBackgroundLayer(background, camera)
     local cameraX = camera and camera.x or 0
     local cameraY = camera and camera.y or 0
 
-    local drawX = x - cameraX * scrollFactor
-    local drawY = y + offsetY - cameraY * scrollFactor
+    local scrollOffsetX = background.scrollOffsetX
+        or background.scroll_offset_x
+        or 0
 
-    local textureOffsetX = cameraX * scrollFactor
-        + (background.scrollOffsetX or background.scroll_offset_x or 0)
-
-    local textureOffsetY = background.scrollOffsetY
+    local scrollOffsetY = background.scrollOffsetY
         or background.scroll_offset_y
         or 0
 
-    if background.imageDrawMode == "tile" or background.image_draw_mode == "tile" then
-        local width = background.width
-            or background.w
-            or Config.screen.width
+    local imageWidth = image:getWidth()
+    local scaledWidth = imageWidth * math.abs(scaleX)
 
-        local height = background.height
-            or background.h
-            or Config.screen.height
-
-        Render.drawTiledImage(
-            image,
-            drawX,
-            drawY,
-            width,
-            height,
-            textureOffsetX,
-            textureOffsetY
-        )
-
+    if scaledWidth <= 0 then
         return
     end
 
+    -- drawY сохраняет обычное вертикальное смещение.
+    local drawY = y + offsetY - cameraY * scrollFactor + scrollOffsetY
+
+    -- repeatOffsetX отвечает за бесконечное повторение по X.
+    -- Учитывает камеру, parallax, ручной x и scrollOffsetX.
+    local repeatOffsetX = (cameraX * scrollFactor + scrollOffsetX - x) % scaledWidth
+
+    local drawX = -repeatOffsetX
+
     love.graphics.setColor(1, 1, 1)
 
-    love.graphics.draw(
-        image,
-        drawX,
-        drawY,
-        0,
-        scaleX,
-        scaleY
-    )
+    while drawX < Config.screen.width do
+        love.graphics.draw(
+            image,
+            drawX,
+            drawY,
+            0,
+            scaleX,
+            scaleY
+        )
+
+        drawX = drawX + scaledWidth
+    end
 
     love.graphics.setColor(1, 1, 1)
 end

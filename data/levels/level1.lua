@@ -12,7 +12,7 @@
 
     playerStart = {
         x = 120,
-        y = 445
+        y = 555
     },
 
 
@@ -70,7 +70,7 @@
             image = "assets/levels/level1/bushes1.png",
             scrollFactor = 1.15,
             layer = "front",
-
+			
 			scaleX = 1,
 			scaleY = 1.2,
 			
@@ -85,13 +85,13 @@
         {
             id = "goblin",
             x = 620,
-            y = 445,
+            y = 555,
             appearDistance = 600
         },
         {
             id = "goblin",
             x = 920,
-            y = 445,
+            y = 555,
             appearDistance = 600
         }
     },
@@ -102,10 +102,10 @@
         {
             id = "wood_road",
             x = 0,
-            y = 555,
-            w = 2200,
+            y = 555,  ---!!!!это реальная физическая верхняя линия.
+            w = 3200,
             h = 145,
-            visualHeight = 445, -----!!!!! Это и есть x координата для спавна
+            visualHeight = 445, -----!!!!!это не координата. Это высота картинки/визуала.
             solid = true,
             color = {0.18, 0.22, 0.26}
         },
@@ -122,12 +122,12 @@
         {
             id = "health_small",
             x = 520,
-            y = 445
+            y = 555
         },
         {
             id = "ammo_small",
             x = 720,
-            y = 445
+            y = 555
         }
     },
 
@@ -135,7 +135,7 @@
         {
             id = "rock_small",
             x = 360,
-            y = 445,
+            y = 555,
             layer = "back"
         }
     },
@@ -145,7 +145,7 @@
     levelEnd = {
 	    id = "door_level1",
         x = 2000,
-        y = 445,
+        y = 555,
 
         canvas = {
             width = 48,
