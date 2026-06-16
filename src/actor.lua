@@ -123,6 +123,15 @@ function Actor:new(config)
 
     actor.state = "idle"
     actor.target = nil
+	
+	-- Optional turn-анимация.
+    -- Если у actor-а есть animations.turn, разворот будет плавным.
+    -- Если turn нет, actor разворачивается мгновенно как раньше.
+    actor.turnAnimation = config.turnAnimation
+        or config.turn_animation
+        or "turn"
+
+    actor.pendingFacing = nil
 
     actor.entitySpawnRequests = {}
 
@@ -195,17 +204,71 @@ function Actor:selectTarget(targetGroups)
     return target
 end
 
--- Поворачивает actor к цели.
-function Actor:faceTarget(target)
+-- ФУНКЦИИ РАЗВОРОТА
+-- Возвращает направление, в которое actor должен смотреть на цель.
+function Actor:getFacingToTarget(target)
     if not target then
-        return
+        return nil
     end
 
     if target.x > self.x then
-        self.facing = 1
-    elseif target.x < self.x then
-        self.facing = -1
+        return 1
     end
+
+    if target.x < self.x then
+        return -1
+    end
+
+    return nil
+end
+
+-- Возвращает true, если actor сейчас проигрывает turn-анимацию.
+function Actor:isTurning()
+    return self.state == "turn"
+        and not self.animationSet:isCurrentFinished()
+end
+
+-- Применяет отложенный разворот.
+function Actor:applyPendingFacing()
+    if not self.pendingFacing then
+        return
+    end
+
+    self.facing = self.pendingFacing
+    self.pendingFacing = nil
+end
+
+-- Пытается начать плавный разворот.
+-- Возвращает true, если turn-анимация реально запущена и AI должен ждать.
+function Actor:startTurn(facing)
+    if not facing then
+        return false
+    end
+
+    if facing == self.facing then
+        return false
+    end
+
+    if not self.animationSet:has(self.turnAnimation) then
+        self.facing = facing
+        return false
+    end
+
+    self.pendingFacing = facing
+    self.vx = 0
+    self.state = "turn"
+    self.animationSet:set(self.turnAnimation, true)
+
+    return true
+end
+
+-- Поворачивает actor к цели.
+-- Если есть turn-анимация, запускает её и возвращает true.
+-- Если turn-анимации нет, разворачивает мгновенно и возвращает false.
+function Actor:faceTarget(target)
+    local facing = self:getFacingToTarget(target)
+
+    return self:startTurn(facing)
 end
 
 -- Возвращает дистанцию до цели.
@@ -300,7 +363,7 @@ function Actor:chooseAttackAnimation(target)
 end
 
 -- Пытается начать атаку.
--- Возвращает true, если атака началась.
+-- Возвращает true, если actor начал атаку или занялся разворотом.
 function Actor:tryStartAttack(target)
     if not target then
         return false
@@ -312,16 +375,12 @@ function Actor:tryStartAttack(target)
         return false
     end
 
-    if not self.animationSet:has(animationName) then
-        return false
+    -- Если перед атакой нужно развернуться, сначала проигрываем turn.
+    if self:faceTarget(target) then
+        return true
     end
 
-    self:faceTarget(target)
-
-    -- При входе в ближнюю или дальнюю атаку враг должен остановиться.
-    -- Иначе он продолжает скользить на vx из chase-состояния.
     self.vx = 0
-
     self.state = animationName
     self.animationSet:set(animationName, true)
 
@@ -334,6 +393,20 @@ function Actor:updateAi(dt, world)
         return
     end
 
+    -- Пока идёт turn, actor стоит и ждёт конца анимации.
+    if self.state == "turn" then
+        self.vx = 0
+
+        if self.animationSet:isCurrentFinished() then
+            self:applyPendingFacing()
+
+            self.state = "idle"
+            self.animationSet:set("idle")
+        end
+
+        return
+    end
+
     if self.animationSet:isCurrentFinished()
         and self.state ~= "idle"
         and self.state ~= "walk"
@@ -342,9 +415,11 @@ function Actor:updateAi(dt, world)
         self.animationSet:set("idle")
     end
 
+    -- Атака, pain и другие lockInput-анимации должны закончиться до конца.
     if not self.animationSet:isCurrentFinished()
         and self.animationSet:isInputLocked()
     then
+        self.vx = 0
         return
     end
 
@@ -355,7 +430,10 @@ function Actor:updateAi(dt, world)
             return
         end
 
-        self:faceTarget(target)
+        -- Если нужно развернуться перед ходьбой, сначала проигрываем turn.
+        if self:faceTarget(target) then
+            return
+        end
 
         if self.movementMode == "chase" then
             self.vx = self.facing * self.speed
@@ -433,6 +511,9 @@ function Actor:playPain()
     end
 
     if self.animationSet:has("pain") then
+        -- Pain перебивает turn, поэтому actor сразу получает нужный facing.
+        self:applyPendingFacing()
+
         self.vx = 0
         self.state = "pain"
         self.animationSet:set("pain", true)
@@ -474,6 +555,9 @@ function Actor:die(damageInfo)
     self.dead = true
     self.vx = 0
     self.vy = 0
+
+-- Death перебивает turn, поэтому actor сразу получает нужный facing.
+    self:applyPendingFacing()
 
     damageInfo = damageInfo or {}
 

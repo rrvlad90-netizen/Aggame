@@ -106,6 +106,18 @@ return {
                 }
             }
         },
+	
+--Если turn не прописан, actor будет разворачиваться мгновенно.	
+			turn = {
+					loop = false,
+					lockInput = true,
+					frameDuration = 0.08,
+				
+					frames = {
+						"assets/goblin/turn_1.png",
+						"assets/goblin/turn_2.png"
+					}
+			},
 		
 
         pain = {

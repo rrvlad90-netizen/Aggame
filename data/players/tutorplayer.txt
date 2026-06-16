@@ -1,0 +1,95 @@
+а, сейчас игрок уже настраивается через data/players/warrior.lua.
+
+Главные параметры:
+
+lua
+speed = 180,
+jumpPower = -430,
+gravity = 900,
+maxJumps = 1,
+Прыжок
+
+jumpPower — сила прыжка.
+Чем значение сильнее в минус, тем выше прыжок.
+Например:
+lua
+jumpPower = -320 -- ниже прыжок
+jumpPower = -430 -- текущий
+jumpPower = -560 -- выше прыжок
+Гравитация
+
+lua
+gravity = 900
+Больше gravity — игрок быстрее падает.
+Меньше gravity — прыжок более “плавучий”.
+lua
+gravity = 700  -- легче, дольше висит
+gravity = 1100 -- тяжелее, быстрее падает
+Убрать прыжок полностью
+
+В abilities:
+
+lua
+abilities = {
+    canMove = true,
+    canJump = false,
+    canDoubleJump = false,
+    canShoot = true,
+    canMelee = true,
+    canCrouch = true,
+    canStrafe = true
+}
+Этого достаточно: Player:jump() проверяет canJump.
+
+Одинарный / двойной прыжок
+
+Самый надежный вариант — явно указать:
+
+lua
+maxJumps = 1 -- один прыжок
+или:
+
+lua
+maxJumps = 2 -- двойной прыжок
+Если у тебя уже стоит наш фикс для canDoubleJump, то можно и так:
+
+lua
+abilities = {
+    canJump = true,
+    canDoubleJump = true
+}
+Но я бы всё равно рекомендовал использовать maxJumps, потому что это точнее: можно будет сделать хоть 3 прыжка.
+
+Итого пример низкого тяжелого персонажа без двойного прыжка
+
+lua
+speed = 150,
+jumpPower = -330,
+gravity = 1100,
+maxJumps = 1,
+
+abilities = {
+    canMove = true,
+    canJump = true,
+    canDoubleJump = false,
+    canShoot = true,
+    canMelee = true,
+    canCrouch = true,
+    canStrafe = true
+}
+Пример персонажа без прыжка
+
+lua
+jumpPower = -430,
+gravity = 900,
+maxJumps = 0,
+
+abilities = {
+    canMove = true,
+    canJump = false,
+    canDoubleJump = false,
+    canShoot = true,
+    canMelee = true,
+    canCrouch = true,
+    canStrafe = true
+}
