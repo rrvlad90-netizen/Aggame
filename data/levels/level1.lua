@@ -139,7 +139,14 @@
             x = 360,
             y = 555,
             layer = "back"
-        }
+        },
+		{
+            id = "torch",
+            x = 390,
+            y = 485,
+            layer = "back"
+        },
+		
     },
 
     effects = {},

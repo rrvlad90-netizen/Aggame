@@ -41,6 +41,7 @@ function Decor:new(config)
 
     decor.dead = false
 
+	decor.entitySpawnRequests = {} --для звуков
     decor.animationSet = nil
 
     if config.animations then
@@ -53,17 +54,31 @@ function Decor:new(config)
     return decor
 end
 
--- ќбновл€ет decor.
+-- Обновляет decor: движение и animation events.
 function Decor:update(dt)
     self.x = self.x + self.vx * dt
     self.y = self.y + self.vy * dt
 
     if self.animationSet then
-        self.animationSet:update(dt)
+        local events = self.animationSet:update(dt)
+
+        for _, event in ipairs(events) do
+            table.insert(self.entitySpawnRequests, event)
+        end
     end
 end
 
--- –исует decor.
+-- Возвращает и очищает события анимации decor-а.
+-- World потом выполнит их через EventRunner.
+function Decor:consumeEntitySpawnRequests()
+    local requests = self.entitySpawnRequests
+
+    self.entitySpawnRequests = {}
+
+    return requests
+end
+
+-- Рисует decor.
 function Decor:draw(camera)
     local screenX = self.x - (camera and camera.x or 0)
     local screenY = self.y - (camera and camera.y or 0)

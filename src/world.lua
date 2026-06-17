@@ -202,6 +202,17 @@ function World:processEffectRequests(entity)
 end
 
 
+-- Обрабатывает animation events у decor-объектов уровня.
+function World:processDecorEvents()
+    if not self.level then
+        return
+    end
+
+    for _, decor in ipairs(self.level.decors or {}) do
+        self:processEntityEvents(decor)
+    end
+end
+
 -- Разруливает горизонтальное столкновение entity с solid-объектом.
 -- Двигаем только entity, obstacle остаётся на месте.
 function World:resolveEntityAgainstSolidObstacle(entity, obstacle)
@@ -502,6 +513,7 @@ function World:update(dt)
     end
 
     self.level:update(dt, self)
+	self:processDecorEvents()
 
     self:updatePlayer(dt)
     self:updateActors(dt)
