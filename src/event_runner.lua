@@ -27,6 +27,7 @@ function EventRunner.getEventPosition(owner, event)
     }
 end
 
+
 -- Возвращает facing для создаваемой entity.
 function EventRunner.getEventFacing(owner, event)
     if event.facing then
@@ -38,6 +39,22 @@ function EventRunner.getEventFacing(owner, event)
     end
 
     return owner and owner.facing or 1
+end
+
+
+
+-- Выполняет случайный переход в animation group actor-а/entity.
+function EventRunner.randomStateGroup(owner, event)
+    if not owner or not owner.playAnimationGroup then
+        return
+    end
+
+    local groupName = event.group
+        or event.groupName
+        or event.group_name
+        or "special"
+
+    owner:playAnimationGroup(groupName, event.fallback, true)
 end
 
 -- Выполняет событие playSound.
@@ -126,14 +143,14 @@ function EventRunner.createEntity(world, owner, event)
     local position = EventRunner.getEventPosition(owner, event)
     local facing = EventRunner.getEventFacing(owner, event)
 
-    local overrides = event.overrides or {}
+	local overrides = Utils.copyTable(event.overrides or {})
 
-    overrides.x = event.spawnX or event.spawn_x or position.x
-    overrides.y = event.spawnY or event.spawn_y or position.y
-    overrides.facing = facing
-    overrides.owner = owner
+	overrides.x = event.spawnX or event.spawn_x or position.x
+	overrides.y = event.spawnY or event.spawn_y or position.y
+	overrides.facing = facing
+	overrides.owner = owner
 
-    world:createEntity(event.id, overrides.x, overrides.y, overrides)
+	world:createEntity(event.id, overrides.x, overrides.y, overrides)
 end
 
 -- Возвращает debug-label для damageHitbox события.
@@ -274,6 +291,11 @@ function EventRunner.run(world, owner, event)
 		EventRunner.setTracking(owner, event)
 		return
 	end
+	
+	if eventType == "randomStateGroup" or eventType == "random_state_group" then
+		EventRunner.randomStateGroup(owner, event)
+		return
+	end	
 
 	if eventType == "randomState" or eventType == "random_state" then
 		EventRunner.randomState(owner, event)

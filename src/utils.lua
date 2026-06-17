@@ -122,9 +122,13 @@ end
 function Utils.mergeConfig(modelConfig, overrideConfig)
     local result = Utils.deepCopy(modelConfig or {})
 
-    for key, value in pairs(overrideConfig or {}) do
-        result[key] = Utils.deepCopy(value)
-    end
+	for key, value in pairs(overrideConfig or {}) do
+		if key == "owner" then
+			result[key] = value
+		else
+			result[key] = Utils.deepCopy(value)
+		end
+	end
 
     return result
 end

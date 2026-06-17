@@ -313,16 +313,23 @@ function World:resolveSolidActorAgainstPlayer(actor)
     return self:resolveEntityAgainstSolidObstacle(actor, self.player)
 end
 
--- Проверяет попадания projectile по игроку и actor-ам.
+-- Проверяет projectile collisions с player/actors.
+-- После первого попадания projectile умирает, чтобы не наносить урон каждый кадр.
 function World:resolveProjectileHits(projectile)
-    if projectile.dead then
+    if not projectile or not projectile.canDamage then
+        return
+    end
+
+    if not projectile:canDamage() then
         return
     end
 
     local hitbox = projectile:getHitbox()
     local damageInfo = projectile:createDamageInfo()
+    local collides = projectile.collides or {}
 
-    if self.player
+    if collides.player ~= false
+        and self.player
         and self.player ~= projectile.owner
         and Targeting.canDamage(damageInfo.damageTargets, self.player)
         and Collision.intersects(hitbox, self.player:getHitbox())
@@ -332,14 +339,16 @@ function World:resolveProjectileHits(projectile)
         return
     end
 
-    for _, actor in ipairs(self.actors) do
-        if actor ~= projectile.owner
-            and Targeting.canDamage(damageInfo.damageTargets, actor)
-            and Collision.intersects(hitbox, actor:getHitbox())
-        then
-            actor:takeDamage(damageInfo)
-            projectile:hit()
-            return
+    if collides.actors ~= false then
+        for _, actor in ipairs(self.actors) do
+            if actor ~= projectile.owner
+                and Targeting.canDamage(damageInfo.damageTargets, actor)
+                and Collision.intersects(hitbox, actor:getHitbox())
+            then
+                actor:takeDamage(damageInfo)
+                projectile:hit()
+                return
+            end
         end
     end
 end

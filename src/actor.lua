@@ -79,6 +79,12 @@ actor.solid = config.solid == true
 
     actor.alpha = config.alpha or 1
     actor.color = config.color or {0.8, 0.2, 0.2}
+	
+	
+	actor.animationGroups = config.animationGroups
+		or config.animation_groups
+		or {}
+	
 
     actor.hates = config.hates or {}
     actor.damageTargets = config.damageTargets
@@ -300,6 +306,45 @@ function Actor:getExistingAnimations(names)
     return result
 end
 
+
+
+-- Запускает animation actor-а по имени.
+-- Нужен для animation events setState/randomState/randomStateGroup.
+function Actor:playAnimation(name, force)
+    if not self.animationSet then
+        return false
+    end
+
+    if not self.animationSet:has(name) then
+        return false
+    end
+
+    self.state = name
+    self.animationSet:set(name, force)
+
+    return true
+end
+
+
+-- Запускает случайную существующую анимацию из animationGroups.
+function Actor:playAnimationGroup(groupName, fallback, force)
+    local group = self.animationGroups[groupName]
+
+    if not group then
+        return false
+    end
+
+    local animationName = self:chooseAnimationFromGroup(group, fallback)
+
+    if not animationName then
+        return false
+    end
+
+    return self:playAnimation(animationName, force)
+end
+
+
+---------------------
 -- Выбирает случайную существующую анимацию из группы.
 -- Если в группе одна анимация, вернётся она.
 function Actor:chooseAnimationFromGroup(names, fallback)
@@ -315,6 +360,8 @@ function Actor:chooseAnimationFromGroup(names, fallback)
 
     return nil
 end
+-----------------------------
+
 
 -- Запускает случайную spawn-анимацию actor-а.
 -- Если spawn01/02/03 нет, запускает idle.

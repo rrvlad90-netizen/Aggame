@@ -84,7 +84,7 @@
 
     actors = {
         {
-            id = "goblin",
+            id = "special_goblin",
             x = 620,
             y = 555,
             appearDistance = 600
