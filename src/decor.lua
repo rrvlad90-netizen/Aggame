@@ -39,7 +39,6 @@ function Decor:new(config)
     decor.vy = config.vy or config.speedY or config.speed_y or 0
 
     decor.dead = false
-    decor.entitySpawnRequests = {}
 
     decor.trackPlayer = config.trackPlayer == true
         or config.track_player == true
@@ -113,15 +112,6 @@ function Decor:update(dt, world)
     self:updateRemoveDecorAnimation()
 end
 
--- Возвращает и очищает события анимации decor-а.
--- World потом выполнит их через EventRunner.
-function Decor:consumeEntitySpawnRequests()
-    local requests = self.entitySpawnRequests
-
-    self.entitySpawnRequests = {}
-
-    return requests
-end
 
 -- Рисует decor.
 function Decor:draw(camera)

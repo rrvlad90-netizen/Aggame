@@ -201,20 +201,6 @@ function World:processEffectRequests(entity)
     end
 end
 
-
--- Обрабатывает animation events у decor-объектов уровня.
-function World:processDecorEvents()
-    if not self.level then
-        return
-    end
-
-	for _, decor in ipairs(self.level.decors or {}) do
-		if decor.layer == "front" then
-			decor:draw(self.camera)
-		end
-	end
-end
-
 -- Удаляет decor-объекты, которые завершили removeDecor-анимацию.
 function World:removeDeadDecors()
     if not self.level then
@@ -530,7 +516,6 @@ function World:update(dt)
     end
 
     self.level:update(dt, self)
-	self:processDecorEvents()
 	self:removeDeadDecors()
 
     self:updatePlayer(dt)
