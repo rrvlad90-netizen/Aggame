@@ -52,7 +52,8 @@ return {
             id = "goblin",
             x = 920,
             y = 455,
-            appearDistance = 600
+            appearDistance = 600,
+			solid = true
         },
         {
             id = "goblin",

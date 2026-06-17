@@ -6,11 +6,27 @@ local UI = {}
 UI.font = nil
 UI.bigFont = nil
 
+-- Создаёт UI font.
+-- Если Config.ui.fontPath задан и файл существует, используем TTF. --для кириллицы
+-- Иначе fallback на стандартный Love2D font. --для латинницы
+local function createFont(size)
+    local fontPath = Config.ui.fontPath
+
+    if fontPath and love.filesystem.getInfo(fontPath) then
+        return love.graphics.newFont(fontPath, size)
+    end
+
+    return love.graphics.newFont(size)
+end
+
 -- Инициализирует шрифты UI.
 function UI.init()
-    UI.font = love.graphics.newFont(Config.ui.fontSize)
-    UI.bigFont = love.graphics.newFont(Config.ui.bigFontSize)
+    UI.font = createFont(Config.ui.fontSize)
+    UI.bigFont = createFont(Config.ui.bigFontSize)
+
+    love.graphics.setFont(UI.font)
 end
+
 
 -- Рисует простой прямоугольник-кнопку с текстом.
 function UI.drawButton(button, text, alpha)

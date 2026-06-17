@@ -62,6 +62,13 @@ function Actor:new(config)
     actor.flying = config.flying == true
         or config.isFlying == true
         or config.is_flying == true
+		
+-- solid = true означает, что через actor нельзя пройти.
+-- Работает для player и других actor-ов.
+actor.solid = config.solid == true
+    or config.blocking == true
+    or config.blocksMovement == true
+    or config.blocks_movement == true	
 
     actor.vx = config.vx or 0
     actor.vy = config.vy or 0

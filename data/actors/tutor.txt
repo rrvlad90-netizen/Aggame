@@ -265,3 +265,29 @@ animations = {.....................
         },
 		
 		--------------
+----------------блокирующий монстр 
+Пример actor config
+
+lua
+{
+    id = "big_goblin",
+    solid = true,
+
+    health = 10,
+    speed = 80
+}
+Или прямо в уровне:
+
+lua
+{
+    id = "goblin",
+    x = 620,
+    y = 555,
+    solid = true
+}
+Что получится:
+
+player не проходит сквозь solid actor-а;
+другие actor-ы тоже не проходят сквозь solid actor-а;
+solid actor не проходит сквозь player;
+обычные actor-ы без solid = true работают как раньше.

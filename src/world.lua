@@ -201,6 +201,104 @@ function World:processEffectRequests(entity)
     end
 end
 
+
+-- Разруливает горизонтальное столкновение entity с solid-объектом.
+-- Двигаем только entity, obstacle остаётся на месте.
+function World:resolveEntityAgainstSolidObstacle(entity, obstacle)
+    if not entity or not obstacle then
+        return false
+    end
+
+    if entity == obstacle then
+        return false
+    end
+
+    if entity.dead or obstacle.dead then
+        return false
+    end
+
+    if not entity.getHitbox or not obstacle.getHitbox then
+        return false
+    end
+
+    local entityBox = entity:getHitbox()
+    local obstacleBox = obstacle:getHitbox()
+
+    if not Collision.intersects(entityBox, obstacleBox) then
+        return false
+    end
+
+    local hitboxOffsetX = entityBox.x - entity.x
+    local previousX = entity.previousX or entity.x
+
+    local previousBox = {
+        x = previousX + hitboxOffsetX,
+        y = entityBox.y,
+        w = entityBox.w,
+        h = entityBox.h
+    }
+
+    -- Пришёл слева и упёрся в левую сторону obstacle.
+    if previousBox.x + previousBox.w <= obstacleBox.x then
+        entity.x = obstacleBox.x - hitboxOffsetX - entityBox.w
+        entity.vx = math.min(0, entity.vx or 0)
+        return true
+    end
+
+    -- Пришёл справа и упёрся в правую сторону obstacle.
+    if previousBox.x >= obstacleBox.x + obstacleBox.w then
+        entity.x = obstacleBox.x + obstacleBox.w - hitboxOffsetX
+        entity.vx = math.max(0, entity.vx or 0)
+        return true
+    end
+
+    -- Fallback: если уже оказались внутри, выталкиваем в ближайшую сторону.
+    local entityCenterX = entityBox.x + entityBox.w / 2
+    local obstacleCenterX = obstacleBox.x + obstacleBox.w / 2
+
+    if entityCenterX < obstacleCenterX then
+        entity.x = obstacleBox.x - hitboxOffsetX - entityBox.w
+        entity.vx = math.min(0, entity.vx or 0)
+    else
+        entity.x = obstacleBox.x + obstacleBox.w - hitboxOffsetX
+        entity.vx = math.max(0, entity.vx or 0)
+    end
+
+    return true
+end
+
+-- Не даёт entity проходить сквозь solid actor-ов.
+function World:resolveSolidActorCollisions(entity)
+    if not entity then
+        return false
+    end
+
+    local didResolve = false
+
+    for _, actor in ipairs(self.actors or {}) do
+        if actor.solid then
+            if self:resolveEntityAgainstSolidObstacle(entity, actor) then
+                didResolve = true
+            end
+        end
+    end
+
+    return didResolve
+end
+
+-- Не даёт solid actor-у пройти сквозь player.
+function World:resolveSolidActorAgainstPlayer(actor)
+    if not actor or not actor.solid then
+        return false
+    end
+
+    if not self.player or self.player.dead then
+        return false
+    end
+
+    return self:resolveEntityAgainstSolidObstacle(actor, self.player)
+end
+
 -- Проверяет попадания projectile по игроку и actor-ам.
 function World:resolveProjectileHits(projectile)
     if projectile.dead then
@@ -275,7 +373,8 @@ function World:updatePlayer(dt)
     self.player:update(dt)
 
     Physics.resolvePlatforms(self.level, self.player)
-    Physics.killPlayerBelowScreen(self.player, self.camera)
+	self:resolveSolidActorCollisions(self.player) --игрок не может пройти сквозь блокируюзих монстров
+--    Physics.killPlayerBelowScreen(self.player, self.camera)
 
     self:processEntityEvents(self.player)
 
@@ -292,6 +391,8 @@ function World:updateActors(dt)
         actor:update(dt, self)
 
         Physics.resolvePlatforms(self.level, actor)
+		self:resolveSolidActorCollisions(actor)
+		self:resolveSolidActorAgainstPlayer(actor)
 
         self:processEntityEvents(actor)
 

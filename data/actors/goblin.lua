@@ -10,6 +10,8 @@ return {
     gravity = 900,
     flying = false,
 
+--	solid = true,--блокирует всех
+	
     facing = -1,
 	flipSprite = true, --если не туда нарисовал спрайты то разворачиваю
 

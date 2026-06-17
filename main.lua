@@ -685,9 +685,6 @@ end
 function love.load()
     math.randomseed(os.time())
 
-    love.window.setTitle(Config.window.title)
-    love.window.setMode(Config.screen.width, Config.screen.height)
-
     Assets.init()
     Registry.loadAll()
     Input.init()

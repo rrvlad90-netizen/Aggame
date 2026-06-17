@@ -57,6 +57,8 @@ Config.input = {
 }
 
 Config.ui = {
+    fontPath = "assets/Roboto-Regular.ttf", --кириллица шрифт
+
     fontSize = 16,
     bigFontSize = 28,
 
