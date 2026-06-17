@@ -1,6 +1,7 @@
 local Assets = require("src.assets")
 local Collision = require("src.collision")
 local Targeting = require("src.targeting")
+local Utils = require("src.utils")
 local Debug = require("src.debug")
 
 local EventRunner = {}
@@ -186,6 +187,36 @@ function EventRunner.screenShake(world, event)
     end
 end
 
+
+-- Выполняет событие setTracking.
+-- Используется decor-ами, которые временно или навсегда перестают следить за игроком.
+function EventRunner.setTracking(owner, event)
+    if not owner or not owner.setTracking then
+        return
+    end
+
+    owner:setTracking(event.enabled == true)
+end
+
+-- Выполняет случайный переход в одну из указанных animation states.
+function EventRunner.randomState(owner, event)
+    if not owner or not owner.playAnimation then
+        return
+    end
+
+    local states = event.states
+        or event.animations
+        or event.options
+        or {}
+
+    local state = Utils.randomChoice(states)
+
+    if state then
+        owner:playAnimation(state, true)
+    end
+end
+
+
 -- Выполняет одно событие animation frame.
 function EventRunner.run(world, owner, event)
     if not event then
@@ -238,6 +269,17 @@ function EventRunner.run(world, owner, event)
         EventRunner.screenShake(world, event)
         return
     end
+	
+	if eventType == "setTracking" or eventType == "set_tracking" then
+		EventRunner.setTracking(owner, event)
+		return
+	end
+
+	if eventType == "randomState" or eventType == "random_state" then
+		EventRunner.randomState(owner, event)
+		return
+	end	
+	
 end
 
 -- Выполняет список событий.

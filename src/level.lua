@@ -181,9 +181,9 @@ function Level:update(dt, world)
         pickup:update(dt)
     end
 
-    for _, decor in ipairs(self.decors) do
-        decor:update(dt)
-    end
+	for _, decor in ipairs(self.decors) do
+		decor:update(dt, world)
+	end
 
     for _, effect in ipairs(self.effects) do
         effect:update(dt, world)

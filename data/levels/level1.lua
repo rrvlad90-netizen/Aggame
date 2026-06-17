@@ -141,9 +141,9 @@
             layer = "back"
         },
 		{
-            id = "torch",
+            id = "goblin_watcher",
             x = 390,
-            y = 485,
+            y = 445,
             layer = "back"
         },
 		

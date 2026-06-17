@@ -213,6 +213,21 @@ function World:processDecorEvents()
     end
 end
 
+-- Удаляет decor-объекты, которые завершили removeDecor-анимацию.
+function World:removeDeadDecors()
+    if not self.level then
+        return
+    end
+
+    for index = #self.level.decors, 1, -1 do
+        local decor = self.level.decors[index]
+
+        if decor.isRemovable and decor:isRemovable() then
+            table.remove(self.level.decors, index)
+        end
+    end
+end
+
 -- Разруливает горизонтальное столкновение entity с solid-объектом.
 -- Двигаем только entity, obstacle остаётся на месте.
 function World:resolveEntityAgainstSolidObstacle(entity, obstacle)
@@ -514,6 +529,7 @@ function World:update(dt)
 
     self.level:update(dt, self)
 	self:processDecorEvents()
+	self:removeDeadDecors()
 
     self:updatePlayer(dt)
     self:updateActors(dt)

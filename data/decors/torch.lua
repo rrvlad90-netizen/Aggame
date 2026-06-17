@@ -36,7 +36,7 @@ return {
                 {
                     frame = 1,
                     type = "playSound",
-                    sound = "assets/sounds/drop.wav"
+                    sound = "assets/sounds/drop11.wav"
                 }
             }
         }
