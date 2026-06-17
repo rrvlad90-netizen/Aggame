@@ -172,7 +172,7 @@ function UI.drawHud(player)
     UI.drawAmmo(player)
 end
 
--- Рисует HP bar actor-а над ним.
+-- Рисует HP bar actor-а над его физическим bbox.
 function UI.drawActorHealthBar(actor, camera)
     if not actor or not actor.showHealthBar then
         return
@@ -182,17 +182,25 @@ function UI.drawActorHealthBar(actor, camera)
         return
     end
 
+    if not actor.getHitbox then
+        return
+    end
+
+    local bbox = actor:getHitbox()
+
     local ratio = 0
 
     if actor.maxHealth > 0 then
         ratio = actor.health / actor.maxHealth
     end
 
+    ratio = math.max(0, math.min(1, ratio))
+
     local w = Config.ui.actorHealthBarWidth
     local h = Config.ui.actorHealthBarHeight
 
-    local x = actor.x - (camera and camera.x or 0) - w / 2
-    local y = actor.y - (camera and camera.y or 0) - actor.canvas.height - 8
+    local x = bbox.x + bbox.w / 2 - (camera and camera.x or 0) - w / 2
+    local y = bbox.y - (camera and camera.y or 0) - 8
 
     love.graphics.setColor(0.05, 0.05, 0.05, 0.9)
     love.graphics.rectangle("fill", x, y, w, h)

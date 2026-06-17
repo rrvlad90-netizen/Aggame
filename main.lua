@@ -34,6 +34,10 @@ local game = {
 	
 	playerLives = nil,
 	playerMaxLives = nil,
+	
+    levelEntryLevelId = nil,
+    levelEntryLives = nil,
+    restoreLevelEntryOnNextLevel = false,	
 
     loadingProgress = 0,
     pendingStart = nil
@@ -179,15 +183,54 @@ local function startPlayerSelect(flowItem)
     game.mode = "player_select"
 end
 
+
+-- Синхронизирует глобальные lives с текущим player-ом.
+local function syncPlayerLivesFromPlayer()
+    if game.player then
+        game.playerLives = game.player.lives
+    end
+end
+
+-- Запоминает lives, с которыми игрок вошёл на уровень.
+local function rememberLevelEntryState(levelId)
+    game.levelEntryLevelId = levelId
+    game.levelEntryLives = game.playerLives
+end
+
+-- Восстанавливает lives на состояние входа в этот уровень.
+local function restoreLevelEntryState(levelId)
+    if game.levelEntryLevelId ~= levelId then
+        return
+    end
+
+    if game.levelEntryLives == nil then
+        return
+    end
+
+    game.playerLives = game.levelEntryLives
+end
+
 -- Запускает уровень по id.
-local function startLevel(levelId)
+local function startLevel(levelId, options)
+    options = options or {}
+
+    if game.restoreLevelEntryOnNextLevel then
+        options.restoreEntryState = true
+        options.keepEntryState = true
+        game.restoreLevelEntryOnNextLevel = false
+    end
+
+    if options.restoreEntryState then
+        restoreLevelEntryState(levelId)
+    end
+
     stopWorld()
     stopScene()
     stopPlayerSelect()
 
     local levelDefinition = Registry.loadLevel(levelId)
 
-	game.currentLevelId = levelId
+    game.currentLevelId = levelId
     game.level = Level:new(levelDefinition)
 
     game.player = createSelectedPlayer(
@@ -196,6 +239,12 @@ local function startLevel(levelId)
     )
 
     game.world = World:new(game.level, game.player)
+
+    syncPlayerLivesFromPlayer()
+
+    if not options.keepEntryState then
+        rememberLevelEntryState(levelId)
+    end
 
     saveCurrentProgress()
 
@@ -327,30 +376,40 @@ end
 -- Начинает новую игру.
 local function startNewGame()
     Save.startNewGame()
-	
-	--сброс жизней
-	game.playerLives = nil 
+
+    game.playerLives = nil
     game.playerMaxLives = nil
-	
+
+    game.levelEntryLevelId = nil
+    game.levelEntryLives = nil
+    game.restoreLevelEntryOnNextLevel = false
+
     startFlow(1)
 end
 
 -- Продолжает игру из save.
 local function continueGame()
+    game.restoreLevelEntryOnNextLevel = true
     startFlow(Save.getFlowIndex())
 end
 
 -- Перезапускает текущий уровень.
 local function restartCurrentLevel()
-    if game.currentLevelId then
-        startLevel(game.currentLevelId)
-        return
+    local levelId = game.currentLevelId
+
+    if not levelId then
+        local item = getCurrentFlowItem()
+
+        if item and item.type == "level" then
+            levelId = item.id
+        end
     end
 
-    local item = getCurrentFlowItem()
-
-    if item and item.type == "level" then
-        startLevel(item.id)
+    if levelId then
+        startLevel(levelId, {
+            restoreEntryState = true,
+            keepEntryState = true
+        })
     else
         game.mode = "main_menu"
     end
@@ -625,6 +684,12 @@ local function handlePlayerDeath()
         game.player.lives = lives
     end
 
+    rememberLevelEntryState(game.currentLevelId)	
+
+    if game.player then
+        game.player.lives = lives
+    end
+
     if lives <= 0 then
         startGameOver()
         return
@@ -644,6 +709,16 @@ local function updateLevel(dt)
     updatePlayerInput()
 
     game.world:update(dt)
+
+----------Оставляем синхронизацию, чтобы pickup жизни сохранялся при прохождении уровня:	
+	syncPlayerLivesFromPlayer()
+	
+--Это важно: иначе pickup увеличит player.lives, 
+--но глобальный game.playerLives останется старым, 
+--и после смерти логика может потерять добавленную жизнь.	
+	if game.player then
+        game.playerLives = game.player.lives
+    end	
 
 	if game.world.result == "transition" then
         startTransitionTarget(game.world.nextTarget)

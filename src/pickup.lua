@@ -50,6 +50,10 @@ function Pickup:new(config)
     pickup.ammoAmount = config.ammoAmount
         or config.ammo_amount
         or 0
+		
+	pickup.lifeAmount = config.lifeAmount
+        or config.life_amount
+        or 0	
 
     pickup.vx = config.vx or config.speedX or config.speed_x or 0
     pickup.vy = config.vy or config.speedY or config.speed_y or 0
@@ -108,6 +112,14 @@ function Pickup:applyToPlayer(player)
             return true
         end
     end
+	
+	if self.kind == "life" and self.lifeAmount > 0 then
+        if player.addLife and player:addLife(self.lifeAmount) then
+            self.collected = true
+            self.dead = true
+            return true
+        end
+    end	
 
     return false
 end

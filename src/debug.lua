@@ -238,19 +238,36 @@ function Debug.drawRecordedHitboxes(camera)
     love.graphics.setColor(1, 1, 1, 1)
 end
 
--- Рисует origin entity: игровую anchor-точку x/y.
--- Для игрока и actor-ов это обычно низ сущности по центру.
+-- Рисует центр ног entity.
+-- Для actor/player берём нижний центр физического bbox.
+-- Если bbox нет, fallback — anchor-точка x/y.
 function Debug.drawOrigin(entity, camera)
     if not Config.debug.drawOrigins then
         return
     end
 
-    if not entity or not entity.x or not entity.y then
+    if not entity then
         return
     end
 
-    local screenX = Debug.toScreenX(entity.x, camera)
-    local screenY = Debug.toScreenY(entity.y, camera)
+    local x = entity.x
+    local y = entity.y
+
+    if entity.getHitbox then
+        local bbox = entity:getHitbox()
+
+        if bbox and bbox.w > 0 and bbox.h > 0 then
+            x = bbox.x + bbox.w / 2
+            y = bbox.y + bbox.h
+        end
+    end
+
+    if not x or not y then
+        return
+    end
+
+    local screenX = Debug.toScreenX(x, camera)
+    local screenY = Debug.toScreenY(y, camera)
 
     love.graphics.setColor(COLORS.origin)
     love.graphics.circle("fill", screenX, screenY, 4)

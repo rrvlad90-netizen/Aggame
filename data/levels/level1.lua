@@ -94,7 +94,14 @@
             x = 920,
             y = 555,
             appearDistance = 600
+        },
+        {
+		    id = "bat_bomber",
+            x = 1320,
+            y = 425,
+            appearDistance = 600
         }
+		
     },
 
     platforms = {
@@ -130,7 +137,12 @@
             id = "ammo_small",
             x = 720,
             y = 555
-        }
+        },
+		{
+			id = "life_small",
+			x = 500,
+			y = 300
+		}
     },
 
     decors = {

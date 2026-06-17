@@ -39,7 +39,7 @@ return {
 
     offset = {
         x = 32,
-        y = 80
+        y = -60
     },
 
     bbox = {
@@ -73,8 +73,8 @@ return {
             loop = true,
             frameDuration = 0.16,
             frames = {
-                "assets/goblin/walk_1.png",
-                "assets/goblin/walk_1.png"
+                "assets/enemies/goblin/walk_1.png",
+                "assets/enemies/goblin/walk_1.png"
             }
         },
 
@@ -82,8 +82,8 @@ return {
             loop = true,
             frameDuration = 0.12,
             frames = {
-                "assets/goblin/walk_1.png",
-                "assets/goblin/walk_2.png"
+                "assets/enemies/goblin/walk_1.png",
+                "assets/enemies/goblin/walk_2.png"
             }
         },
 
@@ -92,8 +92,8 @@ return {
             lockInput = true,
             frameDuration = 0.1,
             frames = {
-                "assets/goblin/walk_1.png",
-                "assets/goblin/attack_1.png"
+                "assets/enemies/goblin/walk_1.png",
+                "assets/enemies/goblin/attack_1.png"
             },
             events = {
                 {
@@ -116,8 +116,8 @@ return {
 					frameDuration = 0.08,
 				
 					frames = {
-						"assets/goblin/turn_1.png",
-						"assets/goblin/turn_2.png"
+						"assets/enemies/goblin/turn_1.png",
+						"assets/enemies/goblin/turn_2.png"
 					}
 			},
 		
@@ -127,8 +127,8 @@ return {
             lockInput = true,
             frameDuration = 0.1,
             frames = {
-                "assets/goblin/walk_1.png",
-                "assets/goblin/walk_1.png"
+                "assets/enemies/goblin/walk_1.png",
+                "assets/enemies/goblin/walk_1.png"
             }
         },
 
@@ -143,8 +143,8 @@ return {
 			
             frameDuration = 0.14,
             frames = {
-                "assets/goblin/heavydeath_1.png",
-                "assets/goblin/heavydeath_2.png"
+                "assets/enemies/goblin/heavydeath_1.png",
+                "assets/enemies/goblin/heavydeath_2.png"
             },
             events = {
                 {
@@ -164,15 +164,15 @@ return {
 			
             frameDuration = 0.44,
             frames = {
-                "assets/goblin/death_1.png",
-                "assets/goblin/death_2.png"
+                "assets/enemies/goblin/death_1.png",
+                "assets/enemies/goblin/death_2.png"
             },
             events = {
                 {
                     frame = 1,
                     type = "playSound",
                     sound = "assets/sounds/hit2.wav"
-                }
+                },
             }
         }
     }

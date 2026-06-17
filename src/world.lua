@@ -520,9 +520,9 @@ function World:update(dt)
         return
     end
 
-    for _, actor in ipairs(self.level:spawnPendingActors(self.player)) do
-        table.insert(self.actors, actor)
-    end
+	for _, actor in ipairs(self.level:spawnPendingActors(self.player, self.camera)) do
+		table.insert(self.actors, actor)
+	end
 
     self.level:update(dt, self)
 	self:removeDeadDecors()

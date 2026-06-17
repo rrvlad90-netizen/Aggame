@@ -325,6 +325,21 @@ function Actor:playAnimation(name, force)
     return true
 end
 
+-- Выбирает случайную существующую анимацию из списка.
+-- Если в списке одна подходящая анимация, вернётся она.
+function Actor:chooseAnimationFromGroup(names, fallback)
+    local available = self:getExistingAnimations(names)
+
+    if #available > 0 then
+        return Utils.randomChoice(available)
+    end
+
+    if fallback and self.animationSet:has(fallback) then
+        return fallback
+    end
+
+    return nil
+end
 
 -- Запускает случайную существующую анимацию из animationGroups.
 function Actor:playAnimationGroup(groupName, fallback, force)
@@ -343,30 +358,11 @@ function Actor:playAnimationGroup(groupName, fallback, force)
     return self:playAnimation(animationName, force)
 end
 
-
----------------------
--- Выбирает случайную существующую анимацию из группы.
--- Если в группе одна анимация, вернётся она.
-function Actor:chooseAnimationFromGroup(names, fallback)
-    local available = self:getExistingAnimations(names)
-
-    if #available > 0 then
-        return Utils.randomChoice(available)
-    end
-
-    if fallback and self.animationSet:has(fallback) then
-        return fallback
-    end
-
-    return nil
-end
------------------------------
-
-
 -- Запускает случайную spawn-анимацию actor-а.
--- Если spawn01/02/03 нет, запускает idle.
+-- Можно задать animationGroups.spawn, иначе ищет spawn01/spawn02/spawn03.
 function Actor:playSpawnAnimation()
     local animationName = self:chooseAnimationFromGroup({
+        "spawn",
         "spawn01",
         "spawn02",
         "spawn03"
@@ -444,6 +440,14 @@ end
 -- Обновляет AI actor-а.
 function Actor:updateAi(dt, world)
     if self.dead then
+        return
+    end
+
+    -- Обычные наземные actor-ы не должны начинать chase/attack,
+    -- пока физика не поставила их на платформу.
+    -- Это убирает смещение центра ног у заспавненных/offscreen монстров.
+    if not self.flying and not self.onGround then
+        self.vx = 0
         return
     end
 

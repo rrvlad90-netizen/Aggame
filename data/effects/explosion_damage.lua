@@ -1,10 +1,15 @@
 return {
-    id = "explosion",
+    id = "explosion_damage",
 
-    damage = 0,
-    deathType = "normal",
+    damage = 1,
+    deathType = "heavy",
 
-    damageTargets = {},
+    damageTargets = {
+        player = true,
+        npc = true
+    },
+
+    damageOnce = true,
 
     hidden = false,
 
@@ -15,21 +20,32 @@ return {
 
     offset = {
         x = 0,
-        y = 60
+        y = 150
     },
-	
+
+    hitbox = {
+        x = 0,
+        y = 0,
+        w = 64,
+        h = 64
+    },
+
     alpha = 0.75,
 
     animations = {
         idle = {
             loop = false,
             frameDuration = 0.08,
+
+            fireFirstFrameEvents = true,
+
             frames = {
                 "assets/effects/explosion_1.png",
                 "assets/effects/explosion_2.png",
                 "assets/effects/explosion_3.png",
                 "assets/effects/explosion_4.png"
             },
+
             events = {
                 {
                     frame = 1,

@@ -82,7 +82,7 @@ return {
                     type = "createEntity",
                     id = "goblin",
                     x = 80,
-                    y = 0
+                    y = -290
                 },
                 {
                     frame = 14,

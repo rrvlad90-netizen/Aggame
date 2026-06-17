@@ -2,8 +2,9 @@ local Config = require("src.config")
 
 local Physics = {}
 
--- Приземляет entity на указанную линию ног.
--- Для Player/Actor предпочтительно вызывает landOn, чтобы сбросить vy, onGround и jumpCount.
+-- Приземляет entity на указанную позицию.
+-- Для Player вызывает landOn, чтобы сбросить vy, onGround и jumpCount.
+-- Для Actor делает то же самое вручную.
 local function landEntity(entity, groundY)
     if entity.landOn then
         entity:landOn(groundY)
@@ -25,7 +26,6 @@ local function getPreviousBottom(entity, currentBottom)
 
     return currentBottom - deltaY
 end
-
 
 -- Не даёт entity выйти за горизонтальные границы уровня.
 local function clampEntityToLevelBounds(level, entity)
@@ -53,19 +53,32 @@ local function clampEntityToLevelBounds(level, entity)
     return didClamp
 end
 
--- Возвращает true, если entity пересекла верх платформы сверху вниз.
+-- Возвращает true, если entity должна приземлиться на верх платформы.
+-- Проверяем и bbox bottom, и линию ног entity.y.
 local function crossedPlatformTop(entity, currentBottom, platformTop)
     local previousBottom = getPreviousBottom(entity, currentBottom)
-    local landingToleranceTop = 8
+    local previousY = entity.previousY or entity.y
 
-    return previousBottom <= platformTop + landingToleranceTop
+    local landingToleranceTop = 8
+    local landingToleranceBottom = 32
+
+    local crossedByBottom = previousBottom <= platformTop + landingToleranceTop
         and currentBottom >= platformTop - landingToleranceTop
+
+    local crossedByFeet = previousY <= platformTop + landingToleranceTop
+        and entity.y >= platformTop - landingToleranceTop
+
+    local closeToPlatformTop = currentBottom >= platformTop - landingToleranceTop
+        and currentBottom <= platformTop + landingToleranceBottom
+
+    return (crossedByBottom or crossedByFeet or closeToPlatformTop)
         and (entity.vy or 0) >= 0
 end
 
 -- Обрабатывает столкновение entity с платформами уровня.
--- Платформа остаётся единственным источником "земли" для игрока и actor-ов.
--- solid/blocking-платформы дополнительно блокируют боковые границы.
+-- Платформа остаётся единственным источником "земли" для player и actor-ов.
+-- ground не используется.
+-- solid-платформы дополнительно блокируют боковые границы.
 function Physics.resolvePlatforms(level, entity)
     if not level or not entity or not entity.getHitbox then
         return false
@@ -103,7 +116,6 @@ function Physics.resolvePlatforms(level, entity)
 
         if overlapsX and crossedPlatformTop(entity, currentBottom, platformTop) then
             local correctedY = entity.y - (currentBottom - platformTop)
-
             landEntity(entity, correctedY)
 
             if platform.deltaX then
@@ -157,17 +169,17 @@ function Physics.resolvePlatforms(level, entity)
         end
     end
 
-	local didClamp = clampEntityToLevelBounds(level, entity)
+    local didClamp = clampEntityToLevelBounds(level, entity)
 
-	if not didLand then
-		entity.onGround = false
-	end
+    if not didLand then
+        entity.onGround = false
+    end
 
-	return didLand or didBlock or didClamp
+    return didLand or didBlock or didClamp
 end
 
 -- Убивает игрока, если его bbox полностью ушёл ниже нижней границы экрана.
--- Это заменяет старую "землю": под платформами теперь яма.
+-- Под платформами теперь яма: ground не используется.
 function Physics.killPlayerBelowScreen(player, camera)
     if not player or player.dead then
         return false

@@ -1,4 +1,5 @@
 local EntityFactory = require("src.entity_factory")
+local Config = require("src.config")
 local Render = require("src.render")
 
 local Level = {}
@@ -125,8 +126,25 @@ function Level:createStaticObjects(config)
     end
 end
 
+-- Возвращает true, если pending actor уже попадает в активную область камеры.
+function Level:shouldSpawnActorInCamera(actorConfig, camera)
+    if not camera then
+        return true
+    end
+
+    local spawnMargin = actorConfig.spawnMargin
+        or actorConfig.spawn_margin
+        or 64
+
+    local screenWidth = Config.screen and Config.screen.width or 800
+    local left = camera.x - spawnMargin
+    local right = camera.x + screenWidth + spawnMargin
+
+    return actorConfig.x >= left and actorConfig.x <= right
+end
+
 -- Возвращает true, если pending actor должен появиться рядом с игроком.
-function Level:shouldSpawnActor(actorConfig, player)
+function Level:shouldSpawnActor(actorConfig, player, camera)
     if not player then
         return false
     end
@@ -135,18 +153,22 @@ function Level:shouldSpawnActor(actorConfig, player)
         or actorConfig.appear_distance
         or 0
 
-    return math.abs(actorConfig.x - player.x) <= appearDistance
+    if math.abs(actorConfig.x - player.x) > appearDistance then
+        return false
+    end
+
+    return self:shouldSpawnActorInCamera(actorConfig, camera)
 end
 
 -- Создаёт actor-ов, до которых игрок приблизился.
 -- Возвращает список созданных actor-ов.
-function Level:spawnPendingActors(player)
+function Level:spawnPendingActors(player, camera)
     local spawnedActors = {}
 
     for index = #self.pendingActors, 1, -1 do
         local actorConfig = self.pendingActors[index]
 
-        if self:shouldSpawnActor(actorConfig, player) then
+        if self:shouldSpawnActor(actorConfig, player, camera) then
             local actor = EntityFactory.createActor(
                 actorConfig.id,
                 actorConfig.x,

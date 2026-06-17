@@ -438,6 +438,23 @@ function Player:addAmmo(ammoType, amount)
     return true
 end
 
+-- Добавляет игроку жизни.
+function Player:addLife(amount)
+    if self.dead then
+        return false
+    end
+
+    amount = amount or 1
+
+    if amount <= 0 then
+        return false
+    end
+
+    self.lives = (self.lives or 0) + amount
+
+    return true
+end
+
 -- Лечит игрока на указанное количество здоровья.
 function Player:heal(amount)
     if self.dead then

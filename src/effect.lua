@@ -88,6 +88,14 @@ function Effect:new(config)
 
     effect.impactEffect = config.impactEffect
         or config.impact_effect
+		
+	effect.impactOffsetX = config.impactOffsetX
+        or config.impact_offset_x
+        or 0
+
+    effect.impactOffsetY = config.impactOffsetY
+        or config.impact_offset_y
+        or 0		
 
     effect.dead = false
     effect.effectSpawnRequests = {}
@@ -157,16 +165,24 @@ function Effect:createImpactEffect()
         return
     end
 
+    local impactX = self.x + self.impactOffsetX
+    local impactY = self.y + self.impactOffsetY
+
     local request = {
         id = self.impactEffect,
-        x = self.x,
-        y = self.y
+        x = impactX,
+        y = impactY
     }
 
     if type(self.impactEffect) == "table" then
-        request = self.impactEffect
-        request.x = request.x or self.x
-        request.y = request.y or self.y
+        request = {}
+
+        for key, value in pairs(self.impactEffect) do
+            request[key] = value
+        end
+
+        request.x = (request.x or self.x) + self.impactOffsetX
+        request.y = (request.y or self.y) + self.impactOffsetY
     end
 
     table.insert(self.effectSpawnRequests, request)
