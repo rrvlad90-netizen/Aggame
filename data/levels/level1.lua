@@ -143,8 +143,8 @@
 		{
             id = "goblin_watcher",
             x = 390,
-            y = 445,
-            layer = "back"
+            y = 465,
+            layer = "middle"
         },
 		
     },

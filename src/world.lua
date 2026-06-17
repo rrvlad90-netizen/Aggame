@@ -208,9 +208,11 @@ function World:processDecorEvents()
         return
     end
 
-    for _, decor in ipairs(self.level.decors or {}) do
-        self:processEntityEvents(decor)
-    end
+	for _, decor in ipairs(self.level.decors or {}) do
+		if decor.layer == "front" then
+			decor:draw(self.camera)
+		end
+	end
 end
 
 -- Удаляет decor-объекты, которые завершили removeDecor-анимацию.
@@ -578,15 +580,21 @@ end
 function World:draw()
     self:drawBackgrounds()
 
-    for _, decor in ipairs(self.level.decors or {}) do
-        if decor.layer ~= "front" then
-            decor:draw(self.camera)
-        end
-    end
+	for _, decor in ipairs(self.level.decors or {}) do
+		if decor.layer == "back" or decor.layer == nil then
+			decor:draw(self.camera)
+		end
+	end
 
     for _, platform in ipairs(self.level.platforms or {}) do
         platform:draw(self.camera)
     end
+	
+	for _, decor in ipairs(self.level.decors or {}) do
+		if decor.layer == "middle" then
+			decor:draw(self.camera)
+		end
+	end
 
     for _, pickup in ipairs(self.pickups) do
         pickup:draw(self.camera)

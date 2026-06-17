@@ -1,12 +1,13 @@
 local Assets = require("src.assets")
 local AnimationSet = require("src.animation_set")
+local EventRunner = require("src.event_runner")
 
 local Decor = {}
 Decor.__index = Decor
 
--- Создаёт decor из definition.
--- Decor — это визуальный объект без боевой логики:
--- камни, деревья, кусты, фоновые объекты.
+-- РЎРѕР·РґР°С‘С‚ decor РёР· definition.
+-- Decor СЌС‚Рѕ РІРёР·СѓР°Р»СЊРЅС‹Р№ РѕР±СЉРµРєС‚ Р±РµР· Р±РѕРµРІРѕР№ Р»РѕРіРёРєРё:
+-- РєР°РјРЅРё, РґРµСЂРµРІСЊСЏ, РєСѓСЃС‚С‹, С„РѕРЅРѕРІС‹Рµ РѕР±СЉРµРєС‚С‹.
 function Decor:new(config)
     config = config or {}
 
@@ -32,23 +33,49 @@ function Decor:new(config)
     decor.alpha = config.alpha or 1
     decor.color = config.color or {0.5, 0.5, 0.5}
 
-    -- layer = "back" рисуется за gameplay.
-    -- layer = "front" рисуется поверх gameplay.
     decor.layer = config.layer or "back"
 
     decor.vx = config.vx or config.speedX or config.speed_x or 0
     decor.vy = config.vy or config.speedY or config.speed_y or 0
 
     decor.dead = false
+    decor.entitySpawnRequests = {}
 
-	decor.entitySpawnRequests = {} --длЯ звуков
+    decor.trackPlayer = config.trackPlayer == true
+        or config.track_player == true
+		
+	decor.trackAfterSpawn = config.trackAfterSpawn == true
+		or config.track_after_spawn == true	
+
+    decor.trackingEnabled = decor.trackPlayer
+
+    decor.spawnAnimation = config.spawnAnimation
+        or config.spawn_animation
+        or "spawn"
+
+    decor.spawnFinished = true
+
+    decor.removeDecorAnimation = config.removeDecorAnimation
+        or config.remove_decor_animation
+        or "removeDecor"
+
+    decor.leftAnimation = config.leftAnimation
+        or config.left_animation
+        or "idleleft"
+
+    decor.centerAnimation = config.centerAnimation
+        or config.center_animation
+        or "idle"
+
+    decor.rightAnimation = config.rightAnimation
+        or config.right_animation
+        or "idleright"
+
+    decor.centerRange = config.centerRange
+        or config.center_range
+        or 80
+
     decor.animationSet = nil
-	
-	if decor.animationSet and decor.animationSet:has(decor.spawnAnimation) then
-		decor.animationSet:set(decor.spawnAnimation, true)
-		decor.spawnFinished = false
-		decor.trackingEnabled = false
-	end
 
     if config.animations then
         decor.animationSet = AnimationSet:new({
@@ -57,45 +84,17 @@ function Decor:new(config)
         })
     end
 
---поведение если игрок слева от декора то анимациЯ - ildleft
---по центру - проcто idle
---справа - idleright. 
---можно сделать что бы следил за игроком на заднем плане
-	decor.trackPlayer = config.trackPlayer == true
-		or config.track_player == true
-		
-	decor.trackingEnabled = decor.trackPlayer	
-		
-	decor.spawnAnimation = config.spawnAnimation
-		or config.spawn_animation
-		or "spawn"
-
-	decor.spawnFinished = true
-
-	decor.removeDecorAnimation = config.removeDecorAnimation
-		or config.remove_decor_animation
-		or "removeDecor"
-
-	decor.leftAnimation = config.leftAnimation
-		or config.left_animation
-		or "idleleft"
-
-	decor.centerAnimation = config.centerAnimation
-		or config.center_animation
-		or "idle"
-
-	decor.rightAnimation = config.rightAnimation
-		or config.right_animation
-		or "idleright"
-
-	decor.centerRange = config.centerRange
-		or config.center_range
-		or 80
+    -- Р•СЃР»Рё Сѓ decor-Р° РµСЃС‚СЊ spawn-Р°РЅРёРјР°С†РёСЏ, РІСЃРµРіРґР° СЃС‚Р°СЂС‚СѓРµРј СЃ РЅРµС‘ РѕРґРёРЅ СЂР°Р·.
+    -- Tracking РІРєР»СЋС‡Р°РµС‚СЃСЏ РѕС‚РґРµР»СЊРЅРѕ: РіР»РѕР±Р°Р»СЊРЅРѕ С‡РµСЂРµР· trackPlayer РёР»Рё event-РѕРј setTracking.
+    if decor.animationSet and decor.animationSet:has(decor.spawnAnimation) then
+        decor.animationSet:set(decor.spawnAnimation, true)
+        decor.spawnFinished = false
+    end
 
     return decor
 end
 
--- ЋбновлЯет decor: движение, spawn, tracking игрока и animation events.
+-- РћР±РЅРѕРІР»СЏРµС‚ decor: РґРІРёР¶РµРЅРёРµ, spawn, tracking РёРіСЂРѕРєР° Рё animation events.
 function Decor:update(dt, world)
     self.x = self.x + self.vx * dt
     self.y = self.y + self.vy * dt
@@ -106,16 +105,16 @@ function Decor:update(dt, world)
     if self.animationSet then
         local events = self.animationSet:update(dt)
 
-        for _, event in ipairs(events) do
-            table.insert(self.entitySpawnRequests, event)
-        end
+        -- Decor РІС‹РїРѕР»РЅСЏРµС‚ СЃРІРѕРё animation events СЃСЂР°Р·Сѓ.
+        -- РўР°Рє createEntity, setTracking, randomState Рё playSound РЅРµ Р·Р°РІРёСЃСЏС‚ РѕС‚ World:processDecorEvents.
+        EventRunner.runAll(world, self, events)
     end
 
     self:updateRemoveDecorAnimation()
 end
 
--- ‚озвращает и очищает событиЯ анимации decor-а.
--- World потом выполнит их через EventRunner.
+-- Р’РѕР·РІСЂР°С‰Р°РµС‚ Рё РѕС‡РёС‰Р°РµС‚ СЃРѕР±С‹С‚РёСЏ Р°РЅРёРјР°С†РёРё decor-Р°.
+-- World РїРѕС‚РѕРј РІС‹РїРѕР»РЅРёС‚ РёС… С‡РµСЂРµР· EventRunner.
 function Decor:consumeEntitySpawnRequests()
     local requests = self.entitySpawnRequests
 
@@ -124,7 +123,7 @@ function Decor:consumeEntitySpawnRequests()
     return requests
 end
 
--- ђисует decor.
+-- Р РёСЃСѓРµС‚ decor.
 function Decor:draw(camera)
     local screenX = self.x - (camera and camera.x or 0)
     local screenY = self.y - (camera and camera.y or 0)
@@ -181,23 +180,20 @@ function Decor:draw(camera)
     love.graphics.setColor(1, 1, 1)
 end
 
--- ‚озвращает true, если decor можно удалить.
+-- Р’РѕР·РІСЂР°С‰Р°РµС‚ true, РµСЃР»Рё decor РјРѕР¶РЅРѕ СѓРґР°Р»РёС‚СЊ.
 function Decor:isRemovable()
     return self.dead
 end
 
-
-
-
--- ‚ключает или выключает tracking игрока.
--- €спользуетсЯ animation event-ом setTracking.
+-- Р’РєР»СЋС‡Р°РµС‚ РёР»Рё РІС‹РєР»СЋС‡Р°РµС‚ tracking РёРіСЂРѕРєР°.
+-- РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ animation event-РѕРј setTracking.
 function Decor:setTracking(enabled)
     self.trackPlayer = enabled == true
     self.trackingEnabled = enabled == true
 end
 
--- ‡апускает animation decor-а по имени.
--- Ќужен длЯ animation event type = "setState".
+-- Р—Р°РїСѓСЃРєР°РµС‚ animation decor-Р° РїРѕ РёРјРµРЅРё.
+-- РќСѓР¶РµРЅ РґР»СЏ animation event type = "setState".
 function Decor:playAnimation(name, force)
     if not self.animationSet then
         return
@@ -206,8 +202,8 @@ function Decor:playAnimation(name, force)
     self.animationSet:set(name, force)
 end
 
--- ЋбновлЯет состоЯние стартовой spawn-анимации.
--- Џока spawn не закончилась, tracking игрока не работает.
+-- РћР±РЅРѕРІР»СЏРµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ СЃС‚Р°СЂС‚РѕРІРѕР№ spawn-Р°РЅРёРјР°С†РёРё.
+-- РљРѕРіРґР° spawn Р·Р°РєРѕРЅС‡РёР»Р°СЃСЊ, РјРѕР¶РµС‚ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РІРєР»СЋС‡РёС‚СЊ tracking.
 function Decor:updateSpawnAnimation()
     if self.spawnFinished then
         return
@@ -215,24 +211,25 @@ function Decor:updateSpawnAnimation()
 
     if not self.animationSet then
         self.spawnFinished = true
-        self.trackingEnabled = self.trackPlayer
         return
     end
 
     if self.animationSet:getCurrentName() ~= self.spawnAnimation then
         self.spawnFinished = true
-        self.trackingEnabled = self.trackPlayer
         return
     end
 
     if self.animationSet:isCurrentFinished() then
         self.spawnFinished = true
-        self.trackingEnabled = self.trackPlayer
+
+        if self.trackAfterSpawn then
+            self:setTracking(true)
+        end
     end
 end
 
--- ЏроверЯет, закончилась ли removeDecor-анимациЯ.
--- …сли закончилась С decor помечаетсЯ на удаление.
+-- РџСЂРѕРІРµСЂСЏРµС‚, Р·Р°РєРѕРЅС‡РёР»Р°СЃСЊ Р»Рё removeDecor-Р°РЅРёРјР°С†РёСЏ.
+-- Р•СЃР»Рё Р·Р°РєРѕРЅС‡РёР»Р°СЃСЊ вЂ” decor РїРѕРјРµС‡Р°РµС‚СЃСЏ РЅР° СѓРґР°Р»РµРЅРёРµ.
 function Decor:updateRemoveDecorAnimation()
     if not self.animationSet then
         return
@@ -247,27 +244,28 @@ function Decor:updateRemoveDecorAnimation()
     end
 end
 
+-- Р’С‹Р±РёСЂР°РµС‚ Р°РЅРёРјР°С†РёСЋ decor-Р° РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РїРѕР·РёС†РёРё РёРіСЂРѕРєР°.
+-- Tracking РЅРµ РїРµСЂРµР±РёРІР°РµС‚ spawn/removeDecor Рё СЂР°Р±РѕС‚Р°РµС‚ С‚РѕР»СЊРєРѕ РєРѕРіРґР° РІРєР»СЋС‡С‘РЅ.
+function Decor:updatePlayerTracking(world)
+    if not self.trackPlayer or not self.trackingEnabled then
+        return
+    end
 
-
-
--- ‡апускает animation decor-а по имени.
--- Ќужен длЯ animation event type = "setState".
-function Decor:playAnimation(name, force)
     if not self.animationSet then
         return
     end
 
-    self.animationSet:set(name, force)
-end
+    local currentAnimation = self.animationSet:getCurrentName()
 
--- ‚ыбирает анимацию decor-а в зависимости от позиции игрока.
--- €спользуетсЯ длЯ фоновых объектов, которые "следЯт" за игроком.
-function Decor:updatePlayerTracking(world)
-	if not self.trackPlayer or not self.trackingEnabled then
-		return
-	end
+    -- РџРѕРєР° spawn РЅРµ Р·Р°РєРѕРЅС‡РёР»СЃСЏ, tracking РЅРµ РёРјРµРµС‚ РїСЂР°РІР° СЃР±РёРІР°С‚СЊ РµРіРѕ.
+    if currentAnimation == self.spawnAnimation
+        and not self.animationSet:isCurrentFinished()
+    then
+        return
+    end
 
-    if not self.animationSet then
+    -- removeDecor С‚РѕР¶Рµ РЅРµР»СЊР·СЏ РїРµСЂРµР±РёРІР°С‚СЊ tracking-РѕРј.
+    if currentAnimation == self.removeDecorAnimation then
         return
     end
 
