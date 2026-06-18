@@ -25,13 +25,15 @@ function Actor:new(config)
         or actor.entityType
 		
 -----Параметры удаление актора за экраном		
-	actor.despawnOffscreen = config.despawnOffscreen ~= false
-        and config.despawn_offscreen ~= false
+	actor.despawnOffscreen = config.despawnOffscreen
+		if actor.despawnOffscreen == nil then
+			actor.despawnOffscreen = config.despawn_offscreen
+		end
 
     actor.despawnDistance = config.despawnDistance
         or config.despawn_distance
 
-    actor.wasOnScreen = false		
+    actor.wasOnScreen = false
 ------------------
 
     actor.x = config.x or 0
@@ -165,6 +167,11 @@ actor.solid = config.solid == true
     actor.movementMode = config.movementMode
         or config.movement_mode
         or "chase"  --охота, идет на игрока
+			
+----удаление с экрана раннра автоматически		
+	if actor.despawnOffscreen == nil then
+        actor.despawnOffscreen = actor.movementMode == "runner"
+    end			
 		
 	if config.runnerMode == true--раннер, бежит и атакует
 			or config.runner_mode == true

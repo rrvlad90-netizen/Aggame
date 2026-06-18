@@ -486,7 +486,9 @@ function World:shouldDespawnActorOffscreen(actor)
         return false
     end
 
-    if actor.despawnOffscreen == false then
+    -- Важно: удаление за экраном работает ТОЛЬКО если явно true.
+    -- nil/false = не удалять.
+    if actor.despawnOffscreen ~= true then
         return false
     end
 

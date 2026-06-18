@@ -80,3 +80,23 @@ despawnDistance = 700
 lua
 despawnOffscreen = false
 Для runner-врагов можно вообще ничего не писать — они будут удаляться по дефолту, когда сначала побывали на экране, а потом ушли далеко за него.
+
+
+movementMode = "runner"
+автоматически удаляется за экраном.
+
+А обычный враг:
+
+lua
+movementMode = "chase"
+сам не исчезает.
+
+Если хочешь включить вручную:
+
+lua
+despawnOffscreen = true,
+despawnDistance = 700
+Если хочешь точно запретить:
+
+lua
+despawnOffscreen = false
