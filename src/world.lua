@@ -360,6 +360,7 @@ function World:resolveProjectileHits(projectile)
                 and Targeting.canDamage(damageInfo.damageTargets, actor)
                 and Collision.intersects(hitbox, actor:getHitbox())
             then
+		
                 actor:takeDamage(damageInfo)
                 projectile:hit()
                 return
@@ -440,6 +441,44 @@ function World:resolveEffectDamage(effect)
     end
 end
 
+
+-- Возвращает actor-а, который стал причиной смерти игрока.
+-- Для projectile берём owner, для melee/contact — source или owner.
+function World:getPlayerDeathActor()
+    if not self.player or not self.player.lastDamageInfo then
+        return nil
+    end
+
+    local damageInfo = self.player.lastDamageInfo
+    local owner = damageInfo.owner
+    local source = damageInfo.source
+
+    if owner and owner.sceneIfPlayerDieByActor then
+        return owner
+    end
+
+    if source and source.sceneIfPlayerDieByActor then
+        return source
+    end
+
+    if source and source.owner and source.owner.sceneIfPlayerDieByActor then
+        return source.owner
+    end
+
+    return nil
+end
+
+-- Возвращает scene, которую нужно запустить после смерти игрока от actor-а.
+function World:getPlayerDeathScene()
+    local actor = self:getPlayerDeathActor()
+
+    if actor then
+        return actor.sceneIfPlayerDieByActor
+    end
+
+    return nil
+end
+
 -- Обновляет игрока, применяет платформенную физику и проверяет падение в яму.
 function World:updatePlayer(dt)
     if not self.player then
@@ -455,64 +494,124 @@ function World:updatePlayer(dt)
     self:processEntityEvents(self.player)
 
 	if self.player.deathFinished then
-		self.result = "player_dead"
-	end
+			local deathScene = self:getPlayerDeathScene()
+
+			if deathScene then
+				self.nextTarget = {
+					type = "scene",
+					id = deathScene
+				}
+				self.result = "transition"
+			else
+				self.result = "player_dead"
+			end
+		end
 end
 
--- Возвращает screen rect в world-координатах с дополнительным margin.
-function World:getCameraWorldRect(margin)
-    margin = margin or 0
 
-    return {
-        x = self.camera.x - margin,
-        y = self.camera.y - margin,
-        w = Config.screen.width + margin * 2,
-        h = Config.screen.height + margin * 2
-    }
+-- Печатает удаление entity через cleanup zone.
+function World:printCleanupZoneRemove(cleanupZone, kind, entity)
+    if not cleanupZone.printCleanup then
+        return
+    end
+
+    print(
+        "[CLEANUP ZONE]",
+        tostring(cleanupZone.id),
+        "removed",
+        tostring(kind),
+        tostring(entity and entity.id),
+        "x=" .. tostring(entity and entity.x),
+        "y=" .. tostring(entity and entity.y)
+    )
 end
 
--- Проверяет, находится ли actor в прямоугольнике камеры.
-function World:isActorInsideCameraRect(actor, margin)
-    if not actor or not actor.getHitbox then
-        return false
+-- Молча удаляет entity из списка, если она пересекла cleanup zone.
+function World:cleanupEntityList(cleanupZone, kind, list)
+    if not list or not cleanupZone or not cleanupZone.getHitbox then
+        return
     end
 
-    return Collision.intersects(actor:getHitbox(), self:getCameraWorldRect(margin))
+    local zoneHitbox = cleanupZone:getHitbox()
+
+    for index = #list, 1, -1 do
+        local entity = list[index]
+
+        if entity ~= cleanupZone
+            and not entity.cleanupZone
+            and entity.getHitbox
+            and Collision.intersects(zoneHitbox, entity:getHitbox())
+        then
+            self:printCleanupZoneRemove(cleanupZone, kind, entity)
+            table.remove(list, index)
+        end
+    end
 end
 
--- Возвращает true, если actor можно удалить после ухода далеко за экран.
-function World:shouldDespawnActorOffscreen(actor)
-    if not actor or actor.dead then
-        return false
+-- Обрабатывает одну cleanup zone.
+-- Это silent remove: без death, pain, sound и effects.
+function World:processCleanupZone(cleanupZone)
+    if not cleanupZone or cleanupZone.cleanupZone ~= true then
+        return
     end
 
-    -- Важно: удаление за экраном работает ТОЛЬКО если явно true.
-    -- nil/false = не удалять.
-    if actor.despawnOffscreen ~= true then
-        return false
+    if cleanupZone.removeActors then
+        self:cleanupEntityList(cleanupZone, "actor", self.actors)
     end
 
-    if actor.VictoryIfDeath or actor.DefeatIfDeath then
-        return false
+    if cleanupZone.removeProjectiles then
+        self:cleanupEntityList(cleanupZone, "projectile", self.projectiles)
     end
 
-    if self:isActorInsideCameraRect(actor, 0) then
-        actor.wasOnScreen = true
-        return false
+    if cleanupZone.removeEffects then
+        self:cleanupEntityList(cleanupZone, "effect", self.effects)
     end
 
-    if not actor.wasOnScreen then
-        return false
+    if cleanupZone.removePickups then
+        self:cleanupEntityList(cleanupZone, "pickup", self.pickups)
     end
 
-    local despawnDistance = actor.despawnDistance
-        or Config.world.actorDespawnDistance
-        or Config.world.offscreenMargin
-        or 300
+    if self.level then
+        if cleanupZone.removePlatforms then
+            self:cleanupEntityList(cleanupZone, "platform", self.level.platforms)
+        end
 
-    return not self:isActorInsideCameraRect(actor, despawnDistance)
+        if cleanupZone.removeDecors then
+            self:cleanupEntityList(cleanupZone, "decor", self.level.decors)
+        end
+
+        if cleanupZone.removeLevelEnd
+            and self.level.levelEnd
+            and self.level.levelEnd.getHitbox
+            and Collision.intersects(cleanupZone:getHitbox(), self.level.levelEnd:getHitbox())
+        then
+            self:printCleanupZoneRemove(cleanupZone, "levelEnd", self.level.levelEnd)
+            self.level.levelEnd = nil
+        end
+    end
+
+    if cleanupZone.removePlayer
+        and self.player
+        and self.player.getHitbox
+        and Collision.intersects(cleanupZone:getHitbox(), self.player:getHitbox())
+    then
+        self:printCleanupZoneRemove(cleanupZone, "player", self.player)
+        self.result = "player_dead"
+    end
 end
-----------
+
+-- Обрабатывает все cleanup zones уровня.
+function World:updateCleanupZones()
+    if not self.level then
+        return
+    end
+
+    for _, decor in ipairs(self.level.decors or {}) do
+        if decor.cleanupZone then
+            self:processCleanupZone(decor)
+        end
+    end
+end
 
 -- Обновляет actor-ов, применяет платформенную физику и удаляет завершивших смерть.
 function World:updateActors(dt)
@@ -530,23 +629,18 @@ function World:updateActors(dt)
 
         self:processEntityEvents(actor)
 
-        if actor.deathFinished then
-            if actor.VictoryIfDeath then
-                self.result = "victory"
-            end
-
-            if actor.DefeatIfDeath then
-                self.result = "defeat"
+		if actor.deathFinished then
+            if actor.sceneIfActorDeath then
+                self.nextTarget = {
+                    type = "scene",
+                    id = actor.sceneIfActorDeath
+                }
+                self.result = "transition"
             end
         end
------Удаляем актора за экраном(оптимизация)
-		if self:shouldDespawnActorOffscreen(actor) then
-            table.remove(self.actors, index)
-        elseif actor:isRemovable() then
-            table.remove(self.actors, index)
-        end
------------------
+		
         if actor:isRemovable() then
+
             table.remove(self.actors, index)
         end
     end
@@ -649,6 +743,7 @@ function World:update(dt)
     self:updateProjectiles(dt)
     self:updateEffects(dt)
     self:updatePickups(dt)
+	self:updateCleanupZones()
     self:updateLevelEnd()
 
     self:updateCamera(dt)

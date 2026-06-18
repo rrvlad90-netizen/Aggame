@@ -12,6 +12,7 @@ return {
     speed = 120,
 
     movementMode = "runner",
+	
     facing = -1,
 
     nopain = true,

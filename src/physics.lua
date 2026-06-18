@@ -29,6 +29,10 @@ end
 
 -- Не даёт entity выйти за горизонтальные границы уровня.
 local function clampEntityToLevelBounds(level, entity)
+    if entity and entity.ignoreLevelBounds then
+        return false
+    end
+
     if not level or not level.bounds or not entity or not entity.getHitbox then
         return false
     end

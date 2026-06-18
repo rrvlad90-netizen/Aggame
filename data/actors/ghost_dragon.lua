@@ -13,6 +13,10 @@ return {
 
     showHealthBar = false,
 
+	
+   SceneIfPlayerDieByActor = "scene_player_killed_by_ghost_dragon",
+   SceneIfActorDeath = "scene_player_victory_when_ghost_dragon_death", --если победил
+
     -- По умолчанию по нему можно попадать.
     -- Во время attack он временно станет hittable = false.
     hittable = true,
@@ -34,9 +38,13 @@ return {
     searchRange = 550,
     movementMode = "chase",
 
-    -- Летит во время атаки.
-    keepMovingDuringAttack = true,
-    attackMoveSpeed = 35,
+	--Вариант 3 — летит к игроку и стреляет на ходу:
+	speed = 60,
+	--movementMode = "chase",
+	keepMovingDuringAttack = true,
+	--attackMoveSpeed = 25,--Замедлится
+	attackMoveSpeed = 60, --оставляем такую же скорость для продолжения движения
+
 
     flyAmplitude = 0,
     flyFrequency = 3,

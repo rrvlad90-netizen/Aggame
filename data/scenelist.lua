@@ -4,5 +4,8 @@ return {
     scene_map = "data/scenes/scene_map.lua",
     scenelevel1="data/scenes/scenelevel1.lua",
     scenelevel2="data/scenes/scenelevel2.lua",
-    scenelevel3="data/scenes/scenelevel3.lua"
+    scenelevel3="data/scenes/scenelevel3.lua",
+	
+	scene_player_killed_by_ghost_dragon="data/scenes/scene_player_killed_by_ghost_dragon.lua",
+	scene_player_victory_when_ghost_dragon_death="data/scenes/scene_player_victory_when_ghost_dragon_death.lua"
 }

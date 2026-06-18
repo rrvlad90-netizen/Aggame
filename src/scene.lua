@@ -117,9 +117,14 @@ function Scene:new(config)
     -- Цель перехода после завершения scene.
     -- Если nil, игра продолжит старый flow через advanceFlow().
     scene.nextTarget = normalizeNextTarget(config)
+	
+	scene.livesDelta = config.livesDelta
+        or config.lives_delta
+        or 0
 
     -- Цель, выбранная кликом по дополнительной картинке кадра.
     scene.selectedNextTarget = nil
+	scene.selectedLivesDelta = nil
 
     scene.playedSounds = {}
 
@@ -225,16 +230,14 @@ function Scene:click(x, y)
 
     local imageConfig = self:getClickableImageAt(x, y)
 
-    if imageConfig then
-        local nextScene = imageConfig.nextScene
-            or imageConfig.next_scene
+	if imageConfig then
+        local nextTarget = normalizeNextTarget(imageConfig)
+        local livesDelta = imageConfig.livesDelta
+            or imageConfig.lives_delta
 
-        if nextScene then
-            self.selectedNextTarget = {
-                type = "scene",
-                id = nextScene
-            }
-
+        if nextTarget or livesDelta then
+            self.selectedNextTarget = nextTarget
+            self.selectedLivesDelta = livesDelta
             self.finished = true
             return true
         end
@@ -419,6 +422,16 @@ end
 -- Возвращает true, если scene завершилась.
 function Scene:isFinished()
     return self.finished
+end
+
+-- Возвращает изменение жизней после завершения scene.
+-- Если игрок выбрал clickable-вариант с livesDelta, он имеет приоритет.
+function Scene:getLivesDelta()
+    if self.selectedLivesDelta ~= nil then
+        return self.selectedLivesDelta
+    end
+
+    return self.livesDelta or 0
 end
 
 -- Возвращает цель перехода после завершения scene.

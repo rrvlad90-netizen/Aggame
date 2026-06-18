@@ -24,18 +24,6 @@ function Actor:new(config)
         or config.target_group
         or actor.entityType
 		
------Параметры удаление актора за экраном		
-	actor.despawnOffscreen = config.despawnOffscreen
-		if actor.despawnOffscreen == nil then
-			actor.despawnOffscreen = config.despawn_offscreen
-		end
-
-    actor.despawnDistance = config.despawnDistance
-        or config.despawn_distance
-
-    actor.wasOnScreen = false
-------------------
-
     actor.x = config.x or 0
     actor.y = config.y or 0
 ---Неузвимый	
@@ -96,6 +84,13 @@ function Actor:new(config)
     actor.flying = config.flying == true
         or config.isFlying == true
         or config.is_flying == true
+		
+-- Позволяет actor-у выходить за bounds уровня.
+    -- Полезно для runner-врагов, которые должны уйти за экран в despawn_zone.
+    actor.ignoreLevelBounds = config.ignoreLevelBounds == true
+        or config.ignore_level_bounds == true
+        or config.canLeaveLevelBounds == true
+        or config.can_leave_level_bounds == true		
 		
 -- solid = true означает, что через actor нельзя пройти.
 -- Работает для player и других actor-ов.
@@ -167,12 +162,7 @@ actor.solid = config.solid == true
     actor.movementMode = config.movementMode
         or config.movement_mode
         or "chase"  --охота, идет на игрока
-			
-----удаление с экрана раннра автоматически		
-	if actor.despawnOffscreen == nil then
-        actor.despawnOffscreen = actor.movementMode == "runner"
-    end			
-		
+				
 	if config.runnerMode == true--раннер, бежит и атакует
 			or config.runner_mode == true
 		then
@@ -188,13 +178,13 @@ actor.solid = config.solid == true
     actor.showHealthBar = config.showHealthBar == true
         or config.show_health_bar == true
 
-    actor.VictoryIfDeath = config.VictoryIfDeath == true
-        or config.victoryIfDeath == true
-        or config.victory_if_death == true
+	actor.sceneIfActorDeath = config.SceneIfActorDeath
+        or config.sceneIfActorDeath
+        or config.scene_if_actor_death
 
-    actor.DefeatIfDeath = config.DefeatIfDeath == true
-        or config.defeatIfDeath == true
-        or config.defeat_if_death == true
+    actor.sceneIfPlayerDieByActor = config.SceneIfPlayerDieByActor
+        or config.sceneIfPlayerDieByActor
+        or config.scene_if_player_die_by_actor
 
     actor.nopain = config.nopain == true
         or config.noPain == true
@@ -906,6 +896,13 @@ function Actor:die(damageInfo)
     if self.dead then
         return
     end
+
+    damageInfo = damageInfo or {}
+
+    local source = damageInfo.source
+    local owner = damageInfo.owner
+
+------------
 
     self.dead = true
     self.vx = 0

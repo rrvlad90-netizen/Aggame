@@ -11,6 +11,8 @@ return {
     flying = false,
 
     movementMode = "runner",
+	ignoreLevelBounds = true, -- проходит сквозь границы экрана
+	
     facing = -1,
     flipSprite = true,
 

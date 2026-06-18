@@ -98,6 +98,7 @@ function Player:new(config)
 
     player.onGround = false
     player.dead = false
+	player.lastDamageInfo = nil
     player.deathFinished = false
 
     player.state = "idle"
@@ -492,6 +493,7 @@ function Player:takeDamage(damageInfo)
     end
 
     damageInfo = damageInfo or {}
+	self.lastDamageInfo = damageInfo
 
     local amount = damageInfo.amount or 1
 

@@ -26,9 +26,14 @@ return {
     },
 
     showHealthBar = true,
-
-    VictoryIfDeath = false,
-    DefeatIfDeath = false,
+	
+	
+	--Вариант 3 — летит к игроку и стреляет на ходу:
+	speed = 60,
+	movementMode = "chase",
+	keepMovingDuringAttack = true,
+	--attackMoveSpeed = 25,--Замедлится
+	attackMoveSpeed = 60, --оставляем такую же скорость для продолжения движения
 
     canvas = {
         width = 128,

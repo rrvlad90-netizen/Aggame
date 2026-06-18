@@ -1,0 +1,11 @@
+ѕример интерактивного выбора с отниманием жизни
+
+lua
+{
+    image = "assets/ui/wrong_choice.png",
+    x = 100,
+    y = 300,
+    clickable = true,
+    livesDelta = -1,
+    nextScene = "$lastSceneBeforeLevel"
+}

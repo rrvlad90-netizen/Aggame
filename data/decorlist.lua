@@ -4,5 +4,6 @@ return {
 	tree = "data/decors/tree.lua",
 	goblin_watcher = "data/decors/goblin_watcher.lua",
 	--FOR RUNNER LEVEL	
+	despawn_zone = "data/decors/despawn_zone.lua",
 	spawner_for_runnin = "data/decors/spawner_for_runnin.lua"
 }

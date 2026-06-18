@@ -39,7 +39,8 @@ return {
 	speed = 60,
 	movementMode = "chase",
 	keepMovingDuringAttack = true,
-	attackMoveSpeed = 25,
+	--attackMoveSpeed = 25,--Замедлится
+	attackMoveSpeed = 60, --оставляем такую же скорость для продолжения движения
 
     -- Амплитуда полёта.
     flyAmplitude = 10,

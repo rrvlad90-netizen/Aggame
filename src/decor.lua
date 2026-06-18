@@ -1,6 +1,7 @@
 local Assets = require("src.assets")
 local AnimationSet = require("src.animation_set")
 local EventRunner = require("src.event_runner")
+local Collision = require("src.collision")
 
 local Decor = {}
 Decor.__index = Decor
@@ -27,7 +28,48 @@ function Decor:new(config)
         x = 0,
         y = 0
     }
+	
+----Зона удаления аторов - поставить за границу экрана в начале уровня
+----Но можно и так использовать	если нужно что бы монстры, платформы и и.д. удалялись
 
+decor.bbox = config.bbox or {
+        x = 0,
+        y = 0,
+        w = decor.canvas.width,
+        h = decor.canvas.height
+    }
+
+    decor.cleanupZone = config.cleanupZone == true
+        or config.cleanup_zone == true
+
+    decor.printCleanup = config.printCleanup == true
+        or config.print_cleanup == true
+
+    decor.removeActors = config.removeActors ~= false
+        and config.remove_actors ~= false
+
+    decor.removeProjectiles = config.removeProjectiles ~= false
+        and config.remove_projectiles ~= false
+
+    decor.removeEffects = config.removeEffects ~= false
+        and config.remove_effects ~= false
+
+    decor.removePickups = config.removePickups ~= false
+        and config.remove_pickups ~= false
+
+    decor.removePlatforms = config.removePlatforms ~= false
+        and config.remove_platforms ~= false
+
+    decor.removeDecors = config.removeDecors ~= false
+        and config.remove_decors ~= false
+
+    decor.removeLevelEnd = config.removeLevelEnd == true
+        or config.remove_level_end == true
+
+    decor.removePlayer = config.removePlayer == true
+        or config.remove_player == true
+-------------
+---------------
     decor.image = config.image
 
     decor.alpha = config.alpha or 1
@@ -168,6 +210,11 @@ function Decor:draw(camera)
     )
 
     love.graphics.setColor(1, 1, 1)
+end
+
+-- Возвращает bbox decor-а в мировых координатах.
+function Decor:getHitbox()
+    return Collision.localBoxToWorld(self, self.bbox)
 end
 
 -- Возвращает true, если decor можно удалить.

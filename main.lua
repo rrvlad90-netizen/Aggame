@@ -22,6 +22,9 @@ local game = {
     selectedPauseIndex = 1,
     selectedGameOverIndex = 1,
 
+	currentSceneId = nil,
+	lastSceneBeforeLevel = nil,
+
     scene = nil,
     sceneReturnMode = nil,
 	currentLevelId = nil, --запоминаем текущий уровень
@@ -158,6 +161,11 @@ end
 
 -- Запускает scene по id.
 local function startScene(sceneId, returnMode)
+
+	if sceneId == "$lastSceneBeforeLevel" then
+        sceneId = game.lastSceneBeforeLevel or "game_over"
+    end
+		
     stopWorld()
     stopPlayerSelect()
     stopScene()
@@ -167,6 +175,7 @@ local function startScene(sceneId, returnMode)
     game.scene = Scene:new(definition)
     game.sceneReturnMode = returnMode
     game.scene:start()
+	game.currentSceneId = sceneId
 
     game.mode = "scene"
 end
@@ -222,6 +231,10 @@ local function startLevel(levelId, options)
 
     if options.restoreEntryState then
         restoreLevelEntryState(levelId)
+    end
+
+	if game.currentSceneId then
+        game.lastSceneBeforeLevel = game.currentSceneId
     end
 
     stopWorld()
@@ -577,7 +590,8 @@ local function updateGameOverMenu()
     end
 end
 
--- Обновляет scene.
+local applySceneLivesDelta
+
 local function updateScene(dt)
     game.scene:update(dt)
 
@@ -589,19 +603,25 @@ local function updateScene(dt)
         game.scene:skip()
     end
 
-	if game.scene:isFinished() then
+    if game.scene:isFinished() then
         local nextTarget = game.scene:getNextTarget()
+        local livesDelta = game.scene:getLivesDelta()
+
         stopScene()
 
-		if game.sceneReturnMode == "restart_level" then
-			restartCurrentLevel()
-			return
-		end
-		
-		if game.sceneReturnMode == "main_menu" then
-			game.mode = "main_menu"
-			return
-		end
+        if not applySceneLivesDelta(livesDelta) then
+            return
+        end
+
+        if game.sceneReturnMode == "restart_level" then
+            restartCurrentLevel()
+            return
+        end
+
+        if game.sceneReturnMode == "main_menu" then
+            game.mode = "main_menu"
+            return
+        end
 
         if nextTarget then
             startTransitionTarget(nextTarget)
@@ -671,6 +691,32 @@ local function updatePlayerInput()
     if Input.wasPressed("strafe") then
         player:strafe()
     end
+end
+
+-- Применяет изменение жизней из scene.
+-- Возвращает false, если жизни закончились и запущен game over.
+applySceneLivesDelta = function(delta)
+    delta = delta or 0
+
+    if delta == 0 then
+        return true
+    end
+
+    local lives = game.playerLives or (game.player and game.player.lives) or 1
+
+    lives = math.max(0, lives + delta)
+    game.playerLives = lives
+
+    if game.player then
+        game.player.lives = lives
+    end
+
+    if lives <= 0 then
+        startGameOver()
+        return false
+    end
+
+    return true
 end
 
 ---проверка жизней игрока

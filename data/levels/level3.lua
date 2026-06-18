@@ -64,6 +64,7 @@ return {
     },
 
     actors = {},
+	
 
     platforms = {
         {
@@ -91,6 +92,11 @@ return {
     pickups = {},
 
     decors = {
+		{
+			id = "despawn_zone",
+			x = -220,
+			y = -150
+		},
         {
             id = "spawner_for_runnin",
             x = 760,
