@@ -1,0 +1,82 @@
+Как использовать в уровне или спавнере
+
+Если враг должен идти справа налево:
+
+lua
+{
+    id = "runner_goblin",
+    x = 900,
+    y = 555,
+    facing = -1
+}
+Если слева направо:
+
+lua
+{
+    id = "runner_goblin",
+    x = 100,
+    y = 555,
+    facing = 1
+}
+Важно
+Runner будет атаковать только если игрок впереди по facing. Если игрок уже за спиной, runner не развернётся и пойдёт дальше.
+
+CONTACT DAMAGE
+
+Как использовать в actor data
+
+Обычный runner-враг, который дамажит телом:
+
+lua
+contactDamage = 1,
+contactDamageCooldown = 0.5,
+contactDamageTargets = {
+    player = true
+}
+Более злой враг:
+
+lua
+contactDamage = 2,
+contactDamageCooldown = 0.35,
+contactDeathType = "heavy",
+contactDamageTargets = {
+    player = true
+}
+Отключено по умолчанию:
+
+lua
+contactDamage = 0
+Пример для runner_goblin
+
+lua
+return {
+    id = "runner_goblin",
+
+    movementMode = "runner",
+    facing = -1,
+    speed = 140,
+
+    contactDamage = 1,
+    contactDamageCooldown = 0.5,
+    contactDamageTargets = {
+        player = true
+    },
+
+    nopain = true,
+
+    -- остальной config...
+}
+Такой враг будет идти вперёд и наносить урон просто касанием bbox.
+
+
+-----------------------------------------
+
+монстры сами за экраном удаляются в конкретном монстре можно писать:
+
+lua
+despawnDistance = 700
+Или отключить:
+
+lua
+despawnOffscreen = false
+Для runner-врагов можно вообще ничего не писать — они будут удаляться по дефолту, когда сначала побывали на экране, а потом ушли далеко за него.

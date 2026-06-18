@@ -27,7 +27,11 @@ Config.physics = {
 Config.world = {
     -- Насколько далеко за экраном entity может находиться,
     -- прежде чем её можно будет удалить.
-    offscreenMargin = 300
+    offscreenMargin = 300,
+	
+    -- Базовая дистанция удаления actor-а за экраном.
+    -- Actor может переопределить через despawnDistance.
+    actorDespawnDistance = 500	
 }
 
 Config.assets = {

@@ -59,6 +59,29 @@ function Platform:new(config)
         or config.platformScrollSpeed
         or config.platform_scroll_speed
         or 0
+				
+-- Универсальная скорость платформы.
+    -- vx/vy двигают физику платформы.
+    -- platformScrollSpeed оставлен для совместимости и двигает платформу влево.
+    platform.vx = config.vx
+        or config.speedX
+        or config.speed_x
+        or 0
+
+    platform.vy = config.vy
+        or config.speedY
+        or config.speed_y
+        or 0
+
+    -- Смещение платформы за последний кадр.
+    -- Physics.resolvePlatforms использует deltaX, чтобы тянуть entity вместе с платформой.
+    platform.deltaX = 0
+    platform.deltaY = 0
+
+    -- Запоминаем относительные смещения, чтобы при движении по Y
+    -- walkY и visualY ехали вместе с физической платформой.
+    platform.walkOffsetFromY = platform.walkY - platform.y
+    platform.visualOffsetFromY = platform.visualY - platform.y		
 
     -- Скорость прокрутки картинки внутри платформы.
     -- Это только визуальный эффект, физику платформы не двигает.
@@ -100,11 +123,33 @@ function Platform:new(config)
 end
 
 -- Обновляет платформу.
--- Обновляет движение платформы и визуальный скролл картинки.
+-- Двигает физический bbox платформы через vx/vy.
+-- Старый platformScrollSpeed сохранён: он двигает платформу влево.
+-- imageScrollSpeed остаётся только визуальным скроллом картинки.
 function Platform:update(dt)
+    local previousX = self.x
+    local previousY = self.y
+
     local platformScrollSpeed = self.PlatformScrollSpeed or 0
 
-    self.x = self.x - platformScrollSpeed * dt
+    -- Новый универсальный movement.
+    self.x = self.x + (self.vx or 0) * dt
+    self.y = self.y + (self.vy or 0) * dt
+
+    -- Старое поведение сохраняем:
+    -- platformScrollSpeed > 0 двигает платформу влево.
+    if platformScrollSpeed ~= 0 then
+        self.x = self.x - platformScrollSpeed * dt
+    end
+
+    self.deltaX = self.x - previousX
+    self.deltaY = self.y - previousY
+
+    -- Если платформа двигается по Y, линия ног должна ехать вместе с ней.
+    self.walkY = self.y + (self.walkOffsetFromY or self.walkOffsetY or 0)
+
+    -- visualY тоже держим относительно физического y.
+    self.visualY = self.y + (self.visualOffsetFromY or 0)
 
     if Render and Render.updateScroll then
         Render.updateScroll(self, dt)
@@ -158,7 +203,7 @@ function Platform:landEntity(entity)
     entity.onPlatform = true
 
     -- Если платформа движется, она немного тащит entity вместе с собой.
-    entity.x = entity.x + self.deltaX
+    entity.x = entity.x + (self.deltaX or 0)
 end
 
 -- Разруливает столкновение entity с платформой.

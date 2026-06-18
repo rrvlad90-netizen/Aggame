@@ -217,6 +217,10 @@ function Registry.loadEntity(id)
     if Registry.hasId(Registry.platformList, id) then
         return "platform", Registry.loadPlatform(id)
     end
+	
+	if Registry.hasId(Registry.levelEndList, id) then
+        return "levelEnd", Registry.loadLevelEnd(id)
+    end
 
     error("Unknown entity id: " .. tostring(id))
 end

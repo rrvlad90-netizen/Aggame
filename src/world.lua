@@ -95,8 +95,23 @@ function World:addEntity(kind, entity)
         return
     end
 
-    if kind == "pickup" then
+	if kind == "pickup" then
         table.insert(self.pickups, entity)
+        return
+    end
+
+    if kind == "platform" then
+        table.insert(self.level.platforms, entity)
+        return
+    end
+
+    if kind == "decor" then
+        table.insert(self.level.decors, entity)
+        return
+    end
+
+    if kind == "levelEnd" then
+        self.level.levelEnd = entity
         return
     end
 end
@@ -353,6 +368,44 @@ function World:resolveProjectileHits(projectile)
     end
 end
 
+
+-- Проверяет contact damage actor-а по игроку.
+-- Это урон телом: если bbox actor-а пересёк bbox player-а,
+-- player получает damage, а actor запускает contactDamageCooldown.
+function World:resolveActorContactDamage(actor)
+    if not actor or not actor.canApplyContactDamage then
+        return false
+    end
+
+    if not actor:canApplyContactDamage() then
+        return false
+    end
+
+    if not self.player or self.player.dead then
+        return false
+    end
+
+    if not actor.getHitbox or not self.player.getHitbox then
+        return false
+    end
+
+    local damageInfo = actor:createContactDamageInfo()
+
+    if not Targeting.canDamage(damageInfo.damageTargets, self.player) then
+        return false
+    end
+
+    if not Collision.intersects(actor:getHitbox(), self.player:getHitbox()) then
+        return false
+    end
+
+    self.player:takeDamage(damageInfo)
+    actor:markContactDamageApplied()
+
+    return true
+end
+
+
 -- Проверяет damage от effects по игроку и actor-ам.
 function World:resolveEffectDamage(effect)
     if not effect:canApplyDamage() then
@@ -406,16 +459,72 @@ function World:updatePlayer(dt)
 	end
 end
 
+-- Возвращает screen rect в world-координатах с дополнительным margin.
+function World:getCameraWorldRect(margin)
+    margin = margin or 0
+
+    return {
+        x = self.camera.x - margin,
+        y = self.camera.y - margin,
+        w = Config.screen.width + margin * 2,
+        h = Config.screen.height + margin * 2
+    }
+end
+
+-- Проверяет, находится ли actor в прямоугольнике камеры.
+function World:isActorInsideCameraRect(actor, margin)
+    if not actor or not actor.getHitbox then
+        return false
+    end
+
+    return Collision.intersects(actor:getHitbox(), self:getCameraWorldRect(margin))
+end
+
+-- Возвращает true, если actor можно удалить после ухода далеко за экран.
+function World:shouldDespawnActorOffscreen(actor)
+    if not actor or actor.dead then
+        return false
+    end
+
+    if actor.despawnOffscreen == false then
+        return false
+    end
+
+    if actor.VictoryIfDeath or actor.DefeatIfDeath then
+        return false
+    end
+
+    if self:isActorInsideCameraRect(actor, 0) then
+        actor.wasOnScreen = true
+        return false
+    end
+
+    if not actor.wasOnScreen then
+        return false
+    end
+
+    local despawnDistance = actor.despawnDistance
+        or Config.world.actorDespawnDistance
+        or Config.world.offscreenMargin
+        or 300
+
+    return not self:isActorInsideCameraRect(actor, despawnDistance)
+end
+----------
+
 -- Обновляет actor-ов, применяет платформенную физику и удаляет завершивших смерть.
 function World:updateActors(dt)
     for index = #self.actors, 1, -1 do
         local actor = self.actors[index]
 
-        actor:update(dt, self)
+		actor:update(dt, self)
 
         Physics.resolvePlatforms(self.level, actor)
-		self:resolveSolidActorCollisions(actor)
-		self:resolveSolidActorAgainstPlayer(actor)
+
+        self:resolveActorContactDamage(actor)
+
+        self:resolveSolidActorCollisions(actor)
+        self:resolveSolidActorAgainstPlayer(actor)
 
         self:processEntityEvents(actor)
 
@@ -428,7 +537,13 @@ function World:updateActors(dt)
                 self.result = "defeat"
             end
         end
-
+-----Удаляем актора за экраном(оптимизация)
+		if self:shouldDespawnActorOffscreen(actor) then
+            table.remove(self.actors, index)
+        elseif actor:isRemovable() then
+            table.remove(self.actors, index)
+        end
+-----------------
         if actor:isRemovable() then
             table.remove(self.actors, index)
         end

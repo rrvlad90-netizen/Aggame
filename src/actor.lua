@@ -23,6 +23,16 @@ function Actor:new(config)
     actor.targetGroup = config.targetGroup
         or config.target_group
         or actor.entityType
+		
+-----Параметры удаление актора за экраном		
+	actor.despawnOffscreen = config.despawnOffscreen ~= false
+        and config.despawn_offscreen ~= false
+
+    actor.despawnDistance = config.despawnDistance
+        or config.despawn_distance
+
+    actor.wasOnScreen = false		
+------------------
 
     actor.x = config.x or 0
     actor.y = config.y or 0
@@ -112,7 +122,33 @@ actor.solid = config.solid == true
     actor.damageTargets = config.damageTargets
         or config.damage_targets
         or {}
+		
+----------Contact damage - если враг соприкоснется с игроком то дамажит
+	actor.contactDamage = config.contactDamage
+        or config.contact_damage
+        or config.touchDamage
+        or config.touch_damage
+        or 0
 
+    actor.contactDamageCooldown = config.contactDamageCooldown
+        or config.contact_damage_cooldown
+        or config.touchDamageCooldown
+        or config.touch_damage_cooldown
+        or 0.5
+
+    actor.contactDamageTimer = 0
+
+    actor.contactDeathType = config.contactDeathType
+        or config.contact_death_type
+        or "normal"
+
+    actor.contactDamageTargets = config.contactDamageTargets
+        or config.contact_damage_targets
+        or config.touchDamageTargets
+        or config.touch_damage_targets
+        or actor.damageTargets
+----------		
+		
     actor.ignoreFlyingTargets = config.ignoreFlyingTargets == true
         or config.ignore_flying_targets == true
         or config.ignoreFlying == true
@@ -129,6 +165,12 @@ actor.solid = config.solid == true
     actor.movementMode = config.movementMode
         or config.movement_mode
         or "chase"  --охота, идет на игрока
+		
+	if config.runnerMode == true--раннер, бежит и атакует
+			or config.runner_mode == true
+		then
+			actor.movementMode = "runner"
+		end		
 		
 	actor.keepMovingDuringAttack = config.keepMovingDuringAttack == true
         or config.keep_moving_during_attack == true
@@ -466,6 +508,12 @@ function Actor:tryStartAttack(target)
     if not animationName then
         return false
     end
+	
+	-- Обычные actor-ы перед атакой разворачиваются к цели.
+    -- Runner не разворачивается: он атакует только по своему facing.
+    if not self:isRunner() and self:faceTarget(target) then
+        return true
+    end
 
     -- Если перед атакой нужно развернуться, сначала проигрываем turn.
     if self:faceTarget(target) then
@@ -486,6 +534,30 @@ function Actor:tryStartAttack(target)
     self.animationSet:set(animationName, true)
 
     return true
+end
+
+--RUNNER
+-- Возвращает true, если actor работает как runner. не разворачивается к игроку, а всегда идёт по своему facing
+function Actor:isRunner()
+    return self.movementMode == "runner"
+end
+
+-- Возвращает true, если target находится впереди actor-а по его facing.
+-- facing = 1  значит впереди справа.
+-- facing = -1 значит впереди слева.
+function Actor:isTargetInFront(target)
+    if not target then
+        return false
+    end
+
+    local dx = (target.x or 0) - self.x
+    local facing = self.facing or 1
+
+    if facing >= 0 then
+        return dx >= 0
+    end
+
+    return dx <= 0
 end
 
 -- Обновляет AI actor-а.
@@ -531,15 +603,22 @@ function Actor:updateAi(dt, world)
 			if self.keepMovingDuringAttack then
 				local attackSpeed = self.attackMoveSpeed or self.speed or 0
 
-				if self.movementMode == "chase" then
-					self.vx = self.facing * attackSpeed
-				end
+					if self.movementMode == "chase"
+						or self.movementMode == "runner"----runner
+					then
+						self.vx = self.facing * attackSpeed
+					end
 			else
 				self.vx = 0
 			end
 
 			return
 		end
+----		
+	if self:isRunner() then
+        self:updateRunnerAi(dt, world)
+        return
+    end	
 
     local target = self:selectTarget(world and world:getTargetGroups() or {})
 
@@ -565,6 +644,33 @@ function Actor:updateAi(dt, world)
     self.state = "idle"
     self.animationSet:set("idle")
 end
+
+
+-- Обновляет runner AI.
+-- Runner:
+-- - не разворачивается к цели;
+-- - всегда идёт вперёд по facing;
+-- - атакует только если цель впереди и попадает в attackGroups;
+-- - если цель сзади, игнорирует её и продолжает движение.
+function Actor:updateRunnerAi(dt, world)
+    local target = self:selectTarget(world and world:getTargetGroups() or {})
+
+    if target and self:isTargetInFront(target) then
+        if self:tryStartAttack(target) then
+            return
+        end
+    end
+
+    self.vx = (self.facing or 1) * (self.speed or 0)
+    self.state = "walk"
+    self.animationSet:set("walk")
+end
+
+-----------------------------------------
+
+
+
+
 
 -- Обновляет физику actor-а.
 function Actor:updatePhysics(dt)
@@ -610,6 +716,40 @@ function Actor:createDamageInfo(event)
             or event.damage_targets
             or self.damageTargets
     }
+end
+
+
+-- Возвращает true, если actor может нанести contact damage сейчас.
+-- Contact damage — это урон телом actor-а при пересечении bbox с целью.
+function Actor:canApplyContactDamage()
+    return not self.dead
+        and (self.contactDamage or 0) > 0
+        and (self.contactDamageTimer or 0) <= 0
+end
+
+-- Создаёт DamageInfo для contact damage.
+function Actor:createContactDamageInfo()
+    return {
+        amount = self.contactDamage or 1,
+        source = self,
+        owner = self,
+        deathType = self.contactDeathType or "normal",
+        damageTargets = self.contactDamageTargets or self.damageTargets
+    }
+end
+
+-- Запускает cooldown после contact damage.
+function Actor:markContactDamageApplied()
+    self.contactDamageTimer = self.contactDamageCooldown or 0.5
+end
+
+-- Обновляет cooldown contact damage.
+function Actor:updateContactDamage(dt)
+    if not self.contactDamageTimer or self.contactDamageTimer <= 0 then
+        return
+    end
+
+    self.contactDamageTimer = math.max(0, self.contactDamageTimer - dt)
 end
 
 -- Получает урон.
@@ -794,6 +934,7 @@ function Actor:update(dt, world)
 
 	self:updateInvulnerability(dt)--неуязвимость
 	self:updateHittable(dt)--удар или проджектайл пролетит насквозь
+	self:updateContactDamage(dt)--враг наносит урон при соприкосновении
 
     if not self.dead then
         self:updateAi(dt, world)

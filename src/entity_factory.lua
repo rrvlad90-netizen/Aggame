@@ -118,6 +118,10 @@ function EntityFactory.createEntity(id, x, y, overrides)
     if kind == "decor" then
         return "decor", Decor:new(config)
     end
+	
+	if kind == "levelEnd" then
+        return "levelEnd", LevelEnd:new(config)
+    end	
 
     error("EntityFactory.createEntity: unsupported kind " .. tostring(kind))
 end
