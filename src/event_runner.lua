@@ -367,19 +367,22 @@ function EventRunner.setInvulnerable(owner, event)
 end
 
 
--- Выполняет одно событие animation frame.
+-- Выполняет событие animation frame.
 function EventRunner.run(world, owner, event)
     if not event then
         return
     end
-	
-	if eventType == "setInvulnerable" --Если включили неуязвиомсть
+
+    local eventType = event.type or event.action
+
+    if eventType == "setInvulnerable" --Если включили неуязвиомсть
         or eventType == "set_invulnerable"
         or eventType == "invulnerable"
     then
         EventRunner.setInvulnerable(owner, event)--то устанавливаем ее эвентом для того кто вызвал
         return
-    end
+    end	
+	
 
     local eventType = event.type or event.action
 
