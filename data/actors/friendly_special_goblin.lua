@@ -1,9 +1,9 @@
 return {
-    id = "special_goblin",
-    name = "Special Goblin",
+    id = "friendly_special_goblin",
+    name = "Friendl Special Goblin",
 
-    entityType = "enemy",
-    targetGroup = "enemy",
+	entityType = "npc",
+	targetGroup = "npc",
 
     health = 2,
     speed = 90,
@@ -12,20 +12,18 @@ return {
 
     -- solid = true,
 	
-	alpha = 0.75,
+	alpha = 0.15,
 
     facing = -1,
     flipSprite = true,
 
-    hates = {
-        player = true,
-	    npc = true
-    },
+	hates = {
+		enemy = true
+	},
 
-    damageTargets = {
-        player = true,
-	    npc = true
-    },
+	damageTargets = {
+		enemy = true
+	},
 
     showHealthBar = true,
 
@@ -241,7 +239,7 @@ return {
                 {
                     frame = 3,
                     type = "createEntity",
-                    id = "stone_enemy",
+                    id = "stone", ---Не забывать ему прописать его проджектайл
                     x = 34,
                     y = -42,
                     direction = "forward",

@@ -5,6 +5,7 @@ Save.fileName = "save.lua"
 Save.data = {
     currentFlowIndex = 1,
     selectedPlayerId = nil,
+	continueSceneId = nil,
 
     audio = {
         musicVolume = 0.75,
@@ -67,6 +68,7 @@ function Save.getDefaultData()
     return {
         currentFlowIndex = 1,
         selectedPlayerId = nil,
+		continueSceneId = nil,
 
         audio = {
             musicVolume = 0.75,
@@ -118,8 +120,19 @@ end
 function Save.startNewGame()
     Save.data.currentFlowIndex = 1
     Save.data.selectedPlayerId = nil
+    Save.data.continueSceneId = nil
 
     Save.save()
+end
+
+function Save.setContinueSceneId(sceneId)
+    Save.data.continueSceneId = sceneId
+
+    Save.save()
+end
+
+function Save.getContinueSceneId()
+    return Save.data.continueSceneId
 end
 
 -- Сохраняет индекс текущего элемента flow.

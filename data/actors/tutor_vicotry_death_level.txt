@@ -1,0 +1,11 @@
+¬ажно: SceneIfActorDeath сработает только когда закончилась death-анимаци€ actor-а.
+
+death = {
+    loop = false,
+    holdLastFrame = true,
+    ...
+}
+≈сли в death стоит:
+
+loop = true
+то deathFinished никогда не наступит, и сцена не запуститс€.

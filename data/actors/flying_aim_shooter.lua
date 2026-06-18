@@ -15,13 +15,15 @@ return {
 
     facing = -1,
     flipSprite = true,
-
+	
     hates = {
-        player = true
+        player = true,
+	    npc = true
     },
 
     damageTargets = {
-        player = true
+        player = true,
+	    npc = true
     },
 
     searchRange = 520,

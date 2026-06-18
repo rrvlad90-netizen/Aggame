@@ -5,7 +5,8 @@ return {
     deathType = "normal",
 
     damageTargets = {
-        player = true
+        player = true,
+        npc = true
     },
 
     -- speed/vx/vy будут переопределены EventRunner-ом,

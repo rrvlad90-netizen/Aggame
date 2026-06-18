@@ -96,11 +96,17 @@
 --            appearDistance = 600
 --        },
 		{
-            id = "special_goblin",
-            x = 820,
+            id = "friendly_special_goblin",
+            x = 520,
             y = 555,
             appearDistance = 600
         },
+--		{
+--            id = "special_goblin",
+--            x = 820,
+--            y = 555,
+--            appearDistance = 600
+--        },
 		
 --        {
 --           id = "flying_shooter",

@@ -161,11 +161,10 @@ end
 
 -- Запускает scene по id.
 local function startScene(sceneId, returnMode)
-
-	if sceneId == "$lastSceneBeforeLevel" then
+    if sceneId == "$lastSceneBeforeLevel" then
         sceneId = game.lastSceneBeforeLevel or "game_over"
     end
-		
+
     stopWorld()
     stopPlayerSelect()
     stopScene()
@@ -174,8 +173,8 @@ local function startScene(sceneId, returnMode)
 
     game.scene = Scene:new(definition)
     game.sceneReturnMode = returnMode
+    game.currentSceneId = sceneId
     game.scene:start()
-	game.currentSceneId = sceneId
 
     game.mode = "scene"
 end
@@ -220,21 +219,10 @@ local function restoreLevelEntryState(levelId)
 end
 
 -- Запускает уровень по id.
-local function startLevel(levelId, options)
-    options = options or {}
-
-    if game.restoreLevelEntryOnNextLevel then
-        options.restoreEntryState = true
-        options.keepEntryState = true
-        game.restoreLevelEntryOnNextLevel = false
-    end
-
-    if options.restoreEntryState then
-        restoreLevelEntryState(levelId)
-    end
-
-	if game.currentSceneId then
+local function startLevel(levelId)
+    if game.currentSceneId then
         game.lastSceneBeforeLevel = game.currentSceneId
+        Save.setContinueSceneId(game.currentSceneId)
     end
 
     stopWorld()
@@ -252,12 +240,6 @@ local function startLevel(levelId, options)
     )
 
     game.world = World:new(game.level, game.player)
-
-    syncPlayerLivesFromPlayer()
-
-    if not options.keepEntryState then
-        rememberLevelEntryState(levelId)
-    end
 
     saveCurrentProgress()
 
@@ -402,7 +384,13 @@ end
 
 -- Продолжает игру из save.
 local function continueGame()
-    game.restoreLevelEntryOnNextLevel = true
+    local continueSceneId = Save.getContinueSceneId()
+
+    if continueSceneId then
+        startScene(continueSceneId, "flow")
+        return
+    end
+
     startFlow(Save.getFlowIndex())
 end
 

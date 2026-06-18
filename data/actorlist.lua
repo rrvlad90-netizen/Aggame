@@ -7,6 +7,8 @@ return {
 	goblin_blocker = "data/actors/goblin_blocker.lua",
 	ghost_dragon = "data/actors/ghost_dragon.lua",
 	dragon = "data/actors/dragon.lua",
+	---FRIENDLY
+	friendly_special_goblin = "data/actors/friendly_special_goblin.lua",
 	------RUNNER
 	runner_goblin = "data/actors/runner_goblin.lua",
 	runner_bomber_bat = "data/actors/runner_bomber_bat.lua"

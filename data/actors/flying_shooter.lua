@@ -13,11 +13,13 @@ return {
     showHealthBar = true,
 
     hates = {
-        player = true
+        player = true,
+	    npc = true
     },
 
     damageTargets = {
-        player = true
+        player = true,
+	    npc = true
     },
 
     searchRange = 520,

@@ -29,11 +29,13 @@ return {
     flipSprite = true, --если не туда нарисовал спрайты то разворачиваю
 
     hates = {
-        player = true
+        player = true,
+	    npc = true
     },
 
     damageTargets = {
-        player = true
+        player = true,
+	    npc = true
     },
 
     showHealthBar = true,

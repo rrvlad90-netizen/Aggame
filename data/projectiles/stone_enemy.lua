@@ -6,7 +6,8 @@
     deathType = "heavy",
 
     damageTargets = {
-        player = true
+        player = true,
+        npc = true
     },
 
     -- Камень летит прямо по горизонтали.
