@@ -83,12 +83,25 @@
     },
 
     actors = {
-        {
-            id = "special_goblin",
+	    {
+            id = "ghost_dragon",  --при атаке сквозь него проходит проджектайл и не наносит урона
             x = 620,
             y = 555,
             appearDistance = 600
         },
+--        {
+--            id = "goblin_blocker",  --всегда блокирует удар
+--            x = 620,
+--            y = 555,
+--            appearDistance = 600
+--        },
+		{
+            id = "special_goblin",
+            x = 820,
+            y = 555,
+            appearDistance = 600
+        },
+		
 --        {
 --           id = "flying_shooter",
 --           x = 920,

@@ -1,0 +1,45 @@
+Постоянно нельзя попасть:
+
+lua
+hittable = false,
+Временно в анимации:
+
+lua
+phase = {
+    loop = false,
+    lockInput = true,
+    fireFirstFrameEvents = true,
+    frameDuration = 0.1,
+    frames = {
+        "assets/enemies/ghost/phase_1.png",
+        "assets/enemies/ghost/phase_2.png",
+        "assets/enemies/ghost/phase_3.png"
+    },
+    events = {
+        {
+            frame = 1,
+            type = "setHittable",
+            value = false,
+            duration = 0.3
+        }
+    }
+}
+Или вручную по кадрам:
+
+lua
+events = {
+    {
+        frame = 1,
+        type = "setHittable",
+        value = false
+    },
+    {
+        frame = 4,
+        type = "setHittable",
+        value = true
+    }
+}
+Главное: для frame = 1 не забывай:
+
+lua
+fireFirstFrameEvents = true

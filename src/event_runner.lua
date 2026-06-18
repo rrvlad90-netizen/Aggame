@@ -347,6 +347,30 @@ function EventRunner.randomState(owner, event)
     end
 end
 
+
+
+-- Выполняет событие setHittable.
+-- value = false: actor перестаёт ловить попадания.
+-- value = true: actor снова можно задеть.
+-- duration optional: автоматически вернёт hittable = true.
+function EventRunner.setHittable(owner, event)
+    if not owner or not owner.setHittable then
+        return
+    end
+
+    local value = event.value
+
+    if value == nil then
+        value = event.enabled
+    end
+
+    if value == nil then
+        value = true
+    end
+
+    owner:setHittable(value == true, event.duration)
+end
+
 -- Выполняет событие setInvulnerable - Включить неуязвимость
 function EventRunner.setInvulnerable(owner, event)
     if not owner or not owner.setInvulnerable then
@@ -366,8 +390,56 @@ function EventRunner.setInvulnerable(owner, event)
     owner:setInvulnerable(value == true, event.duration)
 end
 
+--Устанавливает прозрачность в кадре
+function EventRunner.setAlpha(owner, event)
+    if not owner then
+        return
+    end
 
--- Выполняет событие animation frame.
+    local alpha = event.alpha
+        or event.value
+
+    if alpha == nil then
+        return
+    end
+
+    owner.alpha = math.max(0, math.min(1, alpha))
+end
+
+-- Проверяет, должен ли animation event сработать.
+-- Если chance не указан, event всегда срабатывает.
+-- Поддерживает два формата:
+-- chance = 0.25  -- 25%
+-- chance = 25    -- 25%
+function EventRunner.shouldRunEvent(event)
+    local chance = event.chance
+        or event.probability
+
+    if chance == nil then
+        return true
+    end
+
+    if chance > 1 then
+        chance = chance / 100
+    end
+
+    if chance <= 0 then
+        return false
+    end
+
+    if chance >= 1 then
+        return true
+    end
+
+    return Utils.roll(chance)
+end
+
+
+
+
+-- Выполняет одно событие animation frame.
+-- Если у event есть chance/probability, событие сначала проходит roll.
+-- Это позволяет делать случайные переходы в block/special/attack без отдельной AI-логики.
 function EventRunner.run(world, owner, event)
     if not event then
         return
@@ -375,16 +447,30 @@ function EventRunner.run(world, owner, event)
 
     local eventType = event.type or event.action
 
-    if eventType == "setInvulnerable" --Если включили неуязвиомсть
+    if not EventRunner.shouldRunEvent(event) then
+        return
+    end
+	
+	if eventType == "setAlpha" or eventType == "set_alpha" then
+		EventRunner.setAlpha(owner, event)--задаем прозрачность
+		return
+	end
+
+    if eventType == "setInvulnerable" --Если включили неуязвимость
         or eventType == "set_invulnerable"
         or eventType == "invulnerable"
     then
         EventRunner.setInvulnerable(owner, event)--то устанавливаем ее эвентом для того кто вызвал
         return
-    end	
+    end
 	
-
-    local eventType = event.type or event.action
+	if eventType == "setHittable"--Если включили setHittable
+        or eventType == "set_hittable"
+        or eventType == "hittable"
+    then
+        EventRunner.setHittable(owner, event) --то снаряды и удары пролетают свковбь обьект
+        return
+    end
 
     if eventType == "playSound" or eventType == "sound" then
         EventRunner.playSound(event)
@@ -430,23 +516,23 @@ function EventRunner.run(world, owner, event)
         EventRunner.screenShake(world, event)
         return
     end
-	
-	if eventType == "setTracking" or eventType == "set_tracking" then
-		EventRunner.setTracking(owner, event)
-		return
-	end
-	
-	if eventType == "randomStateGroup" or eventType == "random_state_group" then
-		EventRunner.randomStateGroup(owner, event)
-		return
-	end	
 
-	if eventType == "randomState" or eventType == "random_state" then
-		EventRunner.randomState(owner, event)
-		return
-	end	
-	
+    if eventType == "setTracking" or eventType == "set_tracking" then
+        EventRunner.setTracking(owner, event)
+        return
+    end
+
+    if eventType == "randomStateGroup" or eventType == "random_state_group" then
+        EventRunner.randomStateGroup(owner, event)
+        return
+    end
+
+    if eventType == "randomState" or eventType == "random_state" then
+        EventRunner.randomState(owner, event)
+        return
+    end
 end
+
 
 -- Выполняет список событий.
 function EventRunner.runAll(world, owner, events)

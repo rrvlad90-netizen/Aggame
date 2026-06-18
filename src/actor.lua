@@ -26,7 +26,7 @@ function Actor:new(config)
 
     actor.x = config.x or 0
     actor.y = config.y or 0
-	
+---Неузвимый	
 	actor.invulnerable = config.invulnerable == true --неуязвимость (блок сделает)
     actor.invulnerableTimer = 0
 
@@ -34,6 +34,12 @@ function Actor:new(config)
         width = config.w or config.width or 48,
         height = config.h or config.height or 48
     }
+---Удар или проджектайл пролетит насквозь (призрак)	
+	actor.hittable = config.hittable ~= false
+        and config.canBeHit ~= false
+        and config.can_be_hit ~= false
+
+    actor.hittableTimer = 0
 
     actor.offset = config.offset or {
         x = actor.canvas.width / 2,
@@ -144,6 +150,20 @@ actor.solid = config.solid == true
     actor.nopain = config.nopain == true
         or config.noPain == true
         or config.no_pain == true
+
+	actor.painChance = config.painChance
+        or config.pain_chance
+
+    if actor.painChance == nil then
+        actor.painChance = 1
+    end
+
+    -- Поддерживаем оба формата:
+    -- painChance = 0.35  -- 35%
+    -- painChance = 35    -- 35%
+    if actor.painChance > 1 then
+        actor.painChance = actor.painChance / 100
+    end
 
     actor.heavyDeathEffect = config.heavyDeathEffect
         or config.heavy_death_effect
@@ -619,6 +639,32 @@ function Actor:takeDamage(damageInfo)
     return false
 end
 
+
+-- Включает/выключает возможность попасть по actor-у.
+-- hittable = false значит projectile/melee/effect проходят сквозь actor-а.
+-- duration optional: если задан, hittable автоматически вернётся в true.
+function Actor:setHittable(value, duration)
+    self.hittable = value == true
+    self.hittableTimer = duration or 0
+end
+
+function Actor:updateHittable(dt)
+    if self.hittable then
+        return
+    end
+
+    if not self.hittableTimer or self.hittableTimer <= 0 then
+        return
+    end
+
+    self.hittableTimer = self.hittableTimer - dt
+
+    if self.hittableTimer <= 0 then
+        self.hittable = true
+        self.hittableTimer = 0
+    end
+end
+
 -- Включает/выключает неуязвимость actor-а.
 -- duration optional: если задан, invulnerable выключится автоматически.
 function Actor:setInvulnerable(value, duration)
@@ -643,9 +689,32 @@ function Actor:updateInvulnerability(dt)
     end
 end
 
--- Проигрывает pain-анимацию, если она есть и nopain не включён.
+-- Проигрывает pain-анимацию, если она есть, nopain не включён
+-- и прошёл roll по painChance.
+-- painChance:
+-- 1 или 100 = pain всегда
+-- 0 = pain никогда
+-- 0.35 или 35 = pain примерно 35% получений урона
 function Actor:playPain()
     if self.nopain then
+        return
+    end
+
+    local painChance = self.painChance
+
+    if painChance == nil then
+        painChance = 1
+    end
+
+    if painChance > 1 then
+        painChance = painChance / 100
+    end
+
+    if painChance <= 0 then
+        return
+    end
+
+    if painChance < 1 and not Utils.roll(painChance) then
         return
     end
 
@@ -723,7 +792,8 @@ function Actor:update(dt, world)
         return
     end
 
-	self:updateInvulnerability(dt)
+	self:updateInvulnerability(dt)--неуязвимость
+	self:updateHittable(dt)--удар или проджектайл пролетит насквозь
 
     if not self.dead then
         self:updateAi(dt, world)

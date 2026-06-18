@@ -98,9 +98,15 @@ function Targeting.canTarget(actor, target)
     return Targeting.matches(actor.hates, target)
 end
 
--- ѕровер€ет, может ли damageSource нанести урон target.
+-- ѕровер€ет, может ли damageInfo повредить target.
+-- hittable = false означает, что target вообще не ловит попадани€:
+-- projectile, melee и effects проход€т сквозь него.
 function Targeting.canDamage(damageTargets, target)
     if not Targeting.isAlive(target) then
+        return false
+    end
+
+    if target.hittable == false then
         return false
     end
 
