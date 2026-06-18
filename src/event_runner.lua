@@ -134,6 +134,118 @@ function EventRunner.setState(owner, event)
     owner:playAnimation(event.state, true)
 end
 
+
+----Направляем снаряд в последний x и y игрока который зафиксировали
+local function getEntityCenter(entity)
+    if entity and entity.getHitbox then
+        local bbox = entity:getHitbox()
+
+        if bbox then
+            return bbox.x + bbox.w / 2, bbox.y + bbox.h / 2
+        end
+    end
+
+    return Targeting.centerX(entity), Targeting.centerY(entity)
+end
+
+function EventRunner.shouldAimAtTarget(event)
+    return event.aimAtTarget == true
+        or event.aim_at_target == true
+        or event.aim == true
+end
+
+function EventRunner.getAimTarget(world, owner, event)
+    if event.target == "player" and world then
+        return world.player
+    end
+
+    if owner and owner.target and Targeting.canTarget(owner, owner.target) then
+        return owner.target
+    end
+
+    if world and world.getTargetGroups and owner then
+        return Targeting.findNearest(owner, world:getTargetGroups())
+    end
+
+    return world and world.player
+end
+
+function EventRunner.applyProjectileAim(world, owner, event, overrides)
+    if not EventRunner.shouldAimAtTarget(event) then
+        return
+    end
+
+    local target = EventRunner.getAimTarget(world, owner, event)
+
+    if not target then
+        return
+    end
+
+    local spawnX = overrides.x or 0
+    local spawnY = overrides.y or 0
+
+    local targetX, targetY = getEntityCenter(target)
+
+    targetX = targetX + (
+        event.targetOffsetX
+        or event.target_offset_x
+        or 0
+    )
+
+    targetY = targetY + (
+        event.targetOffsetY
+        or event.target_offset_y
+        or 0
+    )
+
+    local dx = targetX - spawnX
+    local dy = targetY - spawnY
+
+    local aimMode = event.aimMode
+        or event.aim_mode
+        or "straight"
+
+    if aimMode == "arc" then
+        local travelTime = event.travelTime
+            or event.travel_time
+            or 1
+
+        if travelTime <= 0 then
+            travelTime = 1
+        end
+
+        local gravity = event.projectileGravity
+            or event.projectile_gravity
+            or overrides.gravity
+            or 0
+
+        overrides.gravity = gravity
+        overrides.vx = dx / travelTime
+        overrides.vy = (dy - 0.5 * gravity * travelTime * travelTime) / travelTime
+
+        return
+    end
+
+    local speed = event.projectileSpeed
+        or event.projectile_speed
+        or overrides.speed
+        or 0
+
+    if speed <= 0 then
+        return
+    end
+
+    local distance = math.sqrt(dx * dx + dy * dy)
+
+    if distance <= 0 then
+        return
+    end
+
+    overrides.vx = dx / distance * speed
+    overrides.vy = dy / distance * speed
+end
+----------
+
 -- Выполняет событие createEntity.
 function EventRunner.createEntity(world, owner, event)
     if not world or not event.id then
@@ -143,14 +255,16 @@ function EventRunner.createEntity(world, owner, event)
     local position = EventRunner.getEventPosition(owner, event)
     local facing = EventRunner.getEventFacing(owner, event)
 
-	local overrides = Utils.copyTable(event.overrides or {})
+    local overrides = Utils.copyTable(event.overrides or {})
 
-	overrides.x = event.spawnX or event.spawn_x or position.x
-	overrides.y = event.spawnY or event.spawn_y or position.y
-	overrides.facing = facing
-	overrides.owner = owner
+    overrides.x = event.spawnX or event.spawn_x or position.x
+    overrides.y = event.spawnY or event.spawn_y or position.y
+    overrides.facing = facing
+    overrides.owner = owner
 
-	world:createEntity(event.id, overrides.x, overrides.y, overrides)
+    EventRunner.applyProjectileAim(world, owner, event, overrides)
+
+    world:createEntity(event.id, overrides.x, overrides.y, overrides)
 end
 
 -- Возвращает debug-label для damageHitbox события.
@@ -233,10 +347,37 @@ function EventRunner.randomState(owner, event)
     end
 end
 
+-- Выполняет событие setInvulnerable - Включить неуязвимость
+function EventRunner.setInvulnerable(owner, event)
+    if not owner or not owner.setInvulnerable then
+        return
+    end
+
+    local value = event.value
+
+    if value == nil then
+        value = event.enabled
+    end
+
+    if value == nil then
+        value = true
+    end
+
+    owner:setInvulnerable(value == true, event.duration)
+end
+
 
 -- Выполняет одно событие animation frame.
 function EventRunner.run(world, owner, event)
     if not event then
+        return
+    end
+	
+	if eventType == "setInvulnerable" --Если включили неуязвиомсть
+        or eventType == "set_invulnerable"
+        or eventType == "invulnerable"
+    then
+        EventRunner.setInvulnerable(owner, event)--то устанавливаем ее эвентом для того кто вызвал
         return
     end
 

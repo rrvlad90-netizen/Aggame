@@ -1,7 +1,7 @@
 return {
     id = "torch",
 
-    layer = "back",
+    layer = "middle",
 
     x = 0,
     y = 0,

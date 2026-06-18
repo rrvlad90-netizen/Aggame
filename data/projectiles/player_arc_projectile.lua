@@ -44,6 +44,17 @@ return {
         h = 18
     },
 
+
+	rotateToVelocity = true,      -- включает поворот по vx/vy
+	rotationOffset = 0,           -- поправка угла под ориентацию спрайта
+	rotationSmoothing = 0,        -- 0 = мгновенно, например 18 = плавно
+	rotationMinSpeed = 1,          -- ниже этой скорости угол не обновляется
+	
+	
+	--rotationOffset = math.pi / 2	--Если sprite стрелы нарисован носом вверх, поставь:
+	--rotationOffset = math.pi --Если носом влево
+
+
     -- Только визуальный эффект попадания.
     -- Damage у эффекта должен быть 0.
     --impactEffect = "explosion",
@@ -53,7 +64,7 @@ return {
             loop = true,
             frameDuration = 0.08,
             frames = {
-                {}
+                "assets/projectiles/arrow.png"
             }
         },
 
@@ -61,8 +72,7 @@ return {
             loop = false,
             frameDuration = 0.08,
             frames = {
-                {},
-                {}
+                "assets/projectiles/arrow.png"
             }
         }
     }

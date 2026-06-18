@@ -8,8 +8,8 @@ return {
     flying = true,
     gravity = 0,
 
-    x = 0,
-    y = 150,
+    --x = 0,
+    --y = 150,
 
     speed = 90,
     health = 2,

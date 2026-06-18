@@ -1,0 +1,61 @@
+ример enemy attack event: прямой выстрел в игрока
+
+lua
+{
+    frame = 2,
+    type = "createEntity",
+    id = "enemy_fireball",
+
+    x = 32,
+    y = -12,
+
+    aimAtTarget = true,
+    aimMode = "straight",
+    projectileSpeed = 260,
+
+    overrides = {
+        gravity = 0,
+        rotateToVelocity = true,
+        damageTargets = {
+            player = true
+        },
+        collides = {
+            actors = false,
+            player = true,
+            platforms = true,
+            ground = false
+        }
+    }
+}
+Пример: бросок дугой в точку игрока
+
+lua
+{
+    frame = 2,
+    type = "createEntity",
+    id = "enemy_arc_projectile",
+
+    x = 28,
+    y = -20,
+
+    aimAtTarget = true,
+    aimMode = "arc",
+
+    -- За сколько секунд снаряд должен долететь до позиции игрока.
+    travelTime = 0.9,
+
+    overrides = {
+        gravity = 700,
+        rotateToVelocity = true,
+        damageTargets = {
+            player = true
+        },
+        collides = {
+            actors = false,
+            player = true,
+            platforms = true,
+            ground = false
+        }
+    }
+}
+Итог: враг не усложняется, projectile остаётся универсальным, а каждый выстрел можно настраивать прямо в animation event.

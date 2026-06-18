@@ -26,6 +26,9 @@ function Actor:new(config)
 
     actor.x = config.x or 0
     actor.y = config.y or 0
+	
+	actor.invulnerable = config.invulnerable == true --неуязвимость (блок сделает)
+    actor.invulnerableTimer = 0
 
     actor.canvas = config.canvas or {
         width = config.w or config.width or 48,
@@ -54,6 +57,19 @@ function Actor:new(config)
     actor.speed = config.speed or 120
 
     actor.gravity = config.gravity
+-------Аплитуда для летающих (вверх вниз)	
+	actor.flyAmplitude = config.flyAmplitude
+        or config.fly_amplitude
+        or 0
+
+    actor.flyFrequency = config.flyFrequency
+        or config.fly_frequency
+        or 0
+
+    actor.flyTime = 0
+    actor.flyBaseY = config.flyBaseY
+        or config.fly_base_y
+        or actor.y
 
     if actor.gravity == nil then
         actor.gravity = 900
@@ -106,7 +122,13 @@ actor.solid = config.solid == true
 
     actor.movementMode = config.movementMode
         or config.movement_mode
-        or "chase"
+        or "chase"  --охота, идет на игрока
+		
+	actor.keepMovingDuringAttack = config.keepMovingDuringAttack == true
+        or config.keep_moving_during_attack == true
+
+    actor.attackMoveSpeed = config.attackMoveSpeed
+        or config.attack_move_speed		
 
     actor.showHealthBar = config.showHealthBar == true
         or config.show_health_bar == true
@@ -430,7 +452,16 @@ function Actor:tryStartAttack(target)
         return true
     end
 
-    self.vx = 0
+	if self.keepMovingDuringAttack then
+        local attackSpeed = self.attackMoveSpeed or self.speed or 0
+
+        if self.movementMode == "chase" then
+            self.vx = self.facing * attackSpeed
+        end
+    else
+        self.vx = 0
+    end
+
     self.state = animationName
     self.animationSet:set(animationName, true)
 
@@ -474,12 +505,21 @@ function Actor:updateAi(dt, world)
     end
 
     -- Атака, pain и другие lockInput-анимации должны закончиться до конца.
-    if not self.animationSet:isCurrentFinished()
-        and self.animationSet:isInputLocked()
-    then
-        self.vx = 0
-        return
-    end
+	if not self.animationSet:isCurrentFinished()
+			and self.animationSet:isInputLocked()
+		then
+			if self.keepMovingDuringAttack then
+				local attackSpeed = self.attackMoveSpeed or self.speed or 0
+
+				if self.movementMode == "chase" then
+					self.vx = self.facing * attackSpeed
+				end
+			else
+				self.vx = 0
+			end
+
+			return
+		end
 
     local target = self:selectTarget(world and world:getTargetGroups() or {})
 
@@ -514,15 +554,28 @@ function Actor:updatePhysics(dt)
     end
 
     -- Запоминаем прошлую позицию для платформенной физики.
-    -- Это позволяет понять, пересёк ли actor верх платформы сверху вниз.
     self.previousX = self.x
     self.previousY = self.y
 
-    if not self.flying then
-        self.vy = self.vy + self.gravity * dt
+    self.x = self.x + self.vx * dt
+
+    if self.flying then
+        local flyAmplitude = self.flyAmplitude or 0
+        local flyFrequency = self.flyFrequency or 0
+
+        if flyAmplitude ~= 0 and flyFrequency ~= 0 then
+            self.flyTime = (self.flyTime or 0) + dt
+            self.flyBaseY = (self.flyBaseY or self.y) + (self.vy or 0) * dt
+            self.y = self.flyBaseY + math.sin(self.flyTime * flyFrequency) * flyAmplitude
+        else
+            self.y = self.y + self.vy * dt
+            self.flyBaseY = self.y
+        end
+
+        return
     end
 
-    self.x = self.x + self.vx * dt
+    self.vy = self.vy + self.gravity * dt
     self.y = self.y + self.vy * dt
 end
 
@@ -542,8 +595,12 @@ end
 -- Получает урон.
 -- damageInfo — единый формат урона от projectile/effect/melee/hazard.
 function Actor:takeDamage(damageInfo)
-    if self.dead then
-        return false
+    if self.dead then --если актор мертв
+        return false --урон не нанесется
+    end
+
+	if self.invulnerable then --если актор неуязвимый
+        return false --урон не нанесется
     end
 
     damageInfo = damageInfo or {}
@@ -560,6 +617,30 @@ function Actor:takeDamage(damageInfo)
     self:playPain()
 
     return false
+end
+
+-- Включает/выключает неуязвимость actor-а.
+-- duration optional: если задан, invulnerable выключится автоматически.
+function Actor:setInvulnerable(value, duration)
+    self.invulnerable = value == true
+    self.invulnerableTimer = duration or 0
+end
+
+function Actor:updateInvulnerability(dt)
+    if not self.invulnerable then
+        return
+    end
+
+    if not self.invulnerableTimer or self.invulnerableTimer <= 0 then
+        return
+    end
+
+    self.invulnerableTimer = self.invulnerableTimer - dt
+
+    if self.invulnerableTimer <= 0 then
+        self.invulnerable = false
+        self.invulnerableTimer = 0
+    end
 end
 
 -- Проигрывает pain-анимацию, если она есть и nopain не включён.
@@ -641,6 +722,8 @@ function Actor:update(dt, world)
     if self.deathFinished then
         return
     end
+
+	self:updateInvulnerability(dt)
 
     if not self.dead then
         self:updateAi(dt, world)

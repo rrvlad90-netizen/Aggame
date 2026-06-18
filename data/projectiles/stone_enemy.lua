@@ -53,7 +53,7 @@
             loop = true,
             frameDuration = 0.08,
             frames = {
-                {}
+                "assets/projectiles/enemyproj.png"
             }
         },
 
@@ -61,8 +61,8 @@
             loop = false,
             frameDuration = 0.08,
             frames = {
-                {},
-                {}
+                "assets/projectiles/enemyproj.png",
+                "assets/projectiles/enemyproj.png"
             }
         }
     }

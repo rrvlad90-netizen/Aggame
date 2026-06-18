@@ -5,6 +5,52 @@ local Render = require("src.render")
 local Projectile = {}
 Projectile.__index = Projectile
 
+local function atan2(y, x)
+    if math.atan2 then
+        return math.atan2(y, x)
+    end
+
+    if x > 0 then
+        return math.atan(y / x)
+    end
+
+    if x < 0 and y >= 0 then
+        return math.atan(y / x) + math.pi
+    end
+
+    if x < 0 and y < 0 then
+        return math.atan(y / x) - math.pi
+    end
+
+    if x == 0 and y > 0 then
+        return math.pi / 2
+    end
+
+    if x == 0 and y < 0 then
+        return -math.pi / 2
+    end
+
+    return 0
+end
+
+local function normalizeAngle(angle)
+    while angle > math.pi do
+        angle = angle - math.pi * 2
+    end
+
+    while angle < -math.pi do
+        angle = angle + math.pi * 2
+    end
+
+    return angle
+end
+
+local function approachAngle(current, target, factor)
+    local delta = normalizeAngle(target - current)
+
+    return current + delta * factor
+end
+
 -- Создаёт projectile из definition.
 -- Projectile используется для стрел, камней, магии, бомб и других летящих объектов.
 function Projectile:new(config)
@@ -77,6 +123,34 @@ function Projectile:new(config)
 
     projectile.gravity = config.gravity or 0
 
+    -- Опциональный визуальный поворот sprite-а по направлению движения.
+    -- Удобно для стрел и снарядов по дуге.
+    projectile.rotateToVelocity = config.rotateToVelocity == true
+        or config.rotate_to_velocity == true
+
+    -- Поправка угла под то, как нарисован исходный sprite.
+    -- 0 подходит, если sprite смотрит вправо.
+    projectile.rotationOffset = config.rotationOffset
+        or config.rotation_offset
+        or 0
+
+    -- 0 = мгновенно следует за дугой.
+    -- Значение вроде 12-24 даст плавный доворот.
+    projectile.rotationSmoothing = config.rotationSmoothing
+        or config.rotation_smoothing
+        or 0
+
+    -- Если скорость почти нулевая, угол не обновляем.
+    projectile.rotationMinSpeed = config.rotationMinSpeed
+        or config.rotation_min_speed
+        or 1
+
+    projectile.rotation = config.rotation
+        or config.angle
+        or 0
+
+    projectile.rotationInitialized = false
+
     projectile.maxDistance = config.maxDistance
         or config.max_distance
 
@@ -119,6 +193,7 @@ function Projectile:new(config)
     })
 
     projectile.animationSet:set("idle", true)
+    projectile:updateRotationFromVelocity(0)
 
     return projectile
 end
@@ -209,6 +284,37 @@ function Projectile:resolvePlatformCollision(level)
     return false
 end
 
+-- Поворачивает projectile по направлению текущей скорости.
+-- rotateToVelocity включается отдельно в data/projectiles/*.lua.
+function Projectile:updateRotationFromVelocity(dt)
+    if not self.rotateToVelocity then
+        return
+    end
+
+    local vx = self.vx or 0
+    local vy = self.vy or 0
+    local speedSquared = vx * vx + vy * vy
+    local minSpeed = self.rotationMinSpeed or 1
+
+    if speedSquared < minSpeed * minSpeed then
+        return
+    end
+
+    local targetRotation = atan2(vy, vx) + (self.rotationOffset or 0)
+    local smoothing = self.rotationSmoothing or 0
+
+    if not self.rotationInitialized or smoothing <= 0 or not dt or dt <= 0 then
+        self.rotation = targetRotation
+        self.rotationInitialized = true
+        return
+    end
+
+    local factor = math.min(1, smoothing * dt)
+
+    self.rotation = approachAngle(self.rotation or 0, targetRotation, factor)
+    self.rotationInitialized = true
+end
+
 -- Обновляет движение projectile-а.
 function Projectile:updateMovement(dt)
     local previousX = self.x
@@ -220,6 +326,8 @@ function Projectile:updateMovement(dt)
 
     self.x = self.x + self.vx * dt
     self.y = self.y + self.vy * dt
+
+    self:updateRotationFromVelocity(dt)
 
     local dx = self.x - previousX
     local dy = self.y - previousY

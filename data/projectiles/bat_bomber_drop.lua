@@ -41,6 +41,11 @@ return {
         w = 12,
         h = 16
     },
+	
+	rotateToVelocity = true,      -- включает поворот по vx/vy
+	rotationOffset = 0,           -- поправка угла под ориентацию спрайта
+	rotationSmoothing = 0,        -- 0 = мгновенно, например 18 = плавно
+	rotationMinSpeed = 1,          -- ниже этой скорости угол не обновляется
 
     color = {1.0, 0.25, 0.2},
 
@@ -49,7 +54,7 @@ return {
             loop = true,
             frameDuration = 0.08,
             frames = {
-                "assets/enemies/bat_bomber/drop.png"
+                "assets/projectiles/enemyproj.png"
             }
         },
 
@@ -61,8 +66,8 @@ return {
             fireFirstFrameEvents = true,
 
             frames = {
-                "assets/enemies/bat_bomber/drop.png",
-                "assets/enemies/bat_bomber/drop.png"
+                "assets/projectiles/enemyproj.png",
+                "assets/projectiles/enemyproj.png"
             },
 
             events = {

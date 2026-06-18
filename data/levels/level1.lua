@@ -89,15 +89,27 @@
             y = 555,
             appearDistance = 600
         },
+--        {
+--           id = "flying_shooter",
+--           x = 920,
+--           y = 475,
+--           appearDistance = 600
+--        },
         {
-            id = "goblin",
-            x = 920,
-            y = 555,
+			id = "flying_aim_shooter",
+            x = 1020,
+            y = 435,
             appearDistance = 600
         },
         {
-		    id = "bat_bomber",
+			id = "dragon",
             x = 1320,
+            y = 435,
+            appearDistance = 600
+        },		
+        {
+		    id = "bat_bomber",
+            x = 1520,
             y = 425,
             appearDistance = 600
         }
@@ -158,6 +170,18 @@
             y = 465,
             layer = "middle"
         },
+		{
+            id = "torch",
+            x = 790,
+            y = 505,
+            layer = "back"
+        },
+		{
+            id = "tree",
+            x = 990,
+            y = 505,
+            layer = "front"
+        },		
 		
     },
 

@@ -1,0 +1,33 @@
+Пример block-анимации у actor-а
+
+block = {
+    loop = false,
+    lockInput = true,
+    frameDuration = 0.08,
+    frames = {
+        "assets/enemies/shield/block_1.png",
+        "assets/enemies/shield/block_2.png",
+        "assets/enemies/shield/block_3.png",
+        "assets/enemies/shield/block_4.png"
+    },
+    events = {
+        {
+            frame = 1,
+            type = "setInvulnerable",
+            value = true
+        },
+        {
+            frame = 4,
+            type = "setInvulnerable",
+            value = false
+        }
+    }
+}
+Или короткий вариант, чтобы не забыть выключить:
+
+{
+    frame = 1,
+    type = "setInvulnerable",
+    value = true,
+    duration = 0.25
+}
