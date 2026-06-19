@@ -20,6 +20,14 @@ return {
     lifeTime = 4.0,
 
     alpha = 1,
+	
+	---------ремх
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------	
 
     collides = {
         actors = false,

@@ -12,6 +12,14 @@ return {
 
 --  solid = true,--блокирует всех
 
+	---------ТЕНИ
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------
+
 --Можно так
 --nopain = false,
 --painChance = 35,--перебьет флаг nopain 

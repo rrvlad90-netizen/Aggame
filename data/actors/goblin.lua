@@ -9,6 +9,14 @@ return {
     speed = 90,
     gravity = 900,
     flying = false,
+	
+	---------ТЕНИ
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------	
 
 --	solid = true,--блокирует всех
 	
@@ -105,7 +113,8 @@ return {
                     damage = 1,
                     deathType = "normal",
                     damageTargets = {
-                        player = true
+                        player = true,
+						npc = true
                     }
                 }
             }

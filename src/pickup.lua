@@ -1,5 +1,6 @@
 local Assets = require("src.assets")
 local Collision = require("src.collision")
+local Shadow = require("src.shadow")
 
 local Pickup = {}
 Pickup.__index = Pickup
@@ -37,6 +38,44 @@ function Pickup:new(config)
 
     pickup.alpha = config.alpha or 1
     pickup.color = config.color or {0.2, 0.9, 0.25}
+	
+------ТЕНЬ опционально
+
+
+pickup.shadowType = config.shadowType
+        or config.shadow_type
+        or 0
+
+    pickup.shadowAlpha = config.shadowAlpha
+        or config.shadow_alpha
+        or 0.3
+
+    pickup.shadowWidth = config.shadowWidth
+        or config.shadow_width
+
+    pickup.shadowHeight = config.shadowHeight
+        or config.shadow_height
+
+    pickup.shadowOffsetX = config.shadowOffsetX
+        or config.shadow_offset_x
+        or 0
+
+    pickup.shadowOffsetY = config.shadowOffsetY
+        or config.shadow_offset_y
+        or 0
+
+    pickup.shadowScaleX = config.shadowScaleX
+        or config.shadow_scale_x
+
+    pickup.shadowScaleY = config.shadowScaleY
+        or config.shadow_scale_y
+
+    pickup.shadowVisible = false
+    pickup.shadowX = 0
+    pickup.shadowY = 0
+
+---------	
+	
 
     pickup.kind = config.kind or "health"
 
@@ -128,6 +167,8 @@ end
 function Pickup:draw(camera)
     local screenX = self.x - (camera and camera.x or 0)
     local screenY = self.y - (camera and camera.y or 0)
+
+	Shadow.draw(self, camera)
 
     if self.image then
         local image = Assets.getImage(self.image)

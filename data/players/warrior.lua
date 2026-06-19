@@ -7,6 +7,15 @@ return {
     health = 5,
     lives = 3,
 
+
+	---------ТЕНИ
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------
+
     speed = 180,
     jumpPower = -430,
     gravity = 900,

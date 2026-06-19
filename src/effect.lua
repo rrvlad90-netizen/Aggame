@@ -59,6 +59,42 @@ function Effect:new(config)
         and config.damage_once ~= false
 
     effect.damageApplied = false
+	
+---------ТЕНИ опционально
+
+	effect.shadowType = config.shadowType
+        or config.shadow_type
+        or 0
+
+    effect.shadowAlpha = config.shadowAlpha
+        or config.shadow_alpha
+        or 0.3
+
+    effect.shadowWidth = config.shadowWidth
+        or config.shadow_width
+
+    effect.shadowHeight = config.shadowHeight
+        or config.shadow_height
+
+    effect.shadowOffsetX = config.shadowOffsetX
+        or config.shadow_offset_x
+        or 0
+
+    effect.shadowOffsetY = config.shadowOffsetY
+        or config.shadow_offset_y
+        or 0
+
+    effect.shadowScaleX = config.shadowScaleX
+        or config.shadow_scale_x
+
+    effect.shadowScaleY = config.shadowScaleY
+        or config.shadow_scale_y
+
+    effect.shadowVisible = false
+    effect.shadowX = 0
+    effect.shadowY = 0
+-------	
+	
 
     effect.flight = config.flight
 

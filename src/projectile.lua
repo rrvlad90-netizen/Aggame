@@ -122,6 +122,42 @@ function Projectile:new(config)
         or 0
 
     projectile.gravity = config.gravity or 0
+	
+	
+---------ТЕНИ опционально
+
+	projectile.shadowType = config.shadowType
+        or config.shadow_type
+        or 0
+
+    projectile.shadowAlpha = config.shadowAlpha
+        or config.shadow_alpha
+        or 0.3
+
+    projectile.shadowWidth = config.shadowWidth
+        or config.shadow_width
+
+    projectile.shadowHeight = config.shadowHeight
+        or config.shadow_height
+
+    projectile.shadowOffsetX = config.shadowOffsetX
+        or config.shadow_offset_x
+        or 0
+
+    projectile.shadowOffsetY = config.shadowOffsetY
+        or config.shadow_offset_y
+        or 0
+
+    projectile.shadowScaleX = config.shadowScaleX
+        or config.shadow_scale_x
+
+    projectile.shadowScaleY = config.shadowScaleY
+        or config.shadow_scale_y
+
+    projectile.shadowVisible = false
+    projectile.shadowX = 0
+    projectile.shadowY = 0
+-------		
 
     -- Опциональный визуальный поворот sprite-а по направлению движения.
     -- Удобно для стрел и снарядов по дуге.

@@ -15,6 +15,13 @@ return {
     rightAnimation = "idleright",
 
     centerRange = 100,
+	
+----ТЕНЬ	
+	shadowType = 1,
+    shadowAlpha = 0.25,
+    shadowWidth = 22,
+    shadowHeight = 6,
+------
 
     canvas = {
         width = 69,

@@ -9,6 +9,15 @@ return {
     speed = 90,
     gravity = 900,
     flying = false,
+	
+	
+	---------ТЕНИ
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------	
 
     -- solid = true,
 	
@@ -143,7 +152,8 @@ return {
                     damage = 1,
                     deathType = "normal",
                     damageTargets = {
-                        player = true
+                        player = true,
+						npc = true--!!!
                     }
                 }
             }
@@ -194,7 +204,8 @@ return {
                     damage = 1,
                     deathType = "normal",
                     damageTargets = {
-                        player = true
+                        player = true,
+						npc = true--!!!
                     }
                 }
             }
@@ -247,10 +258,11 @@ return {
                     direction = "forward",
                     overrides = {
                         damageTargets = {
-                            player = true
+                            player = true,
+							npc = true--!!!
                         },
                         collides = {
-                            actors = false,
+                            actors = true,--!!!
                             player = true,
                             platforms = true,
                             ground = true

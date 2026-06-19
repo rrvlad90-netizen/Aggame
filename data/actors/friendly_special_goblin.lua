@@ -11,6 +11,14 @@ return {
     flying = false,
 
     -- solid = true,
+	---------ТЕНИ
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------	
+	
 	
 	alpha = 0.15,
 
@@ -141,7 +149,7 @@ return {
                     damage = 1,
                     deathType = "normal",
                     damageTargets = {
-                        player = true
+                        enemy = true
                     }
                 }
             }
@@ -192,7 +200,7 @@ return {
                     damage = 1,
                     deathType = "normal",
                     damageTargets = {
-                        player = true
+                        enemy = true
                     }
                 }
             }
@@ -245,11 +253,11 @@ return {
                     direction = "forward",
                     overrides = {
                         damageTargets = {
-                            player = true
+                            enemy = true
                         },
                         collides = {
-                            actors = false,
-                            player = true,
+                            actors = true, --бьет акторов
+                            player = false, --не бьет игрока
                             platforms = true,
                             ground = true
                         }

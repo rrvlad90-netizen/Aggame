@@ -10,6 +10,14 @@ return {
 
     health = 2,
     speed = 70,
+	
+	---------ТЕНИ
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------	
 
     showHealthBar = true,
 
@@ -126,11 +134,12 @@ return {
                         rotationSmoothing = 0,
 
                         damageTargets = {
-                            player = true
+                            player = true,
+							npc = true  --!!!!
                         },
 
                         collides = {
-                            actors = false,
+                            actors = true, --!!!!
                             player = true,
                             platforms = true,
                             ground = false

@@ -1,6 +1,7 @@
 local Assets = require("src.assets")
 local Config = require("src.config")
 local Collision = require("src.collision")
+local Shadow = require("src.shadow")
 
 local Render = {}
 
@@ -45,6 +46,8 @@ function Render.drawEntity(entity, camera)
     if entity.hidden then
         return
     end
+	
+	Shadow.draw(entity, camera)
 
     local image = nil
 

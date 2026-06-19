@@ -21,6 +21,15 @@ return {
     },
 
     color = {0.45, 0.45, 0.45},
+	
+	
+	---------ТЕНИ
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------	
 
     -- В текущей системе vx < 0 летит влево.
     -- Если нужно вправо — поставь vx = 80.

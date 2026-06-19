@@ -6,6 +6,7 @@ local Targeting = require("src.targeting")
 local Render = require("src.render")
 local Assets = require("src.assets")
 local Physics = require("src.physics")
+local Shadow = require("src.shadow")
 local Debug = require("src.debug")
 
 local World = {}
@@ -782,6 +783,12 @@ function World:drawDebug()
     Debug.drawWorld(self)
 end
 
+-- Обновляет позицию тени и рисует runtime entity.
+function World:drawEntityWithShadow(entity)
+    Shadow.update(entity, self.level)
+    entity:draw(self.camera)
+end
+
 -- Рисует весь world в порядке слоёв.
 function World:draw()
     self:drawBackgrounds()
@@ -803,23 +810,31 @@ function World:draw()
 	end
 
     for _, pickup in ipairs(self.pickups) do
-        pickup:draw(self.camera)
+        self:drawEntityWithShadow(pickup)
     end
 
     for _, effect in ipairs(self.effects) do
-        effect:draw(self.camera)
+        self:drawEntityWithShadow(effect)
     end
 
     for _, projectile in ipairs(self.projectiles) do
-        projectile:draw(self.camera)
+        self:drawEntityWithShadow(projectile)
     end
 
     for _, actor in ipairs(self.actors) do
-        actor:draw(self.camera)
+        self:drawEntityWithShadow(actor)
     end
+	
+	for _, pickup in ipairs(self.pickups) do
+		self:drawEntityWithShadow(pickup)
+	end	
+	
+	for _, decor in ipairs(self.decors) do
+		self:drawEntityWithShadow(decor)
+	end		
 
     if self.player then
-        self.player:draw(self.camera)
+        self:drawEntityWithShadow(self.player)
     end
 
     if self.level.levelEnd then

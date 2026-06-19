@@ -144,7 +144,43 @@ actor.solid = config.solid == true
         or config.touchDamageTargets
         or config.touch_damage_targets
         or actor.damageTargets
-----------		
+		
+---------ТЕНИ опционально
+
+actor.shadowType = config.shadowType
+        or config.shadow_type
+        or 0
+
+    actor.shadowAlpha = config.shadowAlpha
+        or config.shadow_alpha
+        or 0.3
+
+    actor.shadowWidth = config.shadowWidth
+        or config.shadow_width
+
+    actor.shadowHeight = config.shadowHeight
+        or config.shadow_height
+
+    actor.shadowOffsetX = config.shadowOffsetX
+        or config.shadow_offset_x
+        or 0
+
+    actor.shadowOffsetY = config.shadowOffsetY
+        or config.shadow_offset_y
+        or 0
+
+    actor.shadowScaleX = config.shadowScaleX
+        or config.shadow_scale_x
+
+    actor.shadowScaleY = config.shadowScaleY
+        or config.shadow_scale_y
+
+    actor.shadowVisible = false
+    actor.shadowX = 0
+    actor.shadowY = 0
+-------
+
+	
 		
     actor.ignoreFlyingTargets = config.ignoreFlyingTargets == true
         or config.ignore_flying_targets == true

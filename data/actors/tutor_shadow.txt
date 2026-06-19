@@ -1,0 +1,12 @@
+Пример силуэтной тени
+
+Если хочешь проверить shadowType = -1:
+
+shadowType = -1,
+shadowAlpha = 0.18,
+shadowScaleY = 0.12,
+shadowOffsetY = 2,
+Но лучше начать с:
+
+shadowType = 1
+Овал стабильнее и не зависит от размера/offset sprite-а.

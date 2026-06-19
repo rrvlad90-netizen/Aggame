@@ -9,6 +9,15 @@ return {
     speed = 145,
     gravity = 900,
     flying = false,
+	
+	---------ТЕНИ
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------	
+	
 
     movementMode = "runner",
 	ignoreLevelBounds = true, -- проходит сквозь границы экрана

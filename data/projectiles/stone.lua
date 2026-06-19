@@ -19,6 +19,15 @@
 
     maxDistance = 520,
     lifeTime = 3.0,
+	
+	
+	---------ТЕНИ
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------	
 
     collides = {
         actors = true,

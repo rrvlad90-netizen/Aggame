@@ -79,6 +79,43 @@ function Player:new(config)
 
     player.abilities = config.abilities or {}
 
+
+---------ТЕНИ опционально
+
+	player.shadowType = config.shadowType
+        or config.shadow_type
+        or 0
+
+    player.shadowAlpha = config.shadowAlpha
+        or config.shadow_alpha
+        or 0.3
+
+    player.shadowWidth = config.shadowWidth
+        or config.shadow_width
+
+    player.shadowHeight = config.shadowHeight
+        or config.shadow_height
+
+    player.shadowOffsetX = config.shadowOffsetX
+        or config.shadow_offset_x
+        or 0
+
+    player.shadowOffsetY = config.shadowOffsetY
+        or config.shadow_offset_y
+        or 0
+
+    player.shadowScaleX = config.shadowScaleX
+        or config.shadow_scale_x
+
+    player.shadowScaleY = config.shadowScaleY
+        or config.shadow_scale_y
+
+    player.shadowVisible = false
+    player.shadowX = 0
+    player.shadowY = 0
+-------
+
+
     -- Количество прыжков.
     -- 1 = обычный прыжок, 2 = двойной прыжок.
     -- abilities.canDoubleJump = true автоматически даёт 2 прыжка.

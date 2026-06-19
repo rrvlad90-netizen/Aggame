@@ -22,6 +22,13 @@ return {
         w = 32,
         h = 32
     },
+	
+----ТЕНЬ	
+	shadowType = 1,
+    shadowAlpha = 0.25,
+    shadowWidth = 22,
+    shadowHeight = 6,
+------	
 
     color = {1, 0.9, 0.1}
 }

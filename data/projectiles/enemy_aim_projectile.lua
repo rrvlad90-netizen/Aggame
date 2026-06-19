@@ -1,6 +1,9 @@
 return {
     id = "enemy_aim_projectile",
 
+    entityType = "enemy",
+    targetGroup = "enemy",
+
     damage = 1,
     deathType = "normal",
 
@@ -15,6 +18,14 @@ return {
     vx = 0,
     vy = 0,
     gravity = 0,
+	
+	---------ТЕНИ
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------	
 
     maxDistance = 700,
     lifeTime = 3.0,
@@ -31,7 +42,7 @@ return {
     rotationMinSpeed = 1,
 
     collides = {
-        actors = false,
+        actors = true, --!!!! Попадает по акторам тоже (actors = false только по игроку)
         player = true,
         platforms = true,
         ground = false

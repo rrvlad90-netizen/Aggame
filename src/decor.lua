@@ -2,6 +2,7 @@ local Assets = require("src.assets")
 local AnimationSet = require("src.animation_set")
 local EventRunner = require("src.event_runner")
 local Collision = require("src.collision")
+local Shadow = require("src.shadow")
 
 local Decor = {}
 Decor.__index = Decor
@@ -32,7 +33,7 @@ function Decor:new(config)
 ----Зона удаления аторов - поставить за границу экрана в начале уровня
 ----Но можно и так использовать	если нужно что бы монстры, платформы и и.д. удалялись
 
-decor.bbox = config.bbox or {
+	decor.bbox = config.bbox or {
         x = 0,
         y = 0,
         w = decor.canvas.width,
@@ -68,8 +69,40 @@ decor.bbox = config.bbox or {
 
     decor.removePlayer = config.removePlayer == true
         or config.remove_player == true
--------------
----------------
+------ТЕНЬ опционально
+	decor.shadowType = config.shadowType
+        or config.shadow_type
+        or 0
+
+    decor.shadowAlpha = config.shadowAlpha
+        or config.shadow_alpha
+        or 0.3
+
+    decor.shadowWidth = config.shadowWidth
+        or config.shadow_width
+
+    decor.shadowHeight = config.shadowHeight
+        or config.shadow_height
+
+    decor.shadowOffsetX = config.shadowOffsetX
+        or config.shadow_offset_x
+        or 0
+
+    decor.shadowOffsetY = config.shadowOffsetY
+        or config.shadow_offset_y
+        or 0
+
+    decor.shadowScaleX = config.shadowScaleX
+        or config.shadow_scale_x
+
+    decor.shadowScaleY = config.shadowScaleY
+        or config.shadow_scale_y
+
+    decor.shadowVisible = false
+    decor.shadowX = 0
+    decor.shadowY = 0
+
+---------	
     decor.image = config.image
 
     decor.alpha = config.alpha or 1

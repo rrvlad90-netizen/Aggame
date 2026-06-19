@@ -22,6 +22,13 @@ return {
         w = 28,
         h = 28
     },
+	
+----ТЕНЬ	
+	shadowType = 1,
+    shadowAlpha = 0.25,
+    shadowWidth = 22,
+    shadowHeight = 6,
+------	
 
     image = nil,
 

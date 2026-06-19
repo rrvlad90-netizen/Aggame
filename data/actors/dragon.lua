@@ -10,6 +10,14 @@ return {
 
     health = 2,
     speed = 90,
+	
+	---------ремх
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 14,
+    shadowOffsetY = 2,
+	---------
 
     showHealthBar = false,
 
@@ -114,7 +122,7 @@ return {
                             npc = true
                         },
                         collides = {
-                            actors = false,
+                            actors = true,
                             player = true,
                             platforms = true,
                             ground = false
