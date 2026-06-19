@@ -132,6 +132,30 @@ function Player:new(config)
 
     player.alpha = config.alpha or 1
     player.color = config.color or {0.2, 0.55, 1.0}
+	
+-------Scale --Чисто визуальный эффект, на bbox и hitbox не влияет
+	player.scale = config.scale or 1
+
+    player.scaleX = config.scaleX
+        or config.scale_x
+        or player.scale
+
+    player.scaleY = config.scaleY
+        or config.scale_y
+        or player.scale	
+-----Смещение для Scale если спрайт сьехал в сторону
+	player.drawOffsetX = config.drawOffsetX
+        or config.draw_offset_x
+        or config.visualOffsetX
+        or config.visual_offset_x
+        or 0
+
+    player.drawOffsetY = config.drawOffsetY
+        or config.draw_offset_y
+        or config.visualOffsetY
+        or config.visual_offset_y
+        or 0
+-----
 
     player.onGround = false
     player.dead = false

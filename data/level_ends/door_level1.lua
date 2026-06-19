@@ -6,6 +6,14 @@ return {
 	nextScene = "scenelevel2",
     --nextLevel = "level2",
 
+-------ТЕНЬ
+    shadowType = 1,
+    shadowAlpha = 0.25,
+    shadowWidth = 48,
+    shadowHeight = 10,
+    shadowOffsetY = 2,
+-------
+
     canvas = {
         width = 48,
         height = 80

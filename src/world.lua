@@ -830,8 +830,8 @@ function World:draw()
         self:drawEntityWithShadow(self.player)
     end
 
-    if self.level.levelEnd then
-        self.level.levelEnd:draw(self.camera)
+	if self.level.levelEnd then
+        self:drawEntityWithShadow(self.level.levelEnd)
     end
 
     for _, decor in ipairs(self.level.decors or {}) do

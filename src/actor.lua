@@ -108,8 +108,30 @@ actor.solid = config.solid == true
 
     actor.alpha = config.alpha or 1
     actor.color = config.color or {0.8, 0.2, 0.2}
-	
-	
+
+-------Scale --Чисто визуальный эффект, на bbox и hitbox не влияет
+	actor.scale = config.scale or 1
+
+    actor.scaleX = config.scaleX
+        or config.scale_x
+        or actor.scale
+
+    actor.scaleY = config.scaleY
+        or config.scale_y
+        or actor.scale		
+-----Смещение для Scale если спрайт сьехал в сторону
+	actor.drawOffsetX = config.drawOffsetX
+        or config.draw_offset_x
+        or config.visualOffsetX
+        or config.visual_offset_x
+        or 0
+
+    actor.drawOffsetY = config.drawOffsetY
+        or config.draw_offset_y
+        or config.visualOffsetY
+        or config.visual_offset_y
+        or 0
+-----
 	actor.animationGroups = config.animationGroups
 		or config.animation_groups
 		or {}

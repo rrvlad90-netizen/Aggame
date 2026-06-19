@@ -5,6 +5,8 @@ return {
 	entityType = "npc",
 	targetGroup = "npc",
 
+    scale = 3.5,
+
     health = 2,
     speed = 90,
     gravity = 900,

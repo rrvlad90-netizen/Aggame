@@ -107,6 +107,30 @@ function Decor:new(config)
 
     decor.alpha = config.alpha or 1
     decor.color = config.color or {0.5, 0.5, 0.5}
+	
+-------Scale --Чисто визуальный эффект, на bbox и hitbox не влияет
+	decor.scale = config.scale or 1
+
+    decor.scaleX = config.scaleX
+        or config.scale_x
+        or decor.scale
+
+    decor.scaleY = config.scaleY
+        or config.scale_y
+        or decor.scale
+-----Смещение для Scale если спрайт сьехал в сторону
+	decor.drawOffsetX = config.drawOffsetX
+        or config.draw_offset_x
+        or config.visualOffsetX
+        or config.visual_offset_x
+        or 0
+
+    decor.drawOffsetY = config.drawOffsetY
+        or config.draw_offset_y
+        or config.visualOffsetY
+        or config.visual_offset_y
+        or 0
+
 
     decor.layer = config.layer or "back"
 
@@ -187,21 +211,29 @@ function Decor:update(dt, world)
     self:updateRemoveDecorAnimation()
 end
 
-
 -- Рисует decor.
 function Decor:draw(camera)
-    local screenX = self.x - (camera and camera.x or 0)
-    local screenY = self.y - (camera and camera.y or 0)
-	
-	Shadow.draw(self, camera)	
+-----Смещение для Scale если спрайт сьехал в сторону
+	local screenX = self.x
+		- (camera and camera.x or 0)
+		+ (self.drawOffsetX or self.draw_offset_x or 0)
+
+	local screenY = self.y
+		- (camera and camera.y or 0)
+		+ (self.drawOffsetY or self.draw_offset_y or 0)
+------
+    local scaleX = self.scaleX or self.scale or 1
+    local scaleY = self.scaleY or self.scale or 1
+
+    Shadow.draw(self, camera)
 
     if self.animationSet then
         self.animationSet:draw(
             screenX,
             screenY,
             0,
-            1,
-            1,
+            scaleX,
+            scaleY,
             self.offset.x,
             self.offset.y,
             self.alpha
@@ -219,8 +251,8 @@ function Decor:draw(camera)
             screenX,
             screenY,
             0,
-            1,
-            1,
+            scaleX,
+            scaleY,
             self.offset.x,
             self.offset.y
         )
@@ -238,10 +270,10 @@ function Decor:draw(camera)
 
     love.graphics.rectangle(
         "fill",
-        screenX - self.offset.x,
-        screenY - self.offset.y,
-        self.canvas.width,
-        self.canvas.height
+        screenX - self.offset.x * scaleX,
+        screenY - self.offset.y * scaleY,
+        self.canvas.width * scaleX,
+        self.canvas.height * scaleY
     )
 
     love.graphics.setColor(1, 1, 1)

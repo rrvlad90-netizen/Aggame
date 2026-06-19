@@ -7,7 +7,8 @@ return {
     health = 5,
     lives = 3,
 
-
+    scale = 3.5,
+	
 	---------ТЕНИ
 	shadowType = 1,
     shadowAlpha = 0.22,

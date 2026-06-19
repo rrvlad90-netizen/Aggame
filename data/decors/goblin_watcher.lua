@@ -6,6 +6,10 @@ return {
     x = 0,
     y = 0,
 
+    scale = 2.2,
+	--visualOffsetX = -8,
+	visualOffsetY = -82, --вверх сместить
+
     defaultAnimation = "spawn",
 
     trackAfterSpawn = true, -- начнет следить за игроком (Tracking после spawn)

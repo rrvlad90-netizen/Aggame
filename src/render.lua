@@ -66,9 +66,13 @@ function Render.drawEntity(entity, camera)
     end
 
     local offset = entity.offset or {x = 0, y = 0}
-    local screenX = Render.worldToScreenX(entity.x, camera)
-    local screenY = Render.worldToScreenY(entity.y, camera)
+---Здесь также есть смещение для Scale. Если картинка увеличилась криво. ее можно поправить	
+	local screenX = Render.worldToScreenX(entity.x, camera)
+		+ (entity.drawOffsetX or entity.draw_offset_x or 0)
 
+	local screenY = Render.worldToScreenY(entity.y, camera)
+		+ (entity.drawOffsetY or entity.draw_offset_y or 0)
+-----
     local scaleX = entity.scaleX or entity.scale or 1
     local scaleY = entity.scaleY or entity.scale or 1
 
@@ -100,8 +104,13 @@ end
 -- Рисует entity, у которой есть animationSet.
 function Render.drawAnimatedEntity(entity, camera)
     local offset = entity.offset or {x = 0, y = 0}
-    local screenX = Render.worldToScreenX(entity.x, camera)
-    local screenY = Render.worldToScreenY(entity.y, camera)
+---Здесь также есть смещение для Scale. Если картинка увеличилась криво. ее можно поправить	
+	local screenX = Render.worldToScreenX(entity.x, camera)
+		+ (entity.drawOffsetX or entity.draw_offset_x or 0)
+
+	local screenY = Render.worldToScreenY(entity.y, camera)
+		+ (entity.drawOffsetY or entity.draw_offset_y or 0)
+-------
 
     local scaleX = entity.scaleX or entity.scale or 1
     local scaleY = entity.scaleY or entity.scale or 1

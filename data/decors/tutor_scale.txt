@@ -1,0 +1,41 @@
+После этого можно писать:
+
+scale = 1.5
+или:
+
+scaleX = 1.5,
+scaleY = 0.8
+Пример для decor:
+
+return {
+    id = "big_tree",
+
+    image = "assets/decors/tree.png",
+
+    scale = 1.8,
+
+    canvas = {
+        width = 128,
+        height = 160
+    },
+
+    offset = {
+        x = 64,
+        y = 160
+    }
+}
+Для actor:
+
+scaleX = 1.2,
+scaleY = 1.2,
+Коллизии не изменятся — только визуальный размер.
+
+Также смещение если при увеличении карти нка нарисована неверно
+
+drawOffsetX = -8,
+drawOffsetY = 12
+Или альтернативные имена тоже будут работать:
+
+visualOffsetX = -8,
+visualOffsetY = 12
+bbox, hitbox, физика и позиция entity не меняются — двигается только картинка.

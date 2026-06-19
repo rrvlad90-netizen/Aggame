@@ -1,6 +1,7 @@
 local Assets = require("src.assets")
 local Collision = require("src.collision")
 local AnimationSet = require("src.animation_set")
+local Shadow = require("src.shadow")
 
 local LevelEnd = {}
 LevelEnd.__index = LevelEnd
@@ -62,6 +63,41 @@ function LevelEnd:new(config)
 
     levelEnd.alpha = config.alpha or 1
     levelEnd.color = config.color or {1.0, 0.85, 0.2}
+	
+----ТЕНЬ опционально	
+	levelEnd.shadowType = config.shadowType
+        or config.shadow_type
+        or 0
+
+    levelEnd.shadowAlpha = config.shadowAlpha
+        or config.shadow_alpha
+        or 0.3
+
+    levelEnd.shadowWidth = config.shadowWidth
+        or config.shadow_width
+
+    levelEnd.shadowHeight = config.shadowHeight
+        or config.shadow_height
+
+    levelEnd.shadowOffsetX = config.shadowOffsetX
+        or config.shadow_offset_x
+        or 0
+
+    levelEnd.shadowOffsetY = config.shadowOffsetY
+        or config.shadow_offset_y
+        or 0
+
+    levelEnd.shadowScaleX = config.shadowScaleX
+        or config.shadow_scale_x
+
+    levelEnd.shadowScaleY = config.shadowScaleY
+        or config.shadow_scale_y
+
+    levelEnd.shadowVisible = false
+    levelEnd.shadowX = 0
+    levelEnd.shadowY = 0	
+----ТЕНЬ опционально
+
 
     levelEnd.vx = config.vx or config.speedX or config.speed_x or 0
     levelEnd.vy = config.vy or config.speedY or config.speed_y or 0
@@ -127,6 +163,8 @@ function LevelEnd:draw(camera)
     if not self.active or self.triggered then
         return
     end
+	
+	Shadow.draw(self, camera)	
 
     local screenX = self.x - (camera and camera.x or 0)
     local screenY = self.y - (camera and camera.y or 0)

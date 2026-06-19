@@ -43,7 +43,30 @@ function Effect:new(config)
 
     effect.alpha = config.alpha or 1
     effect.color = config.color or {1, 0.5, 0.1}
+	
+-------Scale --Чисто визуальный эффект, на bbox и hitbox не влияет
+effect.scale = config.scale or 1
 
+    effect.scaleX = config.scaleX
+        or config.scale_x
+        or effect.scale
+
+    effect.scaleY = config.scaleY
+        or config.scale_y
+        or effect.scale
+-----Смещение для Scale если спрайт сьехал в сторону
+	effect.drawOffsetX = config.drawOffsetX
+        or config.draw_offset_x
+        or config.visualOffsetX
+        or config.visual_offset_x
+        or 0
+
+    effect.drawOffsetY = config.drawOffsetY
+        or config.draw_offset_y
+        or config.visualOffsetY
+        or config.visual_offset_y
+        or 0
+--------------
     effect.facing = config.facing or 1
     effect.flipSprite = config.flipSprite == true
         or config.flip_sprite == true
