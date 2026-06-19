@@ -1,14 +1,15 @@
 return {
     id = "goblin_watcher",
 
-    layer = "back",
+    layer = "back", --не работает для платформ 
+	--и это правильно ведь наш уровень это платформа. И ее мы перекрываем картинкой
 
     x = 0,
     y = 0,
 
     scale = 2.2,
-	--visualOffsetX = -8,
-	visualOffsetY = -82, --вверх сместить
+	visualOffsetX = -40, --влево сместить
+	visualOffsetY = -62, --вверх сместить
 
     defaultAnimation = "spawn",
 

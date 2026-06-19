@@ -205,6 +205,9 @@ function Input.keyToAction(key)
         x = "shoot",
         lctrl = "shoot",
         rctrl = "shoot",
+		
+		v = "block",
+        b = "block",
 
         c = "melee",
         lshift = "strafe",

@@ -5,7 +5,8 @@ return {
 	entityType = "npc",
 	targetGroup = "npc",
 
-    scale = 3.5,
+	ignoreFlyingTargets = true,
+
 
     health = 2,
     speed = 90,

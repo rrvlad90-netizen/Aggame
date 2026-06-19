@@ -654,26 +654,32 @@ local function updatePlayerInput()
 
     local direction = Input.getMoveDirection()
 
+    player:setCrouchHeld(Input.isDown("crouch"))
+
     if direction ~= 0 then
         player:setMoveDirection(direction)
     else
         player:stopMoving()
     end
 
+    player:setBlockHeld(Input.isDown("block"))
+
     if Input.wasPressed("jump") then
         player:jump()
     end
 
     if Input.wasPressed("shoot") then
-        player:shoot()
+        player:shoot({
+            up = Input.isDown("up"),
+            forward = direction ~= 0 and direction == player.facing,
+            moving = direction ~= 0
+        })
     end
 
     if Input.wasPressed("melee") then
-        player:melee()
-    end
-
-    if Input.wasPressed("crouch") then
-        player:crouch()
+        player:melee({
+            moving = direction ~= 0
+        })
     end
 
     if Input.wasPressed("strafe") then
