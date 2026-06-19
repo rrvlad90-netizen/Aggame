@@ -18,9 +18,10 @@ return {
 	
 ----ТЕНЬ	
 	shadowType = 1,
-    shadowAlpha = 0.25,
-    shadowWidth = 22,
-    shadowHeight = 6,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 11,
+    shadowOffsetY = 2,
 ------
 
     canvas = {

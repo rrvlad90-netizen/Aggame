@@ -50,15 +50,21 @@ function Shadow.getEntityImage(entity)
 end
 
 -- Ищет ближайшую платформу под entity.
--- Тень появляется только если центр entity по X находится над платформой.
+-- Тень появляется, если центр entity по X находится над платформой,
+-- а верх платформы находится ниже верхней части bbox.
+-- Так работает и для actor-ов с anchor в ногах, и для pickup-ов с anchor в центре.
 function Shadow.findPlatformBelow(entity, level)
     if not entity or not level or not entity.getHitbox then
         return nil
     end
 
     local bbox = entity:getHitbox()
-    local centerX = bbox.x + bbox.w / 2 + (entity.shadowCastOffsetX or entity.shadow_cast_offset_x or 0)
-    local bottomY = bbox.y + bbox.h
+
+    local centerX = bbox.x
+        + bbox.w / 2
+        + (entity.shadowCastOffsetX or entity.shadow_cast_offset_x or 0)
+
+    local minShadowY = bbox.y - (entity.shadowPlatformTolerance or entity.shadow_platform_tolerance or 8)
 
     local bestPlatform = nil
     local bestY = nil
@@ -71,11 +77,13 @@ function Shadow.findPlatformBelow(entity, level)
             local insideX = centerX >= platformBox.x
                 and centerX <= platformBox.x + platformBox.w
 
-            -- Небольшой допуск нужен, чтобы стоящий на платформе actor не терял тень
-            -- из-за погрешности в 1-2 пикселя.
-            local isBelow = platformTop >= bottomY - 8
+            -- Важно:
+            -- Раньше проверяли platformTop >= bboxBottom - 8.
+            -- Для pickup-а с offset.y = 16 это ломалось, потому что pickup частично "внутри" платформы.
+            -- Теперь достаточно, чтобы платформа была ниже верхней части bbox.
+            local canCastShadow = platformTop >= minShadowY
 
-            if insideX and isBelow then
+            if insideX and canCastShadow then
                 if not bestY or platformTop < bestY then
                     bestY = platformTop
                     bestPlatform = platform

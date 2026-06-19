@@ -790,24 +790,25 @@ function World:drawEntityWithShadow(entity)
 end
 
 -- Рисует весь world в порядке слоёв.
+-- Рисует весь world в порядке слоёв.
 function World:draw()
     self:drawBackgrounds()
 
-	for _, decor in ipairs(self.level.decors or {}) do
-		if decor.layer == "back" or decor.layer == nil then
-			decor:draw(self.camera)
-		end
-	end
+    for _, decor in ipairs(self.level.decors or {}) do
+        if decor.layer == "back" or decor.layer == nil then
+            self:drawEntityWithShadow(decor)
+        end
+    end
 
     for _, platform in ipairs(self.level.platforms or {}) do
         platform:draw(self.camera)
     end
-	
-	for _, decor in ipairs(self.level.decors or {}) do
-		if decor.layer == "middle" then
-			decor:draw(self.camera)
-		end
-	end
+
+    for _, decor in ipairs(self.level.decors or {}) do
+        if decor.layer == "middle" then
+            self:drawEntityWithShadow(decor)
+        end
+    end
 
     for _, pickup in ipairs(self.pickups) do
         self:drawEntityWithShadow(pickup)
@@ -824,14 +825,6 @@ function World:draw()
     for _, actor in ipairs(self.actors) do
         self:drawEntityWithShadow(actor)
     end
-	
-	for _, pickup in ipairs(self.pickups) do
-		self:drawEntityWithShadow(pickup)
-	end	
-	
-	for _, decor in ipairs(self.decors) do
-		self:drawEntityWithShadow(decor)
-	end		
 
     if self.player then
         self:drawEntityWithShadow(self.player)
@@ -843,7 +836,7 @@ function World:draw()
 
     for _, decor in ipairs(self.level.decors or {}) do
         if decor.layer == "front" then
-            decor:draw(self.camera)
+            self:drawEntityWithShadow(decor)
         end
     end
 

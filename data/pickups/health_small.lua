@@ -2,34 +2,34 @@ return {
     id = "health_small",
 
     kind = "health",
-
     healAmount = 1,
+	
+	image = "assets/pickups/health_small.png",
+	
+----ТЕНЬ	
+	shadowType = 1,
+    shadowAlpha = 0.22,
+    shadowWidth = 70,
+    shadowHeight = 11,
+    shadowOffsetY = 2,
+------
 
     canvas = {
-        width = 28,
-        height = 28
+        width = 32,
+        height = 32
     },
 
     offset = {
-        x = 14,
-        y = 14
+        x = 16,
+        y = 16
     },
 
     bbox = {
         x = 0,
         y = 0,
-        w = 28,
-        h = 28
+        w = 32,
+        h = 32
     },
-
-----ТЕНЬ	
-	shadowType = 1,
-    shadowAlpha = 0.25,
-    shadowWidth = 22,
-    shadowHeight = 6,
-------
-
-    image = nil,
 
     color = {0.2, 0.9, 0.25}
 }

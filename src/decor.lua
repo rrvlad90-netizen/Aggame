@@ -192,6 +192,8 @@ end
 function Decor:draw(camera)
     local screenX = self.x - (camera and camera.x or 0)
     local screenY = self.y - (camera and camera.y or 0)
+	
+	Shadow.draw(self, camera)	
 
     if self.animationSet then
         self.animationSet:draw(
