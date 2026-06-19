@@ -1030,6 +1030,24 @@ function Player:die()
     self:playAnimation("death", true)
 end
 
+-- Обновляет физику игрока: gravity и движение по vx/vy.
+function Player:updatePhysics(dt)
+    if self.dead then
+        return
+    end
+
+    -- Запоминаем прошлую позицию.
+    -- Это нужно, чтобы платформы понимали:
+    -- игрок упал сверху или уже оказался внутри объекта.
+    self.previousX = self.x
+    self.previousY = self.y
+
+    self.vy = self.vy + self.gravity * dt
+
+    self.x = self.x + self.vx * dt
+    self.y = self.y + self.vy * dt
+end
+
 -- Обновляет игрока: физику, animation events и состояние death/idle/run/jump/fall.
 function Player:update(dt)
     self:updatePhysics(dt)
@@ -1087,36 +1105,6 @@ function Player:update(dt)
         self:playAnimation("run")
     else
         self:playAnimation("idle")
-    end
-end
-
--- Обновляет игрока: физику, animation events и состояние death/idle/run.
-function Player:update(dt)
-    self:updatePhysics(dt)
-
-    local events = self.animationSet:update(dt)
-
-    for _, event in ipairs(events) do
-        table.insert(self.entitySpawnRequests, event)
-    end
-
-    if self.dead
-        and self.animationSet:isCurrentFinished()
-    then
-        self.deathFinished = true
-    end
-
-    if not self.dead
-        and self.animationSet:isCurrentFinished()
-        and self.state ~= "idle"
-        and self.state ~= "run"
-        and self.onGround
-    then
-        if math.abs(self.vx or 0) > 1 then
-            self:playAnimation("run")
-        else
-            self:playAnimation("idle")
-        end
     end
 end
 

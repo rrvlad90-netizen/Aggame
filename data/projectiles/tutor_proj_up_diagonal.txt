@@ -1,0 +1,21 @@
+Как вызывать из анимации
+
+lua
+{
+    frame = 2,
+    type = "createEntity",
+    id = "player_projectile_up",
+    x = 0,
+    y = -52,
+    direction = "forward"
+}
+lua
+{
+    frame = 2,
+    type = "createEntity",
+    id = "player_projectile_diagonal_up",
+    x = 34,
+    y = -46,
+    direction = "forward"
+}
+Важный момент: player_projectile_diagonal_up летит в сторону facing игрока, а вверх — за счёт vy = -340. Для чисто вертикального player_projectile_up facing не важен, потому что vx = 0.

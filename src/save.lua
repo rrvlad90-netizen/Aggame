@@ -75,10 +75,15 @@ function Save.getDefaultData()
             soundVolume = 0.85
         },
 
+		keyboard = {
+            bindings = nil
+        },
+
         touch = {
             buttonScale = 1.0,
             buttonAlpha = 0.65
         }
+
     }
 end
 
@@ -177,6 +182,23 @@ function Save.setTouchSettings(buttonScale, buttonAlpha)
     Save.data.touch.buttonAlpha = buttonAlpha
 
     Save.save()
+end
+
+-- Сохраняет настройки клавиатуры.
+function Save.setKeyboardBindings(bindings)
+    Save.data.keyboard = Save.data.keyboard or {}
+    Save.data.keyboard.bindings = bindings
+
+    Save.save()
+end
+
+-- Возвращает настройки клавиатуры.
+function Save.getKeyboardBindings()
+    if not Save.data.keyboard then
+        return nil
+    end
+
+    return Save.data.keyboard.bindings
 end
 
 return Save

@@ -11,80 +11,209 @@ Input.touchButtons = {}
 Input.touchVisibleTimer = 0
 Input.touchAlpha = Config.input.touchButtonAlpha
 
+Input.defaultKeyBindings = {
+    left = {"left", "a"},
+    right = {"right", "d"},
+    up = {"up", "w"},
+    down = {"down", "s"},
+
+    jump = {"space", "z"},
+    shoot = {"x", "lctrl", "rctrl"},
+    melee = {"c"},
+
+    crouch = {"s", "down"},
+    block = {"v"},
+    strafe = {"lshift", "rshift"},
+
+    pause = {"escape"},
+    confirm = {"return"}
+}
+
+Input.keyBindings = {}
+
+local function copyBindings(bindings)
+    local result = {}
+
+    for action, keys in pairs(bindings or {}) do
+        result[action] = {}
+
+        for _, key in ipairs(keys or {}) do
+            table.insert(result[action], key)
+        end
+    end
+
+    return result
+end
+
 -- Инициализирует input-состояние.
 function Input.init()
     Input.down = {}
     Input.pressed = {}
     Input.released = {}
 
+    Input.keyBindings = copyBindings(Input.defaultKeyBindings)
+
     Input.touchButtons = Input.createDefaultTouchButtons()
     Input.touchVisibleTimer = 0
 end
 
+-- Загружает клавиатурные бинды из save.
+function Input.setKeyBindings(bindings)
+    Input.keyBindings = copyBindings(Input.defaultKeyBindings)
+
+    for action, keys in pairs(bindings or {}) do
+        if type(keys) == "table" then
+            Input.keyBindings[action] = copyBindings({value = keys}).value
+        elseif type(keys) == "string" then
+            Input.keyBindings[action] = {keys}
+        end
+    end
+end
+
+-- Возвращает текущие клавиатурные бинды.
+function Input.getKeyBindings()
+    return copyBindings(Input.keyBindings)
+end
+
+-- Сбрасывает бинды клавиатуры.
+function Input.resetKeyBindings()
+    Input.keyBindings = copyBindings(Input.defaultKeyBindings)
+end
+
+-- Назначает одну клавишу на action.
+function Input.setKeyBinding(action, key)
+    if not action or not key then
+        return
+    end
+
+    -- Убираем эту клавишу из других action, чтобы не было конфликтов.
+    for bindingAction, keys in pairs(Input.keyBindings) do
+        for index = #keys, 1, -1 do
+            if keys[index] == key then
+                table.remove(keys, index)
+            end
+        end
+
+        if #keys == 0 and bindingAction ~= action then
+            Input.keyBindings[bindingAction] = {}
+        end
+    end
+
+    Input.keyBindings[action] = {key}
+end
+
+-- Возвращает первую клавишу action для отображения в Options.
+function Input.getPrimaryKey(action)
+    local keys = Input.keyBindings[action]
+
+    if not keys or #keys == 0 then
+        return "-"
+    end
+
+    return keys[1]
+end
+
 -- Создаёт стандартные touch-кнопки.
--- Картинки потом можно будет добавить через UI.
 function Input.createDefaultTouchButtons()
     local scale = Config.input.touchButtonScale
-    local size = 58 * scale
-    local margin = 18 * scale
+    local size = 50 * scale
+    local gap = 10 * scale
+    local margin = 16 * scale
 
     local screenW = Config.screen.width
     local screenH = Config.screen.height
 
+    local bottomY = screenH - size - margin
+    local upperY = bottomY - size - gap
+    local topY = margin
+
     return {
+        -- Левая зона движения.
         {
             action = "left",
             x = margin,
-            y = screenH - size - margin,
+            y = bottomY,
             w = size,
             h = size
         },
         {
             action = "right",
-            x = margin + size + 12 * scale,
-            y = screenH - size - margin,
+            x = margin + size + gap,
+            y = bottomY,
+            w = size,
+            h = size
+        },
+        {
+            action = "up",
+            x = margin + size / 2 + gap / 2,
+            y = upperY,
+            w = size,
+            h = size
+        },
+        {
+            action = "down",
+            x = margin + size / 2 + gap / 2,
+            y = bottomY + size + gap,
             w = size,
             h = size
         },
         {
             action = "crouch",
-            x = margin + (size + 12 * scale) * 2,
-            y = screenH - size - margin,
+            x = margin + (size + gap) * 2,
+            y = bottomY,
             w = size,
             h = size
         },
+
+        -- Правая зона действий.
         {
             action = "jump",
             x = screenW - margin - size,
-            y = screenH - size - margin,
+            y = bottomY,
             w = size,
             h = size
         },
         {
             action = "shoot",
-            x = screenW - margin - size * 2 - 12 * scale,
-            y = screenH - size - margin,
+            x = screenW - margin - (size + gap) * 2,
+            y = bottomY,
             w = size,
             h = size
         },
         {
             action = "melee",
-            x = screenW - margin - size * 3 - 24 * scale,
-            y = screenH - size - margin,
+            x = screenW - margin - (size + gap) * 3,
+            y = bottomY,
+            w = size,
+            h = size
+        },
+        {
+            action = "block",
+            x = screenW - margin - size,
+            y = upperY,
             w = size,
             h = size
         },
         {
             action = "strafe",
+            x = screenW - margin - (size + gap) * 2,
+            y = upperY,
+            w = size,
+            h = size
+        },
+
+        -- Системные кнопки.
+        {
+            action = "pause",
             x = screenW - margin - size,
-            y = screenH - size * 2 - margin - 12 * scale,
+            y = topY,
             w = size,
             h = size
         },
         {
-            action = "pause",
-            x = screenW - margin - size,
-            y = margin,
+            action = "confirm",
+            x = screenW - margin - (size + gap) * 2,
+            y = topY,
             w = size,
             h = size
         }
@@ -92,7 +221,6 @@ function Input.createDefaultTouchButtons()
 end
 
 -- Очищает события pressed/released.
--- Вызывается в конце каждого кадра.
 function Input.endFrame()
     Input.pressed = {}
     Input.released = {}
@@ -105,7 +233,7 @@ function Input.update(dt)
     end
 end
 
--- Показывает touch-кнопки на Config.input.touchHideDelay секунд.
+-- Показывает touch-кнопки.
 function Input.showTouchButtons()
     Input.touchVisibleTimer = Config.input.touchHideDelay
 end
@@ -141,22 +269,18 @@ function Input.release(action)
     Input.down[action] = false
 end
 
--- Возвращает true, если action удерживается.
 function Input.isDown(action)
     return Input.down[action] == true
 end
 
--- Возвращает true только в кадр нажатия action.
 function Input.wasPressed(action)
     return Input.pressed[action] == true
 end
 
--- Возвращает true только в кадр отпускания action.
 function Input.wasReleased(action)
     return Input.released[action] == true
 end
 
--- Возвращает горизонтальное направление движения.
 function Input.getMoveDirection()
     local direction = 0
 
@@ -171,7 +295,6 @@ function Input.getMoveDirection()
     return direction
 end
 
--- Возвращает вертикальное направление для атак.
 function Input.getAimY()
     if Input.isDown("up") then
         return -1
@@ -186,54 +309,29 @@ end
 
 -- Возвращает action для клавиши.
 function Input.keyToAction(key)
-    local map = {
-        left = "left",
-        a = "left",
+    for action, keys in pairs(Input.keyBindings or {}) do
+        for _, bindingKey in ipairs(keys or {}) do
+            if bindingKey == key then
+                return action
+            end
+        end
+    end
 
-        right = "right",
-        d = "right",
-
-        up = "up",
-        w = "up",
-
-        down = "down",
-        s = "down",
-
-        space = "jump",
-        z = "jump",
-
-        x = "shoot",
-        lctrl = "shoot",
-        rctrl = "shoot",
-		
-		v = "block",
-        b = "block",
-
-        c = "melee",
-        lshift = "strafe",
-        rshift = "strafe",
-
-        escape = "pause"
-    }
-
-    return map[key]
+    return nil
 end
 
--- Обрабатывает love.keypressed.
 function Input.keypressed(key)
     local action = Input.keyToAction(key)
 
     Input.press(action)
 end
 
--- Обрабатывает love.keyreleased.
 function Input.keyreleased(key)
     local action = Input.keyToAction(key)
 
     Input.release(action)
 end
 
--- Возвращает touch-кнопку под координатами x/y.
 function Input.getTouchButtonAt(x, y)
     for _, button in ipairs(Input.touchButtons) do
         if Collision.pointInRect(x, y, button) then
@@ -244,7 +342,6 @@ function Input.getTouchButtonAt(x, y)
     return nil
 end
 
--- Обрабатывает нажатие мыши или touch.
 function Input.pointerPressed(x, y)
     Input.showTouchButtons()
 
@@ -258,7 +355,6 @@ function Input.pointerPressed(x, y)
     return false
 end
 
--- Обрабатывает отпускание мыши или touch.
 function Input.pointerReleased(x, y)
     local button = Input.getTouchButtonAt(x, y)
 
@@ -267,7 +363,6 @@ function Input.pointerReleased(x, y)
         return true
     end
 
-    -- Если отпустили вне кнопки, отпускаем все touch actions.
     for _, touchButton in ipairs(Input.touchButtons) do
         Input.release(touchButton.action)
     end
@@ -275,7 +370,6 @@ function Input.pointerReleased(x, y)
     return false
 end
 
--- Обрабатывает love.mousepressed.
 function Input.mousepressed(x, y, button)
     if button == 1 then
         return Input.pointerPressed(x, y)
@@ -284,7 +378,6 @@ function Input.mousepressed(x, y, button)
     return false
 end
 
--- Обрабатывает love.mousereleased.
 function Input.mousereleased(x, y, button)
     if button == 1 then
         return Input.pointerReleased(x, y)
@@ -293,7 +386,6 @@ function Input.mousereleased(x, y, button)
     return false
 end
 
--- Обрабатывает love.touchpressed.
 function Input.touchpressed(id, x, y)
     return Input.pointerPressed(
         x * Config.screen.width,
@@ -301,7 +393,6 @@ function Input.touchpressed(id, x, y)
     )
 end
 
--- Обрабатывает love.touchreleased.
 function Input.touchreleased(id, x, y)
     return Input.pointerReleased(
         x * Config.screen.width,

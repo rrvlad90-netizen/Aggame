@@ -9,6 +9,7 @@ return {
         background = nil,
         music = nil,
         characters = {
+			"dduck",
             "warrior"
         }
     },

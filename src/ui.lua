@@ -264,6 +264,91 @@ function UI.drawMenu(title, items, selectedIndex)
     end
 end
 
+
+-- Рисует меню настроек управления.
+function UI.drawOptionsMenu(items, selectedIndex, remapAction)
+    love.graphics.clear(0.04, 0.04, 0.06)
+
+    love.graphics.setFont(UI.bigFont)
+    love.graphics.setColor(1, 1, 1)
+
+    love.graphics.printf(
+        "OPTIONS",
+        0,
+        50,
+        Config.screen.width,
+        "center"
+    )
+
+    love.graphics.setFont(UI.font)
+
+    if remapAction then
+        love.graphics.setColor(1, 0.9, 0.35)
+        love.graphics.printf(
+            "Press new key for: " .. string.upper(remapAction),
+            0,
+            105,
+            Config.screen.width,
+            "center"
+        )
+
+        love.graphics.setColor(0.8, 0.8, 0.8)
+        love.graphics.printf(
+            "ESC - cancel",
+            0,
+            130,
+            Config.screen.width,
+            "center"
+        )
+    else
+        love.graphics.setColor(0.8, 0.8, 0.8)
+        love.graphics.printf(
+            "Enter - change key, Esc - back",
+            0,
+            105,
+            Config.screen.width,
+            "center"
+        )
+    end
+
+    local startY = 160
+    local rowH = 34
+    local buttonW = 460
+    local buttonH = 28
+    local buttonX = Config.screen.width / 2 - buttonW / 2
+
+    for index, item in ipairs(items or {}) do
+        local y = startY + (index - 1) * rowH
+        local alpha = 1
+
+        if selectedIndex and selectedIndex ~= index then
+            alpha = 0.65
+        end
+
+        love.graphics.setColor(0.08, 0.08, 0.1, 0.85 * alpha)
+        love.graphics.rectangle("fill", buttonX, y, buttonW, buttonH, 6, 6)
+
+        love.graphics.setColor(1, 1, 1, alpha)
+        love.graphics.rectangle("line", buttonX, y, buttonW, buttonH, 6, 6)
+
+        local text = item.label or item.action or ""
+
+        if item.action then
+            text = text .. ": " .. string.upper(Input.getPrimaryKey(item.action))
+        end
+
+        love.graphics.printf(
+            text,
+            buttonX + 12,
+            y + 6,
+            buttonW - 24,
+            "left"
+        )
+    end
+
+    love.graphics.setColor(1, 1, 1)
+end
+
 -- Рисует debug-информацию.
 function UI.drawDebug(world)
     if not Config.debug.enabled then

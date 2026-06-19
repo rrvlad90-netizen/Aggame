@@ -4,5 +4,8 @@ return {
 	player_arc_projectile = "data/projectiles/player_arc_projectile.lua",
     diagonal_down_projectile = "data/projectiles/diagonal_down_projectile.lua",	
 	enemy_aim_projectile = "data/projectiles/enemy_aim_projectile.lua",	
-	bat_bomber_drop = "data/projectiles/bat_bomber_drop.lua"
+	bat_bomber_drop = "data/projectiles/bat_bomber_drop.lua",
+	--
+	player_projectile_up = "data/projectiles/player_projectile_up.lua",
+    player_projectile_diagonal_up = "data/projectiles/player_projectile_diagonal_up.lua"
 }

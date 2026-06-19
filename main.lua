@@ -43,7 +43,24 @@ local game = {
     restoreLevelEntryOnNextLevel = false,	
 
     loadingProgress = 0,
-    pendingStart = nil
+    pendingStart = nil,		
+}
+
+local optionsMenuItems = {
+    {label = "Left", action = "left"},
+    {label = "Right", action = "right"},
+    {label = "Up", action = "up"},
+    {label = "Down", action = "down"},
+    {label = "Jump", action = "jump"},
+    {label = "Shoot", action = "shoot"},
+    {label = "Melee", action = "melee"},
+    {label = "Crouch", action = "crouch"},
+    {label = "Block", action = "block"},
+    {label = "Strafe", action = "strafe"},
+    {label = "Pause", action = "pause"},
+    {label = "Confirm", action = "confirm"},
+    {label = "Reset Controls", special = "reset_controls"},
+    {label = "Back", special = "back"}
 }
 
 local mainMenuItems = {
@@ -451,7 +468,10 @@ local function confirmMainMenu()
         return
     end
 
-    if item.action == "options" then
+	if item.action == "options" then
+        game.mode = "options_menu"
+        game.selectedOptionsIndex = 1
+        game.remapAction = nil
         return
     end
 
@@ -459,6 +479,81 @@ local function confirmMainMenu()
         love.event.quit()
         return
     end
+end
+
+
+-- Обрабатывает подтверждение options menu.
+local function confirmOptionsMenu()
+    local item = optionsMenuItems[game.selectedOptionsIndex]
+
+    if not item then
+        return
+    end
+
+    if item.special == "back" then
+        game.mode = "main_menu"
+        game.remapAction = nil
+        return
+    end
+
+    if item.special == "reset_controls" then
+        Input.resetKeyBindings()
+        Save.setKeyboardBindings(Input.getKeyBindings())
+        return
+    end
+
+    if item.action then
+        game.remapAction = item.action
+        return
+    end
+end
+
+-- Обновляет options menu.
+local function updateOptionsMenu()
+    if game.remapAction then
+        return
+    end
+
+    game.selectedOptionsIndex = updateMenuSelection(
+        #optionsMenuItems,
+        game.selectedOptionsIndex
+    )
+
+    if Input.wasPressed("pause") then
+        game.mode = "main_menu"
+        return
+    end
+
+    if Input.wasPressed("jump")
+        or Input.wasPressed("shoot")
+        or Input.wasPressed("melee")
+        or Input.wasPressed("confirm")
+    then
+        confirmOptionsMenu()
+    end
+end
+
+-- Обрабатывает клавишу при переназначении.
+local function handleOptionsKeyPressed(key)
+    if not game.remapAction then
+        return false
+    end
+
+    if key == "escape" then
+        game.remapAction = nil
+        return true
+    end
+
+    if key == "f1" then
+        return false
+    end
+
+    Input.setKeyBinding(game.remapAction, key)
+    Save.setKeyboardBindings(Input.getKeyBindings())
+
+    game.remapAction = nil
+
+    return true
 end
 
 -- Обрабатывает подтверждение pause menu.
@@ -806,6 +901,8 @@ function love.load()
     UI.init()
     Save.load()
 
+	Input.setKeyBindings(Save.getKeyboardBindings())
+
     game.flow = loadFlow()
     game.mode = "main_menu"
 end
@@ -820,6 +917,8 @@ function love.update(dt)
 
     if game.mode == "main_menu" then
         updateMainMenu()
+	elseif game.mode == "options_menu" then
+        updateOptionsMenu()	
     elseif game.mode == "pause_menu" then
         updatePauseMenu()
     elseif game.mode == "game_over_menu" then
@@ -847,6 +946,8 @@ function love.draw()
         UI.drawMenu("PAUSE", pauseMenuItems, game.selectedPauseIndex)
     elseif game.mode == "game_over_menu" then
         UI.drawMenu("GAME OVER", gameOverMenuItems, game.selectedGameOverIndex)
+	elseif game.mode == "options_menu" then
+        UI.drawOptionsMenu(optionsMenuItems, game.selectedOptionsIndex, game.remapAction)	
     elseif game.mode == "scene" and game.scene then
         game.scene:draw()
     elseif game.mode == "player_select" and game.playerSelect then
@@ -868,13 +969,12 @@ end
 
 -- love.keypressed обрабатывает нажатие клавиши.
 function love.keypressed(key)
-    if key == "f1" then
-        Debug.toggle()
+    if game.mode == "options_menu" and handleOptionsKeyPressed(key) then
         return
     end
 
-    if key == "return" then
-        Input.press("confirm")
+    if key == "f1" then
+        Debug.toggle()
         return
     end
 
@@ -883,11 +983,6 @@ end
 
 -- love.keyreleased обрабатывает отпускание клавиши.
 function love.keyreleased(key)
-    if key == "return" then
-        Input.release("confirm")
-        return
-    end
-
     Input.keyreleased(key)
 end
 
