@@ -30,6 +30,8 @@ function World:new(level, player)
         y = 0
     }
 
+	world.oneSideCameraX = 0
+
     world.result = nil
 
     world.music = nil
@@ -165,6 +167,15 @@ function World:updateCamera(dt)
         self.camera.x = math.max(minX, math.min(self.camera.x, maxX))
         self.camera.y = math.max(minY, math.min(self.camera.y, maxY))
     end
+	--Если по уровню можно идти только в одну сторону
+	if self.level and self.level.oneSide then
+        self.oneSideCameraX = math.max(
+            self.oneSideCameraX or self.camera.x,
+            self.camera.x
+        )
+
+        self.camera.x = self.oneSideCameraX
+    end	
 end
 
 -- Применяет damageHitbox к игроку и actor-ам.
@@ -480,6 +491,145 @@ function World:getPlayerDeathScene()
     return nil
 end
 
+
+-- Не даёт игроку вернуться назад на oneSide-уровне.
+function World:resolveOneSidePlayerLimit()
+    if not self.level or not self.level.oneSide then
+        return
+    end
+
+    if not self.player or not self.player.getHitbox then
+        return
+    end
+
+    local minX = (self.oneSideCameraX or self.camera.x or 0)
+        + (self.level.oneSideBackMargin or 0)
+
+    local hitbox = self.player:getHitbox()
+    local hitboxOffsetX = hitbox.x - self.player.x
+
+    if hitbox.x < minX then
+        self.player.x = minX - hitboxOffsetX
+        self.player.vx = math.max(0, self.player.vx or 0)
+    end
+end
+
+-- Возвращает true, если cleanup-zone пересекает entity.
+function World:cleanupZoneTouchesEntity(zone, entity)
+    if not zone or not entity then
+        return false
+    end
+
+    if entity == zone then
+        return false
+    end
+
+    if entity.dead then
+        return false
+    end
+
+    if not zone.getHitbox or not entity.getHitbox then
+        return false
+    end
+
+    return Collision.intersects(zone:getHitbox(), entity:getHitbox())
+end
+
+-- Удаляет entity, которые попали в cleanup-zone.
+function World:updateCleanupZones()
+    if not self.level or not self.level.decors then
+        return
+    end
+
+    for _, zone in ipairs(self.level.decors) do
+        if zone.cleanupZone then
+            self:cleanupActors(zone)
+            self:cleanupProjectiles(zone)
+            self:cleanupEffects(zone)
+            self:cleanupPickups(zone)
+            self:cleanupPlatforms(zone)
+            self:cleanupDecors(zone)
+        end
+    end
+end
+
+function World:cleanupActors(zone)
+    for index = #self.actors, 1, -1 do
+        local actor = self.actors[index]
+
+        if self:cleanupZoneTouchesEntity(zone, actor) then
+            print("[CLEANUP ZONE] remove actor", actor.id or "actor", actor.x, actor.y)
+            table.remove(self.actors, index)
+        end
+    end
+end
+
+function World:cleanupProjectiles(zone)
+    for index = #self.projectiles, 1, -1 do
+        local projectile = self.projectiles[index]
+
+        if self:cleanupZoneTouchesEntity(zone, projectile) then
+            print("[CLEANUP ZONE] remove projectile", projectile.id or "projectile", projectile.x, projectile.y)
+            table.remove(self.projectiles, index)
+        end
+    end
+end
+
+function World:cleanupEffects(zone)
+    for index = #self.effects, 1, -1 do
+        local effect = self.effects[index]
+
+        if self:cleanupZoneTouchesEntity(zone, effect) then
+            print("[CLEANUP ZONE] remove effect", effect.id or "effect", effect.x, effect.y)
+            table.remove(self.effects, index)
+        end
+    end
+end
+
+function World:cleanupPickups(zone)
+    for index = #self.pickups, 1, -1 do
+        local pickup = self.pickups[index]
+
+        if self:cleanupZoneTouchesEntity(zone, pickup) then
+            print("[CLEANUP ZONE] remove pickup", pickup.id or "pickup", pickup.x, pickup.y)
+            table.remove(self.pickups, index)
+        end
+    end
+end
+
+function World:cleanupPlatforms(zone)
+    if not self.level or not self.level.platforms then
+        return
+    end
+
+    for index = #self.level.platforms, 1, -1 do
+        local platform = self.level.platforms[index]
+
+        if self:cleanupZoneTouchesEntity(zone, platform) then
+            print("[CLEANUP ZONE] remove platform", platform.id or "platform", platform.x, platform.y)
+            table.remove(self.level.platforms, index)
+        end
+    end
+end
+
+function World:cleanupDecors(zone)
+    if not self.level or not self.level.decors then
+        return
+    end
+
+    for index = #self.level.decors, 1, -1 do
+        local decor = self.level.decors[index]
+
+        if decor ~= zone
+            and not decor.cleanupZone
+            and self:cleanupZoneTouchesEntity(zone, decor)
+        then
+            print("[CLEANUP ZONE] remove decor", decor.id or "decor", decor.x, decor.y)
+            table.remove(self.level.decors, index)
+        end
+    end
+end
+
 -- Обновляет игрока, применяет платформенную физику и проверяет падение в яму.
 function World:updatePlayer(dt)
     if not self.player then
@@ -489,6 +639,9 @@ function World:updatePlayer(dt)
     self.player:update(dt)
 
     Physics.resolvePlatforms(self.level, self.player)
+	
+	self:resolveOneSidePlayerLimit() --Уроень в одну сторону, вернутсяигроку нельзя
+	
 	self:resolveSolidActorCollisions(self.player) --игрок не может пройти сквозь блокируюзих монстров
 --    Physics.killPlayerBelowScreen(self.player, self.camera)
 
@@ -737,6 +890,9 @@ function World:update(dt)
 	end
 
     self.level:update(dt, self)
+	
+	self:updateCleanupZones()
+	
 	self:removeDeadDecors()
 
     self:updatePlayer(dt)

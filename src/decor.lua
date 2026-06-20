@@ -29,11 +29,10 @@ function Decor:new(config)
         x = 0,
         y = 0
     }
-	
-----Зона удаления аторов - поставить за границу экрана в начале уровня
-----Но можно и так использовать	если нужно что бы монстры, платформы и и.д. удалялись
 
-	decor.bbox = config.bbox or {
+    ----Зона удаления акторов - поставить за границу экрана в начале уровня
+    ----Но можно и так использовать если нужно что бы монстры, платформы и и.д. удалялись
+    decor.bbox = config.bbox or {
         x = 0,
         y = 0,
         w = decor.canvas.width,
@@ -69,8 +68,37 @@ function Decor:new(config)
 
     decor.removePlayer = config.removePlayer == true
         or config.remove_player == true
-------ТЕНЬ опционально
-	decor.shadowType = config.shadowType
+
+    ----Движение вместе с экраном/камерой
+    -- Если followCamera = true, то x/y в конфиге становятся offset-ом относительно камеры.
+    -- Например x = -180 значит decor будет всегда на 180 px левее видимой области.
+    decor.followCamera = config.followCamera == true
+        or config.follow_camera == true
+        or config.moveWithScreen == true
+        or config.move_with_screen == true
+
+    -- По X включено по умолчанию, если followCamera = true.
+    decor.followCameraX = config.followCameraX ~= false
+        and config.follow_camera_x ~= false
+
+    -- По Y выключено по умолчанию, чтобы decor мог оставаться на world-высоте.
+    decor.followCameraY = config.followCameraY == true
+        or config.follow_camera_y == true
+
+    decor.cameraOffsetX = config.cameraOffsetX
+        or config.camera_offset_x
+        or config.screenX
+        or config.screen_x
+        or decor.x
+
+    decor.cameraOffsetY = config.cameraOffsetY
+        or config.camera_offset_y
+        or config.screenY
+        or config.screen_y
+        or decor.y
+
+    ------ТЕНЬ опционально
+    decor.shadowType = config.shadowType
         or config.shadow_type
         or 0
 
@@ -102,14 +130,13 @@ function Decor:new(config)
     decor.shadowX = 0
     decor.shadowY = 0
 
----------	
     decor.image = config.image
 
     decor.alpha = config.alpha or 1
     decor.color = config.color or {0.5, 0.5, 0.5}
-	
--------Scale --Чисто визуальный эффект, на bbox и hitbox не влияет
-	decor.scale = config.scale or 1
+
+    -------Scale --Чисто визуальный эффект, на bbox и hitbox не влияет
+    decor.scale = config.scale or 1
 
     decor.scaleX = config.scaleX
         or config.scale_x
@@ -118,8 +145,9 @@ function Decor:new(config)
     decor.scaleY = config.scaleY
         or config.scale_y
         or decor.scale
------Смещение для Scale если спрайт сьехал в сторону
-	decor.drawOffsetX = config.drawOffsetX
+
+    -----Смещение для Scale если спрайт сьехал в сторону
+    decor.drawOffsetX = config.drawOffsetX
         or config.draw_offset_x
         or config.visualOffsetX
         or config.visual_offset_x
@@ -131,7 +159,6 @@ function Decor:new(config)
         or config.visual_offset_y
         or 0
 
-
     decor.layer = config.layer or "back"
 
     decor.vx = config.vx or config.speedX or config.speed_x or 0
@@ -141,9 +168,9 @@ function Decor:new(config)
 
     decor.trackPlayer = config.trackPlayer == true
         or config.track_player == true
-		
-	decor.trackAfterSpawn = config.trackAfterSpawn == true
-		or config.track_after_spawn == true	
+
+    decor.trackAfterSpawn = config.trackAfterSpawn == true
+        or config.track_after_spawn == true
 
     decor.trackingEnabled = decor.trackPlayer
 
@@ -192,10 +219,34 @@ function Decor:new(config)
     return decor
 end
 
+-- Двигает decor вместе с камерой.
+-- Используется для cleanup-zone за экраном.
+function Decor:updateCameraFollow(world)
+    if not self.followCamera then
+        return
+    end
+
+    if not world or not world.camera then
+        return
+    end
+
+    if self.followCameraX then
+        self.x = world.camera.x + self.cameraOffsetX
+    end
+
+    if self.followCameraY then
+        self.y = world.camera.y + self.cameraOffsetY
+    end
+end
+
 -- Обновляет decor: движение, spawn, tracking игрока и animation events.
 function Decor:update(dt, world)
-    self.x = self.x + self.vx * dt
-    self.y = self.y + self.vy * dt
+    if self.followCamera then
+        self:updateCameraFollow(world)
+    else
+        self.x = self.x + self.vx * dt
+        self.y = self.y + self.vy * dt
+    end
 
     self:updateSpawnAnimation()
     self:updatePlayerTracking(world)
@@ -213,15 +264,15 @@ end
 
 -- Рисует decor.
 function Decor:draw(camera)
------Смещение для Scale если спрайт сьехал в сторону
-	local screenX = self.x
-		- (camera and camera.x or 0)
-		+ (self.drawOffsetX or self.draw_offset_x or 0)
+    -----Смещение для Scale если спрайт сьехал в сторону
+    local screenX = self.x
+        - (camera and camera.x or 0)
+        + (self.drawOffsetX or self.draw_offset_x or 0)
 
-	local screenY = self.y
-		- (camera and camera.y or 0)
-		+ (self.drawOffsetY or self.draw_offset_y or 0)
-------
+    local screenY = self.y
+        - (camera and camera.y or 0)
+        + (self.drawOffsetY or self.draw_offset_y or 0)
+
     local scaleX = self.scaleX or self.scale or 1
     local scaleY = self.scaleY or self.scale or 1
 

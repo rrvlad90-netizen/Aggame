@@ -17,7 +17,8 @@ return {
     shadowHeight = 14,
     shadowOffsetY = 2,
 	---------	
-	
+
+	ignoreLevelBounds = true,--игнорирует границы экрана (не застряет)
 
     movementMode = "runner",
 	ignoreLevelBounds = true, -- проходит сквозь границы экрана

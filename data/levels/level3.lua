@@ -3,12 +3,12 @@ return {
 
     music = nil,
 
-    bounds = {
-        left = 0,
-        right = 800,
-        top = 0,
-        bottom = 600
-    },
+	bounds = {
+		left = 0,
+		right = 800,
+		top = 0,
+		bottom = 600
+	},
 
     playerStart = {
         x = 120,
@@ -93,7 +93,7 @@ return {
 
     decors = {
 		{
-			id = "despawn_zone",
+			id = "despawn_zone_stay_just",
 			x = -220,
 			y = -150
 		},

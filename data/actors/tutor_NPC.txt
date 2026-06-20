@@ -1,0 +1,32 @@
+ѕример дл€ friendly NPC
+
+entityType = "npc",
+targetGroup = "npc",
+
+hates = {
+    enemy = true
+},
+
+damageTargets = {
+    enemy = true
+},
+
+followPlayer = true,
+followDistance = 90,
+followMaxDistance = 900,
+followSpeed = 90,
+ƒл€ летающего спутника
+
+followPlayer = true,
+followDistance = 120,
+followMaxDistance = 1000,
+followSpeed = 110,
+
+followVertical = true,
+followVerticalDistance = 70,
+“ак NPC будет:
+
+атаковать врагов, если они есть;
+если врагов нет Ч идти за игроком;
+не считать игрока врагом;
+не ломать hates / damageTargets.

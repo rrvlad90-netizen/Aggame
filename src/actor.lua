@@ -52,6 +52,13 @@ function Actor:new(config)
         w = actor.canvas.width,
         h = actor.canvas.height
     }
+	
+-----для раннер акторов - игнорирование правого ула жкрана (не застряют)	
+	actor.ignoreLevelBounds = config.ignoreLevelBounds == true
+        or config.ignore_level_bounds == true
+        or config.allowOutsideLevelBounds == true
+        or config.allow_outside_level_bounds == true
+-------
 
     actor.defaultBboxName = config.defaultBbox or config.default_bbox or "stand"
     actor.bboxes = config.bboxes or {}
@@ -220,7 +227,30 @@ actor.shadowType = config.shadowType
     actor.movementMode = config.movementMode
         or config.movement_mode
         or "chase"  --охота, идет на игрока
-				
+------NPC Следует за игроком
+	actor.followPlayer = config.followPlayer == true
+        or config.follow_player == true
+
+    actor.followDistance = config.followDistance
+        or config.follow_distance
+        or 90
+
+    actor.followMaxDistance = config.followMaxDistance
+        or config.follow_max_distance
+        or 900
+
+    actor.followSpeed = config.followSpeed
+        or config.follow_speed
+        or actor.speed
+
+    actor.followVertical = config.followVertical == true
+        or config.follow_vertical == true
+
+    actor.followVerticalDistance = config.followVerticalDistance
+        or config.follow_vertical_distance
+        or 60
+----------		
+	
 	if config.runnerMode == true--раннер, бежит и атакует
 			or config.runner_mode == true
 		then
@@ -616,22 +646,102 @@ function Actor:isTargetInFront(target)
 end
 
 -- Обновляет AI actor-а.
-function Actor:updateAi(dt, world)
-    if self.dead then
-        return
+-- Возвращает игрока как цель следования.
+-- Это не hostile target: NPC не будет атаковать игрока из-за followPlayer.
+function Actor:getFollowPlayerTarget(world)
+    if not self.followPlayer then
+        return nil
     end
 
-    -- Обычные наземные actor-ы не должны начинать chase/attack,
-    -- пока физика не поставила их на платформу.
-    -- Это убирает смещение центра ног у заспавненных/offscreen монстров.
-    if not self.flying and not self.onGround then
+    if not world or not world.player then
+        return nil
+    end
+
+    if world.player.dead then
+        return nil
+    end
+
+    return world.player
+end
+
+-- Двигает actor-а за игроком, если включён followPlayer.
+-- Возвращает true, если follow-логика обработала AI в этом кадре.
+function Actor:tryFollowPlayer(world)
+    local target = self:getFollowPlayerTarget(world)
+
+    if not target then
+        return false
+    end
+
+    local dx = target.x - self.x
+    local distanceX = math.abs(dx)
+
+    if distanceX > self.followMaxDistance then
         self.vx = 0
+
+        if self.flying then
+            self.vy = 0
+        end
+
+        self.state = "idle"
+        self.animationSet:set("idle")
+
+        return true
+    end
+
+    local moving = false
+
+    if distanceX > self.followDistance then
+        local facing = dx > 0 and 1 or -1
+
+        if self:startTurn(facing) then
+            return true
+        end
+
+        self.facing = facing
+        self.vx = self.facing * self.followSpeed
+        moving = true
+    else
+        self.vx = 0
+    end
+
+    if self.flying and self.followVertical then
+        local dy = target.y - self.y
+        local distanceY = math.abs(dy)
+
+        if distanceY > self.followVerticalDistance then
+            self.vy = dy > 0 and self.followSpeed or -self.followSpeed
+            moving = true
+        else
+            self.vy = 0
+        end
+    end
+
+    if moving then
+        self.state = "walk"
+        self.animationSet:set("walk")
+    else
+        self.state = "idle"
+        self.animationSet:set("idle")
+    end
+
+    return true
+end
+
+
+-- Обновляет AI actor-а.
+function Actor:updateAi(dt, world)
+    if self.dead then
         return
     end
 
     -- Пока идёт turn, actor стоит и ждёт конца анимации.
     if self.state == "turn" then
         self.vx = 0
+
+        if self.flying then
+            self.vy = 0
+        end
 
         if self.animationSet:isCurrentFinished() then
             self:applyPendingFacing()
@@ -652,31 +762,61 @@ function Actor:updateAi(dt, world)
     end
 
     -- Атака, pain и другие lockInput-анимации должны закончиться до конца.
-	if not self.animationSet:isCurrentFinished()
-			and self.animationSet:isInputLocked()
-		then
-			if self.keepMovingDuringAttack then
-				local attackSpeed = self.attackMoveSpeed or self.speed or 0
+    if not self.animationSet:isCurrentFinished()
+        and self.animationSet:isInputLocked()
+    then
+        self.vx = 0
 
-					if self.movementMode == "chase"
-						or self.movementMode == "runner"----runner
-					then
-						self.vx = self.facing * attackSpeed
-					end
-			else
-				self.vx = 0
-			end
+        if self.flying then
+            self.vy = 0
+        end
 
-			return
-		end
-----		
-	if self:isRunner() then
-        self:updateRunnerAi(dt, world)
         return
-    end	
+    end
 
     local target = self:selectTarget(world and world:getTargetGroups() or {})
 
+-- Runner mode: actor всегда идёт только вперёд.
+    -- Он не разворачивается за целью и не ждёт searchRange.
+    if self.movementMode == "runner" then
+        local target = self:selectTarget(world and world:getTargetGroups() or {})
+
+        if target then
+            local animationName = self:chooseAttackAnimation(target)
+
+            if animationName then
+                if self.keepMovingDuringAttack then
+                    self.vx = self.facing * (self.attackMoveSpeed or self.speed)
+                else
+                    self.vx = 0
+                end
+
+                if self.flying then
+                    self.vy = 0
+                end
+
+                self.state = animationName
+                self.animationSet:set(animationName, true)
+
+                return
+            end
+        end
+
+        self.vx = self.facing * self.speed
+
+        if self.flying then
+            self.vy = 0
+        end
+
+        self.state = "walk"
+        self.animationSet:set("walk")
+
+        return
+    end
+
+
+
+    -- 1. Сначала hostile target: враги важнее следования за игроком.
     if target then
         if self:tryStartAttack(target) then
             return
@@ -689,13 +829,29 @@ function Actor:updateAi(dt, world)
 
         if self.movementMode == "chase" then
             self.vx = self.facing * self.speed
+
+            if self.flying then
+                self.vy = 0
+            end
+
             self.state = "walk"
             self.animationSet:set("walk")
             return
         end
     end
 
+    -- 2. Если врагов нет или actor не пошёл к ним — следуем за игроком.
+    if self:tryFollowPlayer(world) then
+        return
+    end
+
+    -- 3. Иначе idle.
     self.vx = 0
+
+    if self.flying then
+        self.vy = 0
+    end
+
     self.state = "idle"
     self.animationSet:set("idle")
 end

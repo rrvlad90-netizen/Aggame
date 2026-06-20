@@ -36,6 +36,10 @@ local function clampEntityToLevelBounds(level, entity)
     if not level or not level.bounds or not entity or not entity.getHitbox then
         return false
     end
+	
+	if entity.ignoreLevelBounds == true then--если сущность игнорирует гаринцы экрана
+        return false
+    end
 
     local bounds = level.bounds
     local bbox = entity:getHitbox()

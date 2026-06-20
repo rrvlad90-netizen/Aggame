@@ -5,11 +5,11 @@ local UI = require("src.ui")
 local Input = require("src.input")
 local Save = require("src.save")
 local Debug = require("src.debug")
-
 local Level = require("src.level")
 local World = require("src.world")
 local Player = require("src.player")
 local Scene = require("src.scene")
+local Viewport = require("src.viewport")
 local PlayerSelect = require("src.player_select")
 
 local game = {
@@ -43,7 +43,9 @@ local game = {
     restoreLevelEntryOnNextLevel = false,	
 
     loadingProgress = 0,
-    pendingStart = nil,		
+    pendingStart = nil,
+
+	fullscreenToggleCooldown = 0,--Защита от частого нажатия Alt+Enter
 }
 
 local optionsMenuItems = {
@@ -450,6 +452,9 @@ local function startDefeatScene(returnMode)
     startScene(getLevelDefeatScene(), returnMode)
 end
 
+
+
+
 -- Обрабатывает подтверждение пункта главного меню.
 local function confirmMainMenu()
     local item = mainMenuItems[game.selectedMenuIndex]
@@ -508,30 +513,6 @@ local function confirmOptionsMenu()
     end
 end
 
--- Обновляет options menu.
-local function updateOptionsMenu()
-    if game.remapAction then
-        return
-    end
-
-    game.selectedOptionsIndex = updateMenuSelection(
-        #optionsMenuItems,
-        game.selectedOptionsIndex
-    )
-
-    if Input.wasPressed("pause") then
-        game.mode = "main_menu"
-        return
-    end
-
-    if Input.wasPressed("jump")
-        or Input.wasPressed("shoot")
-        or Input.wasPressed("melee")
-        or Input.wasPressed("confirm")
-    then
-        confirmOptionsMenu()
-    end
-end
 
 -- Обрабатывает клавишу при переназначении.
 local function handleOptionsKeyPressed(key)
@@ -601,6 +582,7 @@ local function confirmGameOverMenu()
     end
 end
 
+
 -- Обновляет выбор пункта меню.
 local function updateMenuSelection(maxItems, selectedIndex)
     if Input.wasPressed("up") then
@@ -618,6 +600,31 @@ local function updateMenuSelection(maxItems, selectedIndex)
     end
 
     return selectedIndex
+end
+
+-- Обновляет options menu.
+local function updateOptionsMenu()
+    if game.remapAction then
+        return
+    end
+
+    game.selectedOptionsIndex = updateMenuSelection(
+        #optionsMenuItems,
+        game.selectedOptionsIndex
+    )
+
+    if Input.wasPressed("pause") then
+        game.mode = "main_menu"
+        return
+    end
+
+    if Input.wasPressed("jump")
+        or Input.wasPressed("shoot")
+        or Input.wasPressed("melee")
+        or Input.wasPressed("confirm")
+    then
+        confirmOptionsMenu()
+    end
 end
 
 -- Обновляет главный экран меню.
@@ -891,6 +898,30 @@ local function updateLevel(dt)
 	end
 end
 
+----ALT+ENTER (Fullscreen)
+local function toggleFullscreen()
+    if game.fullscreenToggleCooldown > 0 then
+        return
+    end
+
+    game.fullscreenToggleCooldown = 0.75
+
+    Input.clear()
+
+    local fullscreen = love.window.getFullscreen()
+
+    love.window.setFullscreen(not fullscreen, "desktop")
+
+    Input.clear()
+end
+
+local function isAltEnter(key)
+    local isEnter = key == "return" or key == "kpenter"
+    local isAlt = love.keyboard.isDown("lalt") or love.keyboard.isDown("ralt")
+
+    return isEnter and isAlt
+end
+
 -- love.load вызывается Love2D при старте игры.
 function love.load()
     math.randomseed(os.time())
@@ -909,6 +940,10 @@ end
 
 -- love.update вызывается каждый кадр.
 function love.update(dt)
+--Защита от частого нажатия Alt+Enter
+	if game.fullscreenToggleCooldown > 0 then
+		game.fullscreenToggleCooldown = math.max(0, game.fullscreenToggleCooldown - dt)
+	end
     -- Защита физики от больших скачков времени при подвисаниях.
     -- Без этого actor/projectile могут за один кадр пролететь сквозь платформу.
     dt = math.min(dt, 1 / 30)
@@ -936,8 +971,12 @@ end
 
 -- love.draw вызывается каждый кадр для отрисовки.
 function love.draw()
+    Viewport.begin()
+
     if game.mode == "main_menu" then
         UI.drawMenu("ARCADE", mainMenuItems, game.selectedMenuIndex)
+    elseif game.mode == "options_menu" then
+        UI.drawOptionsMenu(optionsMenuItems, game.selectedOptionsIndex, game.remapAction)
     elseif game.mode == "pause_menu" then
         if game.world then
             game.world:draw()
@@ -946,8 +985,6 @@ function love.draw()
         UI.drawMenu("PAUSE", pauseMenuItems, game.selectedPauseIndex)
     elseif game.mode == "game_over_menu" then
         UI.drawMenu("GAME OVER", gameOverMenuItems, game.selectedGameOverIndex)
-	elseif game.mode == "options_menu" then
-        UI.drawOptionsMenu(optionsMenuItems, game.selectedOptionsIndex, game.remapAction)	
     elseif game.mode == "scene" and game.scene then
         game.scene:draw()
     elseif game.mode == "player_select" and game.playerSelect then
@@ -965,10 +1002,20 @@ function love.draw()
 
     UI.drawTouchButtons()
     UI.drawDebug(game.world)
+
+    Viewport.finish()
 end
 
 -- love.keypressed обрабатывает нажатие клавиши.
 function love.keypressed(key)
+--проверка Alt+Enter выше handleOptionsKeyPressed, 
+--иначе в Options можно случайно назначить Enter как клавишу вместо переключения fullscreen.
+-------Для Android вообще убрать
+    if isAltEnter(key) then
+        toggleFullscreen()
+        return
+    end
+
     if game.mode == "options_menu" and handleOptionsKeyPressed(key) then
         return
     end
@@ -988,6 +1035,8 @@ end
 
 -- love.mousepressed обрабатывает клик мыши.
 function love.mousepressed(x, y, button)
+x, y = Viewport.toVirtual(x, y)
+
     if button == 1 then
         if game.mode == "main_menu" then
             local index = getMenuItemAt(mainMenuItems, x, y)
@@ -1030,23 +1079,34 @@ end
 
 -- love.mousereleased обрабатывает отпускание кнопки мыши.
 function love.mousereleased(x, y, button)
+    x, y = Viewport.toVirtual(x, y)
+
     Input.mousereleased(x, y, button)
 end
 
 -- love.touchpressed обрабатывает touch-нажатие.
 function love.touchpressed(id, x, y)
+    local windowX = x * love.graphics.getWidth()
+    local windowY = y * love.graphics.getHeight()
 
-	if game.mode == "scene" and game.scene then
-		game.scene:click(x, y)
-		return
-	end
+    x, y = Viewport.toVirtual(windowX, windowY)
 
-    Input.touchpressed(id, x, y)
+    if game.mode == "scene" and game.scene then
+        game.scene:click(x, y)
+        return
+    end
+
+    Input.pointerPressed(x, y)
 end
 
 -- love.touchreleased обрабатывает отпускание touch.
 function love.touchreleased(id, x, y)
-    Input.touchreleased(id, x, y)
+    local windowX = x * love.graphics.getWidth()
+    local windowY = y * love.graphics.getHeight()
+
+    x, y = Viewport.toVirtual(windowX, windowY)
+
+    Input.pointerReleased(x, y)
 end
 
 

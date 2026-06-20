@@ -17,6 +17,8 @@
         y = 555
     },
 
+--	oneSide = true, --по уровню можно идти только в одну сторону
+--	oneSideBackMargin = 0,
 
     backgrounds = {
         {

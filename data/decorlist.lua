@@ -3,7 +3,8 @@ return {
 	torch = "data/decors/torch.lua",
 	tree = "data/decors/tree.lua",
 	goblin_watcher = "data/decors/goblin_watcher.lua",
+	despawn_zone = "data/decors/despawn_zone.lua",	
 	--FOR RUNNER LEVEL	
-	despawn_zone = "data/decors/despawn_zone.lua",
+	despawn_zone_stay_just = "data/decors/despawn_zone_stay_just.lua",
 	spawner_for_runnin = "data/decors/spawner_for_runnin.lua"
 }

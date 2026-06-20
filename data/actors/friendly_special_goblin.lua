@@ -23,7 +23,7 @@ return {
 	---------	
 	
 	
-	alpha = 0.15,
+	alpha = 0.35,
 
     facing = -1,
     flipSprite = true,
@@ -35,6 +35,11 @@ return {
 	damageTargets = {
 		enemy = true
 	},
+	
+	followPlayer = true,
+	followDistance = 90,
+	followMaxDistance = 900,
+	followSpeed = 90,
 
     showHealthBar = true,
 

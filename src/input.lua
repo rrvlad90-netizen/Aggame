@@ -123,101 +123,118 @@ function Input.createDefaultTouchButtons()
     local screenW = Config.screen.width
     local screenH = Config.screen.height
 
-    local bottomY = screenH - size - margin
-    local upperY = bottomY - size - gap
     local topY = margin
 
+    local bottomY = screenH - margin - size
+    local upperY = bottomY - size - gap
+
+    local leftX = margin
+    local leftMidX = leftX + size + gap
+    local leftRightX = leftX + (size + gap) * 2
+    local leftExtraX = leftX + (size + gap) * 3
+
+    local rightX = screenW - margin - size
+    local rightMidX = rightX - size - gap
+    local rightLeftX = rightX - (size + gap) * 2
+
     return {
-        -- Левая зона движения.
+        -- Левая часть экрана.
+        {
+            action = "up",
+            x = leftMidX,
+            y = upperY,
+            w = size,
+            h = size
+        },
         {
             action = "left",
-            x = margin,
+            x = leftX,
+            y = bottomY,
+            w = size,
+            h = size
+        },
+        {
+            action = "down",
+            x = leftMidX,
             y = bottomY,
             w = size,
             h = size
         },
         {
             action = "right",
-            x = margin + size + gap,
+            x = leftRightX,
             y = bottomY,
-            w = size,
-            h = size
-        },
-        {
-            action = "up",
-            x = margin + size / 2 + gap / 2,
-            y = upperY,
-            w = size,
-            h = size
-        },
-        {
-            action = "down",
-            x = margin + size / 2 + gap / 2,
-            y = bottomY + size + gap,
             w = size,
             h = size
         },
         {
             action = "crouch",
-            x = margin + (size + gap) * 2,
+            x = leftExtraX,
             y = bottomY,
             w = size,
             h = size
         },
 
-        -- Правая зона действий.
-        {
-            action = "jump",
-            x = screenW - margin - size,
-            y = bottomY,
-            w = size,
-            h = size
-        },
-        {
-            action = "shoot",
-            x = screenW - margin - (size + gap) * 2,
-            y = bottomY,
-            w = size,
-            h = size
-        },
-        {
-            action = "melee",
-            x = screenW - margin - (size + gap) * 3,
-            y = bottomY,
-            w = size,
-            h = size
-        },
+        -- Правая часть экрана.
         {
             action = "block",
-            x = screenW - margin - size,
+            x = rightX,
             y = upperY,
             w = size,
             h = size
         },
         {
             action = "strafe",
-            x = screenW - margin - (size + gap) * 2,
+            x = rightMidX,
             y = upperY,
             w = size,
             h = size
         },
+        {
+            action = "jump",
+            x = rightX,
+            y = bottomY,
+            w = size,
+            h = size
+        },
+        {
+            action = "shoot",
+            x = rightMidX,
+            y = bottomY,
+            w = size,
+            h = size
+        },
+        {
+            action = "melee",
+            x = rightLeftX,
+            y = bottomY,
+            w = size,
+            h = size
+        },
 
-        -- Системные кнопки.
+        -- Верхние кнопки справа.
         {
             action = "pause",
-            x = screenW - margin - size,
+            x = rightX,
             y = topY,
             w = size,
             h = size
         },
         {
             action = "confirm",
-            x = screenW - margin - (size + gap) * 2,
+            x = rightMidX,
             y = topY,
             w = size,
             h = size
         }
     }
+end
+
+-- Очищает Точпад
+function Input.clear()
+    Input.down = {}
+    Input.pressed = {}
+    Input.released = {}
 end
 
 -- Очищает события pressed/released.

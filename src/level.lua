@@ -39,7 +39,15 @@ function Level:new(config)
     -- ground больше не создаётся по умолчанию.
     -- Если уровню нужна земля, её надо делать через platforms.
     level.ground = config.ground
+	
+-----Делает так что на уровне игрок не может вернуться назад	
+	level.oneSide = config.oneSide == true
+        or config.one_side == true
 
+    level.oneSideBackMargin = config.oneSideBackMargin
+        or config.one_side_back_margin
+        or 0	
+------
     level.pendingActors = {}
     level.platforms = {}
     level.pickups = {}

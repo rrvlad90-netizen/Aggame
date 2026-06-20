@@ -1,14 +1,37 @@
-return {
+{
     id = "despawn_zone",
 
-    layer = "front",
+	layer = "front",
 
-    x = 0,
+    -- ВАЖНО: отрицательное значение.
+    -- Это значит: зона находится левее экрана.
+    x = -600,
     y = 0,
 
+    followCamera = true,
+    followCameraX = true,
+    followCameraY = true,
+
+    cleanupZone = true,
+    printCleanup = true,
+
+    removeActors = true,
+    removeProjectiles = true,
+    removeEffects = true,
+    removePickups = true,
+    removePlatforms = true,
+
+    -- Если у платформ есть отдельный decor-спрайт,
+    -- лучше пока не стирать decors, иначе визуал может исчезнуть,
+    -- а физическая платформа останется.
+    removeDecors = false,
+
+    removePlayer = false,
+    removeLevelEnd = false,
+
     canvas = {
-        width = 96,
-        height = 900
+        width = 120,
+        height = 600
     },
 
     offset = {
@@ -19,30 +42,10 @@ return {
     bbox = {
         x = 0,
         y = 0,
-        w = 96,
-        h = 900
+        w = 120,
+        h = 600
     },
 
-    cleanupZone = true,
-
-    -- Пока тестируем — печатает каждое удаление.
-    printCleanup = true,
-
-    -- Игрока не трогаем.
-    removePlayer = false,
-
-    -- LevelEnd лучше не удалять по умолчанию.
-    removeLevelEnd = false,
-
-    removeActors = true,
-    removeProjectiles = true,
-    removeEffects = true,
-    removePickups = true,
-    removePlatforms = true,
-    removeDecors = true,
-
-    -- Для теста можно видеть красную полупрозрачную стену.
-    -- Потом поставишь alpha = 0.
-    alpha = 0.2,
+    alpha = 0.15,
     color = {1, 0, 0}
 }
