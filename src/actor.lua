@@ -729,6 +729,27 @@ function Actor:tryFollowPlayer(world)
 end
 
 
+-- Возвращает скорость движения actor-а во время атаки.
+function Actor:getAttackMoveSpeed()
+    return self.attackMoveSpeed or self.speed
+end
+
+-- Двигает runner-а вперёд.
+-- Если isAttacking = true, используется attackMoveSpeed.
+function Actor:applyRunnerMovement(isAttacking)
+    local speed = self.speed
+
+    if isAttacking then
+        speed = self:getAttackMoveSpeed()
+    end
+
+    self.vx = self.facing * speed
+
+    if self.flying then
+        self.vy = 0
+    end
+end
+
 -- Обновляет AI actor-а.
 function Actor:updateAi(dt, world)
     if self.dead then
@@ -762,17 +783,27 @@ function Actor:updateAi(dt, world)
     end
 
     -- Атака, pain и другие lockInput-анимации должны закончиться до конца.
-    if not self.animationSet:isCurrentFinished()
-        and self.animationSet:isInputLocked()
-    then
-        self.vx = 0
+	if not self.animationSet:isCurrentFinished()
+			and self.animationSet:isInputLocked()
+		then
+			if self.movementMode == "runner" then
+				self:applyRunnerMovement(true)
+			elseif self.keepMovingDuringAttack then
+				self.vx = self.facing * self:getAttackMoveSpeed()
 
-        if self.flying then
-            self.vy = 0
-        end
+				if self.flying then
+					self.vy = 0
+				end
+			else
+				self.vx = 0
 
-        return
-    end
+				if self.flying then
+					self.vy = 0
+				end
+			end
+
+			return
+		end
 
     local target = self:selectTarget(world and world:getTargetGroups() or {})
 

@@ -97,6 +97,44 @@ function Decor:new(config)
         or config.screen_y
         or decor.y
 
+----Hazard zone: яма, лава, шипы и т.п.
+    decor.hazardZone = config.hazardZone == true
+        or config.hazard_zone == true
+        or config.pitZone == true
+        or config.pit_zone == true
+
+    decor.hazardDamage = config.hazardDamage
+        or config.hazard_damage
+        or config.damage
+        or 999999
+
+    decor.hazardCooldown = config.hazardCooldown
+        or config.hazard_cooldown
+        or 0
+
+    decor.hazardDeathType = config.hazardDeathType
+        or config.hazard_death_type
+        or config.deathType
+        or config.death_type
+        or "normal"
+
+    decor.hazardDamageTargets = config.hazardDamageTargets
+        or config.hazard_damage_targets
+        or config.damageTargets
+        or config.damage_targets
+        or {
+            player = true,
+            enemy = true,
+            npc = true
+        }
+
+    -- Для ямы лучше true: блок/неуязвимость не должны спасать от падения.
+    decor.hazardIgnoreInvulnerable = config.hazardIgnoreInvulnerable ~= false
+        and config.hazard_ignore_invulnerable ~= false
+
+    decor.hazardTimers = {}
+
+
     ------ТЕНЬ опционально
     decor.shadowType = config.shadowType
         or config.shadow_type

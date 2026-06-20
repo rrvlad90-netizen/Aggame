@@ -46,9 +46,13 @@ local game = {
     pendingStart = nil,
 
 	fullscreenToggleCooldown = 0,--Защита от частого нажатия Alt+Enter
+	optionsVolumeCooldown = 0,--Защита от частого изменения звука
 }
 
 local optionsMenuItems = {
+    {label = "Sound", volume = "sound"},
+    {label = "Music", volume = "music"},
+
     {label = "Left", action = "left"},
     {label = "Right", action = "right"},
     {label = "Up", action = "up"},
@@ -453,6 +457,53 @@ local function startDefeatScene(returnMode)
 end
 
 
+---настройки звука и музыки
+local function clampVolume(volume)
+    return math.max(0, math.min(1, volume or 0))
+end
+
+local function volumeToPercent(volume)
+    return math.floor(clampVolume(volume) * 100 + 0.5)
+end
+
+local function saveAudioSettings()
+    Save.setAudioSettings(
+        Config.audio.musicVolume,
+        Config.audio.soundVolume
+    )
+end
+
+local function applySavedAudioSettings()
+    local musicVolume, soundVolume = Save.getAudioSettings()
+
+    Assets.setAudioVolumes(musicVolume, soundVolume)
+end
+
+local function changeOptionVolume(item, delta)
+    if not item or not item.volume then
+        return
+    end
+
+    if item.volume == "sound" then
+        Assets.setSoundVolume(Config.audio.soundVolume + delta)
+    elseif item.volume == "music" then
+        Assets.setMusicVolume(Config.audio.musicVolume + delta)
+    end
+
+    saveAudioSettings()
+end
+
+local function canChangeOptionsVolume()
+    if game.optionsVolumeCooldown > 0 then
+        return false
+    end
+
+    game.optionsVolumeCooldown = Config.audio.volumeChangeCooldown or 0.12
+
+    return true
+end
+-----
+
 
 
 -- Обрабатывает подтверждение пункта главного меню.
@@ -489,21 +540,28 @@ end
 
 -- Обрабатывает подтверждение options menu.
 local function confirmOptionsMenu()
+    game.selectedOptionsIndex = game.selectedOptionsIndex or 1
+
     local item = optionsMenuItems[game.selectedOptionsIndex]
 
     if not item then
         return
     end
 
-    if item.special == "back" then
-        game.mode = "main_menu"
-        game.remapAction = nil
+    -- Громкость теперь меняется только кликом по кнопкам -/+.
+    if item.volume then
         return
     end
 
     if item.special == "reset_controls" then
         Input.resetKeyBindings()
         Save.setKeyboardBindings(Input.getKeyBindings())
+        return
+    end
+
+    if item.special == "back" then
+        game.mode = "main_menu"
+        game.remapAction = nil
         return
     end
 
@@ -602,11 +660,114 @@ local function updateMenuSelection(maxItems, selectedIndex)
     return selectedIndex
 end
 
+local function getOptionsLayout()
+    local rowH = 34
+    local buttonW = 460
+    local buttonH = 28
+    local buttonX = Config.screen.width / 2 - buttonW / 2
+    local startY = 160
+
+    return {
+        rowH = rowH,
+        buttonW = buttonW,
+        buttonH = buttonH,
+        buttonX = buttonX,
+        startY = startY,
+
+        minusX = buttonX + 255,
+        valueX = buttonX + 305,
+        plusX = buttonX + 365,
+
+        smallButtonW = 42,
+        valueW = 52
+    }
+end
+--Звук
+local function getOptionsItemAt(x, y)
+    local layout = getOptionsLayout()
+
+    for index, _ in ipairs(optionsMenuItems or {}) do
+        local rowY = layout.startY + (index - 1) * layout.rowH
+
+        if x >= layout.buttonX
+            and x <= layout.buttonX + layout.buttonW
+            and y >= rowY
+            and y <= rowY + layout.buttonH
+        then
+            return index
+        end
+    end
+
+    return nil
+end
+
+local function getOptionsVolumeButtonAt(x, y)
+    local layout = getOptionsLayout()
+
+    for index, item in ipairs(optionsMenuItems or {}) do
+        if item.volume then
+            local rowY = layout.startY + (index - 1) * layout.rowH
+            local buttonY = rowY + 3
+            local buttonH = layout.buttonH - 6
+
+            local insideY = y >= buttonY and y <= buttonY + buttonH
+
+            if insideY
+                and x >= layout.minusX
+                and x <= layout.minusX + layout.smallButtonW
+            then
+                return item, index, -1
+            end
+
+            if insideY
+                and x >= layout.plusX
+                and x <= layout.plusX + layout.smallButtonW
+            then
+                return item, index, 1
+            end
+        end
+    end
+
+    return nil, nil, nil
+end
+
+local function changeOptionVolumeByPoint(item, points)
+    if not item or not item.volume then
+        return
+    end
+
+    local delta = (points or 0) / 100
+
+    changeOptionVolume(item, delta)
+end
+
+local function handleOptionsPointerPressed(x, y)
+    local volumeItem, volumeIndex, points = getOptionsVolumeButtonAt(x, y)
+
+    if volumeItem then
+        game.selectedOptionsIndex = volumeIndex
+        changeOptionVolumeByPoint(volumeItem, points)
+        return true
+    end
+
+    local index = getOptionsItemAt(x, y)
+
+    if index then
+        game.selectedOptionsIndex = index
+        confirmOptionsMenu()
+        return true
+    end
+
+    return false
+end
+-----
 -- Обновляет options menu.
 local function updateOptionsMenu()
     if game.remapAction then
         return
     end
+
+    game.selectedOptionsIndex = game.selectedOptionsIndex or 1
 
     game.selectedOptionsIndex = updateMenuSelection(
         #optionsMenuItems,
@@ -615,6 +776,7 @@ local function updateOptionsMenu()
 
     if Input.wasPressed("pause") then
         game.mode = "main_menu"
+        game.remapAction = nil
         return
     end
 
@@ -815,9 +977,22 @@ applySceneLivesDelta = function(delta)
     return true
 end
 
----проверка жизней игрока
-local function handlePlayerDeath()
+----Респавн игрока если все условия сошлись
+local function tryRespawnAtCheckpoint()
+    if not game.world then
+        return false
+    end
+
+    if not game.world:hasActiveCheckpoint() then
+        return false
+    end
+
     local lives = game.playerLives or (game.player and game.player.lives) or 1
+
+    -- Если это последняя жизнь, checkpoint не срабатывает.
+    if lives <= 1 then
+        return false
+    end
 
     lives = lives - 1
     game.playerLives = lives
@@ -826,7 +1001,23 @@ local function handlePlayerDeath()
         game.player.lives = lives
     end
 
-    rememberLevelEntryState(game.currentLevelId)	
+    if game.world:respawnPlayerAtCheckpoint() then
+        game.mode = "level"
+        return true
+    end
+
+    return false
+end
+---проверка жизней игрока
+local function handlePlayerDeath()
+    if tryRespawnAtCheckpoint() then
+        return
+    end
+
+    local lives = game.playerLives or (game.player and game.player.lives) or 1
+
+    lives = lives - 1
+    game.playerLives = lives
 
     if game.player then
         game.player.lives = lives
@@ -931,6 +1122,7 @@ function love.load()
     Input.init()
     UI.init()
     Save.load()
+	applySavedAudioSettings()
 
 	Input.setKeyBindings(Save.getKeyboardBindings())
 
@@ -944,11 +1136,33 @@ function love.update(dt)
 	if game.fullscreenToggleCooldown > 0 then
 		game.fullscreenToggleCooldown = math.max(0, game.fullscreenToggleCooldown - dt)
 	end
+--Защита от частого изменения звука	
+	if game.optionsVolumeCooldown > 0 then
+		game.optionsVolumeCooldown = math.max(
+			0,
+			game.optionsVolumeCooldown - dt
+		)
+	end
+	
     -- Защита физики от больших скачков времени при подвисаниях.
     -- Без этого actor/projectile могут за один кадр пролететь сквозь платформу.
     dt = math.min(dt, 1 / 30)
 
     Input.update(dt)
+
+	local item = optionsMenuItems[game.selectedOptionsIndex]
+
+	if item and item.volume then
+		if Input.wasPressed("left") then
+			changeOptionVolume(item, -0.05)
+			return
+		end
+
+		if Input.wasPressed("right") then
+			changeOptionVolume(item, 0.05)
+			return
+		end
+	end
 
     if game.mode == "main_menu" then
         updateMainMenu()
@@ -1047,6 +1261,12 @@ x, y = Viewport.toVirtual(x, y)
                 return
             end
         end
+		
+		if game.mode == "options_menu" then
+			if handleOptionsPointerPressed(x, y) then
+				return
+			end
+		end
 
         if game.mode == "pause_menu" then
             local index = getMenuItemAt(pauseMenuItems, x, y)
@@ -1090,6 +1310,12 @@ function love.touchpressed(id, x, y)
     local windowY = y * love.graphics.getHeight()
 
     x, y = Viewport.toVirtual(windowX, windowY)
+	
+	if game.mode == "options_menu" then
+		if handleOptionsPointerPressed(x, y) then
+			return
+		end
+	end
 
     if game.mode == "scene" and game.scene then
         game.scene:click(x, y)

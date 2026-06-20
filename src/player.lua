@@ -1030,6 +1030,58 @@ function Player:die()
     self:playAnimation("death", true)
 end
 
+-- Возрождает игрока без перезапуска уровня.
+function Player:respawn(x, y, options)
+    options = options or {}
+
+    self.x = x or self.x
+    self.y = y or self.y
+
+    self.previousX = self.x
+    self.previousY = self.y
+
+    self.vx = 0
+    self.vy = 0
+
+    self.health = self.maxHealth
+
+    self.dead = false
+    self.deathFinished = false
+    self.lastDamageInfo = nil
+
+    self.onGround = false
+    self.currentPlatform = nil
+
+    self.jumpCount = 0
+    self.jumpsUsed = 0
+
+    self.comboTimer = 0
+    self.comboIndex = 0
+    self.comboGroupName = nil
+
+    self.isBlocking = false
+    self.isCrouching = false
+
+    if self.setStandBbox then
+        self:setStandBbox()
+    end
+
+    self.invulnerable = true
+    self.invulnerableTimer = options.invulnerableTime or 1.0
+
+    if options.facing then
+        self.facing = options.facing
+    end
+
+    self.state = "idle"
+
+    if self.playSpawnAnimation then
+        self:playSpawnAnimation()
+    elseif self.animationSet and self.animationSet:has("idle") then
+        self.animationSet:set("idle", true)
+    end
+end
+
 -- Обновляет физику игрока: gravity и движение по vx/vy.
 function Player:updatePhysics(dt)
     if self.dead then
@@ -1048,9 +1100,29 @@ function Player:updatePhysics(dt)
     self.y = self.y + self.vy * dt
 end
 
+--обновить состояние неуязвимости
+function Player:updateInvulnerability(dt)
+    if not self.invulnerable then
+        return
+    end
+
+    -- Если timer не задан или 0, значит неуязвимость постоянная.
+    if not self.invulnerableTimer or self.invulnerableTimer <= 0 then
+        return
+    end
+
+    self.invulnerableTimer = self.invulnerableTimer - dt
+
+    if self.invulnerableTimer <= 0 then
+        self.invulnerable = false
+        self.invulnerableTimer = 0
+    end
+end
+
 -- Обновляет игрока: физику, animation events и состояние death/idle/run/jump/fall.
 function Player:update(dt)
     self:updatePhysics(dt)
+    self:updateInvulnerability(dt)
 
     if self.comboTimer and self.comboTimer > 0 then
         self.comboTimer = math.max(0, self.comboTimer - dt)

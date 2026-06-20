@@ -164,6 +164,24 @@ function Save.getSelectedPlayerId()
     return Save.data.selectedPlayerId
 end
 
+-- Возвращает настройки звука.
+function Save.getAudioSettings()
+    Save.data.audio = Save.data.audio or {}
+
+    local musicVolume = Save.data.audio.musicVolume
+    local soundVolume = Save.data.audio.soundVolume
+
+    if musicVolume == nil then
+        musicVolume = 0.75
+    end
+
+    if soundVolume == nil then
+        soundVolume = 0.85
+    end
+
+    return musicVolume, soundVolume
+end
+
 -- Сохраняет настройки звука.
 function Save.setAudioSettings(musicVolume, soundVolume)
     Save.data.audio = Save.data.audio or {}

@@ -7,6 +7,7 @@ local Effect = require("src.effect")
 local Platform = require("src.platform")
 local Pickup = require("src.pickup")
 local Decor = require("src.decor")
+local Checkpoint = require("src.checkpoint")
 local LevelEnd = require("src.level_end")
 
 local EntityFactory = {}
@@ -75,6 +76,14 @@ function EntityFactory.createDecor(id, x, y, overrides)
     return Decor:new(config)
 end
 
+-- Создаёт Checkpoint по id.
+function EntityFactory.createCheckpoint(id, x, y, overrides)
+    local definition = Registry.loadCheckpoint(id)
+    local config = EntityFactory.prepareConfig(definition, x, y, overrides)
+
+    return Checkpoint:new(config)
+end
+
 -- Создаёт LevelEnd.
 -- Новый формат: createLevelEnd(id, x, y, overrides) через data/level_endlist.lua.
 -- Старый формат: createLevelEnd(config) оставлен для совместимости.
@@ -117,6 +126,10 @@ function EntityFactory.createEntity(id, x, y, overrides)
 
     if kind == "decor" then
         return "decor", Decor:new(config)
+    end
+	
+	if kind == "checkpoint" then
+        return "checkpoint", Checkpoint:new(config)
     end
 	
 	if kind == "levelEnd" then

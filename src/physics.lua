@@ -36,10 +36,6 @@ local function clampEntityToLevelBounds(level, entity)
     if not level or not level.bounds or not entity or not entity.getHitbox then
         return false
     end
-	
-	if entity.ignoreLevelBounds == true then--если сущность игнорирует гаринцы экрана
-        return false
-    end
 
     local bounds = level.bounds
     local bbox = entity:getHitbox()
@@ -63,7 +59,7 @@ end
 
 -- Возвращает true, если entity должна приземлиться на верх платформы.
 -- Проверяем и bbox bottom, и линию ног entity.y.
-local function crossedPlatformTop(entity, currentBottom, platformTop)
+local function crossedPlatformTop(entity, currentBottom, platformTop, allowCloseSnap)
     local previousBottom = getPreviousBottom(entity, currentBottom)
     local previousY = entity.previousY or entity.y
 
@@ -79,8 +75,46 @@ local function crossedPlatformTop(entity, currentBottom, platformTop)
     local closeToPlatformTop = currentBottom >= platformTop - landingToleranceTop
         and currentBottom <= platformTop + landingToleranceBottom
 
-    return (crossedByBottom or crossedByFeet or closeToPlatformTop)
+    if allowCloseSnap then
+        return (crossedByBottom or crossedByFeet or closeToPlatformTop)
+            and (entity.vy or 0) >= 0
+    end
+
+    return (crossedByBottom or crossedByFeet)
         and (entity.vy or 0) >= 0
+end
+
+-- Проверяет, можно ли entity зайти на slope сбоку.
+-- Это нужно, чтобы игрок мог войти на склон с земли,
+-- а не только запрыгнуть сверху.
+local function canWalkOntoSlope(entity, platform, currentBottom, platformTop)
+    if not platform.slope then
+        return false
+    end
+
+    if not platform.slopeWalkOn then
+        return false
+    end
+
+    if not entity.onGround then
+        return false
+    end
+
+    local stepHeight = platform.slopeStepHeight or 24
+    local deltaY = math.abs(currentBottom - platformTop)
+
+    return deltaY <= stepHeight
+end
+
+-- Возвращает Y поверхности платформы в X-позиции entity.
+-- Для обычной платформы это walkY.
+-- Для slope-платформы это line interpolation через platform:getWalkYAtX().
+local function getPlatformTopAtEntity(platform, entity, platformBox)
+    if platform.getWalkYAtX then
+        return platform:getWalkYAtX(entity.x)
+    end
+
+    return platform.walkY or platformBox.y
 end
 
 -- Обрабатывает столкновение entity с платформами уровня.
@@ -114,32 +148,81 @@ function Physics.resolvePlatforms(level, entity)
     local didLand = false
     local didBlock = false
 
-    -- Сначала обрабатываем приземление сверху.
+    -- Сначала ищем лучшую поверхность для приземления.
+    -- Важно: не берём первую подходящую платформу.
+    -- Если земля и slope подходят одновременно, выбираем ту, что выше по Y.
+    local bestPlatform = nil
+    local bestPlatformTop = nil
+    local bestCorrectedY = nil
+
     for _, platform in ipairs(level.platforms or {}) do
         local platformBox = platform:getHitbox()
-        local platformTop = platform.walkY or platformBox.y
+        local platformTop = getPlatformTopAtEntity(platform, entity, platformBox)
 
         local overlapsX = bbox.x < platformBox.x + platformBox.w
             and platformBox.x < bbox.x + bbox.w
 
-        if overlapsX and crossedPlatformTop(entity, currentBottom, platformTop) then
+		local allowCloseSnap = true
+
+		if platform.slope then
+			allowCloseSnap = platform.slopeWalkOn == true
+				or entity.currentPlatform == platform
+		end
+
+		local crossedTop = crossedPlatformTop(
+			entity,
+			currentBottom,
+			platformTop,
+			allowCloseSnap
+		)
+
+		-- Если slopeWalkOn = false, то стоящий на земле entity
+		-- не должен "войти" на slope сбоку.
+		if platform.slope
+			and not platform.slopeWalkOn
+			and entity.onGround
+			and entity.currentPlatform ~= platform
+		then
+			crossedTop = false
+		end
+
+		local canLand = overlapsX
+			and (
+				crossedTop
+				or canWalkOntoSlope(entity, platform, currentBottom, platformTop)
+			)
+
+        if canLand then
             local correctedY = entity.y - (currentBottom - platformTop)
-            landEntity(entity, correctedY)
 
-            if platform.deltaX then
-                entity.x = entity.x + platform.deltaX
+            -- Меньший Y = поверхность выше.
+            if not bestPlatformTop or platformTop < bestPlatformTop then
+                bestPlatform = platform
+                bestPlatformTop = platformTop
+                bestCorrectedY = correctedY
             end
-
-            didLand = true
-            break
         end
     end
+
+	if bestPlatform then
+		landEntity(entity, bestCorrectedY)
+
+		entity.currentPlatform = bestPlatform
+
+		if bestPlatform.deltaX then
+			entity.x = entity.x + bestPlatform.deltaX
+		end
+
+		didLand = true
+	end
 
     bbox = entity:getHitbox()
 
     -- Затем обрабатываем боковые/нижние столкновения только для solid-платформ.
+    -- Slope-платформы здесь пропускаем: они работают как top-only поверхность,
+    -- иначе прямоугольный bbox будет блокировать вход на склон сбоку.
     for _, platform in ipairs(level.platforms or {}) do
-        if platform.solid then
+        if platform.solid and not platform.slope then
             local platformBox = platform:getHitbox()
 
             local overlaps = bbox.x < platformBox.x + platformBox.w
@@ -179,9 +262,10 @@ function Physics.resolvePlatforms(level, entity)
 
     local didClamp = clampEntityToLevelBounds(level, entity)
 
-    if not didLand then
-        entity.onGround = false
-    end
+	if not didLand then
+		entity.onGround = false
+		entity.currentPlatform = nil
+	end
 
     return didLand or didBlock or didClamp
 end

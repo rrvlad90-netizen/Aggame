@@ -238,7 +238,23 @@ function Render.drawTiledImage(image, x, y, w, h, offsetX, offsetY)
 
     local oldX, oldY, oldW, oldH = love.graphics.getScissor()
 
-    love.graphics.setScissor(x, y, w, h)
+    -- Важно: setScissor работает в координатах окна,
+    -- а x/y/w/h у нас могут быть в виртуальных координатах 800x600.
+    -- Поэтому переводим углы через текущий transform.
+    local scissorX1, scissorY1 = love.graphics.transformPoint(x, y)
+    local scissorX2, scissorY2 = love.graphics.transformPoint(x + w, y + h)
+
+    local scissorX = math.min(scissorX1, scissorX2)
+    local scissorY = math.min(scissorY1, scissorY2)
+    local scissorW = math.abs(scissorX2 - scissorX1)
+    local scissorH = math.abs(scissorY2 - scissorY1)
+
+    love.graphics.setScissor(
+        math.floor(scissorX),
+        math.floor(scissorY),
+        math.ceil(scissorW),
+        math.ceil(scissorH)
+    )
 
     local startX = -offsetX % imageWidth
     local startY = -offsetY % imageHeight

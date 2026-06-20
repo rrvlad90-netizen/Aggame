@@ -242,4 +242,36 @@ function Assets.getLoadingProgress()
     )
 end
 
+local function clampVolume(volume)
+    return math.max(0, math.min(1, volume or 0))
+end
+
+-- Меняет громкость всех звуков.
+function Assets.setSoundVolume(volume)
+    Config.audio.soundVolume = clampVolume(volume)
+
+    for _, source in pairs(Assets.sounds or {}) do
+        source:setVolume(Config.audio.soundVolume)
+    end
+
+    for _, source in ipairs(Assets.soundInstances or {}) do
+        source:setVolume(Config.audio.soundVolume)
+    end
+end
+
+-- Меняет громкость всей музыки.
+function Assets.setMusicVolume(volume)
+    Config.audio.musicVolume = clampVolume(volume)
+
+    for _, source in pairs(Assets.music or {}) do
+        source:setVolume(Config.audio.musicVolume)
+    end
+end
+
+-- Применяет обе громкости сразу.
+function Assets.setAudioVolumes(musicVolume, soundVolume)
+    Assets.setMusicVolume(musicVolume)
+    Assets.setSoundVolume(soundVolume)
+end
+
 return Assets

@@ -47,7 +47,10 @@ Config.loading = {
 Config.audio = {
     musicVolume = 0.75,
     soundVolume = 0.85,
-
+	
+	volumeStep = 0.01, -- 1% за клик
+    volumeChangeCooldown = 0.12, -- защита от слишком частого изменения
+	
     -- Ограничение на количество одновременно проигрываемых звуков.
     -- Это защищает от ситуации, когда много ударов создают слишком много Source.
     maxSoundInstances = 24

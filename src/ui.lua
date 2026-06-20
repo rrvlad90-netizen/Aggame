@@ -303,7 +303,7 @@ function UI.drawOptionsMenu(items, selectedIndex, remapAction)
     else
         love.graphics.setColor(0.8, 0.8, 0.8)
         love.graphics.printf(
-            "Enter - change key, Esc - back",
+            "Click -/+ for volume, Enter - change key, Esc - back",
             0,
             105,
             Config.screen.width,
@@ -316,6 +316,13 @@ function UI.drawOptionsMenu(items, selectedIndex, remapAction)
     local buttonW = 460
     local buttonH = 28
     local buttonX = Config.screen.width / 2 - buttonW / 2
+
+    local minusX = buttonX + 255
+    local valueX = buttonX + 305
+    local plusX = buttonX + 365
+
+    local smallButtonW = 42
+    local valueW = 52
 
     for index, item in ipairs(items or {}) do
         local y = startY + (index - 1) * rowH
@@ -331,19 +338,72 @@ function UI.drawOptionsMenu(items, selectedIndex, remapAction)
         love.graphics.setColor(1, 1, 1, alpha)
         love.graphics.rectangle("line", buttonX, y, buttonW, buttonH, 6, 6)
 
-        local text = item.label or item.action or ""
+        if item.volume then
+            local label = item.label or ""
 
-        if item.action then
-            text = text .. ": " .. string.upper(Input.getPrimaryKey(item.action))
+            if item.volume == "sound" then
+                label = "Sound Volume"
+            elseif item.volume == "music" then
+                label = "Music Volume"
+            end
+
+            local value = 0
+
+            if item.volume == "sound" then
+                value = math.floor(Config.audio.soundVolume * 100 + 0.5)
+            elseif item.volume == "music" then
+                value = math.floor(Config.audio.musicVolume * 100 + 0.5)
+            end
+
+            love.graphics.setColor(1, 1, 1, alpha)
+            love.graphics.print(label, buttonX + 12, y + 6)
+
+            UI.drawButton(
+                {
+                    x = minusX,
+                    y = y + 3,
+                    w = smallButtonW,
+                    h = buttonH - 6
+                },
+                "-",
+                alpha
+            )
+
+            love.graphics.setColor(1, 1, 1, alpha)
+            love.graphics.printf(
+                tostring(value),
+                valueX,
+                y + 6,
+                valueW,
+                "center"
+            )
+
+            UI.drawButton(
+                {
+                    x = plusX,
+                    y = y + 3,
+                    w = smallButtonW,
+                    h = buttonH - 6
+                },
+                "+",
+                alpha
+            )
+        else
+            local text = item.label or item.action or ""
+
+            if item.action then
+                text = text .. ": " .. string.upper(Input.getPrimaryKey(item.action))
+            end
+
+            love.graphics.setColor(1, 1, 1, alpha)
+            love.graphics.printf(
+                text,
+                buttonX + 12,
+                y + 6,
+                buttonW - 24,
+                "left"
+            )
         end
-
-        love.graphics.printf(
-            text,
-            buttonX + 12,
-            y + 6,
-            buttonW - 24,
-            "left"
-        )
     end
 
     love.graphics.setColor(1, 1, 1)

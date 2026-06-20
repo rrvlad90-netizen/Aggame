@@ -61,7 +61,7 @@ return {
     },
 
     keepMovingDuringAttack = true,
-    attackMoveSpeed = 70,
+    attackMoveSpeed = 120,
 
     flyAmplitude = 14,
     flyFrequency = 3,

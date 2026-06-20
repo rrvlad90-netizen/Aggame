@@ -1,0 +1,201 @@
+{
+    id = "slope_ground",
+
+    x = 300,
+    y = 455,
+
+    w = 240,
+    h = 100,
+
+    slope = true,
+    slopeLeftY = 555,
+    slopeRightY = 455,
+
+    solid = true,
+
+    color = {0.35, 0.25, 0.15}
+}
+Пример спуска вправо
+
+lua
+{
+    id = "slope_ground",
+
+    x = 600,
+    y = 455,
+
+    w = 240,
+    h = 100,
+
+    slope = true,
+    slopeLeftY = 455,
+    slopeRightY = 555,
+
+    solid = true,
+
+    color = {0.35, 0.25, 0.15}
+}
+Для картинки потом просто добавишь:
+
+lua
+image = "assets/platforms/slope_ground.png",
+и подгонишь imageOffsetY, visualHeight, w/h, как у обычной платформы.
+
+__________________________
+
+Она не обязана начинаться от земли уровня. Треугольник/склон будет рисоваться только внутри своей области платформы.
+
+В mockup-отрисовке низ берётся отсюда:
+
+lua
+bottomY = self:getSlopeBottomY()
+А getSlopeBottomY() использует:
+
+lua
+visualBottom = self.visualY + self.visualHeight
+или примерно:
+
+lua
+self.y + self.h
+То есть платформа живёт в своём локальном куске:
+
+lua
+x = 300,
+y = 200,
+w = 240,
+h = 100,
+и будет рисоваться примерно в прямоугольнике 300..540, 200..300, а не до низа уровня.
+
+Пример воздушного подъёма:
+
+lua
+{
+    id = "slope_ground",
+
+    x = 300,
+    y = 200,
+
+    w = 240,
+    h = 100,
+
+    slope = true,
+
+    -- Левая точка линии ног ниже.
+    slopeLeftY = 300,
+
+    -- Правая точка линии ног выше.
+    slopeRightY = 200,
+
+    solid = true,
+
+    color = {0.35, 0.25, 0.15}
+}
+Визуально это будет кусок склона в воздухе:
+
+text
+	   /|
+      / |
+     /  |
+____/___|
+А не треугольник от земли уровня.
+
+Если хочешь явно контролировать нижнюю грань, можно добавить:
+
+lua
+slopeBottomY = 300,
+Полный пример:
+
+lua
+{
+    id = "slope_ground",
+
+    x = 300,
+    y = 200,
+
+    w = 240,
+    h = 100,
+
+    slope = true,
+    slopeLeftY = 300,
+    slopeRightY = 200,
+    slopeBottomY = 300,
+
+    solid = true,
+
+    color = {0.35, 0.25, 0.15}
+}
+Для поблочного высокого уровня это подойдёт: ты сможешь соединять обычные платформы, подъёмы и спуски кусками.
+
+
+В конфиге slope лучше явно указать Y-точки
+Сейчас ты написал:
+
+lua
+{
+    id = "slope_ground",
+    x = 170,
+    y = 155,
+    slopeWalkOn = true,
+}
+Если в data/platforms/slope_ground.lua не стоят нужные slopeLeftY/slopeRightY, то slope может быть совсем не там, где ты ожидаешь.
+
+Для подъёма с земли 555 на платформу 455 пиши явно:
+
+lua
+{
+    id = "slope_ground",
+
+    x = 170,
+    y = 455,
+
+    w = 240,
+    h = 100,
+
+    slope = true,
+    slopeWalkOn = true,
+    slopeStepHeight = 48,
+
+    slopeLeftY = 555,
+    slopeRightY = 455,
+    slopeBottomY = 555,
+
+    solid = true,
+
+    color = {0.35, 0.25, 0.15}
+}
+Если хочешь подняться с земли 555 прямо на верхнюю платформу 155, тогда нужно так:
+
+lua
+{
+    id = "slope_ground",
+
+    x = 170,
+    y = 155,
+
+    w = 400,
+    h = 400,
+
+    slope = true,
+    slopeWalkOn = true,
+    slopeStepHeight = 64,
+
+    slopeLeftY = 555,
+    slopeRightY = 155,
+    slopeBottomY = 555,
+
+    solid = true,
+
+    color = {0.35, 0.25, 0.15}
+}
+Но это будет очень крутая гора. Лучше сделать длиннее:
+
+lua
+w = 600
+Ответ на вопрос про “угадать координату”
+
+Не нужно угадывать пиксель идеально, но:
+
+если заходишь с земли wood_road y = 555, то slopeLeftY должен быть около 555;
+если slope должен прийти к платформе y = 455, то slopeRightY = 455;
+если к платформе y = 155, то slopeRightY = 155;
+slopeStepHeight должен быть достаточно большим, чтобы подхватить игрока при входе.

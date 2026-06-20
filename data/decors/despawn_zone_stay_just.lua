@@ -26,7 +26,7 @@ return {
     cleanupZone = true,
 
     -- Пока тестируем — печатает каждое удаление.
-    printCleanup = true,
+    printCleanup = false,--сечас не печатаем сообщение для теста при удалении
 
     -- Игрока не трогаем.
     removePlayer = false,

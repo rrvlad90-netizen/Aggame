@@ -12,6 +12,7 @@ Registry.playerList = {}
 Registry.platformList = {}
 Registry.pickupList = {}
 Registry.decorList = {}
+Registry.checkpointList = {}
 
 Registry.cache = {}
 
@@ -59,6 +60,7 @@ function Registry.loadAll()
     Registry.platformList = Registry.loadList("data/platformlist.lua")
     Registry.pickupList = Registry.loadList("data/pickuplist.lua")
     Registry.decorList = Registry.loadList("data/decorlist.lua")
+	Registry.checkpointList = Registry.loadList("data/checkpointlist.lua")
 
     Registry.cache = {}
 end
@@ -186,6 +188,14 @@ function Registry.loadDecor(id)
     return Registry.normalizeDefinition(definition, id)
 end
 
+-- Загружает checkpoint definition.
+function Registry.loadCheckpoint(id)
+    local path = Registry.getPathFromList(Registry.checkpointList, id, "checkpoint")
+    local definition = Registry.loadDefinitionFromPath(path)
+
+    return Registry.normalizeDefinition(definition, id)
+end
+
 -- Проверяет, есть ли id в указанном списке.
 function Registry.hasId(list, id)
     return list[id] ~= nil
@@ -216,6 +226,10 @@ function Registry.loadEntity(id)
 
     if Registry.hasId(Registry.platformList, id) then
         return "platform", Registry.loadPlatform(id)
+    end
+	
+	if Registry.hasId(Registry.checkpointList, id) then
+        return "checkpoint", Registry.loadCheckpoint(id)
     end
 	
 	if Registry.hasId(Registry.levelEndList, id) then

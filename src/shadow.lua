@@ -49,6 +49,29 @@ function Shadow.getEntityImage(entity)
     return nil
 end
 
+-- Возвращает Y поверхности платформы для тени.
+-- Для slope берём Y по линии slope в X-позиции тени.
+function Shadow.getPlatformShadowY(platform, x)
+    if not platform then
+        return nil
+    end
+
+    if platform.getWalkYAtX then
+        return platform:getWalkYAtX(x)
+    end
+
+    if platform.walkY then
+        return platform.walkY
+    end
+
+    if platform.getHitbox then
+        local box = platform:getHitbox()
+        return box.y
+    end
+
+    return nil
+end
+
 -- Ищет ближайшую платформу под entity.
 -- Тень появляется, если центр entity по X находится над платформой,
 -- а верх платформы находится ниже верхней части bbox.
@@ -64,6 +87,29 @@ function Shadow.findPlatformBelow(entity, level)
         + bbox.w / 2
         + (entity.shadowCastOffsetX or entity.shadow_cast_offset_x or 0)
 
+    -- 1. Если entity уже стоит на конкретной платформе,
+    -- тень должна быть именно на ней.
+    -- Это важно для slopeWalkOn = false:
+    -- игрок может проходить мимо slope снизу, но currentPlatform будет wood_road.
+    local currentPlatform = entity.currentPlatform
+
+    if currentPlatform and currentPlatform.getHitbox then
+        local platformBox = currentPlatform:getHitbox()
+
+        local insideCurrentPlatformX = centerX >= platformBox.x
+            and centerX <= platformBox.x + platformBox.w
+
+        if insideCurrentPlatformX then
+            local platformY = Shadow.getPlatformShadowY(currentPlatform, centerX)
+
+            if platformY then
+                return currentPlatform, platformY
+            end
+        end
+    end
+
+    -- 2. Если currentPlatform нет, ищем ближайшую поверхность как раньше.
+    -- Это нужно для прыжка, полёта, pickup-ов и т.п.
     local minShadowY = bbox.y - (entity.shadowPlatformTolerance or entity.shadow_platform_tolerance or 8)
 
     local bestPlatform = nil
@@ -72,18 +118,27 @@ function Shadow.findPlatformBelow(entity, level)
     for _, platform in ipairs(level.platforms or {}) do
         if platform.getHitbox then
             local platformBox = platform:getHitbox()
-            local platformTop = platform.walkY or platformBox.y
+            local platformTop = Shadow.getPlatformShadowY(platform, centerX)
 
             local insideX = centerX >= platformBox.x
                 and centerX <= platformBox.x + platformBox.w
 
-            -- Важно:
-            -- Раньше проверяли platformTop >= bboxBottom - 8.
-            -- Для pickup-а с offset.y = 16 это ломалось, потому что pickup частично "внутри" платформы.
-            -- Теперь достаточно, чтобы платформа была ниже верхней части bbox.
-            local canCastShadow = platformTop >= minShadowY
+            local skipPlatform = false
 
-            if insideX and canCastShadow then
+            -- Если slopeWalkOn = false, entity стоит на другой платформе,
+            -- и просто проходит мимо slope, то slope не должен перехватывать тень.
+            if platform.slope
+                and not platform.slopeWalkOn
+                and entity.onGround
+                and entity.currentPlatform ~= platform
+            then
+                skipPlatform = true
+            end
+
+            local canCastShadow = platformTop
+                and platformTop >= minShadowY
+
+            if not skipPlatform and insideX and canCastShadow then
                 if not bestY or platformTop < bestY then
                     bestY = platformTop
                     bestPlatform = platform

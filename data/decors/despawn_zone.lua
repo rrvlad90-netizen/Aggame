@@ -1,4 +1,4 @@
-{
+return {
     id = "despawn_zone",
 
 	layer = "front",
@@ -13,20 +13,18 @@
     followCameraY = true,
 
     cleanupZone = true,
-    printCleanup = true,
+    printCleanup = false,--не печатаем сообщение для теста при удалении
 
+    removeDecors = true, --декоры тоже удаляет
     removeActors = true,
     removeProjectiles = true,
     removeEffects = true,
     removePickups = true,
     removePlatforms = true,
 
-    -- Если у платформ есть отдельный decor-спрайт,
-    -- лучше пока не стирать decors, иначе визуал может исчезнуть,
-    -- а физическая платформа останется.
-    removeDecors = false,
-
+    -- Игрока не трогаем.
     removePlayer = false,
+    -- LevelEnd лучше не удалять по умолчанию.
     removeLevelEnd = false,
 
     canvas = {

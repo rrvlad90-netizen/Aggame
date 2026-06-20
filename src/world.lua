@@ -556,7 +556,7 @@ end
 function World:cleanupActors(zone)
     for index = #self.actors, 1, -1 do
         local actor = self.actors[index]
-
+--!!!!! Print print CLEANUP ZONE clean --!!!!!
         if self:cleanupZoneTouchesEntity(zone, actor) then
             print("[CLEANUP ZONE] remove actor", actor.id or "actor", actor.x, actor.y)
             table.remove(self.actors, index)
@@ -630,6 +630,207 @@ function World:cleanupDecors(zone)
     end
 end
 
+
+-- Обновляет cooldown-таймеры hazard-zone.
+function World:updateHazardTimers(zone, dt)
+    if not zone.hazardTimers then
+        zone.hazardTimers = {}
+        return
+    end
+
+    for entity, timer in pairs(zone.hazardTimers) do
+        timer = timer - dt
+
+        if timer <= 0 then
+            zone.hazardTimers[entity] = nil
+        else
+            zone.hazardTimers[entity] = timer
+        end
+    end
+end
+
+-- Проверяет, можно ли сейчас нанести hazard-урон entity.
+function World:canApplyHazard(zone, entity)
+    if not zone or not entity then
+        return false
+    end
+
+    if entity.dead then
+        return false
+    end
+
+    if not entity.getHitbox then
+        return false
+    end
+
+    local cooldown = zone.hazardCooldown or 0
+
+    if cooldown <= 0 then
+        return true
+    end
+
+    zone.hazardTimers = zone.hazardTimers or {}
+
+    if zone.hazardTimers[entity] and zone.hazardTimers[entity] > 0 then
+        return false
+    end
+
+    zone.hazardTimers[entity] = cooldown
+
+    return true
+end
+
+-- Создаёт damageInfo для hazard-zone.
+function World:createHazardDamageInfo(zone)
+    return {
+        amount = zone.hazardDamage or 999999,
+        source = zone,
+        owner = zone,
+        deathType = zone.hazardDeathType or "normal",
+        damageTargets = zone.hazardDamageTargets
+            or {
+                player = true,
+                enemy = true,
+                npc = true
+            }
+    }
+end
+
+-- Наносит урон одной entity от hazard-zone.
+function World:applyHazardToEntity(zone, entity)
+    if not self:canApplyHazard(zone, entity) then
+        return false
+    end
+
+    local damageInfo = self:createHazardDamageInfo(zone)
+
+    if not Targeting.canDamage(damageInfo.damageTargets, entity) then
+        return false
+    end
+
+    if not Collision.intersects(zone:getHitbox(), entity:getHitbox()) then
+        return false
+    end
+
+    -- Для ям/лавы можно игнорировать временную неуязвимость.
+    if zone.hazardIgnoreInvulnerable then
+        entity.invulnerable = false
+        entity.invulnerableTimer = 0
+    end
+
+    if entity.takeDamage then
+        entity:takeDamage(damageInfo)
+        return true
+    end
+
+    return false
+end
+
+-- Обрабатывает одну hazard-zone.
+function World:updateHazardZone(zone, dt)
+    if not zone or not zone.hazardZone then
+        return
+    end
+
+    self:updateHazardTimers(zone, dt)
+
+    if self.player then
+        self:applyHazardToEntity(zone, self.player)
+    end
+
+    for _, actor in ipairs(self.actors or {}) do
+        self:applyHazardToEntity(zone, actor)
+    end
+end
+
+-- Обрабатывает все hazard-zone decor-ы уровня.
+function World:updateHazardZones(dt)
+    if not self.level or not self.level.decors then
+        return
+    end
+
+    for _, decor in ipairs(self.level.decors) do
+        if decor.hazardZone then
+            self:updateHazardZone(decor, dt)
+        end
+    end
+end
+
+---checkpoint-функции
+function World:activateCheckpoint(checkpoint)
+    if not checkpoint then
+        return false
+    end
+
+    if self.activeCheckpoint == checkpoint then
+        return false
+    end
+
+    if self.activeCheckpoint then
+        self.activeCheckpoint:deactivate()
+    end
+
+    self.activeCheckpoint = checkpoint
+    checkpoint:activate()
+
+    return true
+end
+
+function World:updateCheckpoints(dt)
+    if not self.level or not self.level.checkpoints then
+        return
+    end
+
+    for _, checkpoint in ipairs(self.level.checkpoints) do
+        checkpoint:update(dt)
+
+        if self.player
+            and not self.player.dead
+            and Collision.intersects(checkpoint:getHitbox(), self.player:getHitbox())
+        then
+            self:activateCheckpoint(checkpoint)
+        end
+    end
+end
+
+function World:hasActiveCheckpoint()
+    return self.activeCheckpoint ~= nil
+end
+
+function World:clearRespawnRuntimeEntities()
+    self.projectiles = {}
+    self.effects = {}
+end
+
+function World:respawnPlayerAtCheckpoint()
+    if not self.player then
+        return false
+    end
+
+    if not self.activeCheckpoint then
+        return false
+    end
+
+    local position = self.activeCheckpoint:getRespawnPosition()
+
+    self:clearRespawnRuntimeEntities()
+
+    self.player:respawn(
+        position.x,
+        position.y,
+        {
+            facing = position.facing,
+			--invulnerableTime = 0 --убрать неуязвимость после checkpoint
+            invulnerableTime = 1.0 --неузявимость игрока после возврата на чекпоинт
+        }
+    )
+
+    self.result = nil
+    self.nextTarget = nil
+
+    return true
+end
+----
 -- Обновляет игрока, применяет платформенную физику и проверяет падение в яму.
 function World:updatePlayer(dt)
     if not self.player then
@@ -895,12 +1096,16 @@ function World:update(dt)
 	
 	self:removeDeadDecors()
 
-    self:updatePlayer(dt)
+	self:updatePlayer(dt)
+	self:updateCheckpoints(dt)
     self:updateActors(dt)
     self:updateProjectiles(dt)
     self:updateEffects(dt)
     self:updatePickups(dt)
-	self:updateCleanupZones()
+
+    self:updateHazardZones(dt)
+    self:updateCleanupZones()
+
     self:updateLevelEnd()
 
     self:updateCamera(dt)
@@ -965,6 +1170,10 @@ function World:draw()
             self:drawEntityWithShadow(decor)
         end
     end
+	
+	for _, checkpoint in ipairs(self.level.checkpoints or {}) do
+		self:drawEntityWithShadow(checkpoint)
+	end
 
     for _, pickup in ipairs(self.pickups) do
         self:drawEntityWithShadow(pickup)

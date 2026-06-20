@@ -39,6 +39,39 @@ function Platform:new(config)
     platform.walkY = config.walkY
         or config.platformWalkY
         or platform.y + platform.walkOffsetY
+		
+		
+-- Slope-платформа.(треугольная наклонная)
+    -- Физика остаётся простой: bbox прямоугольный,
+    -- но линия ног вычисляется по X между slopeLeftY и slopeRightY.
+    platform.slope = config.slope == true
+        or config.isSlope == true
+        or config.is_slope == true
+
+    platform.slopeLeftY = config.slopeLeftY
+        or config.slope_left_y
+        or platform.walkY
+
+    platform.slopeRightY = config.slopeRightY
+        or config.slope_right_y
+        or platform.walkY
+
+    platform.slopeBottomY = config.slopeBottomY
+        or config.slope_bottom_y		
+
+-- Если true, entity может зайти на slope сбоку,
+    -- если его ноги рядом с линией slope.
+    -- Если false, slope работает только как top-only поверхность.
+    platform.slopeWalkOn = config.slopeWalkOn == true
+        or config.slope_walk_on == true
+        or config.walkOntoSlope == true
+        or config.walk_onto_slope == true
+
+    -- Насколько далеко по Y можно "подхватить" entity на slope.
+    -- Чем больше число, тем легче зайти на крутой склон.
+    platform.slopeStepHeight = config.slopeStepHeight
+        or config.slope_step_height
+        or 24
 
 -- Визуальные параметры могут отличаться от физики.
     platform.visualY = config.visualY or config.visual_y or platform.y
@@ -156,6 +189,48 @@ function Platform:update(dt)
     end
 end
 
+
+-- Возвращает Y линии ног в указанной world-X позиции.
+-- Для обычной платформы это просто walkY.
+-- Для slope — интерполяция между slopeLeftY и slopeRightY.
+function Platform:getWalkYAtX(worldX)
+    if not self.slope then
+        return self.walkY or self.y
+    end
+
+    if not self.w or self.w == 0 then
+        return self.slopeLeftY or self.walkY or self.y
+    end
+
+    local t = ((worldX or self.x) - self.x) / self.w
+
+    if t < 0 then
+        t = 0
+    elseif t > 1 then
+        t = 1
+    end
+
+    local leftY = self.slopeLeftY or self.walkY or self.y
+    local rightY = self.slopeRightY or self.walkY or self.y
+
+    return leftY + (rightY - leftY) * t
+end
+
+-- Возвращает нижнюю Y-границу визуального slope-мокапа.
+function Platform:getSlopeBottomY()
+    if self.slopeBottomY then
+        return self.slopeBottomY
+    end
+
+    local visualBottom = (self.visualY or self.y) + (self.visualHeight or self.h or 0)
+    local slopeBottom = math.max(
+        self.slopeLeftY or self.y,
+        self.slopeRightY or self.y
+    )
+
+    return math.max(visualBottom, slopeBottom)
+end
+
 -- Физический hitbox платформы.
 function Platform:getHitbox()
     return {
@@ -179,19 +254,22 @@ function Platform:canLandEntity(entity, previousEntityY)
 
     local previousFeetY = previousEntityY or entity.y
     local currentFeetY = entity.y
+    local walkY = self:getWalkYAtX(entity.x)
 
     return (entity.vy or 0) >= 0
         and self:overlapsX(entityHitbox)
-        and previousFeetY <= self.walkY
-        and currentFeetY >= self.walkY
+        and previousFeetY <= walkY
+        and currentFeetY >= walkY
 end
 
 -- Ставит entity на платформу.
 function Platform:landEntity(entity)
+    local walkY = self:getWalkYAtX(entity.x)
+
     if entity.landOn then
-        entity:landOn(self.walkY)
+        entity:landOn(walkY)
     else
-        entity.y = self.walkY
+        entity.y = walkY
         entity.vy = 0
         entity.onGround = true
 
@@ -201,7 +279,6 @@ function Platform:landEntity(entity)
     end
 
     entity.onPlatform = true
-
     -- Если платформа движется, она немного тащит entity вместе с собой.
     entity.x = entity.x + (self.deltaX or 0)
 end
@@ -316,6 +393,43 @@ function Platform:draw(camera)
         love.graphics.setColor(1, 1, 1)
         return
     end
+
+---наклонная (треугольная платформа)
+if self.slope then
+        local leftY = self.slopeLeftY or self.walkY or self.y
+        local rightY = self.slopeRightY or self.walkY or self.y
+        local bottomY = self:getSlopeBottomY()
+
+        local x1 = self.x - camera.x
+        local x2 = self.x + self.w - camera.x
+
+        local yLeft = leftY - camera.y
+        local yRight = rightY - camera.y
+        local yBottom = bottomY - camera.y
+
+        love.graphics.setColor(self.color)
+
+        love.graphics.polygon(
+            "fill",
+            x1, yLeft,
+            x2, yRight,
+            x2, yBottom,
+            x1, yBottom
+        )
+
+        love.graphics.setColor(0.1, 0.08, 0.05)
+        love.graphics.polygon(
+            "line",
+            x1, yLeft,
+            x2, yRight,
+            x2, yBottom,
+            x1, yBottom
+        )
+
+        love.graphics.setColor(1, 1, 1)
+        return
+    end
+------------------------
 
     love.graphics.setColor(self.color)
     love.graphics.rectangle(

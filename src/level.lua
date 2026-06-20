@@ -53,6 +53,7 @@ function Level:new(config)
     level.pickups = {}
     level.decors = {}
     level.effects = {}
+	level.checkpoints = {}
 
     level.levelEnd = nil
 
@@ -103,6 +104,19 @@ function Level:createStaticObjects(config)
                 decorConfig.x,
                 decorConfig.y,
                 decorConfig
+            )
+        )
+    end
+	
+		
+	for _, checkpointConfig in ipairs(config.checkpoints or {}) do
+        table.insert(
+            self.checkpoints,
+            EntityFactory.createCheckpoint(
+                checkpointConfig.id,
+                checkpointConfig.x,
+                checkpointConfig.y,
+                checkpointConfig
             )
         )
     end
