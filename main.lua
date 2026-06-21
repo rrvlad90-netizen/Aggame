@@ -466,6 +466,8 @@ local function startDefeatScene(returnMode)
     startScene(getLevelDefeatScene(), returnMode)
 end
 
+local getOptionsLayout
+
 ---Настройки тачпада
 local function applyTouchSettings(buttonScale, buttonAlpha)
     Config.input.touchButtonScale = math.max(0.5, math.min(2.0, buttonScale or 1.0))
@@ -782,7 +784,7 @@ local function updateMenuSelection(maxItems, selectedIndex)
     return selectedIndex
 end
 
-local function getOptionsLayout()
+function getOptionsLayout()
     local rowH = 34
     local buttonH = 28
     local startY = 160
