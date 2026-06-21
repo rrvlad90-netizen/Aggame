@@ -75,17 +75,23 @@ function Render.drawEntity(entity, camera)
 -----
     local scaleX = entity.scaleX or entity.scale or 1
     local scaleY = entity.scaleY or entity.scale or 1
+	
+---логика разворота спрайта
+	local facing = entity.facing or 1
+	local flipSprite = entity.flipSprite == true
+	local ignoreFacingFlip = entity.ignoreFacingFlip == true
+		or entity.ignore_facing_flip == true
 
-    local facing = entity.facing or 1
-    local flipSprite = entity.flipSprite == true
+	if not ignoreFacingFlip then
+		if facing < 0 then
+			scaleX = -scaleX
+		end
 
-    if facing < 0 then
-        scaleX = -scaleX
-    end
-
-    if flipSprite then
-        scaleX = -scaleX
-    end
+		if flipSprite then
+			scaleX = -scaleX
+		end
+	end
+------
 
     love.graphics.setColor(1, 1, 1, entity.alpha or 1)
     love.graphics.draw(
@@ -114,18 +120,22 @@ function Render.drawAnimatedEntity(entity, camera)
 
     local scaleX = entity.scaleX or entity.scale or 1
     local scaleY = entity.scaleY or entity.scale or 1
+---логика разворота спрайта
+	local facing = entity.facing or 1
+	local flipSprite = entity.flipSprite == true
+	local ignoreFacingFlip = entity.ignoreFacingFlip == true
+		or entity.ignore_facing_flip == true
 
-    local facing = entity.facing or 1
-    local flipSprite = entity.flipSprite == true
+	if not ignoreFacingFlip then
+		if facing < 0 then
+			scaleX = -scaleX
+		end
 
-    if facing < 0 then
-        scaleX = -scaleX
-    end
-
-    if flipSprite then
-        scaleX = -scaleX
-    end
-
+		if flipSprite then
+			scaleX = -scaleX
+		end
+	end
+------
     entity.animationSet:draw(
         screenX,
         screenY,

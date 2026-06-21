@@ -1,0 +1,10 @@
+—нар€д не вращаетс€, но зеркалитс€ вправо/влево по vx.
+
+≈сли дл€ конкретного снар€да захочешь руками управл€ть:
+
+mirrorToVelocity = true
+ignoreFacingFlip = false
+или наоборот:
+
+mirrorToVelocity = false
+ignoreFacingFlip = true

@@ -163,6 +163,38 @@ function Projectile:new(config)
     -- Удобно для стрел и снарядов по дуге.
     projectile.rotateToVelocity = config.rotateToVelocity == true
         or config.rotate_to_velocity == true
+		
+-- Если projectile сам поворачивается по velocity, facing-зеркало не нужно.
+    -- Иначе будет двойной разворот: rotation + scaleX = -scaleX.
+    local ignoreFacingFlip = config.ignoreFacingFlip
+
+    if ignoreFacingFlip == nil then
+        ignoreFacingFlip = config.ignore_facing_flip
+    end
+
+    if ignoreFacingFlip == nil then
+        ignoreFacingFlip = projectile.rotateToVelocity
+    end
+
+    projectile.ignoreFacingFlip = ignoreFacingFlip == true
+
+    -- Для projectile без rotateToVelocity можно автоматически зеркалить sprite по vx.
+    local mirrorToVelocity = config.mirrorToVelocity
+
+    if mirrorToVelocity == nil then
+        mirrorToVelocity = config.mirror_to_velocity
+    end
+
+    if mirrorToVelocity == nil then
+        mirrorToVelocity = config.faceVelocity
+            or config.face_velocity
+    end
+
+    if mirrorToVelocity == nil then
+        mirrorToVelocity = not projectile.rotateToVelocity
+    end
+
+    projectile.mirrorToVelocity = mirrorToVelocity == true		
 
     -- Поправка угла под то, как нарисован исходный sprite.
     -- 0 подходит, если sprite смотрит вправо.
@@ -228,10 +260,12 @@ function Projectile:new(config)
         }
     })
 
-    projectile.animationSet:set("idle", true)
-    projectile:updateRotationFromVelocity(0)
+	projectile.animationSet:set("idle", true)
 
-    return projectile
+	projectile:updateFacingFromVelocity()
+	projectile:updateRotationFromVelocity(0)
+
+	return projectile
 end
 
 -- Возвращает hitbox projectile-а в мировых координатах.
@@ -320,6 +354,27 @@ function Projectile:resolvePlatformCollision(level)
     return false
 end
 
+-- Зеркалит projectile по горизонтальной скорости.
+-- Работает для снарядов, которые НЕ используют rotateToVelocity.
+function Projectile:updateFacingFromVelocity()
+    if not self.mirrorToVelocity then
+        return
+    end
+
+    local vx = self.vx or 0
+    local minSpeed = self.rotationMinSpeed or 1
+
+    if math.abs(vx) < minSpeed then
+        return
+    end
+
+    if vx < 0 then
+        self.facing = -1
+    else
+        self.facing = 1
+    end
+end
+
 -- Поворачивает projectile по направлению текущей скорости.
 -- rotateToVelocity включается отдельно в data/projectiles/*.lua.
 function Projectile:updateRotationFromVelocity(dt)
@@ -360,10 +415,11 @@ function Projectile:updateMovement(dt)
         self.vy = self.vy + self.gravity * dt
     end
 
-    self.x = self.x + self.vx * dt
-    self.y = self.y + self.vy * dt
+	self.x = self.x + self.vx * dt
+	self.y = self.y + self.vy * dt
 
-    self:updateRotationFromVelocity(dt)
+	self:updateFacingFromVelocity()
+	self:updateRotationFromVelocity(dt)
 
     local dx = self.x - previousX
     local dy = self.y - previousY

@@ -854,18 +854,21 @@ local function getOptionsVolumeButtonAt(x, y)
             local buttonY = rowY + 3
             local buttonH = layout.buttonH - 6
 
+            local minusX = layout.leftX + layout.minusOffsetX
+            local plusX = layout.leftX + layout.plusOffsetX
+
             local insideY = y >= buttonY and y <= buttonY + buttonH
 
             if insideY
-                and x >= layout.minusX
-                and x <= layout.minusX + layout.smallButtonW
+                and x >= minusX
+                and x <= minusX + layout.smallButtonW
             then
                 return item, index, -1
             end
 
             if insideY
-                and x >= layout.plusX
-                and x <= layout.plusX + layout.smallButtonW
+                and x >= plusX
+                and x <= plusX + layout.smallButtonW
             then
                 return item, index, 1
             end
@@ -874,6 +877,7 @@ local function getOptionsVolumeButtonAt(x, y)
 
     return nil, nil, nil
 end
+
 ---Функции изменения громкости 
 local function getVolumePercent(item)
     if not item or not item.volume then
