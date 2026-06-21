@@ -1,6 +1,6 @@
 return {
-    id = "dduck",
-    name = "dduck",
+    id = "dduck_bow",
+    name = "dduck bow",
 	
 	portrait = "assets/players/dduck/portrait.png",
 
@@ -196,11 +196,16 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_forward",
+                    id = "player_arc_projectile",
                     x = 34,
                     y = -42,
                     direction = "forward"
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 
@@ -217,11 +222,16 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_forward",
+                    id = "player_arc_projectile",
                     x = 34,
                     y = -42,
                     direction = "forward"
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 
@@ -238,11 +248,16 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_forward",
+                    id = "player_arc_projectile",
                     x = 34,
                     y = -42,
                     direction = "forward"
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 
@@ -259,11 +274,16 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_forward",
+                    id = "player_arc_projectile",
                     x = 34,
                     y = -42,
                     direction = "forward"
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 
@@ -286,11 +306,16 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_forward",
+                    id = "player_arc_projectile",
                     x = 34,
                     y = -32,
                     direction = "forward"
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 
@@ -307,10 +332,15 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_up",
+                    id = "player_arc_projectile",
                     x = 8,
                     y = -68
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 
@@ -327,10 +357,15 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_up",
+                    id = "player_arc_projectile",
                     x = 8,
                     y = -68
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 
@@ -347,10 +382,15 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_up",
+                    id = "player_arc_projectile",
                     x = 8,
                     y = -68
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 
@@ -367,10 +407,15 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_up",
+                    id = "player_arc_projectile",
                     x = 8,
                     y = -68
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 
@@ -387,11 +432,16 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_diagonal_up",
+                    id = "player_arc_projectile",
                     x = 34,
                     y = -58,
                     direction = "forward"
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 
@@ -408,11 +458,16 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_diagonal_up",
+                    id = "player_arc_projectile",
                     x = 34,
                     y = -58,
                     direction = "forward"
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 
@@ -429,11 +484,16 @@ return {
                 {
                     frame = 2,
                     type = "createEntity",
-                    id = "player_projectile_diagonal_up",
+                    id = "player_arc_projectile",
                     x = 34,
                     y = -58,
                     direction = "forward"
-                }
+                },
+				{
+					frame = 2,
+					type = "consumeWeaponUse",
+					amount = 1
+				}
             }
         },
 

@@ -3,7 +3,7 @@ return {
 
     kind = "weapon",
 
-    weaponPlayerId = "warrior_bow",
+    weaponPlayerId = "dduck_bow",
     weaponUses = 10,
 
     image = nil,

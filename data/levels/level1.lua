@@ -214,14 +214,14 @@
 			slope = true,
 			slopeWalkOn = true,--Если true — игрок/actor сможет зайти на склон с земли/платформы.
 			--Если false или не указано — то можно только запрыгнуть сверху, сбоку зайти нельзя
-			--solid = true --нельзя пройти сбоку и снаряды врезаются
 			slopeStepHeight = 48,
 
 			slopeLeftY = 555,
 			slopeRightY = 455,
 			slopeBottomY = 555,
 
-			solid = true,
+			solid = false,
+			--solid = true --нельзя пройти сбоку и снаряды врезаются
 
 			color = {0.35, 0.25, 0.15}
 		},
@@ -243,7 +243,7 @@
 			h = 100,
 
 			slope = true,
-			slopeWalkOn = true,
+			slopeWalkOn = false, --Если false или не указано — то можно только запрыгнуть сверху, сбоку зайти нельзя
 			slopeStepHeight = 48,
 
 			-- Обратное направление: слева высоко, справа низко.
@@ -265,7 +265,7 @@
             y = 555
         },
         {
-            id = "ammo_small",
+            id = "bow_weapon",
             x = 720,
             y = 555
         },

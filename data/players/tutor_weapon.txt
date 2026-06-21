@@ -1,6 +1,6 @@
 Пример WEAPON event в weapon-player
 
-В атаке warrior_bow:
+В атаке dduck_bow:
 
 events = {
     {
@@ -11,6 +11,8 @@ events = {
         y = -42,
         direction = "forward"
     },
+
+----Отнять патроны
     {
         frame = 2,
         type = "consumeWeaponUse",
