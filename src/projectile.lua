@@ -345,9 +345,41 @@ function Projectile:resolvePlatformCollision(level)
     local hitbox = self:getHitbox()
 
     for _, platform in ipairs(level.platforms or {}) do
-        if Collision.intersects(hitbox, platform:getHitbox()) then
-            self:die()
-            return true
+        local platformBox = platform:getHitbox()
+
+        if platform.slope then
+            local centerX = hitbox.x + hitbox.w / 2
+
+            local insideX = centerX >= platformBox.x
+                and centerX <= platformBox.x + platformBox.w
+
+            if insideX and platform.getWalkYAtX then
+                local slopeY = platform:getWalkYAtX(centerX)
+                local projectileBottomY = hitbox.y + hitbox.h
+                local projectileTopY = hitbox.y
+
+                local slopeBottomY = nil
+
+                if platform.getSlopeBottomY then
+                    slopeBottomY = platform:getSlopeBottomY()
+                else
+                    slopeBottomY = platformBox.y + platformBox.h
+                end
+
+                -- Снаряд сталкивается со slope только если дошёл до линии склона,
+                -- а не просто попал в прямоугольный bbox slope-платформы.
+                if projectileBottomY >= slopeY
+                    and projectileTopY <= slopeBottomY
+                then
+                    self:die()
+                    return true
+                end
+            end
+        else
+            if Collision.intersects(hitbox, platformBox) then
+                self:die()
+                return true
+            end
         end
     end
 
