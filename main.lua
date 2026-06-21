@@ -50,8 +50,18 @@ local game = {
 }
 
 local optionsMenuItems = {
-    {label = "Sound", volume = "sound"},
-    {label = "Music", volume = "music"},
+    {
+        label = "Sound Volume",
+        volume = "sound",
+        touchLabel = "Touch Size",
+        touch = "size"
+    },
+    {
+        label = "Music Volume",
+        volume = "music",
+        touchLabel = "Touch Alpha",
+        touch = "alpha"
+    },
 
     {label = "Left", action = "left"},
     {label = "Right", action = "right"},
@@ -456,6 +466,117 @@ local function startDefeatScene(returnMode)
     startScene(getLevelDefeatScene(), returnMode)
 end
 
+---Настройки тачпада
+local function applyTouchSettings(buttonScale, buttonAlpha)
+    Config.input.touchButtonScale = math.max(0.5, math.min(2.0, buttonScale or 1.0))
+    Config.input.touchButtonAlpha = math.max(0.1, math.min(1.0, buttonAlpha or 0.65))
+
+    Input.touchButtons = Input.createDefaultTouchButtons()
+end
+
+local function applySavedTouchSettings()
+    local buttonScale, buttonAlpha = Save.getTouchSettings()
+
+    applyTouchSettings(buttonScale, buttonAlpha)
+end
+
+local function saveTouchSettings()
+    Save.setTouchSettings(
+        Config.input.touchButtonScale,
+        Config.input.touchButtonAlpha
+    )
+end
+
+local function getTouchSettingPercent(item)
+    if not item or not item.touch then
+        return 0
+    end
+
+    if item.touch == "size" then
+        return math.floor((Config.input.touchButtonScale or 1.0) * 100 + 0.5)
+    end
+
+    if item.touch == "alpha" then
+        return math.floor((Config.input.touchButtonAlpha or 0.65) * 100 + 0.5)
+    end
+
+    return 0
+end
+
+local function setTouchSettingPercent(item, percent)
+    if not item or not item.touch then
+        return
+    end
+
+    if item.touch == "size" then
+        percent = math.max(50, math.min(200, percent or 100))
+
+        Config.input.touchButtonScale = percent / 100
+        applyTouchSettings(
+            Config.input.touchButtonScale,
+            Config.input.touchButtonAlpha
+        )
+    elseif item.touch == "alpha" then
+        percent = math.max(10, math.min(100, percent or 65))
+
+        Config.input.touchButtonAlpha = percent / 100
+        applyTouchSettings(
+            Config.input.touchButtonScale,
+            Config.input.touchButtonAlpha
+        )
+    end
+
+    saveTouchSettings()
+    Input.showTouchButtons()
+end
+
+local function changeTouchSettingByPoint(item, points)
+    if not item or not item.touch then
+        return
+    end
+
+    local currentPercent = getTouchSettingPercent(item)
+
+    setTouchSettingPercent(
+        item,
+        currentPercent + (points or 0)
+    )
+end
+
+
+-------------функция поиска touch-кнопки в options
+local function getOptionsTouchButtonAt(x, y)
+    local layout = getOptionsLayout()
+
+    for index, item in ipairs(optionsMenuItems or {}) do
+        if item.touch then
+            local rowY = layout.startY + (index - 1) * layout.rowH
+            local buttonY = rowY + 3
+            local buttonH = layout.buttonH - 6
+
+            local minusX = layout.rightX + layout.minusOffsetX
+            local plusX = layout.rightX + layout.plusOffsetX
+
+            local insideY = y >= buttonY and y <= buttonY + buttonH
+
+            if insideY
+                and x >= minusX
+                and x <= minusX + layout.smallButtonW
+            then
+                return item, index, -1
+            end
+
+            if insideY
+                and x >= plusX
+                and x <= plusX + layout.smallButtonW
+            then
+                return item, index, 1
+            end
+        end
+    end
+
+    return nil, nil, nil
+end
 
 ---настройки звука и музыки
 local function clampVolume(volume)
@@ -548,7 +669,8 @@ local function confirmOptionsMenu()
         return
     end
 
-    -- Громкость теперь меняется только кликом по кнопкам -/+.
+    -- Громкость теперь меняется только мышкой по -/+.
+    -- Enter / Confirm на строке громкости ничего не делает.
     if item.volume then
         return
     end
@@ -662,26 +784,46 @@ end
 
 local function getOptionsLayout()
     local rowH = 34
-    local buttonW = 460
     local buttonH = 28
-    local buttonX = Config.screen.width / 2 - buttonW / 2
     local startY = 160
+
+    local smallButtonW = 34
+    local valueW = 46
+
+    local leftX = 40
+    local rightX = 410
+    local groupW = 350
+
+    local labelOffsetX = 12
+    local minusOffsetX = 190
+    local valueOffsetX = 232
+    local plusOffsetX = 282
+
+    local buttonW = 460
+    local buttonX = Config.screen.width / 2 - buttonW / 2
 
     return {
         rowH = rowH,
-        buttonW = buttonW,
         buttonH = buttonH,
-        buttonX = buttonX,
         startY = startY,
 
-        minusX = buttonX + 255,
-        valueX = buttonX + 305,
-        plusX = buttonX + 365,
+        smallButtonW = smallButtonW,
+        valueW = valueW,
 
-        smallButtonW = 42,
-        valueW = 52
+        leftX = leftX,
+        rightX = rightX,
+        groupW = groupW,
+
+        labelOffsetX = labelOffsetX,
+        minusOffsetX = minusOffsetX,
+        valueOffsetX = valueOffsetX,
+        plusOffsetX = plusOffsetX,
+
+        buttonW = buttonW,
+        buttonX = buttonX
     }
 end
+
 --Звук
 local function getOptionsItemAt(x, y)
     local layout = getOptionsLayout()
@@ -730,23 +872,71 @@ local function getOptionsVolumeButtonAt(x, y)
 
     return nil, nil, nil
 end
+---Функции изменения громкости 
+local function getVolumePercent(item)
+    if not item or not item.volume then
+        return 0
+    end
+
+    if item.volume == "sound" then
+        return math.floor((Config.audio.soundVolume or 0) * 100 + 0.5)
+    end
+
+    if item.volume == "music" then
+        return math.floor((Config.audio.musicVolume or 0) * 100 + 0.5)
+    end
+
+    return 0
+end
+
+local function setOptionVolumePercent(item, percent)
+    if not item or not item.volume then
+        return
+    end
+
+    percent = math.max(0, math.min(100, percent or 0))
+
+    local volume = percent / 100
+
+    if item.volume == "sound" then
+        Assets.setSoundVolume(volume)
+    elseif item.volume == "music" then
+        Assets.setMusicVolume(volume)
+    end
+
+    Save.setAudioSettings(
+        Config.audio.musicVolume,
+        Config.audio.soundVolume
+    )
+end
 
 local function changeOptionVolumeByPoint(item, points)
     if not item or not item.volume then
         return
     end
 
-    local delta = (points or 0) / 100
+    local currentPercent = getVolumePercent(item)
 
-    changeOptionVolume(item, delta)
+    setOptionVolumePercent(
+        item,
+        currentPercent + (points or 0)
+    )
 end
 
 local function handleOptionsPointerPressed(x, y)
-    local volumeItem, volumeIndex, points = getOptionsVolumeButtonAt(x, y)
+    local volumeItem, volumeIndex, volumePoints = getOptionsVolumeButtonAt(x, y)
 
     if volumeItem then
         game.selectedOptionsIndex = volumeIndex
-        changeOptionVolumeByPoint(volumeItem, points)
+        changeOptionVolumeByPoint(volumeItem, volumePoints)
+        return true
+    end
+
+    local touchItem, touchIndex, touchPoints = getOptionsTouchButtonAt(x, y)
+
+    if touchItem then
+        game.selectedOptionsIndex = touchIndex
+        changeTouchSettingByPoint(touchItem, touchPoints)
         return true
     end
 
@@ -1123,6 +1313,7 @@ function love.load()
     UI.init()
     Save.load()
 	applySavedAudioSettings()
+	applySavedTouchSettings()
 
 	Input.setKeyBindings(Save.getKeyboardBindings())
 
@@ -1132,42 +1323,33 @@ end
 
 -- love.update вызывается каждый кадр.
 function love.update(dt)
---Защита от частого нажатия Alt+Enter
-	if game.fullscreenToggleCooldown > 0 then
-		game.fullscreenToggleCooldown = math.max(0, game.fullscreenToggleCooldown - dt)
-	end
---Защита от частого изменения звука	
-	if game.optionsVolumeCooldown > 0 then
-		game.optionsVolumeCooldown = math.max(
-			0,
-			game.optionsVolumeCooldown - dt
-		)
-	end
-	
+    -- Защита от частого нажатия Alt+Enter.
+    if game.fullscreenToggleCooldown > 0 then
+        game.fullscreenToggleCooldown = math.max(
+            0,
+            game.fullscreenToggleCooldown - dt
+        )
+    end
+
+    -- Защита от частого изменения звука.
+    -- Сейчас можно оставить, но громкость мышкой уже не должна зависеть от этого.
+    if game.optionsVolumeCooldown > 0 then
+        game.optionsVolumeCooldown = math.max(
+            0,
+            game.optionsVolumeCooldown - dt
+        )
+    end
+
     -- Защита физики от больших скачков времени при подвисаниях.
     -- Без этого actor/projectile могут за один кадр пролететь сквозь платформу.
     dt = math.min(dt, 1 / 30)
 
     Input.update(dt)
 
-	local item = optionsMenuItems[game.selectedOptionsIndex]
-
-	if item and item.volume then
-		if Input.wasPressed("left") then
-			changeOptionVolume(item, -0.05)
-			return
-		end
-
-		if Input.wasPressed("right") then
-			changeOptionVolume(item, 0.05)
-			return
-		end
-	end
-
     if game.mode == "main_menu" then
         updateMainMenu()
-	elseif game.mode == "options_menu" then
-        updateOptionsMenu()	
+    elseif game.mode == "options_menu" then
+        updateOptionsMenu()
     elseif game.mode == "pause_menu" then
         updatePauseMenu()
     elseif game.mode == "game_over_menu" then
@@ -1249,7 +1431,7 @@ end
 
 -- love.mousepressed обрабатывает клик мыши.
 function love.mousepressed(x, y, button)
-x, y = Viewport.toVirtual(x, y)
+    x, y = Viewport.toVirtual(x, y)
 
     if button == 1 then
         if game.mode == "main_menu" then
@@ -1261,12 +1443,12 @@ x, y = Viewport.toVirtual(x, y)
                 return
             end
         end
-		
-		if game.mode == "options_menu" then
-			if handleOptionsPointerPressed(x, y) then
-				return
-			end
-		end
+
+        if game.mode == "options_menu" then
+            if handleOptionsPointerPressed(x, y) then
+                return
+            end
+        end
 
         if game.mode == "pause_menu" then
             local index = getMenuItemAt(pauseMenuItems, x, y)
@@ -1287,13 +1469,14 @@ x, y = Viewport.toVirtual(x, y)
                 return
             end
         end
-----логика кликов на картинки
-		if game.mode == "scene" and game.scene then
-			game.scene:click(x, y)
-			return
-		end
+
+        if game.mode == "scene" and game.scene then
+            game.scene:click(x, y)
+            return
+        end
     end
 
+    -- ВАЖНО: level/input получает мышь только после меню.
     Input.mousepressed(x, y, button)
 end
 
@@ -1310,12 +1493,6 @@ function love.touchpressed(id, x, y)
     local windowY = y * love.graphics.getHeight()
 
     x, y = Viewport.toVirtual(windowX, windowY)
-	
-	if game.mode == "options_menu" then
-		if handleOptionsPointerPressed(x, y) then
-			return
-		end
-	end
 
     if game.mode == "scene" and game.scene then
         game.scene:click(x, y)

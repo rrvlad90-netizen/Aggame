@@ -303,7 +303,7 @@ function UI.drawOptionsMenu(items, selectedIndex, remapAction)
     else
         love.graphics.setColor(0.8, 0.8, 0.8)
         love.graphics.printf(
-            "Click -/+ for volume, Enter - change key, Esc - back",
+            "Click -/+ for audio and touchpad, Enter - change key, Esc - back",
             0,
             105,
             Config.screen.width,
@@ -313,16 +313,63 @@ function UI.drawOptionsMenu(items, selectedIndex, remapAction)
 
     local startY = 160
     local rowH = 34
-    local buttonW = 460
     local buttonH = 28
+
+    local leftX = 40
+    local rightX = 410
+    local groupW = 350
+
+    local smallButtonW = 34
+    local valueW = 46
+
+    local labelOffsetX = 12
+    local minusOffsetX = 190
+    local valueOffsetX = 232
+    local plusOffsetX = 282
+
+    local buttonW = 460
     local buttonX = Config.screen.width / 2 - buttonW / 2
 
-    local minusX = buttonX + 255
-    local valueX = buttonX + 305
-    local plusX = buttonX + 365
+    local function drawOptionGroup(groupX, y, label, value, alpha)
+        love.graphics.setColor(0.08, 0.08, 0.1, 0.85 * alpha)
+        love.graphics.rectangle("fill", groupX, y, groupW, buttonH, 6, 6)
 
-    local smallButtonW = 42
-    local valueW = 52
+        love.graphics.setColor(1, 1, 1, alpha)
+        love.graphics.rectangle("line", groupX, y, groupW, buttonH, 6, 6)
+
+        love.graphics.print(label, groupX + labelOffsetX, y + 6)
+
+        UI.drawButton(
+            {
+                x = groupX + minusOffsetX,
+                y = y + 3,
+                w = smallButtonW,
+                h = buttonH - 6
+            },
+            "-",
+            alpha
+        )
+
+        love.graphics.setColor(1, 1, 1, alpha)
+        love.graphics.printf(
+            tostring(value),
+            groupX + valueOffsetX,
+            y + 6,
+            valueW,
+            "center"
+        )
+
+        UI.drawButton(
+            {
+                x = groupX + plusOffsetX,
+                y = y + 3,
+                w = smallButtonW,
+                h = buttonH - 6
+            },
+            "+",
+            alpha
+        )
+    end
 
     for index, item in ipairs(items or {}) do
         local y = startY + (index - 1) * rowH
@@ -332,70 +379,53 @@ function UI.drawOptionsMenu(items, selectedIndex, remapAction)
             alpha = 0.65
         end
 
-        love.graphics.setColor(0.08, 0.08, 0.1, 0.85 * alpha)
-        love.graphics.rectangle("fill", buttonX, y, buttonW, buttonH, 6, 6)
-
-        love.graphics.setColor(1, 1, 1, alpha)
-        love.graphics.rectangle("line", buttonX, y, buttonW, buttonH, 6, 6)
-
-        if item.volume then
-            local label = item.label or ""
+        if item.volume or item.touch then
+            local volumeLabel = item.label or "Volume"
+            local volumeValue = 0
 
             if item.volume == "sound" then
-                label = "Sound Volume"
+                volumeValue = math.floor(Config.audio.soundVolume * 100 + 0.5)
             elseif item.volume == "music" then
-                label = "Music Volume"
+                volumeValue = math.floor(Config.audio.musicVolume * 100 + 0.5)
             end
 
-            local value = 0
-
-            if item.volume == "sound" then
-                value = math.floor(Config.audio.soundVolume * 100 + 0.5)
-            elseif item.volume == "music" then
-                value = math.floor(Config.audio.musicVolume * 100 + 0.5)
-            end
-
-            love.graphics.setColor(1, 1, 1, alpha)
-            love.graphics.print(label, buttonX + 12, y + 6)
-
-            UI.drawButton(
-                {
-                    x = minusX,
-                    y = y + 3,
-                    w = smallButtonW,
-                    h = buttonH - 6
-                },
-                "-",
+            drawOptionGroup(
+                leftX,
+                y,
+                volumeLabel,
+                volumeValue,
                 alpha
             )
 
-            love.graphics.setColor(1, 1, 1, alpha)
-            love.graphics.printf(
-                tostring(value),
-                valueX,
-                y + 6,
-                valueW,
-                "center"
-            )
+            local touchLabel = item.touchLabel or "Touch"
+            local touchValue = 0
 
-            UI.drawButton(
-                {
-                    x = plusX,
-                    y = y + 3,
-                    w = smallButtonW,
-                    h = buttonH - 6
-                },
-                "+",
+            if item.touch == "size" then
+                touchValue = math.floor(Config.input.touchButtonScale * 100 + 0.5)
+            elseif item.touch == "alpha" then
+                touchValue = math.floor(Config.input.touchButtonAlpha * 100 + 0.5)
+            end
+
+            drawOptionGroup(
+                rightX,
+                y,
+                touchLabel,
+                touchValue,
                 alpha
             )
         else
+            love.graphics.setColor(0.08, 0.08, 0.1, 0.85 * alpha)
+            love.graphics.rectangle("fill", buttonX, y, buttonW, buttonH, 6, 6)
+
+            love.graphics.setColor(1, 1, 1, alpha)
+            love.graphics.rectangle("line", buttonX, y, buttonW, buttonH, 6, 6)
+
             local text = item.label or item.action or ""
 
             if item.action then
                 text = text .. ": " .. string.upper(Input.getPrimaryKey(item.action))
             end
 
-            love.graphics.setColor(1, 1, 1, alpha)
             love.graphics.printf(
                 text,
                 buttonX + 12,

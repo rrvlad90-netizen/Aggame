@@ -202,6 +202,24 @@ function Save.setTouchSettings(buttonScale, buttonAlpha)
     Save.save()
 end
 
+-- Возвращает настройки touch-кнопок.
+function Save.getTouchSettings()
+    Save.data.touch = Save.data.touch or {}
+
+    local buttonScale = Save.data.touch.buttonScale
+    local buttonAlpha = Save.data.touch.buttonAlpha
+
+    if buttonScale == nil then
+        buttonScale = 1.0
+    end
+
+    if buttonAlpha == nil then
+        buttonAlpha = 0.65
+    end
+
+    return buttonScale, buttonAlpha
+end
+
 -- Сохраняет настройки клавиатуры.
 function Save.setKeyboardBindings(bindings)
     Save.data.keyboard = Save.data.keyboard or {}
