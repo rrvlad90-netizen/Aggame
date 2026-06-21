@@ -170,8 +170,16 @@ local function stopPlayerSelect()
 end
 
 -- Создаёт игрока по выбранному player id.
+--Теперь в уровне можно задать явный тип игрока который будетиспльзоваться без (player screen)
 local function createSelectedPlayer(x, y)
-    local playerId = Save.getSelectedPlayerId() or "warrior"
+    local playerId = nil
+
+    if game.level and game.level.playerId then
+        playerId = game.level.playerId
+    else
+        playerId = Save.getSelectedPlayerId() or "warrior"
+    end
+
     local definition = Registry.loadPlayer(playerId)
 
     definition.x = x

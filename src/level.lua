@@ -13,6 +13,10 @@ function Level:new(config)
     local level = setmetatable({}, Level)
 
     level.id = config.id or "level"
+	
+	-- Если указано, уровень сам выбирает player-а и не зависит от player_select.
+    level.playerId = config.playerId
+        or config.player_id
 
     level.music = config.music
 	

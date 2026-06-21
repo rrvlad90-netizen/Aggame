@@ -92,8 +92,15 @@ pickup.shadowType = config.shadowType
 		
 	pickup.lifeAmount = config.lifeAmount
         or config.life_amount
-        or 0	
+        or 0
+---Weapon
+	pickup.weaponPlayerId = config.weaponPlayerId
+        or config.weapon_player_id
 
+    pickup.weaponUses = config.weaponUses
+        or config.weapon_uses
+        or 0		
+----
     pickup.vx = config.vx or config.speedX or config.speed_x or 0
     pickup.vy = config.vy or config.speedY or config.speed_y or 0
     pickup.gravity = config.gravity or 0
@@ -159,6 +166,19 @@ function Pickup:applyToPlayer(player)
             return true
         end
     end	
+	
+	if self.kind == "weapon"
+			and self.weaponPlayerId
+			and self.weaponUses > 0
+		then
+			if player.addWeapon
+				and player:addWeapon(self.weaponPlayerId, self.weaponUses)
+			then
+				self.collected = true
+				self.dead = true
+				return true
+			end
+		end	
 
     return false
 end

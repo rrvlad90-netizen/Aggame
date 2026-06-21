@@ -1,0 +1,19 @@
+Пример WEAPON event в weapon-player
+
+В атаке warrior_bow:
+
+events = {
+    {
+        frame = 2,
+        type = "createEntity",
+        id = "player_projectile",
+        x = 34,
+        y = -42,
+        direction = "forward"
+    },
+    {
+        frame = 2,
+        type = "consumeWeaponUse",
+        amount = 1
+    }
+}

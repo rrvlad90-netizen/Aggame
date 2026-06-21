@@ -143,13 +143,37 @@ function UI.drawPlayerLives(player)
     love.graphics.print("Lives: " .. tostring(player.lives), 20, 48)
 end
 
+-- Рисует оставшиеся uses weapon-формы.
+function UI.drawWeaponUses(player)
+    if not player then
+        return
+    end
+
+    if not player.weaponPlayerId then
+        return
+    end
+
+    love.graphics.setFont(UI.font)
+    love.graphics.setColor(1, 1, 1)
+
+    love.graphics.print(
+        "Weapon: " .. tostring(player.weaponUses or 0),
+        20,
+        74
+    )
+end
+
 -- Рисует ammo.
 function UI.drawAmmo(player)
     if not player or not player.ammo then
         return
     end
 
-    local y = 74
+	local y = 74
+
+	if player.weaponPlayerId then
+		y = 98
+	end
 
     love.graphics.setFont(UI.font)
     love.graphics.setColor(1, 1, 1)
@@ -169,6 +193,7 @@ end
 function UI.drawHud(player)
     UI.drawPlayerHealth(player)
     UI.drawPlayerLives(player)
+    UI.drawWeaponUses(player)
     UI.drawAmmo(player)
 end
 

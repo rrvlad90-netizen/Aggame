@@ -1,0 +1,22 @@
+ѕример уровн€ с принудительным игроком
+
+lua
+return {
+    id = "level1",
+
+    playerId = "warrior",
+
+    playerStart = {
+        x = 120,
+        y = 555
+    },
+
+    pickups = {
+        {
+            id = "bow_weapon",
+            x = 500,
+            y = 555
+        }
+    }
+}
+≈сли playerId убрать, будет использоватьс€ персонаж из player_select.

@@ -406,6 +406,16 @@ function EventRunner.setAlpha(owner, event)
     owner.alpha = math.max(0, math.min(1, alpha))
 end
 
+-- Тратит uses у weapon-формы игрока.(Тратит заряды оружия)
+-- Обычно вызывается из attack/shoot animation event.
+function EventRunner.consumeWeaponUse(owner, event)
+    if not owner or not owner.consumeWeaponUse then
+        return
+    end
+
+    owner:consumeWeaponUse(event.amount or event.value or 1)
+end
+
 -- Проверяет, должен ли animation event сработать.
 -- Если chance не указан, event всегда срабатывает.
 -- Поддерживает два формата:
@@ -476,6 +486,15 @@ function EventRunner.run(world, owner, event)
         EventRunner.playSound(event)
         return
     end
+	
+	if eventType == "consumeWeaponUse"
+			or eventType == "consume_weapon_use"
+			or eventType == "weaponUse"
+			or eventType == "weapon_use"
+		then
+			EventRunner.consumeWeaponUse(owner, event)
+			return
+    end	
 
     if eventType == "createEntity" then
         EventRunner.createEntity(world, owner, event)

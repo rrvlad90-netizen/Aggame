@@ -2,6 +2,7 @@ local AnimationSet = require("src.animation_set")
 local Collision = require("src.collision")
 local Render = require("src.render")
 local Utils = require("src.utils")
+local Registry = require("src.registry")
 
 local Player = {}
 Player.__index = Player
@@ -191,6 +192,18 @@ function Player:new(config)
     player.state = "idle"
 
     player.ammo = config.ammo or {}
+
+-- Weapon transform runtime.(превращаем игрока в дргой тип по weapon который онподобрал)
+    player.weaponUses = config.weaponUses
+        or config.weapon_uses
+
+    player.weaponPlayerId = config.weaponPlayerId
+        or config.weapon_player_id
+
+    player.weaponBasePlayerId = config.weaponBasePlayerId
+        or config.weapon_base_player_id
+
+    player.pendingWeaponReturn = false
 
     player.entitySpawnRequests = {}
 
@@ -1030,6 +1043,224 @@ function Player:die()
     self:playAnimation("death", true)
 end
 
+--Подгоняем HP игрока обратно если в предыдущей форме у него было больше шкала HP чем сейчас
+local function clampHealthByRatio(oldHealth, oldMaxHealth, newMaxHealth)
+    oldHealth = oldHealth or 1
+    oldMaxHealth = oldMaxHealth or oldHealth or 1
+    newMaxHealth = newMaxHealth or 1
+
+    if oldMaxHealth <= 0 then
+        oldMaxHealth = 1
+    end
+
+    local ratio = oldHealth / oldMaxHealth
+    local newHealth = math.ceil(newMaxHealth * ratio)
+
+    if oldHealth > 0 then
+        newHealth = math.max(1, newHealth)
+    end
+
+    return math.max(0, math.min(newMaxHealth, newHealth))
+end
+
+-- Пересобирает текущий Player в другой player config, но сохраняет сам Lua-объект.
+-- Это важно: world.player и game.player остаются тем же объектом.
+function Player:transformToPlayer(playerId, options)
+    if not playerId then
+        return false
+    end
+
+    options = options or {}
+
+    local definition = Registry.loadPlayer(playerId)
+
+    if not definition then
+        return false
+    end
+
+    definition = Utils.copyTable(definition)
+
+    local oldHealth = self.health or 1
+    local oldMaxHealth = self.maxHealth or oldHealth or 1
+
+    local runtime = {
+        x = self.x,
+        y = self.y,
+
+        previousX = self.previousX,
+        previousY = self.previousY,
+
+        vx = self.vx or 0,
+        vy = self.vy or 0,
+
+        facing = self.facing or 1,
+        lives = self.lives or 1,
+
+        onGround = self.onGround == true,
+
+        invulnerable = self.invulnerable == true,
+        invulnerableTimer = self.invulnerableTimer or 0,
+
+        currentPlatform = self.currentPlatform
+    }
+
+    definition.x = runtime.x
+    definition.y = runtime.y
+    definition.facing = runtime.facing
+    definition.lives = runtime.lives
+
+    local transformed = Player:new(definition)
+
+    transformed.previousX = runtime.previousX or runtime.x
+    transformed.previousY = runtime.previousY or runtime.y
+
+    transformed.vx = runtime.vx
+    transformed.vy = runtime.vy
+
+    transformed.facing = runtime.facing
+    transformed.lives = runtime.lives
+
+    transformed.onGround = runtime.onGround
+    transformed.currentPlatform = runtime.currentPlatform
+
+    transformed.invulnerable = runtime.invulnerable
+    transformed.invulnerableTimer = runtime.invulnerableTimer
+
+    transformed.health = clampHealthByRatio(
+        oldHealth,
+        oldMaxHealth,
+        transformed.maxHealth
+    )
+
+    transformed.weaponUses = options.weaponUses
+    transformed.weaponPlayerId = options.weaponPlayerId
+    transformed.weaponBasePlayerId = options.weaponBasePlayerId
+    transformed.pendingWeaponReturn = options.pendingWeaponReturn == true
+
+    -- После transform не держим старые action-состояния.
+    transformed.comboTimer = 0
+    transformed.comboIndex = 0
+    transformed.comboGroupName = nil
+
+    transformed.isBlocking = false
+    transformed.isCrouching = false
+
+    if transformed.setStandBbox then
+        transformed:setStandBbox()
+    end
+
+    for key, _ in pairs(self) do
+        self[key] = nil
+    end
+
+    for key, value in pairs(transformed) do
+        self[key] = value
+    end
+
+    setmetatable(self, Player)
+
+    if options.playSpawn ~= false then
+        if self.playSpawnAnimation then
+            self:playSpawnAnimation()
+        elseif self.animationSet and self.animationSet:has("spawn") then
+            self.animationSet:set("spawn", true)
+        elseif self.animationSet and self.animationSet:has("idle") then
+            self.animationSet:set("idle", true)
+        end
+    end
+
+    return true
+end
+
+-- Подбирает weapon pickup.
+-- То же оружие добавляет uses, другое заменяет форму и стирает старые uses.
+function Player:addWeapon(weaponPlayerId, weaponUses)
+    if self.dead then
+        return false
+    end
+
+    if not weaponPlayerId then
+        return false
+    end
+
+    weaponUses = weaponUses or 0
+
+    if weaponUses <= 0 then
+        return false
+    end
+
+    if self.weaponPlayerId == weaponPlayerId then
+        self.weaponUses = (self.weaponUses or 0) + weaponUses
+        self.pendingWeaponReturn = false
+        return true
+    end
+
+    local basePlayerId = self.weaponBasePlayerId or self.id
+
+    return self:transformToPlayer(
+        weaponPlayerId,
+        {
+            weaponUses = weaponUses,
+            weaponPlayerId = weaponPlayerId,
+            weaponBasePlayerId = basePlayerId,
+            pendingWeaponReturn = false,
+            playSpawn = true
+        }
+    )
+end
+
+-- Тратит uses у текущей weapon-формы.
+-- Когда uses закончились, возврат произойдёт после завершения текущей анимации.
+function Player:consumeWeaponUse(amount)
+    if self.dead then
+        return false
+    end
+
+    if not self.weaponPlayerId then
+        return false
+    end
+
+    amount = amount or 1
+
+    if amount <= 0 then
+        return false
+    end
+
+    self.weaponUses = math.max(0, (self.weaponUses or 0) - amount)
+
+    if self.weaponUses <= 0 then
+        self.weaponUses = 0
+        self.pendingWeaponReturn = true
+    end
+
+    return true
+end
+
+-- Возвращает игрока из weapon-формы в базового player-а.
+function Player:returnFromWeapon()
+    if self.dead then
+        return false
+    end
+
+    if not self.weaponBasePlayerId then
+        return false
+    end
+
+    local basePlayerId = self.weaponBasePlayerId
+
+    return self:transformToPlayer(
+        basePlayerId,
+        {
+            weaponUses = nil,
+            weaponPlayerId = nil,
+            weaponBasePlayerId = nil,
+            pendingWeaponReturn = false,
+            playSpawn = true
+        }
+    )
+end
+
+
 -- Возрождает игрока без перезапуска уровня.
 function Player:respawn(x, y, options)
     options = options or {}
@@ -1139,13 +1370,21 @@ function Player:update(dt)
         table.insert(self.entitySpawnRequests, event)
     end
 
-    if self.dead
+	if self.dead
         and self.animationSet:isCurrentFinished()
     then
         self.deathFinished = true
     end
 
     if self.dead then
+        return
+    end
+
+    -- Если weaponUses закончились, возвращаемся после завершения текущей action-анимации.
+    if self.pendingWeaponReturn
+        and self.animationSet:isCurrentFinished()
+    then
+        self:returnFromWeapon()
         return
     end
 
