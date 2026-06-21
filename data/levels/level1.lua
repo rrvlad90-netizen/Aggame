@@ -101,7 +101,8 @@
 			x = 1700,
 			y = 555,
 
-			respawnX = 1360,
+			--respawnX = 1360,--респавн в яму
+			respawnX = 1660, --респавн верный (рядом с чекпоинтом)
 			respawnY = 555
 		}
 	},
@@ -204,7 +205,7 @@
 		 {
 			id = "slope_ground",
 
-			x = 170,
+			x = 180,
 			y = 455,
 
 			w = 240,
@@ -230,7 +231,30 @@
             x = 420,
             y = 455,
 			--solid = true --нельзя пройти сбоку и снаряды врезаются
-        }
+        },
+		{
+			id = "slope_ground",
+
+			-- Ставим в конец wood_platform x = 420, w = 160.
+			x = 580,
+			y = 455,
+
+			w = 240,
+			h = 100,
+
+			slope = true,
+			slopeWalkOn = true,
+			slopeStepHeight = 48,
+
+			-- Обратное направление: слева высоко, справа низко.
+			slopeLeftY = 455,
+			slopeRightY = 555,
+			slopeBottomY = 555,
+
+			solid = true,
+
+			color = {0.35, 0.25, 0.15}
+		}
     },
 	
 
@@ -279,7 +303,7 @@
 		},	
 		{
 			id = "despawn_zone",
-			x = -320,
+			x = -1220,
 			y = -150
 		},
         {
