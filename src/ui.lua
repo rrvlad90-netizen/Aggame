@@ -163,6 +163,34 @@ function UI.drawWeaponUses(player)
     )
 end
 
+-- Рисует короткое сообщение игроку. (например о том что wepon не найден - нет файла с оружием)
+function UI.drawPlayerMessage(player)
+    if not player then
+        return
+    end
+
+    if not player.messageText then
+        return
+    end
+
+    if not player.messageTimer or player.messageTimer <= 0 then
+        return
+    end
+
+    love.graphics.setFont(UI.font)
+    love.graphics.setColor(1, 0.9, 0.35)
+
+    love.graphics.printf(
+        player.messageText,
+        0,
+        112,
+        Config.screen.width,
+        "center"
+    )
+
+    love.graphics.setColor(1, 1, 1)
+end
+
 -- Рисует ammo.
 function UI.drawAmmo(player)
     if not player or not player.ammo then
@@ -195,6 +223,7 @@ function UI.drawHud(player)
     UI.drawPlayerLives(player)
     UI.drawWeaponUses(player)
     UI.drawAmmo(player)
+    UI.drawPlayerMessage(player) -- Рисует короткое сообщение игроку. (например о том что wepon не найден - нет файла с оружием)
 end
 
 -- Рисует HP bar actor-а над его физическим bbox.

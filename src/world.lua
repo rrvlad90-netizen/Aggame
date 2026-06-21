@@ -814,6 +814,10 @@ function World:respawnPlayerAtCheckpoint()
     local position = self.activeCheckpoint:getRespawnPosition()
 
     self:clearRespawnRuntimeEntities()
+--Сбрасывает weapon-форму при потере Life.
+	if self.player.resetWeaponOnLifeLoss then
+			self.player:resetWeaponOnLifeLoss()
+		end
 
     self.player:respawn(
         position.x,

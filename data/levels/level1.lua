@@ -1,6 +1,8 @@
 ﻿return {
     id = "level1",
 	
+	--playerId = "dduck_bow",
+	
 	defeatScene = "scenelevel1", ---на какую сцену отправить игрока, при его смерти на уровне
 
     music = nil,
@@ -85,15 +87,15 @@
     },
 	
 		checkpoints = {
-		{
-			id = "checkpoint_flag",
+--		{
+--			id = "checkpoint_flag",
 
-			x = 800,
-			y = 555,
+--			x = 800,
+--			y = 555,
 
-			respawnX = 760,
-			respawnY = 555
-		},
+--			respawnX = 760,
+--			respawnY = 555
+--		},
 
 		{
 			id = "checkpoint_flag",
@@ -318,12 +320,12 @@
             y = 465,
             layer = "middle"
         },
-		{
-            id = "torch",
-            x = 790,
-            y = 505,
-            layer = "back"
-        },
+--		{
+--            id = "torch",
+--            x = 790,
+--            y = 505,
+--            layer = "back"
+--        },
 		{
             id = "tree",
             x = 990,

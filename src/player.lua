@@ -192,6 +192,11 @@ function Player:new(config)
     player.state = "idle"
 
     player.ammo = config.ammo or {}
+	
+-- Сообщение игроку, например если weapon-форма не найдена.
+--(если допустил ошибку в названии weapon и игре ее не нашла)
+    player.messageText = nil
+    player.messageTimer = 0	
 
 -- Weapon transform runtime.(превращаем игрока в дргой тип по weapon который онподобрал)
     player.weaponUses = config.weaponUses
@@ -1174,22 +1179,29 @@ end
 
 -- Подбирает weapon pickup.
 -- То же оружие добавляет uses, другое заменяет форму и стирает старые uses.
+-- Подбирает weapon pickup.
+-- То же оружие добавляет uses, другое заменяет форму и стирает старые uses.
+-- weaponPlayerId может быть явным: "warrior_bow"
+-- или шаблонным: "NAME_названиеоружия где в NAME - это имя выбранного в player_screen игрока".
 function Player:addWeapon(weaponPlayerId, weaponUses)
     if self.dead then
         return false
     end
 
-    if not weaponPlayerId then
+    local resolvedWeaponPlayerId = self:resolveWeaponPlayerId(weaponPlayerId)
+
+    if not resolvedWeaponPlayerId then
         return false
     end
 
     weaponUses = weaponUses or 0
 
     if weaponUses <= 0 then
+        self:showMessage("Weapon uses is 0", 2.0)
         return false
     end
 
-    if self.weaponPlayerId == weaponPlayerId then
+    if self.weaponPlayerId == resolvedWeaponPlayerId then
         self.weaponUses = (self.weaponUses or 0) + weaponUses
         self.pendingWeaponReturn = false
         return true
@@ -1198,16 +1210,17 @@ function Player:addWeapon(weaponPlayerId, weaponUses)
     local basePlayerId = self.weaponBasePlayerId or self.id
 
     return self:transformToPlayer(
-        weaponPlayerId,
+        resolvedWeaponPlayerId,
         {
             weaponUses = weaponUses,
-            weaponPlayerId = weaponPlayerId,
+            weaponPlayerId = resolvedWeaponPlayerId,
             weaponBasePlayerId = basePlayerId,
             pendingWeaponReturn = false,
             playSpawn = true
         }
     )
 end
+
 
 -- Тратит uses у текущей weapon-формы.
 -- Когда uses закончились, возврат произойдёт после завершения текущей анимации.
@@ -1259,6 +1272,99 @@ function Player:returnFromWeapon()
         }
     )
 end
+
+-- Показывает короткое сообщение в HUD.
+function Player:showMessage(text, duration)
+    self.messageText = text
+    self.messageTimer = duration or 2.0
+end
+
+-- Возвращает базовый player id для NAME-подстановки.
+-- Если игрок уже в weapon-форме, берём исходного базового игрока.
+function Player:getWeaponBaseName()
+    return self.weaponBasePlayerId or self.id
+end
+
+-- Подставляет NAME в weaponPlayerId и проверяет, существует ли такой player.
+function Player:resolveWeaponPlayerId(weaponPlayerId)
+    if not weaponPlayerId then
+        self:showMessage("Weapon player not set", 2.0)
+        return nil
+    end
+
+    local baseName = self:getWeaponBaseName()
+    local resolvedPlayerId = string.gsub(
+        weaponPlayerId,
+        "NAME",
+        baseName
+    )
+
+    if Registry.hasId
+        and Registry.hasId(Registry.playerList, resolvedPlayerId)
+    then
+        return resolvedPlayerId
+    end
+
+    self:showMessage(
+        "Weapon player not found: " .. tostring(resolvedPlayerId),
+        2.0
+    )
+
+    print("[WEAPON] player not found", resolvedPlayerId)
+
+    return nil
+end
+
+-- Сбрасывает weapon-форму при потере Life.
+-- Используется перед checkpoint-respawn или обычной обработкой смерти.
+function Player:resetWeaponOnLifeLoss()
+    if not self.weaponPlayerId and not self.weaponBasePlayerId then
+        self.weaponUses = nil
+        self.pendingWeaponReturn = false
+        return false
+    end
+
+    local basePlayerId = self.weaponBasePlayerId
+
+    if not basePlayerId then
+        self.weaponUses = nil
+        self.weaponPlayerId = nil
+        self.pendingWeaponReturn = false
+        return false
+    end
+
+    local wasDead = self.dead == true
+    local wasDeathFinished = self.deathFinished == true
+
+    -- transformToPlayer не должен блокироваться из-за dead-состояния.
+    self.dead = false
+    self.deathFinished = false
+
+    local ok = self:transformToPlayer(
+        basePlayerId,
+        {
+            weaponUses = nil,
+            weaponPlayerId = nil,
+            weaponBasePlayerId = nil,
+            pendingWeaponReturn = false,
+
+            -- Spawn проиграет уже respawn(), если он нужен.
+            playSpawn = false
+        }
+    )
+
+    self.weaponUses = nil
+    self.weaponPlayerId = nil
+    self.weaponBasePlayerId = nil
+    self.pendingWeaponReturn = false
+
+    self.dead = wasDead
+    self.deathFinished = wasDeathFinished
+
+    return ok
+end
+
+------
 
 
 -- Возрождает игрока без перезапуска уровня.
@@ -1354,6 +1460,14 @@ end
 function Player:update(dt)
     self:updatePhysics(dt)
     self:updateInvulnerability(dt)
+	---сообщение если оружие неверно описано
+	if self.messageTimer and self.messageTimer > 0 then
+        self.messageTimer = math.max(0, self.messageTimer - dt)
+
+        if self.messageTimer <= 0 then
+            self.messageText = nil
+        end
+    end	
 
     if self.comboTimer and self.comboTimer > 0 then
         self.comboTimer = math.max(0, self.comboTimer - dt)

@@ -1220,6 +1220,10 @@ local function handlePlayerDeath()
 
     local lives = game.playerLives or (game.player and game.player.lives) or 1
 
+    if game.player and game.player.resetWeaponOnLifeLoss then
+        game.player:resetWeaponOnLifeLoss()
+    end
+
     lives = lives - 1
     game.playerLives = lives
 

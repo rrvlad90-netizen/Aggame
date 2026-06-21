@@ -4,6 +4,15 @@ return {
     kind = "weapon",
 
     weaponPlayerId = "dduck_bow",
+	
+	-- NAME заменится на id базового игрока:
+    -- warrior -> warrior_bow
+    -- elf -> elf_bow
+    -- mage -> mage_bow
+    weaponPlayerId = "NAME_bow",
+	
+	
+	
     weaponUses = 10,
 
     image = nil,

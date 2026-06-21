@@ -1,0 +1,55 @@
+Пример универсального pickup-а
+
+return {
+    id = "bow_weapon",
+
+    kind = "weapon",
+
+    -- NAME заменится на id базового игрока:
+    -- warrior -> warrior_bow
+    -- elf -> elf_bow
+    -- mage -> mage_bow
+    weaponPlayerId = "NAME_bow",
+
+    weaponUses = 10,
+
+    image = nil,
+
+    canvas = {
+        width = 32,
+        height = 32
+    },
+
+    offset = {
+        x = 16,
+        y = 16
+    },
+
+    bbox = {
+        x = 0,
+        y = 0,
+        w = 32,
+        h = 32
+    },
+
+    color = {0.8, 0.5, 0.15}
+}
+8. Пример явного pickup-а
+
+return {
+    id = "warrior_bow_weapon",
+
+    kind = "weapon",
+
+    -- Всегда превращает именно в warrior_bow.
+    weaponPlayerId = "warrior_bow",
+
+    weaponUses = 10,
+
+    color = {0.8, 0.5, 0.15}
+}
+
+Теперь если NAME_bow не найден в data/players.lua, pickup не подберётся, игрок не трансформируется, и появится сообщение:
+
+text
+Weapon player not found: warrior_bow
