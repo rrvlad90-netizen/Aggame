@@ -1168,7 +1168,12 @@ function Player:transformToPlayer(playerId, options)
         return false
     end
 
-    definition = Utils.copyTable(definition)
+-- Любой transform не является стартом уровня.
+    -- Поэтому Player:new() не должен запускать spawn.
+    definition.skipInitialSpawn = true
+-- Transform не является стартом уровня.
+    -- Поэтому Player:new() не должен проигрывать spawn для transformed player.
+    definition.skipInitialSpawn = true
 
     local oldHealth = self.health or 1
     local oldMaxHealth = self.maxHealth or oldHealth or 1
@@ -1249,9 +1254,7 @@ function Player:transformToPlayer(playerId, options)
 
     setmetatable(self, Player)
 
--- Transform не является стартом уровня.
-    -- После любой transform-логики игрок не должен снова проигрывать spawn.
-    -- Ставим idle, чтобы не остаться в старой action/death/spawn-анимации.
+-- После transform всегда idle.
     if self.animationSet and self.animationSet:has("idle") then
         self:playAnimation("idle", true)
     end
