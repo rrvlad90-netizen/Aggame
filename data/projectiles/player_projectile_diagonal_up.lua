@@ -52,8 +52,7 @@ return {
             loop = true,
             frameDuration = 0.08,
             frames = {
-                {}
-                -- "assets/projectiles/player_projectile_diagonal_up.png"
+                "assets/projectiles/proj.png"
             }
         },
 
@@ -61,8 +60,7 @@ return {
             loop = false,
             frameDuration = 0.08,
             frames = {
-                {},
-                {}
+                "assets/projectiles/proj.png"
             }
         }
     }

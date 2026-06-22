@@ -53,7 +53,7 @@
             loop = true,
             frameDuration = 0.08,
             frames = {
-                {}
+                "assets/projectiles/proj.png"
             }
         },
 
@@ -61,8 +61,7 @@
             loop = false,
             frameDuration = 0.08,
             frames = {
-                {},
-                {}
+                "assets/projectiles/proj.png"
             }
         }
     }

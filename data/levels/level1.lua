@@ -222,7 +222,7 @@
 			slopeRightY = 455,
 			slopeBottomY = 555,
 
-			solid = false,
+			solid = true,
 			--solid = true --нельзя пройти сбоку и снаряды врезаются
 
 			color = {0.35, 0.25, 0.15}
@@ -253,7 +253,7 @@
 			slopeRightY = 555,
 			slopeBottomY = 555,
 
-			solid = true,
+			solid = false,
 
 			color = {0.35, 0.25, 0.15}
 		}

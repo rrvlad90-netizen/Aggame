@@ -222,7 +222,24 @@ function Player:new(config)
         }
     })
 
-    player:playSpawnAnimation()
+-- playSpawn управляет тем, нужно ли проигрывать spawn-анимацию при создании Player.
+    -- По умолчанию true: обычный старт уровня/создание игрока проигрывает spawn.
+    -- Для weapon-transform можно передать playSpawn=false, чтобы не запускать spawn.
+    local playSpawn = config.playSpawn
+
+    if playSpawn == nil then
+        playSpawn = config.play_spawn
+    end
+
+    if playSpawn == nil then
+        playSpawn = true
+    end
+
+    if playSpawn then
+        player:playSpawnAnimation()
+    elseif player.animationSet and player.animationSet:has("idle") then
+        player:playAnimation("idle", true)
+    end
 
     return player
 end
@@ -1137,7 +1154,10 @@ function Player:transformToPlayer(playerId, options)
         return false
     end
 
-    definition = Utils.copyTable(definition)
+-- Важно: Player:new() сам решает, играть spawn или нет.
+    -- Поэтому передаём playSpawn в definition ДО создания transformed.
+    -- Для weapon-transform ставим playSpawn=false.
+    definition.playSpawn = options.playSpawn ~= false
 
     local oldHealth = self.health or 1
     local oldMaxHealth = self.maxHealth or oldHealth or 1
@@ -1218,14 +1238,14 @@ function Player:transformToPlayer(playerId, options)
 
     setmetatable(self, Player)
 
-    if options.playSpawn ~= false then
-        if self.playSpawnAnimation then
-            self:playSpawnAnimation()
-        elseif self.animationSet and self.animationSet:has("spawn") then
-            self.animationSet:set("spawn", true)
-        elseif self.animationSet and self.animationSet:has("idle") then
-            self.animationSet:set("idle", true)
-        end
+-- Spawn уже был обработан внутри Player:new() через definition.playSpawn.
+    -- Если transform был без spawn, гарантированно оставляем игрока в idle,
+    -- чтобы он не завис в старой action/spawn-анимации.
+    if options.playSpawn == false
+        and self.animationSet
+        and self.animationSet:has("idle")
+    then
+        self:playAnimation("idle", true)
     end
 
     return true
@@ -1270,7 +1290,8 @@ function Player:addWeapon(weaponPlayerId, weaponUses)
             weaponPlayerId = resolvedWeaponPlayerId,
             weaponBasePlayerId = basePlayerId,
             pendingWeaponReturn = false,
-            playSpawn = true
+-- Weapon-transform не является respawn, поэтому spawn не проигрываем.
+            playSpawn = false
         }
     )
 end
@@ -1322,7 +1343,9 @@ function Player:returnFromWeapon()
             weaponPlayerId = nil,
             weaponBasePlayerId = nil,
             pendingWeaponReturn = false,
-            playSpawn = true
+-- Возврат из weapon-формы не должен проигрывать spawn.
+-- Spawn нужен только при появлении после потери Life/respawn.
+             playSpawn = false
         }
     )
 end

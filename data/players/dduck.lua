@@ -114,7 +114,7 @@ return {
         spawn = {
             loop = false,
             lockInput = true,
-            frameDuration = 0.1,
+            frameDuration = 0.41,
             frames = {
                 "assets/players/dduck/dspawn_1.png",
                 "assets/players/dduck/dspawn_2.png",
@@ -126,8 +126,8 @@ return {
             loop = true,
             frameDuration = 0.16,
             frames = {
-                "assets/players/dduck/didle_1_3.png",
-                "assets/players/dduck/didle_2.png"
+                "assets/players/dduck/didle_1_3.png"
+ --               "assets/players/dduck/didle_2.png"
             }
         },
 
@@ -200,7 +200,7 @@ return {
                     type = "createEntity",
                     id = "player_projectile_forward",
                     x = 34,
-                    y = -42,
+                    y = 0,
                     direction = "forward"
                 }
             }
@@ -211,9 +211,10 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/dduck/shoot_run_1.png",
-                "assets/players/dduck/shoot_run_2.png",
-                "assets/players/dduck/shoot_run_3.png"
+			    "assets/players/dduck/dwalk_att1_3.png",
+				"assets/players/dduck/dwalk_att2.png",
+                "assets/players/dduck/dwalk_att1_3.png",
+                "assets/players/dduck/dwalk_att4.png"
             },
             events = {
                 {
@@ -221,7 +222,7 @@ return {
                     type = "createEntity",
                     id = "player_projectile_forward",
                     x = 34,
-                    y = -42,
+                    y = 0,
                     direction = "forward"
                 }
             }
@@ -242,7 +243,7 @@ return {
                     type = "createEntity",
                     id = "player_projectile_forward",
                     x = 34,
-                    y = -42,
+                    y = 0,
                     direction = "forward"
                 }
             }
