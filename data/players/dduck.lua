@@ -22,12 +22,12 @@ return {
 
     canvas = {
         width = 64,
-        height = 80
+        height = 64
     },
 
     offset = {
-        x = 32,
-        y = 80
+        x = 0,
+        y = 0
     },
 
     bboxes = {
@@ -115,9 +115,9 @@ return {
             lockInput = true,
             frameDuration = 0.1,
             frames = {
-                "assets/players/warrior_full/spawn_1.png",
-                "assets/players/warrior_full/spawn_2.png",
-                "assets/players/warrior_full/spawn_3.png"
+                "assets/players/dduck/dspawn_1.png",
+                "assets/players/dduck/dspawn_2.png",
+                "assets/players/dduck/dspawn_3.png"
             }
         },
 
@@ -125,8 +125,8 @@ return {
             loop = true,
             frameDuration = 0.16,
             frames = {
-                "assets/players/warrior_full/idle_1.png",
-                "assets/players/warrior_full/idle_2.png"
+                "assets/players/dduck/didle_1_3.png",
+                "assets/players/dduck/didle_2.png"
             }
         },
 
@@ -134,10 +134,10 @@ return {
             loop = true,
             frameDuration = 0.1,
             frames = {
-                "assets/players/warrior_full/run_1.png",
-                "assets/players/warrior_full/run_2.png",
-                "assets/players/warrior_full/run_3.png",
-                "assets/players/warrior_full/run_4.png"
+                "assets/players/dduck/dwalk_1.png",
+                "assets/players/dduck/dwalk_2.png",
+                "assets/players/dduck/dwalk_1.png",
+                "assets/players/dduck/dwalk_4.png"
             }
         },
 
@@ -145,7 +145,7 @@ return {
             loop = true,
             frameDuration = 0.12,
             frames = {
-                "assets/players/warrior_full/jump_1.png"
+                "assets/players/dduck/djump1.png"
             }
         },
 
@@ -153,7 +153,7 @@ return {
             loop = true,
             frameDuration = 0.12,
             frames = {
-                "assets/players/warrior_full/fall_1.png"
+                "assets/players/dduck/djumpdown1.png"
             }
         },
 
@@ -161,7 +161,7 @@ return {
             loop = true,
             frameDuration = 0.14,
             frames = {
-                "assets/players/warrior_full/crouch_1.png"
+                "assets/players/dduck/dcrouch_1.png"
             }
         },
 
@@ -170,7 +170,8 @@ return {
             lockInput = true,
             frameDuration = 0.12,
             frames = {
-                "assets/players/warrior_full/block_1.png"
+                "assets/players/dduck/dguard_1.png",
+				"assets/players/dduck/dguard_2.png"
             }
         },
 
@@ -179,7 +180,7 @@ return {
             lockInput = true,
             frameDuration = 0.12,
             frames = {
-                "assets/players/warrior_full/crouch_block_1.png"
+                "assets/players/dduck/dguardcrouch_1.png"
             }
         },
 
@@ -188,9 +189,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_stand_1.png",
-                "assets/players/warrior_full/shoot_stand_2.png",
-                "assets/players/warrior_full/shoot_stand_3.png"
+                "assets/players/dduck/dattack_1.png",
+                "assets/players/dduck/dattack_1.png",
+                "assets/players/dduck/dattack_1.png"
             },
             events = {
                 {
@@ -209,9 +210,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_run_1.png",
-                "assets/players/warrior_full/shoot_run_2.png",
-                "assets/players/warrior_full/shoot_run_3.png"
+                "assets/players/dduck/shoot_run_1.png",
+                "assets/players/dduck/shoot_run_2.png",
+                "assets/players/dduck/shoot_run_3.png"
             },
             events = {
                 {
@@ -230,9 +231,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_jump_1.png",
-                "assets/players/warrior_full/shoot_jump_2.png",
-                "assets/players/warrior_full/shoot_jump_3.png"
+                "assets/players/dduck/dstartjumpattack_1.png",
+                "assets/players/dduck/dstartjumpattack_1.png",
+                "assets/players/dduck/dstartjumpattack_1.png"
             },
             events = {
                 {
@@ -251,9 +252,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_fall_1.png",
-                "assets/players/warrior_full/shoot_fall_2.png",
-                "assets/players/warrior_full/shoot_fall_3.png"
+                "assets/players/dduck/djumpdownattack1.png",
+                "assets/players/dduck/djumpdownattack1.png",
+                "assets/players/dduck/djumpdownattack1.png"
             },
             events = {
                 {
@@ -273,9 +274,9 @@ return {
             fireFirstFrameEvents = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_crouch_1.png",
-                "assets/players/warrior_full/shoot_crouch_2.png",
-                "assets/players/warrior_full/shoot_crouch_3.png"
+                "assets/players/dduck/dcrouchattack_1.png",
+                "assets/players/dduck/dcrouchattack_1.png",
+                "assets/players/dduck/dcrouchattack_1.png"
             },
             events = {
                 {
@@ -299,9 +300,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_up_stand_1.png",
-                "assets/players/warrior_full/shoot_up_stand_2.png",
-                "assets/players/warrior_full/shoot_up_stand_3.png"
+                "assets/players/dduck/shoot_up_stand_1.png",
+                "assets/players/dduck/shoot_up_stand_2.png",
+                "assets/players/dduck/shoot_up_stand_3.png"
             },
             events = {
                 {
@@ -319,9 +320,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_up_run_1.png",
-                "assets/players/warrior_full/shoot_up_run_2.png",
-                "assets/players/warrior_full/shoot_up_run_3.png"
+                "assets/players/dduck/shoot_up_run_1.png",
+                "assets/players/dduck/shoot_up_run_2.png",
+                "assets/players/dduck/shoot_up_run_3.png"
             },
             events = {
                 {
@@ -339,9 +340,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_up_jump_1.png",
-                "assets/players/warrior_full/shoot_up_jump_2.png",
-                "assets/players/warrior_full/shoot_up_jump_3.png"
+                "assets/players/dduck/shoot_up_jump_1.png",
+                "assets/players/dduck/shoot_up_jump_2.png",
+                "assets/players/dduck/shoot_up_jump_3.png"
             },
             events = {
                 {
@@ -359,9 +360,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_up_fall_1.png",
-                "assets/players/warrior_full/shoot_up_fall_2.png",
-                "assets/players/warrior_full/shoot_up_fall_3.png"
+                "assets/players/dduck/shoot_up_fall_1.png",
+                "assets/players/dduck/shoot_up_fall_2.png",
+                "assets/players/dduck/shoot_up_fall_3.png"
             },
             events = {
                 {
@@ -379,9 +380,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_diagonal_up_run_1.png",
-                "assets/players/warrior_full/shoot_diagonal_up_run_2.png",
-                "assets/players/warrior_full/shoot_diagonal_up_run_3.png"
+                "assets/players/dduck/shoot_diagonal_up_run_1.png",
+                "assets/players/dduck/shoot_diagonal_up_run_2.png",
+                "assets/players/dduck/shoot_diagonal_up_run_3.png"
             },
             events = {
                 {
@@ -400,9 +401,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_diagonal_up_jump_1.png",
-                "assets/players/warrior_full/shoot_diagonal_up_jump_2.png",
-                "assets/players/warrior_full/shoot_diagonal_up_jump_3.png"
+                "assets/players/dduck/shoot_diagonal_up_jump_1.png",
+                "assets/players/dduck/shoot_diagonal_up_jump_2.png",
+                "assets/players/dduck/shoot_diagonal_up_jump_3.png"
             },
             events = {
                 {
@@ -421,9 +422,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/shoot_diagonal_up_fall_1.png",
-                "assets/players/warrior_full/shoot_diagonal_up_fall_2.png",
-                "assets/players/warrior_full/shoot_diagonal_up_fall_3.png"
+                "assets/players/dduck/shoot_diagonal_up_fall_1.png",
+                "assets/players/dduck/shoot_diagonal_up_fall_2.png",
+                "assets/players/dduck/shoot_diagonal_up_fall_3.png"
             },
             events = {
                 {
@@ -443,9 +444,9 @@ return {
             fireFirstFrameEvents = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/melee_stand01_1.png",
-                "assets/players/warrior_full/melee_stand01_2.png",
-                "assets/players/warrior_full/melee_stand01_3.png"
+                "assets/players/dduck/melee_stand01_1.png",
+                "assets/players/dduck/melee_stand01_2.png",
+                "assets/players/dduck/melee_stand01_3.png"
             },
             events = {
                 {
@@ -472,9 +473,9 @@ return {
             fireFirstFrameEvents = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/melee_stand02_1.png",
-                "assets/players/warrior_full/melee_stand02_2.png",
-                "assets/players/warrior_full/melee_stand02_3.png"
+                "assets/players/dduck/melee_stand02_1.png",
+                "assets/players/dduck/melee_stand02_2.png",
+                "assets/players/dduck/melee_stand02_3.png"
             },
             events = {
                 {
@@ -501,9 +502,9 @@ return {
             fireFirstFrameEvents = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/melee_stand03_1.png",
-                "assets/players/warrior_full/melee_stand03_2.png",
-                "assets/players/warrior_full/melee_stand03_3.png"
+                "assets/players/dduck/melee_stand03_1.png",
+                "assets/players/dduck/melee_stand03_2.png",
+                "assets/players/dduck/melee_stand03_3.png"
             },
             events = {
                 {
@@ -530,9 +531,9 @@ return {
             fireFirstFrameEvents = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/melee_run01_1.png",
-                "assets/players/warrior_full/melee_run01_2.png",
-                "assets/players/warrior_full/melee_run01_3.png"
+                "assets/players/dduck/melee_run01_1.png",
+                "assets/players/dduck/melee_run01_2.png",
+                "assets/players/dduck/melee_run01_3.png"
             },
             events = {
                 {
@@ -554,9 +555,9 @@ return {
             fireFirstFrameEvents = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/melee_run02_1.png",
-                "assets/players/warrior_full/melee_run02_2.png",
-                "assets/players/warrior_full/melee_run02_3.png"
+                "assets/players/dduck/melee_run02_1.png",
+                "assets/players/dduck/melee_run02_2.png",
+                "assets/players/dduck/melee_run02_3.png"
             },
             events = {
                 {
@@ -578,9 +579,9 @@ return {
             fireFirstFrameEvents = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/melee_run03_1.png",
-                "assets/players/warrior_full/melee_run03_2.png",
-                "assets/players/warrior_full/melee_run03_3.png"
+                "assets/players/dduck/melee_run03_1.png",
+                "assets/players/dduck/melee_run03_2.png",
+                "assets/players/dduck/melee_run03_3.png"
             },
             events = {
                 {
@@ -601,9 +602,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/melee_jump_1.png",
-                "assets/players/warrior_full/melee_jump_2.png",
-                "assets/players/warrior_full/melee_jump_3.png"
+                "assets/players/dduck/melee_jump_1.png",
+                "assets/players/dduck/melee_jump_2.png",
+                "assets/players/dduck/melee_jump_3.png"
             },
             events = {
                 {
@@ -624,9 +625,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/melee_fall_1.png",
-                "assets/players/warrior_full/melee_fall_2.png",
-                "assets/players/warrior_full/melee_fall_3.png"
+                "assets/players/dduck/melee_fall_1.png",
+                "assets/players/dduck/melee_fall_2.png",
+                "assets/players/dduck/melee_fall_3.png"
             },
             events = {
                 {
@@ -648,9 +649,9 @@ return {
             fireFirstFrameEvents = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/melee_crouch_1.png",
-                "assets/players/warrior_full/melee_crouch_2.png",
-                "assets/players/warrior_full/melee_crouch_3.png"
+                "assets/players/dduck/melee_crouch_1.png",
+                "assets/players/dduck/melee_crouch_2.png",
+                "assets/players/dduck/melee_crouch_3.png"
             },
             events = {
                 {
@@ -676,9 +677,9 @@ return {
             lockInput = true,
             frameDuration = 0.08,
             frames = {
-                "assets/players/warrior_full/strafe_1.png",
-                "assets/players/warrior_full/strafe_2.png",
-                "assets/players/warrior_full/strafe_3.png"
+                "assets/players/dduck/dspawn_1.png",
+                "assets/players/dduck/dspawn_1.png",
+                "assets/players/dduck/dspawn_1.png"
             },
             events = {
                 {
@@ -695,19 +696,31 @@ return {
             lockInput = true,
             frameDuration = 0.1,
             frames = {
-                "assets/players/warrior_full/pain_1.png",
-                "assets/players/warrior_full/pain_2.png"
+                "assets/players/dduck/dpain1.png",
+                "assets/players/dduck/dpain1.png"
             }
         },
+		
+--		win = {
+--			loop = false,
+--			lockInput = true,
+--			frameDuration = 0.41,
+--			frames = {
+--				"assets/players/warrior/dspawn_1.png",
+--				"assets/players/warrior/dspawn_2.png",
+--				"assets/players/warrior/dspawn_3.png"
+--			}
+--		},
 
         death = {
             loop = false,
             lockInput = true,
             frameDuration = 0.15,
             frames = {
-                "assets/players/warrior_full/death_1.png",
-                "assets/players/warrior_full/death_2.png",
-                "assets/players/warrior_full/death_3.png"
+                "assets/players/dduck/dpain1.png",
+                "assets/players/dduck/ddeath_1.png",
+				"assets/players/dduck/ddeath_2.png",
+                "assets/players/dduck/ddeath_3.png"
             }
         }
     }

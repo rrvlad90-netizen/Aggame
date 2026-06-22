@@ -33,6 +33,9 @@ function World:new(level, player)
 	world.oneSideCameraX = 0
 
     world.result = nil
+	
+-- true, пока ждём окончание win-анимации игрока после активации LevelEnd.
+    world.waitingForLevelEndWin = false	
 
     world.music = nil
 
@@ -113,8 +116,13 @@ function World:addEntity(kind, entity)
         return
     end
 
-    if kind == "levelEnd" then
-        self.level.levelEnd = entity
+	if kind == "levelEnd" then
+        if self.level.addLevelEnd then
+            self.level:addLevelEnd(entity)
+        else
+            self.level.levelEnd = entity
+        end
+
         return
     end
 end
@@ -949,14 +957,13 @@ function World:processCleanupZone(cleanupZone)
         end
     end
 
-    if cleanupZone.removePlayer
-        and self.player
-        and self.player.getHitbox
-        and Collision.intersects(cleanupZone:getHitbox(), self.player:getHitbox())
-    then
-        self:printCleanupZoneRemove(cleanupZone, "player", self.player)
-        self.result = "player_dead"
-    end
+	if cleanupZone.removeLevelEnd then
+            self:cleanupEntityList(cleanupZone, "levelEnd", self.level.levelEnds)
+
+            if self.level.refreshLevelEndAlias then
+                self.level:refreshLevelEndAlias()
+            end
+        end
 end
 
 -- Обрабатывает все cleanup zones уровня.
@@ -1061,31 +1068,71 @@ function World:updatePickups(dt)
     end
 end
 
+-- Завершает переход после LevelEnd.
+-- Если у LevelEnd задан nextTarget, запускается transition.
+-- Если nextTarget нет, остаётся старая victory/flow-логика.
+function World:finishLevelEndTransition()
+    if self.nextTarget then
+        self.result = "transition"
+    else
+        self.result = "victory"
+    end
+end
+
+-- Активирует LevelEnd: запускает дверь, лочит игрока и решает,
+-- нужно ли ждать win-анимацию перед завершением уровня.
+function World:activateLevelEnd(levelEnd)
+    if not levelEnd then
+        return
+    end
+
+    levelEnd:trigger()
+
+    self.nextTarget = levelEnd:getNextTarget()
+
+    local waitForWin = false
+
+    if self.player and self.player.startLevelEndWin then
+        waitForWin = self.player:startLevelEndWin()
+    end
+
+    if waitForWin then
+        self.waitingForLevelEndWin = true
+        return
+    end
+
+    self:finishLevelEndTransition()
+end
+
 -- Проверяет LevelEnd.
--- Если у LevelEnd есть nextTarget, запускаем явный transition.
--- Если nextTarget нет, оставляем старую victory/flow-логику.
-function World:updateLevelEnd()
+-- Если LevelEnd ждёт input, activatePressed должен быть true.
+-- Если у игрока есть win-анимация, transition откладывается до её окончания.
+function World:updateLevelEnd(activatePressed)
     if not self.level then
         return
     end
 
-    if self.level:checkLevelEnd(self.player) then
-        local levelEnd = self.level.levelEnd
-
-        levelEnd:trigger()
-
-        self.nextTarget = levelEnd:getNextTarget()
-
-        if self.nextTarget then
-            self.result = "transition"
-        else
-            self.result = "victory"
+    if self.waitingForLevelEndWin then
+        if not self.player
+            or not self.player.isLevelEndWinFinished
+            or self.player:isLevelEndWinFinished()
+        then
+            self.waitingForLevelEndWin = false
+            self:finishLevelEndTransition()
         end
+
+        return
+    end
+
+    local levelEnd = self.level:checkLevelEnd(self.player, activatePressed)
+
+    if levelEnd then
+        self:activateLevelEnd(levelEnd)
     end
 end
 
 -- Обновляет весь world за один кадр.
-function World:update(dt)
+function World:update(dt, levelEndActivatePressed)
     if self.result then
         return
     end
@@ -1110,7 +1157,7 @@ function World:update(dt)
     self:updateHazardZones(dt)
     self:updateCleanupZones()
 
-    self:updateLevelEnd()
+    self:updateLevelEnd(levelEndActivatePressed)
 
     self:updateCamera(dt)
 end
@@ -1154,7 +1201,26 @@ function World:drawEntityWithShadow(entity)
     entity:draw(self.camera)
 end
 
--- Рисует весь world в порядке слоёв.
+-- Рисует все LevelEnd указанного слоя.
+-- layer:
+-- back   = до platforms
+-- middle = после platforms, но до gameplay-объектов
+-- front  = после игрока/акторов/пикапов
+function World:drawLevelEndsByLayer(layer)
+    if not self.level then
+        return
+    end
+
+    for _, levelEnd in ipairs(self.level.levelEnds or {}) do
+        local levelEndLayer = levelEnd.layer or "front"
+
+        if levelEndLayer == layer then
+            self:drawEntityWithShadow(levelEnd)
+        end
+    end
+end
+
+
 -- Рисует весь world в порядке слоёв.
 function World:draw()
     self:drawBackgrounds()
@@ -1165,6 +1231,9 @@ function World:draw()
         end
     end
 
+    -- LevelEnd back: за дорогой и gameplay-объектами.
+    self:drawLevelEndsByLayer("back")
+
     for _, platform in ipairs(self.level.platforms or {}) do
         platform:draw(self.camera)
     end
@@ -1174,10 +1243,13 @@ function World:draw()
             self:drawEntityWithShadow(decor)
         end
     end
-	
-	for _, checkpoint in ipairs(self.level.checkpoints or {}) do
-		self:drawEntityWithShadow(checkpoint)
-	end
+
+    -- LevelEnd middle: перед дорогой, но за gameplay-объектами.
+    self:drawLevelEndsByLayer("middle")
+
+    for _, checkpoint in ipairs(self.level.checkpoints or {}) do
+        self:drawEntityWithShadow(checkpoint)
+    end
 
     for _, pickup in ipairs(self.pickups) do
         self:drawEntityWithShadow(pickup)
@@ -1199,15 +1271,14 @@ function World:draw()
         self:drawEntityWithShadow(self.player)
     end
 
-	if self.level.levelEnd then
-        self:drawEntityWithShadow(self.level.levelEnd)
-    end
-
     for _, decor in ipairs(self.level.decors or {}) do
         if decor.layer == "front" then
             self:drawEntityWithShadow(decor)
         end
     end
+
+    -- LevelEnd front: перед всеми gameplay-объектами.
+    self:drawLevelEndsByLayer("front")
 
     self:drawFrontBackgrounds()
     self:drawDebug()

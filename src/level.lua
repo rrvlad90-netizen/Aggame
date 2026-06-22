@@ -59,7 +59,10 @@ function Level:new(config)
     level.effects = {}
 	level.checkpoints = {}
 
+-- Старое поле оставляем для совместимости.
+    -- Новая логика работает через список levelEnds.
     level.levelEnd = nil
+    level.levelEnds = {}
 
     level.completed = false
     level.failed = false
@@ -68,6 +71,47 @@ function Level:new(config)
 
     return level
 end
+
+-- Обновляет совместимый alias level.levelEnd.
+-- Нужен, чтобы старый код/старые уровни не ломались.
+function Level:refreshLevelEndAlias()
+    if self.levelEnds and #self.levelEnds > 0 then
+        self.levelEnd = self.levelEnds[1]
+    else
+        self.levelEnd = nil
+    end
+end
+
+-- Добавляет runtime LevelEnd в список уровня.
+function Level:addLevelEnd(levelEnd)
+    if not levelEnd then
+        return
+    end
+
+    table.insert(self.levelEnds, levelEnd)
+    self:refreshLevelEndAlias()
+end
+
+-- Создаёт один LevelEnd из config.
+-- Поддерживает registry-формат с id и старый прямой config без id.
+function Level:createLevelEnd(levelEndConfig)
+    if not levelEndConfig then
+        return nil
+    end
+
+    if levelEndConfig.id then
+        return EntityFactory.createLevelEnd(
+            levelEndConfig.id,
+            levelEndConfig.x,
+            levelEndConfig.y,
+            levelEndConfig
+        )
+    end
+
+    -- Старый формат без registry id оставляем для совместимости.
+    return EntityFactory.createLevelEnd(levelEndConfig)
+end
+
 
 -- Создаёт статичные объекты уровня:
 -- actors, platforms, pickups, decors, effects и levelEnd.
@@ -137,19 +181,16 @@ function Level:createStaticObjects(config)
         )
     end
 
-	if config.levelEnd then
-        if config.levelEnd.id then
-            self.levelEnd = EntityFactory.createLevelEnd(
-                config.levelEnd.id,
-                config.levelEnd.x,
-                config.levelEnd.y,
-                config.levelEnd
-            )
-        else
-            -- Старый формат без registry id оставляем для совместимости.
-            self.levelEnd = EntityFactory.createLevelEnd(config.levelEnd)
-        end
-    end
+	-- Старый формат: один LevelEnd.
+		if config.levelEnd then
+			self:addLevelEnd(self:createLevelEnd(config.levelEnd))
+		end
+
+		-- Новый формат: несколько LevelEnd на уровне.
+		-- Можно писать levelEnds или level_ends.
+		for _, levelEndConfig in ipairs(config.levelEnds or config.level_ends or {}) do
+			self:addLevelEnd(self:createLevelEnd(levelEndConfig))
+		end
 end
 
 -- Возвращает true, если pending actor уже попадает в активную область камеры.
@@ -237,29 +278,40 @@ function Level:update(dt, world)
         effect:update(dt, world)
     end
 
-    if self.levelEnd then
-        self.levelEnd:update(dt)
+	for _, levelEnd in ipairs(self.levelEnds or {}) do
+        levelEnd:update(dt)
     end
 end
 
--- Возвращает true, если игрок дошёл до LevelEnd.
-function Level:checkLevelEnd(player)
-    if not self.levelEnd then
-        return false
+-- Возвращает активированный LevelEnd или nil.
+-- Обычный LevelEnd срабатывает от касания.
+-- Если у LevelEnd activateIfTouch=true, нужно стоять в hitbox и нажать action "up".
+function Level:checkLevelEnd(player, activatePressed)
+    if not player then
+        return nil
     end
 
-    if not self.levelEnd:canTrigger() then
-        return false
+    for _, levelEnd in ipairs(self.levelEnds or {}) do
+        if levelEnd:canTrigger() then
+            local touchesLevelEnd = require("src.collision").intersects(
+                player:getHitbox(),
+                levelEnd:getHitbox()
+            )
+
+            if touchesLevelEnd then
+                if levelEnd.requiresActivation
+                    and levelEnd:requiresActivation()
+                    and not activatePressed
+                then
+                    -- Игрок касается двери, но ещё не нажал up.
+                else
+                    return levelEnd
+                end
+            end
+        end
     end
 
-    if self.levelEnd and player then
-        return require("src.collision").intersects(
-            player:getHitbox(),
-            self.levelEnd:getHitbox()
-        )
-    end
-
-    return false
+    return nil
 end
 
 -- Помечает уровень завершённым.

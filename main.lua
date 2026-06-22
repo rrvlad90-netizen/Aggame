@@ -320,41 +320,6 @@ local function advanceFlow()
 end
 
 -- Запускает явный переход на scene или level.
--- Используется для nextTarget из levelEnd, scene и player_select.
-local function startTransitionTarget(target)
-    if not target then
-        advanceFlow()
-        return
-    end
-
-    local targetType = target.type or target.kind
-
-    if targetType == "scene" then
-        startScene(target.id, "transition")
-        return
-    end
-
-    if targetType == "level" then
-        startLevel(target.id)
-        return
-    end
-
-    if targetType == "flow" then
-        advanceFlow()
-        return
-    end
-	
-	if target.type == "mode" then
-		stopWorld()
-		stopPlayerSelect()
-		stopScene()
-
-		game.mode = target.id or "main_menu"
-    return
-	end
-end
-
--- Запускает явный переход на scene или level.
 -- Используется для nextTarget из levelEnd и scene.
 local function startTransitionTarget(target)
     if not target then
@@ -1116,7 +1081,13 @@ end
 local function updatePlayerInput()
     local player = game.player
 
-    if not player or player.dead then
+	if not player or player.dead then
+        return
+    end
+
+    -- Во время открытия двери игрок полностью залочен:
+    -- нельзя двигаться, прыгать, стрелять, бить и т.д.
+    if player.isLevelEndLocked and player:isLevelEndLocked() then
         return
     end
 
@@ -1247,10 +1218,14 @@ local function updateLevel(dt)
         return
     end
 
+-- Запоминаем нажатие up именно в этот кадр.
+    -- Если дверь требует activateIfTouch=true, этого достаточно для активации.
+    local levelEndActivatePressed = Input.wasPressed("up")
+
     updatePlayerInput()
 
-    game.world:update(dt)
-
+    game.world:update(dt, levelEndActivatePressed)
+	
 ----------Оставляем синхронизацию, чтобы pickup жизни сохранялся при прохождении уровня:	
 	syncPlayerLivesFromPlayer()
 	

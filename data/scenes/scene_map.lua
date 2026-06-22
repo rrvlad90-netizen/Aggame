@@ -6,7 +6,7 @@ return {
     skipAllowed = true,
     clickNotSkipScene = true, --клик мимо картинки ничего не делает.
 
-    nextScene = "scenelevel1", --куда попадем если анимаиця scene закончилась
+    nextScene = "scenelevel3", --куда попадем если анимаиця scene закончилась
 
     frames = {
         {
@@ -26,7 +26,7 @@ return {
                     x = 120,
                     y = 120,
                     clickable = true,
-                    nextScene = "scenelevel3"
+                    nextScene = "scenelevel1"
                 },
                 {
                     image = "assets/scenes/buttons/choose2.png", -- кликабельные картинки поверх которые появятся на экране

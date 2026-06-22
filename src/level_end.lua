@@ -61,7 +61,26 @@ function LevelEnd:new(config)
 
     levelEnd.image = config.image
 
-    levelEnd.alpha = config.alpha or 1
+-- Прозрачность LevelEnd.
+    -- alpha — нормальное имя, alphf оставляем как алиас, если уже где-то так написал.
+    local alpha = config.alpha
+
+    if alpha == nil then
+        alpha = config.alphf
+            or config.opacity
+    end
+
+    levelEnd.alpha = alpha or 1
+
+    -- Слой отрисовки LevelEnd:
+    -- back   = за дорогой и gameplay-объектами
+    -- middle = перед дорогой, но за gameplay-объектами
+    -- front  = перед gameplay-объектами
+    -- По умолчанию front, чтобы старые двери остались видимыми как раньше.
+    levelEnd.layer = config.layer
+        or config.drawLayer
+        or config.draw_layer
+        or "front"
     levelEnd.color = config.color or {1.0, 0.85, 0.2}
 	
 ----ТЕНЬ опционально	
@@ -104,6 +123,18 @@ function LevelEnd:new(config)
 
     levelEnd.active = config.active ~= false
     levelEnd.triggered = false
+	
+	
+-- Если true, LevelEnd не сработает от простого касания.
+    -- Игрок должен стоять в hitbox и нажать action "up".
+    levelEnd.activateIfTouch = config.activateIfTouch == true
+        or config.activate_if_touch == true
+
+    -- Имя анимации, которая запускается у двери сразу после активации.
+    -- Эта анимация не управляет завершением уровня: уровень ждёт win игрока.
+    levelEnd.openAnimationName = config.openAnimation
+        or config.open_animation
+        or "open"	
 
     -- Если nextTarget nil, World оставит старую victory/flow-логику.
     levelEnd.nextTarget = normalizeNextTarget(config)
@@ -121,13 +152,19 @@ function LevelEnd:new(config)
 end
 
 -- Обновляет объект конца уровня.
+-- После trigger объект остаётся видимым и продолжает обновлять animationSet,
+-- чтобы дверь могла проиграть open-анимацию.
 function LevelEnd:update(dt)
-    if not self.active or self.triggered then
+    if not self.active then
         return
     end
 
-    self.x = self.x + self.vx * dt
-    self.y = self.y + self.vy * dt
+    -- Двигаем дверь только до активации.
+    -- После trigger она считается открывающейся/открытой и больше не едет.
+    if not self.triggered then
+        self.x = self.x + self.vx * dt
+        self.y = self.y + self.vy * dt
+    end
 
     if self.animationSet then
         self.animationSet:update(dt)
@@ -144,23 +181,52 @@ function LevelEnd:getNextTarget()
     return self.nextTarget
 end
 
+-- Возвращает true, если для активации нужен input "up", а не просто касание.
+function LevelEnd:requiresActivation()
+    return self.activateIfTouch == true
+end
+
+-- Запускает open-анимацию двери, если она описана.
+-- Возвращает true, если анимация реально была найдена и запущена.
+function LevelEnd:playOpenAnimation()
+    if not self.animationSet then
+        return false
+    end
+
+    if not self.animationSet:has(self.openAnimationName) then
+        return false
+    end
+
+    self.animationSet:set(self.openAnimationName, true)
+
+    return true
+end
+
 -- Проверяет, может ли игрок завершить уровень.
 function LevelEnd:canTrigger()
     return self.active and not self.triggered
 end
 
--- Помечает объект как использованный.
+-- Помечает объект как использованный и запускает open-анимацию.
+-- Trigger больше не скрывает дверь: он только запрещает повторную активацию.
 function LevelEnd:trigger()
     if self.triggered then
         return
     end
 
     self.triggered = true
+
+    -- После активации дверь не должна продолжать движение.
+    self.vx = 0
+    self.vy = 0
+
+    self:playOpenAnimation()
 end
 
 -- Рисует объект конца уровня.
 function LevelEnd:draw(camera)
-    if not self.active or self.triggered then
+-- После trigger дверь остаётся видимой, чтобы проиграть open-анимацию.
+    if not self.active then
         return
     end
 	

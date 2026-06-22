@@ -759,6 +759,16 @@ return {
                 "assets/players/warrior_full/pain_2.png"
             }
         },
+		
+--		win = {
+--			loop = false,
+--			lockInput = true,
+--			frames = {
+--				"assets/players/warrior/win_1.png",
+--				"assets/players/warrior/win_2.png",
+--				"assets/players/warrior/win_3.png"
+--			}
+--		},
 
         death = {
             loop = false,

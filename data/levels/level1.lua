@@ -336,11 +336,20 @@
     },
 
     effects = {},
-
-    levelEnd = {
-	    id = "door_level1",
-        x = 2000,
+	
+	
+levelEnds = {
+    {
+        id = "activate_door_level1",
+        x = 100,
         y = 555,
+
+        layer = "middle",
+        alpha = 1,
+        -- alphf = 1, -- тоже будет работать как алиас
+
+        activateIfTouch = true,
+        nextLevel = "level2",
 
         canvas = {
             width = 48,
@@ -357,8 +366,37 @@
             y = 0,
             w = 48,
             h = 80
+        }
+    },
+    {
+        id = "door_level1",
+        x = 2000,
+        y = 555,
+
+        layer = "front",
+        alpha = 0.85,
+
+        activateIfTouch = false,
+        nextScene = "scenelevel2",
+
+        canvas = {
+            width = 48,
+            height = 80
         },
 
+        offset = {
+            x = 24,
+            y = 80
+        },
+
+        bbox = {
+            x = 0,
+            y = 0,
+            w = 48,
+            h = 80
+        }
+    },
+	
         image = nil
     }
 }

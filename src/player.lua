@@ -423,6 +423,60 @@ function Player:playSpawnAnimation()
     self:playAnimation("idle", true)
 end
 
+-- Лочит игрока для перехода через LevelEnd.
+-- Игрок становится неуязвимым, останавливается и, если есть win/Win-анимация,
+-- запускает её. Возвращает true, если нужно ждать окончание win-анимации.
+function Player:startLevelEndWin()
+    if self.dead then
+        return false
+    end
+
+    -- Сначала сбрасываем состояния, которые могут конфликтовать с win.
+    self:cancelBlock()
+    self.isCrouching = false
+    self:setStandBbox()
+
+    self.vx = 0
+    self.vy = 0
+
+    self.levelEndLocked = true
+    self.levelEndWinPlaying = false
+    self.levelEndWinFinished = false
+
+    -- invulnerableTimer = 0 в текущей логике означает постоянную неуязвимость.
+    -- Это нормально: после win всё равно будет transition на другой уровень/сцену.
+    self.invulnerable = true
+    self.invulnerableTimer = 0
+
+    local winAnimation = self:chooseAnimationFromGroup({
+        "win",
+        "Win"
+    })
+
+    if not winAnimation then
+        return false
+    end
+
+    self.levelEndWinPlaying = true
+    self:playAnimation(winAnimation, true)
+
+    return true
+end
+
+-- Возвращает true, если игрок сейчас залочен дверью/LevelEnd.
+function Player:isLevelEndLocked()
+    return self.levelEndLocked == true
+end
+
+-- Возвращает true, когда win-анимация закончилась.
+-- Если win-анимации не было, считаем что ждать нечего.
+function Player:isLevelEndWinFinished()
+    if not self.levelEndWinPlaying then
+        return true
+    end
+
+    return self.levelEndWinFinished == true
+end
 
 -- Включает crouch, если можно.
 function Player:startCrouch()
@@ -1456,18 +1510,40 @@ function Player:updateInvulnerability(dt)
     end
 end
 
--- Обновляет игрока: физику, animation events и состояние death/idle/run/jump/fall.
+-- Обновляет игрока: physics, animation events и состояния death/idle/run/jump/fall.
 function Player:update(dt)
+    -- Специальный lock для LevelEnd/дверей.
+    -- В этом состоянии игрок не двигается, не падает, не принимает input
+    -- и только проигрывает win-анимацию, если она есть.
+    if self.levelEndLocked then
+        self:updateInvulnerability(dt)
+
+        local events = self.animationSet:update(dt)
+
+        for _, event in ipairs(events) do
+            table.insert(self.entitySpawnRequests, event)
+        end
+
+        if self.levelEndWinPlaying
+            and self.animationSet:isCurrentFinished()
+        then
+            self.levelEndWinFinished = true
+        end
+
+        return
+    end
+
     self:updatePhysics(dt)
     self:updateInvulnerability(dt)
-	---сообщение если оружие неверно описано
-	if self.messageTimer and self.messageTimer > 0 then
+
+    ---сообщение если оружие неверно описано
+    if self.messageTimer and self.messageTimer > 0 then
         self.messageTimer = math.max(0, self.messageTimer - dt)
 
         if self.messageTimer <= 0 then
             self.messageText = nil
         end
-    end	
+    end
 
     if self.comboTimer and self.comboTimer > 0 then
         self.comboTimer = math.max(0, self.comboTimer - dt)
@@ -1484,7 +1560,7 @@ function Player:update(dt)
         table.insert(self.entitySpawnRequests, event)
     end
 
-	if self.dead
+    if self.dead
         and self.animationSet:isCurrentFinished()
     then
         self.deathFinished = true
@@ -1514,6 +1590,7 @@ function Player:update(dt)
         if self.state ~= "crouch" then
             self:playAnimation("crouch")
         end
+
         return
     end
 
@@ -1523,6 +1600,7 @@ function Player:update(dt)
         else
             self:playAnimation("fall")
         end
+
         return
     end
 
