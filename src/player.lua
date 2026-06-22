@@ -235,7 +235,25 @@ function Player:new(config)
         playSpawn = true
     end
 
-	player:playSpawnAnimation()
+-- skipInitialSpawn — технический флаг для transformToPlayer().
+    -- Обычный старт уровня не передаёт этот флаг, поэтому spawn играет.
+    -- Weapon-transform передаёт skipInitialSpawn=true, поэтому spawn не играет.
+    local skipInitialSpawn = config.skipInitialSpawn == true
+        or config.skip_initial_spawn == true
+
+-- skipInitialSpawn — технический флаг только для transformToPlayer().
+    -- Обычный старт уровня не передаёт этот флаг, поэтому spawn играет.
+    -- Weapon-transform передаёт skipInitialSpawn=true, поэтому spawn не играет.
+    local skipInitialSpawn = config.skipInitialSpawn == true
+        or config.skip_initial_spawn == true
+
+    if skipInitialSpawn then
+        if player.animationSet and player.animationSet:has("idle") then
+            player:playAnimation("idle", true)
+        end
+    else
+        player:playSpawnAnimation()
+    end
 
     return player
 end
@@ -1150,10 +1168,7 @@ function Player:transformToPlayer(playerId, options)
         return false
     end
 
--- Важно: Player:new() сам решает, играть spawn или нет.
-    -- Поэтому передаём playSpawn в definition ДО создания transformed.
-    -- Для weapon-transform ставим playSpawn=false.
-    definition.playSpawn = options.playSpawn ~= false
+    definition = Utils.copyTable(definition)
 
     local oldHealth = self.health or 1
     local oldMaxHealth = self.maxHealth or oldHealth or 1
