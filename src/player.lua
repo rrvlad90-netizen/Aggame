@@ -235,11 +235,7 @@ function Player:new(config)
         playSpawn = true
     end
 
-    if playSpawn then
-        player:playSpawnAnimation()
-    elseif player.animationSet and player.animationSet:has("idle") then
-        player:playAnimation("idle", true)
-    end
+	player:playSpawnAnimation()
 
     return player
 end
@@ -1238,13 +1234,10 @@ function Player:transformToPlayer(playerId, options)
 
     setmetatable(self, Player)
 
--- Spawn уже был обработан внутри Player:new() через definition.playSpawn.
-    -- Если transform был без spawn, гарантированно оставляем игрока в idle,
-    -- чтобы он не завис в старой action/spawn-анимации.
-    if options.playSpawn == false
-        and self.animationSet
-        and self.animationSet:has("idle")
-    then
+-- Transform не является стартом уровня.
+    -- После любой transform-логики игрок не должен снова проигрывать spawn.
+    -- Ставим idle, чтобы не остаться в старой action/death/spawn-анимации.
+    if self.animationSet and self.animationSet:has("idle") then
         self:playAnimation("idle", true)
     end
 
@@ -1343,9 +1336,8 @@ function Player:returnFromWeapon()
             weaponPlayerId = nil,
             weaponBasePlayerId = nil,
             pendingWeaponReturn = false,
--- Возврат из weapon-формы не должен проигрывать spawn.
--- Spawn нужен только при появлении после потери Life/respawn.
-             playSpawn = false
+            -- Spawn играется только при старте уровня
+			playSpawn = false
         }
     )
 end
@@ -1489,10 +1481,10 @@ function Player:respawn(x, y, options)
 
     self.state = "idle"
 
-    if self.playSpawnAnimation then
-        self:playSpawnAnimation()
-    elseif self.animationSet and self.animationSet:has("idle") then
-        self.animationSet:set("idle", true)
+-- Respawn/checkpoint не считается стартом уровня.
+    -- Spawn проигрывается только один раз при первом Player:new().
+    if self.animationSet and self.animationSet:has("idle") then
+        self:playAnimation("idle", true)
     end
 end
 
