@@ -5,6 +5,65 @@ local Shadow = require("src.shadow")
 
 local Render = {}
 
+-- Возвращает scaleX и флаг, был ли entity реально отзеркален по X.
+-- Важно считать именно факт flip-а, потому что offset.x нужно зеркалить только тогда.
+local function resolveHorizontalFlip(entity, scaleX)
+    local isFlipped = false
+
+    local facing = entity.facing or 1
+    local flipSprite = entity.flipSprite == true
+    local ignoreFacingFlip = entity.ignoreFacingFlip == true
+        or entity.ignore_facing_flip == true
+
+    if ignoreFacingFlip then
+        return scaleX, false
+    end
+
+    if facing < 0 then
+        scaleX = -scaleX
+        isFlipped = not isFlipped
+    end
+
+    if flipSprite then
+        scaleX = -scaleX
+        isFlipped = not isFlipped
+    end
+
+    return scaleX, isFlipped
+end
+
+-- При горизонтальном flip нужно зеркалить origin внутри картинки.
+-- Было: offset.x
+-- Должно стать: imageWidth - offset.x
+-- Тогда anchor остаётся на том же месте в мире.
+local function resolveFlippedOffsetX(offsetX, image, isFlipped)
+    if not isFlipped then
+        return offsetX
+    end
+
+    if not image or not image.getWidth then
+        return offsetX
+    end
+
+    return image:getWidth() - offsetX
+end
+
+-- Возвращает текущую картинку animated entity.
+-- Нужна, чтобы знать реальную ширину PNG и правильно зеркалить offset.x.
+local function getCurrentAnimationImage(entity)
+    if not entity or not entity.animationSet then
+        return nil
+    end
+
+    local animation = entity.animationSet:getCurrent()
+
+    if not animation or not animation.getCurrentImage then
+        return nil
+    end
+
+    return animation:getCurrentImage()
+end
+
 -- Преобразует мировую X-координату в экранную.
 function Render.worldToScreenX(x, camera)
     return x - (camera and camera.x or 0)
@@ -35,9 +94,10 @@ function Render.isRectVisible(rect, camera, margin)
     return Collision.intersects(rect, screenRect)
 end
 
+
 -- Рисует entity по системе canvas + offset.
 -- entity.x/entity.y — позиция anchor-точки в мире.
--- entity.offset — точка anchor внутри canvas.
+-- entity.offset — точка anchor внутри canvas/PNG.
 function Render.drawEntity(entity, camera)
     if not entity then
         return
@@ -46,8 +106,8 @@ function Render.drawEntity(entity, camera)
     if entity.hidden then
         return
     end
-	
-	Shadow.draw(entity, camera)
+
+    Shadow.draw(entity, camera)
 
     local image = nil
 
@@ -56,7 +116,7 @@ function Render.drawEntity(entity, camera)
         return
     end
 
-	if entity.image then
+    if entity.image then
         image = Assets.getImage(entity.image)
     else
         image = Assets.getFallbackImage(
@@ -67,31 +127,21 @@ function Render.drawEntity(entity, camera)
 
     local offset = entity.offset or {x = 0, y = 0}
 ---Здесь также есть смещение для Scale. Если картинка увеличилась криво. ее можно поправить	
-	local screenX = Render.worldToScreenX(entity.x, camera)
-		+ (entity.drawOffsetX or entity.draw_offset_x or 0)
+    local screenX = Render.worldToScreenX(entity.x, camera)
+        + (entity.drawOffsetX or entity.draw_offset_x or 0)
 
-	local screenY = Render.worldToScreenY(entity.y, camera)
-		+ (entity.drawOffsetY or entity.draw_offset_y or 0)
------
+    local screenY = Render.worldToScreenY(entity.y, camera)
+        + (entity.drawOffsetY or entity.draw_offset_y or 0)
+
     local scaleX = entity.scaleX or entity.scale or 1
     local scaleY = entity.scaleY or entity.scale or 1
-	
 ---логика разворота спрайта
-	local facing = entity.facing or 1
-	local flipSprite = entity.flipSprite == true
-	local ignoreFacingFlip = entity.ignoreFacingFlip == true
-		or entity.ignore_facing_flip == true
+--    scaleX, isFlipped = resolveHorizontalFlip(entity, scaleX)
+	local isFlipped = false
+	scaleX, isFlipped = resolveHorizontalFlip(entity, scaleX)
 
-	if not ignoreFacingFlip then
-		if facing < 0 then
-			scaleX = -scaleX
-		end
-
-		if flipSprite then
-			scaleX = -scaleX
-		end
-	end
-------
+    -- Ключевой фикс: при flip зеркалим origin по ширине реального PNG.
+    local offsetX = resolveFlippedOffsetX(offset.x, image, isFlipped)
 
     love.graphics.setColor(1, 1, 1, entity.alpha or 1)
     love.graphics.draw(
@@ -101,48 +151,42 @@ function Render.drawEntity(entity, camera)
         entity.rotation or 0,
         scaleX,
         scaleY,
-        offset.x,
+        offsetX,
         offset.y
     )
     love.graphics.setColor(1, 1, 1)
 end
 
--- Рисует entity, у которой есть animationSet.
+-- Рисует animated entity.
+-- При развороте по X зеркалим offset.x относительно реальной ширины текущего PNG,
+-- чтобы картинка оставалась на том же anchor, а не уезжала влево/вправо.
 function Render.drawAnimatedEntity(entity, camera)
     local offset = entity.offset or {x = 0, y = 0}
----Здесь также есть смещение для Scale. Если картинка увеличилась криво. ее можно поправить	
-	local screenX = Render.worldToScreenX(entity.x, camera)
-		+ (entity.drawOffsetX or entity.draw_offset_x or 0)
 
-	local screenY = Render.worldToScreenY(entity.y, camera)
-		+ (entity.drawOffsetY or entity.draw_offset_y or 0)
--------
+    local screenX = Render.worldToScreenX(entity.x, camera)
+        + (entity.drawOffsetX or entity.draw_offset_x or 0)
 
+    local screenY = Render.worldToScreenY(entity.y, camera)
+        + (entity.drawOffsetY or entity.draw_offset_y or 0)
+---скейл
     local scaleX = entity.scaleX or entity.scale or 1
     local scaleY = entity.scaleY or entity.scale or 1
----логика разворота спрайта
-	local facing = entity.facing or 1
-	local flipSprite = entity.flipSprite == true
-	local ignoreFacingFlip = entity.ignoreFacingFlip == true
-		or entity.ignore_facing_flip == true
 
-	if not ignoreFacingFlip then
-		if facing < 0 then
-			scaleX = -scaleX
-		end
+    local isFlipped = false
+    scaleX, isFlipped = resolveHorizontalFlip(entity, scaleX)
 
-		if flipSprite then
-			scaleX = -scaleX
-		end
-	end
-------
+    local image = getCurrentAnimationImage(entity)
+
+    -- Ключевой фикс: при flip origin должен быть imageWidth - offset.x.
+    local offsetX = resolveFlippedOffsetX(offset.x, image, isFlipped)
+
     entity.animationSet:draw(
         screenX,
         screenY,
         entity.rotation or 0,
         scaleX,
         scaleY,
-        offset.x,
+        offsetX,
         offset.y,
         entity.alpha or 1
     )

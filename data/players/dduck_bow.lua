@@ -4,6 +4,7 @@ return {
 	
 	portrait = "assets/players/dduck/portrait.png",
 
+    scale = 2.2,
 
     health = 5,
     lives = 3,
