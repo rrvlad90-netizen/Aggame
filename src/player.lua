@@ -225,21 +225,15 @@ function Player:new(config)
 -- playSpawn управляет тем, нужно ли проигрывать spawn-анимацию при создании Player.
     -- По умолчанию true: обычный старт уровня/создание игрока проигрывает spawn.
     -- Для weapon-transform можно передать playSpawn=false, чтобы не запускать spawn.
-    local playSpawn = config.playSpawn
+--    local playSpawn = config.playSpawn
 
-    if playSpawn == nil then
-        playSpawn = config.play_spawn
-    end
+--    if playSpawn == nil then
+--        playSpawn = config.play_spawn
+--    end
 
-    if playSpawn == nil then
-        playSpawn = true
-    end
-
--- skipInitialSpawn — технический флаг для transformToPlayer().
-    -- Обычный старт уровня не передаёт этот флаг, поэтому spawn играет.
-    -- Weapon-transform передаёт skipInitialSpawn=true, поэтому spawn не играет.
-    local skipInitialSpawn = config.skipInitialSpawn == true
-        or config.skip_initial_spawn == true
+--    if playSpawn == nil then
+--        playSpawn = true
+--    end
 
 -- skipInitialSpawn — технический флаг только для transformToPlayer().
     -- Обычный старт уровня не передаёт этот флаг, поэтому spawn играет.
@@ -749,6 +743,14 @@ function Player:landOn(groundY)
         return
     end
 
+    -- Важно:
+    -- spawn/shoot/melee/strafe/pain и другие lockInput-анимации
+    -- нельзя перебивать в idle/run при первом касании платформы.
+    -- Иначе spawn на старте уровня запускается, но сразу сбивается landOn().
+    if self:isInputLocked() then
+        return
+    end
+
     -- Если игрок уже стоял на платформе, не сбрасываем текущую action-анимацию.
     -- Иначе shoot/melee/strafe/crouch будут каждый кадр перебиваться в idle/run.
     if wasOnGround and self.state ~= "jump" then
@@ -1162,18 +1164,18 @@ function Player:transformToPlayer(playerId, options)
 
     options = options or {}
 
-    local definition = Registry.loadPlayer(playerId)
+	local definition = Registry.loadPlayer(playerId)
 
-    if not definition then
-        return false
-    end
+	if not definition then
+		return false
+	end
 
--- Любой transform не является стартом уровня.
-    -- Поэтому Player:new() не должен запускать spawn.
-    definition.skipInitialSpawn = true
--- Transform не является стартом уровня.
-    -- Поэтому Player:new() не должен проигрывать spawn для transformed player.
-    definition.skipInitialSpawn = true
+	-- Работаем с копией, чтобы не портить исходный config игрока.
+	definition = Utils.copyTable(definition)
+
+	-- Любой transform не является стартом уровня.
+	-- Поэтому Player:new() не должен запускать spawn.
+	definition.skipInitialSpawn = true
 
     local oldHealth = self.health or 1
     local oldMaxHealth = self.maxHealth or oldHealth or 1
