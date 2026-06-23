@@ -124,8 +124,8 @@
 --        },
 		{
             id = "friendly_special_goblin",
-            x = 520,
-            y = 555,
+            x = 380,
+            y = 315,
             appearDistance = 600
         },
 --		{
@@ -206,7 +206,7 @@
 		{
             id = "dissapear_platform",
             x = 320,
-            y = 255,
+            y = 355,
 			--solid = true --нельзя пройти сбоку и снаряды врезаются
         },
  

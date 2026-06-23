@@ -117,6 +117,22 @@ local function getPlatformTopAtEntity(platform, entity, platformBox)
     return platform.walkY or platformBox.y
 end
 
+-- Проверяет X для приземления по точке ног entity, а не по всему bbox.
+-- Это защищает от ситуации, когда actor цепляет край платформы боком
+-- и резко "телепортируется" на неё.
+local function overlapsLandingX(entity, bbox, platformBox)
+    local footX = entity.x
+
+    -- Небольшая ширина ног, чтобы не требовать идеальный пиксель.
+    -- Если нужно строже, можно поставить 0.
+    local footMargin = entity.platformFootMargin
+        or entity.platform_foot_margin
+        or math.min(6, (bbox.w or 0) * 0.25)
+
+    return footX + footMargin > platformBox.x
+        and footX - footMargin < platformBox.x + platformBox.w
+end
+
 -- Обрабатывает столкновение entity с платформами уровня.
 -- Платформа остаётся единственным источником "земли" для player и actor-ов.
 -- ground не используется.
@@ -156,18 +172,18 @@ function Physics.resolvePlatforms(level, entity)
     local bestPlatformTop = nil
     local bestCorrectedY = nil
 
-    for _, platform in ipairs(level.platforms or {}) do
+for _, platform in ipairs(level.platforms or {}) do
         if platform.collisionEnabled ~= false then
             local platformBox = platform:getHitbox()
             local platformTop = getPlatformTopAtEntity(platform, entity, platformBox)
 
-            local overlapsX = bbox.x < platformBox.x + platformBox.w
-                and platformBox.x < bbox.x + bbox.w
+            -- Для посадки сверху используем не весь bbox, а область ног.
+            -- Иначе actor может боком зацепить край платформы выше.
+            local overlapsX = overlapsLandingX(entity, bbox, platformBox)
 
--- Close snap нужен только чтобы entity не дрожал на текущей платформе.
-        -- Для новых платформ он опасен: actor может "телепортироваться" на платформу выше,
-        -- если оказался рядом с её верхом сбоку или после смены bbox/анимации.
-        local allowCloseSnap = entity.currentPlatform == platform
+            -- Close snap нужен только чтобы entity не дрожал на текущей платформе.
+            -- Для новых платформ он опасен: actor может "телепортироваться" на платформу выше.
+            local allowCloseSnap = entity.currentPlatform == platform
 
             local crossedTop = crossedPlatformTop(
                 entity,
@@ -175,6 +191,16 @@ function Physics.resolvePlatforms(level, entity)
                 platformTop,
                 allowCloseSnap
             )
+
+            -- Если entity уже стоит на другой платформе, то обычная top-посадка
+            -- на новую платформу запрещена.
+            -- Это защищает от бага: actor идёт по slope, его Y меняется,
+            -- и он случайно "пересекает" верх платформы рядом/выше.
+            if entity.onGround
+                and entity.currentPlatform ~= platform
+            then
+                crossedTop = false
+            end
 
             -- Если slopeWalkOn = false, то стоящий на земле entity
             -- не должен "войти" на slope сбоку.
@@ -186,12 +212,18 @@ function Physics.resolvePlatforms(level, entity)
                 crossedTop = false
             end
 
-		local canLand = platform.collisionEnabled ~= false
-            and overlapsX
-            and (
-                crossedTop
-                or canWalkOntoSlope(entity, platform, currentBottom, platformTop)
+            local canWalkOntoThisSlope = canWalkOntoSlope(
+                entity,
+                platform,
+                currentBottom,
+                platformTop
             )
+
+            local canLand = overlapsX
+                and (
+                    crossedTop
+                    or canWalkOntoThisSlope
+                )
 
             if canLand then
                 local correctedY = entity.y - (currentBottom - platformTop)
