@@ -8,5 +8,6 @@ return {
 	--
 	player_projectile_forward = "data/projectiles/player_projectile_forward.lua",
 	player_projectile_up = "data/projectiles/player_projectile_up.lua",
+	player_projectile_down = "data/projectiles/player_projectile_down.lua",
     player_projectile_diagonal_up = "data/projectiles/player_projectile_diagonal_up.lua"
 }

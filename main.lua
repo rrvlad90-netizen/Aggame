@@ -70,7 +70,6 @@ local optionsMenuItems = {
     {label = "Jump", action = "jump"},
     {label = "Shoot", action = "shoot"},
     {label = "Melee", action = "melee"},
-    {label = "Crouch", action = "crouch"},
     {label = "Block", action = "block"},
     {label = "Strafe", action = "strafe"},
     {label = "Pause", action = "pause"},
@@ -1093,7 +1092,7 @@ local function updatePlayerInput()
 
     local direction = Input.getMoveDirection()
 
-    player:setCrouchHeld(Input.isDown("crouch"))
+    player:setCrouchHeld(Input.isDown("down"))
 
     if direction ~= 0 then
         player:setMoveDirection(direction)
@@ -1108,11 +1107,12 @@ local function updatePlayerInput()
     end
 
     if Input.wasPressed("shoot") then
-        player:shoot({
-            up = Input.isDown("up"),
-            forward = direction ~= 0 and direction == player.facing,
-            moving = direction ~= 0
-        })
+		player:shoot({
+			up = Input.isDown("up"),
+			down = Input.isDown("down"),
+			forward = direction ~= 0 and direction == player.facing,
+			moving = direction ~= 0
+		})
     end
 
     if Input.wasPressed("melee") then

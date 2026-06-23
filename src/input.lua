@@ -21,7 +21,6 @@ Input.defaultKeyBindings = {
     shoot = {"x", "lctrl", "rctrl"},
     melee = {"c"},
 
-    crouch = {"s", "down"},
     block = {"v"},
     strafe = {"lshift", "rshift"},
 
@@ -163,13 +162,6 @@ function Input.createDefaultTouchButtons()
         {
             action = "right",
             x = leftRightX,
-            y = bottomY,
-            w = size,
-            h = size
-        },
-        {
-            action = "crouch",
-            x = leftExtraX,
             y = bottomY,
             w = size,
             h = size
@@ -317,7 +309,7 @@ function Input.getAimY()
         return -1
     end
 
-    if Input.isDown("down") or Input.isDown("crouch") then
+    if Input.isDown("down") then
         return 1
     end
 

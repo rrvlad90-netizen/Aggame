@@ -439,6 +439,26 @@ return {
                 }
             }
         },
+		
+		shoot_down_air = {
+			loop = false,
+			lockInput = true,
+			frameDuration = 0.08,
+			frames = {
+				"assets/players/dduck/djumpdownattack1.png",
+				"assets/players/dduck/djumpdownattack1.png",
+				"assets/players/dduck/djumpdownattack1.png"
+			},
+			events = {
+				{
+					frame = 2,
+					type = "createEntity",
+					id = "player_projectile_down",
+					x = 0,
+					y = -20
+				}
+			}
+		},
 
         melee_stand01 = {
             loop = false,
