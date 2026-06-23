@@ -31,7 +31,13 @@ return {
                 "assets/platforms/platform_disable_1.png",
                 "assets/platforms/platform_disable_2.png",
                 "assets/platforms/platform_disable_3.png"
-            }
+            },
+		events = {		
+				{
+					frame = 3,
+					type = "remove"
+				}
+			},
         }
     }
 }

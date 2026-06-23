@@ -164,12 +164,10 @@ function Physics.resolvePlatforms(level, entity)
             local overlapsX = bbox.x < platformBox.x + platformBox.w
                 and platformBox.x < bbox.x + bbox.w
 
-            local allowCloseSnap = true
-
-            if platform.slope then
-                allowCloseSnap = platform.slopeWalkOn == true
-                    or entity.currentPlatform == platform
-            end
+-- Close snap нужен только чтобы entity не дрожал на текущей платформе.
+        -- Для новых платформ он опасен: actor может "телепортироваться" на платформу выше,
+        -- если оказался рядом с её верхом сбоку или после смены bbox/анимации.
+        local allowCloseSnap = entity.currentPlatform == platform
 
             local crossedTop = crossedPlatformTop(
                 entity,
@@ -188,11 +186,12 @@ function Physics.resolvePlatforms(level, entity)
                 crossedTop = false
             end
 
-            local canLand = overlapsX
-                and (
-                    crossedTop
-                    or canWalkOntoSlope(entity, platform, currentBottom, platformTop)
-                )
+		local canLand = platform.collisionEnabled ~= false
+            and overlapsX
+            and (
+                crossedTop
+                or canWalkOntoSlope(entity, platform, currentBottom, platformTop)
+            )
 
             if canLand then
                 local correctedY = entity.y - (currentBottom - platformTop)

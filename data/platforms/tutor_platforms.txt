@@ -49,3 +49,121 @@ lua
 
 Важно
 imageScrollSpeed не трогаем. Он остаётся только для визуального движения текстуры внутри платформы, а не для физики.
+
+
+
+Пример disappearing platform
+
+lua
+{
+    id = "wood_platform",
+    x = 600,
+    y = 420,
+
+    w = 120,
+    h = 24,
+    visualHeight = 24,
+
+    collisionEnabled = true,
+
+    triggerOnStand = true,
+    triggerState = "disable",
+
+    animations = {
+        idle = {
+            loop = true,
+            frames = {
+                "assets/platforms/platform_idle_1.png"
+            }
+        },
+
+        disable = {
+            loop = false,
+            frameDuration = 0.12,
+
+            -- Автоматически выключит collision в конце animation.
+            collisionOffOnFinish = true,
+
+            frames = {
+                "assets/platforms/platform_disable_1.png",
+                "assets/platforms/platform_disable_2.png",
+                "assets/platforms/platform_disable_3.png"
+            }
+        }
+    }
+}
+Пример falling platform
+
+lua
+{
+    id = "wood_platform",
+    x = 800,
+    y = 420,
+
+    w = 120,
+    h = 24,
+    visualHeight = 24,
+
+    collisionEnabled = true,
+
+    triggerOnStand = true,
+    triggerState = "fallingdown",
+
+    animations = {
+        idle = {
+            loop = true,
+            frames = {
+                "assets/platforms/platform_idle_1.png"
+            }
+        },
+
+        fallingdown = {
+            loop = false,
+            frameDuration = 0.12,
+
+            -- Падает, пока animation играет.
+            vy = 180,
+
+            -- Когда animation закончилась — остановилась.
+            stopOnFinish = true,
+
+            -- После окончания можно удалить:
+            -- removeOnFinish = true,
+
+            -- Или вернуть в idle:
+            nextState = "idle",
+
+            frames = {
+                "assets/platforms/platform_fall_1.png",
+                "assets/platforms/platform_fall_2.png",
+                "assets/platforms/platform_fall_3.png"
+            }
+        }
+    }
+}
+Event-вариант
+
+lua
+disable = {
+    loop = false,
+    frameDuration = 0.12,
+
+    frames = {
+        "assets/platforms/platform_disable_1.png",
+        "assets/platforms/platform_disable_2.png",
+        "assets/platforms/platform_disable_3.png"
+    },
+
+    events = {
+        {
+            frame = 3,
+            type = "setCollisionEnabled",
+            value = false
+        },
+        {
+            frame = 3,
+            type = "remove"
+        }
+    }
+}
+Так платформа останется универсальной: может исчезать, падать, возвращаться в idle, удаляться или просто выключать collision, не ломая старые платформы.
