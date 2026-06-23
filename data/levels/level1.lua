@@ -197,9 +197,16 @@
 		},
 		
         {
-            id = "wood_platform",
+            id = "falling_platform",
             x = 120,
             y = 155,
+			--solid = true --нельзя пройти сбоку и снаряды врезаются
+        },
+		
+		{
+            id = "dissapear_platform",
+            x = 320,
+            y = 355,
 			--solid = true --нельзя пройти сбоку и снаряды врезаются
         },
  

@@ -11,8 +11,7 @@ return {
     -- mage -> mage_bow
     weaponPlayerId = "NAME_bow",
 	
-	manualCollect = true, --не подпирается при касании нужно нажать вниз что бы поднять
-    collectRange = 24, ---радус подбора (наксколько близко нужно подойти что бы поднять)
+	
 	
     weaponUses = 10,
 

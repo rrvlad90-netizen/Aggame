@@ -1,4 +1,5 @@
 local Render = require("src.render")
+local AnimationSet = require("src.animation_set")
 
 local Platform = {}
 Platform.__index = Platform
@@ -152,25 +153,236 @@ function Platform:new(config)
 
     platform.color = config.color or {0.45, 0.35, 0.25}
 
+-- Если false, платформа рисуется, но не участвует в collision:
+    -- игрок/акторы проваливаются, projectile пролетает.
+    platform.collisionEnabled = config.collisionEnabled
+
+    if platform.collisionEnabled == nil then
+        platform.collisionEnabled = config.collision_enabled
+    end
+
+    if platform.collisionEnabled == nil then
+        platform.collisionEnabled = true
+    end
+
+    -- Runtime state animated platform.
+    platform.state = config.defaultAnimation
+        or config.default_animation
+        or config.state
+        or "idle"
+
+    platform.defaultState = platform.state
+
+    platform.animationConfigs = config.animations
+    platform.animationSet = nil
+    platform.finishedStateHandled = nil
+
+    if config.animations then
+        platform.animationSet = AnimationSet:new({
+            default = platform.state,
+            animations = config.animations
+        })
+    end
+
+    -- Trigger settings.
+    platform.triggerOnStand = config.triggerOnStand == true
+        or config.trigger_on_stand == true
+
+    platform.triggerDistance = config.triggerDistance
+        or config.trigger_distance
+
+    platform.triggerState = config.triggerState
+        or config.trigger_state
+        or "disable"
+
+    platform.triggerFromState = config.triggerFromState
+        or config.trigger_from_state
+        or platform.defaultState
+
+    platform.removeMe = false
+
     return platform
+end
+
+
+-- Возвращает config текущей/указанной animation state.
+function Platform:getAnimationConfig(state)
+    if not self.animationConfigs then
+        return nil
+    end
+
+    return self.animationConfigs[state or self.state]
+end
+
+-- Применяет параметры animation при входе в state.
+-- Например fallingdown может сразу задать vy.
+function Platform:applyAnimationEnterConfig(state)
+    local config = self:getAnimationConfig(state)
+
+    if not config then
+        return
+    end
+
+    if config.collisionEnabled ~= nil then
+        self.collisionEnabled = config.collisionEnabled == true
+    elseif config.collision_enabled ~= nil then
+        self.collisionEnabled = config.collision_enabled == true
+    end
+
+    if config.vx ~= nil then
+        self.vx = config.vx
+    elseif config.speedX ~= nil then
+        self.vx = config.speedX
+    elseif config.speed_x ~= nil then
+        self.vx = config.speed_x
+    end
+
+    if config.vy ~= nil then
+        self.vy = config.vy
+    elseif config.speedY ~= nil then
+        self.vy = config.speedY
+    elseif config.speed_y ~= nil then
+        self.vy = config.speed_y
+    end
+end
+
+-- Переводит платформу в animation state.
+function Platform:playAnimation(state, force)
+    if not state then
+        return false
+    end
+
+    if not self.animationSet or not self.animationSet:has(state) then
+        return false
+    end
+
+    self.state = state
+    self.finishedStateHandled = nil
+
+    self.animationSet:set(state, force == true)
+    self:applyAnimationEnterConfig(state)
+
+    return true
+end
+
+-- Alias для animation events.
+function Platform:setState(state)
+    return self:playAnimation(state, true)
+end
+
+-- Выполняет event из animation платформы.
+function Platform:runAnimationEvent(event)
+    if not event then
+        return
+    end
+
+    if event.type == "setCollisionEnabled" then
+        self.collisionEnabled = event.value == true
+        return
+    end
+
+    if event.type == "setState" then
+        self:setState(event.state)
+        return
+    end
+
+    if event.type == "setVelocity" then
+        if event.vx ~= nil then
+            self.vx = event.vx
+        end
+
+        if event.vy ~= nil then
+            self.vy = event.vy
+        end
+
+        return
+    end
+
+    if event.type == "remove" then
+        self.removeMe = true
+        return
+    end
+end
+
+-- Обрабатывает конец non-loop animation.
+function Platform:handleAnimationFinished()
+    if not self.animationSet or not self.animationSet:isCurrentFinished() then
+        return
+    end
+
+    if self.finishedStateHandled == self.state then
+        return
+    end
+
+    self.finishedStateHandled = self.state
+
+    local config = self:getAnimationConfig(self.state)
+
+    if not config then
+        return
+    end
+
+    if config.stopOnFinish == true then
+        self.vx = 0
+        self.vy = 0
+    end
+
+    if config.collisionOffOnFinish == true then
+        self.collisionEnabled = false
+    end
+
+    if config.removeOnFinish == true then
+        self.removeMe = true
+        return
+    end
+
+    if config.nextState or config.next_state then
+        self:setState(config.nextState or config.next_state)
+    end
+end
+
+-- Проверяет trigger платформы.
+-- triggerOnStand имеет приоритет над triggerDistance.
+function Platform:updateTrigger(world)
+    if not world or not world.player then
+        return
+    end
+
+    if self.state ~= self.triggerFromState then
+        return
+    end
+
+    local player = world.player
+    local shouldTrigger = false
+
+    if self.triggerOnStand then
+        shouldTrigger = player.currentPlatform == self
+    elseif self.triggerDistance then
+        local platformCenterX = self.x + self.w / 2
+        local distanceX = math.abs((player.x or 0) - platformCenterX)
+
+        shouldTrigger = distanceX <= self.triggerDistance
+    end
+
+    if shouldTrigger then
+        self:setState(self.triggerState)
+    end
 end
 
 -- Обновляет платформу.
 -- Двигает физический bbox платформы через vx/vy.
 -- Старый platformScrollSpeed сохранён: он двигает платформу влево.
--- imageScrollSpeed остаётся только визуальным скроллом картинки.
-function Platform:update(dt)
+function Platform:update(dt, world)
+    self:updateTrigger(world)
+
     local previousX = self.x
     local previousY = self.y
 
     local platformScrollSpeed = self.PlatformScrollSpeed or 0
 
-    -- Новый универсальный movement.
     self.x = self.x + (self.vx or 0) * dt
     self.y = self.y + (self.vy or 0) * dt
 
-    -- Старое поведение сохраняем:
-    -- platformScrollSpeed > 0 двигает платформу влево.
     if platformScrollSpeed ~= 0 then
         self.x = self.x - platformScrollSpeed * dt
     end
@@ -183,6 +395,16 @@ function Platform:update(dt)
 
     -- visualY тоже держим относительно физического y.
     self.visualY = self.y + (self.visualOffsetFromY or 0)
+
+    if self.animationSet then
+        local events = self.animationSet:update(dt)
+
+        for _, event in ipairs(events or {}) do
+            self:runAnimationEvent(event)
+        end
+
+        self:handleAnimationFinished()
+    end
 
     if Render and Render.updateScroll then
         Render.updateScroll(self, dt)
@@ -288,6 +510,10 @@ function Platform:resolveEntityCollision(entity, previousEntityX, previousEntity
     if not entity or entity.dead then
         return false
     end
+	---отключение коллизии (физики) для исчезающих платформ
+	if self.collisionEnabled == false then
+        return false
+    end
 
     -- Сначала проверяем приземление сверху.
     -- Для этого не требуем полного пересечения hitbox:
@@ -360,6 +586,36 @@ function Platform:draw(camera)
     local drawX = self.x - camera.x
     local drawY = self.visualY - camera.y
     local imageDrawY = self.visualY + (self.imageOffsetY or 0) - camera.y
+
+
+----для исчезающей или падающей платформы
+	if self.animationSet then
+        local animation = self.animationSet:getCurrent()
+        local image = animation and animation:getCurrentImage()
+
+        local scaleX = 1
+        local scaleY = 1
+
+        if image then
+            scaleX = self.w / image:getWidth()
+            scaleY = (self.visualHeight or self.h) / image:getHeight()
+        end
+
+        self.animationSet:draw(
+            drawX,
+            imageDrawY,
+            0,
+            scaleX,
+            scaleY,
+            0,
+            0,
+            self.alpha or 1
+        )
+
+        return
+    end
+-------------
+
 
     if self.image then
         love.graphics.setColor(1, 1, 1)
@@ -453,13 +709,18 @@ if self.slope then
 end
 
 -- Проверяет, вышла ли платформа за экран.
+-- Если margin не задан или <= 0, offscreen-removal отключён.
 function Platform:isOffscreen()
-    if self.DissaperWheOutOfScreen == 0 then
+    local margin = self.DissaperWheOutOfScreen
+        or self.disappearWhenOutOfScreen
+        or self.disappear_when_out_of_screen
+        or 0
+
+    if margin <= 0 then
         return false
     end
 
     local screenWidth = love.graphics.getWidth()
-    local margin = self.DissaperWheOutOfScreen
 
     return self.x + self.w < -margin
         or self.x > screenWidth + margin
@@ -467,7 +728,8 @@ end
 
 -- Можно ли удалить платформу.
 function Platform:isRemovable()
-    return self:isOffscreen()
+    return self.removeMe == true
+        or self:isOffscreen()
 end
 
 return Platform

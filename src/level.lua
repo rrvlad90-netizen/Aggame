@@ -262,8 +262,14 @@ end
 function Level:update(dt, world)
 	self:updateBackgrounds(dt)
 
-    for _, platform in ipairs(self.platforms) do
-        platform:update(dt)
+	for index = #self.platforms, 1, -1 do
+        local platform = self.platforms[index]
+
+        platform:update(dt, world)
+----для исчезающих платформ
+        if platform.isRemovable and platform:isRemovable() then
+            table.remove(self.platforms, index)
+        end
     end
 
     for _, pickup in ipairs(self.pickups) do

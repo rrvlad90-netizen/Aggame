@@ -28,6 +28,25 @@ Input.defaultKeyBindings = {
     confirm = {"return"}
 }
 
+-- Стабильный порядок проверки клавиш.
+-- Это важно: pairs() не гарантирует порядок и старый save мог перехватывать down через crouch.
+Input.actionOrder = {
+    "left",
+    "right",
+    "up",
+    "down",
+
+    "jump",
+    "shoot",
+    "melee",
+
+    "block",
+    "strafe",
+
+    "pause",
+    "confirm"
+}
+
 Input.keyBindings = {}
 
 local function copyBindings(bindings)
@@ -44,6 +63,12 @@ local function copyBindings(bindings)
     return result
 end
 
+-- Проверяет, существует ли action в текущей схеме управления.
+-- Старый action "crouch" намеренно не существует: приседание теперь живёт на "down".
+local function isKnownAction(action)
+    return Input.defaultKeyBindings[action] ~= nil
+end
+
 -- Инициализирует input-состояние.
 function Input.init()
     Input.down = {}
@@ -57,14 +82,17 @@ function Input.init()
 end
 
 -- Загружает клавиатурные бинды из save.
+-- Старые/удалённые actions, например crouch, игнорируются.
 function Input.setKeyBindings(bindings)
     Input.keyBindings = copyBindings(Input.defaultKeyBindings)
 
     for action, keys in pairs(bindings or {}) do
-        if type(keys) == "table" then
-            Input.keyBindings[action] = copyBindings({value = keys}).value
-        elseif type(keys) == "string" then
-            Input.keyBindings[action] = {keys}
+        if isKnownAction(action) then
+            if type(keys) == "table" then
+                Input.keyBindings[action] = copyBindings({value = keys}).value
+            elseif type(keys) == "string" then
+                Input.keyBindings[action] = {keys}
+            end
         end
     end
 end
@@ -82,6 +110,10 @@ end
 -- Назначает одну клавишу на action.
 function Input.setKeyBinding(action, key)
     if not action or not key then
+        return
+    end
+
+    if not isKnownAction(action) then
         return
     end
 
@@ -130,7 +162,6 @@ function Input.createDefaultTouchButtons()
     local leftX = margin
     local leftMidX = leftX + size + gap
     local leftRightX = leftX + (size + gap) * 2
-    local leftExtraX = leftX + (size + gap) * 3
 
     local rightX = screenW - margin - size
     local rightMidX = rightX - size - gap
@@ -204,25 +235,27 @@ function Input.createDefaultTouchButtons()
             h = size
         },
 
-        -- Верхние кнопки справа.
+        -- Верхняя кнопка справа.
         {
             action = "pause",
             x = rightX,
             y = topY,
             w = size,
             h = size
-        },
-        {
-            action = "confirm",
-            x = rightMidX,
-            y = topY,
-            w = size,
-            h = size
         }
+
+        -- Confirm на touch UI скрыт.
+        -- {
+        --     action = "confirm",
+        --     x = rightMidX,
+        --     y = topY,
+        --     w = size,
+        --     h = size
+        -- }
     }
 end
 
--- Очищает Точпад
+-- Очищает все текущие состояния input.
 function Input.clear()
     Input.down = {}
     Input.pressed = {}
@@ -258,6 +291,10 @@ function Input.press(action)
         return
     end
 
+    if not isKnownAction(action) then
+        return
+    end
+
     if not Input.down[action] then
         Input.pressed[action] = true
     end
@@ -268,6 +305,10 @@ end
 -- Помечает action как отпущенный.
 function Input.release(action)
     if not action then
+        return
+    end
+
+    if not isKnownAction(action) then
         return
     end
 
@@ -317,8 +358,11 @@ function Input.getAimY()
 end
 
 -- Возвращает action для клавиши.
+-- Проверка идёт в стабильном порядке, чтобы старые/случайные actions не перехватывали клавиши.
 function Input.keyToAction(key)
-    for action, keys in pairs(Input.keyBindings or {}) do
+    for _, action in ipairs(Input.actionOrder) do
+        local keys = Input.keyBindings[action]
+
         for _, bindingKey in ipairs(keys or {}) do
             if bindingKey == key then
                 return action

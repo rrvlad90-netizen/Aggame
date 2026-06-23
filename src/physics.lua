@@ -121,6 +121,7 @@ end
 -- Платформа остаётся единственным источником "земли" для player и actor-ов.
 -- ground не используется.
 -- solid-платформы дополнительно блокируют боковые границы.
+-- collisionEnabled=false полностью выключает collision платформы, но не скрывает её.
 function Physics.resolvePlatforms(level, entity)
     if not level or not entity or not entity.getHitbox then
         return false
@@ -156,65 +157,67 @@ function Physics.resolvePlatforms(level, entity)
     local bestCorrectedY = nil
 
     for _, platform in ipairs(level.platforms or {}) do
-        local platformBox = platform:getHitbox()
-        local platformTop = getPlatformTopAtEntity(platform, entity, platformBox)
+        if platform.collisionEnabled ~= false then
+            local platformBox = platform:getHitbox()
+            local platformTop = getPlatformTopAtEntity(platform, entity, platformBox)
 
-        local overlapsX = bbox.x < platformBox.x + platformBox.w
-            and platformBox.x < bbox.x + bbox.w
+            local overlapsX = bbox.x < platformBox.x + platformBox.w
+                and platformBox.x < bbox.x + bbox.w
 
-		local allowCloseSnap = true
+            local allowCloseSnap = true
 
-		if platform.slope then
-			allowCloseSnap = platform.slopeWalkOn == true
-				or entity.currentPlatform == platform
-		end
+            if platform.slope then
+                allowCloseSnap = platform.slopeWalkOn == true
+                    or entity.currentPlatform == platform
+            end
 
-		local crossedTop = crossedPlatformTop(
-			entity,
-			currentBottom,
-			platformTop,
-			allowCloseSnap
-		)
+            local crossedTop = crossedPlatformTop(
+                entity,
+                currentBottom,
+                platformTop,
+                allowCloseSnap
+            )
 
-		-- Если slopeWalkOn = false, то стоящий на земле entity
-		-- не должен "войти" на slope сбоку.
-		if platform.slope
-			and not platform.slopeWalkOn
-			and entity.onGround
-			and entity.currentPlatform ~= platform
-		then
-			crossedTop = false
-		end
+            -- Если slopeWalkOn = false, то стоящий на земле entity
+            -- не должен "войти" на slope сбоку.
+            if platform.slope
+                and not platform.slopeWalkOn
+                and entity.onGround
+                and entity.currentPlatform ~= platform
+            then
+                crossedTop = false
+            end
 
-		local canLand = overlapsX
-			and (
-				crossedTop
-				or canWalkOntoSlope(entity, platform, currentBottom, platformTop)
-			)
+            local canLand = overlapsX
+                and (
+                    crossedTop
+                    or canWalkOntoSlope(entity, platform, currentBottom, platformTop)
+                )
 
-        if canLand then
-            local correctedY = entity.y - (currentBottom - platformTop)
+            if canLand then
+                local correctedY = entity.y - (currentBottom - platformTop)
 
-            -- Меньший Y = поверхность выше.
-            if not bestPlatformTop or platformTop < bestPlatformTop then
-                bestPlatform = platform
-                bestPlatformTop = platformTop
-                bestCorrectedY = correctedY
+                -- Меньший Y = поверхность выше.
+                if not bestPlatformTop or platformTop < bestPlatformTop then
+                    bestPlatform = platform
+                    bestPlatformTop = platformTop
+                    bestCorrectedY = correctedY
+                end
             end
         end
     end
 
-	if bestPlatform then
-		landEntity(entity, bestCorrectedY)
+    if bestPlatform then
+        landEntity(entity, bestCorrectedY)
 
-		entity.currentPlatform = bestPlatform
+        entity.currentPlatform = bestPlatform
 
-		if bestPlatform.deltaX then
-			entity.x = entity.x + bestPlatform.deltaX
-		end
+        if bestPlatform.deltaX then
+            entity.x = entity.x + bestPlatform.deltaX
+        end
 
-		didLand = true
-	end
+        didLand = true
+    end
 
     bbox = entity:getHitbox()
 
@@ -222,7 +225,10 @@ function Physics.resolvePlatforms(level, entity)
     -- Slope-платформы здесь пропускаем: они работают как top-only поверхность,
     -- иначе прямоугольный bbox будет блокировать вход на склон сбоку.
     for _, platform in ipairs(level.platforms or {}) do
-        if platform.solid and not platform.slope then
+        if platform.collisionEnabled ~= false
+            and platform.solid
+            and not platform.slope
+        then
             local platformBox = platform:getHitbox()
 
             local overlaps = bbox.x < platformBox.x + platformBox.w
@@ -262,10 +268,10 @@ function Physics.resolvePlatforms(level, entity)
 
     local didClamp = clampEntityToLevelBounds(level, entity)
 
-	if not didLand then
-		entity.onGround = false
-		entity.currentPlatform = nil
-	end
+    if not didLand then
+        entity.onGround = false
+        entity.currentPlatform = nil
+    end
 
     return didLand or didBlock or didClamp
 end

@@ -86,8 +86,8 @@ return {
                     id = "explosion",
 
                     -- Старые impactOffsetX/Y.
-                    x = -32,
-                    y = -32
+                    x = 32,
+                    y = 32
                 }
             }
         }

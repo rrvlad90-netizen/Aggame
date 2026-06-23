@@ -75,9 +75,18 @@ pickup.shadowType = config.shadowType
     pickup.shadowY = 0
 
 ---------	
-	
-
     pickup.kind = config.kind or "health"
+	
+	-- Если true, pickup не подбирается касанием.
+    -- Его нужно активировать кнопкой Down рядом с игроком.
+    pickup.manualCollect = config.manualCollect == true
+        or config.manual_collect == true
+
+    -- Дополнительная зона подбора вокруг bbox.
+    -- 0 = только точное пересечение hitbox pickup/player.
+    pickup.collectRange = config.collectRange
+        or config.collect_range
+        or 0
 
     pickup.healAmount = config.healAmount
         or config.heal_amount
@@ -129,6 +138,68 @@ end
 -- Возвращает hitbox pickup-а.
 function Pickup:getHitbox()
     return Collision.localBoxToWorld(self, self.bbox)
+end
+
+-- Возвращает hitbox ручного подбора.
+-- collectRange расширяет обычный bbox pickup-а во все стороны.
+function Pickup:getCollectHitbox()
+    local box = self:getHitbox()
+    local range = self.collectRange or 0
+
+    if range <= 0 then
+        return box
+    end
+
+    return {
+        x = box.x - range,
+        y = box.y - range,
+        w = box.w + range * 2,
+        h = box.h + range * 2
+    }
+end
+
+-- Возвращает true, если pickup требует нажатия Down.
+function Pickup:requiresManualCollect()
+    return self.manualCollect == true
+end
+
+-- Возвращает true, если pickup можно подобрать автоматически касанием.
+function Pickup:canAutoCollect()
+    return self:canCollect()
+        and not self:requiresManualCollect()
+end
+
+-- Проверяет, может ли игрок вручную подобрать pickup.
+function Pickup:canManualCollect(player)
+    if not player or not player.getHitbox then
+        return false
+    end
+
+    if not self:canCollect() or not self:requiresManualCollect() then
+        return false
+    end
+
+    return Collision.intersects(
+        self:getCollectHitbox(),
+        player:getHitbox()
+    )
+end
+
+-- Возвращает дистанцию до игрока для выбора ближайшего pickup-а.
+function Pickup:getDistanceSquaredToPlayer(player)
+    local pickupBox = self:getHitbox()
+    local playerBox = player:getHitbox()
+
+    local pickupCenterX = pickupBox.x + pickupBox.w / 2
+    local pickupCenterY = pickupBox.y + pickupBox.h / 2
+
+    local playerCenterX = playerBox.x + playerBox.w / 2
+    local playerCenterY = playerBox.y + playerBox.h / 2
+
+    local dx = pickupCenterX - playerCenterX
+    local dy = pickupCenterY - playerCenterY
+
+    return dx * dx + dy * dy
 end
 
 -- Проверяет, можно ли подобрать pickup.

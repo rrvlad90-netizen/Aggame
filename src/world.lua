@@ -1048,6 +1048,56 @@ function World:updateEffects(dt)
     end
 end
 
+-- Ищет ближайший pickup, который можно подобрать вручную кнопкой Down.
+function World:findManualPickupForPlayer()
+    if not self.player then
+        return nil
+    end
+
+    local nearestPickup = nil
+    local nearestDistance = nil
+
+    for _, pickup in ipairs(self.pickups) do
+        if pickup.canManualCollect
+            and pickup:canManualCollect(self.player)
+        then
+            local distance = pickup.getDistanceSquaredToPlayer
+                and pickup:getDistanceSquaredToPlayer(self.player)
+                or 0
+
+            if not nearestDistance or distance < nearestDistance then
+                nearestDistance = distance
+                nearestPickup = pickup
+            end
+        end
+    end
+
+    return nearestPickup
+end
+
+-- Пробует подобрать ближайший manual pickup.
+-- Возвращает true только если pickup реально применился к игроку.
+function World:tryCollectManualPickup()
+    local player = self.player
+
+    if not player or player.dead then
+        return false
+    end
+
+    -- Ручной подбор только с земли, чтобы не конфликтовать со стрельбой вниз в воздухе.
+    if not player.onGround then
+        return false
+    end
+
+    local pickup = self:findManualPickupForPlayer()
+
+    if not pickup then
+        return false
+    end
+
+    return pickup:applyToPlayer(player)
+end
+
 -- Обновляет pickups и применяет подбор игроком.
 function World:updatePickups(dt)
     for index = #self.pickups, 1, -1 do
@@ -1055,8 +1105,8 @@ function World:updatePickups(dt)
 
         pickup:update(dt)
 
-        if self.player
-            and pickup:canCollect()
+		if self.player
+            and pickup:canAutoCollect()
             and Collision.intersects(pickup:getHitbox(), self.player:getHitbox())
         then
             pickup:applyToPlayer(self.player)

@@ -841,8 +841,24 @@ function Player:chooseShootAnimation(inputContext)
     end
 
 
--- Стрельба вниз в воздухе.
-    -- На земле down уже включает crouch, поэтому сюда попадём только в прыжке/падении.
+-- Диагональ вниз-вперёд в воздухе.
+    if down and forward and not self.onGround then
+        if self:isJumpingUp() and self:hasAnimation("shoot_diagonal_down_jump") then
+            return "shoot_diagonal_down_jump"
+        end
+
+        if self:isFalling() and self:hasAnimation("shoot_diagonal_down_fall") then
+            return "shoot_diagonal_down_fall"
+        end
+
+        if self:hasAnimation("shoot_diagonal_down_air") then
+            return "shoot_diagonal_down_air"
+        end
+
+        return nil
+    end
+
+    -- Стрельба строго вниз в воздухе.
     if down and not self.onGround then
         if self:isJumpingUp() and self:hasAnimation("shoot_down_jump") then
             return "shoot_down_jump"

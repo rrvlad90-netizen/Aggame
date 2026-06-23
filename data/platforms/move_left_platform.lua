@@ -11,7 +11,7 @@ return {
 
     image = nil,
 
-    solid = false,
+    solid = true,
 
     color = {
         0.5,

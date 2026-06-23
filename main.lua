@@ -1091,6 +1091,18 @@ local function updatePlayerInput()
     end
 
     local direction = Input.getMoveDirection()
+	
+	local downHeld = Input.isDown("down")
+
+    -- Если рядом manual pickup, кнопка Down сначала пробует подобрать его.
+    -- Если pickup не применился, Down дальше работает как обычное приседание/направление вниз.
+    if Input.wasPressed("down")
+        and game.world
+        and game.world.tryCollectManualPickup
+        and game.world:tryCollectManualPickup()
+    then
+        return
+    end
 
     player:setCrouchHeld(Input.isDown("down"))
 
