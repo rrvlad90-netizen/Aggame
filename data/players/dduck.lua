@@ -737,9 +737,9 @@ return {
         pain = {
             loop = false,
             lockInput = true,
-            frameDuration = 0.41,
+            frameDuration = 0.11,
             frames = {
-                "assets/players/dduck/dpain1.png",
+                --"assets/players/dduck/dpain1.png",
                 "assets/players/dduck/dpain1.png"
             }
         },

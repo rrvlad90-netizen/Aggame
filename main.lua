@@ -11,6 +11,8 @@ local Player = require("src.player")
 local Scene = require("src.scene")
 local Viewport = require("src.viewport")
 local PlayerSelect = require("src.player_select")
+-- Подключает сущности-лестницы и движение игрока по ним.
+require("src.ladder_system").install(Player, World, Level, Input)
 
 local game = {
     mode = "main_menu",

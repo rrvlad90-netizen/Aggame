@@ -263,7 +263,19 @@
 			solid = false,
 
 			color = {0.35, 0.25, 0.15}
-		}
+		},
+		-- Площадка над лестницей.
+        {
+            id = "wood_platform",
+
+            x = 620,
+            y = 220,
+
+            w = 220,
+            h = 24,
+
+            solid = false
+        },
     },
 	
 
@@ -342,68 +354,83 @@
 		
     },
 
-    effects = {},
-	
-	
-levelEnds = {
-    {
-        id = "activate_door_level1",
-        x = 100,
-        y = 555,
+effects = {},
 
-        layer = "middle",
-        alpha = 1,
-        -- alphf = 1, -- тоже будет работать как алиас
+    ladders = {
+        {
+            id = "ladder_floor_1",
 
-        activateIfTouch = true,
-        nextLevel = "level2",
+            x = 700,
+            y = 200,
 
-        canvas = {
             width = 48,
-            height = 80
-        },
+            height = 355,
 
-        offset = {
-            x = 24,
-            y = 80
-        },
+            climbSpeed = 120,
+            layer = "middle",
 
-        bbox = {
-            x = 0,
-            y = 0,
-            w = 48,
-            h = 80
+            -- Для проверки сделаем лестницу яркой.
+            color = {1, 0, 0, 1}
         }
     },
-    {
-        id = "door_level1",
-        x = 2000,
-        y = 555,
 
-        layer = "front",
-        alpha = 0.85,
+    levelEnds = {
+        {
+            id = "activate_door_level1",
+            x = 100,
+            y = 555,
 
-        activateIfTouch = false,
-        nextScene = "scenelevel2",
+            layer = "middle",
+            alpha = 1,
+            activateIfTouch = true,
+            nextLevel = "level2",
 
-        canvas = {
-            width = 48,
-            height = 80
+            canvas = {
+                width = 48,
+                height = 80
+            },
+
+            offset = {
+                x = 24,
+                y = 80
+            },
+
+            bbox = {
+                x = 0,
+                y = 0,
+                w = 48,
+                h = 80
+            }
         },
 
-        offset = {
-            x = 24,
-            y = 80
-        },
+        {
+            id = "door_level1",
+            x = 2000,
+            y = 555,
 
-        bbox = {
-            x = 0,
-            y = 0,
-            w = 48,
-            h = 80
+            layer = "front",
+            alpha = 0.85,
+            activateIfTouch = false,
+            nextScene = "scenelevel2",
+
+            canvas = {
+                width = 48,
+                height = 80
+            },
+
+            offset = {
+                x = 24,
+                y = 80
+            },
+
+            bbox = {
+                x = 0,
+                y = 0,
+                w = 48,
+                h = 80
+            },
+
+            image = nil
         }
-    },
-	
-        image = nil
     }
 }
