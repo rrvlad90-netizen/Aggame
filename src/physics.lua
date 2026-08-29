@@ -133,6 +133,48 @@ local function overlapsLandingX(entity, bbox, platformBox)
         and footX - footMargin < platformBox.x + platformBox.w
 end
 
+-- Возвращает платформы около текущей и предыдущей позиции entity.
+local function getPlatformCandidates(
+    level,
+    bbox,
+    previousBox
+)
+    if not level.getPlatformsNearRect then
+        return level.platforms or {}
+    end
+
+    -- Учитываем весь путь entity за текущий кадр.
+    local left = math.min(
+        bbox.x,
+        previousBox.x
+    )
+
+    local right = math.max(
+        bbox.x + bbox.w,
+        previousBox.x + previousBox.w
+    )
+
+    local top = math.min(
+        bbox.y,
+        previousBox.y
+    )
+
+    local bottom = math.max(
+        bbox.y + bbox.h,
+        previousBox.y + previousBox.h
+    )
+
+    return level:getPlatformsNearRect(
+        {
+            x = left,
+            y = top,
+            w = right - left,
+            h = bottom - top
+        },
+        8
+    )
+end
+
 -- Обрабатывает столкновение entity с платформами уровня.
 -- Платформа остаётся единственным источником "земли" для player и actor-ов.
 -- ground не используется.
@@ -160,6 +202,13 @@ function Physics.resolvePlatforms(level, entity)
         w = bbox.w,
         h = bbox.h
     }
+	
+	-- Используем только платформы из секций, пересечённых entity.
+    local platforms = getPlatformCandidates(
+        level,
+        bbox,
+        previousBox
+    )
 
     local currentBottom = bbox.y + bbox.h
     local didLand = false
@@ -172,7 +221,7 @@ function Physics.resolvePlatforms(level, entity)
     local bestPlatformTop = nil
     local bestCorrectedY = nil
 
-for _, platform in ipairs(level.platforms or {}) do
+for _, platform in ipairs(platforms) do
         if platform.collisionEnabled ~= false then
             local platformBox = platform:getHitbox()
             local platformTop = getPlatformTopAtEntity(platform, entity, platformBox)
@@ -255,7 +304,7 @@ for _, platform in ipairs(level.platforms or {}) do
     -- Затем обрабатываем боковые/нижние столкновения только для solid-платформ.
     -- Slope-платформы здесь пропускаем: они работают как top-only поверхность,
     -- иначе прямоугольный bbox будет блокировать вход на склон сбоку.
-    for _, platform in ipairs(level.platforms or {}) do
+    for _, platform in ipairs(platforms) do
         if platform.collisionEnabled ~= false
             and platform.solid
             and not platform.slope

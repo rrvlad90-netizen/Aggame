@@ -8,6 +8,7 @@ local Assets = require("src.assets")
 local Physics = require("src.physics")
 local Shadow = require("src.shadow")
 local Debug = require("src.debug")
+local SpatialGrid = require("src.spatial_grid")
 
 local World = {}
 World.__index = World
@@ -24,6 +25,9 @@ function World:new(level, player)
     world.projectiles = {}
     world.effects = {}
     world.pickups = {}
+	
+-- Индекс содержит активных actor-ов по секциям уровня.
+    world.actorSpatialGrid = SpatialGrid:new(256)	
 
     world.camera = {
         x = 0,
@@ -66,6 +70,28 @@ function World:addLevelObjects()
     for _, effect in ipairs(self.level.effects or {}) do
         table.insert(self.effects, effect)
     end
+end
+
+-- Перестраивает индекс активных actor-ов.
+function World:rebuildActorSpatialGrid()
+    self.actorSpatialGrid:rebuild(
+        self.actors,
+        function(actor)
+            return actor:getHitbox()
+        end
+    )
+end
+
+-- Возвращает actor-ов из ближайших горизонтальных секций.
+function World:getActorsNearRect(rect, padding)
+    if not self.actorSpatialGrid then
+        return self.actors or {}
+    end
+
+    return self.actorSpatialGrid:query(
+        rect,
+        padding or 8
+    )
 end
 
 -- Останавливает музыку текущего мира.
@@ -200,7 +226,7 @@ function World:applyDamageHitbox(owner, hitbox, damageInfo)
         self.player:takeDamage(damageInfo)
     end
 
-    for _, actor in ipairs(self.actors) do
+for _, actor in ipairs(self:getActorsNearRect(hitbox, 8)) do
         if actor ~= owner
             and Targeting.canDamage(damageInfo.damageTargets, actor)
             and Collision.intersects(hitbox, actor:getHitbox())
@@ -316,17 +342,27 @@ function World:resolveEntityAgainstSolidObstacle(entity, obstacle)
     return true
 end
 
--- Не даёт entity проходить сквозь solid actor-ов.
+-- Не даёт entity проходить сквозь ближайших solid actor-ов.
 function World:resolveSolidActorCollisions(entity)
     if not entity then
         return false
     end
 
     local didResolve = false
+    local entityBox = entity.getHitbox
+        and entity:getHitbox()
+        or nil
 
-    for _, actor in ipairs(self.actors or {}) do
+    local actors = entityBox
+        and self:getActorsNearRect(entityBox, 16)
+        or self.actors
+
+    for _, actor in ipairs(actors or {}) do
         if actor.solid then
-            if self:resolveEntityAgainstSolidObstacle(entity, actor) then
+            if self:resolveEntityAgainstSolidObstacle(
+                entity,
+                actor
+            ) then
                 didResolve = true
             end
         end
@@ -350,6 +386,7 @@ end
 
 -- Проверяет projectile collisions с player/actors.
 -- После первого попадания projectile умирает, чтобы не наносить урон каждый кадр.
+-- Проверяет столкновение projectile с ближайшими целями.
 function World:resolveProjectileHits(projectile)
     if not projectile or not projectile.canDamage then
         return
@@ -366,8 +403,14 @@ function World:resolveProjectileHits(projectile)
     if collides.player ~= false
         and self.player
         and self.player ~= projectile.owner
-        and Targeting.canDamage(damageInfo.damageTargets, self.player)
-        and Collision.intersects(hitbox, self.player:getHitbox())
+        and Targeting.canDamage(
+            damageInfo.damageTargets,
+            self.player
+        )
+        and Collision.intersects(
+            hitbox,
+            self.player:getHitbox()
+        )
     then
         self.player:takeDamage(damageInfo)
         projectile:hit()
@@ -375,12 +418,22 @@ function World:resolveProjectileHits(projectile)
     end
 
     if collides.actors ~= false then
-        for _, actor in ipairs(self.actors) do
+        local actors = self:getActorsNearRect(
+            hitbox,
+            8
+        )
+
+        for _, actor in ipairs(actors) do
             if actor ~= projectile.owner
-                and Targeting.canDamage(damageInfo.damageTargets, actor)
-                and Collision.intersects(hitbox, actor:getHitbox())
+                and Targeting.canDamage(
+                    damageInfo.damageTargets,
+                    actor
+                )
+                and Collision.intersects(
+                    hitbox,
+                    actor:getHitbox()
+                )
             then
-		
                 actor:takeDamage(damageInfo)
                 projectile:hit()
                 return
@@ -427,7 +480,7 @@ function World:resolveActorContactDamage(actor)
 end
 
 
--- Проверяет damage от effects по игроку и actor-ам.
+-- Проверяет damage от effect по ближайшим целям.
 function World:resolveEffectDamage(effect)
     if not effect:canApplyDamage() then
         return
@@ -439,17 +492,34 @@ function World:resolveEffectDamage(effect)
 
     if self.player
         and self.player ~= effect.owner
-        and Targeting.canDamage(damageInfo.damageTargets, self.player)
-        and Collision.intersects(hitbox, self.player:getHitbox())
+        and Targeting.canDamage(
+            damageInfo.damageTargets,
+            self.player
+        )
+        and Collision.intersects(
+            hitbox,
+            self.player:getHitbox()
+        )
     then
         self.player:takeDamage(damageInfo)
         didDamage = true
     end
 
-    for _, actor in ipairs(self.actors) do
+    local actors = self:getActorsNearRect(
+        hitbox,
+        8
+    )
+
+    for _, actor in ipairs(actors) do
         if actor ~= effect.owner
-            and Targeting.canDamage(damageInfo.damageTargets, actor)
-            and Collision.intersects(hitbox, actor:getHitbox())
+            and Targeting.canDamage(
+                damageInfo.damageTargets,
+                actor
+            )
+            and Collision.intersects(
+                hitbox,
+                actor:getHitbox()
+            )
         then
             actor:takeDamage(damageInfo)
             didDamage = true
@@ -746,9 +816,15 @@ function World:updateHazardZone(zone, dt)
         self:applyHazardToEntity(zone, self.player)
     end
 
-    for _, actor in ipairs(self.actors or {}) do
-        self:applyHazardToEntity(zone, actor)
-    end
+	local zoneHitbox = zone:getHitbox()
+		local actors = self:getActorsNearRect(
+			zoneHitbox,
+			8
+		)
+
+		for _, actor in ipairs(actors) do
+			self:applyHazardToEntity(zone, actor)
+		end
 end
 
 -- Обрабатывает все hazard-zone decor-ы уровня.
@@ -1187,28 +1263,39 @@ function World:update(dt, levelEndActivatePressed)
         return
     end
 
-	for _, actor in ipairs(self.level:spawnPendingActors(self.player, self.camera)) do
-		table.insert(self.actors, actor)
-	end
+    for _, actor in ipairs(
+        self.level:spawnPendingActors(
+            self.player,
+            self.camera
+        )
+    ) do
+        table.insert(self.actors, actor)
+    end
 
     self.level:update(dt, self)
-	
-	self:updateCleanupZones()
-	
-	self:removeDeadDecors()
 
-	self:updatePlayer(dt)
-	self:updateCheckpoints(dt)
+    -- Индекс до обновления нужен игроку и actor-ам.
+    self:rebuildActorSpatialGrid()
+
+    self:removeDeadDecors()
+
+    self:updatePlayer(dt)
+    self:updateCheckpoints(dt)
     self:updateActors(dt)
+
+    -- Actor-ы переместились, поэтому обновляем индекс.
+    self:rebuildActorSpatialGrid()
+
     self:updateProjectiles(dt)
     self:updateEffects(dt)
     self:updatePickups(dt)
 
     self:updateHazardZones(dt)
+
+    -- Cleanup выполняется один раз после движения сущностей.
     self:updateCleanupZones()
 
     self:updateLevelEnd(levelEndActivatePressed)
-
     self:updateCamera(dt)
 end
 

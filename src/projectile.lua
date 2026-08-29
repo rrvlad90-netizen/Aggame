@@ -345,54 +345,74 @@ function Projectile:resolvePlatformCollision(level)
     end
 
     local hitbox = self:getHitbox()
+    local platforms = level.platforms or {}
 
-    for _, platform in ipairs(level.platforms or {}) do
+    -- При наличии индекса берём платформы только из ближайших секций.
+    if level.getPlatformsNearRect then
+        platforms = level:getPlatformsNearRect(
+            hitbox,
+            8
+        )
+    end
 
-        -- Главный фикс:
-        -- nonsolid-платформы нужны для движения игрока/визуала,
-        -- но projectile не должен в них врезаться.
-        if platform.solid == true then
+    for _, platform in ipairs(platforms) do
+        if platform.collisionEnabled ~= false
+            and platform.solid == true
+        then
             local platformBox = platform:getHitbox()
-			if platform.collisionEnabled ~= false
-				and platform.solid == true
-			then
-				if platform.slope then
-					local centerX = hitbox.x + hitbox.w / 2
 
-					local insideX = centerX >= platformBox.x
-						and centerX <= platformBox.x + platformBox.w
+            if platform.slope then
+                local centerX =
+                    hitbox.x + hitbox.w / 2
 
-					if insideX and platform.getWalkYAtX then
-						local slopeY = platform:getWalkYAtX(centerX)
-						local projectileBottomY = hitbox.y + hitbox.h
-						local projectileTopY = hitbox.y
+                local insideX =
+                    centerX >= platformBox.x
+                    and centerX
+                        <= platformBox.x
+                            + platformBox.w
 
-						local slopeBottomY = nil
+                if insideX
+                    and platform.getWalkYAtX
+                then
+                    local slopeY =
+                        platform:getWalkYAtX(centerX)
 
-						if platform.getSlopeBottomY then
-							slopeBottomY = platform:getSlopeBottomY()
-						else
-							slopeBottomY = platformBox.y + platformBox.h
-						end
+                    local projectileBottomY =
+                        hitbox.y + hitbox.h
 
-						-- Снаряд сталкивается со slope только если дошёл до линии склона,
-						-- а не просто попал в прямоугольный bbox slope-платформы.
-						if projectileBottomY >= slopeY
-							and projectileTopY <= slopeBottomY
-						then
-							self:die()
-							return true
-						end
-					end
-				else
-					if Collision.intersects(hitbox, platformBox) then
-						self:die()
-						return true
-					end
-				end
-			end
-		end
-  end
+                    local projectileTopY =
+                        hitbox.y
+
+                    local slopeBottomY = nil
+
+                    if platform.getSlopeBottomY then
+                        slopeBottomY =
+                            platform:getSlopeBottomY()
+                    else
+                        slopeBottomY =
+                            platformBox.y
+                            + platformBox.h
+                    end
+
+                    -- Столкновение происходит только у линии склона.
+                    if projectileBottomY >= slopeY
+                        and projectileTopY
+                            <= slopeBottomY
+                    then
+                        self:die()
+                        return true
+                    end
+                end
+            elseif Collision.intersects(
+                hitbox,
+                platformBox
+            ) then
+                self:die()
+                return true
+            end
+        end
+    end
+
     return false
 end
 

@@ -1,28 +1,27 @@
 local EntityFactory = require("src.entity_factory")
 local Config = require("src.config")
 local Render = require("src.render")
+local SpatialGrid = require("src.spatial_grid")
 
 local Level = {}
 Level.__index = Level
 
 -- Создаёт runtime-уровень из level definition.
--- Уровень хранит bounds, старт игрока и статичные объекты сцены.
 function Level:new(config)
     config = config or {}
 
     local level = setmetatable({}, Level)
 
     level.id = config.id or "level"
-	
-	-- Если указано, уровень сам выбирает player-а и не зависит от player_select.
+
     level.playerId = config.playerId
         or config.player_id
 
     level.music = config.music
-	
-	level.defeatScene = config.defeatScene --в лчае смерти игрока куда отправляем его.
-    or config.defeat_scene
-    or "game_over"
+
+    level.defeatScene = config.defeatScene
+        or config.defeat_scene
+        or "game_over"
 
     level.bounds = config.bounds or {
         left = 0,
@@ -40,27 +39,32 @@ function Level:new(config)
 
     level.backgrounds = config.backgrounds or {}
 
-    -- ground больше не создаётся по умолчанию.
-    -- Если уровню нужна земля, её надо делать через platforms.
+    -- Земля создаётся через platforms.
     level.ground = config.ground
-	
------Делает так что на уровне игрок не может вернуться назад	
-	level.oneSide = config.oneSide == true
+
+    -- Запрещает игроку возвращаться назад по уровню.
+    level.oneSide = config.oneSide == true
         or config.one_side == true
 
     level.oneSideBackMargin = config.oneSideBackMargin
         or config.one_side_back_margin
-        or 0	
-------
+        or 0
+
     level.pendingActors = {}
     level.platforms = {}
     level.pickups = {}
     level.decors = {}
     level.effects = {}
-	level.checkpoints = {}
+    level.checkpoints = {}
 
--- Старое поле оставляем для совместимости.
-    -- Новая логика работает через список levelEnds.
+    -- Индекс платформ перестраивается после движения платформ.
+    level.platformSpatialGrid = SpatialGrid:new(
+        config.spatialCellSize
+            or config.spatial_cell_size
+            or 256
+    )
+
+    -- Старое поле оставлено для совместимости.
     level.levelEnd = nil
     level.levelEnds = {}
 
@@ -68,12 +72,12 @@ function Level:new(config)
     level.failed = false
 
     level:createStaticObjects(config)
+    level:rebuildPlatformSpatialGrid()
 
     return level
 end
 
 -- Обновляет совместимый alias level.levelEnd.
--- Нужен, чтобы старый код/старые уровни не ломались.
 function Level:refreshLevelEndAlias()
     if self.levelEnds and #self.levelEnds > 0 then
         self.levelEnd = self.levelEnds[1]
@@ -93,7 +97,6 @@ function Level:addLevelEnd(levelEnd)
 end
 
 -- Создаёт один LevelEnd из config.
--- Поддерживает registry-формат с id и старый прямой config без id.
 function Level:createLevelEnd(levelEndConfig)
     if not levelEndConfig then
         return nil
@@ -108,13 +111,10 @@ function Level:createLevelEnd(levelEndConfig)
         )
     end
 
-    -- Старый формат без registry id оставляем для совместимости.
     return EntityFactory.createLevelEnd(levelEndConfig)
 end
 
-
--- Создаёт статичные объекты уровня:
--- actors, platforms, pickups, decors, effects и levelEnd.
+-- Создаёт статичные объекты уровня.
 function Level:createStaticObjects(config)
     for _, actorConfig in ipairs(config.actors or {}) do
         table.insert(self.pendingActors, actorConfig)
@@ -155,9 +155,8 @@ function Level:createStaticObjects(config)
             )
         )
     end
-	
-		
-	for _, checkpointConfig in ipairs(config.checkpoints or {}) do
+
+    for _, checkpointConfig in ipairs(config.checkpoints or {}) do
         table.insert(
             self.checkpoints,
             EntityFactory.createCheckpoint(
@@ -181,19 +180,24 @@ function Level:createStaticObjects(config)
         )
     end
 
-	-- Старый формат: один LevelEnd.
-		if config.levelEnd then
-			self:addLevelEnd(self:createLevelEnd(config.levelEnd))
-		end
+    -- Старый формат одного LevelEnd.
+    if config.levelEnd then
+        self:addLevelEnd(
+            self:createLevelEnd(config.levelEnd)
+        )
+    end
 
-		-- Новый формат: несколько LevelEnd на уровне.
-		-- Можно писать levelEnds или level_ends.
-		for _, levelEndConfig in ipairs(config.levelEnds or config.level_ends or {}) do
-			self:addLevelEnd(self:createLevelEnd(levelEndConfig))
-		end
+    -- Новый формат нескольких LevelEnd.
+    for _, levelEndConfig in ipairs(
+        config.levelEnds or config.level_ends or {}
+    ) do
+        self:addLevelEnd(
+            self:createLevelEnd(levelEndConfig)
+        )
+    end
 end
 
--- Возвращает true, если pending actor уже попадает в активную область камеры.
+-- Проверяет попадание pending actor в активную область камеры.
 function Level:shouldSpawnActorInCamera(actorConfig, camera)
     if not camera then
         return true
@@ -203,14 +207,18 @@ function Level:shouldSpawnActorInCamera(actorConfig, camera)
         or actorConfig.spawn_margin
         or 64
 
-    local screenWidth = Config.screen and Config.screen.width or 800
+    local screenWidth = Config.screen
+        and Config.screen.width
+        or 800
+
     local left = camera.x - spawnMargin
     local right = camera.x + screenWidth + spawnMargin
 
-    return actorConfig.x >= left and actorConfig.x <= right
+    return actorConfig.x >= left
+        and actorConfig.x <= right
 end
 
--- Возвращает true, если pending actor должен появиться рядом с игроком.
+-- Проверяет, должен ли pending actor появиться рядом с игроком.
 function Level:shouldSpawnActor(actorConfig, player, camera)
     if not player then
         return false
@@ -224,18 +232,24 @@ function Level:shouldSpawnActor(actorConfig, player, camera)
         return false
     end
 
-    return self:shouldSpawnActorInCamera(actorConfig, camera)
+    return self:shouldSpawnActorInCamera(
+        actorConfig,
+        camera
+    )
 end
 
--- Создаёт actor-ов, до которых игрок приблизился.
--- Возвращает список созданных actor-ов.
+-- Создаёт actor-ов, до которых приблизился игрок.
 function Level:spawnPendingActors(player, camera)
     local spawnedActors = {}
 
     for index = #self.pendingActors, 1, -1 do
         local actorConfig = self.pendingActors[index]
 
-        if self:shouldSpawnActor(actorConfig, player, camera) then
+        if self:shouldSpawnActor(
+            actorConfig,
+            player,
+            camera
+        ) then
             local actor = EntityFactory.createActor(
                 actorConfig.id,
                 actorConfig.x,
@@ -251,65 +265,102 @@ function Level:spawnPendingActors(player, camera)
     return spawnedActors
 end
 
--- Обновляет scroll offsets у background/front-background слоёв.
+-- Обновляет прокрутку фоновых слоёв.
 function Level:updateBackgrounds(dt)
-    for _, background in ipairs(self.backgrounds or {}) do
+    for _, background in ipairs(
+        self.backgrounds or {}
+    ) do
         Render.updateScroll(background, dt)
     end
 end
 
+-- Перестраивает индекс платформ.
+-- Это необходимо для движущихся и исчезающих платформ.
+function Level:rebuildPlatformSpatialGrid()
+    if not self.platformSpatialGrid then
+        return
+    end
+
+    self.platformSpatialGrid:rebuild(
+        self.platforms,
+        function(platform)
+            return platform:getHitbox()
+        end
+    )
+end
+
+-- Возвращает платформы из ближайших секций.
+function Level:getPlatformsNearRect(rect, padding)
+    if not self.platformSpatialGrid then
+        return self.platforms or {}
+    end
+
+    return self.platformSpatialGrid:query(
+        rect,
+        padding or 8
+    )
+end
+
 -- Обновляет runtime-объекты уровня.
 function Level:update(dt, world)
-	self:updateBackgrounds(dt)
+    self:updateBackgrounds(dt)
 
-	for index = #self.platforms, 1, -1 do
+    for index = #self.platforms, 1, -1 do
         local platform = self.platforms[index]
 
         platform:update(dt, world)
-----для исчезающих платформ
-        if platform.isRemovable and platform:isRemovable() then
+
+        if platform.isRemovable
+            and platform:isRemovable()
+        then
             table.remove(self.platforms, index)
         end
     end
+
+    -- Учитываем новые позиции движущихся платформ.
+    self:rebuildPlatformSpatialGrid()
 
     for _, pickup in ipairs(self.pickups) do
         pickup:update(dt)
     end
 
-	for _, decor in ipairs(self.decors) do
-		decor:update(dt, world)
-	end
+    for _, decor in ipairs(self.decors) do
+        decor:update(dt, world)
+    end
 
     for _, effect in ipairs(self.effects) do
         effect:update(dt, world)
     end
 
-	for _, levelEnd in ipairs(self.levelEnds or {}) do
+    for _, levelEnd in ipairs(
+        self.levelEnds or {}
+    ) do
         levelEnd:update(dt)
     end
 end
 
--- Возвращает активированный LevelEnd или nil.
--- Обычный LevelEnd срабатывает от касания.
--- Если у LevelEnd activateIfTouch=true, нужно стоять в hitbox и нажать action "up".
+-- Возвращает активированный LevelEnd.
 function Level:checkLevelEnd(player, activatePressed)
     if not player then
         return nil
     end
 
-    for _, levelEnd in ipairs(self.levelEnds or {}) do
+    for _, levelEnd in ipairs(
+        self.levelEnds or {}
+    ) do
         if levelEnd:canTrigger() then
-            local touchesLevelEnd = require("src.collision").intersects(
-                player:getHitbox(),
-                levelEnd:getHitbox()
-            )
+            local touchesLevelEnd =
+                require("src.collision").intersects(
+                    player:getHitbox(),
+                    levelEnd:getHitbox()
+                )
 
             if touchesLevelEnd then
                 if levelEnd.requiresActivation
                     and levelEnd:requiresActivation()
                     and not activatePressed
                 then
-                    -- Игрок касается двери, но ещё не нажал up.
+                    -- Ожидаем нажатия Up.
                 else
                     return levelEnd
                 end
