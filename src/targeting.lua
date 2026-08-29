@@ -1,42 +1,55 @@
 local Targeting = {}
 
--- Преобразует правило в набор значений.
--- Поддерживает:
--- "enemy"
--- {"enemy", "npc"}
--- { enemy = true, npc = true }
-function Targeting.toSet(rule)
-    local result = {}
+-- Кеширует преобразованные таблицы правил hates/damageTargets.
+-- Слабые ключи позволяют Lua удалить запись вместе с исходной таблицей.
+Targeting.ruleCache = setmetatable({}, {
+    __mode = "k"
+})
 
+-- Преобразует правило целей в set-таблицу.
+function Targeting.toSet(rule)
     if rule == nil then
-        return result
+        return {}
     end
 
     if rule == "all" then
-        result.all = true
-        return result
+        return {
+            all = true
+        }
     end
 
     if type(rule) == "string" then
-        result[rule] = true
-        return result
+        return {
+            [rule] = true
+        }
     end
 
-    if type(rule) == "table" then
-        for key, value in pairs(rule) do
-            if type(key) == "number" then
-                result[value] = true
-            elseif value == true then
-                result[key] = true
-            end
+    if type(rule) ~= "table" then
+        return {}
+    end
+
+    local cached = Targeting.ruleCache[rule]
+
+    if cached then
+        return cached
+    end
+
+    local result = {}
+
+    for key, value in pairs(rule) do
+        if type(key) == "number" then
+            result[value] = true
+        elseif value == true then
+            result[key] = true
         end
     end
+
+    Targeting.ruleCache[rule] = result
 
     return result
 end
 
--- Возвращает targetGroup entity.
--- Если targetGroup не указан, используем entityType.
+-- Возвращает targetGroup сущности.
 function Targeting.getGroup(entity)
     if not entity then
         return "unknown"
@@ -49,7 +62,7 @@ function Targeting.getGroup(entity)
         or "unknown"
 end
 
--- Проверяет, соответствует ли entity правилу targeting.
+-- Проверяет соответствие сущности правилу целей.
 function Targeting.matches(rule, entity)
     local set = Targeting.toSet(rule)
 
@@ -62,7 +75,7 @@ function Targeting.matches(rule, entity)
     return set[group] == true
 end
 
--- Проверяет, жива ли entity.
+-- Проверяет, жива ли сущность.
 function Targeting.isAlive(entity)
     if not entity then
         return false
@@ -79,7 +92,7 @@ function Targeting.isAlive(entity)
     return true
 end
 
--- Проверяет, может ли actor выбрать target как цель.
+-- Проверяет, может ли actor выбрать target своей целью.
 function Targeting.canTarget(actor, target)
     if actor == target then
         return false
@@ -95,12 +108,13 @@ function Targeting.canTarget(actor, target)
         return false
     end
 
-    return Targeting.matches(actor.hates, target)
+    return Targeting.matches(
+        actor.hates,
+        target
+    )
 end
 
--- Проверяет, может ли damageInfo повредить target.
--- hittable = false означает, что target вообще не ловит попадания:
--- projectile, melee и effects проходят сквозь него.
+-- Проверяет, может ли damageInfo нанести урон target.
 function Targeting.canDamage(damageTargets, target)
     if not Targeting.isAlive(target) then
         return false
@@ -110,46 +124,90 @@ function Targeting.canDamage(damageTargets, target)
         return false
     end
 
-    return Targeting.matches(damageTargets, target)
+    return Targeting.matches(
+        damageTargets,
+        target
+    )
 end
 
--- Возвращает центр entity по X.
+-- Возвращает центральную X-координату сущности.
 function Targeting.centerX(entity)
     return entity.x
 end
 
--- Возвращает центр entity по Y.
--- В нашей системе entity.x/entity.y — anchor-точка.
--- Для расстояния по Y этого достаточно.
+-- Возвращает центральную Y-координату сущности.
 function Targeting.centerY(entity)
     return entity.y
 end
 
--- Возвращает квадрат расстояния между двумя entity.
+-- Возвращает квадрат расстояния между сущностями.
+-- Используется в AI без дорогого вычисления квадратного корня.
 function Targeting.distanceSquared(a, b)
-    local dx = Targeting.centerX(a) - Targeting.centerX(b)
-    local dy = Targeting.centerY(a) - Targeting.centerY(b)
+    local dx =
+        Targeting.centerX(a)
+        - Targeting.centerX(b)
+
+    local dy =
+        Targeting.centerY(a)
+        - Targeting.centerY(b)
 
     return dx * dx + dy * dy
 end
 
--- Возвращает расстояние между двумя entity.
+-- Возвращает обычное расстояние между сущностями.
 function Targeting.distance(a, b)
-    return math.sqrt(Targeting.distanceSquared(a, b))
+    return math.sqrt(
+        Targeting.distanceSquared(a, b)
+    )
 end
 
--- Ищет ближайшую цель для actor среди списка targetGroups.
-function Targeting.findNearest(actor, targetGroups)
+-- Ищет ближайшую допустимую цель.
+-- maxDistance позволяет сразу исключить слишком далёкие цели.
+function Targeting.findNearest(
+    actor,
+    targetGroups,
+    maxDistance
+)
     local bestTarget = nil
-    local bestDistance = nil
+    local bestDistanceSquared = nil
+    local maxDistanceSquared = nil
 
-    for _, targets in pairs(targetGroups or {}) do
-        for _, target in ipairs(targets or {}) do
-            if Targeting.canTarget(actor, target) then
-                local distance = Targeting.distanceSquared(actor, target)
+    if maxDistance then
+        maxDistanceSquared =
+            maxDistance * maxDistance
+    end
 
-                if not bestDistance or distance < bestDistance then
-                    bestDistance = distance
+    for _, targets in pairs(
+        targetGroups or {}
+    ) do
+        for _, target in ipairs(
+            targets or {}
+        ) do
+            if Targeting.canTarget(
+                actor,
+                target
+            ) then
+                local distanceSquared =
+                    Targeting.distanceSquared(
+                        actor,
+                        target
+                    )
+
+                local insideRange =
+                    not maxDistanceSquared
+                    or distanceSquared
+                        <= maxDistanceSquared
+
+                if insideRange
+                    and (
+                        not bestDistanceSquared
+                        or distanceSquared
+                            < bestDistanceSquared
+                    )
+                then
+                    bestDistanceSquared =
+                        distanceSquared
+
                     bestTarget = target
                 end
             end

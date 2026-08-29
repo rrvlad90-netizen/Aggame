@@ -367,16 +367,15 @@ function Actor:canBeTargeted()
     return not self.dead
 end
 
--- Выбирает ближайшую цель через Targeting.
+-- Выбирает ближайшую цель внутри searchRange.
 function Actor:selectTarget(targetGroups)
-    local target = Targeting.findNearest(self, targetGroups)
+    local target = Targeting.findNearest(
+        self,
+        targetGroups,
+        self.searchRange
+    )
 
     if not target then
-        self.target = nil
-        return nil
-    end
-
-    if Targeting.distance(self, target) > self.searchRange then
         self.target = nil
         return nil
     end
@@ -384,6 +383,29 @@ function Actor:selectTarget(targetGroups)
     self.target = target
 
     return target
+end
+
+-- Возвращает потенциальные цели из ближайших секций мира.
+function Actor:getNearbyTargetGroups(world)
+    if not world then
+        return {}
+    end
+
+    local groups = {
+        player = world.player
+            and {world.player}
+            or {},
+        actors = world.actors or {}
+    }
+
+    if world.getActorsNearRect then
+        groups.actors = world:getActorsNearRect(
+            self:getHitbox(),
+            self.searchRange or 0
+        )
+    end
+
+    return groups
 end
 
 -- ФУНКЦИИ РАЗВОРОТА
@@ -805,12 +827,12 @@ function Actor:updateAi(dt, world)
 			return
 		end
 
-    local target = self:selectTarget(world and world:getTargetGroups() or {})
+    local target = self:selectTarget(self:getNearbyTargetGroups(world))
 
 -- Runner mode: actor всегда идёт только вперёд.
     -- Он не разворачивается за целью и не ждёт searchRange.
     if self.movementMode == "runner" then
-        local target = self:selectTarget(world and world:getTargetGroups() or {})
+        --local target = self:selectTarget(world and world:getTargetGroups() or {})
 
         if target then
             local animationName = self:chooseAttackAnimation(target)
@@ -895,24 +917,25 @@ end
 -- - атакует только если цель впереди и попадает в attackGroups;
 -- - если цель сзади, игнорирует её и продолжает движение.
 function Actor:updateRunnerAi(dt, world)
-    local target = self:selectTarget(world and world:getTargetGroups() or {})
+    local target = self:selectTarget(
+        self:getNearbyTargetGroups(world)
+    )
 
-    if target and self:isTargetInFront(target) then
+    if target
+        and self:isTargetInFront(target)
+    then
         if self:tryStartAttack(target) then
             return
         end
     end
 
-    self.vx = (self.facing or 1) * (self.speed or 0)
+    self.vx =
+        (self.facing or 1)
+        * (self.speed or 0)
+
     self.state = "walk"
     self.animationSet:set("walk")
 end
-
------------------------------------------
-
-
-
-
 
 -- Обновляет физику actor-а.
 function Actor:updatePhysics(dt)
