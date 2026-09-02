@@ -175,32 +175,16 @@ local function readSurfaceData(
     )
 
   assert(
-    surfaceEndOffset > 0,
-    'Invalid MD3 surface size: ' ..
+    frameCount > 0,
+    'MD3 surface has no frames: ' ..
     name
   )
 
-  -- Некоторые экспортёры добавляют
-  -- пустую служебную поверхность.
-  if
-    frameCount <= 0
-    or vertexCount <= 0
-    or triangleCount <= 0
-  then
-    print(string.format(
-      'MD3 "%s": empty surface skipped',
-      name
-    ))
-
-    return {
-      name = name,
-      empty = true,
-
-      nextSurfaceOffset =
-        surfaceOffset +
-        surfaceEndOffset
-    }
-  end
+  assert(
+    vertexCount > 0,
+    'MD3 surface has no vertices: ' ..
+    name
+  )
 
   local textureCoordinates = {}
 
@@ -400,20 +384,25 @@ local function createSurfaceVertices(
       ]
 
     vertices[expandedIndex] = {
+      -- VertexPosition.
       x,
       y,
       z,
 
+      -- VertexNormal.
       normalX,
       normalY,
       normalZ,
 
+      -- VertexUV.
       uv[1],
       uv[2],
 
+      -- VertexUV2.
       0,
       0,
 
+      -- VertexColor.
       1,
       1,
       1,
@@ -446,12 +435,9 @@ local function createSurfaceFrame(
     )
 
   mesh:setBoundingBox(
-    -10000,
-    10000,
-    -10000,
-    10000,
-    -10000,
-    10000
+    -10000, 10000,
+    -10000, 10000,
+    -10000, 10000
   )
 
   if surfaceData.material then
@@ -477,7 +463,8 @@ function Md3Loader.loadData(
   texturePaths =
     texturePaths or {}
 
-  zOffset = zOffset or 0
+  zOffset =
+    zOffset or 0
 
   local data, errorMessage =
     lovr.filesystem.read(
@@ -558,15 +545,14 @@ function Md3Loader.loadData(
         zOffset
       )
 
-    if not surface.empty then
-      result.surfaces[
-        #result.surfaces + 1
-      ] = surface
-    end
+    result.surfaces[
+      #result.surfaces + 1
+    ] = surface
 
     surfaceOffset =
       surface.nextSurfaceOffset
   end
+
 
   -- Проверяет номер кадра.
   function result:validateFrame(frame)
@@ -580,6 +566,7 @@ function Md3Loader.loadData(
       )
     )
   end
+
 
   -- Создаёт или возвращает
   -- общий закэшированный кадр.
@@ -612,10 +599,12 @@ function Md3Loader.loadData(
     return frameData
   end
 
+
   -- Заранее создаёт один кадр.
   function result:preloadFrame(frame)
     self:getFrame(frame)
   end
+
 
   -- Заранее создаёт диапазон кадров.
   function result:preloadFrames(
@@ -637,6 +626,7 @@ function Md3Loader.loadData(
     end
   end
 
+
   -- Возвращает число готовых кадров.
   function result:getCachedFrameCount()
     local count = 0
@@ -650,6 +640,7 @@ function Md3Loader.loadData(
     return count
   end
 
+
   -- Создаёт лёгкий экземпляр MD3.
   -- Mesh больше не создаётся для
   -- каждого отдельного монстра.
@@ -659,6 +650,7 @@ function Md3Loader.loadData(
       currentFrame = nil,
       currentFrameData = nil
     }
+
 
     -- Выбирает общий готовый кадр.
     function instance:setFrame(frame)
@@ -672,8 +664,10 @@ function Md3Loader.loadData(
       self.currentFrameData =
         self.data:getFrame(frame)
 
-      self.currentFrame = frame
+      self.currentFrame =
+        frame
     end
+
 
     -- Рисует поверхности
     -- выбранного общего кадра.
@@ -686,7 +680,7 @@ function Md3Loader.loadData(
       yaw,
       defaultMaterial,
       alpha,
-      tint
+	  tint
     )
       if not self.currentFrameData then
         return
@@ -698,13 +692,7 @@ function Md3Loader.loadData(
         drawAlpha = 1
       end
 
-      local drawTint =
-        tint or {
-          1,
-          1,
-          1,
-          1
-        }
+	  local drawTint = tint or { 1, 1, 1, 1 }
 
       for _, surface in ipairs(
         self.currentFrameData.surfaces
@@ -717,23 +705,20 @@ function Md3Loader.loadData(
           pass:setMaterial(
             surface.data.material
           )
+
         elseif defaultMaterial then
           pass:setMaterial(
             defaultMaterial
           )
         end
 
-        pass:setColor(
-          drawTint[1],
-          drawTint[2],
-          drawTint[3],
-
-          (
-            drawTint[4]
-            or 1
-          ) * drawAlpha
-        )
-
+		pass:setColor(
+		  drawTint[1],
+		  drawTint[2],
+		  drawTint[3],
+		  (drawTint[4] or 1) *
+			drawAlpha
+		)
         pass:draw(
           surface.mesh,
 
@@ -744,9 +729,7 @@ function Md3Loader.loadData(
           scale or 1,
 
           yaw or 0,
-          0,
-          1,
-          0
+          0, 1, 0
         )
       end
 
@@ -764,12 +747,14 @@ function Md3Loader.loadData(
       end
     end
 
+
     -- Нулевой кадр нужен как
     -- безопасное начальное состояние.
     instance:setFrame(0)
 
     return instance
   end
+
 
   return result
 end
