@@ -276,7 +276,7 @@ return {
   },
 
   enemyScript = {
-    duration = 60,
+    duration = 240,
 
     events = {
       {
@@ -292,7 +292,7 @@ return {
       },
 
       {
-        time = 6,
+        time = 12,
         action = 'recruit',
         building = 'enemy_barracks',
         slot = 'light_infantry',
@@ -300,7 +300,7 @@ return {
       },
 
       {
-        time = 15,
+        time = 30,
         action = 'recruit',
         building = 'enemy_barracks',
         slot = 'archer',
@@ -308,7 +308,7 @@ return {
       },
 
       {
-        time = 25,
+        time = 50,
         action = 'recruit',
         building = 'enemy_barracks',
         slot = 'cavalry',
@@ -316,7 +316,7 @@ return {
       },
 
       {
-        time = 36,
+        time = 72,
         action = 'recruit',
         building = 'enemy_barracks',
         slot = 'catapult',
@@ -324,7 +324,7 @@ return {
       },
 
       {
-        time = 48,
+        time = 96,
         action = 'recruit',
         building = 'enemy_barracks',
         slot = 'giant1',
@@ -332,7 +332,7 @@ return {
       },
 
       {
-        time = 55,
+        time = 220,
         action = 'recruit',
         building = 'enemy_altar',
         slot = 'dragon1',

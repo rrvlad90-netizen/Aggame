@@ -191,6 +191,34 @@ function Building:returnToPlatform()
 end
 
 
+-- Создаёт спрайтовый взрыв здания.
+function Building:spawnDeathEffect()
+  local effectY =
+    self.floorY +
+    math.max(
+      2,
+      self.radius * .5
+    )
+
+  self.system.battle:spawnProjectile(
+    'air_explosion',
+    {
+      team = self.team,
+      source = nil,
+
+      x = self.x,
+      y = effectY,
+      z = self.z,
+
+      target = nil,
+      targetX = self.x,
+      targetY = effectY,
+      targetZ = self.z
+    }
+  )
+end
+
+
 -- Уничтожает здание.
 function Building:destroy(context)
   if not self:isTargetable() then
@@ -198,6 +226,8 @@ function Building:destroy(context)
   end
 
   self.health = 0
+
+  self:spawnDeathEffect()
 
   if self.buildingType == 'altar' then
     self.state = 'destroyed'

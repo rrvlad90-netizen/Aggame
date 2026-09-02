@@ -277,7 +277,6 @@ end
 function Game:prepareBattleResources(
   modelIds
 )
-  -- Освобождает ссылки на предыдущий бой.
   self:clearSelection()
 
   self.battle = nil
@@ -312,8 +311,6 @@ function Game:prepareBattleResources(
     return
   end
 
-  -- Старый реестр становится недоступен,
-  -- и его модели освобождаются сборщиком.
   self.modelRegistry =
     ModelRegistry.new()
 
@@ -477,6 +474,16 @@ function Game:update(dt)
     return
   end
 
+  -- После уничтожения алтаря полностью
+  -- останавливает симуляцию и сценарий.
+  if
+    self.battle
+    and self.battle.winner
+  then
+    self.accumulator = 0
+    return
+  end
+
   self.accumulator =
     self.accumulator + dt
 
@@ -491,6 +498,11 @@ function Game:update(dt)
     self.accumulator =
       self.accumulator -
       Config.simulationStep
+
+    if self.battle.winner then
+      self.accumulator = 0
+      break
+    end
   end
 end
 
@@ -618,7 +630,6 @@ function Game:getGroundPoint(x, y)
     originZ +
     directionZ * distance
 end
-
 
 -- Назначает выбранному отряду маршрут.
 function Game:tryAssignSelectedRoute(
@@ -1224,38 +1235,6 @@ function Game:drawSelection(pass)
 end
 
 
--- Рисует результат боя.
-function Game:drawResult(pass)
-  if not self.battle.winner then
-    return
-  end
-
-  local text =
-    self.battle.winner ==
-      'allies'
-    and 'VICTORY'
-    or 'DEFEAT'
-
-  pass:setColor(
-    1,
-    .8,
-    .25
-  )
-
-  pass:text(
-    text,
-    0,
-    8,
-    0,
-    .85,
-    self.camera.yaw,
-    0,
-    1,
-    0
-  )
-end
-
-
 -- Рисует текущее количество золота.
 function Game:drawGold(pass)
   if not self.battle.economy then
@@ -1379,16 +1358,87 @@ function Game:drawRecruitmentPanel(
 end
 
 
--- Рисует интерфейс боя.
-function Game:drawBattleHud(pass)
-  if not self.battle.economy then
+-- Рисует результат боя на экране.
+function Game:drawResult(pass)
+  if not self.battle.winner then
     return
   end
+
+  local text =
+    self.battle.winner ==
+      'allies'
+    and 'VICTORY'
+    or 'DEFEAT'
+
+  self.theme:drawPanel(
+    pass,
+    self.ui,
+    440,
+    270,
+    400,
+    150,
+    1
+  )
+
+  self.ui:drawText(
+    pass,
+    text,
+    440,
+    285,
+    400,
+    80,
+    44,
+
+    self.battle.winner ==
+      'allies'
+    and {
+      .95,
+      .82,
+      .25,
+      1
+    }
+    or {
+      1,
+      .35,
+      .25,
+      1
+    },
+
+    -3.8
+  )
+
+  self.ui:drawText(
+    pass,
+    'PRESS ENTER',
+    440,
+    360,
+    400,
+    36,
+    20,
+
+    self.theme:getColor(
+      'mutedText'
+    ),
+
+    -3.8
+  )
+end
+
+
+-- Рисует интерфейс боя перед камерой.
+function Game:drawBattleHud(pass)
+  -- Возвращает экранную камеру, чтобы HUD
+  -- не оставался в центре игровой карты.
+  pass:setViewPose(
+    1,
+    lovr.math.newMat4()
+  )
 
   self.ui:begin(pass)
 
   self:drawGold(pass)
   self:drawRecruitmentPanel(pass)
+  self:drawResult(pass)
 
   pass:setColor(1, 1, 1, 1)
 end
@@ -1419,7 +1469,6 @@ function Game:draw(pass)
   )
 
   self:drawSelection(pass)
-  self:drawResult(pass)
 
   if self.paused then
     pass:setColor(

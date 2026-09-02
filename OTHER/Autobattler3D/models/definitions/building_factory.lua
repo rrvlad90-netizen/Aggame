@@ -70,7 +70,9 @@ function BuildingFactory.create(settings)
     id = settings.id,
     format = 'md3',
 
-    scale = settings.scale or 1,
+    scale =
+      (settings.scale or 1) * 3,
+
     yOffset = settings.yOffset or 0,
 
     rotationOffset =
@@ -82,7 +84,10 @@ function BuildingFactory.create(settings)
       type = 'circle',
 
       radius =
-        settings.colliderRadius or 3
+        (
+          settings.colliderRadius
+          or 3
+        ) * 2
     },
 
     sourceFrameBase = 1,

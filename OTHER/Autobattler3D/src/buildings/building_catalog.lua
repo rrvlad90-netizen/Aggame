@@ -11,7 +11,7 @@ BuildingCatalog.types = {
     buildTime = 0,
     buildDepth = 0,
 
-    colliderRadius = 4.5,
+    colliderRadius = 9,
 
     recruitOptions = {
       {
@@ -31,7 +31,7 @@ BuildingCatalog.types = {
     buildTime = 2.5,
     buildDepth = 7,
 
-    colliderRadius = 4,
+    colliderRadius = 8,
 
     recruitOptions = {
       {
@@ -77,13 +77,13 @@ BuildingCatalog.types = {
     buildTime = 2.2,
     buildDepth = 7,
 
-    colliderRadius = 3,
+    colliderRadius = 6,
 
     attack = {
       projectile = 'arrow',
       maximumDistance = 28,
       cooldown = 1,
-      spawnHeight = 5
+      spawnHeight = 15
     }
   }
 }

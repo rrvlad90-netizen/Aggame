@@ -2,7 +2,7 @@ return {
   id = 'orc_tower',
   format = 'multi_obj',
 
-  scale = .01,
+  scale = .03,
   yOffset = 0,
   rotationOffset = math.pi,
 
@@ -10,7 +10,7 @@ return {
 
   collider = {
     type = 'circle',
-    radius = 3
+    radius = 6
   },
 
   parts = {
