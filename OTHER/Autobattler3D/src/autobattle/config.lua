@@ -35,11 +35,11 @@ return {
   unit = {
     model = 'elfwarrior',
 
-	-- Радиус поиска ближайшего врага.
+    -- Радиус поиска ближайшего врага.
     sightDistance = 16,
 
-	-- Период обновления цели в тиках.
-	retargetTicks = 8,
+    -- Период обновления цели в тиках.
+    retargetTicks = 8,
 
     health = 200,
     damageMinimum = 20,
@@ -51,6 +51,17 @@ return {
 
     spearDamageMultiplier = 1,
     magicDamageMultiplier = 1
+  },
+
+  economy = {
+    startingGold = 1000,
+    incomeAmount = 25,
+    incomeInterval = 1
+  },
+
+  buildings = {
+    platformHeight = .08,
+    selectionPadding = 1
   },
 
   collision = {
@@ -70,7 +81,7 @@ return {
     ambientLight = .42,
     sunStrength = .75
   },
-  
+
   camera = {
     x = 0,
     y = 36,

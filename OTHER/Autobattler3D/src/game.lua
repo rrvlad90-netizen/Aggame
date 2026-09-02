@@ -22,6 +22,11 @@ local SideRegistry =
 local MapRegistry =
   require('src.maps.map_registry')
 
+local BuildingCatalog =
+  require(
+    'src.buildings.building_catalog'
+  )
+
 local Settings =
   require('src.core.settings')
 
@@ -43,7 +48,8 @@ Game.__index = Game
 
 -- Создаёт приложение.
 function Game.new()
-  local self = setmetatable({}, Game)
+  local self =
+    setmetatable({}, Game)
 
   self.settings = Settings.load()
 
@@ -53,9 +59,9 @@ function Game.new()
 
   self.modelRegistry =
     ModelRegistry.new()
-	
+
   self.loadedBattleModelKey = nil
-  
+
   self.unitRegistry =
     UnitRegistry.new()
 
@@ -79,7 +85,9 @@ function Game.new()
 
   self.field = nil
   self.battle = nil
+
   self.selectedSquad = nil
+  self.selectedBuilding = nil
 
   lovr.graphics.setBackgroundColor(
     .035,
@@ -112,12 +120,19 @@ function Game:saveSettings()
 end
 
 
+-- Снимает выделение объектов боя.
+function Game:clearSelection()
+  self.selectedSquad = nil
+  self.selectedBuilding = nil
+end
+
+
 -- Показывает главное меню.
 function Game:showMenu()
   self.state = 'menu'
   self.paused = false
-  self.selectedSquad = nil
 
+  self:clearSelection()
   self.camera:endRotation()
 
   self.screens:replace(
@@ -152,34 +167,119 @@ function Game:showSettings()
 end
 
 
+-- Добавляет уникальную модель в список.
+function Game:addBattleModelId(
+  ids,
+  known,
+  modelId
+)
+  if
+    not modelId
+    or known[modelId]
+  then
+    return
+  end
+
+  known[modelId] = true
+
+  ids[#ids + 1] =
+    modelId
+end
+
+
+-- Добавляет модели доступных войск здания.
+function Game:addRecruitModelIds(
+  ids,
+  known,
+  sideId,
+  buildingDefinition
+)
+  local options =
+    buildingDefinition
+      .recruitOptions
+    or {}
+
+  for _, option in ipairs(options) do
+    local unit =
+      self.sideRegistry:resolveUnit(
+        sideId,
+        option.slot
+      )
+
+    if unit then
+      self:addBattleModelId(
+        ids,
+        known,
+        unit.model
+      )
+    end
+  end
+end
+
+
 -- Собирает уникальные модели боя.
 function Game:getBattleModelIds(
   playerUnit,
-  enemyUnit
+  enemyUnit,
+  map,
+  playerSide,
+  enemySide
 )
   local ids = {}
   local known = {}
 
-  for _, definition in ipairs({
-    playerUnit,
-    enemyUnit
-  }) do
-    if not known[definition.model] then
-      known[definition.model] = true
-      ids[#ids + 1] =
-        definition.model
-    end
+  self:addBattleModelId(
+    ids,
+    known,
+    playerUnit.model
+  )
+
+  self:addBattleModelId(
+    ids,
+    known,
+    enemyUnit.model
+  )
+
+  for _, building in ipairs(
+    map.buildings or {}
+  ) do
+    local sideId =
+      building.side == 'player'
+      and playerSide
+      or enemySide
+
+    self:addBattleModelId(
+      ids,
+      known,
+
+      BuildingCatalog.getModel(
+        sideId,
+        building.type
+      )
+    )
+
+    self:addRecruitModelIds(
+      ids,
+      known,
+      sideId,
+
+      BuildingCatalog.get(
+        building.type
+      )
+    )
   end
 
   return ids
 end
+
 
 -- Подготавливает ресурсы нового боя.
 function Game:prepareBattleResources(
   modelIds
 )
   -- Освобождает ссылки на предыдущий бой.
-  self.selectedSquad = nil
+  self:clearSelection()
+
   self.battle = nil
   self.field = nil
   self.loadingQueue = nil
@@ -223,6 +323,7 @@ function Game:prepareBattleResources(
   collectgarbage('collect')
 end
 
+
 -- Начинает загрузку настроенного боя.
 function Game:startConfiguredBattle()
   local battleSettings =
@@ -257,34 +358,49 @@ function Game:startConfiguredBattle()
     map.squads.enemy.slot
   )
 
-local modelIds =
-  self:getBattleModelIds(
-    playerUnit,
-    enemyUnit
-  )
+  local modelIds =
+    self:getBattleModelIds(
+      playerUnit,
+      enemyUnit,
+      map,
+      battleSettings.playerSide,
+      battleSettings.enemySide
+    )
 
-self:prepareBattleResources(
-  modelIds
-)
+  self:prepareBattleResources(
+    modelIds
+  )
 
   self.pendingBattle = {
     map = map,
+
     playerUnitDefinition =
       playerUnit,
+
     enemyUnitDefinition =
-      enemyUnit
+      enemyUnit,
+
+    playerSide =
+      battleSettings.playerSide,
+
+    enemySide =
+      battleSettings.enemySide,
+
+    sideRegistry =
+      self.sideRegistry
   }
 
-self.loadingQueue =
-  self.modelRegistry:
-    createPreloadQueue(
-      modelIds
-    )
+  self.loadingQueue =
+    self.modelRegistry:
+      createPreloadQueue(
+        modelIds
+      )
 
   self.state = 'loading'
   self.paused = false
   self.accumulator = 0
-  self.selectedSquad = nil
+
+  self:clearSelection()
 
   if self.loadingQueue.finished then
     self:finishBattleLoading()
@@ -294,16 +410,17 @@ end
 
 -- Создаёт загруженное сражение.
 function Game:finishBattleLoading()
-  local options = self.pendingBattle
+  local options =
+    self.pendingBattle
 
-self.field =
+  self.field =
     Field.new(
       options.map.field,
       options.map.decors,
       self.modelRegistry,
       Config.lighting
     )
-	
+
   self.battle = Battle.new(
     Config,
     self.modelRegistry,
@@ -390,16 +507,23 @@ function Game:getScreenRay(x, y)
     1 - y / height * 2
 
   local aspect = width / height
+
   local tangent =
-    math.tan(math.rad(67) / 2)
+    math.tan(
+      math.rad(67) / 2
+    )
 
   local yaw = self.camera.yaw
   local pitch = self.camera.pitch
 
   local sineYaw = math.sin(yaw)
   local cosineYaw = math.cos(yaw)
-  local sinePitch = math.sin(pitch)
-  local cosinePitch = math.cos(pitch)
+
+  local sinePitch =
+    math.sin(pitch)
+
+  local cosinePitch =
+    math.cos(pitch)
 
   local forwardX =
     -sineYaw * cosinePitch
@@ -446,11 +570,12 @@ function Game:getScreenRay(x, y)
     normalizedY *
     tangent
 
-  local length = math.sqrt(
-    rayX * rayX +
-    rayY * rayY +
-    rayZ * rayZ
-  )
+  local length =
+    math.sqrt(
+      rayX * rayX +
+      rayY * rayY +
+      rayZ * rayZ
+    )
 
   return
     self.camera.x,
@@ -495,40 +620,52 @@ function Game:getGroundPoint(x, y)
 end
 
 
--- Выбирает отряд или назначает
--- выбранному отряду новый маршрут.
-function Game:selectSquadAt(
+-- Назначает выбранному отряду маршрут.
+function Game:tryAssignSelectedRoute(
   worldX,
   worldZ
 )
+  local squad = self.selectedSquad
+
   if
-    self.selectedSquad
-    and not self.selectedSquad:
-      isDefeated()
+    not squad
+    or squad:isDefeated()
   then
-    local routes =
-      self.battle.map.routes.player
-      or {}
+    return false
+  end
 
-    for _, route in ipairs(routes) do
-      local dx =
-        route.endpoint.x - worldX
+  local routes =
+    self.battle.map.routes.player
+    or {}
 
-      local dz =
-        route.endpoint.z - worldZ
+  for _, route in ipairs(routes) do
+    local dx =
+      route.endpoint.x - worldX
 
-      if dx * dx + dz * dz <= 9 then
-        self.selectedSquad:assignRoute(
-          route,
-          true
-        )
+    local dz =
+      route.endpoint.z - worldZ
 
-        return
-      end
+    if dx * dx + dz * dz <= 9 then
+      squad:assignRoute(
+        route,
+        true
+      )
+
+      return true
     end
   end
 
+  return false
+end
+
+
+-- Ищет союзный отряд под точкой.
+function Game:findSquadAt(
+  worldX,
+  worldZ
+)
   local nearest = nil
+
   local nearestDistanceSquared =
     2.5 * 2.5
 
@@ -566,8 +703,68 @@ function Game:selectSquadAt(
     end
   end
 
-  self.selectedSquad = nearest
+  return nearest
 end
+
+
+-- Обрабатывает выбор объекта мира.
+function Game:selectWorldAt(
+  worldX,
+  worldZ
+)
+  if self:tryAssignSelectedRoute(
+    worldX,
+    worldZ
+  ) then
+    return
+  end
+
+  local buildingSystem =
+    self.battle.buildingSystem
+
+  if buildingSystem then
+    local building =
+      buildingSystem:findAt(
+        worldX,
+        worldZ
+      )
+
+    if building then
+      self.selectedSquad = nil
+
+      if building.team == 'allies' then
+        self.selectedBuilding =
+          building
+
+        if building:isPlatform() then
+          buildingSystem:
+            startPlayerConstruction(
+              building
+            )
+        end
+      else
+        self.selectedBuilding = nil
+      end
+
+      return
+    end
+  end
+
+  local squad =
+    self:findSquadAt(
+      worldX,
+      worldZ
+    )
+
+  if squad then
+    self.selectedBuilding = nil
+    self.selectedSquad = squad
+    return
+  end
+
+  self:clearSelection()
+end
+
 
 -- Возвращает центр отряда.
 function Game:getSquadCenter(squad)
@@ -586,16 +783,22 @@ function Game:getSquadCenter(squad)
   end
 
   if count == 0 then
-    return squad.startX, squad.startZ
+    return
+      squad.startX,
+      squad.startZ
   end
 
-  return x / count, z / count
+  return
+    x / count,
+    z / count
 end
 
 
 -- Выбирает следующий союзный отряд.
 function Game:selectNextSquad()
   local allies = {}
+
+  self.selectedBuilding = nil
 
   for _, squad in ipairs(
     self.battle.squads
@@ -619,16 +822,100 @@ function Game:selectNextSquad()
     return
   end
 
-  for index, squad in ipairs(allies) do
+  for index, squad in ipairs(
+    allies
+  ) do
     if squad == self.selectedSquad then
       self.selectedSquad =
-        allies[index % #allies + 1]
+        allies[
+          index % #allies + 1
+        ]
 
       return
     end
   end
 
   self.selectedSquad = allies[1]
+end
+
+
+-- Возвращает границы кнопки найма.
+function Game:getRecruitButtonBounds(
+  index
+)
+  return
+    30 + (index - 1) * 78,
+    628,
+    64,
+    64
+end
+
+
+-- Проверяет попадание в прямоугольник.
+function Game:isPointInside(
+  x,
+  y,
+  left,
+  top,
+  width,
+  height
+)
+  return
+    x >= left
+    and x <= left + width
+    and y >= top
+    and y <= top + height
+end
+
+
+-- Обрабатывает нажатие панели найма.
+function Game:handleRecruitmentClick(
+  x,
+  y
+)
+  local building =
+    self.selectedBuilding
+
+  if
+    not building
+    or not building:isReady()
+  then
+    return false
+  end
+
+  local options =
+    building.definition
+      .recruitOptions
+    or {}
+
+  for index = 1, #options do
+    local left,
+      top,
+      width,
+      height =
+      self:getRecruitButtonBounds(
+        index
+      )
+
+    if self:isPointInside(
+      x,
+      y,
+      left,
+      top,
+      width,
+      height
+    ) then
+      self.battle.buildingSystem:
+        recruitPlayerSquad(
+          building,
+          index
+        )
+
+      return true
+    end
+  end
+
+  return false
 end
 
 
@@ -657,22 +944,32 @@ function Game:keypressed(key, isRepeat)
 
   if key == 'escape' then
     self:showMenu()
+
   elseif key == 'space' then
-    self.paused = not self.paused
+    self.paused =
+      not self.paused
+
   elseif key == 'tab' then
     self:selectNextSquad()
+
   elseif key == 'p' then
-  self.battle:fireDebugProjectile(
-    'fireball'
-  )
-elseif key == 'o' then
-  self.battle:fireDebugProjectile(
-    'arrow'
-  )
-elseif key == 'b' then
-  self.battle:fireDebugProjectile(
-    'bullet'
-  )
+    self.battle:
+      fireDebugProjectile(
+        'fireball'
+      )
+
+  elseif key == 'o' then
+    self.battle:
+      fireDebugProjectile(
+        'arrow'
+      )
+
+  elseif key == 'b' then
+    self.battle:
+      fireDebugProjectile(
+        'bullet'
+      )
+
   elseif
     key == 'return'
     and self.battle.winner
@@ -683,9 +980,14 @@ end
 
 
 -- Обрабатывает нажатие мыши.
-function Game:mousepressed(x, y, button)
+function Game:mousepressed(
+  x,
+  y,
+  button
+)
   if self.state == 'menu' then
-    local virtualX, virtualY =
+    local virtualX,
+      virtualY =
       self.ui:toVirtual(x, y)
 
     self.screens:dispatch(
@@ -707,24 +1009,45 @@ function Game:mousepressed(x, y, button)
     return
   end
 
-  if button == 1 then
-    local worldX, worldZ =
-      self:getGroundPoint(x, y)
+  if button ~= 1 then
+    return
+  end
 
-    if worldX then
-      self:selectSquadAt(
-        worldX,
-        worldZ
-      )
-    end
+  local virtualX,
+    virtualY =
+    self.ui:toVirtual(x, y)
+
+  if self:handleRecruitmentClick(
+    virtualX,
+    virtualY
+  ) then
+    return
+  end
+
+  local worldX,
+    worldZ =
+    self:getGroundPoint(x, y)
+
+  if worldX then
+    self:selectWorldAt(
+      worldX,
+      worldZ
+    )
+  else
+    self:clearSelection()
   end
 end
 
 
 -- Обрабатывает отпускание мыши.
-function Game:mousereleased(x, y, button)
+function Game:mousereleased(
+  x,
+  y,
+  button
+)
   if self.state == 'menu' then
-    local virtualX, virtualY =
+    local virtualX,
+      virtualY =
       self.ui:toVirtual(x, y)
 
     self.screens:dispatch(
@@ -744,9 +1067,15 @@ end
 
 
 -- Обрабатывает движение мыши.
-function Game:mousemoved(x, y, dx, dy)
+function Game:mousemoved(
+  x,
+  y,
+  dx,
+  dy
+)
   if self.state == 'menu' then
-    local virtualX, virtualY =
+    local virtualX,
+      virtualY =
       self.ui:toVirtual(x, y)
 
     self.screens:dispatch(
@@ -759,7 +1088,10 @@ function Game:mousemoved(x, y, dx, dy)
   end
 
   if self.state == 'playing' then
-    self.camera:mousemoved(dx, dy)
+    self.camera:mousemoved(
+      dx,
+      dy
+    )
   end
 end
 
@@ -789,8 +1121,11 @@ function Game:drawLoading(pass)
 
   self.ui:drawText(
     pass,
+
     'LOADING ' ..
-    math.floor(progress * 100) ..
+    math.floor(
+      progress * 100
+    ) ..
     '%',
 
     0,
@@ -798,7 +1133,11 @@ function Game:drawLoading(pass)
     self.ui.virtualWidth,
     80,
     36,
-    self.theme:getColor('text'),
+
+    self.theme:getColor(
+      'text'
+    ),
+
     -3.8
   )
 end
@@ -806,9 +1145,13 @@ end
 
 -- Рисует выделение и доступные маршруты.
 function Game:drawSelection(pass)
-  local squad = self.selectedSquad
+  local squad =
+    self.selectedSquad
 
-  if not squad or squad:isDefeated() then
+  if
+    not squad
+    or squad:isDefeated()
+  then
     return
   end
 
@@ -821,9 +1164,19 @@ function Game:drawSelection(pass)
       squad.currentRoute == route
 
     if selected then
-      pass:setColor(.2, 1, .35, .8)
+      pass:setColor(
+        .2,
+        1,
+        .35,
+        .8
+      )
     else
-      pass:setColor(1, .75, .15, .8)
+      pass:setColor(
+        1,
+        .75,
+        .15,
+        .8
+      )
     end
 
     pass:box(
@@ -842,14 +1195,23 @@ function Game:drawSelection(pass)
       route.endpoint.z,
       .25,
       self.camera.yaw,
-      0, 1, 0
+      0,
+      1,
+      0
     )
   end
 
   local x, z =
-    self:getSquadCenter(squad)
+    self:getSquadCenter(
+      squad
+    )
 
-  pass:setColor(.2, .65, 1, .3)
+  pass:setColor(
+    .2,
+    .65,
+    1,
+    .3
+  )
 
   pass:box(
     x,
@@ -869,19 +1231,166 @@ function Game:drawResult(pass)
   end
 
   local text =
-    self.battle.winner == 'allies'
+    self.battle.winner ==
+      'allies'
     and 'VICTORY'
     or 'DEFEAT'
 
-  pass:setColor(1, .8, .25)
+  pass:setColor(
+    1,
+    .8,
+    .25
+  )
 
   pass:text(
     text,
-    0, 8, 0,
+    0,
+    8,
+    0,
     .85,
     self.camera.yaw,
-    0, 1, 0
+    0,
+    1,
+    0
   )
+end
+
+
+-- Рисует текущее количество золота.
+function Game:drawGold(pass)
+  if not self.battle.economy then
+    return
+  end
+
+  self.theme:drawPanel(
+    pass,
+    self.ui,
+    20,
+    20,
+    200,
+    58,
+    1
+  )
+
+  self.ui:drawText(
+    pass,
+
+    'GOLD ' ..
+    self.battle.economy:
+      getGold(),
+
+    30,
+    25,
+    180,
+    48,
+    26,
+
+    self.theme:getColor(
+      'text'
+    ),
+
+    -3.8
+  )
+end
+
+
+-- Рисует панель найма.
+function Game:drawRecruitmentPanel(
+  pass
+)
+  local building =
+    self.selectedBuilding
+
+  if
+    not building
+    or not building:isReady()
+  then
+    return
+  end
+
+  local options =
+    building.definition
+      .recruitOptions
+    or {}
+
+  if #options == 0 then
+    return
+  end
+
+  self.theme:drawPanel(
+    pass,
+    self.ui,
+    20,
+    618,
+    #options * 78 + 20,
+    84,
+    1
+  )
+
+  for index, option in ipairs(
+    options
+  ) do
+    local x,
+      y,
+      width,
+      height =
+      self:getRecruitButtonBounds(
+        index
+      )
+
+    local affordable =
+      self.battle.economy:
+        canAfford(option.cost)
+
+    local state =
+      affordable
+      and 'normal'
+      or 'disabled'
+
+    self.theme:
+      drawButtonBackground(
+        pass,
+        self.ui,
+        state,
+        x,
+        y,
+        width,
+        height
+      )
+
+    self.ui:drawText(
+      pass,
+      option.mockup or index,
+      x,
+      y,
+      width,
+      height,
+      32,
+
+      affordable
+      and self.theme:
+        getColor('text')
+      or self.theme:
+        getColor('mutedText'),
+
+      -3.8
+    )
+  end
+end
+
+
+-- Рисует интерфейс боя.
+function Game:drawBattleHud(pass)
+  if not self.battle.economy then
+    return
+  end
+
+  self.ui:begin(pass)
+
+  self:drawGold(pass)
+  self:drawRecruitmentPanel(pass)
+
+  pass:setColor(1, 1, 1, 1)
 end
 
 
@@ -903,26 +1412,38 @@ function Game:draw(pass)
   pass:setCullMode('none')
 
   self.field:draw(pass)
+
+  self.battle:draw(
+    pass,
+    self.camera
+  )
+
   self:drawSelection(pass)
-self.battle:draw(
-  pass,
-  self.camera
-)
   self:drawResult(pass)
 
   if self.paused then
-    pass:setColor(1, .9, .3)
+    pass:setColor(
+      1,
+      .9,
+      .3
+    )
 
     pass:text(
       'PAUSED',
-      0, 10, 0,
+      0,
+      10,
+      0,
       .7,
       self.camera.yaw,
-      0, 1, 0
+      0,
+      1,
+      0
     )
   end
 
   pass:setColor(1, 1, 1, 1)
+
+  self:drawBattleHud(pass)
 end
 
 

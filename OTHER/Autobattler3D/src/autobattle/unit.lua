@@ -248,8 +248,22 @@ function Unit:getDistanceTo(target)
   local dx = target.x - self.x
   local dz = target.z - self.z
 
-  return math.sqrt(
-    dx * dx + dz * dz
+  local distance =
+    math.sqrt(
+      dx * dx + dz * dz
+    )
+
+  -- Для крупных зданий расстояние
+  -- считается до края основания.
+  if target.isBuilding then
+    distance =
+      distance -
+      (target.radius or 0)
+  end
+
+  return math.max(
+    0,
+    distance
   )
 end
 

@@ -4,6 +4,14 @@ local Squad =
 local SpatialGrid =
   require('src.autobattle.spatial_grid')
 
+local Economy =
+  require('src.economy.economy')
+
+local BuildingSystem =
+  require(
+    'src.buildings.building_system'
+  )
+
 local ProjectileRegistry =
   require(
     'src.projectiles.projectile_registry'
@@ -13,11 +21,11 @@ local ProjectileSystem =
   require(
     'src.projectiles.projectile_system'
   )
-  
+
 local ModelLighting =
   require(
     'src.graphics.model_lighting'
-  ) 
+  )
 
 local Battle = {}
 Battle.__index = Battle
@@ -38,6 +46,12 @@ function Battle.new(
   self.config = config
   self.modelRegistry = modelRegistry
   self.field = field
+
+  self.sideRegistry =
+    assert(
+      options.sideRegistry,
+      'Battle has no side registry'
+    )
 
   self.map =
     assert(
@@ -64,6 +78,9 @@ function Battle.new(
   self.units = {}
   self.winner = nil
 
+  self.economy = nil
+  self.buildingSystem = nil
+
   self.grid = SpatialGrid.new(
     config.collision.cellSize
   )
@@ -77,9 +94,37 @@ function Battle.new(
       self
     )
 
-self.modelLightingShader =
+  self.modelLightingShader =
     ModelLighting.new()
+
   self:createConfiguredBattle()
+
+  if self.map.buildings then
+    self.economy = Economy.new(
+      self.map.economy
+      or config.economy
+    )
+
+    self.buildingSystem =
+      BuildingSystem.new({
+        battle = self,
+        map = self.map,
+
+        modelRegistry =
+          self.modelRegistry,
+
+        sideRegistry =
+          self.sideRegistry,
+
+        economy = self.economy,
+
+        playerSide =
+          options.playerSide,
+
+        enemySide =
+          options.enemySide
+      })
+  end
 
   return self
 end
@@ -88,7 +133,9 @@ end
 -- Выделяет уникальный ID бойца.
 function Battle:allocateUnitId()
   local id = self.nextUnitId
-  self.nextUnitId = id + 1
+
+  self.nextUnitId =
+    self.nextUnitId + 1
 
   return id
 end
@@ -97,7 +144,9 @@ end
 -- Выделяет уникальный ID отряда.
 function Battle:allocateSquadId()
   local id = self.nextSquadId
-  self.nextSquadId = id + 1
+
+  self.nextSquadId =
+    self.nextSquadId + 1
 
   return id
 end
@@ -146,34 +195,38 @@ function Battle:addSquad(
 
     startX = squadSettings.x,
     startZ = squadSettings.z,
-	count =
-	  unitDefinition.squadSize
-	  or squadSettings.count,
+
+    count =
+      unitDefinition.squadSize
+      or squadSettings.count,
 
     route = route,
     unitDefinition = unitDefinition,
 
     battle = self,
     config = self.config,
+
     modelRegistry =
       self.modelRegistry
   })
 
-  self.squads[#self.squads + 1] =
-    squad
+  self.squads[
+    #self.squads + 1
+  ] = squad
 
   for _, unit in ipairs(
     squad.units
   ) do
-    self.units[#self.units + 1] =
-      unit
+    self.units[
+      #self.units + 1
+    ] = unit
   end
 
   return squad
 end
 
 
--- Создаёт все отряды карты.
+-- Создаёт все начальные отряды карты.
 function Battle:createConfiguredBattle()
   local squads = self.map.squads
 
@@ -219,7 +272,22 @@ function Battle:findNearestEnemy(
       end
     )
 
-  return enemy
+  -- Войска всегда имеют приоритет
+  -- перед вражескими зданиями.
+  if enemy then
+    return enemy
+  end
+
+  if self.buildingSystem then
+    return
+      self.buildingSystem:
+        findNearestEnemyBuilding(
+          unit,
+          radius
+        )
+  end
+
+  return nil
 end
 
 
@@ -244,22 +312,26 @@ function Battle:isDirectionClear(
         not clear
         or candidate == unit
         or candidate.team ~= unit.team
-        or not candidate:isSpatiallyActive()
+        or not candidate:
+          isSpatiallyActive()
       then
         return
       end
-	  
-	  	local unitFlying =
-		  unit.flyingBehavior ~= nil
 
-		local candidateFlying =
-		  candidate.flyingBehavior ~= nil
+      local unitFlying =
+        unit.flyingBehavior ~= nil
 
-		-- Наземные и воздушные юниты
-		-- не блокируют движение друг друга.
-		if unitFlying ~= candidateFlying then
-		  return
-		end
+      local candidateFlying =
+        candidate.flyingBehavior ~= nil
+
+      -- Наземные и воздушные юниты
+      -- не блокируют движение друг друга.
+      if
+        unitFlying ~=
+        candidateFlying
+      then
+        return
+      end
 
       local relativeX =
         candidate.x - unit.x
@@ -358,8 +430,8 @@ function Battle:chooseMovementDirection(
 end
 
 
--- Наносит радиусный урон.
-function Battle:damageRadius(
+-- Наносит радиусный урон бойцам.
+function Battle:damageUnitsInRadius(
   x,
   z,
   radius,
@@ -446,6 +518,110 @@ function Battle:damageRadius(
 end
 
 
+-- Наносит радиусный урон зданиям.
+function Battle:damageBuildingsInRadius(
+  x,
+  z,
+  radius,
+  attack,
+  sourceTeam,
+  source
+)
+  if not self.buildingSystem then
+    return
+  end
+
+  for _, building in ipairs(
+    self.buildingSystem.buildings
+  ) do
+    if
+      building ~= source
+      and building:isTargetable()
+      and (
+        attack.friendlyFire
+        or building.team ~= sourceTeam
+      )
+    then
+      local dx = building.x - x
+      local dz = building.z - z
+
+      local centerDistance =
+        math.sqrt(
+          dx * dx + dz * dz
+        )
+
+      local distance =
+        math.max(
+          0,
+          centerDistance -
+            building.radius
+        )
+
+      if distance <= radius then
+        local damage =
+          math.random(
+            attack.damageMinimum,
+            attack.damageMaximum
+          )
+
+        if
+          attack.damageFalloff ==
+            'linear'
+          and radius > 0
+        then
+          damage =
+            damage *
+            math.max(
+              0,
+              1 - distance / radius
+            )
+        end
+
+        building:takeDamage(
+          damage,
+          attack.damageType,
+          {
+            source = source,
+            x = x,
+            z = z,
+            radiusAttack = true
+          }
+        )
+      end
+    end
+  end
+end
+
+
+-- Наносит радиусный урон.
+function Battle:damageRadius(
+  x,
+  z,
+  radius,
+  attack,
+  sourceTeam,
+  source
+)
+  self:damageUnitsInRadius(
+    x,
+    z,
+    radius,
+    attack,
+    sourceTeam,
+    source
+  )
+
+  self:damageBuildingsInRadius(
+    x,
+    z,
+    radius,
+    attack,
+    sourceTeam,
+    source
+  )
+end
+
+
 -- Создаёт снаряд.
 function Battle:spawnProjectile(
   projectileId,
@@ -477,16 +653,19 @@ function Battle:spawnProjectile(
         getHeight()
   end
 
-  return self.projectileSystem:spawn(
-    projectileId,
-    settings
-  )
+  return
+    self.projectileSystem:spawn(
+      projectileId,
+      settings
+    )
 end
 
 
 -- Ищет первого живого бойца стороны.
 function Battle:findFirstLivingUnit(team)
-  for _, unit in ipairs(self.units) do
+  for _, unit in ipairs(
+    self.units
+  ) do
     if
       unit.team == team
       and unit:isTargetable()
@@ -555,20 +734,21 @@ function Battle:separateUnits(
 )
   if
     not first:isSpatiallyActive()
-    or not second:isSpatiallyActive()
+    or not second:
+      isSpatiallyActive()
   then
     return
   end
 
-	local firstFlying =
-	  first.flyingBehavior ~= nil
+  local firstFlying =
+    first.flyingBehavior ~= nil
 
-	local secondFlying =
-	  second.flyingBehavior ~= nil
+  local secondFlying =
+    second.flyingBehavior ~= nil
 
-	if firstFlying ~= secondFlying then
-	  return
-	end
+  if firstFlying ~= secondFlying then
+    return
+  end
 
   local dx = second.x - first.x
   local dz = second.z - first.z
@@ -680,7 +860,9 @@ end
 
 -- Выполняет один проход столкновений.
 function Battle:resolveCollisionPass()
-  for _, first in ipairs(self.units) do
+  for _, first in ipairs(
+    self.units
+  ) do
     if first:isSpatiallyActive() then
       self.grid:forEachNearby(
         first.x,
@@ -703,11 +885,18 @@ end
 
 -- Удаляет законченные сущности.
 function Battle:removeFinishedUnits()
-  for index = #self.units, 1, -1 do
+  for index =
+    #self.units,
+    1,
+    -1
+  do
     local unit = self.units[index]
 
     if unit.removed then
-      table.remove(self.units, index)
+      table.remove(
+        self.units,
+        index
+      )
 
       for squadIndex =
         #unit.squad.units,
@@ -715,8 +904,9 @@ function Battle:removeFinishedUnits()
         -1
       do
         if
-          unit.squad.units[squadIndex]
-          == unit
+          unit.squad.units[
+            squadIndex
+          ] == unit
         then
           table.remove(
             unit.squad.units,
@@ -757,6 +947,15 @@ function Battle:checkWinner()
     return
   end
 
+  -- На карте крепостей победитель
+  -- определяется только разрушением алтаря.
+  if
+    self.map.victoryCondition ==
+      'altar'
+  then
+    return
+  end
+
   if self:isTeamDefeated(
     'enemies'
   ) then
@@ -771,6 +970,18 @@ end
 
 -- Выполняет фиксированный шаг.
 function Battle:update(dt)
+  if self.winner then
+    return
+  end
+
+  if self.economy then
+    self.economy:update(dt)
+  end
+
+  if self.buildingSystem then
+    self.buildingSystem:update(dt)
+  end
+
   for _, squad in ipairs(
     self.squads
   ) do
@@ -783,7 +994,9 @@ function Battle:update(dt)
     unit:beginSimulationStep()
   end
 
-  self.grid:rebuild(self.units)
+  self.grid:rebuild(
+    self.units
+  )
 
   for _, unit in ipairs(
     self.units
@@ -791,29 +1004,43 @@ function Battle:update(dt)
     unit:update(dt)
   end
 
-	-- Неподвижные декорации
-	-- выталкивают наземных бойцов.
-	for _, unit in ipairs(
-	  self.units
-	) do
-	  if unit:isSpatiallyActive() then
-		self.field:
-		  resolveUnitCollisions(unit)
+  -- Неподвижные объекты выталкивают
+  -- наземных бойцов.
+  for _, unit in ipairs(
+    self.units
+  ) do
+    if unit:isSpatiallyActive() then
+      self.field:
+        resolveUnitCollisions(
+          unit
+        )
 
-		unit:syncEntity()
-	  end
-	end
+      if self.buildingSystem then
+        self.buildingSystem:
+          resolveBuildingCollisions(
+            unit
+          )
+      end
+
+      unit:syncEntity()
+    end
+  end
 
   for iteration = 1,
     self.config.collision.iterations
   do
-    self.grid:rebuild(self.units)
+    self.grid:rebuild(
+      self.units
+    )
+
     self:resolveCollisionPass()
   end
 
   -- Перестраивает сетку перед
   -- возможным радиусным попаданием.
-  self.grid:rebuild(self.units)
+  self.grid:rebuild(
+    self.units
+  )
 
   self.projectileSystem:update(dt)
 
@@ -828,7 +1055,7 @@ function Battle:update(dt)
 end
 
 
--- Рисует бойцов и снаряды.
+-- Рисует бойцов, здания и снаряды.
 function Battle:draw(pass, camera)
   local lighting =
     self.config.lighting
@@ -872,6 +1099,16 @@ function Battle:draw(pass, camera)
     )
   end
 
+  if self.buildingSystem then
+    self.buildingSystem:draw(
+      pass,
+      camera,
+      applyLighting
+    )
+  end
+
+  -- Освещение назначается заново
+  -- перед каждым юнитом.
   for _, unit in ipairs(
     self.units
   ) do
