@@ -30,7 +30,11 @@ ground = {
 },
   squads = {
     player = {
-      slot = 'dragon1',
+      slot = 'light_infantry',
+	    --slot = 'dragon1',
+	    --slot = 'light_infantry',
+		--slot = 'catapult
+		--slot = 'giant1',
 
       groups = {
         {
@@ -60,7 +64,7 @@ ground = {
     },
 
     enemy = {
-		slot = 'light_infantry',
+		slot = 'giant1',
         --slot = 'dragon1',
 	    --slot = 'light_infantry',
 		--slot = 'catapult

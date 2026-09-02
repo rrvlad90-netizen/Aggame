@@ -177,71 +177,79 @@ function ModelRegistry:loadMd3Asset(
   end
 
 
-  -- Загружает постоянные данные набора.
-  function asset:getModelSetData(
-    modelSetId
-  )
-    if self.modelSetData[modelSetId] then
-      return self.modelSetData[
-        modelSetId
-      ]
-    end
+-- Загружает постоянные данные набора.
+function asset:getModelSetData(
+  modelSetId
+)
+  if self.modelSetData[modelSetId] then
+    return self.modelSetData[
+      modelSetId
+    ]
+  end
 
-    local modelSet =
-      assert(
-        definition.modelSets
-        and definition.modelSets[
-          modelSetId
-        ],
-        'Unknown MD3 model set: ' ..
-        tostring(modelSetId)
-      )
-
-    local parts =
-      assert(
-        modelSet.parts,
-        'MD3 model set has no parts'
-      )
-
+  local modelSet =
     assert(
-      #parts >= 1
-      and #parts <= 8,
-      'MD3 model set must contain 1-8 parts'
+      definition.modelSets
+      and definition.modelSets[
+        modelSetId
+      ],
+      'Unknown MD3 model set: ' ..
+      tostring(modelSetId)
     )
 
-    local modelSetData = {
-      id = modelSetId,
-      parts = {}
+  local parts =
+    assert(
+      modelSet.parts,
+      'MD3 model set has no parts'
+    )
+
+  assert(
+    #parts >= 1
+    and #parts <= 8,
+    'MD3 model set must contain 1-8 parts'
+  )
+
+  local modelSetData = {
+    id = modelSetId,
+    parts = {}
+  }
+
+  for _, part in ipairs(parts) do
+    local partPath =
+      assert(
+        part.path,
+        'MD3 part has no path'
+      )
+
+    print(
+      'Loading MD3: ' ..
+      tostring(partPath)
+    )
+
+    modelSetData.parts[
+      #modelSetData.parts + 1
+    ] = {
+      frameOffset =
+        part.frameOffset or 0,
+
+      data =
+        Md3Loader.loadData(
+          partPath,
+
+          part.textures
+            or part.texture
+            or {},
+
+          part.zOffset or 0
+        )
     }
-
-    for _, part in ipairs(parts) do
-      modelSetData.parts[
-        #modelSetData.parts + 1
-      ] = {
-        frameOffset =
-          part.frameOffset or 0,
-
-        data =
-          Md3Loader.loadData(
-            assert(
-              part.path,
-              'MD3 part has no path'
-            ),
-
-            part.textures
-              or part.texture
-              or {},
-
-            part.zOffset or 0
-          )
-      }
-    end
-
-    self.modelSetData[modelSetId] =
-      modelSetData
-
-    return modelSetData
   end
+
+  self.modelSetData[modelSetId] =
+    modelSetData
+
+  return modelSetData
+end
 
 
   -- Преобразует кадр описания
@@ -456,7 +464,21 @@ function ModelRegistry:loadAsset(modelId)
 
   elseif
     definition.format ==
-    'grouped_obj'
+      'multi_obj'
+  then
+    local MultiObjLoader =
+      require(
+        'src.assets.multi_obj_loader'
+      )
+
+    asset =
+      MultiObjLoader.load(
+        definition
+      )
+
+  elseif
+    definition.format ==
+      'grouped_obj'
   then
     asset =
       self:loadGroupedObjAsset(

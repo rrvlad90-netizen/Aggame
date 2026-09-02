@@ -70,7 +70,7 @@ return {
   },
 
   lighting = {
-    enabled = true,
+    enabled = false,--!!!!
 
     sunDirection = {
       -.45,
