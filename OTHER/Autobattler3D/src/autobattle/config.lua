@@ -41,6 +41,9 @@ return {
     -- Период обновления цели в тиках.
     retargetTicks = 8,
 
+    -- Время существования оставшегося трупа.
+    corpseLifetime = 60,
+
     health = 200,
     damageMinimum = 20,
     damageMaximum = 30,
@@ -70,7 +73,7 @@ return {
   },
 
   lighting = {
-    enabled = false,--!!!!
+    enabled = false,
 
     sunDirection = {
       -.45,

@@ -105,6 +105,18 @@ function Unit.new(settings)
       mode = 'never',
       stayChance = 0
     }
+	
+  local defaultCorpseLifetime =
+    self.battle.config.unit
+    and self.battle.config.unit
+      .corpseLifetime
+    or 60
+
+  self.corpseLifetime =
+    self.corpseDefinition.lifetime
+    or defaultCorpseLifetime
+
+  self.corpseTime = 0	
 
   self.corpseResolved = false
 
@@ -1218,9 +1230,27 @@ function Unit:resolveCorpse()
 
   if shouldStay then
     self.state = 'corpse'
+    self.corpseTime = 0
   else
     self.removed = true
   end
+end
+
+
+-- Обновляет оставшийся труп.
+function Unit:updateCorpse(dt)
+  self.corpseTime =
+    self.corpseTime + dt
+
+  if
+    self.corpseTime >=
+    self.corpseLifetime
+  then
+    self.removed = true
+    return
+  end
+
+  self:syncEntity()
 end
 
 
@@ -1607,8 +1637,8 @@ function Unit:update(dt)
     return
   end
 
-  if self.state == 'corpse' then
-    self:syncEntity()
+ if self.state == 'corpse' then
+    self:updateCorpse(dt)
     return
   end
 

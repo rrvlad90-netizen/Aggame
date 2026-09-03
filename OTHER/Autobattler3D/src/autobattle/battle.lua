@@ -970,7 +970,10 @@ end
 
 -- Выполняет фиксированный шаг.
 function Battle:update(dt)
+  -- После уничтожения алтаря обновляет
+  -- только оставшиеся визуальные эффекты.
   if self.winner then
+    self.projectileSystem:update(dt)
     return
   end
 

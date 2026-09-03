@@ -448,6 +448,48 @@ function Game:updateLoading()
   end
 end
 
+-- Обновляет приложение.
+function Game:update(dt)
+  self.ui:updateWindowSize()
+
+  if self.state == 'menu' then
+    self.screens:update(dt)
+    return
+  end
+
+  if self.state == 'loading' then
+    self:updateLoading()
+    return
+  end
+
+  dt = math.min(
+    dt,
+    Config.maximumFrameDelta
+  )
+
+  self.camera:update(dt)
+
+  if self.paused then
+    return
+  end
+
+  self.accumulator =
+    self.accumulator + dt
+
+  while
+    self.accumulator >=
+    Config.simulationStep
+  do
+    self.battle:update(
+      Config.simulationStep
+    )
+
+    self.accumulator =
+      self.accumulator -
+      Config.simulationStep
+  end
+end
+
 
 -- Обновляет приложение.
 function Game:update(dt)

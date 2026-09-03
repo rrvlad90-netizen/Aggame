@@ -110,6 +110,12 @@ end
 
 -- Подготавливает проход к рисованию UI.
 function UiContext:begin(pass)
+  -- Убирает материал последней модели
+  -- или спрайтового снаряда.
+  pass:setShader()
+  pass:setMaterial()
+  pass:setColor(1, 1, 1, 1)
+
   pass:setDepthTest()
   pass:setDepthWrite(false)
   pass:setCullMode('none')
@@ -136,6 +142,11 @@ function UiContext:drawRectangle(
       width,
       height
     )
+
+  -- Каждый прямоугольник HUD должен
+  -- использовать однотонный материал.
+  pass:setShader()
+  pass:setMaterial()
 
   pass:setColor(
     color[1],
@@ -183,6 +194,9 @@ function UiContext:drawText(
     size /
     self.virtualHeight *
     self.worldHeight
+
+  pass:setShader()
+  pass:setMaterial()
 
   pass:setColor(
     color[1],
