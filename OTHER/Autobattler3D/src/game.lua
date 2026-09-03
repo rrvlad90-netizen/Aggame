@@ -433,7 +433,6 @@ function Game:finishBattleLoading()
   self.state = 'playing'
 end
 
-
 -- Обновляет загрузку моделей.
 function Game:updateLoading()
   local finished =

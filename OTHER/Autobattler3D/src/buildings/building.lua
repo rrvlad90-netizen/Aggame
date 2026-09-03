@@ -54,14 +54,6 @@ function Building.new(settings)
   self.buildProgress = 0
   self.attackCooldown = 0
 
-  self.deathTime = 0
-
-  self.deathDuration =
-    self.definition.deathDuration
-    or .4
-
-  self.deathContext = nil
-
   self.isBuilding = true
   self.removed = false
 
@@ -114,12 +106,6 @@ function Building:isReady()
 end
 
 
--- Проверяет анимацию уничтожения.
-function Building:isDying()
-  return self.state == 'dying'
-end
-
-
 -- Проверяет доступность здания как цели.
 function Building:isTargetable()
   return
@@ -163,8 +149,6 @@ function Building:startConstruction()
   self.buildTime = 0
   self.buildProgress = 0
   self.attackCooldown = 0
-  self.deathTime = 0
-  self.deathContext = nil
 
   self.y =
     self.floorY -
@@ -179,7 +163,7 @@ function Building:startConstruction()
 end
 
 
--- Немедленно завершает строительство.
+-- Завершает строительство.
 function Building:finishConstruction()
   if not self:isConstructing() then
     return
@@ -204,9 +188,6 @@ function Building:returnToPlatform()
   self.buildTime = 0
   self.buildProgress = 0
   self.attackCooldown = 0
-
-  self.deathTime = 0
-  self.deathContext = nil
 
   self.y = self.floorY
 end
@@ -240,7 +221,7 @@ function Building:spawnDeathEffect()
 end
 
 
--- Уничтожает здание и создаёт взрыв.
+-- Уничтожает здание.
 function Building:destroy(context)
   if not self:isTargetable() then
     return
@@ -248,49 +229,14 @@ function Building:destroy(context)
 
   self.health = 0
 
+  -- Сначала создаёт эффект, затем
+  -- убирает модель здания.
   self:spawnDeathEffect()
-
-  -- Модель исчезает сразу, чтобы
-  -- спрайт взрыва был хорошо виден.
   self.entity = nil
 
   if self.buildingType == 'altar' then
     self.state = 'destroyed'
     self.removed = true
-  else
-    -- На месте обычного здания сразу
-    -- возвращается его платформа.
-    self:returnToPlatform()
-  end
-
-  self.system:onBuildingDestroyed(
-    self,
-    context
-  )
-end
-
-
--- Завершает уничтожение здания.
-function Building:finishDeath()
-  if not self:isDying() then
-    return
-  end
-
-  print(
-    'BUILDING DEATH FINISH:',
-    self.id,
-    self.buildingType
-  )
-
-  local context =
-    self.deathContext
-
-  self.entity = nil
-
-  if self.buildingType == 'altar' then
-    self.state = 'destroyed'
-    self.removed = true
-    self.deathContext = nil
   else
     self:returnToPlatform()
   end
@@ -358,27 +304,10 @@ function Building:updateConstruction(dt)
 end
 
 
--- Обновляет анимацию уничтожения.
-function Building:updateDeath(dt)
-  self.deathTime =
-    self.deathTime + dt
-
-  if
-    self.deathTime >=
-    self.deathDuration
-  then
-    self:finishDeath()
-  end
-end
-
-
 -- Обновляет здание.
 function Building:update(dt)
   if self:isConstructing() then
     self:updateConstruction(dt)
-
-  elseif self:isDying() then
-    self:updateDeath(dt)
   end
 
   if self.entity then

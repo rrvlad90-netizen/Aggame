@@ -203,9 +203,12 @@ function ProjectileSystem:spawn(
   local targetX =
     settings.targetX
 
-targetY =
-  settings.targetY
-  or settings.target.y + 1
+  local targetY =
+    settings.targetY
+    or (
+      settings.target
+      and settings.target.y + 1
+    )
 
   local targetZ =
     settings.targetZ
@@ -215,8 +218,10 @@ targetY =
     and settings.target
   then
     targetX = settings.target.x
+
     targetY =
       settings.target.y + 1
+
     targetZ = settings.target.z
   end
 

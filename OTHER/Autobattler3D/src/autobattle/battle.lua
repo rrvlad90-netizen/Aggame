@@ -78,6 +78,10 @@ function Battle.new(
   self.units = {}
   self.winner = nil
 
+  self.endingWinner = nil
+  self.endingTime = 0
+  self.endingDuration = 0
+
   self.economy = nil
   self.buildingSystem = nil
 
@@ -253,6 +257,45 @@ function Battle:createConfiguredBattle()
   end
 end
 
+-- Начинает завершение боя.
+function Battle:startEnding(
+  winner,
+  duration
+)
+  if
+    self.winner
+    or self.endingWinner
+  then
+    return
+  end
+
+  self.endingWinner = winner
+  self.endingTime = 0
+  self.endingDuration =
+    duration or .4
+end
+
+
+-- Обновляет финальный эффект боя.
+function Battle:updateEnding(dt)
+  -- Во время завершения обновляются
+  -- только спрайтовые эффекты.
+  self.projectileSystem:update(dt)
+
+  self.endingTime =
+    self.endingTime + dt
+
+  if
+    self.endingTime >=
+    self.endingDuration
+  then
+    self.winner =
+      self.endingWinner
+
+    self.endingWinner = nil
+    self.endingTime = 0
+  end
+end
 
 -- Ищет ближайшего врага в радиусе.
 function Battle:findNearestEnemy(
@@ -1027,11 +1070,18 @@ end
 
 -- Выполняет фиксированный шаг.
 function Battle:update(dt)
-  -- После уничтожения алтаря обновляет
-  -- только оставшиеся визуальные эффекты.
-if self.winner then
-      return
-    end
+  -- После появления результата
+  -- вся симуляция полностью замирает.
+  if self.winner then
+    return
+  end
+
+  -- Во время финального взрыва
+  -- обновляется только его анимация.
+  if self.endingWinner then
+    self:updateEnding(dt)
+    return
+  end
 
   if self.economy then
     self.economy:update(dt)
@@ -1039,10 +1089,6 @@ if self.winner then
 
   if self.buildingSystem then
     self.buildingSystem:update(dt)
-
-	if self.winner then
-		  return
-		end
   end
 
   for _, squad in ipairs(
@@ -1065,9 +1111,15 @@ if self.winner then
     self.units
   ) do
     unit:update(dt)
+
+    -- Алтарь мог быть уничтожен
+    -- прямой атакой этого юнита.
+    if self.endingWinner then
+      return
+    end
   end
 
--- Неподвижные декорации продолжают
+  -- Неподвижные декорации продолжают
   -- выталкивать наземных бойцов.
   for _, unit in ipairs(
     self.units
@@ -1092,13 +1144,17 @@ if self.winner then
     self:resolveCollisionPass()
   end
 
-  -- Перестраивает сетку перед
-  -- возможным радиусным попаданием.
   self.grid:rebuild(
     self.units
   )
 
   self.projectileSystem:update(dt)
+
+  -- Алтарь мог быть уничтожен
+  -- попаданием снаряда.
+  if self.endingWinner then
+    return
+  end
 
   for _, unit in ipairs(
     self.units

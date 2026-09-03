@@ -48,9 +48,7 @@ end
 
 
 -- Возвращает команду по стороне карты.
-function BuildingSystem:getTeam(
-  mapSide
-)
+function BuildingSystem:getTeam(mapSide)
   if mapSide == 'player' then
     return 'allies'
   end
@@ -60,9 +58,7 @@ end
 
 
 -- Возвращает выбранную фракцию стороны.
-function BuildingSystem:getSideId(
-  mapSide
-)
+function BuildingSystem:getSideId(mapSide)
   if mapSide == 'player' then
     return self.playerSide
   end
@@ -158,8 +154,7 @@ function BuildingSystem:findAt(x, z)
         building:containsPoint(x, z)
         and (
           not nearestDistance
-          or distance <
-            nearestDistance
+          or distance < nearestDistance
         )
       then
         nearest = building
@@ -441,7 +436,6 @@ function BuildingSystem:
 
   self.battle:spawnProjectile(
     attack.projectile,
-
     {
       team = building.team,
       source = building,
@@ -485,7 +479,6 @@ function BuildingSystem:
   building.attackCooldown =
     math.max(
       0,
-
       (
         building.attackCooldown
         or 0
@@ -533,9 +526,8 @@ function BuildingSystem:
       local distance =
         math.max(
           0,
-
           centerDistance -
-          building.radius
+            building.radius
         )
 
       if distance <= nearestDistance then
@@ -548,86 +540,6 @@ function BuildingSystem:
   return nearest
 end
 
-
--- Выталкивает бойца из здания.
-function BuildingSystem:
-  resolveUnitCollision(
-    unit,
-    building
-  )
-  if
-    not building:
-      isSpatiallyActive()
-    or unit.flyingBehavior
-  then
-    return
-  end
-
-  local dx = unit.x - building.x
-  local dz = unit.z - building.z
-
-  local minimumDistance =
-    unit.radius + building.radius
-
-  local distanceSquared =
-    dx * dx + dz * dz
-
-  if
-    distanceSquared >=
-    minimumDistance *
-    minimumDistance
-  then
-    return
-  end
-
-  local normalX
-  local normalZ
-  local distance
-
-  if distanceSquared < .0001 then
-    local angle =
-      unit.id * 2.399963
-
-    normalX = math.cos(angle)
-    normalZ = math.sin(angle)
-    distance = 0
-  else
-    distance =
-      math.sqrt(distanceSquared)
-
-    normalX = dx / distance
-    normalZ = dz / distance
-  end
-
-  local correction =
-    minimumDistance - distance
-
-  unit.x =
-    unit.x +
-    normalX * correction
-
-  unit.z =
-    unit.z +
-    normalZ * correction
-end
-
-
--- Разрешает столкновения со зданиями.
---function BuildingSystem:
---  resolveBuildingCollisions(unit)
---  if not unit:isSpatiallyActive() then
---    return
---  end
-
---  for _, building in ipairs(
---    self.buildings
---  ) do
---    self:resolveUnitCollision(
---      unit,
---      building
---    )
---  end
---end
 
 -- Разрешает проход юнитов через здания.
 function BuildingSystem:
@@ -647,19 +559,16 @@ function BuildingSystem:
     return
   end
 
-  if self.battle.winner then
-    return
-  end
+  local winner =
+    building.team == 'allies'
+    and 'enemies'
+    or 'allies'
 
-  if building.team == 'allies' then
-    self.battle.winner = 'enemies'
-  else
-    self.battle.winner = 'allies'
-  end
-
-  print(
-    'BATTLE WINNER:',
-    self.battle.winner
+  -- Результат будет назначен только
+  -- после завершения взрыва.
+  self.battle:startEnding(
+    winner,
+    .4
   )
 end
 
@@ -737,9 +646,7 @@ function BuildingSystem:
       .001
     )
 
-  while
-    self.scriptTime >= duration
-  do
+  while self.scriptTime >= duration do
     self.scriptTime =
       self.scriptTime - duration
 
@@ -761,12 +668,6 @@ function BuildingSystem:update(dt)
       building,
       dt
     )
-
-    -- Уничтожение алтаря завершает бой.
-    -- Сценарий больше не обновляется.
-    if self.battle.winner then
-      return
-    end
   end
 
   self:updateEnemyScript(dt)
