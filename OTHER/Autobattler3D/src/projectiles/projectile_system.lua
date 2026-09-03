@@ -373,10 +373,12 @@ function ProjectileSystem:update(dt)
   self:updateSmoke(dt)
 end
 
-
--- Рисует мокап дыма.
 -- Рисует прозрачный дым без записи глубины.
 function ProjectileSystem:drawSmoke(pass)
+  -- Дым не должен наследовать текстуру
+  -- последнего спрайтового снаряда.
+  pass:setShader()
+  pass:setMaterial()
   pass:setDepthWrite(false)
 
   for _, particle in ipairs(
@@ -392,6 +394,7 @@ function ProjectileSystem:drawSmoke(pass)
       color[1],
       color[2],
       color[3],
+
       (color[4] or 1) *
       (1 - progress)
     )
@@ -406,8 +409,8 @@ function ProjectileSystem:drawSmoke(pass)
 
   pass:setDepthWrite(true)
   pass:setColor(1, 1, 1, 1)
+  pass:setMaterial()
 end
-
 
 -- Рисует снаряды и дым.
 function ProjectileSystem:draw(
@@ -427,6 +430,10 @@ function ProjectileSystem:draw(
 
   self:drawSmoke(pass)
 
+  -- Не передаёт материал снаряда
+  -- следующим объектам сцены.
+  pass:setShader()
+  pass:setMaterial()
   pass:setColor(1, 1, 1, 1)
 end
 

@@ -613,20 +613,27 @@ end
 
 
 -- Разрешает столкновения со зданиями.
+--function BuildingSystem:
+--  resolveBuildingCollisions(unit)
+--  if not unit:isSpatiallyActive() then
+--    return
+--  end
+
+--  for _, building in ipairs(
+--    self.buildings
+--  ) do
+--    self:resolveUnitCollision(
+--      unit,
+--      building
+--    )
+--  end
+--end
+
+-- Разрешает проход юнитов через здания.
 function BuildingSystem:
   resolveBuildingCollisions(unit)
-  if not unit:isSpatiallyActive() then
-    return
-  end
-
-  for _, building in ipairs(
-    self.buildings
-  ) do
-    self:resolveUnitCollision(
-      unit,
-      building
-    )
-  end
+  -- Здания участвуют в выборе целей,
+  -- но не блокируют движение.
 end
 
 
@@ -749,6 +756,12 @@ function BuildingSystem:update(dt)
       building,
       dt
     )
+
+    -- Уничтожение алтаря завершает бой.
+    -- Сценарий больше не обновляется.
+    if self.battle.winner then
+      return
+    end
   end
 
   self:updateEnemyScript(dt)

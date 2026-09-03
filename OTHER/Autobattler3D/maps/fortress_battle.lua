@@ -80,8 +80,8 @@ return {
       built = true,
 
       routeId = 'player_center',
-      spawnX = 0,
-      spawnZ = 50
+	  spawnX = 0,
+      spawnZ = 40
     },
 
     {
@@ -94,10 +94,10 @@ return {
       yaw = math.pi,
 
       built = false,
-
+--измените точки появления возле казарм
       routeId = 'player_center',
-      spawnX = -16,
-      spawnZ = 42
+		spawnX = -22,
+        spawnZ = 31
     },
 
     {
@@ -126,8 +126,8 @@ return {
       built = true,
 
       routeId = 'enemy_center',
-      spawnX = 0,
-      spawnZ = -50
+	   spawnX = 0,
+       spawnZ = -40
     },
 
     {
@@ -142,8 +142,8 @@ return {
       built = false,
 
       routeId = 'enemy_center',
-      spawnX = 16,
-      spawnZ = -42
+		spawnX = 22,
+		spawnZ = -31
     },
 
     {

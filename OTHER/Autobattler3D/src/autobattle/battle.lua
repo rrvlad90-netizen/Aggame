@@ -290,6 +290,32 @@ function Battle:findNearestEnemy(
   return nil
 end
 
+-- Проверяет разрешение пройти
+-- сквозь союзного бойца.
+function Battle:canUnitPassThrough(
+  movingUnit,
+  otherUnit
+)
+  if
+    movingUnit.team ~=
+    otherUnit.team
+  then
+    return false
+  end
+
+  local allowedSlots =
+    movingUnit.config
+      .alliedPassThroughSlots
+
+  if not allowedSlots then
+    return false
+  end
+
+  return
+    allowedSlots[
+      otherUnit.config.slot
+    ] == true
+end
 
 -- Проверяет ближайший участок движения.
 function Battle:isDirectionClear(
@@ -330,6 +356,15 @@ function Battle:isDirectionClear(
         unitFlying ~=
         candidateFlying
       then
+        return
+      end
+
+      -- Разрешённые типы союзников
+      -- не требуют поиска обхода.
+      if self:canUnitPassThrough(
+        unit,
+        candidate
+      ) then
         return
       end
 
@@ -782,6 +817,28 @@ function Battle:separateUnits(
     or math.abs(
       second.z - second.previousZ
     ) > .0001
+	
+-- Пропускает столкновение, если именно
+  -- двигавшемуся бойцу разрешён проход.
+  if first.team == second.team then
+    local firstCanPass =
+      firstMoved
+      and self:canUnitPassThrough(
+        first,
+        second
+      )
+
+    local secondCanPass =
+      secondMoved
+      and self:canUnitPassThrough(
+        second,
+        first
+      )
+
+    if firstCanPass or secondCanPass then
+      return
+    end
+  end	
 
   local bothMoving =
     firstMoved
@@ -972,10 +1029,9 @@ end
 function Battle:update(dt)
   -- После уничтожения алтаря обновляет
   -- только оставшиеся визуальные эффекты.
-  if self.winner then
-    self.projectileSystem:update(dt)
-    return
-  end
+if self.winner then
+      return
+    end
 
   if self.economy then
     self.economy:update(dt)
@@ -983,6 +1039,10 @@ function Battle:update(dt)
 
   if self.buildingSystem then
     self.buildingSystem:update(dt)
+
+	if self.winner then
+		  return
+		end
   end
 
   for _, squad in ipairs(
@@ -1007,8 +1067,8 @@ function Battle:update(dt)
     unit:update(dt)
   end
 
-  -- Неподвижные объекты выталкивают
-  -- наземных бойцов.
+-- Неподвижные декорации продолжают
+  -- выталкивать наземных бойцов.
   for _, unit in ipairs(
     self.units
   ) do
@@ -1017,13 +1077,6 @@ function Battle:update(dt)
         resolveUnitCollisions(
           unit
         )
-
-      if self.buildingSystem then
-        self.buildingSystem:
-          resolveBuildingCollisions(
-            unit
-          )
-      end
 
       unit:syncEntity()
     end
