@@ -656,6 +656,11 @@ function BuildingSystem:
   else
     self.battle.winner = 'allies'
   end
+
+  print(
+    'BATTLE WINNER:',
+    self.battle.winner
+  )
 end
 
 

@@ -240,18 +240,33 @@ function Building:spawnDeathEffect()
 end
 
 
--- Начинает анимацию уничтожения.
+-- Уничтожает здание и создаёт взрыв.
 function Building:destroy(context)
   if not self:isTargetable() then
     return
   end
 
   self.health = 0
-  self.state = 'dying'
-  self.deathTime = 0
-  self.deathContext = context
 
   self:spawnDeathEffect()
+
+  -- Модель исчезает сразу, чтобы
+  -- спрайт взрыва был хорошо виден.
+  self.entity = nil
+
+  if self.buildingType == 'altar' then
+    self.state = 'destroyed'
+    self.removed = true
+  else
+    -- На месте обычного здания сразу
+    -- возвращается его платформа.
+    self:returnToPlatform()
+  end
+
+  self.system:onBuildingDestroyed(
+    self,
+    context
+  )
 end
 
 
@@ -260,6 +275,12 @@ function Building:finishDeath()
   if not self:isDying() then
     return
   end
+
+  print(
+    'BUILDING DEATH FINISH:',
+    self.id,
+    self.buildingType
+  )
 
   local context =
     self.deathContext
