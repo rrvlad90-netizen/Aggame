@@ -1,5 +1,4 @@
-git config user.name
-git config user.email
-git remote -v
-git status
+git fetch origin
+git rev-parse origin/master
+git ls-tree -r --name-only origin/master | findstr /i ".wai .w3o"
 pause
