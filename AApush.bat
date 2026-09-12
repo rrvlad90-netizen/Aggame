@@ -17,7 +17,9 @@ echo.
 echo [3/3] cave and send...
 set /p commit_msg="commnet for commit: "
 git commit -m "%commit_msg%"
-git push
+::git push
+git push origin master
+git rev-parse HEAD
 
 echo.
 echo ========================================
