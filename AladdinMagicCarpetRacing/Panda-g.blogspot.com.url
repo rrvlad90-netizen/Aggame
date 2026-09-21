@@ -1,0 +1,10 @@
+[DEFAULT]
+BASEURL=http://panda-g.blogspot.com/
+[InternetShortcut]
+URL=http://panda-g.blogspot.com/
+IDList=
+IconFile=C:\WINDOWS\system32\SHELL32.dll
+IconIndex=220
+HotKey=0
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,2
