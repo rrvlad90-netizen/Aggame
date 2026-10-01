@@ -1,0 +1,8 @@
+gameinfo
+{
+	PrecacheClasses =
+	"LTPWaterSplashChunk",
+	"LTPWaterSplashBase",
+	"Waterripple",
+	"LTPLavaSmoke"
+}

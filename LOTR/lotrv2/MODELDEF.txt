@@ -1,0 +1,10 @@
+#include "MODELDEFS/MODELDEF.catapult"
+#include "MODELDEFS/MODELDEF.IzengardUruk" //#include "MODELDEFS/MODELDEF.LotrConquestBigOrc"
+#include "MODELDEFS/MODELDEF.IzengardUruk2" //MODELDEF.LotrConquestOrc"
+#include "MODELDEFS/modeldef.respawnedmonsters"
+#include "MODELDEFS/MODELDEF.trollsandent"
+
+#include "MODELDEFS/modeldef.other"
+#include "MODELDEFS/MODELDEF.Player"
+
+#include "MODELDEFS/modeldef.gondorwarrior"

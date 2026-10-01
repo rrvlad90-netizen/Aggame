@@ -1,0 +1,171 @@
+
+Model LotrOrc110
+{ 
+   Path "Models/orcLotConquestBig"
+   MODEL 0 "orcbigbodyrun.md3"
+   Skin 0 "orcarmour4.png"
+   MODEL 1 "orcbigfacerun.md3"
+   Skin 1 "orc_mage_face.png"
+   MODEL 2 "orcbigweaponrun.md3"
+   Skin 2 "orcsword.png"
+
+//   Offset 0.0 0.0 23.0
+
+    Scale 0.82 0.82 0.82
+//run
+   FrameIndex ORC2 F 0 0   FrameIndex ORC2 F 1 0   FrameIndex ORC2 F 2 0   FrameIndex ORC2 F 3 0
+   FrameIndex ORC2 G 0 1   FrameIndex ORC2 G 1 1   FrameIndex ORC2 G 2 1   FrameIndex ORC2 G 3 1
+   FrameIndex ORC2 H 0 2   FrameIndex ORC2 H 1 2   FrameIndex ORC2 H 2 2   FrameIndex ORC2 H 3 2
+   FrameIndex ORC2 I 0 3   FrameIndex ORC2 I 1 3   FrameIndex ORC2 I 2 3   FrameIndex ORC2 I 3 3
+   FrameIndex ORC2 J 0 4   FrameIndex ORC2 J 1 4   FrameIndex ORC2 J 2 4   FrameIndex ORC2 J 3 4
+   FrameIndex ORC2 K 0 5   FrameIndex ORC2 K 1 5   FrameIndex ORC2 K 2 5   FrameIndex ORC2 K 3 5
+   FrameIndex ORC2 L 0 6   FrameIndex ORC2 L 1 6   FrameIndex ORC2 L 2 6   FrameIndex ORC2 L 3 6
+   FrameIndex ORC2 M 0 7   FrameIndex ORC2 M 1 7   FrameIndex ORC2 M 2 7   FrameIndex ORC2 M 3 7  
+   FrameIndex ORC2 N 0 8   FrameIndex ORC2 N 1 8   FrameIndex ORC2 N 2 8   FrameIndex ORC2 N 3 8
+   FrameIndex ORC2 O 0 9   FrameIndex ORC2 O 1 9   FrameIndex ORC2 O 2 9   FrameIndex ORC2 O 3 9
+   FrameIndex ORC2 P 0 10   FrameIndex ORC2 P 1 10   FrameIndex ORC2 P 2 10   FrameIndex ORC2 P 3 10
+   FrameIndex ORC2 Q 0 11   FrameIndex ORC2 Q 1 11   FrameIndex ORC2 Q 2 11   FrameIndex ORC2 Q 3 11
+   FrameIndex ORC2 R 0 12   FrameIndex ORC2 R 1 12   FrameIndex ORC2 R 2 12   FrameIndex ORC2 R 3 12
+   FrameIndex ORC2 S 0 13   FrameIndex ORC2 S 1 13   FrameIndex ORC2 S 2 13   FrameIndex ORC2 S 3 13
+   FrameIndex ORC2 T 0 14   FrameIndex ORC2 T 1 14   FrameIndex ORC2 T 2 14   FrameIndex ORC2 T 3 14
+   FrameIndex ORC2 U 0 15   FrameIndex ORC2 U 1 15   FrameIndex ORC2 U 2 15   FrameIndex ORC2 U 3 15
+   FrameIndex ORC2 V 0 16   FrameIndex ORC2 V 1 16   FrameIndex ORC2 V 2 16   FrameIndex ORC2 V 3 16
+   FrameIndex ORC2 W 0 17   FrameIndex ORC2 W 1 17   FrameIndex ORC2 W 2 17   FrameIndex ORC2 W 3 17
+}
+
+
+Model LotrOrc110
+{ 
+   Path "Models/orcLotConquestBig"
+   MODEL 0 "orcbigbodyattack1.md3"
+   Skin 0 "orcarmour4.png"
+   MODEL 1 "orcbigfaceattack1.md3"
+   Skin 1 "orc_mage_face.png"
+   MODEL 2 "orcbigweaponattack1.md3"
+   Skin 2 "orcsword.png"
+   
+   Offset 0.0 0.0 2.0
+    Scale 0.82 0.82 0.82
+//attack1  
+   FrameIndex ORC1 A 0 0   FrameIndex ORC1 A 1 0   FrameIndex ORC1 A 2 0   FrameIndex ORC1 A 3 0
+   FrameIndex ORC1 B 0 1   FrameIndex ORC1 B 1 1   FrameIndex ORC1 B 2 1   FrameIndex ORC1 B 3 1
+   FrameIndex ORC1 C 0 2   FrameIndex ORC1 C 1 2   FrameIndex ORC1 C 2 2   FrameIndex ORC1 C 3 2
+   FrameIndex ORC1 D 0 3   FrameIndex ORC1 D 1 3   FrameIndex ORC1 D 2 3   FrameIndex ORC1 D 3 3
+   FrameIndex ORC1 E 0 4   FrameIndex ORC1 E 1 4   FrameIndex ORC1 E 2 4   FrameIndex ORC1 E 3 4
+   FrameIndex ORC1 F 0 5   FrameIndex ORC1 F 1 5   FrameIndex ORC1 F 2 5   FrameIndex ORC1 F 3 5
+   FrameIndex ORC1 G 0 6   FrameIndex ORC1 G 1 6   FrameIndex ORC1 G 2 6   FrameIndex ORC1 G 3 6
+   FrameIndex ORC1 H 0 7   FrameIndex ORC1 H 1 7   FrameIndex ORC1 H 2 7   FrameIndex ORC1 H 3 7
+   FrameIndex ORC1 I 0 8   FrameIndex ORC1 I 1 8   FrameIndex ORC1 I 2 8   FrameIndex ORC1 I 3 8
+   FrameIndex ORC1 J 0 9   FrameIndex ORC1 J 1 9   FrameIndex ORC1 J 2 9   FrameIndex ORC1 J 3 9
+   FrameIndex ORC1 K 0 10   FrameIndex ORC1 K 1 10   FrameIndex ORC1 K 2 10   FrameIndex ORC1 K 3 10
+   FrameIndex ORC1 L 0 11   FrameIndex ORC1 L 1 11   FrameIndex ORC1 L 2 11   FrameIndex ORC1 L 3 11
+   FrameIndex ORC1 M 0 12   FrameIndex ORC1 M 1 12   FrameIndex ORC1 M 2 12   FrameIndex ORC1 M 3 12
+   FrameIndex ORC1 N 0 13   FrameIndex ORC1 N 1 13   FrameIndex ORC1 N 2 13   FrameIndex ORC1 N 3 13
+
+//hit
+   FrameIndex ORC1 O 0 14   FrameIndex ORC1 O 1 14   FrameIndex ORC1 O 2 14   FrameIndex ORC1 O 3 14
+   FrameIndex ORC1 P 0 15   FrameIndex ORC1 P 1 15   FrameIndex ORC1 P 2 15   FrameIndex ORC1 P 3 15
+   FrameIndex ORC1 Q 0 16   FrameIndex ORC1 Q 1 16   FrameIndex ORC1 Q 2 16   FrameIndex ORC1 Q 3 16
+   FrameIndex ORC1 R 0 17   FrameIndex ORC1 R 1 17   FrameIndex ORC1 R 2 17   FrameIndex ORC1 R 3 17
+   FrameIndex ORC1 S 0 18   FrameIndex ORC1 S 1 18   FrameIndex ORC1 S 2 18   FrameIndex ORC1 S 3 18
+   FrameIndex ORC1 T 0 19   FrameIndex ORC1 T 1 19   FrameIndex ORC1 T 2 19   FrameIndex ORC1 T 3 19
+   FrameIndex ORC1 U 0 20   FrameIndex ORC1 U 1 20   FrameIndex ORC1 U 2 20   FrameIndex ORC1 U 3 20
+   FrameIndex ORC1 V 0 21   FrameIndex ORC1 V 1 21   FrameIndex ORC1 V 2 21   FrameIndex ORC1 V 3 21
+   FrameIndex ORC1 W 0 22   FrameIndex ORC1 W 1 22   FrameIndex ORC1 W 2 22   FrameIndex ORC1 W 3 22
+   FrameIndex ORC1 X 0 23   FrameIndex ORC1 X 1 23   FrameIndex ORC1 X 2 23   FrameIndex ORC1 X 3 23
+   FrameIndex ORC1 Y 0 24   FrameIndex ORC1 Y 1 24   FrameIndex ORC1 Y 2 24   FrameIndex ORC1 Y 3 24
+   FrameIndex ORC1 Z 0 25   FrameIndex ORC1 Z 1 25   FrameIndex ORC1 Z 2 25   FrameIndex ORC1 Z 3 25
+
+//   FrameIndex ORC2 A 0 26   FrameIndex ORC2 A 1 26   FrameIndex ORC2 A 2 26   FrameIndex ORC2 A 3 26
+}
+
+
+Model LotrOrc110
+{ 
+   Path "Models/orcLotConquestBig"
+   MODEL 0 "orcbigbodyattack2.md3"
+   Skin 0 "orcarmour4.png"
+   MODEL 1 "orcbigfaceattack2.md3"
+   Skin 1 "orc_mage_face.png"
+   MODEL 2 "orcbigweaponattack2.md3"
+   Skin 2 "orcsword.png"
+   Offset 0.0 0.0 2.0
+    Scale 0.82 0.82 0.82
+//attack2  
+   FrameIndex ORC3 A 0 0   FrameIndex ORC3 A 1 0   FrameIndex ORC3 A 2 0   FrameIndex ORC3 A 3 0
+   FrameIndex ORC3 B 0 1   FrameIndex ORC3 B 1 1   FrameIndex ORC3 B 2 1   FrameIndex ORC3 B 3 1
+   FrameIndex ORC3 C 0 2   FrameIndex ORC3 C 1 2   FrameIndex ORC3 C 2 2   FrameIndex ORC3 C 3 2
+   FrameIndex ORC3 D 0 3   FrameIndex ORC3 D 1 3   FrameIndex ORC3 D 2 3   FrameIndex ORC3 D 3 3
+   FrameIndex ORC3 E 0 4   FrameIndex ORC3 E 1 4   FrameIndex ORC3 E 2 4   FrameIndex ORC3 E 3 4
+   FrameIndex ORC3 F 0 5   FrameIndex ORC3 F 1 5   FrameIndex ORC3 F 2 5   FrameIndex ORC3 F 3 5
+   FrameIndex ORC3 G 0 6   FrameIndex ORC3 G 1 6   FrameIndex ORC3 G 2 6   FrameIndex ORC3 G 3 6
+   FrameIndex ORC3 H 0 7   FrameIndex ORC3 H 1 7   FrameIndex ORC3 H 2 7   FrameIndex ORC3 H 3 7
+   FrameIndex ORC3 I 0 8   FrameIndex ORC3 I 1 8   FrameIndex ORC3 I 2 8   FrameIndex ORC3 I 3 8
+   FrameIndex ORC3 J 0 9   FrameIndex ORC3 J 1 9   FrameIndex ORC3 J 2 9   FrameIndex ORC3 J 3 9
+   FrameIndex ORC3 K 0 10   FrameIndex ORC3 K 1 10   FrameIndex ORC3 K 2 10   FrameIndex ORC3 K 3 10
+   FrameIndex ORC3 L 0 11   FrameIndex ORC3 L 1 11   FrameIndex ORC3 L 2 11   FrameIndex ORC3 L 3 11
+   FrameIndex ORC3 M 0 12   FrameIndex ORC3 M 1 12   FrameIndex ORC3 M 2 12   FrameIndex ORC3 M 3 12
+   FrameIndex ORC3 N 0 13   FrameIndex ORC3 N 1 13   FrameIndex ORC3 N 2 13   FrameIndex ORC3 N 3 13
+
+
+   FrameIndex ORC3 O 0 14   FrameIndex ORC3 O 1 14   FrameIndex ORC3 O 2 14   FrameIndex ORC3 O 3 14
+   FrameIndex ORC3 P 0 15   FrameIndex ORC3 P 1 15   FrameIndex ORC3 P 2 15   FrameIndex ORC3 P 3 15
+   FrameIndex ORC3 Q 0 16   FrameIndex ORC3 Q 1 16   FrameIndex ORC3 Q 2 16   FrameIndex ORC3 Q 3 16
+   FrameIndex ORC3 R 0 17   FrameIndex ORC3 R 1 17   FrameIndex ORC3 R 2 17   FrameIndex ORC3 R 3 17
+   FrameIndex ORC3 S 0 18   FrameIndex ORC3 S 1 18   FrameIndex ORC3 S 2 18   FrameIndex ORC3 S 3 18
+   FrameIndex ORC3 T 0 19   FrameIndex ORC3 T 1 19   FrameIndex ORC3 T 2 19   FrameIndex ORC3 T 3 19
+   FrameIndex ORC3 U 0 20   FrameIndex ORC3 U 1 20   FrameIndex ORC3 U 2 20   FrameIndex ORC3 U 3 20
+   FrameIndex ORC3 V 0 21   FrameIndex ORC3 V 1 21   FrameIndex ORC3 V 2 21   FrameIndex ORC3 V 3 21
+   FrameIndex ORC3 W 0 22   FrameIndex ORC3 W 1 22   FrameIndex ORC3 W 2 22   FrameIndex ORC3 W 3 22
+   FrameIndex ORC3 X 0 23   FrameIndex ORC3 X 1 23   FrameIndex ORC3 X 2 23   FrameIndex ORC3 X 3 23
+   FrameIndex ORC3 Y 0 24   FrameIndex ORC3 Y 1 24   FrameIndex ORC3 Y 2 24   FrameIndex ORC3 Y 3 24
+//hit
+   FrameIndex ORC3 Z 0 25   FrameIndex ORC3 Z 1 25   FrameIndex ORC3 Z 2 25   FrameIndex ORC3 Z 3 25
+
+   FrameIndex ORC4 A 0 26   FrameIndex ORC4 A 1 26   FrameIndex ORC4 A 2 26   FrameIndex ORC4 A 3 26
+   FrameIndex ORC4 B 0 27   FrameIndex ORC4 B 1 27   FrameIndex ORC4 B 2 27   FrameIndex ORC4 B 3 27
+   FrameIndex ORC4 C 0 28   FrameIndex ORC4 C 1 28   FrameIndex ORC4 C 2 28   FrameIndex ORC4 C 3 28
+   FrameIndex ORC4 D 0 29   FrameIndex ORC4 D 1 29   FrameIndex ORC4 D 2 29   FrameIndex ORC4 D 3 29
+   FrameIndex ORC4 E 0 30   FrameIndex ORC4 E 1 30   FrameIndex ORC4 E 2 30   FrameIndex ORC4 E 3 30
+   FrameIndex ORC4 F 0 31   FrameIndex ORC4 F 1 31   FrameIndex ORC4 F 2 31   FrameIndex ORC4 F 3 31
+//guard
+   FrameIndex ORC4 G 0 32   FrameIndex ORC4 G 1 32   FrameIndex ORC4 G 2 32   FrameIndex ORC4 G 3 32
+   FrameIndex ORC4 H 0 33   FrameIndex ORC4 H 1 33   FrameIndex ORC4 H 2 33   FrameIndex ORC4 H 3 33
+   FrameIndex ORC4 I 0 34   FrameIndex ORC4 I 1 34   FrameIndex ORC4 I 2 34   FrameIndex ORC4 I 3 34
+   FrameIndex ORC4 J 0 35   FrameIndex ORC4 J 1 35   FrameIndex ORC4 J 2 35   FrameIndex ORC4 J 3 35
+}
+
+
+
+Model LotrOrc110
+{ 
+   Path "Models/orcLotConquestBig"
+   MODEL 0 "orcbigbodydie.md3"
+   Skin 0 "orcarmour4.png"
+   MODEL 1 "orcbigfacedie.md3"
+   Skin 1 "orc_mage_face.png"
+   MODEL 2 "orcbigweapondie.md3"
+   Skin 2 "orcsword.png"
+
+    Scale 0.82 0.82 0.82
+//die
+   FrameIndex ORC6 A 0 0   FrameIndex ORC6 A 1 0   FrameIndex ORC6 A 2 0   FrameIndex ORC6 A 3 0
+   FrameIndex ORC6 B 0 1   FrameIndex ORC6 B 1 1   FrameIndex ORC6 B 2 1   FrameIndex ORC6 B 3 1
+   FrameIndex ORC6 C 0 2   FrameIndex ORC6 C 1 2   FrameIndex ORC6 C 2 2   FrameIndex ORC6 C 3 2
+   FrameIndex ORC6 D 0 3   FrameIndex ORC6 D 1 3   FrameIndex ORC6 D 2 3   FrameIndex ORC6 D 3 3
+   FrameIndex ORC6 E 0 4   FrameIndex ORC6 E 1 4   FrameIndex ORC6 E 2 4   FrameIndex ORC6 E 3 4
+   FrameIndex ORC6 F 0 5   FrameIndex ORC6 F 1 5   FrameIndex ORC6 F 2 5   FrameIndex ORC6 F 3 5
+   FrameIndex ORC6 G 0 6   FrameIndex ORC6 G 1 6   FrameIndex ORC6 G 2 6   FrameIndex ORC6 G 3 6
+   FrameIndex ORC6 H 0 7   FrameIndex ORC6 H 1 7   FrameIndex ORC6 H 2 7   FrameIndex ORC6 H 3 7
+   FrameIndex ORC6 I 0 8   FrameIndex ORC6 I 1 8   FrameIndex ORC6 I 2 8   FrameIndex ORC6 I 3 8
+   FrameIndex ORC6 J 0 9   FrameIndex ORC6 J 1 9   FrameIndex ORC6 J 2 9   FrameIndex ORC6 J 3 9
+   FrameIndex ORC6 K 0 10   FrameIndex ORC6 K 1 10   FrameIndex ORC6 K 2 10   FrameIndex ORC6 K 3 10
+   FrameIndex ORC6 L 0 11   FrameIndex ORC6 L 1 11   FrameIndex ORC6 L 2 11   FrameIndex ORC6 L 3 11
+   FrameIndex ORC6 M 0 12   FrameIndex ORC6 M 1 12   FrameIndex ORC6 M 2 12   FrameIndex ORC6 M 3 12
+   FrameIndex ORC6 N 0 13   FrameIndex ORC6 N 1 13   FrameIndex ORC6 N 2 13   FrameIndex ORC6 N 3 13
+   FrameIndex ORC6 O 0 14   FrameIndex ORC6 O 1 14   FrameIndex ORC6 O 2 14   FrameIndex ORC6 O 3 14
+   FrameIndex ORC6 P 0 15   FrameIndex ORC6 P 1 15   FrameIndex ORC6 P 2 15   FrameIndex ORC6 P 3 15
+   FrameIndex ORC6 Q 0 16   FrameIndex ORC6 Q 1 16   FrameIndex ORC6 Q 2 16   FrameIndex ORC6 Q 3 16
+   FrameIndex ORC6 R 0 17   FrameIndex ORC6 R 1 17   FrameIndex ORC6 R 2 17   FrameIndex ORC6 R 3 17
+   FrameIndex ORC6 S 0 18   FrameIndex ORC6 S 1 18   FrameIndex ORC6 S 2 18   FrameIndex ORC6 S 3 18
+}

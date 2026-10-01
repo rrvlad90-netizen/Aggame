@@ -1,0 +1,16 @@
+#Include "ZCommon.acs"
+
+Script "JJumpCheck" Enter
+{
+	Int PNum = PlayerNumber();
+	While(PNum == PlayerNumber())
+	{
+		While(GetActorVelZ(0)==0)
+		{
+			Delay(1);
+			If((GetPlayerInput(-1,INPUT_BUTTONS) & BT_JUMP) && GetActorVelZ(0)>1.0)
+			SetActorState(0,"Jump");
+		}
+		Delay(1);
+	}
+}

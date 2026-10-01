@@ -1,0 +1,106 @@
+
+Model catapult
+{ 
+   Path "Models/catapult"
+   MODEL 0 "a.md3"
+   Skin 0 "catapult.png"
+   MODEL 1 "b.md3"
+   Skin 1 "catapult33.png"
+   MODEL 2 "c.md3"
+   Skin 2 "sssttt.png"
+
+//   Offset 0.0 0.0 23.0
+
+    Scale 1.42 1.42 1.42
+//run
+   FrameIndex MES1 A 0 0   FrameIndex MES1 A 1 0   FrameIndex MES1 A 2 0
+}
+
+
+Model catapult
+{ 
+   Path "Models/catapult"
+   MODEL 0 "a1.md3"
+   Skin 0 "catapult.png"
+   MODEL 1 "b1.md3"
+   Skin 1 "catapult33.png"
+   MODEL 2 "c1.md3"
+   Skin 2 "sssttt.png"
+
+//   Offset 0.0 0.0 23.0
+
+    Scale 1.42 1.42 1.42
+//run
+   FrameIndex MES1 B 0 0   FrameIndex MES1 B 1 0   FrameIndex MES1 B 2 0
+}
+
+
+Model catapult
+{ 
+   Path "Models/catapult"
+   MODEL 0 "a2.md3"
+   Skin 0 "catapult.png"
+   MODEL 1 "b2.md3"
+   Skin 1 "catapult33.png"
+   MODEL 2 "c2.md3"
+   Skin 2 "sssttt.png"
+
+//   Offset 0.0 0.0 23.0
+
+    Scale 1.42 1.42 1.42
+//run
+   FrameIndex MES1 C 0 0   FrameIndex MES1 C 1 0   FrameIndex MES1 C 2 0
+}
+
+
+Model catapult
+{ 
+   Path "Models/catapult"
+   MODEL 0 "a3.md3"
+   Skin 0 "catapult.png"
+   MODEL 1 "b3.md3"
+   Skin 1 "catapult33.png"
+   MODEL 2 "c3.md3"
+   Skin 2 "sssttt.png"
+
+//   Offset 0.0 0.0 23.0
+
+    Scale 1.42 1.42 1.42
+//run
+   FrameIndex MES1 D 0 0   FrameIndex MES1 D 1 0   FrameIndex MES1 D 2 0
+}
+
+
+Model catapult
+{ 
+   Path "Models/catapult"
+   MODEL 0 "a3.md3"
+   Skin 0 "catapult.png"
+   MODEL 1 "b3.md3"
+   Skin 1 "catapult33.png"
+   MODEL 2 "c3.md3"
+   Skin 2 "sssttt.png"
+
+//   Offset 0.0 0.0 23.0
+
+    Scale 1.42 1.42 1.42
+//run
+   FrameIndex MES1 D 0 0   FrameIndex MES1 D 1 0   FrameIndex MES1 D 2 0
+}
+
+Model catapult
+{ 
+   Path "Models/catapult"
+   MODEL 0 "a4.md3"
+   Skin 0 "catapult.png"
+   MODEL 1 "b4.md3"
+   Skin 1 "catapult33.png"
+   MODEL 2 "c4.md3"
+   Skin 2 "sssttt.png"
+
+//   Offset 0.0 0.0 23.0
+
+    Scale 1.42 1.42 1.42
+//run
+   FrameIndex MES1 E 0 0   FrameIndex MES1 E 1 0   FrameIndex MES1 E 2 0
+}

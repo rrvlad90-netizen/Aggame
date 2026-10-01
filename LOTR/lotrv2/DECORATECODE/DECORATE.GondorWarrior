@@ -1,0 +1,161 @@
+ACTOR iseenemy
+{
+  Radius 5
+  Height 5
+  Speed 30  //70
+  FastSpeed 50  //120
+  Damage 1
+  //Scale 5
+  Projectile
+  Damagetype "iseeyou"
+  
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Loop
+  Death:
+    TNT1 A 1
+    Stop
+  }
+}
+
+
+Actor LotrGondor2 2047 
+{
+	Health 60
+	Mass 175
+	Speed 3
+	Height 50
+	Radius 15
+	Monster
+	+FLOORCLIP
+        +FRIENDLY
+        +DROPOFF
+        +RANDOMIZE
+	+TELESTOMP
+	+LOOKALLAROUND
+	+NOBLOOD
+	+SOLID
+	PainChance 255
+	MaxTargetRange 128
+        ReactionTime 15
+		
+		DamageFactor "iseeyou", 0
+	States
+	{
+	
+	Spawn:
+	        TNT1 A 0 NoDelay
+		TNT1 A 0 Thing_ChangeTID(0, 888)
+	        TNT1 A 0 Thing_Hate(0, 2700, 3)
+    		GON1 A 1 A_ChangeFlag("Friendly",1)
+		GON1 A 1 A_ClearTarget
+		//ORC1 A 1 //A_Look
+		//ORC1 A 1 A_LookEx(LOF_NOSOUNDCHECK, 0, 4096, 0, 0, "See")
+	//Goto spawn+3 //+4
+			Goto Idle
+	Idle:
+		TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 4096, 0, 0, "See")
+    	TNT1 A 0 A_CheckRange(950, "Idle2", true)
+		GON2 JKLMNOPQRSTUVW 1 Fast A_Wander
+		GON3 ABCDEFGHIJKL 1 Fast A_Wander
+		Loop
+
+	Idle2:
+		TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 4096, 0, 0, "See")
+		GNN1 AABBCCBB 1 Fast A_Wander
+		Goto Idle
+	See:
+ 	//run
+    		//TNT1 A 0 A_CheckRange(250, "Missile", true)
+    	TNT1 A 0 A_CheckRange(950, "See2", true)
+		GON2 JKLMNOPQRSTUVW 1 Fast A_Chase
+		GON3 ABCDEFGHIJKL 1 Fast A_Chase
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_CustomMissile("iseenemy")
+		GON2 JKLMNOPQRSTUVW 1 Fast A_Chase
+		GON3 ABCDEFGHIJKL 1 Fast A_Chase
+		GON2 JKLMNOPQRSTUVW 1 Fast A_Chase
+		GON3 ABCDEFGHIJKL 1 Fast A_Chase
+		//TNT1 A 0 A_CheckRange(100, "SeekPlayer", true)
+		TNT1 A 0 A_ClearTarget
+
+	See2:
+		GNN1 AABBCCBBAABBCCBB 1 Fast A_Chase
+		TNT1 A 0 A_ClearTarget
+   		Goto See
+	
+	Pain:
+//		TNT1 A 0 A_PlaySound("sworbam")
+		TNT1 A 0 A_Recoil(2)
+	 	GON4 BCDC 2 A_Pain
+                //TNT1 A 0 A_Jump(90, "Block")
+		Goto See
+		
+	// Missile:
+	//	TNT1 A 0 A_GiveInventory("iseey",1)
+	//	TNT1 A 0 A_JumpIfInventory("iseey",1,"Isee")
+    //Goto See
+	//Isee:
+	////	GON1 A 1 A_CustomMissile("Iseeyou")
+		Goto See
+		
+	Melee:
+		TNT1 A 0 A_Jump(98, "Melee2")
+		GON1 AA 3 fast A_FaceTarget
+		GON1 BCDEFGHIJKLMNOPQ 1 fast A_FaceTarget
+    	TNT1 A 0 A_PlaySound("AxeSwing")
+		GON1 R 3 fast A_CustomMeleeAttack(random(3, 12),"sworbam") //A_SargAttack
+		GON1 STUVWXYZZZ 1 Fast
+		GN22 ABCDEFGHIJKLMNNN 1 Fast
+		Goto See
+		
+        Melee2:
+		GON4 A 3 fast A_FaceTarget
+		GON4 BCDEFGHIJKLMNOPQ 1 fast A_FaceTarget
+    	TNT1 A 0 A_PlaySound("AxeSwing")
+		GON4 Q 3 fast A_CustomMeleeAttack(random(5, 15),"sworbam") //A_SargAttack
+		GON4 RSTUVWXYZ 1 Fast
+		GNN4 ABCDEFGGG 1 Fast
+		Goto See
+/*	Block:
+		TNT1 A 0 A_ChangeFlag(NOPAIN, true)
+		GON4 G 2 A_SetReflectiveInvulnerable
+		GON4 G 29 A_CentaurDefend
+		GON4 G 2 A_UnsetReflectiveInvulnerable
+		TNT1 A 0 A_ChangeFlag(NOPAIN, false)
+		Goto See
+		*/
+	Death:
+		TNT1 A 0 A_Stop
+		TNT1 A 0 A_Recoil(11)
+		GOND ABCDEFGHIJKLMNOPQRSTU 1
+		GOND U 1 A_Scream
+		GOND U 1 A_NoBlocking
+		GOND U 380
+		GOND U 1 A_FadeOut
+		Stop
+	}
+}
+
+
+
+
+
+Actor LotrGondor2Respawn : LotrGondor2 replaces Hellknight
+{
+	Health 55
+	States
+	{
+	Death:
+		TNT1 A 0 A_Stop
+		TNT1 A 0 A_Recoil(11)
+		GOND ABCDEFGHIJKLMNOPQRSTU 1
+		GOND U 1 A_Scream
+		GOND U 1 A_NoBlocking
+		GOND U 380
+		GOND U 1 A_Respawn
+		Stop
+	}
+}

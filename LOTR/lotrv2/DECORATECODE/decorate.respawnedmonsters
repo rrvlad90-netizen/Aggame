@@ -1,0 +1,125 @@
+ACTOR NazgulRespawn replaces revenant
+{
+	Health 280
+	Mass 175
+	Speed 5
+	Height 50
+	Radius 12
+	Monster
+	+FLOORCLIP
+        +DROPOFF
+	//+TELESTOMP
+	+SOLID
+	+BOSS
+	+NOTARGET
+	+NORADIUSDMG
+        +RANDOMIZE
+	+LOOKALLAROUND
+	+NOBLOOD
+	MaxTargetRange 32
+        ReactionTime 1
+	PainChance 80
+	SeeSound "nazgs"
+	//PainSound "Orcdeath"
+	//DeathSound "Orcdeath"
+	//PainChance "isee", 255
+	//DamageFactor "isee", 1
+	States
+	{
+	Spawn:
+	        TNT1 A 0 NoDelay
+		//TNT1 A 0 Thing_ChangeTID(0, 2700)
+		//TNT1 A 0 Thing_Hate(0, 888, 0)
+		ORC2 F 1 A_Look
+		Loop
+	See:
+		ORC2 FGHIJKLMNOPQRSTUVWXYZ 1 A_Chase //A_Chase("Melee", "Missile", CHF_NORANDOMTURN) //begut pryamo no eto ne nuzno, poskolky oni ocen typo s celyami rabotaut
+     	ORC3 AB 1 A_Chase   //CD //A_Chase("Melee", "Missile", CHF_NORANDOMTURN)
+		//TNT1 A 0 A_ClearTarget
+		//TNT1 A 0 A_Look
+		loop
+	Pain:
+		TNT1 A 0 A_Stop
+		ORC4 B 2 A_Recoil(2)
+	 	ORC4 CDC 2 A_Pain
+		TNT1 A 0 A_Jump(90, "Block")	
+		Goto See
+
+
+	//Pain.isee:
+	//	TNT1 A 0 A_GiveInventory ("FF_Health",1)
+//		Goto See
+
+	Melee:
+ 		TNT1 A 0 A_Jump(80,"Scream")
+ 		TNT1 A 0 A_Jump(128,"MoveLeft")
+  		TNT1 A 0 A_Jump(128,"MoveRight")
+		ORC1 A 1 A_FaceTarget
+		ORC1 BDFHJLN 1 A_FaceTarget
+    		TNT1 A 0 A_PlaySound("AxeSwing")
+		ORC1 O 3 A_CustomMeleeAttack(random(9, 21),"sworbam") //A_SargAttack
+		ORC1 PQRSTUVWXYZ 1
+  		ORC2 ABCDE 1
+		Goto Melee2
+        Melee2:
+  		TNT1 A 0  A_Jump(80,"MoveBack")
+		ORC4 A 1 A_FaceTarget
+		ORC4 BDFHJLN 1 A_FaceTarget
+    		TNT1 A 0 A_PlaySound("AxeSwing")
+		ORC4 O 4 A_CustomMeleeAttack(random(15, 26),"sworbam") //A_SargAttack
+		ORC4 PQRSTUVWXYZ 1
+  		ORC5 ABCDEFGHIJKL 1
+		ORC5 L 5
+		//ORC5 L 1 A_ClearTarget
+		//ORC5 L 1 A_Look
+		Goto See //Block
+	Scream:
+		ORC1 Z 2 A_FaceTarget
+		ORC2 A 1 A_PlaySound("nazgs")
+		ORC5 B 2 A_Explode(40,50)
+		ORC5 CCCC 5 A_FaceTarget
+		ORC5 D 2 A_Explode(40,50)
+		ORC5 CCCC 5 A_FaceTarget
+		ORC5 D 2 A_Explode(40,50)
+		ORC5 CCCC 5 A_FaceTarget
+		ORC5 DE 2 A_FaceTarget
+		Goto See
+
+	MoveLeft:
+  		TNT1 A 0  ThrustThing(angle*22,4,0,0)
+		goto See
+
+	MoveRight:
+  		TNT1 A 0  ThrustThing(angle*22,4,0,0)
+		goto See
+	Block:
+		TNT1 A 0 A_Jump(90, "See")
+		ORC4 B 2 A_SetReflectiveInvulnerable
+		ORC4 B 29 A_CentaurDefend
+		ORC4 B 2 A_UnsetReflectiveInvulnerable
+		Goto See
+
+	MoveBack:
+		TNT1 A 0 A_Recoil(1)
+  		TNT1 A 0 A_Jump(150,"MoveBackwardandRight")
+  		TNT1 A 0 A_Jump(150,"MoveBackwardandLeft")
+		Goto See
+
+	MoveBackwardandRight:
+		TNT1 A 0 A_Recoil(1)
+  		TNT1 A 0 ThrustThing(angle*22,4,0,0)
+		goto See
+
+	MoveBackwardandLeft:
+		TNT1 A 0 A_Recoil(1)
+  		TNT1 A 0 ThrustThing(angle*22,4,0,0)
+		goto See
+	Death:
+		ORC3 EFGHIJKLMNOPQRSTUVWXY 1
+		ORC3 Y 1 A_Scream
+		ORC3 Y 1 A_NoBlocking
+		ORC3 Y 750
+		ORC3 Y 1 A_Respawn
+		Stop
+	}
+}

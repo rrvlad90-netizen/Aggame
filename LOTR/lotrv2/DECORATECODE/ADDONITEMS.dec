@@ -1,0 +1,134 @@
+ACTOR InventoryMaxAmount1 : Inventory {
+    Inventory.MaxAmount 1
+	+INVENTORY.UNDROPPABLE
+}
+ACTOR KnockDown : InventoryMaxAmount1 {}
+ACTOR Hurt : InventoryMaxAmount1 {}
+ACTOR isPlayer : InventoryMaxAmount1 {}
+ACTOR ZangetsuEquipped : InventoryMaxAmount1 {}
+ACTOR KubikiribochoEquipped : InventoryMaxAmount1 {}
+ACTOR SpearEquipped : InventoryMaxAmount1 {}
+ACTOR FireBreathJutsuEquipped : InventoryMaxAmount1 {}
+ACTOR ChargeSlashEquipped : InventoryMaxAmount1 {}
+ACTOR ChargeAttackEquipped : InventoryMaxAmount1 {}
+ACTOR ThunderblowEquipped : InventoryMaxAmount1 {}
+ACTOR BlastAttackEquipped : InventoryMaxAmount1 {}
+ACTOR SpinningAttackEquipped : InventoryMaxAmount1 {}
+ACTOR ShurikensEquipped : InventoryMaxAmount1 {}
+ACTOR KunaisEquipped : InventoryMaxAmount1 {}
+ACTOR PlayerRunning : InventoryMaxAmount1 {}
+ACTOR PlayerJump : InventoryMaxAmount1 {}
+ACTOR DoubleJump : InventoryMaxAmount1 {}
+ACTOR isAttacking : InventoryMaxAmount1 {}
+ACTOR isJumping : Inventory {
+    Inventory.MaxAmount 2
+}
+ACTOR isFalling : InventoryMaxAmount1 {}
+ACTOR SkillInUse : InventoryMaxAmount1 {}
+ACTOR PlayerUser1 : InventoryMaxAmount1 {}
+ACTOR PlayerUser2 : InventoryMaxAmount1 {}
+ACTOR PlayerUser3 : InventoryMaxAmount1 {}
+ACTOR PlayerGuarding : InventoryMaxAmount1 {}
+ACTOR BlockAttack : InventoryMaxAmount1 {}
+ACTOR GuardBreak : InventoryMaxAmount1 {}
+ACTOR EvadeCheck : InventoryMaxAmount1 {}
+ACTOR EvadeForward : InventoryMaxAmount1 {}
+ACTOR EvadeBack : InventoryMaxAmount1 {}
+ACTOR EvadeLeft : InventoryMaxAmount1 {}
+ACTOR EvadeRight : InventoryMaxAmount1 {}
+ACTOR WallRunLeftAction : InventoryMaxAmount1 {}
+ACTOR WallRunRightAction : InventoryMaxAmount1 {}
+ACTOR JumpSkillNoUse : InventoryMaxAmount1 {}
+ACTOR JumpShurikenNoUse : InventoryMaxAmount1 {}
+ACTOR ReflectedBullet : InventoryMaxAmount1 {}
+ACTOR ReflectedShuriken : InventoryMaxAmount1 {}
+ACTOR LightAttack1 : InventoryMaxAmount1 {}
+ACTOR LightAttack2 : InventoryMaxAmount1 {}
+ACTOR LightAttack3 : InventoryMaxAmount1 {}
+ACTOR LightAttack4 : InventoryMaxAmount1 {}
+ACTOR LightAttack5 : InventoryMaxAmount1 {}
+ACTOR HardAttack1 : InventoryMaxAmount1 {}
+ACTOR HardAttack2 : InventoryMaxAmount1 {}
+ACTOR HardAttack3 : InventoryMaxAmount1 {}
+ACTOR HardAttack4 : InventoryMaxAmount1 {}
+ACTOR HardAttack5 : InventoryMaxAmount1 {}
+ACTOR HardAttack6 : InventoryMaxAmount1 {}
+ACTOR HardAttack7 : InventoryMaxAmount1 {}
+ACTOR HardAttack8 : InventoryMaxAmount1 {}
+ACTOR HardAttack9 : InventoryMaxAmount1 {}
+ACTOR HardAttack10 : InventoryMaxAmount1 {}
+ACTOR RoundKick : InventoryMaxAmount1 {}
+ACTOR ApproachAttack : InventoryMaxAmount1 {}
+ACTOR AerialApproachAttack : InventoryMaxAmount1 {}
+ACTOR AerialAttack : InventoryMaxAmount1 {}
+ACTOR AerialAttack1 : InventoryMaxAmount1 {}
+ACTOR AerialAttack2 : InventoryMaxAmount1 {}
+ACTOR AerialAttack3 : InventoryMaxAmount1 {}
+ACTOR AerialKick : InventoryMaxAmount1 {}
+ACTOR AerialHardAttack : InventoryMaxAmount1 {}
+ACTOR AerialKickBounce : InventoryMaxAmount1 {}
+ACTOR AerialHardAttackBounce : InventoryMaxAmount1 {}
+ACTOR AutoYaw : InventoryMaxAmount1 {}
+
+
+ACTOR TargetIsBlueOni : InventoryMaxAmount1 {}
+ACTOR BlueOniHealth : Ammo {
+    Inventory.MaxAmount 2000
+	+INVENTORY.IGNORESKILL
+}
+ACTOR ChargingAttack : Inventory {
+    Inventory.MaxAmount 100
+}
+ACTOR BigHitCombos : Inventory {
+    Inventory.MaxAmount 999
+}
+ACTOR HitCombos : Inventory {
+    Inventory.MaxAmount 999
+}
+ACTOR SpellOrb : Ammo {
+    Inventory.MaxAmount 10
+}
+ACTOR GuardArmor : BasicArmorPickup {
+	Inventory.PickupMessage "$GOTMEGA" // "Picked up the MegaArmor!"
+	Inventory.Icon "ARM2A0"
+	Inventory.Amount 1
+	Armor.SavePercent 100
+	Armor.SaveAmount 1
+}
+ACTOR NoArmor : BasicArmorPickup {
+	Radius 20
+	Height 16
+	Inventory.PickupMessage "$GOTMEGA" // "Picked up the MegaArmor!"
+	Inventory.Icon "ARM2A0"
+	Inventory.Amount 1
+	Armor.SavePercent 0
+	Armor.SaveAmount 1
+	States {
+		Spawn:
+		ARM2 A 6
+		ARM2 B 6 Bright
+		Loop
+	}
+}
+ACTOR Zangetsu3D {
+	Radius 12
+	Height 12
+	Scale 1
+	+NOGRAVITY
+	+NOBLOCKMAP
+	+NOCLIP
+	+THRUACTORS
+	States{
+	Spawn:
+		KT3D A 16
+		Stop
+	}
+}
+ACTOR FreezeTimeGiver : PowerupGiver {
+	-COUNTITEM
+	Inventory.MaxAmount 0
+	//Powerup.Type "PowerTimeFreezerSound"
+	Powerup.Duration 0x7FFFFFFD
+	+INVENTORY.AUTOACTIVATE
+	+INVENTORY.ALWAYSPICKUP
+}

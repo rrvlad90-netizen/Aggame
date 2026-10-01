@@ -1,0 +1,11 @@
+$random trollsee {trolsee1 trolsee2 trolsee3 trolsee4}
+trolsee1 trolsee1
+trolsee2 trolsee2
+trolsee3 trolsee3
+trolsee4 trolsee4
+
+
+$random troll {troll1 troll2 troll3}
+troll1 troll1
+troll2 troll2
+troll3 troll3

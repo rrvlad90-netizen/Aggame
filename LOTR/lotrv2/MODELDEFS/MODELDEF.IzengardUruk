@@ -1,0 +1,187 @@
+//110
+//run
+
+Model LotrOrc110
+{
+   Path "models/Izengard/URUK" 
+   Model 0 "run.md3"
+   Skin 0 "ber_diff.jpg" 
+   
+   Scale 0.9 0.9 0.9
+   zoffset 27
+
+   FrameIndex VANR A 0 3
+   FrameIndex VANR B 0 4
+   FrameIndex VANR C 0 5
+   FrameIndex VANR D 0 6
+   FrameIndex VANR E 0 7
+   FrameIndex VANR F 0 8
+   FrameIndex VANR G 0 9
+   FrameIndex VANR H 0 10
+   FrameIndex VANR I 0 11
+   FrameIndex VANR J 0 12
+   FrameIndex VANR K 0 13
+   FrameIndex VANR L 0 14
+   FrameIndex VANR M 0 15
+   FrameIndex VANR N 0 16
+   FrameIndex VANR O 0 17
+   FrameIndex VANR P 0 18
+   FrameIndex VANR Q 0 19
+   FrameIndex VANR R 0 20
+
+
+   FrameIndex VARR A 0 21
+   FrameIndex VARR B 0 22
+   FrameIndex VARR C 0 23
+   FrameIndex VARR D 0 24
+   FrameIndex VARR E 0 25
+   FrameIndex VARR F 0 26
+   FrameIndex VARR G 0 27
+   FrameIndex VARR H 0 28
+   
+   FrameIndex VARR J 0 0
+   FrameIndex VARR K 0 1
+   FrameIndex VARR L 0 2
+}
+
+
+
+//die
+Model LotrOrc110
+{
+   Path "models/Izengard/URUK"  
+   Model 0 "death.md3"
+   Skin 0 "ber_diff.jpg" 
+   
+   Scale 0.9 0.9 0.9
+ //  zoffset 27
+
+
+   FrameIndex VNDD A 0 1
+   FrameIndex VNDD B 0 2
+   FrameIndex VNDD C 0 3
+   FrameIndex VNDD D 0 4
+   FrameIndex VNDD E 0 5
+   FrameIndex VNDD F 0 6
+   FrameIndex VNDD G 0 7
+   FrameIndex VNDD H 0 8
+   FrameIndex VNDD I 0 9
+   FrameIndex VNDD J 0 10
+   FrameIndex VNDD K 0 11
+   FrameIndex VNDD L 0 12
+   FrameIndex VNDD M 0 13
+   FrameIndex VNDD N 0 14
+   FrameIndex VNDD O 0 15
+   FrameIndex VNDD P 0 15
+   FrameIndex VNDD Q 0 15
+   FrameIndex VNDD R 0 15
+   FrameIndex VNDD S 0 15
+   FrameIndex VNDD T 0 15
+   FrameIndex VNDD U 0 15
+ }
+ 
+ 
+ 
+//attack1
+
+Model LotrOrc110
+{
+   Path "models/Izengard/URUK" 
+   Model 0 "attack1.md3"
+   Skin 0 "ber_diff.jpg" 
+   
+   Scale 3.9 3.9 3.9
+   zoffset 4
+
+
+   FrameIndex VAT1 A 0 1
+   FrameIndex VAT1 B 0 2
+   FrameIndex VAT1 C 0 3
+   FrameIndex VAT1 D 0 4
+   FrameIndex VAT1 E 0 5
+   FrameIndex VAT1 F 0 6
+   FrameIndex VAT1 G 0 7
+   FrameIndex VAT1 H 0 8
+   FrameIndex VAT1 I 0 9
+   FrameIndex VAT1 J 0 10
+   FrameIndex VAT1 K 0 11
+   FrameIndex VAT1 L 0 12
+   FrameIndex VAT1 M 0 13
+   FrameIndex VAT1 N 0 14
+   FrameIndex VAT1 O 0 15
+   FrameIndex VAT1 P 0 16
+   FrameIndex VAT1 Q 0 17 //bum
+   FrameIndex VAT1 R 0 18
+   FrameIndex VAT1 S 0 19
+   FrameIndex VAT1 T 0 20
+   FrameIndex VAT1 U 0 21
+   FrameIndex VAT1 V 0 22
+   FrameIndex VAT1 W 0 23
+   FrameIndex VAT1 X 0 24
+   FrameIndex VAT1 Y 0 25
+   FrameIndex VAT1 Z 0 26
+
+	FrameIndex VA11 A 0 26
+	FrameIndex VA11 B 0 27
+	FrameIndex VA11 C 0 28
+	FrameIndex VA11 D 0 29
+	FrameIndex VA11 E 0 31
+	FrameIndex VA11 F 0 32
+	FrameIndex VA11 G 0 33
+	FrameIndex VA11 H 0 34
+	FrameIndex VA11 I 0 35
+	FrameIndex VA11 J 0 36
+	FrameIndex VA11 K 0 37
+	FrameIndex VA11 L 0 38
+	FrameIndex VA11 M 0 39
+}  
+
+
+
+//attack2
+
+Model LotrOrc110
+{
+   Path "models/Izengard/URUK" 
+   Model 0 "attack2.md3"
+   Skin 0 "ber_diff.jpg" 
+   
+   Scale 3.7 3.7 3.7
+
+
+   FrameIndex VAT2 A 0 1
+   FrameIndex VAT2 B 0 2
+   FrameIndex VAT2 C 0 3
+   FrameIndex VAT2 D 0 4
+   FrameIndex VAT2 E 0 5
+   FrameIndex VAT2 F 0 6
+   FrameIndex VAT2 G 0 7
+   FrameIndex VAT2 H 0 8 //bum
+   FrameIndex VAT2 I 0 9
+   FrameIndex VAT2 J 0 10
+   FrameIndex VAT2 K 0 11
+   FrameIndex VAT2 L 0 12
+   FrameIndex VAT2 M 0 13
+   FrameIndex VAT2 N 0 14
+   FrameIndex VAT2 O 0 15
+   FrameIndex VAT2 P 0 16
+   FrameIndex VAT2 Q 0 17
+   FrameIndex VAT2 R 0 18
+   FrameIndex VAT2 S 0 19
+   FrameIndex VAT2 T 0 20
+   FrameIndex VAT2 U 0 21
+   FrameIndex VAT2 V 0 22
+   FrameIndex VAT2 W 0 23
+   FrameIndex VAT2 X 0 24
+   FrameIndex VAT2 Y 0 25
+   FrameIndex VAT2 Z 0 26
+
+   FrameIndex VAA2 A 0 27
+   FrameIndex VAA2 B 0 28
+   FrameIndex VAA2 C 0 29
+   FrameIndex VAA2 D 0 30
+   FrameIndex VAA2 E 0 31
+   FrameIndex VAA2 F 0 32
+   FrameIndex VAA2 G 0 33
+   
+}

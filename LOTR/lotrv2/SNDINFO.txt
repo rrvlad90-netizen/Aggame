@@ -1,0 +1,72 @@
+BBOOM BBOOM
+
+//sword
+//$random sworbam {sworda1 sworda2}
+//sworda1 sworda1
+//sworda2 sworda2
+
+sworbam SWBAM
+
+
+//arrow
+$random ArrowSwing {ARRFL1 ARRFL2 ARRFL3 ARRFL4}
+
+ARRFL1 ARRFL1
+ARRFL2 ARRFL2
+ARRFL3 ARRFL3
+ARRFL4 ARRFL4
+
+BOWREADY BOWREADY
+
+
+
+//orcs
+/*
+$random Orcdeath {null orcd1 orcd2 orcd3 orcd4 null orcd5 orcd6 orcd7 orcd8 orcd9 null orcd10 orcd11 orcd12 orcd13 orcd14}
+null null
+orcd1 orcd1
+orcd2 orcd2
+orcd3 orcd3
+orcd4 orcd4
+orcd5 orcd5
+orcd6 orcd6
+orcd7 orcd7
+orcd8 orcd8
+orcd9 orcd9
+orcd10 orcd10
+orcd11 orcd11
+orcd12 orcd12
+orcd13 orcd13
+orcd14 orcd14
+*/
+
+$random Orcdeath{orcdie1 orcdie2 orcdie3 orcdie1 orcdie2 NULL}
+orcdie1 orcdie1
+orcdie2 orcdie2
+orcdie3 orcdie3
+NULL NULL
+
+$random orcsee {orcs1 orcs2 orcs3 orcs4 orcs5}
+orcs1 orcs1
+orcs2 orcs2
+orcs3 orcs3
+orcs4 orcs4
+orcs5 orcs5
+
+
+$random troll {troll1 troll2 troll3}
+troll1 troll1
+troll2 troll2
+troll3 troll3
+
+
+step1t step1t
+
+//$random AxeSwing {SWOOTH axe2}
+AxeSwing SWOH
+//axe1 SWINGAX1
+//axe2 SWINGAX2
+
+nazgs nazgs
+
+trolbam trolb

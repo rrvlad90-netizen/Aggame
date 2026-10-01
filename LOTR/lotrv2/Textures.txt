@@ -1,0 +1,14 @@
+texture SKY1, 1096, 291
+{
+xscale 1
+//yscale 4
+}
+
+
+flat GRASS1, 1582, 1066
+{
+   XScale 4
+   YScale 4
+   patch GRASS1, 0, 0 
+   WorldPanning
+}

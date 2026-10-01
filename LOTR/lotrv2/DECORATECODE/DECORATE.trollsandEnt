@@ -1,0 +1,123 @@
+///Troll
+Actor MoriaTroll
+{
+  health 650
+  Radius 29
+  Height 45
+  Speed 12
+  mass 9999
+  Monster
+  +LOOKALLAROUND
+  +NOTARGET
+  +DROPOFF
+  +NOBLOOD
+  +RANDOMIZE
+   +BOSS
+SeeSound "trollsee"
+PainSound "troll"
+DeathSound "troll"
+  States
+  {
+  Spawn:
+    TRLA A 1
+    TNT1 A 0 Thing_ChangeTID(0, 2700)
+    TRLA A 1 A_Look
+    Loop
+
+See:
+    TRLL ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_Chase
+	TRL1 ABCDEFGHIJKLMN 1 A_Chase
+	TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 512, 512, 360, "See")
+    Loop
+
+Melee:
+   TNT1 A 0 A_Jump(128,"Melee2")
+   TRLA AAAABBBCCCDEFGHIJKLMN 1 A_FaceTarget
+   TNT1 A 0 A_PlaySound("AxeSwing")
+   TRLA O 4 A_CustomMeleeAttack(30,"trolbam")//A_SargAttack
+   TRLA PQRSTUVWXYZZZ 2
+   Goto See
+
+Melee2:
+   TRAA AAAABBBCCCDEFGHIJKLMNOP 1 A_FaceTarget
+   TNT1 A 0 A_PlaySound("AxeSwing")
+   TRAA Q 4 A_CustomMeleeAttack(38,"trolbam")//A_SargAttack
+   TRAA STUVWXYZZZ 2
+   Goto See
+
+Pain:
+	//TNT1 A 0 A_PlaySound("sworbam")
+    TRLA A 2 A_Pain
+    Goto See
+
+Death:
+    TRLD A 6 A_Scream
+    TRLD B 5 A_NoBlocking
+    TRLD DEFGHIJKLMNOPQRSTU 5
+	TRLD U 680
+    TRLD U 1 A_Respawn
+    Stop		
+  }
+}
+
+
+Actor MoriaTroll2: MoriaTroll
+{
+  +NOBLOOD
+  health 850
+}
+
+
+Actor TrollRespawn : RandomSpawner replaces fatso
+{
+DropItem "MoriaTroll", 255, 255
+DropItem "MoriaTroll2", 255, 255
+}
+
+///Ent
+Actor Ent
+{
+  health 600
+  Radius 29
+  Height 45
+  Speed 12
+  mass 9999
+  Monster
+  +LOOKALLAROUND
+  +NOBLOOD
+  +FRIENDLY
+  +RANDOMIZE
+   +BOSS
+   +DROPOFF
+  States
+  {
+  Spawn:
+    TRLA A 1
+    TNT1 A 0 Thing_ChangeTID(0, 888)
+    TRLA A 1 A_Look
+    Loop
+
+See:
+    TRLL ABCDEFGHIJKLMNOPQRSTUVWXY 2 A_Chase
+	TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 512, 512, 360, "See")
+    Loop
+
+Melee:
+   TRLA AAABBBCDEFGHIJKLMN 1 A_FaceTarget
+   TNT1 A 0 A_PlaySound("Swordswoosh")
+   TRLA O 4 A_SargAttack
+   TRLA PQRSTUVWXYZZZZ 2
+   Goto See
+
+Pain:
+    TRLA A 2 A_Pain
+    Goto See
+
+Death:
+    TRLD A 6 A_Scream
+    TRLD B 5 A_NoBlocking
+    TRLD DEFGHIJKLMNOPQRSTU 5
+    TRLD U -1
+    Stop		
+  }
+}

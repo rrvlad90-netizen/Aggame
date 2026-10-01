@@ -1,0 +1,61 @@
+ACTOR Catapult replaces Cyberdemon
+{  
+  Monster
++SOLID     //you canot push this monster
+  +NOBLOOD
+        +RANDOMIZE
+  +FLOORCLIP
+ // +LOOKALLAROUND
+ +NORADIUSDMG
+ // +CANUSEWALLS
++NOPAIN
+//+FRIENDLY
+speed 1
+Health 235
+  Radius 18 //22
+  Height 60
+  Mass 9999
+  SeeSound "null"
+  AttackSound "null"
+  PainSound "null"
+  ActiveSound "null"
+  //HitObituary "Skeleton archer smash"
+
+//DropItem "SkyrimArrow", 84, 5
+Reactiontime 1
+States
+  {
+
+//-------
+
+ Spawn:
+    TNT1 A 0 NoDelay
+    MES1 A 1
+	TNT1 A 0 Thing_ChangeTID(0, 2700)
+	TNT1 A 0 Thing_Hate(0, 888, 4)
+    MES1 A 10 A_LookEx(0, 0, 2048, 2048, 360, "See")
+    Goto Spawn+3
+
+  See:
+    MES1 A 10
+    TNT1 A 0 A_ChangeFlag("NOTARGET", true)
+    MES1 AAAAAA 2 A_Chase("Missile", "Missile",CHF_DONTMOVE)
+    Goto See+1
+
+  Missile:
+	MES1 A 50
+	MES1 BCDE 2 //A_FaceTarget
+    MES1 E 10 A_CustomMissile("bbombproj",48,0,0,0)
+	MES1 EDCB 2
+	MES1 A 300
+	MES1 A 1 A_ClearTarget
+	Goto See
+  Death:
+		MES1 A 1
+		MES1 A 1 A_Scream
+		MES1 A 1 A_NoBlocking
+		MES1 A 1 A_CustomMissile("FireballExplosionFlamesBig")
+		NULL A -1
+		Stop
+ }
+}

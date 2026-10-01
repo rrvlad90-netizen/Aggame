@@ -1,0 +1,174 @@
+Model NazgulRespawn
+{ 
+   Path "Models/Orc"
+   MODEL 0 "nazgulswordrun.md3"
+   Skin 0 "nazgul.jpg"
+   MODEL 1 "nazgulrun.md3"
+   Skin 1 "nazgul.jpg"
+   Offset 0.0 0.0 18.0
+
+   Scale 0.85 0.85 0.85
+
+   FrameIndex ORC2 F 0 0   FrameIndex ORC2 F 1 0
+   FrameIndex ORC2 G 0 1   FrameIndex ORC2 G 1 1
+   FrameIndex ORC2 H 0 2   FrameIndex ORC2 H 1 2
+   FrameIndex ORC2 I 0 3   FrameIndex ORC2 I 1 3
+   FrameIndex ORC2 J 0 4   FrameIndex ORC2 J 1 4
+   FrameIndex ORC2 K 0 5   FrameIndex ORC2 K 1 5
+   FrameIndex ORC2 L 0 6   FrameIndex ORC2 L 1 6
+   FrameIndex ORC2 M 0 7   FrameIndex ORC2 M 1 7  
+   FrameIndex ORC2 N 0 8   FrameIndex ORC2 N 1 8
+   FrameIndex ORC2 O 0 9   FrameIndex ORC2 O 1 9
+   FrameIndex ORC2 P 0 10   FrameIndex ORC2 P 1 10
+   FrameIndex ORC2 Q 0 11   FrameIndex ORC2 Q 1 11
+   FrameIndex ORC2 R 0 12   FrameIndex ORC2 R 1 12
+   FrameIndex ORC2 S 0 13   FrameIndex ORC2 S 1 13
+   FrameIndex ORC2 T 0 14   FrameIndex ORC2 T 1 14
+   FrameIndex ORC2 U 0 15   FrameIndex ORC2 U 1 15
+   FrameIndex ORC2 V 0 16   FrameIndex ORC2 V 1 16
+   FrameIndex ORC2 W 0 17   FrameIndex ORC2 W 1 17
+   FrameIndex ORC2 X 0 18   FrameIndex ORC2 X 1 18
+   FrameIndex ORC2 Y 0 19   FrameIndex ORC2 Y 1 19
+   FrameIndex ORC2 Z 0 20   FrameIndex ORC2 Z 1 20
+
+   FrameIndex ORC3 A 0 21   FrameIndex ORC3 A 1 21
+   FrameIndex ORC3 B 0 22   FrameIndex ORC3 B 1 22
+}
+
+
+Model NazgulRespawn
+{ 
+   Path "Models/Orc"
+   MODEL 0 "nazgsword.md3"
+   Skin 0 "nazgul.jpg"
+   MODEL 1 "nazg.md3"
+   Skin 1 "nazgul.jpg"
+   //Offset 0.0 0.0 18.0
+
+   Scale 0.85 0.85 0.85
+//hit   
+   FrameIndex ORC1 A 0 0   FrameIndex ORC1 A 1 0
+   FrameIndex ORC1 B 0 1   FrameIndex ORC1 B 1 1
+   FrameIndex ORC1 C 0 2   FrameIndex ORC1 C 1 2
+   FrameIndex ORC1 D 0 3   FrameIndex ORC1 D 1 3
+   FrameIndex ORC1 E 0 4   FrameIndex ORC1 E 1 4
+   FrameIndex ORC1 F 0 5   FrameIndex ORC1 F 1 5
+   FrameIndex ORC1 G 0 6   FrameIndex ORC1 G 1 6
+   FrameIndex ORC1 H 0 7   FrameIndex ORC1 H 1 7
+   FrameIndex ORC1 I 0 8   FrameIndex ORC1 I 1 8
+   FrameIndex ORC1 J 0 9   FrameIndex ORC1 J 1 9
+   FrameIndex ORC1 K 0 10   FrameIndex ORC1 K 1 10
+   FrameIndex ORC1 L 0 11   FrameIndex ORC1 L 1 11
+   FrameIndex ORC1 M 0 12   FrameIndex ORC1 M 1 12
+   FrameIndex ORC1 N 0 13   FrameIndex ORC1 N 1 13
+   FrameIndex ORC1 O 0 14   FrameIndex ORC1 O 1 14
+   FrameIndex ORC1 P 0 15   FrameIndex ORC1 P 1 15
+   FrameIndex ORC1 Q 0 16   FrameIndex ORC1 Q 1 16
+   FrameIndex ORC1 R 0 17   FrameIndex ORC1 R 1 17
+   FrameIndex ORC1 S 0 18   FrameIndex ORC1 S 1 18
+   FrameIndex ORC1 T 0 19   FrameIndex ORC1 T 1 19
+   FrameIndex ORC1 U 0 20   FrameIndex ORC1 U 1 20
+   FrameIndex ORC1 V 0 21   FrameIndex ORC1 V 1 21
+   FrameIndex ORC1 W 0 22   FrameIndex ORC1 W 1 22
+   FrameIndex ORC1 X 0 23   FrameIndex ORC1 X 1 23
+   FrameIndex ORC1 Y 0 24   FrameIndex ORC1 Y 1 24
+   FrameIndex ORC1 Z 0 25   FrameIndex ORC1 Z 1 25
+
+   FrameIndex ORC2 A 0 26   FrameIndex ORC2 A 1 26
+   FrameIndex ORC2 B 0 27   FrameIndex ORC2 B 1 27
+   FrameIndex ORC2 C 0 28   FrameIndex ORC2 C 1 28
+   FrameIndex ORC2 D 0 29   FrameIndex ORC2 D 1 29
+   FrameIndex ORC2 E 0 30   FrameIndex ORC2 E 1 30
+//old run
+/*
+   FrameIndex ORC2 F 0 31   FrameIndex ORC2 F 1 31
+   FrameIndex ORC2 G 0 32   FrameIndex ORC2 G 1 32
+   FrameIndex ORC2 H 0 33   FrameIndex ORC2 H 1 33
+   FrameIndex ORC2 I 0 34   FrameIndex ORC2 I 1 34
+   FrameIndex ORC2 J 0 35   FrameIndex ORC2 J 1 35
+   FrameIndex ORC2 K 0 36   FrameIndex ORC2 K 1 36
+   FrameIndex ORC2 L 0 37   FrameIndex ORC2 L 1 37
+   FrameIndex ORC2 M 0 38   FrameIndex ORC2 M 1 38  
+   FrameIndex ORC2 N 0 39   FrameIndex ORC2 N 1 39
+   FrameIndex ORC2 O 0 40   FrameIndex ORC2 O 1 40
+   FrameIndex ORC2 P 0 41   FrameIndex ORC2 P 1 41
+   FrameIndex ORC2 Q 0 42   FrameIndex ORC2 Q 1 42
+   FrameIndex ORC2 R 0 43   FrameIndex ORC2 R 1 43
+   FrameIndex ORC2 S 0 44   FrameIndex ORC2 S 1 44
+   FrameIndex ORC2 T 0 45   FrameIndex ORC2 T 1 45
+   FrameIndex ORC2 U 0 46   FrameIndex ORC2 U 1 46
+   FrameIndex ORC2 V 0 47   FrameIndex ORC2 V 1 47
+   FrameIndex ORC2 W 0 48   FrameIndex ORC2 W 1 48
+   FrameIndex ORC2 X 0 49   FrameIndex ORC2 X 1 49
+   FrameIndex ORC2 Y 0 50   FrameIndex ORC2 Y 1 50
+   FrameIndex ORC2 Z 0 51   FrameIndex ORC2 Z 1 51
+
+   FrameIndex ORC3 A 0 52   FrameIndex ORC3 A 1 52
+   FrameIndex ORC3 B 0 53   FrameIndex ORC3 B 1 53
+   FrameIndex ORC3 C 0 54   FrameIndex ORC3 C 1 54
+   FrameIndex ORC3 D 0 55   FrameIndex ORC3 D 1 55
+*/
+//die
+   FrameIndex ORC3 E 0 60   FrameIndex ORC3 E 1 60
+   FrameIndex ORC3 F 0 62   FrameIndex ORC3 F 1 62
+   FrameIndex ORC3 G 0 64   FrameIndex ORC3 G 1 64
+   FrameIndex ORC3 H 0 66   FrameIndex ORC3 H 1 66
+   FrameIndex ORC3 I 0 68   FrameIndex ORC3 I 1 68
+   FrameIndex ORC3 J 0 70   FrameIndex ORC3 J 1 70
+   FrameIndex ORC3 K 0 72   FrameIndex ORC3 K 1 72
+   FrameIndex ORC3 L 0 74   FrameIndex ORC3 L 1 74
+   FrameIndex ORC3 M 0 76   FrameIndex ORC3 M 1 76
+   FrameIndex ORC3 N 0 78   FrameIndex ORC3 N 1 78
+   FrameIndex ORC3 O 0 80   FrameIndex ORC3 O 1 80
+   FrameIndex ORC3 P 0 82   FrameIndex ORC3 P 1 82
+   FrameIndex ORC3 Q 0 84   FrameIndex ORC3 Q 1 84
+   FrameIndex ORC3 R 0 86   FrameIndex ORC3 R 1 86
+   FrameIndex ORC3 S 0 88   FrameIndex ORC3 S 1 88
+   FrameIndex ORC3 T 0 90   FrameIndex ORC3 T 1 90
+   FrameIndex ORC3 U 0 92   FrameIndex ORC3 U 1 92
+   FrameIndex ORC3 V 0 94   FrameIndex ORC3 V 1 94
+   FrameIndex ORC3 W 0 96   FrameIndex ORC3 W 1 96
+   FrameIndex ORC3 X 0 98   FrameIndex ORC3 X 1 98
+   FrameIndex ORC3 Y 0 99   FrameIndex ORC3 Y 1 99
+
+//attack2
+   FrameIndex ORC4 A 0 100   FrameIndex ORC4 A 1 100
+   FrameIndex ORC4 B 0 101   FrameIndex ORC4 B 1 101
+   FrameIndex ORC4 C 0 102   FrameIndex ORC4 C 1 102
+   FrameIndex ORC4 D 0 103   FrameIndex ORC4 D 1 103
+   FrameIndex ORC4 E 0 104   FrameIndex ORC4 E 1 104
+   FrameIndex ORC4 F 0 105   FrameIndex ORC4 F 1 105
+   FrameIndex ORC4 G 0 106   FrameIndex ORC4 G 1 106
+   FrameIndex ORC4 H 0 107   FrameIndex ORC4 H 1 107
+   FrameIndex ORC4 I 0 108   FrameIndex ORC4 I 1 108
+   FrameIndex ORC4 J 0 109   FrameIndex ORC4 J 1 109
+   FrameIndex ORC4 K 0 110   FrameIndex ORC4 K 1 110
+   FrameIndex ORC4 L 0 111   FrameIndex ORC4 L 1 111
+   FrameIndex ORC4 M 0 112   FrameIndex ORC4 M 1 112
+   FrameIndex ORC4 N 0 113   FrameIndex ORC4 N 1 113
+   FrameIndex ORC4 O 0 114   FrameIndex ORC4 O 1 114
+   FrameIndex ORC4 P 0 115   FrameIndex ORC4 P 1 115
+   FrameIndex ORC4 Q 0 116   FrameIndex ORC4 Q 1 116
+   FrameIndex ORC4 R 0 117   FrameIndex ORC4 R 1 117
+   FrameIndex ORC4 S 0 118   FrameIndex ORC4 S 1 118
+   FrameIndex ORC4 T 0 119   FrameIndex ORC4 T 1 119
+   FrameIndex ORC4 U 0 120   FrameIndex ORC4 U 1 120
+   FrameIndex ORC4 V 0 121   FrameIndex ORC4 V 1 121
+   FrameIndex ORC4 W 0 122   FrameIndex ORC4 W 1 122
+   FrameIndex ORC4 X 0 123   FrameIndex ORC4 X 1 123
+   FrameIndex ORC4 Y 0 124   FrameIndex ORC4 Y 1 124
+   FrameIndex ORC4 Z 0 125   FrameIndex ORC4 Z 1 125
+
+   FrameIndex ORC5 A 0 126   FrameIndex ORC5 A 1 126
+   FrameIndex ORC5 B 0 127   FrameIndex ORC5 B 1 127
+   FrameIndex ORC5 C 0 128   FrameIndex ORC5 C 1 128
+   FrameIndex ORC5 D 0 129   FrameIndex ORC5 D 1 129
+   FrameIndex ORC5 E 0 130   FrameIndex ORC5 E 1 130
+   FrameIndex ORC5 F 0 131   FrameIndex ORC5 F 1 131
+   FrameIndex ORC5 G 0 132   FrameIndex ORC5 G 1 132
+   FrameIndex ORC5 H 0 133   FrameIndex ORC5 H 1 133
+   FrameIndex ORC5 I 0 134   FrameIndex ORC5 I 1 134
+   FrameIndex ORC5 J 0 135   FrameIndex ORC5 J 1 135
+   FrameIndex ORC5 K 0 136   FrameIndex ORC5 K 1 136
+   FrameIndex ORC5 L 0 137   FrameIndex ORC5 L 1 137
+}

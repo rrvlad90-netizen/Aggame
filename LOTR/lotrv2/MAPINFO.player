@@ -1,0 +1,48 @@
+clearskills
+
+skill nightmare
+{
+   AmmoFactor = 2
+   FastMonsters
+//   DisableCheats
+   RespawnTime = 0
+   SpawnFilter = Nightmare
+   PicName = "M_NMARE"
+   Key = "n"
+}
+
+
+GameInfo
+{
+   PlayerClasses = "PlayerWarrior"
+}
+
+map MAP01 "Fields"
+{
+sky1 = "SKY1"//,0.05
+AllowRespawn 
+nocrouch
+nojump
+//--Sbrasivaet vse cto ukazano nize u igroka esli on perehodit na etu kartu (eto dlya primera kartai tak pervaya, i tak vse sbrositsa)
+ResetHealth
+ResetInventory
+ResetItems
+//---
+music = "D_RUNNIN"
+next = "MAP02"
+}
+
+map MAP02 "Canyon"
+{
+sky1 = "SKY1"//,0.05
+AllowRespawn 
+nocrouch
+nojump
+//--Sbrasivaet vse cto ukazano nize u igroka esli on perehodit na etu kartu (eto dlya primera kartai tak pervaya, i tak vse sbrositsa)
+ResetHealth
+ResetInventory
+ResetItems
+//---
+music = "D_RUNNIN"
+next = "EndGame"
+}

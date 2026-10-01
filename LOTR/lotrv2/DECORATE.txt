@@ -1,0 +1,19 @@
+#include "DECORATECODE/DECORATE.eff"
+#include "DECORATECODE/DECORATE.flameeffect"
+#include "DECORATECODE/DECORATE.catapult"
+
+#include "DECORATECODE/DECORATE.GondorWarrior"
+#include "DECORATECODE/DECORATE.LotrConquestBigOrc"
+#include "DECORATECODE/DECORATE.LotrConquestOrc"
+#include "DECORATECODE/decorate.respawnedmonsters"
+#include "DECORATECODE/DECORATE.SarumanBomb"
+#include "DECORATECODE/DECORATE.teleportFOG"
+#include "DECORATECODE/DECORATE.trollsandEnt"
+
+
+
+#include "DECORATECODE/ADDONITEMS.dec"
+#include "DECORATECODE/decorate.other"
+#include "DECORATECODE/CHASECAM.dec"
+#include "DECORATECODE/DECORATE.Player"
+

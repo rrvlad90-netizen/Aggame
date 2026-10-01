@@ -1,0 +1,18 @@
+
+AddOptionMenu "OptionsMenu"
+{
+	Submenu "Liquid Texture Pack Options", "LTPOptions" 
+}
+
+OptionMenu "LTPOptions" 
+{
+	Title "Liquid Texture Pack Options"
+	Option "Disable Small Splash Particles", "LTP_Smallsplash", "LTPYesOrNo"
+	Option "Disable Large Splash Particles", "LTP_Largesplash", "LTPYesOrNo"
+}
+
+OptionValue "LTPYesOrNo"
+{
+	0, "No"
+	1, "Yes"
+}

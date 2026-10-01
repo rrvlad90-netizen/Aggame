@@ -1,0 +1,36 @@
+Model BBomb 
+{
+	Path "Models/explo"
+	
+	Model 0 "bomb.md3"
+	Skin 0 "bomb.png"
+
+	Scale 1.20 1.20 1.22
+
+	FrameIndex TRLA A 0 0
+}
+
+
+Model bbombproj
+{
+	Path "Models/explo"
+	
+	Model 0 "bomb.md3"
+	Skin 0 "bomb.png"
+
+	Scale 1.20 1.20 1.22
+
+	FrameIndex TRLA A 0 0
+}
+
+Model Ebanutayabbombproj
+{
+	Path "Models/explo"
+	
+	Model 0 "bomb.md3"
+	Skin 0 "bomb.png"
+
+	Scale 1.20 1.20 1.22
+
+	FrameIndex TRLA A 0 0
+}

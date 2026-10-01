@@ -1,0 +1,32 @@
+ flat BLOOD1
+    pic LPLava rand 2 2
+	pic LPLava rand 2 2
+	
+ flat BLOOD2
+    pic LPLava rand 2 2
+	pic LPLava rand 2 2
+	
+ flat BLOOD3
+    pic LPLava rand 2 2
+	pic LPLava rand 2 2
+	
+ flat BLOOD4
+    pic LPLava rand 2 2
+	pic LPLava rand 2 2
+	
+	
+flat LAVA1
+    pic LPLava rand 2 2
+	pic LPLava rand 2 2
+	
+flat LAVA2
+    pic LPLava rand 2 2
+	pic LPLava rand 2 2
+	
+flat LAVA3
+    pic LPLava rand 2 2
+	pic LPLava rand 2 2
+	
+flat LAVA4
+    pic LPLava rand 2 2
+	pic LPLava rand 2 2

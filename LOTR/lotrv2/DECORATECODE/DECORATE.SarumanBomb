@@ -1,0 +1,121 @@
+Actor BBomb replaces ExplosiveBarrel
+{
+  Health 20
+  Radius 10
+  Height 42
+  +SOLID
+  +SHOOTABLE
+  +NOBLOOD
+  +ACTIVATEMCROSS
+  +DONTGIB
+  +NOICEDEATH
+//  +OLDRADIUSDMG
+//  DeathSound "world/barrelx"
+  Obituary "Saruman bombs" // "%o went boom.
+  States
+  {
+  Spawn:
+    TRLA A 6
+    Loop
+  Death:
+    TNT1 A 0 A_PlaySound("BBOOM")
+    TRLA A 5 Bright 
+    TRLA B 5 Bright A_CustomMissile("FireballExplosionFlamesBig")
+    TRLA C 5 Bright A_Explode(1000,190)  //1 - damage, 2- distance 
+    TNT1 A -1
+    Stop
+  }
+}
+
+
+
+Actor bbombproj
+{
+	Radius 7
+	Height 8
+	Speed 65
+//	FastSpeed 65
+	Damage (25)
+//	Scale 0.05
+	Gravity 0.19
+	Projectile
+	-NOGRAVITY
+	+RANDOMIZE
+	+FORCEPAIN
+	+GRENADETRAIL
+	+DONTREFLECT
+	+FOILBUDDHA
+//	+NOEXPLODEFLOOR
+//	+BOUNCEONWALLS
+//	+BOUNCEONFLOORS
+//	+BOUNCEONCEILINGS
+	+DEHEXPLOSION
+	SeeSound "EMPTY/BLANK"
+//	DeathSound "GRBM"
+//	Bouncesound "EMPTY/BLANK"
+//	DamageType Grenade
+//	BounceFactor 0.43
+//	WallBounceFactor 0.25
+//	BounceType Grenade
+  States
+  {
+  Spawn:
+    TRLA A 1
+//	TRLA A 6
+    Loop
+  Death:
+    TNT1 A 0 A_PlaySound("BBOOM")
+    TRLA A 5 Bright 
+    TRLA B 5 Bright A_CustomMissile("FireballExplosionFlamesBig")
+    TRLA C 5 Bright A_Explode(1000,190)  //1 - damage, 2- distance 
+    TNT1 A -1
+    Stop
+  }
+}
+
+
+
+
+Actor Ebanutayabbombproj
+{
+	Radius 7
+	Height 8
+	Speed 10
+	FastSpeed 10
+	Damage (25)
+//	Scale 0.05
+	Gravity 0.25
+	Projectile
+	-NOGRAVITY
+	+RANDOMIZE
+	+FORCEPAIN
+	+GRENADETRAIL
+//	+DONTREFLECT
+	+FOILBUDDHA
+	+NOEXPLODEFLOOR
+	+BOUNCEONWALLS
+	+BOUNCEONFLOORS
+	+BOUNCEONCEILINGS
+	+DEHEXPLOSION
+	SeeSound "EMPTY/BLANK"
+//	DeathSound "GRBM"
+	Bouncesound "EMPTY/BLANK"
+	DamageType Grenade
+	BounceFactor 0.43
+	WallBounceFactor 0.25
+	BounceType Grenade
+  States
+  {
+  Spawn:
+    TRLA A 1
+//	TRLA A 6
+    Loop
+  Death:
+    TNT1 A 0 A_PlaySound("BBOOM")
+    TRLA A 5 Bright 
+    TRLA B 5 Bright A_CustomMissile("FireballExplosionFlamesBig")
+    TRLA C 5 Bright A_Explode(1000,190)  //1 - damage, 2- distance 
+    TNT1 A -1
+    Stop
+  }
+}

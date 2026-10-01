@@ -1,0 +1,961 @@
+
+Model HumanSpawner
+{
+   Path "Models/build"
+   MODEL 0 "flag1.md2"
+   Skin 0 "flags.png"
+   MODEL 1 "palatka.md3"
+   Skin 1 "palatka.png"
+   //Offset 0.0 0.0 18.0
+
+   Scale 1.25 1.25 1.25
+
+   FrameIndex TURR A 0 0   FrameIndex TURR A 1 0
+}
+
+
+Model OrcSpawner
+{
+   Path "Models/build"
+   MODEL 0 "flag2.md2"
+   Skin 0 "flags.png"
+   MODEL 1 "palatka.md3"
+   Skin 1 "palatka.png"
+   //Offset 0.0 0.0 18.0
+
+   Scale 1.25 1.25 1.25
+
+   FrameIndex TURR A 0 0   FrameIndex TURR A 1 0
+}
+
+Model OrcSpawnerBoss
+{
+   Path "Models/build"
+   MODEL 0 "flag2.md2"
+   Skin 0 "flags.png"
+   MODEL 1 "palatka.md3"
+   Skin 1 "palatka.png"
+   //Offset 0.0 0.0 18.0
+
+   Scale 1.25 1.25 1.25
+
+   FrameIndex TURR A 0 0   FrameIndex TURR A 1 0
+}
+
+Model NazgulBoss
+{ 
+   Path "Models/Orc"
+   MODEL 0 "nazgulswordrun.md3"
+   Skin 0 "nazgul.jpg"
+   MODEL 1 "nazgulrun.md3"
+   Skin 1 "nazgul.jpg"
+   Offset 0.0 0.0 18.0
+
+   Scale 0.85 0.85 0.85
+
+   FrameIndex ORC2 F 0 0   FrameIndex ORC2 F 1 0
+   FrameIndex ORC2 G 0 1   FrameIndex ORC2 G 1 1
+   FrameIndex ORC2 H 0 2   FrameIndex ORC2 H 1 2
+   FrameIndex ORC2 I 0 3   FrameIndex ORC2 I 1 3
+   FrameIndex ORC2 J 0 4   FrameIndex ORC2 J 1 4
+   FrameIndex ORC2 K 0 5   FrameIndex ORC2 K 1 5
+   FrameIndex ORC2 L 0 6   FrameIndex ORC2 L 1 6
+   FrameIndex ORC2 M 0 7   FrameIndex ORC2 M 1 7  
+   FrameIndex ORC2 N 0 8   FrameIndex ORC2 N 1 8
+   FrameIndex ORC2 O 0 9   FrameIndex ORC2 O 1 9
+   FrameIndex ORC2 P 0 10   FrameIndex ORC2 P 1 10
+   FrameIndex ORC2 Q 0 11   FrameIndex ORC2 Q 1 11
+   FrameIndex ORC2 R 0 12   FrameIndex ORC2 R 1 12
+   FrameIndex ORC2 S 0 13   FrameIndex ORC2 S 1 13
+   FrameIndex ORC2 T 0 14   FrameIndex ORC2 T 1 14
+   FrameIndex ORC2 U 0 15   FrameIndex ORC2 U 1 15
+   FrameIndex ORC2 V 0 16   FrameIndex ORC2 V 1 16
+   FrameIndex ORC2 W 0 17   FrameIndex ORC2 W 1 17
+   FrameIndex ORC2 X 0 18   FrameIndex ORC2 X 1 18
+   FrameIndex ORC2 Y 0 19   FrameIndex ORC2 Y 1 19
+   FrameIndex ORC2 Z 0 20   FrameIndex ORC2 Z 1 20
+
+   FrameIndex ORC3 A 0 21   FrameIndex ORC3 A 1 21
+   FrameIndex ORC3 B 0 22   FrameIndex ORC3 B 1 22
+}
+
+Model NazgulBoss
+{ 
+   Path "Models/Orc"
+   MODEL 0 "nazgsword.md3"
+   Skin 0 "nazgul.jpg"
+   MODEL 1 "nazg.md3"
+   Skin 1 "nazgul.jpg"
+   //Offset 0.0 0.0 18.0
+
+   Scale 0.85 0.85 0.85
+//hit   
+   FrameIndex ORC1 A 0 0   FrameIndex ORC1 A 1 0
+   FrameIndex ORC1 B 0 1   FrameIndex ORC1 B 1 1
+   FrameIndex ORC1 C 0 2   FrameIndex ORC1 C 1 2
+   FrameIndex ORC1 D 0 3   FrameIndex ORC1 D 1 3
+   FrameIndex ORC1 E 0 4   FrameIndex ORC1 E 1 4
+   FrameIndex ORC1 F 0 5   FrameIndex ORC1 F 1 5
+   FrameIndex ORC1 G 0 6   FrameIndex ORC1 G 1 6
+   FrameIndex ORC1 H 0 7   FrameIndex ORC1 H 1 7
+   FrameIndex ORC1 I 0 8   FrameIndex ORC1 I 1 8
+   FrameIndex ORC1 J 0 9   FrameIndex ORC1 J 1 9
+   FrameIndex ORC1 K 0 10   FrameIndex ORC1 K 1 10
+   FrameIndex ORC1 L 0 11   FrameIndex ORC1 L 1 11
+   FrameIndex ORC1 M 0 12   FrameIndex ORC1 M 1 12
+   FrameIndex ORC1 N 0 13   FrameIndex ORC1 N 1 13
+   FrameIndex ORC1 O 0 14   FrameIndex ORC1 O 1 14
+   FrameIndex ORC1 P 0 15   FrameIndex ORC1 P 1 15
+   FrameIndex ORC1 Q 0 16   FrameIndex ORC1 Q 1 16
+   FrameIndex ORC1 R 0 17   FrameIndex ORC1 R 1 17
+   FrameIndex ORC1 S 0 18   FrameIndex ORC1 S 1 18
+   FrameIndex ORC1 T 0 19   FrameIndex ORC1 T 1 19
+   FrameIndex ORC1 U 0 20   FrameIndex ORC1 U 1 20
+   FrameIndex ORC1 V 0 21   FrameIndex ORC1 V 1 21
+   FrameIndex ORC1 W 0 22   FrameIndex ORC1 W 1 22
+   FrameIndex ORC1 X 0 23   FrameIndex ORC1 X 1 23
+   FrameIndex ORC1 Y 0 24   FrameIndex ORC1 Y 1 24
+   FrameIndex ORC1 Z 0 25   FrameIndex ORC1 Z 1 25
+
+   FrameIndex ORC2 A 0 26   FrameIndex ORC2 A 1 26
+   FrameIndex ORC2 B 0 27   FrameIndex ORC2 B 1 27
+   FrameIndex ORC2 C 0 28   FrameIndex ORC2 C 1 28
+   FrameIndex ORC2 D 0 29   FrameIndex ORC2 D 1 29
+   FrameIndex ORC2 E 0 30   FrameIndex ORC2 E 1 30
+//old run
+/*   FrameIndex ORC2 F 0 31   FrameIndex ORC2 F 1 31
+   FrameIndex ORC2 G 0 32   FrameIndex ORC2 G 1 32
+   FrameIndex ORC2 H 0 33   FrameIndex ORC2 H 1 33
+   FrameIndex ORC2 I 0 34   FrameIndex ORC2 I 1 34
+   FrameIndex ORC2 J 0 35   FrameIndex ORC2 J 1 35
+   FrameIndex ORC2 K 0 36   FrameIndex ORC2 K 1 36
+   FrameIndex ORC2 L 0 37   FrameIndex ORC2 L 1 37
+   FrameIndex ORC2 M 0 38   FrameIndex ORC2 M 1 38  
+   FrameIndex ORC2 N 0 39   FrameIndex ORC2 N 1 39
+   FrameIndex ORC2 O 0 40   FrameIndex ORC2 O 1 40
+   FrameIndex ORC2 P 0 41   FrameIndex ORC2 P 1 41
+   FrameIndex ORC2 Q 0 42   FrameIndex ORC2 Q 1 42
+   FrameIndex ORC2 R 0 43   FrameIndex ORC2 R 1 43
+   FrameIndex ORC2 S 0 44   FrameIndex ORC2 S 1 44
+   FrameIndex ORC2 T 0 45   FrameIndex ORC2 T 1 45
+   FrameIndex ORC2 U 0 46   FrameIndex ORC2 U 1 46
+   FrameIndex ORC2 V 0 47   FrameIndex ORC2 V 1 47
+   FrameIndex ORC2 W 0 48   FrameIndex ORC2 W 1 48
+   FrameIndex ORC2 X 0 49   FrameIndex ORC2 X 1 49
+   FrameIndex ORC2 Y 0 50   FrameIndex ORC2 Y 1 50
+   FrameIndex ORC2 Z 0 51   FrameIndex ORC2 Z 1 51
+
+   FrameIndex ORC3 A 0 52   FrameIndex ORC3 A 1 52
+   FrameIndex ORC3 B 0 53   FrameIndex ORC3 B 1 53
+   FrameIndex ORC3 C 0 54   FrameIndex ORC3 C 1 54
+   FrameIndex ORC3 D 0 55   FrameIndex ORC3 D 1 55
+*/
+//die
+   FrameIndex ORC3 E 0 60   FrameIndex ORC3 E 1 60
+   FrameIndex ORC3 F 0 62   FrameIndex ORC3 F 1 62
+   FrameIndex ORC3 G 0 64   FrameIndex ORC3 G 1 64
+   FrameIndex ORC3 H 0 66   FrameIndex ORC3 H 1 66
+   FrameIndex ORC3 I 0 68   FrameIndex ORC3 I 1 68
+   FrameIndex ORC3 J 0 70   FrameIndex ORC3 J 1 70
+   FrameIndex ORC3 K 0 72   FrameIndex ORC3 K 1 72
+   FrameIndex ORC3 L 0 74   FrameIndex ORC3 L 1 74
+   FrameIndex ORC3 M 0 76   FrameIndex ORC3 M 1 76
+   FrameIndex ORC3 N 0 78   FrameIndex ORC3 N 1 78
+   FrameIndex ORC3 O 0 80   FrameIndex ORC3 O 1 80
+   FrameIndex ORC3 P 0 82   FrameIndex ORC3 P 1 82
+   FrameIndex ORC3 Q 0 84   FrameIndex ORC3 Q 1 84
+   FrameIndex ORC3 R 0 86   FrameIndex ORC3 R 1 86
+   FrameIndex ORC3 S 0 88   FrameIndex ORC3 S 1 88
+   FrameIndex ORC3 T 0 90   FrameIndex ORC3 T 1 90
+   FrameIndex ORC3 U 0 92   FrameIndex ORC3 U 1 92
+   FrameIndex ORC3 V 0 94   FrameIndex ORC3 V 1 94
+   FrameIndex ORC3 W 0 96   FrameIndex ORC3 W 1 96
+   FrameIndex ORC3 X 0 98   FrameIndex ORC3 X 1 98
+   FrameIndex ORC3 Y 0 99   FrameIndex ORC3 Y 1 99
+
+//attack2
+   FrameIndex ORC4 A 0 100   FrameIndex ORC4 A 1 100
+   FrameIndex ORC4 B 0 101   FrameIndex ORC4 B 1 101
+   FrameIndex ORC4 C 0 102   FrameIndex ORC4 C 1 102
+   FrameIndex ORC4 D 0 103   FrameIndex ORC4 D 1 103
+   FrameIndex ORC4 E 0 104   FrameIndex ORC4 E 1 104
+   FrameIndex ORC4 F 0 105   FrameIndex ORC4 F 1 105
+   FrameIndex ORC4 G 0 106   FrameIndex ORC4 G 1 106
+   FrameIndex ORC4 H 0 107   FrameIndex ORC4 H 1 107
+   FrameIndex ORC4 I 0 108   FrameIndex ORC4 I 1 108
+   FrameIndex ORC4 J 0 109   FrameIndex ORC4 J 1 109
+   FrameIndex ORC4 K 0 110   FrameIndex ORC4 K 1 110
+   FrameIndex ORC4 L 0 111   FrameIndex ORC4 L 1 111
+   FrameIndex ORC4 M 0 112   FrameIndex ORC4 M 1 112
+   FrameIndex ORC4 N 0 113   FrameIndex ORC4 N 1 113
+   FrameIndex ORC4 O 0 114   FrameIndex ORC4 O 1 114
+   FrameIndex ORC4 P 0 115   FrameIndex ORC4 P 1 115
+   FrameIndex ORC4 Q 0 116   FrameIndex ORC4 Q 1 116
+   FrameIndex ORC4 R 0 117   FrameIndex ORC4 R 1 117
+   FrameIndex ORC4 S 0 118   FrameIndex ORC4 S 1 118
+   FrameIndex ORC4 T 0 119   FrameIndex ORC4 T 1 119
+   FrameIndex ORC4 U 0 120   FrameIndex ORC4 U 1 120
+   FrameIndex ORC4 V 0 121   FrameIndex ORC4 V 1 121
+   FrameIndex ORC4 W 0 122   FrameIndex ORC4 W 1 122
+   FrameIndex ORC4 X 0 123   FrameIndex ORC4 X 1 123
+   FrameIndex ORC4 Y 0 124   FrameIndex ORC4 Y 1 124
+   FrameIndex ORC4 Z 0 125   FrameIndex ORC4 Z 1 125
+
+   FrameIndex ORC5 A 0 126   FrameIndex ORC5 A 1 126
+   FrameIndex ORC5 B 0 127   FrameIndex ORC5 B 1 127
+   FrameIndex ORC5 C 0 128   FrameIndex ORC5 C 1 128
+   FrameIndex ORC5 D 0 129   FrameIndex ORC5 D 1 129
+   FrameIndex ORC5 E 0 130   FrameIndex ORC5 E 1 130
+   FrameIndex ORC5 F 0 131   FrameIndex ORC5 F 1 131
+   FrameIndex ORC5 G 0 132   FrameIndex ORC5 G 1 132
+   FrameIndex ORC5 H 0 133   FrameIndex ORC5 H 1 133
+   FrameIndex ORC5 I 0 134   FrameIndex ORC5 I 1 134
+   FrameIndex ORC5 J 0 135   FrameIndex ORC5 J 1 135
+   FrameIndex ORC5 K 0 136   FrameIndex ORC5 K 1 136
+   FrameIndex ORC5 L 0 137   FrameIndex ORC5 L 1 137
+}
+
+
+
+
+
+
+
+
+//archer gondor
+
+Model LotrArcherGondor2 
+{ 
+   Path "Models/gondor"
+   MODEL 0 "dondownarmour.md3"
+   Skin 0 "GuAnorienA.jpg"
+   MODEL 1 "gonarmup.md3"
+   Skin 1 "GuAnorienA.jpg"
+   MODEL 2 "facearcher_and_bow_run.md3"
+   Skin 2 "GuGearA.jpg"
+   //Offset 0.0 0.0 18.0
+
+   Scale 0.85 0.85 0.85
+//hit   
+   FrameIndex GON1 A 0 0   FrameIndex GON1 A 1 0   FrameIndex GON1 A 2 0
+   FrameIndex GON1 B 0 1   FrameIndex GON1 B 1 1   FrameIndex GON1 B 2 1
+   FrameIndex GON1 C 0 2   FrameIndex GON1 C 1 2   FrameIndex GON1 C 2 2
+   FrameIndex GON1 D 0 3   FrameIndex GON1 D 1 3   FrameIndex GON1 D 2 3
+   FrameIndex GON1 E 0 4   FrameIndex GON1 E 1 4   FrameIndex GON1 E 2 4
+   FrameIndex GON1 F 0 5   FrameIndex GON1 F 1 5   FrameIndex GON1 F 2 5
+   FrameIndex GON1 G 0 6   FrameIndex GON1 G 1 6   FrameIndex GON1 G 2 6
+   FrameIndex GON1 H 0 7   FrameIndex GON1 H 1 7   FrameIndex GON1 H 2 7
+   FrameIndex GON1 I 0 8   FrameIndex GON1 I 1 8   FrameIndex GON1 I 2 8
+   FrameIndex GON1 J 0 9   FrameIndex GON1 J 1 9   FrameIndex GON1 J 2 9
+   FrameIndex GON1 K 0 10   FrameIndex GON1 K 1 10   FrameIndex GON1 K 2 10
+   FrameIndex GON1 L 0 11   FrameIndex GON1 L 1 11   FrameIndex GON1 L 2 11
+   FrameIndex GON1 M 0 12   FrameIndex GON1 M 1 12   FrameIndex GON1 M 2 12
+   FrameIndex GON1 N 0 13   FrameIndex GON1 N 1 13   FrameIndex GON1 N 2 13
+   FrameIndex GON1 O 0 14   FrameIndex GON1 O 1 14   FrameIndex GON1 O 2 14
+   FrameIndex GON1 P 0 15   FrameIndex GON1 P 1 15   FrameIndex GON1 P 2 15
+   FrameIndex GON1 Q 0 16   FrameIndex GON1 Q 1 16   FrameIndex GON1 Q 2 16
+   FrameIndex GON1 R 0 17   FrameIndex GON1 R 1 17   FrameIndex GON1 R 2 17
+   FrameIndex GON1 S 0 18   FrameIndex GON1 S 1 18   FrameIndex GON1 S 2 18
+   FrameIndex GON1 T 0 19   FrameIndex GON1 T 1 19   FrameIndex GON1 T 2 19
+   FrameIndex GON1 U 0 20   FrameIndex GON1 U 1 20   FrameIndex GON1 U 2 20
+   FrameIndex GON1 V 0 21   FrameIndex GON1 V 1 21   FrameIndex GON1 V 2 21
+   FrameIndex GON1 W 0 22   FrameIndex GON1 W 1 22   FrameIndex GON1 W 2 22
+   FrameIndex GON1 X 0 23   FrameIndex GON1 X 1 23   FrameIndex GON1 X 2 23
+   FrameIndex GON1 Y 0 24   FrameIndex GON1 Y 1 24   FrameIndex GON1 Y 2 24
+   FrameIndex GON1 Z 0 25   FrameIndex GON1 Z 1 25   FrameIndex GON1 Z 2 25
+
+   FrameIndex GON2 A 0 26   FrameIndex GON2 A 1 26   FrameIndex GON2 A 2 26
+   FrameIndex GON2 B 0 27   FrameIndex GON2 B 1 27   FrameIndex GON2 B 2 27
+   FrameIndex GON2 C 0 28   FrameIndex GON2 C 1 28   FrameIndex GON2 C 2 28
+   FrameIndex GON2 D 0 29   FrameIndex GON2 D 1 29   FrameIndex GON2 D 2 29
+   FrameIndex GON2 E 0 30   FrameIndex GON2 E 1 30   FrameIndex GON2 E 2 30
+//run
+   FrameIndex GON2 F 0 31   FrameIndex GON2 F 1 31   FrameIndex GON2 F 2 31
+   FrameIndex GON2 G 0 32   FrameIndex GON2 G 1 32   FrameIndex GON2 G 2 32
+   FrameIndex GON2 H 0 33   FrameIndex GON2 H 1 33   FrameIndex GON2 H 2 33
+   FrameIndex GON2 I 0 34   FrameIndex GON2 I 1 34   FrameIndex GON2 I 2 34
+   FrameIndex GON2 J 0 35   FrameIndex GON2 J 1 35   FrameIndex GON2 J 2 35
+   FrameIndex GON2 K 0 36   FrameIndex GON2 K 1 36   FrameIndex GON2 K 2 36
+   FrameIndex GON2 L 0 37   FrameIndex GON2 L 1 37   FrameIndex GON2 L 2 37
+   FrameIndex GON2 M 0 38   FrameIndex GON2 M 1 38   FrameIndex GON2 M 2 38    
+   FrameIndex GON2 N 0 39   FrameIndex GON2 N 1 39   FrameIndex GON2 N 2 39
+   FrameIndex GON2 O 0 40   FrameIndex GON2 O 1 40   FrameIndex GON2 O 2 40
+   FrameIndex GON2 P 0 41   FrameIndex GON2 P 1 41   FrameIndex GON2 P 2 41
+   FrameIndex GON2 Q 0 42   FrameIndex GON2 Q 1 42   FrameIndex GON2 Q 2 42
+   FrameIndex GON2 R 0 43   FrameIndex GON2 R 1 43   FrameIndex GON2 R 2 43
+   FrameIndex GON2 S 0 44   FrameIndex GON2 S 1 44   FrameIndex GON2 S 2 44
+   FrameIndex GON2 T 0 45   FrameIndex GON2 T 1 45   FrameIndex GON2 T 2 45
+   FrameIndex GON2 U 0 46   FrameIndex GON2 U 1 46   FrameIndex GON2 U 2 46
+   FrameIndex GON2 V 0 47   FrameIndex GON2 V 1 47   FrameIndex GON2 V 2 47
+   FrameIndex GON2 W 0 48   FrameIndex GON2 W 1 48   FrameIndex GON2 W 2 48
+   FrameIndex GON2 X 0 49   FrameIndex GON2 X 1 49   FrameIndex GON2 X 2 49
+   FrameIndex GON2 Y 0 50   FrameIndex GON2 Y 1 50   FrameIndex GON2 Y 2 50
+   FrameIndex GON2 Z 0 51   FrameIndex GON2 Z 1 51   FrameIndex GON2 Z 2 51
+
+   FrameIndex GON3 A 0 52   FrameIndex GON3 A 1 52   FrameIndex GON3 A 2 52
+   FrameIndex GON3 B 0 53   FrameIndex GON3 B 1 53   FrameIndex GON3 B 2 53
+   FrameIndex GON3 C 0 54   FrameIndex GON3 C 1 54   FrameIndex GON3 C 2 54
+   FrameIndex GON3 D 0 55   FrameIndex GON3 D 1 55   FrameIndex GON3 D 2 55
+
+//die
+   FrameIndex GON3 E 0 60   FrameIndex GON3 E 1 60   FrameIndex GON3 E 2 60
+   FrameIndex GON3 F 0 62   FrameIndex GON3 F 1 62   FrameIndex GON3 F 2 62
+   FrameIndex GON3 G 0 64   FrameIndex GON3 G 1 64   FrameIndex GON3 G 2 64
+   FrameIndex GON3 H 0 66   FrameIndex GON3 H 1 66   FrameIndex GON3 H 2 66
+   FrameIndex GON3 I 0 68   FrameIndex GON3 I 1 68   FrameIndex GON3 I 2 68
+   FrameIndex GON3 J 0 70   FrameIndex GON3 J 1 70   FrameIndex GON3 J 2 70
+   FrameIndex GON3 K 0 72   FrameIndex GON3 K 1 72   FrameIndex GON3 K 2 72
+   FrameIndex GON3 L 0 74   FrameIndex GON3 L 1 74   FrameIndex GON3 L 2 74
+   FrameIndex GON3 M 0 76   FrameIndex GON3 M 1 76   FrameIndex GON3 M 2 76
+   FrameIndex GON3 N 0 78   FrameIndex GON3 N 1 78   FrameIndex GON3 N 2 78
+   FrameIndex GON3 O 0 80   FrameIndex GON3 O 1 80   FrameIndex GON3 O 2 80
+   FrameIndex GON3 P 0 82   FrameIndex GON3 P 1 82   FrameIndex GON3 P 2 82
+   FrameIndex GON3 Q 0 84   FrameIndex GON3 Q 1 84   FrameIndex GON3 Q 2 84
+   FrameIndex GON3 R 0 86   FrameIndex GON3 R 1 86   FrameIndex GON3 R 2 86
+   FrameIndex GON3 S 0 88   FrameIndex GON3 S 1 88   FrameIndex GON3 S 2 88
+   FrameIndex GON3 T 0 90   FrameIndex GON3 T 1 90   FrameIndex GON3 T 2 90
+   FrameIndex GON3 U 0 92   FrameIndex GON3 U 1 92   FrameIndex GON3 U 2 92
+   FrameIndex GON3 V 0 94   FrameIndex GON3 V 1 94   FrameIndex GON3 V 2 94
+   FrameIndex GON3 W 0 96   FrameIndex GON3 W 1 96   FrameIndex GON3 W 2 96
+   FrameIndex GON3 X 0 98   FrameIndex GON3 X 1 98   FrameIndex GON3 X 2 98
+   FrameIndex GON3 Y 0 99   FrameIndex GON3 Y 1 99   FrameIndex GON3 Y 2 99
+
+//attack2
+   FrameIndex GON4 A 0 100   FrameIndex GON4 A 1 100   FrameIndex GON4 A 2 100
+   FrameIndex GON4 B 0 101   FrameIndex GON4 B 1 101   FrameIndex GON4 B 2 101
+   FrameIndex GON4 C 0 102   FrameIndex GON4 C 1 102   FrameIndex GON4 C 2 102
+   FrameIndex GON4 D 0 103   FrameIndex GON4 D 1 103   FrameIndex GON4 D 2 103
+   FrameIndex GON4 E 0 104   FrameIndex GON4 E 1 104   FrameIndex GON4 E 2 104
+   FrameIndex GON4 F 0 105   FrameIndex GON4 F 1 105   FrameIndex GON4 F 2 105
+   FrameIndex GON4 G 0 106   FrameIndex GON4 G 1 106   FrameIndex GON4 G 2 106
+   FrameIndex GON4 H 0 107   FrameIndex GON4 H 1 107   FrameIndex GON4 H 2 107
+   FrameIndex GON4 I 0 108   FrameIndex GON4 I 1 108   FrameIndex GON4 I 2 108
+   FrameIndex GON4 J 0 109   FrameIndex GON4 J 1 109   FrameIndex GON4 J 2 109
+   FrameIndex GON4 K 0 110   FrameIndex GON4 K 1 110   FrameIndex GON4 K 2 110
+   FrameIndex GON4 L 0 111   FrameIndex GON4 L 1 111   FrameIndex GON4 L 2 111
+   FrameIndex GON4 M 0 112   FrameIndex GON4 M 1 112   FrameIndex GON4 M 2 112
+   FrameIndex GON4 N 0 113   FrameIndex GON4 N 1 113   FrameIndex GON4 N 2 113
+   FrameIndex GON4 O 0 114   FrameIndex GON4 O 1 114   FrameIndex GON4 O 2 114
+   FrameIndex GON4 P 0 115   FrameIndex GON4 P 1 115   FrameIndex GON4 P 2 115
+   FrameIndex GON4 Q 0 116   FrameIndex GON4 Q 1 116   FrameIndex GON4 Q 2 116
+   FrameIndex GON4 R 0 117   FrameIndex GON4 R 1 117   FrameIndex GON4 R 2 117
+   FrameIndex GON4 S 0 118   FrameIndex GON4 S 1 118   FrameIndex GON4 S 2 118
+   FrameIndex GON4 T 0 119   FrameIndex GON4 T 1 119   FrameIndex GON4 T 2 119
+   FrameIndex GON4 U 0 120   FrameIndex GON4 U 1 120   FrameIndex GON4 U 2 120
+   FrameIndex GON4 V 0 121   FrameIndex GON4 V 1 121   FrameIndex GON4 V 2 121
+   FrameIndex GON4 W 0 122   FrameIndex GON4 W 1 122   FrameIndex GON4 W 2 122
+   FrameIndex GON4 X 0 123   FrameIndex GON4 X 1 123   FrameIndex GON4 X 2 123
+   FrameIndex GON4 Y 0 124   FrameIndex GON4 Y 1 124   FrameIndex GON4 Y 2 124
+   FrameIndex GON4 Z 0 125   FrameIndex GON4 Z 1 125   FrameIndex GON4 Z 2 125
+
+   FrameIndex GON5 A 0 126   FrameIndex GON5 A 1 126   FrameIndex GON5 A 2 126
+   FrameIndex GON5 B 0 127   FrameIndex GON5 B 1 127   FrameIndex GON5 B 2 127
+   FrameIndex GON5 C 0 128   FrameIndex GON5 C 1 128   FrameIndex GON5 C 2 128
+   FrameIndex GON5 D 0 129   FrameIndex GON5 D 1 129   FrameIndex GON5 D 2 129
+   FrameIndex GON5 E 0 130   FrameIndex GON5 E 1 130   FrameIndex GON5 E 2 130
+   FrameIndex GON5 F 0 131   FrameIndex GON5 F 1 131   FrameIndex GON5 F 2 131
+   FrameIndex GON5 G 0 132   FrameIndex GON5 G 1 132   FrameIndex GON5 G 2 132
+   FrameIndex GON5 H 0 133   FrameIndex GON5 H 1 133   FrameIndex GON5 H 2 133
+   FrameIndex GON5 I 0 134   FrameIndex GON5 I 1 134   FrameIndex GON5 I 2 134
+   FrameIndex GON5 J 0 135   FrameIndex GON5 J 1 135   FrameIndex GON5 J 2 135
+   FrameIndex GON5 K 0 136   FrameIndex GON5 K 1 136   FrameIndex GON5 K 2 136
+   FrameIndex GON5 L 0 137   FrameIndex GON5 L 1 137   FrameIndex GON5 L 2 137
+}
+
+Model LotrArcherGondor2 
+{ 
+   Path "Models/gondor"
+   MODEL 0 "archerdospeh.md3"
+   Skin 0 "GuAnorienA.jpg"
+   MODEL 1 "archerdospeh2.md3"
+   Skin 1 "GuAnorienA.jpg"
+   MODEL 2 "archernaplecniki.md3"
+   Skin 2 "GuAnorienA.jpg"
+   MODEL 3 "facearcher_and_bow.md3"
+   Skin 3 "GuGearA.jpg"
+   //Offset 0.0 0.0 18.0
+
+   Scale 0.85 0.85 0.85
+//archer shoot
+FrameIndex MES1 A 0 0 FrameIndex MES1 A 1 0 FrameIndex MES1 A 2 0 FrameIndex MES1 A 3 0
+FrameIndex MES1 B 0 2 FrameIndex MES1 B 1 2 FrameIndex MES1 B 2 2 FrameIndex MES1 B 3 2
+FrameIndex MES1 C 0 4 FrameIndex MES1 C 1 4 FrameIndex MES1 C 2 4 FrameIndex MES1 C 3 4
+FrameIndex MES1 D 0 6 FrameIndex MES1 D 1 6 FrameIndex MES1 D 2 6 FrameIndex MES1 D 3 6
+FrameIndex MES1 E 0 8 FrameIndex MES1 E 1 8 FrameIndex MES1 E 2 8 FrameIndex MES1 E 3 8
+FrameIndex MES1 F 0 10 FrameIndex MES1 F 1 10 FrameIndex MES1 F 2 10 FrameIndex MES1 F 3 10
+FrameIndex MES1 G 0 12 FrameIndex MES1 G 1 12 FrameIndex MES1 G 2 12 FrameIndex MES1 G 3 12
+FrameIndex MES1 H 0 14 FrameIndex MES1 H 1 14 FrameIndex MES1 H 2 14 FrameIndex MES1 H 3 14
+FrameIndex MES1 I 0 16 FrameIndex MES1 I 1 16 FrameIndex MES1 I 2 16 FrameIndex MES1 I 3 16
+FrameIndex MES1 J 0 18 FrameIndex MES1 J 1 18 FrameIndex MES1 J 2 18 FrameIndex MES1 J 3 18
+FrameIndex MES1 K 0 20 FrameIndex MES1 K 1 20 FrameIndex MES1 K 2 20 FrameIndex MES1 K 3 20
+FrameIndex MES1 L 0 22 FrameIndex MES1 L 1 22 FrameIndex MES1 L 2 22 FrameIndex MES1 L 3 22
+FrameIndex MES1 M 0 24 FrameIndex MES1 M 1 24 FrameIndex MES1 M 2 24 FrameIndex MES1 M 3 24
+FrameIndex MES1 N 0 26 FrameIndex MES1 N 1 26 FrameIndex MES1 N 2 26 FrameIndex MES1 N 3 26
+FrameIndex MES1 O 0 28 FrameIndex MES1 O 1 28 FrameIndex MES1 O 2 28 FrameIndex MES1 O 3 28
+FrameIndex MES1 P 0 30 FrameIndex MES1 P 1 30 FrameIndex MES1 P 2 30 FrameIndex MES1 P 3 30
+FrameIndex MES1 Q 0 32 FrameIndex MES1 Q 1 32 FrameIndex MES1 Q 2 32 FrameIndex MES1 Q 3 32
+FrameIndex MES1 R 0 34 FrameIndex MES1 R 1 34 FrameIndex MES1 R 2 34 FrameIndex MES1 R 3 34
+FrameIndex MES1 S 0 36 FrameIndex MES1 S 1 36 FrameIndex MES1 S 2 36 FrameIndex MES1 S 3 36
+FrameIndex MES1 T 0 38 FrameIndex MES1 T 1 38 FrameIndex MES1 T 2 38 FrameIndex MES1 T 3 38
+FrameIndex MES1 U 0 40 FrameIndex MES1 U 1 40 FrameIndex MES1 U 2 40 FrameIndex MES1 U 3 40
+FrameIndex MES1 V 0 42 FrameIndex MES1 V 1 42 FrameIndex MES1 V 2 42 FrameIndex MES1 V 3 42
+FrameIndex MES1 W 0 44 FrameIndex MES1 W 1 44 FrameIndex MES1 W 2 44 FrameIndex MES1 W 3 44
+FrameIndex MES1 X 0 46 FrameIndex MES1 X 1 46 FrameIndex MES1 X 2 46 FrameIndex MES1 X 3 46
+FrameIndex MES1 Y 0 48 FrameIndex MES1 Y 1 48 FrameIndex MES1 Y 2 48 FrameIndex MES1 Y 3 48
+FrameIndex MES1 Z 0 50 FrameIndex MES1 Z 1 50 FrameIndex MES1 Z 2 50 FrameIndex MES1 Z 3 50
+
+FrameIndex MES2 A 0 52 FrameIndex MES2 A 1 52 FrameIndex MES2 A 2 52 FrameIndex MES2 A 3 52
+FrameIndex MES2 B 0 54 FrameIndex MES2 B 1 54 FrameIndex MES2 B 2 54 FrameIndex MES2 B 3 54
+FrameIndex MES2 C 0 56 FrameIndex MES2 C 1 56 FrameIndex MES2 C 2 56 FrameIndex MES2 C 3 56
+FrameIndex MES2 D 0 58 FrameIndex MES2 D 1 58 FrameIndex MES2 D 2 58 FrameIndex MES2 D 3 58
+FrameIndex MES2 E 0 60 FrameIndex MES2 E 1 60 FrameIndex MES2 E 2 60 FrameIndex MES2 E 3 60
+FrameIndex MES2 F 0 62 FrameIndex MES2 F 1 62 FrameIndex MES2 F 2 62 FrameIndex MES2 F 3 62
+FrameIndex MES2 G 0 64 FrameIndex MES2 G 1 64 FrameIndex MES2 G 2 64 FrameIndex MES2 G 3 64
+FrameIndex MES2 H 0 66 FrameIndex MES2 H 1 66 FrameIndex MES2 H 2 66 FrameIndex MES2 H 3 66
+FrameIndex MES2 I 0 68 FrameIndex MES2 I 1 68 FrameIndex MES2 I 2 68 FrameIndex MES2 I 3 68
+FrameIndex MES2 J 0 70 FrameIndex MES2 J 1 70 FrameIndex MES2 J 2 70 FrameIndex MES2 J 3 70
+FrameIndex MES2 K 0 72 FrameIndex MES2 K 1 72 FrameIndex MES2 K 2 72 FrameIndex MES2 K 3 72
+FrameIndex MES2 L 0 74 FrameIndex MES2 L 1 74 FrameIndex MES2 L 2 74 FrameIndex MES2 L 3 74
+FrameIndex MES2 M 0 78 FrameIndex MES2 M 1 78 FrameIndex MES2 M 2 78 FrameIndex MES2 M 3 78
+FrameIndex MES2 N 0 80 FrameIndex MES2 N 1 80 FrameIndex MES2 N 2 80 FrameIndex MES2 N 3 80
+FrameIndex MES2 O 0 82 FrameIndex MES2 O 1 82 FrameIndex MES2 O 2 82 FrameIndex MES2 O 3 82
+FrameIndex MES2 P 0 84 FrameIndex MES2 P 1 84 FrameIndex MES2 P 2 84 FrameIndex MES2 P 3 84
+FrameIndex MES2 Q 0 86 FrameIndex MES2 Q 1 86 FrameIndex MES2 Q 2 86 FrameIndex MES2 Q 3 86
+FrameIndex MES2 R 0 88 FrameIndex MES2 R 1 88 FrameIndex MES2 R 2 88 FrameIndex MES2 R 3 88
+FrameIndex MES2 S 0 90 FrameIndex MES2 S 1 90 FrameIndex MES2 S 2 90 FrameIndex MES2 S 3 90
+FrameIndex MES2 T 0 92 FrameIndex MES2 T 1 92 FrameIndex MES2 T 2 92 FrameIndex MES2 T 3 92
+FrameIndex MES2 U 0 94 FrameIndex MES2 U 1 94 FrameIndex MES2 U 2 94 FrameIndex MES2 U 3 94
+FrameIndex MES2 V 0 96 FrameIndex MES2 V 1 96 FrameIndex MES2 V 2 96 FrameIndex MES2 V 3 96
+FrameIndex MES2 W 0 98 FrameIndex MES2 W 1 98 FrameIndex MES2 W 2 98 FrameIndex MES2 W 3 98
+FrameIndex MES2 X 0 100 FrameIndex MES2 X 1 100 FrameIndex MES2 X 2 100 FrameIndex MES2 X 3 100
+FrameIndex MES2 Y 0 102 FrameIndex MES2 Y 1 102 FrameIndex MES2 Y 2 102 FrameIndex MES2 Y 3 102
+FrameIndex MES2 Z 0 104 FrameIndex MES2 Z 1 104 FrameIndex MES2 Z 2 104 FrameIndex MES2 Z 3 104 //bah
+
+FrameIndex MES3 A 0 106 FrameIndex MES3 A 1 106 FrameIndex MES3 A 2 106 FrameIndex MES3 A 3 106
+FrameIndex MES3 B 0 108 FrameIndex MES3 B 1 108 FrameIndex MES3 B 2 108 FrameIndex MES3 B 3 108
+FrameIndex MES3 C 0 110 FrameIndex MES3 C 1 110 FrameIndex MES3 C 2 110 FrameIndex MES3 C 3 110
+FrameIndex MES3 D 0 112 FrameIndex MES3 D 1 112 FrameIndex MES3 D 2 112 FrameIndex MES3 D 3 112
+FrameIndex MES3 E 0 114 FrameIndex MES3 E 1 114 FrameIndex MES3 E 2 114 FrameIndex MES3 E 3 114
+FrameIndex MES3 F 0 116 FrameIndex MES3 F 1 116 FrameIndex MES3 F 2 116 FrameIndex MES3 F 3 116
+FrameIndex MES3 G 0 118 FrameIndex MES3 G 1 118 FrameIndex MES3 G 2 118 FrameIndex MES3 G 3 118
+FrameIndex MES3 H 0 120 FrameIndex MES3 H 1 120 FrameIndex MES3 H 2 120 FrameIndex MES3 H 3 120
+FrameIndex MES3 I 0 122 FrameIndex MES3 I 1 122 FrameIndex MES3 I 2 122 FrameIndex MES3 I 3 122
+FrameIndex MES3 J 0 124 FrameIndex MES3 J 1 124 FrameIndex MES3 J 2 124 FrameIndex MES3 J 3 124
+FrameIndex MES3 K 0 126 FrameIndex MES3 K 1 126 FrameIndex MES3 K 2 126 FrameIndex MES3 K 3 126
+FrameIndex MES3 L 0 128 FrameIndex MES3 L 1 128 FrameIndex MES3 L 2 128 FrameIndex MES3 L 3 128
+FrameIndex MES3 M 0 130 FrameIndex MES3 M 1 130 FrameIndex MES3 M 2 130 FrameIndex MES3 M 3 130
+FrameIndex MES3 N 0 132 FrameIndex MES3 N 1 132 FrameIndex MES3 N 2 132 FrameIndex MES3 N 3 132
+FrameIndex MES3 O 0 134 FrameIndex MES3 O 1 134 FrameIndex MES3 O 2 134 FrameIndex MES3 O 3 134
+FrameIndex MES3 P 0 136 FrameIndex MES3 P 1 136 FrameIndex MES3 P 2 136 FrameIndex MES3 P 3 136
+FrameIndex MES3 Q 0 138 FrameIndex MES3 Q 1 138 FrameIndex MES3 Q 2 138 FrameIndex MES3 Q 3 138
+FrameIndex MES3 R 0 140 FrameIndex MES3 R 1 140 FrameIndex MES3 R 2 140 FrameIndex MES3 R 3 140
+FrameIndex MES3 S 0 142 FrameIndex MES3 S 1 142 FrameIndex MES3 S 2 142 FrameIndex MES3 S 3 142
+FrameIndex MES3 T 0 144 FrameIndex MES3 T 1 144 FrameIndex MES3 T 2 144 FrameIndex MES3 T 3 144
+FrameIndex MES3 U 0 146 FrameIndex MES3 U 1 146 FrameIndex MES3 U 2 146 FrameIndex MES3 U 3 146
+FrameIndex MES3 V 0 148 FrameIndex MES3 V 1 148 FrameIndex MES3 V 2 148 FrameIndex MES3 V 3 148
+FrameIndex MES3 W 0 150 FrameIndex MES3 W 1 150 FrameIndex MES3 W 2 150 FrameIndex MES3 W 3 150
+FrameIndex MES3 X 0 152 FrameIndex MES3 X 1 152 FrameIndex MES3 X 2 152 FrameIndex MES3 X 3 152
+FrameIndex MES3 Y 0 154 FrameIndex MES3 Y 1 154 FrameIndex MES3 Y 2 154 FrameIndex MES3 Y 3 154
+FrameIndex MES3 Z 0 156 FrameIndex MES3 Z 1 156 FrameIndex MES3 Z 2 156 FrameIndex MES3 Z 3 156
+
+FrameIndex MES4 A 0 158 FrameIndex MES4 A 1 158 FrameIndex MES4 A 2 158 FrameIndex MES4 A 3 158
+FrameIndex MES4 B 0 160	FrameIndex MES4 B 1 160 FrameIndex MES4 B 2 160	FrameIndex MES4 B 3 160
+}
+
+
+//archer orc
+
+Model OrcArcher 
+{ 
+   Path "Models/orc"
+   MODEL 0 "orcarch1.md3"
+   Skin 0 "dorwin_maa46.jpg"
+   MODEL 1 "orcbow1.md3"
+   Skin 1 "dorwin_maa46.jpg"
+
+   //Offset 0.0 0.0 18.0
+
+   Scale 0.85 0.85 0.85
+//archer shoot
+FrameIndex MES1 A 0 0 FrameIndex MES1 A 1 0
+FrameIndex MES1 B 0 2 FrameIndex MES1 B 1 2
+FrameIndex MES1 C 0 4 FrameIndex MES1 C 1 4
+FrameIndex MES1 D 0 6 FrameIndex MES1 D 1 6
+FrameIndex MES1 E 0 8 FrameIndex MES1 E 1 8
+FrameIndex MES1 F 0 10 FrameIndex MES1 F 1 10
+FrameIndex MES1 G 0 12 FrameIndex MES1 G 1 12
+FrameIndex MES1 H 0 14 FrameIndex MES1 H 1 14
+FrameIndex MES1 I 0 16 FrameIndex MES1 I 1 16
+FrameIndex MES1 J 0 18 FrameIndex MES1 J 1 18
+FrameIndex MES1 K 0 20 FrameIndex MES1 K 1 20
+FrameIndex MES1 L 0 22 FrameIndex MES1 L 1 22
+FrameIndex MES1 M 0 24 FrameIndex MES1 M 1 24
+FrameIndex MES1 N 0 26 FrameIndex MES1 N 1 26
+FrameIndex MES1 O 0 28 FrameIndex MES1 O 1 28
+FrameIndex MES1 P 0 30 FrameIndex MES1 P 1 30
+FrameIndex MES1 Q 0 32 FrameIndex MES1 Q 1 32
+FrameIndex MES1 R 0 34 FrameIndex MES1 R 1 34
+FrameIndex MES1 S 0 36 FrameIndex MES1 S 1 36
+FrameIndex MES1 T 0 38 FrameIndex MES1 T 1 38
+FrameIndex MES1 U 0 40 FrameIndex MES1 U 1 40
+FrameIndex MES1 V 0 42 FrameIndex MES1 V 1 42
+FrameIndex MES1 W 0 44 FrameIndex MES1 W 1 44
+FrameIndex MES1 X 0 46 FrameIndex MES1 X 1 46
+FrameIndex MES1 Y 0 48 FrameIndex MES1 Y 1 48
+FrameIndex MES1 Z 0 50 FrameIndex MES1 Z 1 50
+
+FrameIndex MES2 A 0 52 FrameIndex MES2 A 1 52
+FrameIndex MES2 B 0 54 FrameIndex MES2 B 1 54
+FrameIndex MES2 C 0 56 FrameIndex MES2 C 1 56
+FrameIndex MES2 D 0 58 FrameIndex MES2 D 1 58
+FrameIndex MES2 E 0 60 FrameIndex MES2 E 1 60
+FrameIndex MES2 F 0 62 FrameIndex MES2 F 1 62
+FrameIndex MES2 G 0 64 FrameIndex MES2 G 1 64
+FrameIndex MES2 H 0 66 FrameIndex MES2 H 1 66
+FrameIndex MES2 I 0 68 FrameIndex MES2 I 1 68
+FrameIndex MES2 J 0 70 FrameIndex MES2 J 1 70
+FrameIndex MES2 K 0 72 FrameIndex MES2 K 1 72
+FrameIndex MES2 L 0 74 FrameIndex MES2 L 1 74
+FrameIndex MES2 M 0 78 FrameIndex MES2 M 1 78
+FrameIndex MES2 N 0 80 FrameIndex MES2 N 1 80
+FrameIndex MES2 O 0 82 FrameIndex MES2 O 1 82
+FrameIndex MES2 P 0 84 FrameIndex MES2 P 1 84
+FrameIndex MES2 Q 0 86 FrameIndex MES2 Q 1 86
+FrameIndex MES2 R 0 88 FrameIndex MES2 R 1 88
+FrameIndex MES2 S 0 90 FrameIndex MES2 S 1 90
+FrameIndex MES2 T 0 92 FrameIndex MES2 T 1 92
+FrameIndex MES2 U 0 94 FrameIndex MES2 U 1 94
+FrameIndex MES2 V 0 96 FrameIndex MES2 V 1 96
+FrameIndex MES2 W 0 98 FrameIndex MES2 W 1 98
+FrameIndex MES2 X 0 100 FrameIndex MES2 X 1 100
+FrameIndex MES2 Y 0 102 FrameIndex MES2 Y 1 102
+FrameIndex MES2 Z 0 104 FrameIndex MES2 Z 1 104//bah
+
+FrameIndex MES3 A 0 106 FrameIndex MES3 A 1 106
+FrameIndex MES3 B 0 108 FrameIndex MES3 B 1 108
+FrameIndex MES3 C 0 110 FrameIndex MES3 C 1 110
+FrameIndex MES3 D 0 112 FrameIndex MES3 D 1 112
+FrameIndex MES3 E 0 114 FrameIndex MES3 E 1 114
+FrameIndex MES3 F 0 116 FrameIndex MES3 F 1 116
+FrameIndex MES3 G 0 118 FrameIndex MES3 G 1 118
+FrameIndex MES3 H 0 120 FrameIndex MES3 H 1 120
+FrameIndex MES3 I 0 122 FrameIndex MES3 I 1 122
+FrameIndex MES3 J 0 124 FrameIndex MES3 J 1 124
+FrameIndex MES3 K 0 126 FrameIndex MES3 K 1 126
+FrameIndex MES3 L 0 128 FrameIndex MES3 L 1 128
+FrameIndex MES3 M 0 130 FrameIndex MES3 M 1 130
+FrameIndex MES3 N 0 132 FrameIndex MES3 N 1 132
+FrameIndex MES3 O 0 134 FrameIndex MES3 O 1 134
+FrameIndex MES3 P 0 136 FrameIndex MES3 P 1 136
+FrameIndex MES3 Q 0 138 FrameIndex MES3 Q 1 138
+FrameIndex MES3 R 0 140 FrameIndex MES3 R 1 140
+FrameIndex MES3 S 0 142 FrameIndex MES3 S 1 142
+FrameIndex MES3 T 0 144 FrameIndex MES3 T 1 144
+FrameIndex MES3 U 0 146 FrameIndex MES3 U 1 146
+FrameIndex MES3 V 0 148 FrameIndex MES3 V 1 148
+FrameIndex MES3 W 0 150 FrameIndex MES3 W 1 150
+FrameIndex MES3 X 0 152 FrameIndex MES3 X 1 152
+FrameIndex MES3 Y 0 154 FrameIndex MES3 Y 1 154
+FrameIndex MES3 Z 0 156 FrameIndex MES3 Z 1 156
+
+FrameIndex MES4 A 0 158 FrameIndex MES4 A 1 158
+FrameIndex MES4 B 0 160	FrameIndex MES4 B 1 160
+}
+
+
+Model Deadtree
+{
+  Path "Models/Trees/"   
+  Model 0 "treeleafs1.md3"   
+  Skin 0 "treeleafs.png"
+  Model 1 "treeleafs2.md3" 
+  Skin 1 "treeleafs.png"
+  Model 2 "treestolb.md3" 
+  Skin 2 "treestolb.png"
+
+  //OFFSET 0 0 0 
+  AngleOffset 0
+  //PitchOffset 0	
+  //RollOffset 0
+  Scale 0.55 0.55 0.55
+
+  FrameIndex TR00 A 0 0   FrameIndex TR00 A 1 0   FrameIndex TR00 A 2 0 
+}
+
+Model Deadtree2
+{
+  Path "Models/Trees/"   
+  Model 0 "treestolb.md3" 
+  Skin 0 "treestolb.png"
+
+  //OFFSET 0 0 0 
+  AngleOffset 15
+  //PitchOffset 0	
+  //RollOffset 0
+  Scale 0.55 0.55 0.55
+
+  FrameIndex TR00 A 0 0 
+}
+
+
+
+Model Tree01
+{
+  Path "Models/Trees/"   
+  Model 0 "trr.md3"   
+  Skin 0 "zw5.png"
+  //OFFSET 0 0 0 
+  AngleOffset 0
+  //PitchOffset 0	
+  //RollOffset 0
+  Scale 4.3 4.3 4.3
+
+  FrameIndex TR01 A 0 0 
+}
+
+
+Model Tree02
+{
+  Path "Models/Trees/"   
+  Model 0 "trr.md3"   
+  Skin 0 "zw5.png"
+  //OFFSET 0 0 0 
+  AngleOffset 0
+  //PitchOffset 0	
+  //RollOffset 0
+  Scale 19.9 19.9 19.9
+
+  FrameIndex TR01 A 0 0 
+}
+
+
+Model Tree03
+{
+  Path "Models/Trees/"   
+  Model 0 "trr.md3"   
+  Skin 0 "zw5.png"
+  //OFFSET 0 0 0 
+  AngleOffset 0
+  //PitchOffset 0	
+  //RollOffset 0
+  Scale 24.3 24.3 24.3
+
+  FrameIndex TR01 A 0 0 
+}
+
+Model deadmumakil
+{
+  Path "Models/Terrain/"   
+  Model 0 "dd0.md3"   
+  Skin 0 "dead_mumakil.jpg"
+  Model 1 "dd1.md3"   
+  Skin 1 "dead_mumakil.jpg"
+  Model 2 "dd2.md3"   
+  Skin 2 "dead_mumakil.jpg"
+  Model 3 "dd3.md3"   
+  Skin 3 "dead_mumakil.jpg"
+  //OFFSET 0 0 0 
+  //AngleOffset 0
+  //PitchOffset 0	
+  //RollOffset 0
+  Scale 2.8 2.8 2.8
+
+  FrameIndex TR01 A 0 0  FrameIndex TR01 A 1 0  FrameIndex TR01 A 2 0  FrameIndex TR01 A 3 0  
+}
+
+Model deadmumakil2
+{
+  Path "Models/Terrain/"   
+  Model 0 "muma2.md3"   
+  Skin 0 "dead_mumakil.jpg"
+
+  Scale 2.8 2.8 2.8
+
+  FrameIndex TR01 A 0 0  
+}
+
+Model castokol
+{
+  Path "Models/Terrain/"   
+  Model 0 "castokol.md3"   
+  Skin 0 "castokol.jpg"
+  //OFFSET 0 0 0 
+  //AngleOffset 0
+  //PitchOffset 0	
+  //RollOffset 0
+  //Scale 24.3 24.3 24.3
+
+  FrameIndex TR01 A 0 0 
+}
+
+Model statuelotr
+{
+  Path "Models/Terrain/"   
+  Model 0 "st.md3"   
+  Skin 0 "st.jpg"
+  //OFFSET 0 0 0 
+  //AngleOffset 0
+  //PitchOffset 0	
+  //RollOffset 0
+  //Scale 24.3 24.3 24.3
+
+  FrameIndex TR01 A 0 0 
+}
+
+
+Model rockk1
+{
+  Path "Models/Terrain/"   
+  Model 0 "rock1.md3"   
+  Skin 0 "rocks.jpg"
+  //OFFSET 0 0 0 
+  //AngleOffset 0
+  //PitchOffset 0	
+  //RollOffset 0
+  //Scale 0 0 0
+
+  FrameIndex COLU A 0 0 
+}
+
+Model rockk2
+{
+  Path "Models/Terrain/"   
+  Model 0 "rock2.md3"   
+  Skin 0 "rocks.jpg"
+  //OFFSET 0 0 0 
+  //AngleOffset 0
+  //PitchOffset 0	
+  //RollOffset 0
+  //Scale 9.3 9.3 9.3
+
+  FrameIndex COLU A 0 0 
+}
+
+
+
+
+/*
+Model LotrGondor2 
+{ 
+   Path "Models/gondor"
+   MODEL 0 "gondorsoldier.md3"
+   Skin 0 "gondor_numenorean.jpg"
+   MODEL 1 "gondorsword.md3"
+   Skin 1 "gondor_numenorean_diff.jpg"
+   //Offset 0.0 0.0 18.0
+
+   Scale 0.85 0.85 0.85
+//hit   
+   FrameIndex GON1 A 0 0   FrameIndex GON1 A 1 0
+   FrameIndex GON1 B 0 1   FrameIndex GON1 B 1 1
+   FrameIndex GON1 C 0 2   FrameIndex GON1 C 1 2
+   FrameIndex GON1 D 0 3   FrameIndex GON1 D 1 3
+   FrameIndex GON1 E 0 4   FrameIndex GON1 E 1 4
+   FrameIndex GON1 F 0 5   FrameIndex GON1 F 1 5
+   FrameIndex GON1 G 0 6   FrameIndex GON1 G 1 6
+   FrameIndex GON1 H 0 7   FrameIndex GON1 H 1 7
+   FrameIndex GON1 I 0 8   FrameIndex GON1 I 1 8
+   FrameIndex GON1 J 0 9   FrameIndex GON1 J 1 9
+   FrameIndex GON1 K 0 10   FrameIndex GON1 K 1 10
+   FrameIndex GON1 L 0 11   FrameIndex GON1 L 1 11
+   FrameIndex GON1 M 0 12   FrameIndex GON1 M 1 12
+   FrameIndex GON1 N 0 13   FrameIndex GON1 N 1 13
+   FrameIndex GON1 O 0 14   FrameIndex GON1 O 1 14
+   FrameIndex GON1 P 0 15   FrameIndex GON1 P 1 15
+   FrameIndex GON1 Q 0 16   FrameIndex GON1 Q 1 16
+   FrameIndex GON1 R 0 17   FrameIndex GON1 R 1 17
+   FrameIndex GON1 S 0 18   FrameIndex GON1 S 1 18
+   FrameIndex GON1 T 0 19   FrameIndex GON1 T 1 19
+   FrameIndex GON1 U 0 20   FrameIndex GON1 U 1 20
+   FrameIndex GON1 V 0 21   FrameIndex GON1 V 1 21
+   FrameIndex GON1 W 0 22   FrameIndex GON1 W 1 22
+   FrameIndex GON1 X 0 23   FrameIndex GON1 X 1 23
+   FrameIndex GON1 Y 0 24   FrameIndex GON1 Y 1 24
+   FrameIndex GON1 Z 0 25   FrameIndex GON1 Z 1 25
+
+   FrameIndex GON2 A 0 26   FrameIndex GON2 A 1 26
+   FrameIndex GON2 B 0 27   FrameIndex GON2 B 1 27
+   FrameIndex GON2 C 0 28   FrameIndex GON2 C 1 28
+   FrameIndex GON2 D 0 29   FrameIndex GON2 D 1 29
+   FrameIndex GON2 E 0 30   FrameIndex GON2 E 1 30
+//run
+   FrameIndex GON2 F 0 31   FrameIndex GON2 F 1 31
+   FrameIndex GON2 G 0 32   FrameIndex GON2 G 1 32
+   FrameIndex GON2 H 0 33   FrameIndex GON2 H 1 33
+   FrameIndex GON2 I 0 34   FrameIndex GON2 I 1 34
+   FrameIndex GON2 J 0 35   FrameIndex GON2 J 1 35
+   FrameIndex GON2 K 0 36   FrameIndex GON2 K 1 36
+   FrameIndex GON2 L 0 37   FrameIndex GON2 L 1 37
+   FrameIndex GON2 M 0 38   FrameIndex GON2 M 1 38  
+   FrameIndex GON2 N 0 39   FrameIndex GON2 N 1 39
+   FrameIndex GON2 O 0 40   FrameIndex GON2 O 1 40
+   FrameIndex GON2 P 0 41   FrameIndex GON2 P 1 41
+   FrameIndex GON2 Q 0 42   FrameIndex GON2 Q 1 42
+   FrameIndex GON2 R 0 43   FrameIndex GON2 R 1 43
+   FrameIndex GON2 S 0 44   FrameIndex GON2 S 1 44
+   FrameIndex GON2 T 0 45   FrameIndex GON2 T 1 45
+   FrameIndex GON2 U 0 46   FrameIndex GON2 U 1 46
+   FrameIndex GON2 V 0 47   FrameIndex GON2 V 1 47
+   FrameIndex GON2 W 0 48   FrameIndex GON2 W 1 48
+   FrameIndex GON2 X 0 49   FrameIndex GON2 X 1 49
+   FrameIndex GON2 Y 0 50   FrameIndex GON2 Y 1 50
+   FrameIndex GON2 Z 0 51   FrameIndex GON2 Z 1 51
+
+   FrameIndex GON3 A 0 52   FrameIndex GON3 A 1 52
+   FrameIndex GON3 B 0 53   FrameIndex GON3 B 1 53
+   FrameIndex GON3 C 0 54   FrameIndex GON3 C 1 54
+   FrameIndex GON3 D 0 55   FrameIndex GON3 D 1 55
+
+//die
+   FrameIndex GON3 E 0 60   FrameIndex GON3 E 1 60
+   FrameIndex GON3 F 0 62   FrameIndex GON3 F 1 62
+   FrameIndex GON3 G 0 64   FrameIndex GON3 G 1 64
+   FrameIndex GON3 H 0 66   FrameIndex GON3 H 1 66
+   FrameIndex GON3 I 0 68   FrameIndex GON3 I 1 68
+   FrameIndex GON3 J 0 70   FrameIndex GON3 J 1 70
+   FrameIndex GON3 K 0 72   FrameIndex GON3 K 1 72
+   FrameIndex GON3 L 0 74   FrameIndex GON3 L 1 74
+   FrameIndex GON3 M 0 76   FrameIndex GON3 M 1 76
+   FrameIndex GON3 N 0 78   FrameIndex GON3 N 1 78
+   FrameIndex GON3 O 0 80   FrameIndex GON3 O 1 80
+   FrameIndex GON3 P 0 82   FrameIndex GON3 P 1 82
+   FrameIndex GON3 Q 0 84   FrameIndex GON3 Q 1 84
+   FrameIndex GON3 R 0 86   FrameIndex GON3 R 1 86
+   FrameIndex GON3 S 0 88   FrameIndex GON3 S 1 88
+   FrameIndex GON3 T 0 90   FrameIndex GON3 T 1 90
+   FrameIndex GON3 U 0 92   FrameIndex GON3 U 1 92
+   FrameIndex GON3 V 0 94   FrameIndex GON3 V 1 94
+   FrameIndex GON3 W 0 96   FrameIndex GON3 W 1 96
+   FrameIndex GON3 X 0 98   FrameIndex GON3 X 1 98
+   FrameIndex GON3 Y 0 99   FrameIndex GON3 Y 1 99
+
+//attack2
+   FrameIndex GON4 A 0 100   FrameIndex GON4 A 1 100
+   FrameIndex GON4 B 0 101   FrameIndex GON4 B 1 101
+   FrameIndex GON4 C 0 102   FrameIndex GON4 C 1 102
+   FrameIndex GON4 D 0 103   FrameIndex GON4 D 1 103
+   FrameIndex GON4 E 0 104   FrameIndex GON4 E 1 104
+   FrameIndex GON4 F 0 105   FrameIndex GON4 F 1 105
+   FrameIndex GON4 G 0 106   FrameIndex GON4 G 1 106
+   FrameIndex GON4 H 0 107   FrameIndex GON4 H 1 107
+   FrameIndex GON4 I 0 108   FrameIndex GON4 I 1 108
+   FrameIndex GON4 J 0 109   FrameIndex GON4 J 1 109
+   FrameIndex GON4 K 0 110   FrameIndex GON4 K 1 110
+   FrameIndex GON4 L 0 111   FrameIndex GON4 L 1 111
+   FrameIndex GON4 M 0 112   FrameIndex GON4 M 1 112
+   FrameIndex GON4 N 0 113   FrameIndex GON4 N 1 113
+   FrameIndex GON4 O 0 114   FrameIndex GON4 O 1 114
+   FrameIndex GON4 P 0 115   FrameIndex GON4 P 1 115
+   FrameIndex GON4 Q 0 116   FrameIndex GON4 Q 1 116
+   FrameIndex GON4 R 0 117   FrameIndex GON4 R 1 117
+   FrameIndex GON4 S 0 118   FrameIndex GON4 S 1 118
+   FrameIndex GON4 T 0 119   FrameIndex GON4 T 1 119
+   FrameIndex GON4 U 0 120   FrameIndex GON4 U 1 120
+   FrameIndex GON4 V 0 121   FrameIndex GON4 V 1 121
+   FrameIndex GON4 W 0 122   FrameIndex GON4 W 1 122
+   FrameIndex GON4 X 0 123   FrameIndex GON4 X 1 123
+   FrameIndex GON4 Y 0 124   FrameIndex GON4 Y 1 124
+   FrameIndex GON4 Z 0 125   FrameIndex GON4 Z 1 125
+
+   FrameIndex GON5 A 0 126   FrameIndex GON5 A 1 126
+   FrameIndex GON5 B 0 127   FrameIndex GON5 B 1 127
+   FrameIndex GON5 C 0 128   FrameIndex GON5 C 1 128
+   FrameIndex GON5 D 0 129   FrameIndex GON5 D 1 129
+   FrameIndex GON5 E 0 130   FrameIndex GON5 E 1 130
+   FrameIndex GON5 F 0 131   FrameIndex GON5 F 1 131
+   FrameIndex GON5 G 0 132   FrameIndex GON5 G 1 132
+   FrameIndex GON5 H 0 133   FrameIndex GON5 H 1 133
+   FrameIndex GON5 I 0 134   FrameIndex GON5 I 1 134
+   FrameIndex GON5 J 0 135   FrameIndex GON5 J 1 135
+   FrameIndex GON5 K 0 136   FrameIndex GON5 K 1 136
+   FrameIndex GON5 L 0 137   FrameIndex GON5 L 1 137
+}*/
+
+
+
+Model ArrowProj2
+{
+   Path "Models/arrow"
+   Model 0 "arrowproj.md2"
+   Skin 0 "draugrarrow.jpg"
+   
+   
+   Scale 1.20 1.20 1.20
+ //     Offset 6.0 11.0 -54.0
+  PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles 
+    USEACTORROLL
+	USEACTORPITCH
+//	SCALEWEAPONFOV
+	  
+FrameIndex MES2 A 0 0
+}
+
+
+
+Model LotrSword
+{
+   Path "Models/gondor"
+   MODEL 0 "gondorsoldier.md3"
+   Skin 0 "gondor_numenorean.jpg"
+   MODEL 1 "gondorsword.md3"
+   Skin 1 "gondor_numenorean_diff.jpg"
+   //Offset 0.0 0.0 18.0
+
+   Scale 0.82 0.82 0.82 
+   Offset 0.0 0.0 -38.0
+   //ZOffset 58.0
+//Stay alt - not used here
+   FrameIndex MUAS A 0 0 FrameIndex MUAS A 1 0
+   FrameIndex MUAS B 0 1 FrameIndex MUAS B 1 1
+   FrameIndex MUAS C 0 2 FrameIndex MUAS C 1 2
+   FrameIndex MUAS D 0 3 FrameIndex MUAS D 1 3
+
+   FrameIndex MUAS E 0 4 FrameIndex MUAS E 1 4
+
+
+//attack 55-87
+   FrameIndex MUAS F 0 55 FrameIndex MUAS F 1 55
+   FrameIndex MUAS G 0 56 FrameIndex MUAS G 1 56
+
+   FrameIndex MUAS H 0 57 FrameIndex MUAS H 1 57
+   FrameIndex MUAS I 0 58 FrameIndex MUAS I 1 58
+   FrameIndex MUAS J 0 59 FrameIndex MUAS J 1 59
+
+   FrameIndex MUAS K 0 60 FrameIndex MUAS K 1 60
+
+   FrameIndex MUAS L 0 61 FrameIndex MUAS L 1 61
+   FrameIndex MUAS M 0 62 FrameIndex MUAS M 1 62
+   FrameIndex MUAS N 0 63 FrameIndex MUAS N 1 63
+
+   FrameIndex MUAS O 0 64 FrameIndex MUAS O 1 64
+   FrameIndex MUAS P 0 65 FrameIndex MUAS P 1 65
+   FrameIndex MUAS Q 0 66 FrameIndex MUAS Q 1 66
+   FrameIndex MUAS R 0 67 FrameIndex MUAS R 1 67
+   FrameIndex MUAS S 0 68 FrameIndex MUAS S 1 68
+   FrameIndex MUAS T 0 69 FrameIndex MUAS T 1 69
+
+   FrameIndex MUAS U 0 70 FrameIndex MUAS U 1 70
+   FrameIndex MUAS V 0 71 FrameIndex MUAS V 1 71
+   FrameIndex MUAS W 0 72 FrameIndex MUAS W 1 72
+   FrameIndex MUAS X 0 73 FrameIndex MUAS X 1 73
+
+   FrameIndex MUAS Y 0 74 FrameIndex MUAS Y 1 74
+   FrameIndex MUAS Z 0 75 FrameIndex MUAS Z 1 75
+
+//Continue
+   FrameIndex MAAS A 0 76 FrameIndex MAAS A 1 76
+   FrameIndex MAAS B 0 77 FrameIndex MAAS B 1 77
+   FrameIndex MAAS C 0 78 FrameIndex MAAS C 1 78
+   FrameIndex MAAS D 0 79 FrameIndex MAAS D 1 79
+
+   FrameIndex MAAS E 0 80 FrameIndex MAAS E 1 80 //bah
+   FrameIndex MAAS F 0 81 FrameIndex MAAS F 1 81
+   FrameIndex MAAS G 0 82 FrameIndex MAAS G 1 82
+
+   FrameIndex MAAS H 0 83 FrameIndex MAAS H 1 83
+   FrameIndex MAAS I 0 84 FrameIndex MAAS I 1 84
+   FrameIndex MAAS J 0 85 FrameIndex MAAS J 1 85
+   FrameIndex MAAS K 0 86 FrameIndex MAAS K 1 86
+
+   FrameIndex MAAS L 0 87 FrameIndex MAAS L 1 87
+}

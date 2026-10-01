@@ -1,0 +1,364 @@
+Actor HatePlayer2: Inventory
+{
+inventory.maxamount 1
+}
+
+
+ACTOR ASpan : Inventory {
+    Inventory.MaxAmount 1
+	+INVENTORY.UNDROPPABLE
+}
+
+ACTOR FF_Health : Health
+{
+  +INVENTORY.ALWAYSPICKUP
+  Inventory.Amount 1
+  Inventory.MaxAmount 200
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Loop
+  }
+}
+
+ACTOR LotrOrc100 //Replaces shotgunguy //3004
+{
+	Health 114
+	Mass 175
+	Speed 3
+	Height 60
+	Radius 17
+	Monster
+	+FLOORCLIP
+        +DROPOFF
+	//+TELESTOMP
+	+SOLID
+        +RANDOMIZE
+			+LOOKALLAROUND
+	+NOBLOOD
+	MaxTargetRange 128
+        ReactionTime 1
+	PainChance 255
+	PainChance "iamplayerr", 255
+	
+	//SeeSound "orcsee"
+	//PainSound "Orcdeath"
+	DeathSound "Orcdeath"
+	PainChance "iseeyou", 255
+	DamageFactor "iseeyou", 1
+	States
+	{
+	Spawn:
+	        TNT1 A 0 NoDelay
+		ORC1 A 1 A_ClearTarget
+		//ORC1 A 1 //A_Look
+		TNT1 A 0 Thing_ChangeTID(0, 2700)
+		TNT1 A 0 Thing_Hate(0, 888, 0)
+		ORC1 A 1 A_JumpIfInventory("ASpan",1,"Idle")
+    Goto Diss
+		//ORC1 A 1 A_LookEx(LOF_NOSOUNDCHECK, 0, 4096, 0, 0, "See")
+	//Goto spawn+3 //+4
+			//Goto Idle
+			
+	Idle:
+		TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 512, 0, 0, "See")
+    	TNT1 A 0 A_CheckRange(850, "Idle2", true)
+		VARR JKL 1 Fast A_Wander
+		VANR ABCDEFGHIJKLMNOPQR 1 Fast A_Wander
+		VARR ABCDEFGH 1 Fast A_Wander
+		Loop
+
+	Idle2:
+		TNT1 A 0 A_Look//Ex(LOF_NOSOUNDCHECK, 0, 512, 0, 0, "See")
+		OCR1 AABBCCBB 1 Fast A_Wander
+		Goto Idle
+	See:
+ 	//run
+    		//TNT1 A 0 A_CheckRange(250, "Missile", true)
+    	TNT1 A 0 A_CheckRange(850, "See2", true)
+		VARR JKL 1 Fast A_Chase
+		VANR ABCDEFGHIJKLMNOPQR 1 Fast A_Chase
+		VARR ABCDEFGH 1 Fast A_Chase
+		VARR JKL 1 Fast A_Chase
+		VANR ABCDEFGHIJKLMNOPQR 1 Fast A_Chase
+		VARR ABCDEFGH 1 Fast A_Chase
+		TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 256, 0, 0, "NewSee")
+   		Loop
+
+	See2:
+		OCR1 AABBCCBBAABBCCBB 1 Fast A_Chase
+		TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 256, 0, 0, "NewSee")
+   		Goto See
+	
+		
+	Pain:
+//		TNT1 A 0 A_PlaySound("sworbam")
+		TNT1 A 0 A_Stop
+		TNT1 A 0 A_Recoil(6)
+	 	VNDD AABCCCBAA 2 A_Pain
+//       		TNT1 A 0 A_Jump(90, "Block")	
+		Goto See
+	
+	Pain.iseeyou:
+		TNT1 A 0 A_GiveInventory ("FF_Health",1)
+		Goto See	
+		        
+
+/*		
+	Pain.iamplayerr:
+			TNT1 A 0 A_Giveinventory("HatePlayer",1)
+			TNT1 A 0 A_Recoil(6)	
+			 VNDD ABCBA 2 Fast A_Pain
+			 TNT1 A 0 A_Jump(90, "Block")	
+	SeekPlayer:		 
+		TNT1 A 0 Thing_Hate(0, 0, 0)
+		TNT1 A 0 A_Look//Ex(LOF_NOSOUNDCHECK, 0, 256, 0, 0, "See")
+		TNT1 A 0 A_ClearTarget
+		Goto See
+		*/
+		
+		
+	Melee:
+		TNT1 A 0 A_Jump(98, "Melee2")
+		VAT1 AA 3 Fast A_FaceTarget
+		VAT1 BCDFHJKLMNOPQ 1 Fast A_FaceTarget //BCDEFGHIJKLMN 1 A_FaceTarget
+    	TNT1 R 0 A_PlaySound("AxeSwing")
+		VAT1 R 5 Fast A_CustomMeleeAttack(random(11, 18),"sworbam") //A_SargAttack
+		VAT1 STUVWXZ 1 Fast
+		VA11 ABCDEFGHIJKLM 1 Fast
+		Goto See
+		
+		
+				
+    Melee2:
+		VAT2 AA 3 Fast A_FaceTarget
+		VAT2 BCDEFGH 1 Fast A_FaceTarget
+    	TNT1 A 0 A_PlaySound("AxeSwing")
+		VAT2 H 9 Fast A_CustomMeleeAttack(random(16, 22),"sworbam") 
+		VAT2 IJKLMNOPQRSTUVWXYZ 1 Fast
+		VAA2 ABCDEFG 1 Fast 		
+		Goto See
+		
+	Block:
+		TNT1 A 0 A_ChangeFlag(NOPAIN, true)
+		VA11 G 2 Fast A_SetReflectiveInvulnerable
+		VA11 G 29 Fast A_CentaurDefend
+		VA11 G 2 Fast A_UnsetReflectiveInvulnerable
+		TNT1 A 0 A_ChangeFlag(NOPAIN, false)
+		Goto See
+		
+	Death:
+		TNT1 A 0 A_Stop
+		TNT1 A 0 A_Recoil(11)
+		VNDD ABC 1
+		VNDD D 1 A_Scream
+		VNDD E 1 A_NoBlocking
+	    VNDD FGHIJKLMNOPQRSTU 1
+		VNDD U 380
+		VNDD U 1 A_FadeOut
+		Stop
+		
+    Diss: 
+    TNT1 A 0 GiveInventory("ASpan",1)
+    TNT1 A 5 A_ClearTarget
+    TNT1 A 5 A_Respawn
+    Stop
+	}
+}
+
+
+ACTOR LotrOrc101 : LotrOrc100
+{
+dropitem "Stimpack", 70
+} 
+
+
+ACTOR LotrOrc : RandomSpawner //replaces LotrOrc100
+{
+DropItem "LotrOrc100", 255, 255
+}
+
+ACTOR LotrOrc0 : RandomSpawner //replaces LotrOrc100
+{
+DropItem "LotrOrc101", 255, 255
+}
+
+ACTOR LotrOrc1 : RandomSpawner //replaces LotrOrc100
+{
+DropItem "LotrOrc100", 255, 255
+}
+
+ACTOR LotrOrc2 : RandomSpawner //replaces LotrOrc100
+{
+DropItem "LotrOrc100", 255, 255
+}
+
+ACTOR LotrOrc3 : RandomSpawner //replaces LotrOrc100
+{
+DropItem "LotrOrc101", 255, 255
+}
+
+///Respawn
+
+
+
+ACTOR LotrOrc100respawn : LotrOrc100
+{
+States
+{
+	Death:
+		TNT1 A 0 A_Stop
+		TNT1 A 0 A_Recoil(11)
+		VNDD ABC 1
+		VNDD D 1 A_Scream
+		VNDD E 1 A_NoBlocking
+	    VNDD FGHIJKLMNOPQRSTU 1
+		VNDD U 590
+		VNDD U 1 A_Respawn
+		Stop
+	}
+} 
+
+ACTOR LotrOrc101respawn : LotrOrc100
+{
+dropitem "Stimpack", 60
+States
+{
+	Death:
+		TNT1 A 0 A_Stop
+		TNT1 A 0 A_Recoil(11)
+		VNDD ABC 1
+		VNDD D 1 A_Scream
+		VNDD E 1 A_NoBlocking
+	    VNDD FGHIJKLMNOPQRSTU 1
+		VNDD U 590
+		VNDD U 1 A_Respawn
+		Stop
+	}
+} 
+
+
+actor Orcsrespawn : randomspawner replaces Baronofhell
+{
+dropitem "LotrOrc100respawn", 255, 255
+dropitem "LotrOrc101respawn", 255, 255
+}
+
+
+
+
+
+ACTOR LotrOrcPlayerHunter //Replaces shotgunguy //3004
+{
+	Health 110
+	Mass 175
+	Speed 3
+	Height 60
+	Radius 12
+	Monster
+	+FLOORCLIP
+        +DROPOFF
+	//+TELESTOMP
+	+SOLID
+        +RANDOMIZE
+			+LOOKALLAROUND
+	+NOBLOOD
+        ReactionTime 15
+	PainChance 255
+	//SeeSound "orcsee"
+	//PainSound "Orcdeath"
+	DeathSound "Orcdeath"
+	//PainChance "isee", 255
+	//DamageFactor "isee", 1
+	States
+	{
+Spawn:
+	        TNT1 A 0 NoDelay
+		ORC1 A 1 A_ClearTarget
+		//ORC1 A 1 //A_Look
+		TNT1 A 0 Thing_ChangeTID(0, 2700)
+		//TNT1 A 0 Thing_Hate(0, 888, 3)
+		//ORC1 A 1 A_LookEx(LOF_NOSOUNDCHECK, 0, 4096, 0, 0, "See")
+	//Goto spawn+3 //+4
+			Goto Idle
+			
+	Idle:
+		TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 4096, 0, 0, "See")
+    	TNT1 A 0 A_CheckRange(950, "Idle2", true)
+		VARR JKL 1 Fast A_Wander
+		VANR ABCDEFGHIJKLMNOPQR 1 Fast A_Wander
+		VARR ABCDEFGH 1 Fast A_Wander
+		Loop
+
+	Idle2:
+		TNT1 A 0 A_Look//Ex(LOF_NOSOUNDCHECK, 0, 4096, 0, 0, "See")
+		OCR1 AABBCCBB 1 Fast A_Wander
+		Goto Idle
+	See:
+ 	//run
+    		//TNT1 A 0 A_CheckRange(250, "Missile", true)
+    	TNT1 A 0 A_CheckRange(950, "See2", true)
+		VARR JKL 1 Fast A_Chase
+		VANR ABCDEFGHIJKLMNOPQR 1 Fast A_Chase
+		VARR ABCDEFGH 1 Fast A_Chase
+		VARR JKL 1 Fast A_Chase
+		VANR ABCDEFGHIJKLMNOPQR 1 Fast A_Chase
+		VARR ABCDEFGH 1 Fast A_Chase
+		TNT1 A 0 A_ClearTarget
+   		Loop
+
+	See2:
+		OCR1 AABBCCBBAABBCCBB 1 Fast A_Chase
+		TNT1 A 0 A_ClearTarget
+   		Goto See		
+		
+		
+		
+		
+	Pain:
+//		TNT1 A 0 A_PlaySound("sworbam")
+		TNT1 A 0 A_Recoil(6)
+	 	VNDD ABCBA 2 A_Pain
+//       		TNT1 A 0 A_Jump(90, "Block")	
+		Goto See
+	
+	Pain.iseeyou:
+		TNT1 A 0 A_GiveInventory ("FF_Health",1)
+		Goto See	
+
+	Melee:
+		TNT1 A 0 A_Jump(98, "Melee2")
+		VAT1 A 3 Fast A_FaceTarget
+		VAT1 BCDFGHJKLMNO 1 Fast A_FaceTarget //BCDEFGHIJKLMN 1 A_FaceTarget
+    	TNT1 A 0 A_PlaySound("AxeSwing")
+		VAT1 P 5 Fast A_CustomMeleeAttack(random(11, 18),"sworbam") //A_SargAttack
+		VAT1 QRSTUVXYYY 1 Fast //PQRSTUVWXYZ 1
+		Goto See
+		
+    Melee2:
+		VAT2 A 3 Fast A_FaceTarget
+		VAT2 BDCDEFG 1 Fast A_FaceTarget //BCDEFGHIJKLMN 1 A_FaceTarget
+    	TNT1 A 0 A_PlaySound("AxeSwing")
+		VAT2 H 9 Fast A_CustomMeleeAttack(random(16, 22),"sworbam") //A_SargAttack
+		VAT2 IJKLMNOPQRST 1 Fast //ORC4 PQRSTUVWXYZ 1
+		Goto See
+	Block:
+		TNT1 A 0 A_ChangeFlag(NOPAIN, true)
+		VAT2 E 2 Fast A_SetReflectiveInvulnerable
+		VAT2 E 29 Fast A_CentaurDefend
+		VAT2 E 2 Fast A_UnsetReflectiveInvulnerable
+		TNT1 A 0 A_ChangeFlag(NOPAIN, false)
+		Goto See
+	Death:
+		TNT1 A 0 A_Stop
+		TNT1 A 0 A_Recoil(11)
+		VNDD ABC 1
+		VNDD D 1 A_Scream
+		VNDD E 1 A_NoBlocking
+	    VNDD FGHIJKLMNOPQRSTU 1
+		VNDD U 380
+		VNDD U 1 A_FadeOut
+		Stop
+	}
+}

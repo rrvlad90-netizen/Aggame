@@ -1,0 +1,282 @@
+///Tyranids
+
+pointlight 24SHADOW
+{
+    color 0.5 0.5 0.5
+    size 17
+    subtractive 1
+    dontlightself 1
+
+}
+
+pointlight 32SHADOW
+{
+    color 0.5 0.5 0.5
+    size 21
+    subtractive 1
+    dontlightself 1
+}
+
+pointlight 64SHADOW
+{
+    color 0.5 0.5 0.5
+    size 49
+    subtractive 1
+    dontlightself 1
+
+}
+
+
+object LotrOrc100
+{
+    frame ORC1 { light 24SHADOW  }
+	frame VARR { light 24SHADOW  }
+	frame VANR { light 24SHADOW  }
+	frame VNDD { light 24SHADOW  }	
+	frame VAT1 { light 24SHADOW  }	
+	frame VA11 { light 24SHADOW  }	
+	frame VAT2 { light 24SHADOW  }	
+	frame VAA2 { light 24SHADOW  }			
+}
+
+object LotrOrc101
+{
+    frame ORC1 { light 24SHADOW  }
+	frame VARR { light 24SHADOW  }
+	frame VANR { light 24SHADOW  }
+	frame VNDD { light 24SHADOW  }	
+	frame VAT1 { light 24SHADOW  }	
+	frame VA11 { light 24SHADOW  }	
+	frame VAT2 { light 24SHADOW  }	
+	frame VAA2 { light 24SHADOW  }			
+}
+
+object LotrOrc100respawn
+{
+    frame ORC1 { light 24SHADOW  }
+	frame VARR { light 24SHADOW  }
+	frame VANR { light 24SHADOW  }
+	frame VNDD { light 24SHADOW  }	
+	frame VAT1 { light 24SHADOW  }	
+	frame VA11 { light 24SHADOW  }	
+	frame VAT2 { light 24SHADOW  }	
+	frame VAA2 { light 24SHADOW  }			
+}
+
+object LotrOrc101respawn
+{
+    frame ORC1 { light 24SHADOW  }
+	frame VARR { light 24SHADOW  }
+	frame VANR { light 24SHADOW  }
+	frame VNDD { light 24SHADOW  }	
+	frame VAT1 { light 24SHADOW  }	
+	frame VA11 { light 24SHADOW  }	
+	frame VAT2 { light 24SHADOW  }	
+	frame VAA2 { light 24SHADOW  }			
+}
+
+object LotrOrcPlayerHunter
+{
+    frame ORC1 { light 24SHADOW  }
+	frame VARR { light 24SHADOW  }
+	frame VANR { light 24SHADOW  }
+	frame VNDD { light 24SHADOW  }	
+	frame VAT1 { light 24SHADOW  }	
+	frame VA11 { light 24SHADOW  }	
+	frame VAT2 { light 24SHADOW  }	
+	frame VAA2 { light 24SHADOW  }			
+}
+
+object NazgulRespawn
+{
+    frame ORC1 { light 24SHADOW  }
+	frame ORC2 { light 24SHADOW  }
+	frame ORC3 { light 24SHADOW  }
+	frame ORC4 { light 24SHADOW  }
+	frame ORC5 { light 24SHADOW  }
+	frame VARR { light 24SHADOW  }
+	frame VANR { light 24SHADOW  }
+	frame VNDD { light 24SHADOW  }	
+	frame VAT1 { light 24SHADOW  }	
+	frame VA11 { light 24SHADOW  }	
+	frame VAT2 { light 24SHADOW  }	
+	frame VAA2 { light 24SHADOW  }			
+}
+
+
+object NazgulBoss
+{
+    frame ORC1 { light 24SHADOW  }
+	frame ORC2 { light 24SHADOW  }
+	frame ORC3 { light 24SHADOW  }
+	frame ORC4 { light 24SHADOW  }
+	frame ORC5 { light 24SHADOW  }
+	frame VARR { light 24SHADOW  }
+	frame VANR { light 24SHADOW  }
+	frame VNDD { light 24SHADOW  }	
+	frame VAT1 { light 24SHADOW  }	
+	frame VA11 { light 24SHADOW  }	
+	frame VAT2 { light 24SHADOW  }	
+	frame VAA2 { light 24SHADOW  }			
+}
+
+object Troll
+{
+    frame TRLL { light 64SHADOW  }
+	frame TRL1 { light 64SHADOW  }
+    frame TRLA { light 64SHADOW  }
+    frame TRAA { light 64SHADOW  }
+    frame TRLD { light 64SHADOW  }
+}
+
+object Troll2
+{
+    frame TRLL { light 64SHADOW  }
+	frame TRL1 { light 64SHADOW  }
+    frame TRLA { light 64SHADOW  }
+    frame TRAA { light 64SHADOW  }
+    frame TRLD { light 64SHADOW  }
+}
+
+
+object MoriaTroll
+{
+    frame TRLL { light 64SHADOW  }
+	frame TRL1 { light 64SHADOW  }
+    frame TRLA { light 64SHADOW  }
+    frame TRAA { light 64SHADOW  }
+    frame TRLD { light 64SHADOW  }
+}
+
+
+object LotrOrc110
+{
+    frame ORC1 { light 24SHADOW  }
+	frame VARR { light 24SHADOW  }
+	frame VANR { light 24SHADOW  }
+	frame VNDD { light 24SHADOW  }	
+	frame VAT1 { light 24SHADOW  }	
+	frame VA11 { light 24SHADOW  }	
+	frame VAT2 { light 24SHADOW  }	
+	frame VAA2 { light 24SHADOW  }			
+}
+
+object OrcArcher 
+{
+	frame MES1 { light 24SHADOW  }	
+	frame MES2 { light 24SHADOW  }	
+	frame MES3 { light 24SHADOW  }	
+	frame MES4 { light 24SHADOW  }
+	frame MES3 { light 24SHADOW  }
+	frame MES3 { light 24SHADOW  }
+	frame MES3 { light 24SHADOW  }	
+}
+
+//////////
+
+object PlayerWarrior
+{
+    frame GONS { light 24SHADOW  }
+	frame VAJK { light 24SHADOW  }
+	frame GON1 { light 24SHADOW  }
+	frame GON2 { light 24SHADOW  }
+	frame GON3 { light 24SHADOW  }	
+	frame GN22 { light 24SHADOW  }	
+	frame GON4 { light 24SHADOW  }	
+	frame GNN4 { light 24SHADOW  }				
+}
+
+
+object LotrArcherGondor2 
+{
+    frame GON1 { light 24SHADOW  }
+	frame GON2 { light 24SHADOW  }
+	frame GON3 { light 24SHADOW  }
+	frame GON4 { light 24SHADOW  }	
+	frame GON5 { light 24SHADOW  }	
+	frame MES1 { light 24SHADOW  }	
+	frame MES2 { light 24SHADOW  }	
+	frame MES3 { light 24SHADOW  }	
+	frame MES4 { light 24SHADOW  }
+	frame MES3 { light 24SHADOW  }
+	frame MES3 { light 24SHADOW  }
+	frame MES3 { light 24SHADOW  }	
+}
+
+object LotrGondor2
+{
+    frame GONS { light 24SHADOW  }
+	frame VAJK { light 24SHADOW  }
+	frame GON1 { light 24SHADOW  }
+	frame GON2 { light 24SHADOW  }
+	frame GON3 { light 24SHADOW  }
+	frame GN22 { light 24SHADOW  }	
+	frame GON4 { light 24SHADOW  }	
+	frame GNN4 { light 24SHADOW  }
+	frame GNN1 { light 24SHADOW  }
+}
+
+object LotrGondor2Respawn
+{
+    frame GONS { light 24SHADOW  }
+	frame VAJK { light 24SHADOW  }
+	frame GON1 { light 24SHADOW  }
+	frame GON2 { light 24SHADOW  }
+	frame GON3 { light 24SHADOW  }	
+	frame GN22 { light 24SHADOW  }	
+	frame GON4 { light 24SHADOW  }	
+	frame GNN4 { light 24SHADOW  }	
+	frame GNN1 { light 24SHADOW  }	
+}
+
+
+///////////////////////////
+
+object Deadtree
+{
+    frame TR00 { light 64SHADOW  }
+}
+
+object Deadtree2
+{
+    frame TR00 { light 64SHADOW  }
+}
+
+object Tree01
+{
+    frame TR01 { light 64SHADOW  }
+}
+
+object Tree02
+{
+    frame TR01 { light 64SHADOW  }
+}
+
+object Tree03
+{
+    frame TR01 { light 64SHADOW  }
+}
+
+object Ent
+{
+    frame TRLL { light 64SHADOW  }
+    frame TRLA { light 64SHADOW  }
+    frame TRAA { light 64SHADOW  }
+    frame TRLD { light 64SHADOW  }
+}
+
+
+object HumanSpawner
+{
+    frame TURR { light 64SHADOW  }
+}
+
+object OrcSpawner
+{
+    frame TURR { light 64SHADOW  }
+}
+
+object OrcSpawnerBoss
+{
+    frame TURR { light 64SHADOW  }
+}

@@ -1,0 +1,4 @@
+version "3.3"
+
+#include "zscripts/StepEventHandler.zc"
+#include "zscripts/nashmove.zc"   //player dons slide on floor after stopping
