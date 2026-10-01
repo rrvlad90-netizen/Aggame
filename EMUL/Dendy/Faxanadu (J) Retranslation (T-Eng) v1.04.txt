@@ -1,0 +1,65 @@
+Welcome to Faxanadu Retranslation! Patch a Faxanadu (J) ROM to begin!
+
+Faxanadu Retranslation Change Log
+
+v1.04
+Testing!
+Dialogue bugs fixed?
+
+v1.03b
+Prepped Public Beta!
+Posting It Online!
+
+v1.02b
+Goutetsu Joined the Team!
+Translation Get!
+Editing!
+Planning!
+Restored Unused Text!
+
+v1.01
+Created two patches;	(FCEU for FCEU emulators only,
+			 NES for real hardware and accurate emulators)
+Fountain ladder bugfix;	(The ladder before the World of Mist would be
+			 misplaced if you left the area quickly)
+
+v1.00 (Public Release)
+Updated title screen;	(continue will not appear without a save)
+Updated continue;	("aaaa" will not load, but it will delete your file)
+Hold A to speed up text
+Expanded ROM
+SRAM added
+Replaced Continue feature (Load)
+Replaced Mantra (Save)
+Save icon added
+Battle Armor inventory bugfix
+Dragon Slayer inventory bugfix
+Armor graphic bugfix
+Nurse cross graphic bugfix
+Pendant bugfix
+Name screen retained
+Name character code retained
+Page break character code added
+8x8 European font added
+16x16 "2xSAI" European font added
+8x8 / 16x16 font switch added
+Dialogue code reformatted for 8x8 European font
+Hudson USA script inserted
+Minor editing
+Original uncensored graphics retained
+
+Special Thanks:
+Unsavory Maggot	(6502 ASM, Debug)
+Disch		(6502 ASM Support, MMC1 512k board/block switch code)
+		;Thank Disch for the accurate NES patch! :D
+snarfblam	(6502 ASM Support)
+SkyeWelse	(Bestiary, Bestiary Translation, Website)
+Xalphenos	(Japanese table, 6502 ASM Support)
+MP83		(Save icon, Japanese table)
+sp		(FCEU, Faxanadu Disassembly)
+King Mike	(ROM Expansion)
+Vagla		(6502 ASM Support)
+Radblast
+HylianFox
+frsj8112	(Debug)
+Raison Detritus	(Japanese table)
