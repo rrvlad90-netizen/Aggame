@@ -1,0 +1,45 @@
+
+        attack8  0 0 0 0 0 0 0 0 0
+        delay   1350
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  40 20 330 76 0 0 0 0 0 
+        delay   10
+	frame	data/chars/wallblock/dd2.PNG
+	frame	data/chars/wallblock
+        delay   10
+	frame	data/chars/wallblock/dd2.PNG
+        delay   1550
+        attack8  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        delay   200
+        attack8  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+        delay   200
+        attack8  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+        delay   200
+        attack8  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+
+        delay   550
+        attack9  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+
+        delay   550
+        attack9  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG

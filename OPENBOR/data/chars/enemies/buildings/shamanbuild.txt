@@ -1,0 +1,116 @@
+name	shamanbuild
+health	30
+nolife 1
+speed	9
+#nopain 1
+nomove 1
+type   enemy
+#hostile enemy
+#candamage npc none
+shadow  0
+noquake 1
+makeinv 4
+#agression 90
+
+nodieblink 1
+#atchain     1 2
+#load    fireballw
+nodrop 2
+
+facing 2
+
+setlayer 7
+
+offscreenkill 30000
+
+
+load Grunt2
+
+death 1
+
+palette  data/chars/enemies/buildings/shamanbuild.png
+diesound data/sounds/s/buildingdeath.wav
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+anim spawn
+	loop	0
+        offset  270 375
+	bbox 	106 0 410 400
+#	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/orcbuildnonesprite.png
+        delay   4500
+        frame   data/chars/enemies/buildings/orcbuildnonesprite.png
+        delay   2250
+        frame   data/chars/enemies/buildings/orcbuildnonesprite.png
+        delay   10
+        frame   data/chars/enemies/buildings/shamanbuild.png
+
+
+anim idle
+        loop    1
+        offset  270 375
+	bbox 	106 0 410 400
+	spawnframe 3     5 0 5 0
+	custentity Shaman2
+#	drawmethod	scale 	1.37 1.37
+        delay   1
+        frame   data/chars/enemies/buildings/shamanbuild.png
+        delay   4500
+        frame   data/chars/enemies/buildings/shamanbuild.png
+        delay   2250
+        frame   data/chars/enemies/buildings/shamanbuild.png
+        delay   1
+        frame   data/chars/enemies/buildings/shamanbuild.png
+
+
+anim pain8
+	spawnframe 1     5 0 5 0
+	custentity Shaman2
+        loop    0
+        offset  270 375
+	bbox 	106 0 410 400
+#	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/shamanbuild.png
+        frame   data/chars/enemies/buildings/shamanbuild.png
+	@cmd changeAnimation "ANI_FOLLOW1"
+        frame   data/chars/enemies/buildings/shamanbuild.png
+
+
+
+
+anim follow1
+	spawnframe 1     5 0 5 0
+	custentity Shaman
+        loop    0
+        offset  270 375
+	bbox 	106 0 410 400
+#	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/shamanbuild.png
+        frame   data/chars/enemies/buildings/shamanbuild.png
+	delay 	300
+        frame   data/chars/enemies/buildings/shamanbuild.png
+
+
+anim walk
+        loop    1
+        offset  270 375
+	bbox 	106 0 410 400
+#	drawmethod	scale 	1.37 1.37
+        delay   8
+        frame   data/chars/enemies/buildings/shamanbuild.png
+
+
+anim death
+         loop   0
+         delay  10
+        offset  270 375
+	drawmethod	scale 	1.37 1.37
+         frame   data/chars/enemies/buildings/shamanbuild.png
+
+

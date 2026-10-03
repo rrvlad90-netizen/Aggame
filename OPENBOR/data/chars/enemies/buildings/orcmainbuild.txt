@@ -1,0 +1,258 @@
+name	orcmainbuild
+health	300
+nolife 1
+speed	9
+#nopain 1
+nomove 1
+type   enemy
+#hostile enemy
+#candamage npc none
+shadow  0
+noquake 1
+makeinv 4
+#agression 90
+
+nodieblink 1
+#atchain     1 2
+#load    fireballw
+nodrop 2
+
+facing 2
+
+setlayer 7
+
+offscreenkill 30000
+
+
+load Grunt2
+
+death 1
+
+palette  data/chars/enemies/buildings/MORDORFLAG.png
+diesound data/sounds/s/BuildingDeathLargeHuman.wav
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+anim spawn
+	loop	1
+        offset  113 323
+	bbox 	50 10 120 310
+	drawmethod	scale 	0.67 0.67
+        delay   1
+#	attack11 10 0 410 600 10 0 0 0 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 508 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 520 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 540 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 560 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 580 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 600 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 620 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 640 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 660 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 680 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        delay   1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 508 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 520 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 540 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 560 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 580 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 600 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 620 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 640 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 660 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 680 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+#########
+        delay   300
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        delay   1
+	@cmd spawn03 "urukcrossbow" 11800 0 508 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 520 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 540 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 560 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 580 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 600 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 620 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 640 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 660 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 680 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        delay   300
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        delay   1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 508 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 520 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 540 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 560 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 580 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 600 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 620 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 640 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 660 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 680 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        delay   1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 508 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 520 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 540 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 560 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 580 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 600 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 620 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 640 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 660 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukcrossbow" 11800 0 680 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        delay   300
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "trollstrat2" 11800 0 680 0
+        delay   600
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+
+
+anim idle
+	loop	0
+        offset  113 323
+	bbox 	50 10 120 310
+	drawmethod	scale 	0.67 0.67
+        delay   10
+#	attack11 10 0 410 600 10 0 0 0 0
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+
+
+anim attack1
+        loop    0
+        offset  113 323
+	bbox 	50 10 120 310
+	drawmethod	scale 	0.67 0.67
+        delay   10
+	@cmd spawn03 "urukhaii" 11800 0 0 1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 60 1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 120 1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 180 1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 240 1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 320 1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 380 1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 440 1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 520 1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+	@cmd spawn03 "urukhaii" 11800 0 580 1
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        delay   300
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+
+
+anim death
+         loop   0
+         delay  10
+        offset  113 323
+	drawmethod	scale 	0.67 0.67
+        frame   data/chars/enemies/buildings/MORDORFLAG.png
+
+

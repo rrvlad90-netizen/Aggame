@@ -1,0 +1,31 @@
+anim attack2
+        loop    0
+        offset  160 209
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.64 0.64
+        delay   3
+	move -2
+       frame   data/chars/enemies/urukhai/URUKAA3.png
+       frame   data/chars/enemies/urukhai/URUKAA4.png
+       frame   data/chars/enemies/urukhai/URUKAA5.png
+       frame   data/chars/enemies/urukhai/URUKAA6.png
+       frame   data/chars/enemies/urukhai/URUKAA7.png
+	attack6  200 140 170 180 3 0 0 0 5
+       frame   data/chars/enemies/urukhai/URUKAA8.png
+	attack6  0 0 0 0 0 0 0 0 0
+       frame   data/chars/enemies/urukhai/URUKAA9.png
+       frame   data/chars/enemies/urukhai/URUKAA91.png
+       frame   data/chars/enemies/urukhai/URUKAA92.png
+       frame   data/chars/enemies/urukhai/URUKAA93.png
+       frame   data/chars/enemies/urukhai/URUKAA94.png
+       frame   data/chars/enemies/urukhai/URUKAA95.png
+       frame   data/chars/enemies/urukhai/URUKAA96.png
+        delay   2
+       frame   data/chars/enemies/urukhai/URUKAA97.png
+        delay   8
+       frame   data/chars/enemies/urukhai/URUKAA98.png
+        delay   5       
+	frame   data/chars/enemies/urukhai/URUKS.png
+	move 0
+        delay   25
+       frame   data/chars/enemies/urukhai/URUKS.png

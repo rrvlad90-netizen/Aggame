@@ -1,0 +1,288 @@
+# Do not forget to name your character.
+# Health is optional.
+
+
+name	flat4
+health	0
+type	none
+shadow	0
+setlayer 10
+
+subject_to_hole 0
+subject_to_obstacle 0
+subject_to_platform 0
+subject_to_gravity 0
+subject_to_minz 0
+subject_to_maxz 0
+
+  alternatepal   data/chars/cave/plat2
+  alternatepal   data/chars/cave/plat2
+  alternatepal   data/chars/cave/plat2
+
+
+
+		
+anim	idle
+	loop	1
+	delay	14
+	offset	40 30
+#	platform	80 38	-60 -60 50 50 60 20				
+	platform	40 20	-40 -40 20 20 30 10
+	move -2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	move 2
+	delay	14
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+	frame	data/chars/cave/plat2
+
+		
+
+#anim	attack1
+#anim	attack2
+#anim	attack3
+#anim	follow

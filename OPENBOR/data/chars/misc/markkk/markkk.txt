@@ -1,0 +1,10 @@
+name	markkk
+type	none
+shadow 0
+
+anim idle
+	loop	1
+	delay	10
+	offset	30 30
+#	bbox	9 17 72 27
+	frame	DATA/chars/misc/markkk/ppp.GIF

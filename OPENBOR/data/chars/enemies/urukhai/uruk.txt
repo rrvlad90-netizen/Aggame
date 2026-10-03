@@ -1,0 +1,254 @@
+name	uruk
+health	62
+speed	20
+type   enemy
+hostile npc
+candamage npc
+nolife 1
+shadow  0
+noquake 1
+#makeinv 4
+#agression 90
+nopain 1
+
+nodieblink 1
+nodrop 2
+
+offscreenkill 30000
+
+setlayer 8
+
+death 1
+
+palette  data/chars/enemies/urukhai/URUKYAI1.png
+diesound data/sounds/grdie.wav
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+subject_to_obstacle 0
+
+
+
+anim spawn
+	loop	0
+        offset  160 150
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.78 0.78
+        delay   15
+       frame   data/chars/enemies/urukhai/URUKS.png
+
+
+anim idle
+        loop    1
+        offset  160 150
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.78 0.78
+        delay   15
+       frame   data/chars/enemies/urukhai/URUKS.png
+
+
+anim pain7
+        loop    1
+        offset  160 192
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.78 0.78
+        delay   1
+	attack6 100 80 650 240 0 0 0 0
+       frame   data/chars/enemies/urukhai/URUKA3.PNG
+
+
+anim attack1
+        loop    0
+        offset  160 192
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.78 0.78
+        delay   2
+       frame   data/chars/enemies/urukhai/URUKA2.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/enemies/urukhai/URUKA3.png
+       frame   data/chars/enemies/urukhai/URUKA4.png
+       frame   data/chars/enemies/urukhai/URUKA5.png
+       frame   data/chars/enemies/urukhai/URUKA6.png
+       frame   data/chars/enemies/urukhai/URUKA7.png
+       frame   data/chars/enemies/urukhai/URUKA8.png
+       frame   data/chars/enemies/urukhai/URUKA9.png
+       frame   data/chars/enemies/urukhai/URUKA92.png
+       frame   data/chars/enemies/urukhai/URUKA93.png
+       frame   data/chars/enemies/urukhai/URUKA94.png
+       frame   data/chars/enemies/urukhai/URUKA95.png
+       frame   data/chars/enemies/urukhai/URUKA96.png
+       frame   data/chars/enemies/urukhai/URUKA97.png
+	sound   data/sounds/bbeat1.wav
+	attack6  200 140 170 180 3 0 0 0 5
+       frame   data/chars/enemies/urukhai/URUKA98.png
+	attack6  0 0 0 0 0 0 0 0 0
+       frame   data/chars/enemies/urukhai/URUKA99.png
+       frame   data/chars/enemies/urukhai/URUKA991.png
+       frame   data/chars/enemies/urukhai/URUKA992.png
+       frame   data/chars/enemies/urukhai/URUKA993.png
+       frame   data/chars/enemies/urukhai/URUKA994.png
+       frame   data/chars/enemies/urukhai/URUKA995.png
+       frame   data/chars/enemies/urukhai/URUKA996.png
+       frame   data/chars/enemies/urukhai/URUKA997.png
+        delay   39
+       frame   data/chars/enemies/urukhai/URUKA998.png
+
+anim attack2
+        loop    0
+        offset  160 150
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.78 0.78
+        delay   3
+       frame   data/chars/enemies/urukhai/URUKAA3.png
+       frame   data/chars/enemies/urukhai/URUKAA4.png
+       frame   data/chars/enemies/urukhai/URUKAA5.png
+       frame   data/chars/enemies/urukhai/URUKAA6.png
+       frame   data/chars/enemies/urukhai/URUKAA7.png
+	attack6  200 140 170 180 3 0 0 0 5
+       frame   data/chars/enemies/urukhai/URUKAA8.png
+	attack6  0 0 0 0 0 0 0 0 0
+       frame   data/chars/enemies/urukhai/URUKAA9.png
+       frame   data/chars/enemies/urukhai/URUKAA91.png
+       frame   data/chars/enemies/urukhai/URUKAA92.png
+       frame   data/chars/enemies/urukhai/URUKAA93.png
+       frame   data/chars/enemies/urukhai/URUKAA94.png
+       frame   data/chars/enemies/urukhai/URUKAA95.png
+       frame   data/chars/enemies/urukhai/URUKAA96.png
+        delay   2
+       frame   data/chars/enemies/urukhai/URUKAA97.png
+        delay   8
+       frame   data/chars/enemies/urukhai/URUKAA98.png
+
+anim pain1
+        loop    0
+        offset  160 192
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.78 0.78
+        delay   3
+       frame   data/chars/enemies/urukhai/URUKA2.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/enemies/urukhai/URUKA3.png
+       frame   data/chars/enemies/urukhai/URUKA4.png
+       frame   data/chars/enemies/urukhai/URUKA5.png
+       frame   data/chars/enemies/urukhai/URUKA6.png
+       frame   data/chars/enemies/urukhai/URUKA7.png
+       frame   data/chars/enemies/urukhai/URUKA8.png
+       frame   data/chars/enemies/urukhai/URUKA9.png
+       frame   data/chars/enemies/urukhai/URUKA92.png
+       frame   data/chars/enemies/urukhai/URUKA93.png
+       frame   data/chars/enemies/urukhai/URUKA94.png
+       frame   data/chars/enemies/urukhai/URUKA95.png
+       frame   data/chars/enemies/urukhai/URUKA96.png
+       frame   data/chars/enemies/urukhai/URUKA97.png
+	sound   data/sounds/bbeat1.wav
+	attack6  200 140 170 180 3 0 0 0 5
+       frame   data/chars/enemies/urukhai/URUKA98.png
+	attack6  0 0 0 0 0 0 0 0 0
+       frame   data/chars/enemies/urukhai/URUKA99.png
+       frame   data/chars/enemies/urukhai/URUKA991.png
+       frame   data/chars/enemies/urukhai/URUKA992.png
+       frame   data/chars/enemies/urukhai/URUKA993.png
+       frame   data/chars/enemies/urukhai/URUKA994.png
+       frame   data/chars/enemies/urukhai/URUKA995.png
+       frame   data/chars/enemies/urukhai/URUKA996.png
+       frame   data/chars/enemies/urukhai/URUKA997.png
+        delay   39
+       frame   data/chars/enemies/urukhai/URUKA998.png
+
+anim pain
+        loop    0
+        offset  160 192
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.78 0.78
+        delay   15
+       frame   data/chars/enemies/urukhai/URUKA3.PNG
+
+anim walk
+        loop    1
+        delay   4
+        offset  160 150
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.78 0.78
+#	attack5  300 140 470 180 0 0 0 0 0
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI93.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI94.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI95.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI96.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI97.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI98.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI99.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI991.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI992.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI993.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI994.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI995.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI996.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI997.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI998.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI999.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI9991.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI9992.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI1.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI2.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI3.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI4.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI5.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI6.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI7.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI8.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI9.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI91.png
+	@cmd rotateunit
+        frame   data/chars/enemies/urukhai/URUKYAI92.png
+
+
+
+anim death
+         loop   0
+         delay  4
+        offset  160 150
+	drawmethod	scale 	0.78 0.78
+        frame   data/chars/enemies/urukhai/URUKD1.png
+        frame   data/chars/enemies/urukhai/URUKD2.png
+        frame   data/chars/enemies/urukhai/URUKD3.png
+        frame   data/chars/enemies/urukhai/URUKD4.png
+        frame   data/chars/enemies/urukhai/URUKD5.png
+        frame   data/chars/enemies/urukhai/URUKD6.png
+        frame   data/chars/enemies/urukhai/URUKD7.png
+        frame   data/chars/enemies/urukhai/URUKD8.png
+        frame   data/chars/enemies/urukhai/URUKD9.png
+        frame   data/chars/enemies/urukhai/URUKD91.png
+        frame   data/chars/enemies/urukhai/URUKD92.png
+        frame   data/chars/enemies/urukhai/URUKD93.png
+        frame   data/chars/enemies/urukhai/URUKD94.png
+        frame   data/chars/enemies/urukhai/URUKD95.png

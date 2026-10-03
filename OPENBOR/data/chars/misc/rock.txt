@@ -1,0 +1,24 @@
+# Do not forget to name your character.
+# Health is optional.
+
+name	rock
+#health	1000
+type	obstacle
+gfxshadow 1 3
+#icon	data/chars/misc/walll.gif
+palette data/chars/misc/rock
+
+
+offscreenkill 30000
+
+
+anim idle
+	loop	1
+	delay	10
+	offset	60 90
+	bbox	30 30 30 30
+	frame	data/chars/misc/rock
+anim fall
+	delay	1000
+	offset	39 133
+	frame	data/chars/misc/rock

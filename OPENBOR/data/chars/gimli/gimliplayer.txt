@@ -1,0 +1,366 @@
+name	Gimli_
+health	120
+speed	30
+type   player
+#hostile enemy
+candamage enemy
+nolife 1
+gfxshadow 1 3
+noquake 1
+#makeinv 4
+#agression 90
+#nopain 1
+
+nodieblink 1
+#nodrop 2
+
+offscreenkill 30000
+
+atchain 1 2
+
+#death 1
+
+palette  data/chars/gimli/GIMLI1.png
+#diesound data/sounds/grdie.wav
+
+
+#animationscript data/scripts/myanimmmmm.c
+
+
+#subject_to_obstacle 0
+
+com a a freespecial2
+
+anim spawn
+	loop	0
+        offset  180 256
+    	bbox    110 100 110 160
+#	drawmethod	scale 	0.86 0.86
+        delay   15
+       frame   data/chars/gimli/GIMLI1.png
+
+
+anim idle
+        loop    1
+        offset  180 256
+    	bbox    110 100 110 160
+#	drawmethod	scale 	0.86 0.86
+        delay   35
+       frame   data/chars/gimli/GIMLI1.png
+       frame   data/chars/gimli/GIMLI2.png
+       frame   data/chars/gimli/GIMLI3.png
+       frame   data/chars/gimli/GIMLI2.png
+
+
+anim pain7
+        loop    1
+        offset  180 232
+    	bbox    0 0 0 0
+#	drawmethod	scale 	0.86 0.86
+        delay   15
+	attack3 100 80 650 240 0 0 0 0
+       frame   data/chars/gimli/GIMLISA9991.PNG
+
+
+anim pain1
+        loop    0
+        offset  180 232
+    	bbox    0 0 0 0
+#	drawmethod	scale 	0.86 0.86
+        delay   15
+       frame   data/chars/gimli/GIMLISA9991.PNG
+
+anim pain
+        loop    0
+        offset  180 232
+    	bbox    0 0 0 0
+#	drawmethod	scale 	0.86 0.86
+        delay   15
+       frame   data/chars/gimli/GIMLISA9991.PNG
+
+
+anim attack1
+	fastattack 1
+        loop    0
+        offset  185 230
+    	bbox    110 100 110 160
+#	drawmethod	scale 	0.86 0.86
+        delay   2
+       frame   data/chars/gimli/GIMLIA1.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/gimli/GIMLIA2.png
+       frame   data/chars/gimli/GIMLIA3.png
+       frame   data/chars/gimli/GIMLIA4.png
+       frame   data/chars/gimli/GIMLIA5.png
+       frame   data/chars/gimli/GIMLIA6.png
+       frame   data/chars/gimli/GIMLIA7.png
+       frame   data/chars/gimli/GIMLIA8.png
+       frame   data/chars/gimli/GIMLIA9.png
+       frame   data/chars/gimli/GIMLIA91.png
+       frame   data/chars/gimli/GIMLIA92.png
+       frame   data/chars/gimli/GIMLIA93.png
+       frame   data/chars/gimli/GIMLIA94.png
+       frame   data/chars/gimli/GIMLIA95.png
+       frame   data/chars/gimli/GIMLIA96.png
+#	sound   data/sounds/bbeat1.wav
+	attack3  110 100 210 160 8 0 0 0 5 35
+       frame   data/chars/gimli/GIMLIA97.png
+	attack3  0 0 0 0 0 0 0 0 0
+       frame   data/chars/gimli/GIMLIA98.png
+       frame   data/chars/gimli/GIMLIA99.png
+       frame   data/chars/gimli/GIMLIA991.png
+       frame   data/chars/gimli/GIMLIA992.png
+       frame   data/chars/gimli/GIMLIA993.png
+       frame   data/chars/gimli/GIMLIA994.png
+       frame   data/chars/gimli/GIMLIA995.png
+       frame   data/chars/gimli/GIMLIA996.png
+       frame   data/chars/gimli/GIMLIA997.png
+       frame   data/chars/gimli/GIMLIA998.png
+       frame   data/chars/gimli/GIMLIA999.png
+       frame   data/chars/gimli/GIMLIA9991.png
+       frame   data/chars/gimli/GIMLIA9992.png
+       frame   data/chars/gimli/GIMLIA9993.png
+       frame   data/chars/gimli/GIMLIA9994.png
+       frame   data/chars/gimli/GIMLIA9995.png
+       frame   data/chars/gimli/GIMLIA9996.png
+       frame   data/chars/gimli/GIMLIA9997.png
+       frame   data/chars/gimli/GIMLIA9998.png
+       frame   data/chars/gimli/GIMLIA9999.png
+       frame   data/chars/gimli/GIMLIA99991.png
+       frame   data/chars/gimli/GIMLIA99992.png
+
+anim attack2
+	fastattack 1
+        loop    0
+        offset  185 230
+    	bbox    110 100 110 160
+#	drawmethod	scale 	0.86 0.86
+        delay   2
+       frame   data/chars/gimli/GIMLIAA1.png
+       frame   data/chars/gimli/GIMLIAA2.png
+       frame   data/chars/gimli/GIMLIAA3.png
+       frame   data/chars/gimli/GIMLIAA4.png
+       frame   data/chars/gimli/GIMLIAA5.png
+       frame   data/chars/gimli/GIMLIAA6.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/gimli/GIMLIAA7.png
+       frame   data/chars/gimli/GIMLIAA8.png
+       frame   data/chars/gimli/GIMLIAA9.png
+       frame   data/chars/gimli/GIMLIAA91.png
+       frame   data/chars/gimli/GIMLIAA92.png
+       frame   data/chars/gimli/GIMLIAA93.png
+       frame   data/chars/gimli/GIMLIAA94.png
+	attack3  110 100 210 160 10 0 0 0 5 35
+       frame   data/chars/gimli/GIMLIAA95.png
+	attack3  0 0 0 0 0 0 0 0 0
+       frame   data/chars/gimli/GIMLIAA96.png
+       frame   data/chars/gimli/GIMLIAA97.png
+       frame   data/chars/gimli/GIMLIAA98.png
+       frame   data/chars/gimli/GIMLIAA99.png
+       frame   data/chars/gimli/GIMLIAA991.png
+       frame   data/chars/gimli/GIMLIAA992.png
+       frame   data/chars/gimli/GIMLIAA993.png
+       frame   data/chars/gimli/GIMLIAA994.png
+       frame   data/chars/gimli/GIMLIAA995.png
+       frame   data/chars/gimli/GIMLIAA996.png
+       frame   data/chars/gimli/GIMLIAA997.png
+       frame   data/chars/gimli/GIMLIAA998.png
+       frame   data/chars/gimli/GIMLIAA999.png
+       frame   data/chars/gimli/GIMLIAA9991.png
+       frame   data/chars/gimli/GIMLIAA9992.png
+        delay   2
+       frame   data/chars/gimli/GIMLIAA9993.png
+        delay   8
+       frame   data/chars/gimli/GIMLIAA9994.png
+
+
+anim freespecial2
+	fastattack 1
+        loop    0
+        offset  185 230
+    	bbox    110 100 110 160
+#	drawmethod	scale 	0.86 0.86
+        delay   2
+       frame   data/chars/gimli/GIMLIAA1.png
+       frame   data/chars/gimli/GIMLIAA2.png
+       frame   data/chars/gimli/GIMLIAA3.png
+       frame   data/chars/gimli/GIMLIAA4.png
+       frame   data/chars/gimli/GIMLIAA5.png
+       frame   data/chars/gimli/GIMLIAA6.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/gimli/GIMLIAA7.png
+       frame   data/chars/gimli/GIMLIAA8.png
+       frame   data/chars/gimli/GIMLIAA9.png
+       frame   data/chars/gimli/GIMLIAA91.png
+       frame   data/chars/gimli/GIMLIAA92.png
+       frame   data/chars/gimli/GIMLIAA93.png
+       frame   data/chars/gimli/GIMLIAA94.png
+	attack3  110 100 210 160 10 0 0 0 5 35
+       frame   data/chars/gimli/GIMLIAA95.png
+	attack3  0 0 0 0 0 0 0 0 0
+       frame   data/chars/gimli/GIMLIAA96.png
+       frame   data/chars/gimli/GIMLIAA97.png
+       frame   data/chars/gimli/GIMLIAA98.png
+       frame   data/chars/gimli/GIMLIAA99.png
+       frame   data/chars/gimli/GIMLIAA991.png
+       frame   data/chars/gimli/GIMLIAA992.png
+       frame   data/chars/gimli/GIMLIAA993.png
+       frame   data/chars/gimli/GIMLIAA994.png
+       frame   data/chars/gimli/GIMLIAA995.png
+       frame   data/chars/gimli/GIMLIAA996.png
+       frame   data/chars/gimli/GIMLIAA997.png
+       frame   data/chars/gimli/GIMLIAA998.png
+       frame   data/chars/gimli/GIMLIAA999.png
+       frame   data/chars/gimli/GIMLIAA9991.png
+       frame   data/chars/gimli/GIMLIAA9992.png
+        delay   2
+       frame   data/chars/gimli/GIMLIAA9993.png
+        delay   8
+       frame   data/chars/gimli/GIMLIAA9994.png
+
+
+
+anim jumpdelay
+        loop    0
+        offset  180 256
+    	bbox    110 100 110 160
+#	drawmethod	scale 	0.86 0.86
+        delay   2
+       frame   data/chars/gimli/GIMLISA1.png
+       frame   data/chars/gimli/GIMLISA2.png
+       frame   data/chars/gimli/GIMLISA3.png
+       frame   data/chars/gimli/GIMLISA4.png
+       frame   data/chars/gimli/GIMLISA5.png
+       frame   data/chars/gimli/GIMLISA6.png
+       frame   data/chars/gimli/GIMLISA7.png
+       frame   data/chars/gimli/GIMLISA8.png
+       frame   data/chars/gimli/GIMLISA9.png
+       frame   data/chars/gimli/GIMLISA91.png
+       frame   data/chars/gimli/GIMLISA92.png
+       frame   data/chars/gimli/GIMLISA93.png
+
+anim jump
+        loop    0
+        offset  170 231
+    	bbox    110 100 110 160
+#	drawmethod	scale 	0.86 0.86
+        delay   3
+       frame   data/chars/gimli/GIMLISA94.png
+
+anim jumpland
+        loop    0
+        offset  180 256
+    	bbox    110 100 110 160
+#	drawmethod	scale 	0.86 0.86
+        delay   2
+       frame   data/chars/gimli/GIMLISA93.png
+       frame   data/chars/gimli/GIMLISA92.png
+       frame   data/chars/gimli/GIMLISA91.png
+       frame   data/chars/gimli/GIMLISA9.png
+       frame   data/chars/gimli/GIMLISA8.png
+       frame   data/chars/gimli/GIMLISA7.png
+       frame   data/chars/gimli/GIMLISA6.png
+       frame   data/chars/gimli/GIMLISA5.png
+       frame   data/chars/gimli/GIMLISA4.png
+       frame   data/chars/gimli/GIMLISA3.png
+       frame   data/chars/gimli/GIMLISA2.png
+       frame   data/chars/gimli/GIMLISA1.png
+
+anim jumpattack
+        loop    0
+        offset  180 256
+    	bbox    110 100 110 160
+#	drawmethod	scale 	0.86 0.86
+        delay   3
+	sound   data/sounds/sword1.wav
+       frame   data/chars/gimli/GIMLISA94.png
+       frame   data/chars/gimli/GIMLISA95.png
+       frame   data/chars/gimli/GIMLISA96.png
+       frame   data/chars/gimli/GIMLISA97.png
+       frame   data/chars/gimli/GIMLISA98.png
+       frame   data/chars/gimli/GIMLISA99.png
+       frame   data/chars/gimli/GIMLISA991.png
+	attack3  110 100 210 160 16 1 0 0 5 35
+       frame   data/chars/gimli/GIMLISA992.png
+	attack3  0 0 0 0 0 0 0 0 0
+       frame   data/chars/gimli/GIMLISA993.png
+       frame   data/chars/gimli/GIMLISA994.png
+       frame   data/chars/gimli/GIMLISA995.png
+       frame   data/chars/gimli/GIMLISA996.png
+       frame   data/chars/gimli/GIMLISA997.png
+       frame   data/chars/gimli/GIMLISA998.png
+       frame   data/chars/gimli/GIMLISA999.png
+
+
+anim walk
+        loop    1
+        delay   2
+        offset  180 256
+    	bbox    110 100 110 160
+#	drawmethod	scale 	0.86 0.86
+#	attack5  300 140 470 180 0 0 0 0 0
+        frame   data/chars/gimli/GIMLIW1.png
+        frame   data/chars/gimli/GIMLIW2.png
+        frame   data/chars/gimli/GIMLIW3.png
+        frame   data/chars/gimli/GIMLIW4.png
+        frame   data/chars/gimli/GIMLIW5.png
+        frame   data/chars/gimli/GIMLIW6.png
+        frame   data/chars/gimli/GIMLIW7.png
+        frame   data/chars/gimli/GIMLIW8.png
+        frame   data/chars/gimli/GIMLIW9.png
+        frame   data/chars/gimli/GIMLIW91.png
+        frame   data/chars/gimli/GIMLIW92.png
+        frame   data/chars/gimli/GIMLIW93.png
+        frame   data/chars/gimli/GIMLIW94.png
+        frame   data/chars/gimli/GIMLIW95.png
+        frame   data/chars/gimli/GIMLIW96.png
+        frame   data/chars/gimli/GIMLIW97.png
+        frame   data/chars/gimli/GIMLIW98.png
+        frame   data/chars/gimli/GIMLIW99.png
+        frame   data/chars/gimli/GIMLIW991.png
+        frame   data/chars/gimli/GIMLIW992.png
+        frame   data/chars/gimli/GIMLIW993.png
+        frame   data/chars/gimli/GIMLIW994.png
+
+
+anim rise
+        loop   0
+        offset  185 230
+    	bbox    110 100 110 160
+#	drawmethod	scale 	0.86 0.86
+        delay   3
+        frame   data/chars/gimli/GIMLID95.png
+        frame   data/chars/gimli/GIMLID94.png
+        frame   data/chars/gimli/GIMLID93.png
+        frame   data/chars/gimli/GIMLID92.png
+        frame   data/chars/gimli/GIMLID91.png
+        frame   data/chars/gimli/GIMLID9.png
+        frame   data/chars/gimli/GIMLID8.png
+        frame   data/chars/gimli/GIMLID7.png
+        frame   data/chars/gimli/GIMLID6.png
+        frame   data/chars/gimli/GIMLID5.png
+        frame   data/chars/gimli/GIMLID4.png
+
+anim fall
+         loop   0
+         delay  3
+        offset  185 230
+#	drawmethod	scale 	0.86 0.86
+        frame   data/chars/gimli/GIMLID1.png
+        frame   data/chars/gimli/GIMLID2.png
+        frame   data/chars/gimli/GIMLID3.png
+        frame   data/chars/gimli/GIMLID4.png
+        frame   data/chars/gimli/GIMLID5.png
+        frame   data/chars/gimli/GIMLID6.png
+        frame   data/chars/gimli/GIMLID7.png
+        frame   data/chars/gimli/GIMLID8.png
+        frame   data/chars/gimli/GIMLID9.png
+        frame   data/chars/gimli/GIMLID91.png
+        frame   data/chars/gimli/GIMLID92.png
+        frame   data/chars/gimli/GIMLID93.png
+        frame   data/chars/gimli/GIMLID94.png
+        frame   data/chars/gimli/GIMLID95.png
+         delay  500
+        frame   data/chars/gimli/GIMLID96.png
+         delay  3
+        frame   data/chars/gimli/GIMLID96.png

@@ -1,0 +1,239 @@
+name	Grunt22
+health	62
+speed	20
+type   enemy
+hostile npc
+candamage npc
+nolife 1
+shadow  0
+noquake 1
+#makeinv 4
+#agression 90
+nopain 1
+
+nodieblink 1
+nodrop 2
+
+offscreenkill 30000
+
+setlayer 7
+
+death 1
+
+palette  data/chars/enemies/grunt/URUK2.png
+diesound data/sounds/grdie.wav
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+subject_to_obstacle 0
+
+
+
+anim spawn
+	loop	0
+        offset  160 297
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.86 0.86
+        delay   15
+        frame   data/chars/enemies/grunt/URUKS.png
+
+
+anim idle
+        loop    1
+        offset  160 297
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.86 0.86
+        delay   15
+	platform   242 40  -20 -20 10 10 300 200
+        frame   data/chars/enemies/grunt/URUKS.png
+
+
+anim pain7
+        loop    1
+        offset  242 324
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.86 0.86
+        delay   1
+	attack6 100 80 650 240 0 0 0 0
+	platform   242 40  -20 -20 10 10 300 200
+        frame   data/chars/enemies/grunt/URUK2.png
+
+
+anim attack1
+        loop    0
+        offset  160 255
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.86 0.86
+        delay   4
+	platform   242 40  -150 -150 10 10 300 200
+       frame   data/chars/enemies/grunt/URUKA1.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/enemies/grunt/URUKA2.png
+       frame   data/chars/enemies/grunt/URUKA3.png
+        offset  160 297
+       frame   data/chars/enemies/grunt/URUKA4.png
+       frame   data/chars/enemies/grunt/URUKA5.png
+       frame   data/chars/enemies/grunt/URUKA6.png
+       frame   data/chars/enemies/grunt/URUKA7.png
+       frame   data/chars/enemies/grunt/URUKA8.png
+       frame   data/chars/enemies/grunt/URUKA9.png
+	sound   data/sounds/bbeat1.wav
+	attack6  200 140 170 180 3 0 0 0 5
+       frame   data/chars/enemies/grunt/URUKA91.png
+	attack6  0 0 0 0 0 0 0 0 0
+       frame   data/chars/enemies/grunt/URUKA92.png
+       frame   data/chars/enemies/grunt/URUKA93.png
+       frame   data/chars/enemies/grunt/URUKA94.png
+       frame   data/chars/enemies/grunt/URUKA95.png
+       frame   data/chars/enemies/grunt/URUKA96.png
+       frame   data/chars/enemies/grunt/URUKA97.png
+       frame   data/chars/enemies/grunt/URUKA98.png
+        delay   39
+       frame   data/chars/enemies/grunt/URUKA99.png
+
+
+anim attack2
+        loop    0
+        offset  160 255
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.86 0.86
+        delay   4
+       frame   data/chars/enemies/grunt/URUKAA3.png
+       frame   data/chars/enemies/grunt/URUKAA4.png
+       frame   data/chars/enemies/grunt/URUKAA5.png
+       frame   data/chars/enemies/grunt/URUKAA6.png
+       frame   data/chars/enemies/grunt/URUKAA7.png
+	attack6  200 140 170 180 3 0 0 0 5
+       frame   data/chars/enemies/grunt/URUKAA8.png
+	attack6  0 0 0 0 0 0 0 0 0
+       frame   data/chars/enemies/grunt/URUKAA9.png
+       frame   data/chars/enemies/grunt/URUKAA91.png
+       frame   data/chars/enemies/grunt/URUKAA92.png
+       frame   data/chars/enemies/grunt/URUKAA93.png
+       frame   data/chars/enemies/grunt/URUKAA94.png
+       frame   data/chars/enemies/grunt/URUKAA95.png
+       frame   data/chars/enemies/grunt/URUKAA96.png
+
+
+anim pain1
+        loop    0
+        offset  160 255
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.86 0.86
+        delay   4
+	platform   242 40  -150 -150 10 10 300 200
+       frame   data/chars/enemies/grunt/URUKA1.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/enemies/grunt/URUKA2.png
+       frame   data/chars/enemies/grunt/URUKA3.png
+        offset  160 297
+       frame   data/chars/enemies/grunt/URUKA4.png
+       frame   data/chars/enemies/grunt/URUKA5.png
+       frame   data/chars/enemies/grunt/URUKA6.png
+       frame   data/chars/enemies/grunt/URUKA7.png
+       frame   data/chars/enemies/grunt/URUKA8.png
+       frame   data/chars/enemies/grunt/URUKA9.png
+	sound   data/sounds/bbeat1.wav
+	attack6  200 140 170 180 3 0 0 0 5
+       frame   data/chars/enemies/grunt/URUKA91.png
+	attack6  0 0 0 0 0 0 0 0 0
+       frame   data/chars/enemies/grunt/URUKA92.png
+       frame   data/chars/enemies/grunt/URUKA93.png
+       frame   data/chars/enemies/grunt/URUKA94.png
+       frame   data/chars/enemies/grunt/URUKA95.png
+       frame   data/chars/enemies/grunt/URUKA96.png
+       frame   data/chars/enemies/grunt/URUKA97.png
+       frame   data/chars/enemies/grunt/URUKA98.png
+        delay   39
+       frame   data/chars/enemies/grunt/URUKA99.png
+
+anim pain
+        loop    0
+        offset  160 255
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.86 0.86
+        delay   15
+        frame   data/chars/enemies/grunt/URUK2.png
+
+anim walk
+        loop    1
+        delay   4
+        offset  160 255
+    	bbox    100 80 180 240
+	platform   242 40  -150 -150 10 10 300 200
+	drawmethod	scale 	0.86 0.86
+#	attack5  300 140 470 180 0 0 0 0 0
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK2.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK3.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK4.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK5.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK6.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK7.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK8.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK9.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK91.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK92.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK93.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK94.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK95.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK96.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK97.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK98.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK99.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK991.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK992.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK993.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK994.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK995.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK996.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK997.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK998.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK999.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK9991.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK9992.png
+	@cmd rotateunit
+        frame   data/chars/enemies/grunt/URUK9993.png
+
+anim death
+         loop   0
+         delay  10
+        offset  160 255
+	drawmethod	scale 	0.86 0.86
+        frame   data/chars/enemies/grunt/URUKD1.png
+        frame   data/chars/enemies/grunt/URUKD2.png
+        frame   data/chars/enemies/grunt/URUKD3.png
+        frame   data/chars/enemies/grunt/URUKD4.png
+        frame   data/chars/enemies/grunt/URUKD5.png
+        frame   data/chars/enemies/grunt/URUKD6.png
+        frame   data/chars/enemies/grunt/URUKD7.png
+        frame   data/chars/enemies/grunt/URUKD8.png

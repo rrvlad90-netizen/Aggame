@@ -1,0 +1,88 @@
+name	minee
+health	30
+nolife 1
+#speed	1
+#nopain 1
+#nomove 1
+type   none
+shadow  0
+#noquake 1
+#makeinv 4
+#agression 90
+#diesound data/chars/giantant/orc_attack_scream_09.wav
+
+#nodieblink 1
+#atchain     1 2
+#load    fireballw
+#nodrop 2
+
+facing 1
+
+setlayer 7
+
+offscreenkill 30000
+
+#death 1
+
+load item1
+
+palette  data/chars/enemies/buildings/mine.png
+#diesound data/sounds/rifdie.wav
+
+
+#animationscript data/scripts/myanimmmmm.c
+
+
+#anim spawn
+#	loop	0
+#        offset  238 228
+#	bbox 	0 0 494 230
+#	drawmethod	scale 	0.67 0.67
+#        delay   1
+#        frame   data/chars/enemies/buildings/mine.png
+
+
+anim idle
+        loop    1
+        offset  238 228
+	bbox 	0 0 494 230
+	drawmethod	scale 	0.67 0.67
+        delay   1
+#	@cmd makenomovetrue
+        frame   data/chars/enemies/buildings/mine.png
+
+
+anim pain11
+        loop    1
+	spawnframe 1     0 500 0 500
+	custentity item1
+        offset  238 228
+	bbox 	0 0 0 0
+	drawmethod	scale 	0.67 0.67
+        delay   100
+#	@cmd makenopaintrue
+        frame   data/chars/enemies/buildings/mine.png
+        delay   700
+        frame   data/chars/enemies/buildings/mine.png
+        delay   1
+#	@cmd makenopainfalse
+        frame   data/chars/enemies/buildings/mine.png
+        frame   data/chars/enemies/buildings/mine.png
+
+#anim walk
+#        loop    1
+#        offset  238 228
+#	bbox 	0 0 494 230
+#	drawmethod	scale 	0.67 0.67
+#        delay   8
+#        frame   data/chars/enemies/buildings/mine.png
+
+
+anim fall
+         loop   0
+         delay  10
+        offset  238 228
+	drawmethod	scale 	0.67 0.67
+         frame   data/chars/enemies/buildings/mine.png
+
+

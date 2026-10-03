@@ -1,0 +1,84 @@
+name	orctower
+health	190
+nolife 1
+speed	9
+nopain 1
+nomove 1
+type   enemy
+hostile npc
+candamage npc
+shadow  0
+noquake 1
+makeinv 4
+#agression 90
+
+nodieblink 1
+#atchain     1 2
+#load    fireballw
+nodrop 2
+
+facing 2
+
+setlayer 7
+
+offscreenkill 30000
+
+death 1
+
+palette  data/chars/enemies/buildings/orctower.png
+diesound data/sounds/s/buildingdeath.wav
+
+
+#animationscript data/scripts/myanimmmmm.c
+
+
+anim spawn
+	loop	0
+        offset  270 375
+	bbox 	185 0 175 375
+	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/orctower.png
+
+
+anim idle
+        loop    1
+        offset  270 375
+	bbox 	185 0 175 375
+	drawmethod	scale 	1.37 1.37
+        delay   10
+#	drawmethod	scale 	0.37 0.37
+#	platform   311 40  -20 -20 10 10 300 200
+        frame   data/chars/enemies/buildings/orctower.png
+
+
+anim attack1
+        loop    0
+        offset  270 375
+	bbox 	185 0 175 375
+	range   0 680
+	drawmethod	scale 	1.37 1.37
+        delay   8
+	sound 	data/sounds/s/ArrowAttack1.wav
+	@cmd	projectile 2 "arrowenemy" 11 0 165 1 0 1  #11 dlinna  165 visota
+        frame   data/chars/enemies/buildings/orctower.png
+        delay   80
+        frame   data/chars/enemies/buildings/orctower.png
+
+anim walk
+        loop    1
+        offset  270 375
+	bbox 	185 0 175 375
+	drawmethod	scale 	1.37 1.37
+        delay   8
+        frame   data/chars/enemies/buildings/orctower.png
+
+
+anim death
+         loop   0
+         delay  10
+        offset  270 375
+	drawmethod	scale 	1.37 1.37
+        frame   data/chars/enemies/buildings/orctower.png
+
+

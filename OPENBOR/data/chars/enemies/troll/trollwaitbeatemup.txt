@@ -1,0 +1,637 @@
+name	trollwaitbeatemup
+health	170
+speed	20
+type   enemy
+hostile npc player
+candamage npc  player enemy
+nolife 1
+gfxshadow 1 3
+noquake 1
+#makeinv 4
+#agression 90
+#nopain 1
+
+nodieblink 1
+nodrop 2
+
+offscreenkill 30000
+
+
+death 1
+
+palette  data/chars/enemies/troll/TROLL1.png
+diesound data/chars/enemies/troll/trolldie.wav
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+subject_to_obstacle 0
+
+
+
+anim spawn
+	loop	0
+        offset  240 325
+    	bbox    100 80 180 240
+	drawmethod	scale 	1.36 1.36
+        delay   1700
+       frame   data/chars/enemies/troll/trolemplty.png
+       frame   data/chars/enemies/troll/trolemplty.png
+	sound data/chars/enemies/troll/trolsee1.wav
+        delay   1
+       frame   data/chars/enemies/troll/trolemplty.png
+
+anim idle
+        loop    1
+        offset  240 325
+    	bbox    100 80 180 240
+	drawmethod	scale 	1.36 1.36
+        delay   15
+       frame   data/chars/enemies/troll/TROLL1.png
+       frame   data/chars/enemies/troll/TROLL2.png
+       frame   data/chars/enemies/troll/TROLL3.png
+       frame   data/chars/enemies/troll/TROLL4.png
+       frame   data/chars/enemies/troll/TROLL3.png
+       frame   data/chars/enemies/troll/TROLL2.png
+
+
+
+anim pain
+        loop    0
+        offset  230 327
+#    	bbox    100 80 180 240
+    	bbox    0 0 0 0
+	drawmethod	scale 	1.36 1.36
+        delay   15
+	@cmd makenopaintrue
+	sound data/chars/enemies/troll/trollpain.wav
+       frame   data/chars/enemies/troll/TROLLP1.PNG
+       frame   data/chars/enemies/troll/TROLLP2.PNG
+       frame   data/chars/enemies/troll/TROLLP1.PNG
+#######
+        offset  230 327
+   	bbox    100 80 180 240
+	drawmethod	scale 	1.36 1.36
+        delay   3
+       frame   data/chars/enemies/troll/TROLLAA1.png
+       frame   data/chars/enemies/troll/TROLLAA2.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/enemies/troll/TROLLAA3.png
+       frame   data/chars/enemies/troll/TROLLAA4.png
+       frame   data/chars/enemies/troll/TROLLAA5.png
+       frame   data/chars/enemies/troll/TROLLAA6.png
+       frame   data/chars/enemies/troll/TROLLAA7.png
+       frame   data/chars/enemies/troll/TROLLAA8.png
+       frame   data/chars/enemies/troll/TROLLAA9.png
+       frame   data/chars/enemies/troll/TROLLAA91.png
+       frame   data/chars/enemies/troll/TROLLAA92.png
+       frame   data/chars/enemies/troll/TROLLAA93.png
+       frame   data/chars/enemies/troll/TROLLAA94.png
+       frame   data/chars/enemies/troll/TROLLAA95.png
+       frame   data/chars/enemies/troll/TROLLAA96.png
+       frame   data/chars/enemies/troll/TROLLAA97.png
+       frame   data/chars/enemies/troll/TROLLAA98.png
+       frame   data/chars/enemies/troll/TROLLAA99.png
+       frame   data/chars/enemies/troll/TROLLAA991.png
+       frame   data/chars/enemies/troll/TROLLAA992.png
+       frame   data/chars/enemies/troll/TROLLAA993.png
+        offset  240 360
+       frame   data/chars/enemies/troll/TROLLAA994.png
+       frame   data/chars/enemies/troll/TROLLAA995.png
+	delay 10
+	attack6  200 140 330 180 13 1 0 0 5 50
+       frame   data/chars/enemies/troll/TROLLAA996.png
+	attack6  0 0 0 0 0 0 0 0 0
+	delay 3
+    	bbox    100 80 180 240
+        offset  240 355
+       frame   data/chars/enemies/troll/TROLLAA997.png
+        offset  240 360
+	delay 29
+       frame   data/chars/enemies/troll/TROLLAA996.png
+	@cmd randomscript
+       frame   data/chars/enemies/troll/TROLLAA996.png
+
+anim pain1
+        loop    0
+        offset  230 327
+    	bbox    0 0 0 0
+	drawmethod	scale 	1.36 1.36
+        delay   15
+	@cmd makenopaintrue
+	sound data/chars/enemies/troll/trollpain.wav
+       frame   data/chars/enemies/troll/TROLLP1.PNG
+       frame   data/chars/enemies/troll/TROLLP2.PNG
+       frame   data/chars/enemies/troll/TROLLP1.PNG
+#######
+        offset  230 327
+	drawmethod	scale 	1.36 1.36
+        delay   3
+   	bbox    100 80 180 240
+       frame   data/chars/enemies/troll/TROLLAA1.png
+       frame   data/chars/enemies/troll/TROLLAA2.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/enemies/troll/TROLLAA3.png
+       frame   data/chars/enemies/troll/TROLLAA4.png
+       frame   data/chars/enemies/troll/TROLLAA5.png
+       frame   data/chars/enemies/troll/TROLLAA6.png
+       frame   data/chars/enemies/troll/TROLLAA7.png
+       frame   data/chars/enemies/troll/TROLLAA8.png
+       frame   data/chars/enemies/troll/TROLLAA9.png
+       frame   data/chars/enemies/troll/TROLLAA91.png
+       frame   data/chars/enemies/troll/TROLLAA92.png
+       frame   data/chars/enemies/troll/TROLLAA93.png
+       frame   data/chars/enemies/troll/TROLLAA94.png
+       frame   data/chars/enemies/troll/TROLLAA95.png
+       frame   data/chars/enemies/troll/TROLLAA96.png
+       frame   data/chars/enemies/troll/TROLLAA97.png
+       frame   data/chars/enemies/troll/TROLLAA98.png
+       frame   data/chars/enemies/troll/TROLLAA99.png
+       frame   data/chars/enemies/troll/TROLLAA991.png
+       frame   data/chars/enemies/troll/TROLLAA992.png
+       frame   data/chars/enemies/troll/TROLLAA993.png
+        offset  240 360
+       frame   data/chars/enemies/troll/TROLLAA994.png
+       frame   data/chars/enemies/troll/TROLLAA995.png
+	delay 10
+	attack6  200 140 330 180 13 1 0 0 5 50
+       frame   data/chars/enemies/troll/TROLLAA996.png
+	attack6  0 0 0 0 0 0 0 0 0
+    	bbox    100 80 180 240
+	delay 3
+        offset  240 355
+       frame   data/chars/enemies/troll/TROLLAA997.png
+        offset  240 360
+	delay 29
+       frame   data/chars/enemies/troll/TROLLAA996.png
+	@cmd randomscript
+       frame   data/chars/enemies/troll/TROLLAA996.png
+
+
+anim pain3
+        loop    0
+        offset  230 327
+    	bbox    0 0 0 0
+	drawmethod	scale 	1.36 1.36
+        delay   15
+	#@cmd makenopaintrue
+	sound data/chars/enemies/troll/trollpain.wav
+       frame   data/chars/enemies/troll/TROLLP1.PNG
+       frame   data/chars/enemies/troll/TROLLP2.PNG
+	    @cmd trollcounter
+       frame   data/chars/enemies/troll/TROLLP1.PNG
+#######
+        offset  230 327
+	drawmethod	scale 	1.36 1.36
+        delay   3
+   	bbox    100 80 180 240
+       frame   data/chars/enemies/troll/TROLLAA1.png
+       frame   data/chars/enemies/troll/TROLLAA2.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/enemies/troll/TROLLAA3.png
+       frame   data/chars/enemies/troll/TROLLAA4.png
+       frame   data/chars/enemies/troll/TROLLAA5.png
+       frame   data/chars/enemies/troll/TROLLAA6.png
+       frame   data/chars/enemies/troll/TROLLAA7.png
+       frame   data/chars/enemies/troll/TROLLAA8.png
+       frame   data/chars/enemies/troll/TROLLAA9.png
+       frame   data/chars/enemies/troll/TROLLAA91.png
+       frame   data/chars/enemies/troll/TROLLAA92.png
+       frame   data/chars/enemies/troll/TROLLAA93.png
+       frame   data/chars/enemies/troll/TROLLAA94.png
+       frame   data/chars/enemies/troll/TROLLAA95.png
+       frame   data/chars/enemies/troll/TROLLAA96.png
+       frame   data/chars/enemies/troll/TROLLAA97.png
+       frame   data/chars/enemies/troll/TROLLAA98.png
+       frame   data/chars/enemies/troll/TROLLAA99.png
+       frame   data/chars/enemies/troll/TROLLAA991.png
+       frame   data/chars/enemies/troll/TROLLAA992.png
+       frame   data/chars/enemies/troll/TROLLAA993.png
+        offset  240 360
+       frame   data/chars/enemies/troll/TROLLAA994.png
+       frame   data/chars/enemies/troll/TROLLAA995.png
+	delay 10
+	attack6  200 140 330 180 13 1 0 0 5 50
+       frame   data/chars/enemies/troll/TROLLAA996.png
+	attack6  0 0 0 0 0 0 0 0 0
+	delay 3
+    	bbox    100 80 180 240
+        offset  240 355
+       frame   data/chars/enemies/troll/TROLLAA997.png
+        offset  240 360
+	delay 29
+       frame   data/chars/enemies/troll/TROLLAA996.png
+	@cmd randomscript
+       frame   data/chars/enemies/troll/TROLLAA996.png
+
+
+anim pain7
+        loop    1
+        offset  230 327
+      	bbox    0 0 0 0
+	drawmethod	scale 	1.36 1.36
+        delay  15
+	@cmd makenopaintrue
+	sound data/chars/enemies/troll/trollpain.wav
+       frame   data/chars/enemies/troll/TROLLP1.PNG
+       frame   data/chars/enemies/troll/TROLLP2.PNG
+       frame   data/chars/enemies/troll/TROLLP1.PNG
+#######
+        offset  230 327
+	drawmethod	scale 	1.36 1.36
+        delay   3
+   	bbox    100 80 180 240
+       frame   data/chars/enemies/troll/TROLLAA1.png
+       frame   data/chars/enemies/troll/TROLLAA2.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/enemies/troll/TROLLAA3.png
+       frame   data/chars/enemies/troll/TROLLAA4.png
+       frame   data/chars/enemies/troll/TROLLAA5.png
+       frame   data/chars/enemies/troll/TROLLAA6.png
+       frame   data/chars/enemies/troll/TROLLAA7.png
+       frame   data/chars/enemies/troll/TROLLAA8.png
+       frame   data/chars/enemies/troll/TROLLAA9.png
+       frame   data/chars/enemies/troll/TROLLAA91.png
+       frame   data/chars/enemies/troll/TROLLAA92.png
+       frame   data/chars/enemies/troll/TROLLAA93.png
+       frame   data/chars/enemies/troll/TROLLAA94.png
+       frame   data/chars/enemies/troll/TROLLAA95.png
+       frame   data/chars/enemies/troll/TROLLAA96.png
+       frame   data/chars/enemies/troll/TROLLAA97.png
+       frame   data/chars/enemies/troll/TROLLAA98.png
+       frame   data/chars/enemies/troll/TROLLAA99.png
+       frame   data/chars/enemies/troll/TROLLAA991.png
+       frame   data/chars/enemies/troll/TROLLAA992.png
+       frame   data/chars/enemies/troll/TROLLAA993.png
+        offset  240 360
+       frame   data/chars/enemies/troll/TROLLAA994.png
+       frame   data/chars/enemies/troll/TROLLAA995.png
+	delay 10
+	attack6  200 140 330 180 13 1 0 0 5 50
+       frame   data/chars/enemies/troll/TROLLAA996.png
+	attack6  0 0 0 0 0 0 0 0 0
+	delay 3
+    	bbox    100 80 180 240
+        offset  240 355
+       frame   data/chars/enemies/troll/TROLLAA997.png
+        offset  240 360
+	delay 29
+       frame   data/chars/enemies/troll/TROLLAA996.png
+	@cmd randomscript
+       frame   data/chars/enemies/troll/TROLLAA996.png
+
+
+anim attack1
+        loop    0
+        offset  230 327
+	range   50 300
+    	bbox    100 80 180 240
+	drawmethod	scale 	1.36 1.36
+        delay   3
+	@cmd makenopaintrue
+       frame   data/chars/enemies/troll/TROLLA1.png
+       frame   data/chars/enemies/troll/TROLLA2.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/enemies/troll/TROLLA3.png
+       frame   data/chars/enemies/troll/TROLLA4.png
+       frame   data/chars/enemies/troll/TROLLA5.png
+       frame   data/chars/enemies/troll/TROLLA6.png
+       frame   data/chars/enemies/troll/TROLLA7.png
+       frame   data/chars/enemies/troll/TROLLA8.png
+       frame   data/chars/enemies/troll/TROLLA9.png
+       frame   data/chars/enemies/troll/TROLLA91.png
+       frame   data/chars/enemies/troll/TROLLA92.png
+       frame   data/chars/enemies/troll/TROLLA93.png
+       frame   data/chars/enemies/troll/TROLLA94.png
+        offset  230 360
+       frame   data/chars/enemies/troll/TROLLA95.png
+       frame   data/chars/enemies/troll/TROLLA96.png
+       frame   data/chars/enemies/troll/TROLLA97.png
+       frame   data/chars/enemies/troll/TROLLA98.png
+       frame   data/chars/enemies/troll/TROLLA99.png
+       frame   data/chars/enemies/troll/TROLLA991.png
+       frame   data/chars/enemies/troll/TROLLA992.png
+       frame   data/chars/enemies/troll/TROLLA993.png
+       frame   data/chars/enemies/troll/TROLLA994.png
+       frame   data/chars/enemies/troll/TROLLA995.png
+       frame   data/chars/enemies/troll/TROLLA996.png
+       frame   data/chars/enemies/troll/TROLLA997.png
+       frame   data/chars/enemies/troll/TROLLA998.png
+       frame   data/chars/enemies/troll/TROLLA999.png
+	sound   data/sounds/bbeat1.wav
+	attack6  200 140 330 180 10 1 0 0 5 50
+       frame   data/chars/enemies/troll/TROLLA9991.png
+	attack6  0 0 0 0 0 0 0 0 0
+       frame   data/chars/enemies/troll/TROLLA9992.png
+       frame   data/chars/enemies/troll/TROLLA9993.png
+       frame   data/chars/enemies/troll/TROLLA9994.png
+       frame   data/chars/enemies/troll/TROLLA9995.png
+       frame   data/chars/enemies/troll/TROLLA9996.png
+       frame   data/chars/enemies/troll/TROLLA9997.png
+       frame   data/chars/enemies/troll/TROLLA9998.png
+       frame   data/chars/enemies/troll/TROLLA9999.png
+       frame   data/chars/enemies/troll/TROLLA99991.png
+       frame   data/chars/enemies/troll/TROLLA99992.png
+       frame   data/chars/enemies/troll/TROLLA99993.png
+       frame   data/chars/enemies/troll/TROLLA99994.png
+       frame   data/chars/enemies/troll/TROLLA99995.png
+       frame   data/chars/enemies/troll/TROLLA99996.png
+       frame   data/chars/enemies/troll/TROLLA99997.png
+       frame   data/chars/enemies/troll/TROLLA99998.png
+       frame   data/chars/enemies/troll/TROLLA99999.png
+       frame   data/chars/enemies/troll/TROLLA999991.png
+       frame   data/chars/enemies/troll/TROLLA999992.png
+       frame   data/chars/enemies/troll/TROLLA999993.png
+       frame   data/chars/enemies/troll/TROLLA999994.png
+	@cmd makenopainfalse
+       frame   data/chars/enemies/troll/TROLLA999995.png
+        delay   59
+       frame   data/chars/enemies/troll/TROLLA999996.png
+
+anim attack2
+        loop    0
+	range   50 300
+        offset  230 327
+    	bbox    100 80 180 240
+	drawmethod	scale 	1.36 1.36
+        delay   3
+	@cmd makenopaintrue
+       frame   data/chars/enemies/troll/TROLLAA1.png
+       frame   data/chars/enemies/troll/TROLLAA2.png
+       frame   data/chars/enemies/troll/TROLLAA3.png
+       frame   data/chars/enemies/troll/TROLLAA4.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/enemies/troll/TROLLAA5.png
+       frame   data/chars/enemies/troll/TROLLAA6.png
+       frame   data/chars/enemies/troll/TROLLAA7.png
+       frame   data/chars/enemies/troll/TROLLAA8.png
+       frame   data/chars/enemies/troll/TROLLAA9.png
+       frame   data/chars/enemies/troll/TROLLAA91.png
+       frame   data/chars/enemies/troll/TROLLAA92.png
+       frame   data/chars/enemies/troll/TROLLAA93.png
+       frame   data/chars/enemies/troll/TROLLAA94.png
+       frame   data/chars/enemies/troll/TROLLAA95.png
+       frame   data/chars/enemies/troll/TROLLAA96.png
+       frame   data/chars/enemies/troll/TROLLAA97.png
+       frame   data/chars/enemies/troll/TROLLAA98.png
+       frame   data/chars/enemies/troll/TROLLAA99.png
+       frame   data/chars/enemies/troll/TROLLAA991.png
+       frame   data/chars/enemies/troll/TROLLAA992.png
+       frame   data/chars/enemies/troll/TROLLAA993.png
+        offset  240 360
+       frame   data/chars/enemies/troll/TROLLAA994.png
+       frame   data/chars/enemies/troll/TROLLAA995.png
+	delay 10
+	attack6  200 140 330 180 13 1 0 0 5 50
+       frame   data/chars/enemies/troll/TROLLAA996.png
+	attack6  0 0 0 0 0 0 0 0 0
+	delay 3
+        offset  240 355
+	@cmd makenopainfalse
+       frame   data/chars/enemies/troll/TROLLAA997.png
+        offset  240 360
+	delay 29
+       frame   data/chars/enemies/troll/TROLLAA996.png
+
+
+anim walk
+        loop    1
+        delay   4
+        offset  240 318
+    	bbox    100 80 180 240
+	drawmethod	scale 	1.36 1.36
+        frame   data/chars/enemies/troll/TROLLW1.png
+        frame   data/chars/enemies/troll/TROLLW2.png
+        frame   data/chars/enemies/troll/TROLLW3.png
+        frame   data/chars/enemies/troll/TROLLW4.png
+        frame   data/chars/enemies/troll/TROLLW5.png
+        frame   data/chars/enemies/troll/TROLLW6.png
+        frame   data/chars/enemies/troll/TROLLW7.png
+        frame   data/chars/enemies/troll/TROLLW8.png
+        frame   data/chars/enemies/troll/TROLLW9.png
+        frame   data/chars/enemies/troll/TROLLW91.png
+        frame   data/chars/enemies/troll/TROLLW92.png
+        frame   data/chars/enemies/troll/TROLLW93.png
+        frame   data/chars/enemies/troll/TROLLW94.png
+        frame   data/chars/enemies/troll/TROLLW95.png
+        frame   data/chars/enemies/troll/TROLLW96.png
+        frame   data/chars/enemies/troll/TROLLW97.png
+        frame   data/chars/enemies/troll/TROLLW98.png
+        frame   data/chars/enemies/troll/TROLLW99.png
+        frame   data/chars/enemies/troll/TROLLW991.png
+        frame   data/chars/enemies/troll/TROLLW992.png
+        frame   data/chars/enemies/troll/TROLLW993.png
+        frame   data/chars/enemies/troll/TROLLW994.png
+        frame   data/chars/enemies/troll/TROLLW995.png
+        frame   data/chars/enemies/troll/TROLLW996.png
+        frame   data/chars/enemies/troll/TROLLW997.png
+        frame   data/chars/enemies/troll/TROLLW998.png
+        frame   data/chars/enemies/troll/TROLLW999.png
+        frame   data/chars/enemies/troll/TROLLW9991.png
+        frame   data/chars/enemies/troll/TROLLW9992.png
+        frame   data/chars/enemies/troll/TROLLW9993.png
+        frame   data/chars/enemies/troll/TROLLW9994.png
+        frame   data/chars/enemies/troll/TROLLW9995.png
+        frame   data/chars/enemies/troll/TROLLW9996.png
+        frame   data/chars/enemies/troll/TROLLW9997.png
+        frame   data/chars/enemies/troll/TROLLW9998.png
+        frame   data/chars/enemies/troll/TROLLW9999.png
+        frame   data/chars/enemies/troll/TROLLW99991.png
+        frame   data/chars/enemies/troll/TROLLW99992.png
+        frame   data/chars/enemies/troll/TROLLW99993.png
+        frame   data/chars/enemies/troll/TROLLW99994.png
+        frame   data/chars/enemies/troll/TROLLW99995.png
+        frame   data/chars/enemies/troll/TROLLW99996.png
+        frame   data/chars/enemies/troll/TROLLW99997.png
+        frame   data/chars/enemies/troll/TROLLW99998.png
+
+
+anim follow1
+        loop   0
+        delay   4
+        offset  240 318
+    	bbox    100 80 180 240
+	drawmethod	scale 	1.36 1.36
+	movez -4
+	@cmd makenopainfalse
+        frame   data/chars/enemies/troll/TROLLW1.png
+        frame   data/chars/enemies/troll/TROLLW2.png
+        frame   data/chars/enemies/troll/TROLLW3.png
+        frame   data/chars/enemies/troll/TROLLW4.png
+        frame   data/chars/enemies/troll/TROLLW5.png
+        frame   data/chars/enemies/troll/TROLLW6.png
+        frame   data/chars/enemies/troll/TROLLW7.png
+        frame   data/chars/enemies/troll/TROLLW8.png
+        frame   data/chars/enemies/troll/TROLLW9.png
+        frame   data/chars/enemies/troll/TROLLW91.png
+        frame   data/chars/enemies/troll/TROLLW92.png
+        frame   data/chars/enemies/troll/TROLLW93.png
+        frame   data/chars/enemies/troll/TROLLW94.png
+        frame   data/chars/enemies/troll/TROLLW95.png
+        frame   data/chars/enemies/troll/TROLLW96.png
+        frame   data/chars/enemies/troll/TROLLW97.png
+        frame   data/chars/enemies/troll/TROLLW98.png
+        frame   data/chars/enemies/troll/TROLLW99.png
+        frame   data/chars/enemies/troll/TROLLW991.png
+        frame   data/chars/enemies/troll/TROLLW992.png
+        frame   data/chars/enemies/troll/TROLLW993.png
+        frame   data/chars/enemies/troll/TROLLW994.png
+        frame   data/chars/enemies/troll/TROLLW995.png
+        frame   data/chars/enemies/troll/TROLLW996.png
+        frame   data/chars/enemies/troll/TROLLW997.png
+        frame   data/chars/enemies/troll/TROLLW998.png
+        frame   data/chars/enemies/troll/TROLLW999.png
+        frame   data/chars/enemies/troll/TROLLW9991.png
+        frame   data/chars/enemies/troll/TROLLW9992.png
+        frame   data/chars/enemies/troll/TROLLW9993.png
+        frame   data/chars/enemies/troll/TROLLW9994.png
+        frame   data/chars/enemies/troll/TROLLW9995.png
+        frame   data/chars/enemies/troll/TROLLW9996.png
+        frame   data/chars/enemies/troll/TROLLW9997.png
+        frame   data/chars/enemies/troll/TROLLW9998.png
+        frame   data/chars/enemies/troll/TROLLW9999.png
+        frame   data/chars/enemies/troll/TROLLW99991.png
+        frame   data/chars/enemies/troll/TROLLW99992.png
+        frame   data/chars/enemies/troll/TROLLW99993.png
+        frame   data/chars/enemies/troll/TROLLW99994.png
+        frame   data/chars/enemies/troll/TROLLW99995.png
+        frame   data/chars/enemies/troll/TROLLW99996.png
+        frame   data/chars/enemies/troll/TROLLW99997.png
+        frame   data/chars/enemies/troll/TROLLW99998.png
+
+
+anim follow2
+        loop    0
+        delay   4
+        offset  240 318
+    	bbox    100 80 180 240
+	drawmethod	scale 	1.36 1.36
+	movez -4
+	@cmd makenopainfalse
+        frame   data/chars/enemies/troll/TROLLW1.png
+        frame   data/chars/enemies/troll/TROLLW2.png
+        frame   data/chars/enemies/troll/TROLLW3.png
+        frame   data/chars/enemies/troll/TROLLW4.png
+        frame   data/chars/enemies/troll/TROLLW5.png
+        frame   data/chars/enemies/troll/TROLLW6.png
+        frame   data/chars/enemies/troll/TROLLW7.png
+        frame   data/chars/enemies/troll/TROLLW8.png
+        frame   data/chars/enemies/troll/TROLLW9.png
+        frame   data/chars/enemies/troll/TROLLW91.png
+        frame   data/chars/enemies/troll/TROLLW92.png
+        frame   data/chars/enemies/troll/TROLLW93.png
+        frame   data/chars/enemies/troll/TROLLW94.png
+        frame   data/chars/enemies/troll/TROLLW95.png
+        frame   data/chars/enemies/troll/TROLLW96.png
+        frame   data/chars/enemies/troll/TROLLW97.png
+        frame   data/chars/enemies/troll/TROLLW98.png
+        frame   data/chars/enemies/troll/TROLLW99.png
+        frame   data/chars/enemies/troll/TROLLW991.png
+        frame   data/chars/enemies/troll/TROLLW992.png
+        frame   data/chars/enemies/troll/TROLLW993.png
+        frame   data/chars/enemies/troll/TROLLW994.png
+        frame   data/chars/enemies/troll/TROLLW995.png
+        frame   data/chars/enemies/troll/TROLLW996.png
+        frame   data/chars/enemies/troll/TROLLW997.png
+        frame   data/chars/enemies/troll/TROLLW998.png
+        frame   data/chars/enemies/troll/TROLLW999.png
+        frame   data/chars/enemies/troll/TROLLW9991.png
+        frame   data/chars/enemies/troll/TROLLW9992.png
+        frame   data/chars/enemies/troll/TROLLW9993.png
+        frame   data/chars/enemies/troll/TROLLW9994.png
+        frame   data/chars/enemies/troll/TROLLW9995.png
+        frame   data/chars/enemies/troll/TROLLW9996.png
+        frame   data/chars/enemies/troll/TROLLW9997.png
+        frame   data/chars/enemies/troll/TROLLW9998.png
+        frame   data/chars/enemies/troll/TROLLW9999.png
+        frame   data/chars/enemies/troll/TROLLW99991.png
+        frame   data/chars/enemies/troll/TROLLW99992.png
+        frame   data/chars/enemies/troll/TROLLW99993.png
+        frame   data/chars/enemies/troll/TROLLW99994.png
+        frame   data/chars/enemies/troll/TROLLW99995.png
+        frame   data/chars/enemies/troll/TROLLW99996.png
+        frame   data/chars/enemies/troll/TROLLW99997.png
+        frame   data/chars/enemies/troll/TROLLW99998.png
+
+
+anim follow3
+        loop    0
+        delay   4
+        offset  240 318
+    	bbox    100 80 180 240
+	drawmethod	scale 	1.36 1.36
+	movez 4
+	@cmd makenopainfalse
+        frame   data/chars/enemies/troll/TROLLW1.png
+        frame   data/chars/enemies/troll/TROLLW2.png
+        frame   data/chars/enemies/troll/TROLLW3.png
+        frame   data/chars/enemies/troll/TROLLW4.png
+        frame   data/chars/enemies/troll/TROLLW5.png
+        frame   data/chars/enemies/troll/TROLLW6.png
+        frame   data/chars/enemies/troll/TROLLW7.png
+        frame   data/chars/enemies/troll/TROLLW8.png
+        frame   data/chars/enemies/troll/TROLLW9.png
+        frame   data/chars/enemies/troll/TROLLW91.png
+        frame   data/chars/enemies/troll/TROLLW92.png
+        frame   data/chars/enemies/troll/TROLLW93.png
+        frame   data/chars/enemies/troll/TROLLW94.png
+        frame   data/chars/enemies/troll/TROLLW95.png
+        frame   data/chars/enemies/troll/TROLLW96.png
+        frame   data/chars/enemies/troll/TROLLW97.png
+        frame   data/chars/enemies/troll/TROLLW98.png
+        frame   data/chars/enemies/troll/TROLLW99.png
+        frame   data/chars/enemies/troll/TROLLW991.png
+        frame   data/chars/enemies/troll/TROLLW992.png
+        frame   data/chars/enemies/troll/TROLLW993.png
+        frame   data/chars/enemies/troll/TROLLW994.png
+        frame   data/chars/enemies/troll/TROLLW995.png
+        frame   data/chars/enemies/troll/TROLLW996.png
+        frame   data/chars/enemies/troll/TROLLW997.png
+        frame   data/chars/enemies/troll/TROLLW998.png
+        frame   data/chars/enemies/troll/TROLLW999.png
+        frame   data/chars/enemies/troll/TROLLW9991.png
+        frame   data/chars/enemies/troll/TROLLW9992.png
+        frame   data/chars/enemies/troll/TROLLW9993.png
+        frame   data/chars/enemies/troll/TROLLW9994.png
+        frame   data/chars/enemies/troll/TROLLW9995.png
+        frame   data/chars/enemies/troll/TROLLW9996.png
+        frame   data/chars/enemies/troll/TROLLW9997.png
+        frame   data/chars/enemies/troll/TROLLW9998.png
+        frame   data/chars/enemies/troll/TROLLW9999.png
+        frame   data/chars/enemies/troll/TROLLW99991.png
+        frame   data/chars/enemies/troll/TROLLW99992.png
+        frame   data/chars/enemies/troll/TROLLW99993.png
+        frame   data/chars/enemies/troll/TROLLW99994.png
+        frame   data/chars/enemies/troll/TROLLW99995.png
+        frame   data/chars/enemies/troll/TROLLW99996.png
+        frame   data/chars/enemies/troll/TROLLW99997.png
+        frame   data/chars/enemies/troll/TROLLW99998.png
+
+
+anim death
+         loop   0
+         delay  5
+        offset  230 361
+	drawmethod	scale 	1.36 1.36
+        frame   data/chars/enemies/troll/TROLLD1.png
+        frame   data/chars/enemies/troll/TROLLD2.png
+        frame   data/chars/enemies/troll/TROLLD3.png
+        frame   data/chars/enemies/troll/TROLLD4.png
+        frame   data/chars/enemies/troll/TROLLD5.png
+        frame   data/chars/enemies/troll/TROLLD6.png
+        frame   data/chars/enemies/troll/TROLLD7.png
+        frame   data/chars/enemies/troll/TROLLD8.png
+        frame   data/chars/enemies/troll/TROLLD9.png
+        frame   data/chars/enemies/troll/TROLLD91.png
+        frame   data/chars/enemies/troll/TROLLD92.png
+        frame   data/chars/enemies/troll/TROLLD93.png
+        frame   data/chars/enemies/troll/TROLLD94.png
+        frame   data/chars/enemies/troll/TROLLD95.png
+        frame   data/chars/enemies/troll/TROLLD96.png
+        frame   data/chars/enemies/troll/TROLLD97.png
+        frame   data/chars/enemies/troll/TROLLD98.png
+        delay  600
+        frame   data/chars/enemies/troll/TROLLD99.png
+        delay  5
+        frame   data/chars/enemies/troll/TROLLD99.png

@@ -1,0 +1,17 @@
+music		data/music/menu.bor 1
+background data/bgs/select.gif
+
+
+
+
+#shadowcolor -2
+#at 0
+
+#shadowalpha 1
+#at 0
+
+	
+		
+
+
+allowselect Ryan

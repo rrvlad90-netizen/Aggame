@@ -1,0 +1,108 @@
+name	Grunt
+health	66
+speed	11
+type   enemy
+hostile npc obstacle
+candamage npc obstacle
+nolife 1
+shadow  0
+noquake 1
+#makeinv 4
+agression 90
+nopain 1
+
+nodieblink 1
+nodrop 2
+
+offscreenkill 30000
+
+setlayer 9
+
+death 1
+
+palette  data/chars/enemies/grunt/s.png
+diesound data/sounds/grdie.wav
+
+
+subject_to_obstacle 0
+
+
+
+anim spawn
+	loop	0
+        offset  242 324
+    	bbox    100 80 250 240
+	drawmethod	scale 	0.56 0.56
+        delay   15
+        frame   data/chars/enemies/grunt/s.png
+
+
+anim idle
+        loop    1
+        offset  242 324
+    	bbox    100 80 250 240
+	drawmethod	scale 	0.56 0.56
+        delay   15
+	platform   242 40  -20 -20 10 10 300 200
+        frame   data/chars/enemies/grunt/s.png
+
+
+anim attack1
+        loop    0
+        offset  242 324
+    	bbox    100 80 250 240
+	drawmethod	scale 	0.56 0.56
+        delay   8
+	platform   242 40  -150 -150 10 10 300 200
+        frame   data/chars/enemies/grunt/oa1.png
+        frame   data/chars/enemies/grunt/oa2.png
+        frame   data/chars/enemies/grunt/oa3.png
+	sound   data/sounds/sword1.wav
+	attack5  200 140 170 180 3 0 0 0 5
+        frame   data/chars/enemies/grunt/oa4.png
+	attack5  0 0 0 0 0 0 0 0 0
+        frame   data/chars/enemies/grunt/oa5.png
+        frame   data/chars/enemies/grunt/oa6.png
+        frame   data/chars/enemies/grunt/oa7.png
+        delay   39
+        frame   data/chars/enemies/grunt/s.png
+
+anim pain
+        loop    0
+        offset  242 324
+    	bbox    100 80 250 240
+	drawmethod	scale 	0.56 0.56
+        delay   15
+        frame   data/chars/enemies/grunt/s.png
+
+anim walk
+        loop    1
+        delay   8
+        offset  242 324
+    	bbox    100 80 250 240
+	platform   242 40  -150 -150 10 10 300 200
+	drawmethod	scale 	0.56 0.56
+        frame   data/chars/enemies/grunt/w1.png
+        frame   data/chars/enemies/grunt/w2.png
+        frame   data/chars/enemies/grunt/w3.png
+        frame   data/chars/enemies/grunt/w4.png
+        frame   data/chars/enemies/grunt/w5.png
+        frame   data/chars/enemies/grunt/w6.png
+        frame   data/chars/enemies/grunt/w7.png
+
+
+anim death
+         loop   0
+         delay  10
+        offset  242 324
+	drawmethod	scale 	0.56 0.56
+         frame  data/chars/enemies/grunt/d1.PNG
+         frame  data/chars/enemies/grunt/d2.PNG
+         frame  data/chars/enemies/grunt/d3.PNG
+         frame  data/chars/enemies/grunt/d4.PNG
+         frame  data/chars/enemies/grunt/d5.PNG
+         frame  data/chars/enemies/grunt/d6.PNG
+         frame  data/chars/enemies/grunt/d7.PNG
+         frame  data/chars/enemies/grunt/d8.PNG
+	 delay 500
+         frame  data/chars/enemies/grunt/d8.PNG

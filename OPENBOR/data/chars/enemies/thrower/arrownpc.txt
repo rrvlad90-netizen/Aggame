@@ -1,0 +1,39 @@
+name	arrownpc
+type none
+speed 29
+candamage enemy
+setlayer 1
+#lifespan  5
+
+remove  0
+
+offscreenkill 30000
+
+subject_to_obstacle 0
+
+anim idle
+	loop	0
+	delay	1
+	offset     22 24
+	hitflash fl400
+	#bbox	0 0 10 10
+#	attackone	1
+	jumpframe	1 2 -1
+	landframe	2
+	attack1  0 0 10 10 3 0 0 0 0
+#	movea -17
+	frame	data/chars/enemies/thrower/arrow0.PNG
+	frame	data/chars/enemies/thrower/arrow.PNG
+	frame	data/chars/enemies/thrower/arrow1.PNG
+
+
+
+
+
+anim death
+	loop	0
+	delay	1
+	offset     8 -24
+	hitflash fl400
+	#bbox	0 0 10 10
+	frame	data/chars/enemies/thrower/arrow0.PNG

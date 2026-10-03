@@ -1,0 +1,19 @@
+name	bbonus
+type	endlevel
+branch	bbonus
+offscreenkill 8000
+shadow	0
+
+subject_to_hole 0
+subject_to_obstacle 0
+subject_to_platform 1
+subject_to_gravity 1
+subject_to_minz 0
+subject_to_maxz 0
+
+
+anim idle
+	offset 18 27
+	bbox  0  0  1 1 #36  36
+	frame data/branches/0.png
+

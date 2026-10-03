@@ -1,5 +1,5 @@
 
-video 320x240
+video 800x600
 
 colourdepth 32bit
 

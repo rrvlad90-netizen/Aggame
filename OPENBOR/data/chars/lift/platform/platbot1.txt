@@ -1,0 +1,57 @@
+name		Platbot1
+type		none
+setlayer	1
+facing		1
+aggression	1
+antigravity	100
+subject_to_wall  0
+subject_to_obstacle 0
+subject_to_platform 0
+
+animationscript data/scripts/2Dscript.c
+
+
+anim spawn
+    delay	10
+    offset	31 234 
+    frame	data/chars/lift/platform/platbot1.png
+
+anim idle
+@script
+    void self = getlocalvar("self");
+    int Aggro = getentityproperty(self,"aggression");
+
+    if(frame == 1){
+      if(Aggro == 1){
+        changeentityproperty(self, "animation", openborconstant("ANI_FOLLOW1"));
+      } else if(Aggro == 2){
+        changeentityproperty(self, "animation", openborconstant("ANI_FOLLOW2"));
+      }
+    }
+@end_script
+    loop	1
+    delay	10
+    offset	31 234 
+    platform	31 234 -32 -32 132 132 8 8
+    frame	data/chars/lift/platform/platbot1.png
+    frame	data/chars/lift/platform/platbot1.png
+
+anim follow1
+    loop	1
+    delay	680#480
+    offset	31 234 
+    platform	31 234 -32 -32 132 132 8 8
+    @cmd	dasher  0  0.5 0
+    frame	data/chars/lift/platform/platbot1.png
+    @cmd	dasher 0  -0.5 0
+    frame	data/chars/lift/platform/platbot1.png
+
+anim follow2
+    loop	1
+    delay	680#480
+    offset	31 234 
+    platform	31 234 -32 -32 132 132 8 8
+    @cmd	dasher 0 -0.5 0
+    frame	data/chars/lift/platform/platbot1.png
+    @cmd	dasher 0 0.5 0
+    frame	data/chars/lift/platform/platbot1.png

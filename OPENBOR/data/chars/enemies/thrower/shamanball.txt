@@ -1,0 +1,17 @@
+name	shamanball
+type none
+speed 38
+candamage npc
+setlayer 1
+
+offscreenkill 30000
+
+anim idle
+	loop	1
+	delay	1
+	offset     8 -24
+	hitflash fl400
+	#bbox	0 0 10 10
+	attack5  0 0 10 10 5 0 0 0 0
+	frame	data/chars/enemies/thrower/fireball.PNG
+

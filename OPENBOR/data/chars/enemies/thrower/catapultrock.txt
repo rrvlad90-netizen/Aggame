@@ -1,0 +1,39 @@
+name	catapultrock
+type none
+speed 48
+candamage npc
+setlayer 1
+#lifespan  5
+
+remove  0
+
+offscreenkill 30000
+
+subject_to_obstacle 0
+
+anim idle
+	loop	0
+	delay	1
+	offset     26 36
+	drawmethod	scale 	0.55 0.55
+	hitflash fl400
+	#bbox	0 0 10 10
+#	attackone	1
+	jumpframe	1 3 -1
+	landframe	2
+	attack5  0 -24 49 89 9 0 0 0 0
+#	movea -17
+	frame	data/chars/enemies/thrower/catapultrock.PNG
+	frame	data/chars/enemies/thrower/catapultrock.PNG
+	frame	data/chars/enemies/thrower/catapultrock.PNG
+
+
+anim death
+	loop	0
+	delay	1
+	offset     26 36
+	drawmethod	scale 	0.55 0.55
+	hitflash fl400
+	#bbox	0 0 10 10
+	frame	data/chars/enemies/thrower/catapultrock.PNG
+

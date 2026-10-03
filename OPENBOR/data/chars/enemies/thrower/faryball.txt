@@ -1,0 +1,19 @@
+name	faryball
+type none
+speed 38
+candamage enemy
+setlayer 1
+
+subject_to_obstacle 0
+
+offscreenkill 30000
+
+anim idle
+	loop	1
+	delay	1
+	offset     8 -24
+	hitflash fl400
+	#bbox	0 0 10 10
+	attack1  0 0 10 10 5 0 0 0 0
+	frame	data/chars/enemies/thrower/fireball.PNG
+

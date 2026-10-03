@@ -1,0 +1,63 @@
+name	humantowerbuildplace
+health	150
+#nolife 1
+speed	9
+#nopain 1
+nomove 1
+type   obstacle
+shadow  0
+noquake 1
+makeinv 4
+#agression 90
+#diesound data/chars/giantant/orc_attack_scream_09.wav
+
+#nodieblink 1
+#atchain     1 #2
+#load    fireballw
+nodrop 2
+
+facing 1
+
+offscreenkill 30000
+
+#death 1
+
+palette  data/chars/enemies/buildings/humantower.png
+#diesound data/sounds/rifdie.wav
+
+
+
+
+
+anim spawn
+	loop	0
+        offset  270 350
+	bbox 	200 400 140 400
+	spawnframe 1     5 0 5 0
+	custentity exphit2
+	drawmethod	scale 	1.37 1.37
+        delay   1
+        frame   data/chars/enemies/buildings/humantowerbuildplace.png
+        frame   data/chars/enemies/buildings/humantowerbuildplace.png
+
+
+anim idle
+        loop    1
+        offset  270 350
+	bbox 	200 400 140 400
+	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/humantowerbuildplace.png
+
+
+anim death
+         loop   0
+        offset  270 350
+	spawnframe 1     5 0 5 0
+	custentity humantower
+         delay  10
+	drawmethod	scale 	1.37 1.37
+        frame   data/chars/enemies/buildings/humantowerbuildplace.png
+        frame   data/chars/enemies/buildings/humantowerbuildplace.png
+
+

@@ -1,0 +1,124 @@
+name	Grunt
+health	64
+speed	10
+type   enemy
+hostile npc obstacle
+candamage npc obstacle
+nolife 1
+shadow  0
+noquake 1
+#makeinv 4
+agression 90
+nopain 1
+
+nodieblink 1
+nodrop 2
+
+offscreenkill 30000
+
+setlayer 9
+
+death 1
+
+palette  data/chars/enemies/grunt/URUK2.png
+diesound data/sounds/grdie.wav
+
+
+subject_to_obstacle 0
+
+
+
+anim spawn
+	loop	0
+        offset  242 324
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.56 0.56
+        delay   15
+        frame   data/chars/enemies/grunt/URUK2.png
+
+
+anim idle
+        loop    1
+        offset  242 324
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.56 0.56
+        delay   15
+	platform   242 40  -20 -20 10 10 300 200
+        frame   data/chars/enemies/grunt/URUK2.png
+
+
+anim attack1
+        loop    0
+        offset  242 324
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.56 0.56
+        delay   8
+	platform   242 40  -150 -150 10 10 300 200
+        frame   data/chars/enemies/grunt/URUK2.png
+	sound   data/sounds/sword1.wav
+        frame   data/chars/enemies/grunt/URUK2.png
+        frame   data/chars/enemies/grunt/URUK2.png
+	sound   data/sounds/bbeat1.wav
+	attack5  200 140 170 180 3 0 0 0 5
+        frame   data/chars/enemies/grunt/URUK2.png
+	attack5  0 0 0 0 0 0 0 0 0
+        frame   data/chars/enemies/grunt/URUK2.png
+        frame   data/chars/enemies/grunt/URUK2.png
+        frame   data/chars/enemies/grunt/URUK2.png
+        delay   39
+        frame   data/chars/enemies/grunt/URUK2.png
+
+
+
+anim attack2
+        loop    1
+        delay   8
+        offset  242 324
+    	bbox    100 80 180 240
+	platform   242 40  -150 -150 10 10 300 200
+	drawmethod	scale 	0.56 0.56
+        frame   data/chars/enemies/grunt/URUK2.png
+        frame   data/chars/enemies/grunt/URUK3.png
+
+anim pain
+        loop    0
+        offset  242 324
+    	bbox    100 80 180 240
+	drawmethod	scale 	0.56 0.56
+        delay   15
+        frame   data/chars/enemies/grunt/URUK2.png
+
+anim walk
+        loop    1
+        delay   4
+        offset  242 324
+    	bbox    100 80 180 240
+	platform   242 40  -150 -150 10 10 300 200
+	drawmethod	scale 	0.56 0.56
+        frame   data/chars/enemies/grunt/URUK2.png
+        frame   data/chars/enemies/grunt/URUK3.png
+        frame   data/chars/enemies/grunt/URUK4.png
+        frame   data/chars/enemies/grunt/URUK5.png
+        frame   data/chars/enemies/grunt/URUK6.png
+        frame   data/chars/enemies/grunt/URUK7.png
+        frame   data/chars/enemies/grunt/URUK8.png
+        frame   data/chars/enemies/grunt/URUK9.png
+        frame   data/chars/enemies/grunt/URUK91.png
+        frame   data/chars/enemies/grunt/URUK92.png
+        frame   data/chars/enemies/grunt/URUK93.png
+        frame   data/chars/enemies/grunt/URUK94.png
+        frame   data/chars/enemies/grunt/URUK95.png
+        frame   data/chars/enemies/grunt/URUK96.png
+        frame   data/chars/enemies/grunt/URUK97.png
+        frame   data/chars/enemies/grunt/URUK98.png
+        frame   data/chars/enemies/grunt/URUK99.png
+        frame   data/chars/enemies/grunt/URUK991.png
+        frame   data/chars/enemies/grunt/URUK992.png
+        frame   data/chars/enemies/grunt/URUK993.png
+
+anim death
+         loop   0
+         delay  10
+        offset  242 324
+	drawmethod	scale 	0.56 0.56
+       frame   data/chars/enemies/grunt/URUK2.png

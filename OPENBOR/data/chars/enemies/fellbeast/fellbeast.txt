@@ -1,0 +1,95 @@
+name	FellBeast
+health	9999
+speed	1
+type   none
+hostile none
+candamage npc
+nolife 1
+nomove 1
+shadow  0
+noquake 1
+nopain 1
+makeinv 4
+agression 90
+
+#nopain 1
+
+nodieblink 1
+nodrop 2
+
+#setlayer 9
+
+
+offscreenkill 30000
+
+death 1
+
+palette  data/chars/enemies/Fellbeast/FELLBEASTATT.png
+#diesound data/sounds/KnightDeath.wav
+
+subject_to_obstacle 0
+subject_to_gravity 1
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+
+anim spawn
+	loop	0
+        offset  212 380
+    	bbox    0 0 0 0
+	drawmethod	scale 	1.67 1.67
+        delay   1
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+
+
+anim idle
+        loop    1
+#	jumpframe 0 2 2
+        offset  212 380
+    	bbox    130 55 185 325
+	drawmethod	scale 	1.67 1.67
+        delay   4
+	@cmd rotateright
+	move -48
+#	movea 12
+	sound   data/sounds/HorseLoop1.wav
+	attack5 230 190 105 160 70 0 0 0 5 20
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+#	movea 0
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png
+
+
+anim death
+         loop   0
+         delay  10
+        offset  212 380
+	drawmethod	scale 	1.67 1.67
+        frame   data/chars/enemies/Fellbeast/FELLBEASTATT.png

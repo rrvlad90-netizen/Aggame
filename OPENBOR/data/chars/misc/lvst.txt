@@ -1,9 +1,0 @@
-name	lvst
-type	enemy
-setlayer 900
-lifespan 1
-anim spawn
-	delay  1000
-	offset	540 260
-	@cmd changeentityproperty getlocalvar("self") "velocity" 8 0 0
-	frame	data/chars/misc/lvst

@@ -1,0 +1,371 @@
+name	Aragorn_
+health	120
+speed	35
+type   player
+#hostile enemy
+candamage enemy
+nolife 1
+#shadow  0
+gfxshadow 1 3
+noquake 1
+#makeinv 4
+#agression 90
+#nopain 1
+
+nodieblink 1
+#nodrop 2
+
+offscreenkill 30000
+
+atchain 1 2
+
+#death 1
+
+palette  data/chars/aragorn/ARAGORNR1.png
+#diesound data/sounds/grdie.wav
+
+
+#animationscript data/scripts/myanimmmmm.c
+
+
+#subject_to_obstacle 0
+
+com a a freespecial2
+
+anim spawn
+	loop	0
+        offset  280 430
+    	bbox    240 250 100 180
+	drawmethod	scale 	0.86 0.86
+        delay   15
+       frame   data/chars/aragorn/ARAGORNS1.png
+
+
+anim idle
+        loop    1
+        offset  280 430
+    	bbox    240 250 100 180
+	drawmethod	scale 	0.86 0.86
+        delay   25
+       frame   data/chars/aragorn/ARAGORNS1.png
+       frame   data/chars/aragorn/ARAGORNS2.png
+       frame   data/chars/aragorn/ARAGORNS3.png
+       frame   data/chars/aragorn/ARAGORNS2.png
+
+
+anim pain7
+        loop    1
+        offset  280 430
+    	bbox    0 0 0 0
+	drawmethod	scale 	0.86 0.86
+        delay   15
+	attack3 100 80 650 240 0 0 0 0
+        frame   data/chars/aragorn/ARAGORNPAIN1.png
+        frame   data/chars/aragorn/ARAGORNPAIN2.png
+        frame   data/chars/aragorn/ARAGORNPAIN1.png
+
+
+anim pain1
+        loop    0
+        offset  280 430
+    	bbox    0 0 0 0
+	drawmethod	scale 	0.86 0.86
+        delay   15
+        frame   data/chars/aragorn/ARAGORNPAIN1.png
+        frame   data/chars/aragorn/ARAGORNPAIN2.png
+        frame   data/chars/aragorn/ARAGORNPAIN1.png
+
+anim pain
+        loop    0
+        offset  280 430
+    	bbox    0 0 0 0
+	drawmethod	scale 	0.86 0.86
+        delay   15
+        frame   data/chars/aragorn/ARAGORNPAIN1.png
+        frame   data/chars/aragorn/ARAGORNPAIN2.png
+        frame   data/chars/aragorn/ARAGORNPAIN1.png
+
+
+anim attack1
+	fastattack 1
+        loop    0
+        offset  280 430
+    	bbox    240 250 100 180
+	drawmethod	scale 	0.86 0.86
+        delay   1
+        frame   data/chars/aragorn/ARAGORNA1.png
+        frame   data/chars/aragorn/ARAGORNA2.png
+        frame   data/chars/aragorn/ARAGORNA3.png
+        frame   data/chars/aragorn/ARAGORNA4.png
+	sound   data/sounds/sword1.wav
+        frame   data/chars/aragorn/ARAGORNA5.png
+        frame   data/chars/aragorn/ARAGORNA6.png
+        frame   data/chars/aragorn/ARAGORNA7.png
+        frame   data/chars/aragorn/ARAGORNA8.png
+        frame   data/chars/aragorn/ARAGORNA9.png
+        frame   data/chars/aragorn/ARAGORNA91.png
+        frame   data/chars/aragorn/ARAGORNA92.png
+        frame   data/chars/aragorn/ARAGORNA93.png
+        frame   data/chars/aragorn/ARAGORNA94.png
+        frame   data/chars/aragorn/ARAGORNA95.png
+        frame   data/chars/aragorn/ARAGORNA96.png
+	attack3  240 250 200 180 6 0 0 0 5 35
+        frame   data/chars/aragorn/ARAGORNA97.png
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/aragorn/ARAGORNA98.png
+        frame   data/chars/aragorn/ARAGORNA99.png
+        frame   data/chars/aragorn/ARAGORNA991.png
+        frame   data/chars/aragorn/ARAGORNA992.png
+        frame   data/chars/aragorn/ARAGORNA993.png
+        frame   data/chars/aragorn/ARAGORNA994.png
+        frame   data/chars/aragorn/ARAGORNA995.png
+        frame   data/chars/aragorn/ARAGORNA996.png
+        frame   data/chars/aragorn/ARAGORNA997.png
+        frame   data/chars/aragorn/ARAGORNA998.png
+        frame   data/chars/aragorn/ARAGORNA999.png
+		delay   2
+        frame   data/chars/aragorn/ARAGORNA9991.png
+        frame   data/chars/aragorn/ARAGORNA9992.png
+        frame   data/chars/aragorn/ARAGORNA9993.png
+        frame   data/chars/aragorn/ARAGORNA9994.png
+        frame   data/chars/aragorn/ARAGORNA9996.png
+        frame   data/chars/aragorn/ARAGORNA9997.png
+        frame   data/chars/aragorn/ARAGORNA9998.png
+        frame   data/chars/aragorn/ARAGORNA9999.png
+
+
+anim attack2
+	fastattack 1
+        loop    0
+        offset  280 430
+    	bbox    240 250 100 180
+	drawmethod	scale 	0.86 0.86
+        delay   2
+        frame   data/chars/aragorn/ARAGORNG1.png
+        frame   data/chars/aragorn/ARAGORNG2.png
+        frame   data/chars/aragorn/ARAGORNG3.png
+        frame   data/chars/aragorn/ARAGORNG4.png
+        frame   data/chars/aragorn/ARAGORNG5.png
+        frame   data/chars/aragorn/ARAGORNG6.png
+        frame   data/chars/aragorn/ARAGORNG7.png
+	sound   data/sounds/sword1.wav
+        frame   data/chars/aragorn/ARAGORNAA1.png
+        frame   data/chars/aragorn/ARAGORNAA2.png
+        frame   data/chars/aragorn/ARAGORNAA3.png
+        frame   data/chars/aragorn/ARAGORNAA4.png
+		delay   1
+        frame   data/chars/aragorn/ARAGORNAA5.png
+        frame   data/chars/aragorn/ARAGORNAA6.png	
+	attack3  240 250 200 180 8 0 0 0 5 35
+        frame   data/chars/aragorn/ARAGORNAA7.png
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/aragorn/ARAGORNAA8.png
+        frame   data/chars/aragorn/ARAGORNAA9.png
+        frame   data/chars/aragorn/ARAGORNAA91.png
+        frame   data/chars/aragorn/ARAGORNAA92.png
+        frame   data/chars/aragorn/ARAGORNAA93.png
+        frame   data/chars/aragorn/ARAGORNAA94.png
+        frame   data/chars/aragorn/ARAGORNAA95.png
+		delay   2		
+        frame   data/chars/aragorn/ARAGORNAA96.png
+        frame   data/chars/aragorn/ARAGORNAA97.png
+        #frame   data/chars/aragorn/ARAGORNAA98.png
+        frame   data/chars/aragorn/ARAGORNAA99.png
+        frame   data/chars/aragorn/ARAGORNAA991.png
+        frame   data/chars/aragorn/ARAGORNAA992.png
+        frame   data/chars/aragorn/ARAGORNAA993.png
+        frame   data/chars/aragorn/ARAGORNAA994.png
+        frame   data/chars/aragorn/ARAGORNAA995.png
+        frame   data/chars/aragorn/ARAGORNAA996.png
+        frame   data/chars/aragorn/ARAGORNAA997.png
+        frame   data/chars/aragorn/ARAGORNAA998.png
+        frame   data/chars/aragorn/ARAGORNAA999.png
+        frame   data/chars/aragorn/ARAGORNAA9991.png
+        frame   data/chars/aragorn/ARAGORNAA9992.png
+        frame   data/chars/aragorn/ARAGORNAA9993.png
+
+
+anim freespecial2
+	fastattack 1
+        loop    0
+        offset  280 430
+    	bbox    240 250 100 180
+	drawmethod	scale 	0.86 0.86
+        delay   2
+        frame   data/chars/aragorn/ARAGORNG1.png
+        frame   data/chars/aragorn/ARAGORNG2.png
+        frame   data/chars/aragorn/ARAGORNG3.png
+        frame   data/chars/aragorn/ARAGORNG4.png
+        frame   data/chars/aragorn/ARAGORNG5.png
+        frame   data/chars/aragorn/ARAGORNG6.png
+        frame   data/chars/aragorn/ARAGORNG7.png
+	sound   data/sounds/sword1.wav
+        frame   data/chars/aragorn/ARAGORNAA1.png
+        frame   data/chars/aragorn/ARAGORNAA2.png
+        frame   data/chars/aragorn/ARAGORNAA3.png
+        frame   data/chars/aragorn/ARAGORNAA4.png
+        frame   data/chars/aragorn/ARAGORNAA5.png
+        frame   data/chars/aragorn/ARAGORNAA6.png	
+	attack3  240 250 200 180 8 0 0 0 5 35
+        frame   data/chars/aragorn/ARAGORNAA7.png
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/aragorn/ARAGORNAA8.png
+        frame   data/chars/aragorn/ARAGORNAA9.png
+        frame   data/chars/aragorn/ARAGORNAA91.png
+        frame   data/chars/aragorn/ARAGORNAA92.png
+        frame   data/chars/aragorn/ARAGORNAA93.png
+        frame   data/chars/aragorn/ARAGORNAA94.png
+        frame   data/chars/aragorn/ARAGORNAA95.png
+        frame   data/chars/aragorn/ARAGORNAA96.png
+        frame   data/chars/aragorn/ARAGORNAA97.png
+        frame   data/chars/aragorn/ARAGORNAA98.png
+        frame   data/chars/aragorn/ARAGORNAA99.png
+        frame   data/chars/aragorn/ARAGORNAA991.png
+        frame   data/chars/aragorn/ARAGORNAA992.png
+        frame   data/chars/aragorn/ARAGORNAA993.png
+        frame   data/chars/aragorn/ARAGORNAA994.png
+        frame   data/chars/aragorn/ARAGORNAA995.png
+        frame   data/chars/aragorn/ARAGORNAA996.png
+        frame   data/chars/aragorn/ARAGORNAA997.png
+        frame   data/chars/aragorn/ARAGORNAA998.png
+        frame   data/chars/aragorn/ARAGORNAA999.png
+        frame   data/chars/aragorn/ARAGORNAA9991.png
+        frame   data/chars/aragorn/ARAGORNAA9992.png
+        frame   data/chars/aragorn/ARAGORNAA9993.png
+
+
+anim jumpdelay
+        loop    0
+        offset  280 430
+    	bbox    240 250 100 180
+	drawmethod	scale 	0.86 0.86
+        delay   2
+       frame   data/chars/aragorn/ARAGORNJ1.png
+       frame   data/chars/aragorn/ARAGORNJ2.png
+       frame   data/chars/aragorn/ARAGORNJ3.png
+       frame   data/chars/aragorn/ARAGORNJ4.png
+       frame   data/chars/aragorn/ARAGORNJ5.png
+       frame   data/chars/aragorn/ARAGORNJ6.png
+       frame   data/chars/aragorn/ARAGORNJ7.png
+
+anim jump
+        loop    0
+        offset  280 430
+    	bbox    240 250 100 180
+	drawmethod	scale 	0.86 0.86
+        delay   3
+       frame   data/chars/aragorn/ARAGORNJ7.png
+
+anim jumpland
+        loop    0
+        offset  280 430
+    	bbox    240 250 100 180
+	drawmethod	scale 	0.86 0.86
+        delay   2
+       frame   data/chars/aragorn/ARAGORNJ8.png
+       frame   data/chars/aragorn/ARAGORNJ7.png
+       frame   data/chars/aragorn/ARAGORNJ6.png
+       frame   data/chars/aragorn/ARAGORNJ5.png
+       frame   data/chars/aragorn/ARAGORNJ4.png
+       frame   data/chars/aragorn/ARAGORNJ3.png
+       frame   data/chars/aragorn/ARAGORNJ2.png
+       frame   data/chars/aragorn/ARAGORNJ1.png
+
+anim jumpattack
+        loop    0
+        offset  280 430
+    	bbox    240 250 100 180
+	drawmethod	scale 	0.86 0.86
+        delay   1
+	sound   data/sounds/sword1.wav
+       frame   data/chars/aragorn/ARAGORNJA1.png
+       frame   data/chars/aragorn/ARAGORNJA2.png
+       frame   data/chars/aragorn/ARAGORNJA3.png
+       frame   data/chars/aragorn/ARAGORNJA4.png
+       frame   data/chars/aragorn/ARAGORNJA5.png
+       frame   data/chars/aragorn/ARAGORNJA6.png
+       frame   data/chars/aragorn/ARAGORNJA7.png
+       frame   data/chars/aragorn/ARAGORNJA8.png
+       frame   data/chars/aragorn/ARAGORNJA9.png
+	attack3  240 250 200 180 12 1 0 0 5 35
+       frame   data/chars/aragorn/ARAGORNJA91.png
+	attack3  0 0 0 0 0 0 0 0 0
+        delay   2
+       frame   data/chars/aragorn/ARAGORNJA92.png
+       frame   data/chars/aragorn/ARAGORNJA93.png
+
+
+anim walk
+        loop    1
+        delay   3
+        offset  280 430
+    	bbox    240 250 100 180
+	drawmethod	scale 	0.86 0.86
+        frame   data/chars/aragorn/ARAGORNR1.png
+        frame   data/chars/aragorn/ARAGORNR2.png
+        frame   data/chars/aragorn/ARAGORNR3.png
+        frame   data/chars/aragorn/ARAGORNR4.png
+        frame   data/chars/aragorn/ARAGORNR5.png
+        frame   data/chars/aragorn/ARAGORNR6.png
+        frame   data/chars/aragorn/ARAGORNR7.png
+        frame   data/chars/aragorn/ARAGORNR8.png
+        frame   data/chars/aragorn/ARAGORNR9.png
+        frame   data/chars/aragorn/ARAGORNR91.png
+        frame   data/chars/aragorn/ARAGORNR92.png
+        frame   data/chars/aragorn/ARAGORNR93.png
+        frame   data/chars/aragorn/ARAGORNR94.png
+        frame   data/chars/aragorn/ARAGORNR95.png
+        frame   data/chars/aragorn/ARAGORNR96.png
+        frame   data/chars/aragorn/ARAGORNR97.png
+        frame   data/chars/aragorn/ARAGORNR98.png
+        frame   data/chars/aragorn/ARAGORNR99.png
+        frame   data/chars/aragorn/ARAGORNR991.png
+        frame   data/chars/aragorn/ARAGORNR992.png
+        frame   data/chars/aragorn/ARAGORNR993.png
+        frame   data/chars/aragorn/ARAGORNR994.png
+
+
+
+anim rise
+        loop   0
+        offset  240 430
+    	bbox    240 250 100 180
+	drawmethod	scale 	0.86 0.86
+        delay   2
+        frame   data/chars/aragorn/ARAGORND92.png
+        frame   data/chars/aragorn/ARAGORND91.png
+        frame   data/chars/aragorn/ARAGORND9.png
+        frame   data/chars/aragorn/ARAGORND8.png
+        frame   data/chars/aragorn/ARAGORND7.png
+        frame   data/chars/aragorn/ARAGORND6.png
+        offset  245 430
+        frame   data/chars/aragorn/ARAGORND5.png
+        offset  250 430
+        frame   data/chars/aragorn/ARAGORND4.png
+        offset  255 430
+        frame   data/chars/aragorn/ARAGORND3.png
+        offset  260 430
+        frame   data/chars/aragorn/ARAGORND2.png
+        offset  265 430
+        frame   data/chars/aragorn/ARAGORND1.png
+
+anim fall
+         loop   0
+         delay  3
+        offset  240 430
+	drawmethod	scale 	0.86 0.86
+        frame   data/chars/aragorn/ARAGORND1.png
+        frame   data/chars/aragorn/ARAGORND2.png
+        frame   data/chars/aragorn/ARAGORND3.png
+        frame   data/chars/aragorn/ARAGORND4.png
+        frame   data/chars/aragorn/ARAGORND5.png
+        frame   data/chars/aragorn/ARAGORND6.png
+        frame   data/chars/aragorn/ARAGORND7.png
+        frame   data/chars/aragorn/ARAGORND8.png
+        frame   data/chars/aragorn/ARAGORND9.png
+        frame   data/chars/aragorn/ARAGORND91.png
+        frame   data/chars/aragorn/ARAGORND92.png
+         delay  500
+        frame   data/chars/aragorn/ARAGORND93.png
+         delay  3
+        frame   data/chars/aragorn/ARAGORND93.png

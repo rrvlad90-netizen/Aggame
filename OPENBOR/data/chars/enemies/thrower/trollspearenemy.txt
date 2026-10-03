@@ -1,0 +1,36 @@
+name	trollspearenemy
+type none
+speed 37
+candamage npc
+setlayer 1
+#lifespan  5
+
+remove  0
+
+offscreenkill 30000
+
+anim idle
+	loop	0
+	delay	1
+	offset     100 10
+	drawmethod	scale 	0.55 0.55
+	hitflash trollhit
+	jumpframe	1 2 -1
+	landframe	2
+
+	attack6  0 -24 239 48 4 0 0 0 0
+#	movea -17
+	frame	data/chars/enemies/thrower/trollspear.PNG
+	frame	data/chars/enemies/thrower/trollspear.PNG
+	frame	data/chars/enemies/thrower/trollspear.PNG
+
+
+anim death
+	loop	0
+	delay	1
+	offset     100 10
+	drawmethod	scale 	0.55 0.55
+	hitflash fl400
+	#bbox	0 0 10 10
+	frame	data/chars/enemies/thrower/trollspear.PNG
+

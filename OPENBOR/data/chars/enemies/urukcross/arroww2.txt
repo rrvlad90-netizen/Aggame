@@ -1,0 +1,53 @@
+#name	arroww2
+#health	1
+#nolife  1
+#hitenemy 1
+#candamage npc
+#type	pshot
+#speed   67
+#shadow	0
+#subtype flydie
+
+
+
+name	arroww2
+type none
+speed 74
+candamage npc
+#setlayer 1
+#lifespan  5
+
+offscreenkill 30000
+
+subject_to_obstacle 0
+
+anim idle
+	loop	0
+        delay   1
+	#offset	-86 20
+	jumpframe	1 2 -1
+	landframe	4
+	offset 0 2
+	hitflash empflash
+	attack6	0 0 90 4 2 4 1 0 1 120
+        hitfx   data/sounds/sla.wav
+	frame	data/chars/enemies/gondorarcher/arroww
+        delay   8
+	frame	data/chars/enemies/gondorarcher/arroww
+        delay   8
+   	frame	data/chars/enemies/gondorarcher/arroww
+        delay   8
+        frame	data/chars/enemies/gondorarcher/arroww
+        delay   8
+        frame	data/chars/enemies/gondorarcher/arroww
+        delay   8
+        frame	data/chars/enemies/gondorarcher/arroww
+
+
+
+anim death
+	loop	0
+        delay   1
+	#offset	-86 20
+	offset 0 2
+	frame	data/chars/enemies/gondorarcher/arroww

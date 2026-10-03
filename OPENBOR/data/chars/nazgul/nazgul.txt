@@ -1,0 +1,303 @@
+name	Nazgul
+health	420
+speed	32
+running             36 4 2 1 1
+type    enemy
+gfxshadow 1 3
+noquake 1
+#nopain 1
+makeinv 4
+agression 30
+
+#diesound data/sounds/die1.wav
+#icon     data/chars/nazgul/icon
+#holdblock 1
+nodieblink 1
+#cantgrab 1
+#notgrab 1
+#turndelay 1
+death 1
+
+atchain     1 2 #3  kakie ataki budet dealt po oceredi
+
+palette  data/chars/nazgul/nazstay
+
+nodrop 2
+
+#fmap    1
+
+#remap   data/chars/nazgul/stand data/chars/nazgul/fmap
+
+offscreenkill 30000
+
+animationscript data/scripts/myanimmmmm.c
+
+
+
+	
+
+anim spawn
+        loop    0
+        offset  311 496
+	sound   data/chars/nazgul/nazgs.wav
+	drawmethod	scale 	0.55 0.55
+        bbox    200 150 170 350
+        delay   10
+        frame   data/chars/nazgul/nazstay
+
+
+anim idle
+        loop    1
+        offset  311 496
+	drawmethod	scale 	0.55 0.55
+        bbox    200 150 170 350
+        delay   10
+        frame   data/chars/nazgul/nazstay
+
+anim walk
+        loop    1
+        delay   7
+        offset  277 364
+	drawmethod	scale 	0.58 0.58
+        bbox    200 150 170 350
+        frame   data/chars/nazgul/nazw1
+        offset  277 366
+        frame   data/chars/nazgul/nazw2
+        offset  277 368
+        frame   data/chars/nazgul/nazw3
+        offset  277 370
+        frame   data/chars/nazgul/nazw4
+        offset  277 368
+        frame   data/chars/nazgul/nazw5
+        offset  277 366
+        frame   data/chars/nazgul/nazw6
+
+
+anim attack1
+	fastattack	1
+        loop    0
+        delay   4
+	range 50 190
+        offset  325 374
+	drawmethod	scale 	0.58 0.58
+        bbox    200 150 170 350
+        frame   data/chars/nazgul/na1
+        frame   data/chars/nazgul/na2
+	delay 6
+        frame   data/chars/nazgul/na3
+        attack  130 120 320 285 19 0 0 0 15
+        frame   data/chars/nazgul/na4
+	attack  0 0 0 0 0 0 0 0 0 0
+	delay 6
+        frame   data/chars/nazgul/na5
+        frame   data/chars/nazgul/na5
+########
+        delay   7
+        offset  292 340
+        frame   data/chars/nazgul/naa1
+        frame   data/chars/nazgul/naa2
+        delay   9
+        attack  140 150 328 100 21 0 0 0 16
+        frame   data/chars/nazgul/naa3
+	attack  0 0 0 0 0 0 0 0 0 0
+	delay 7
+        offset  292 427
+        frame   data/chars/nazgul/naa4
+        offset  311 350
+	bbox 0 0 0 0 
+        delay   4
+	move 19
+	@cmd rotateleft
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+
+
+#anim attack2
+#	fastattack	1
+#        loop    0
+#        delay   6
+#        offset  292 340
+#	drawmethod	scale 	0.58 0.58
+#        bbox    100 100 100 100
+#        frame   data/chars/nazgul/naa1
+#        frame   data/chars/nazgul/naa2
+#        delay   3
+#        attack  140 150 260 100 21 0 0 0 16
+#        frame   data/chars/nazgul/naa3
+#	attack  0 0 0 0 0 0 0 0 0 0
+#        offset  292 427
+#        frame   data/chars/nazgul/naa4
+
+#anim attack3
+#	fastattack	1
+#        loop    0
+#        delay   6
+#        offset  144 273
+#	drawmethod	scale 	0.65 0.65
+#        bbox    100 100 100 100
+#        frame   data/chars/nazgul/atk1
+#        frame   data/chars/nazgul/atk2
+#        delay   7
+#        frame   data/chars/nazgul/atk3
+#        attack  140 100 240 100 24 0 0 0 20
+#        offset  154 273
+#        delay   12
+#	move 25
+#        frame   data/chars/nazgul/atk4
+#        delay   7
+#        frame   data/chars/nazgul/atk5
+#        frame   data/chars/nazgul/atk6
+
+
+
+anim block
+	loop	0
+	delay  10
+        offset  311 350
+	drawmethod	scale 	0.58 0.58
+        bbox    200 150 270 350
+        frame   data/chars/nazgul/guard
+
+
+anim pain
+	jumpframe	2 0 0 1.6  
+	landframe 	9
+        loop    0
+        delay   6
+        offset  311 350
+	drawmethod	scale 	0.58 0.58
+        bbox    0 0 0 0
+	move	-40
+        frame   data/chars/nazgul/na5
+        frame   data/chars/nazgul/na5
+        delay   6
+	delay   3
+	move -17
+	@cmd rotateleft
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+
+anim pain2
+	jumpframe	2 0 0 1.6  
+	landframe 	9
+        loop    0
+        delay   8
+        offset  311 350
+	drawmethod	scale 	0.58 0.58
+        bbox    0 0 0 0
+	move	-40
+        frame   data/chars/nazgul/na5
+        frame   data/chars/nazgul/na5
+        delay   6
+	move -17
+	@cmd rotateleft
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+	frame   data/chars/nazgul/nazw11
+
+
+anim death
+         loop   0
+         delay  40
+	drawmethod	scale 	0.58 0.58
+        offset  311 350
+         frame   data/chars/nazgul/na5
+         delay  20
+         frame   data/chars/nazgul/na5
+         delay  10
+         frame   data/chars/nazgul/na5
+anim rise
+         loop   0
+         delay  5
+	drawmethod	scale 	0.58 0.58
+        offset  277 364
+         frame  data/chars/nazgul/nazw1
+
+anim land
+         loop   0
+         delay  10
+	drawmethod	scale 	0.58 0.58
+        offset  277 364
+         frame  data/chars/nazgul/nazw1
+
+anim	run
+        loop    1
+        delay   8
+	drawmethod	scale 	0.58 0.58
+        offset  277 364
+        bbox    200 150 170 350
+        frame   data/chars/nazgul/nazw1
+        frame   data/chars/nazgul/nazw2
+        frame   data/chars/nazgul/nazw3
+        frame   data/chars/nazgul/nazw4
+        frame   data/chars/nazgul/nazw5
+        frame   data/chars/nazgul/nazw6
+		
+
+anim	runattack
+	fastattack	1
+        loop    0
+        delay   5
+        offset  325 374
+	drawmethod	scale 	0.58 0.58
+        bbox    200 150 170 350
+	move 17
+        frame   data/chars/nazgul/na1
+        frame   data/chars/nazgul/na2
+        frame   data/chars/nazgul/na3
+        attack  130 120 240 285 19 0 0 0 15
+        frame   data/chars/nazgul/na4
+        frame   data/chars/nazgul/na5
+        frame   data/chars/nazgul/na5
+
+
+

@@ -1,0 +1,112 @@
+name	wallblock1
+health	0
+type  none
+candamage enemy
+#nomove 1
+shadow	0
+setlayer 10
+
+subject_to_hole 0
+subject_to_obstacle 0
+subject_to_platform 0
+subject_to_gravity 0
+subject_to_minz 0
+subject_to_maxz 0
+
+
+offscreenkill 30000
+
+
+#palette  data/chars/wallblock/dd1.png
+palette  data/chars/wallblock/dd2.PNG
+
+
+anim idle
+        loop    1
+        delay   9
+	offset	24 20
+#	platform  -10  90  0  0  900  900  15  70
+	platform   40 31  -20 -20 10 10 300 200
+	frame	data/chars/wallblock/dd2.PNG
+#	sound   data/sounds/sword1.wav
+	frame	data/chars/wallblock/dd2.PNG
+	frame	data/chars/wallblock/dd2.PNG
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  40 20 330 76 0 0 0 0 0    # 22 22 36 30 19 0 0 0 15
+        delay   10
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+
+########
+
+
+        delay   1350
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+        attack8  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+	frame	data/chars/wallblock/dd2.PNG
+
+
+        delay   1550
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+        attack8  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+	frame	data/chars/wallblock/dd2.PNG
+
+
+        delay   200
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+	frame	data/chars/wallblock/dd2.PNG
+
+        delay   200
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+	frame	data/chars/wallblock/dd2.PNG
+
+        delay   10
+        attack8  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+	frame	data/chars/wallblock/dd2.PNG
+
+        delay   550
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+        attack9  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+	frame	data/chars/wallblock/dd2.PNG
+
+        delay   550
+	frame	data/chars/wallblock/dd2.PNG
+        delay   10
+        attack9  40 20 330 76 0 0 0 0 0 
+	frame	data/chars/wallblock/dd2.PNG
+        attack8  0 0 0 0 0 0 0 0 0
+	frame	data/chars/wallblock/dd2.PNG
+        delay   4500
+	frame	data/chars/wallblock/dd2.PNG
+        delay   2250
+	frame	data/chars/wallblock/dd2.PNG

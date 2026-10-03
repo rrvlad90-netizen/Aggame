@@ -1,0 +1,98 @@
+name	Knight
+health	26
+speed	1
+type   npc
+hostile none
+candamage enemy
+nolife 1
+nomove 1
+shadow  0
+noquake 1
+nopain 1
+makeinv 4
+agression 90
+
+#nopain 1
+
+nodieblink 1
+nodrop 2
+
+#setlayer 9
+
+
+offscreenkill 30000
+
+death 1
+
+palette  data/chars/enemies/knight/Gondorrider1.png
+diesound data/sounds/KnightDeath.wav
+
+subject_to_obstacle 0
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+
+anim spawn
+	loop	0
+        offset  230 250
+    	bbox    130 55 185 325     #130 55 255 325
+	drawmethod	scale 	0.67 0.67
+        delay   1
+        frame   data/chars/enemies/knight/Gondorrider1.png
+
+
+anim idle
+        loop    1
+        offset  230 250
+    	bbox    130 55 185 325
+	drawmethod	scale 	0.67 0.67
+        delay   4
+	@cmd rotateright
+	move 8
+	sound   data/sounds/HorseLoop1.wav
+	attack3 230 190 105 160 7 0 0 0 5
+        frame   data/chars/enemies/knight/Gondorrider1.png
+        frame   data/chars/enemies/knight/Gondorrider2.png
+        frame   data/chars/enemies/knight/Gondorrider3.png
+	attack3 0 0 0 0 0 0 0 0 0
+        frame   data/chars/enemies/knight/Gondorrider4.png
+        frame   data/chars/enemies/knight/Gondorrider5.png
+        frame   data/chars/enemies/knight/Gondorrider6.png
+	sound   data/sounds/HorseLoop1.wav
+	attack3 230 190 105 160 7 0 0 0 5
+        frame   data/chars/enemies/knight/Gondorrider7.png
+        frame   data/chars/enemies/knight/Gondorrider8.png
+        frame   data/chars/enemies/knight/Gondorrider9.png
+	attack3 0 0 0 0 0 0 0 0 0
+        frame   data/chars/enemies/knight/Gondorrider91.png
+        frame   data/chars/enemies/knight/Gondorrider92.png
+        frame   data/chars/enemies/knight/Gondorrider93.png
+	sound   data/sounds/HorseLoop1.wav
+	attack3 230 190 105 160 7 0 0 0 5
+        frame   data/chars/enemies/knight/Gondorrider94.png
+        frame   data/chars/enemies/knight/Gondorrider95.png
+        frame   data/chars/enemies/knight/Gondorrider96.png
+	attack3 0 0 0 0 0 0 0 0 0
+        frame   data/chars/enemies/knight/Gondorrider97.png
+
+
+anim death
+         loop   0
+         delay  10
+        offset  230 250
+	drawmethod	scale 	0.67 0.67
+        frame   data/chars/enemies/knight/GondorriderD1.png
+        frame   data/chars/enemies/knight/GondorriderD2.png
+        frame   data/chars/enemies/knight/GondorriderD3.png
+        frame   data/chars/enemies/knight/GondorriderD4.png
+        frame   data/chars/enemies/knight/GondorriderD5.png
+        frame   data/chars/enemies/knight/GondorriderD6.png
+        frame   data/chars/enemies/knight/GondorriderD7.png
+        frame   data/chars/enemies/knight/GondorriderD8.png
+        frame   data/chars/enemies/knight/GondorriderD9.png
+        frame   data/chars/enemies/knight/GondorriderD91.png
+        frame   data/chars/enemies/knight/GondorriderD92.png
+	 delay 500
+        frame   data/chars/enemies/knight/GondorriderD92.png

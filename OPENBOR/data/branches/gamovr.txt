@@ -1,0 +1,40 @@
+name	gamovr
+type	endlevel
+branch	gamovr
+offscreenkill 30000
+shadow	0
+
+subject_to_hole 0
+subject_to_obstacle 0
+subject_to_platform 1
+subject_to_gravity 1
+subject_to_minz 0
+subject_to_maxz 0
+
+
+anim spawn
+	offset 70 42
+	delay 25
+	bbox  0  0  30000 2000 #36  36
+	frame data/branches/jewel0.png
+	frame data/branches/jewel.png
+	frame data/branches/jewel0.png
+	frame data/branches/jewel.png
+	frame data/branches/jewel0.png
+	frame data/branches/jewel.png
+	frame data/branches/jewel0.png
+	frame data/branches/jewel.png
+	frame data/branches/jewel0.png
+	frame data/branches/jewel.png
+	frame data/branches/jewel0.png
+	frame data/branches/jewel.png
+	frame data/branches/jewel.png
+	frame data/branches/jewel.png
+	frame data/branches/jewel.png
+
+anim idle
+	offset 70 42
+	delay 9999
+	bbox  0  0  1 1 #36  36
+	frame data/branches/jewel.png
+

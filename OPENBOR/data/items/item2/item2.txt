@@ -1,13 +1,15 @@
 name item2
 type item
-health 40
+health 50
 subtype touch
 grabdistance 1
 nolife 1
 
+offscreenkill 30000
+
 anim idle
 	loop 1
 	delay 15
-	offset 45 54
-		bbox  0  0  115  115
-	frame	data/items/item2/1.png
+	offset 18 42
+		bbox  38  40  15  15
+	frame	data/items/item2/potion2.png

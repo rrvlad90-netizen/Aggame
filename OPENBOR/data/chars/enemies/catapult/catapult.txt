@@ -1,0 +1,110 @@
+name	catapult
+health	52
+nolife 1
+speed	6
+nopain 1
+#nomove 1
+type   enemy
+hostile npc
+candamage npc
+shadow  0
+noquake 1
+makeinv 4
+agression 90
+
+nodieblink 1
+atchain     1 2
+#load    fireballw
+nodrop 2
+
+facing 2
+
+setlayer 7
+
+offscreenkill 30000
+
+death 1
+
+palette  data/chars/enemies/catapult/w1.png
+#diesound data/sounds/rifdie.wav
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+anim spawn
+	loop	0
+        offset  280 350
+	bbox 	160 100 270 233
+        delay   10
+	drawmethod	scale 	0.65 0.65
+        frame   data/chars/enemies/catapult/w1.png
+
+
+anim idle
+        loop    1
+        offset  280 350
+	bbox 	160 100 270 233
+        delay   10
+	drawmethod	scale 	0.65 0.65
+	platform   311 40  -20 -20 10 10 300 200
+        frame   data/chars/enemies/catapult/w1.png
+
+anim walk
+        loop    1
+        offset  280 350
+	bbox 	160 100 270 233
+        delay   4
+	drawmethod	scale 	0.65 0.65
+	platform   311 40  -20 -20 10 10 300 200
+        frame   data/chars/enemies/catapult/w1.png
+
+
+anim attack1
+#	custknife fireballw
+#	throwframe 4
+	bbox 	160 100 270 233
+	range	0 975
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.65 0.65
+        delay   7
+	platform   311 40  -20 -20 10 10 300 200
+        offset  280 350
+	@cmd rotateunit
+        frame   data/chars/enemies/catapult/a1.png
+	@cmd rotateunit
+        frame   data/chars/enemies/catapult/a2.png
+	@cmd rotateunit
+        frame   data/chars/enemies/catapult/a3.png
+
+#	sound   data/sounds/rifa1.wav
+	@cmd	projectile 2 "catapultrock" 11 0 200 1 0 1  #11 dlinna  200 visota 
+	#poslednyaa cifra esli 1 to projectile pereidet v death srazu nposle idle i dalse ne poletit
+        delay   8
+	@cmd rotateunit
+        frame   data/chars/enemies/catapult/a4.png
+	@cmd rotateunit
+        frame   data/chars/enemies/catapult/a5.png
+	@cmd rotateunit
+        frame   data/chars/enemies/catapult/a6.png
+	@cmd rotateunit
+       	frame   data/chars/enemies/catapult/a7.png
+        delay   180
+	@cmd rotateunit
+        frame   data/chars/enemies/catapult/w1.png
+        delay   56
+	@cmd  goto_if_nearx
+        frame   data/chars/enemies/catapult/w1.png
+
+
+anim death
+         loop   0
+         delay  10
+        offset  280 350
+	drawmethod	scale 	0.65 0.65
+        frame   data/chars/enemies/catapult/w1.png
+	 delay 1
+        frame   data/chars/enemies/catapult/w1.png
+
+

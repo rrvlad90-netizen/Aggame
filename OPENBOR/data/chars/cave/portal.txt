@@ -1,0 +1,94 @@
+# Do not forget to name your character.
+# Health is optional.
+
+name	portal
+health	100
+type	enemy
+shadow	0
+#icon	data/chars/misc/walll.gif
+nomove 1
+facing 1
+
+load NightElf
+
+
+palette data/chars/cave/portal1
+#diesound data/sounds/wood.wav
+
+anim spawn 
+	loop	0
+	delay	2
+	offset	50 133
+	move    0
+	frame	data/chars/cave/portal1
+
+
+anim idle
+	spawnframe 4     5 0 5 0
+	custentity NightElf
+	loop	1
+	delay	28
+	offset	50 133
+	bbox	100 75 15 43
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+	delay	20
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal1
+	frame	data/chars/cave/portal2
+	frame	data/chars/cave/portal3
+	frame	data/chars/cave/portal2
+
+
+
+anim pain
+	offset	50 133
+	delay	1128
+	bbox	0 0 0 0
+	frame	data/chars/cave/portal0
+
+anim death
+	offset	50 133
+	delay	10
+	frame	data/chars/cave/portal0

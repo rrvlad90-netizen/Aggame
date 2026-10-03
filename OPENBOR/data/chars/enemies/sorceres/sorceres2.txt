@@ -1,0 +1,302 @@
+#V pain5 on idet na ataku zacemto no pricolno
+
+
+name	sorceres2
+health	40
+nolife 1
+speed	8
+#nopain 1
+#nomove 1
+type   npc
+hostile enemy
+candamage enemy
+shadow  0
+noquake 1
+makeinv 4
+agression 90
+
+nodieblink 1
+atchain     1 #2
+#load    fireballw
+nodrop 2
+
+offscreenkill 30000
+
+setlayer 6
+
+death 1
+
+palette  data/chars/enemies/sorceres/w1.png
+#diesound data/sounds/rifdie.wav
+
+
+animationscript data/scripts/myanimmmmm.c
+
+subject_to_obstacle 0
+
+
+anim spawn
+	loop	0
+        offset  240 470
+	bbox 	160 100 250 333
+        delay   10
+	drawmethod	scale 	0.65 0.65
+        frame   data/chars/enemies/sorceres/w1.png
+
+
+anim idle
+        loop    1
+        offset  240 470
+	bbox 	160 100 250 333
+        delay   10
+	drawmethod	scale 	0.65 0.65
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+
+
+anim pain4    #vpered
+	bbox 	160 100 250 333
+#	range	0 580
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.65 0.65
+        delay   1
+        offset  240 470
+	@cmd rotateright
+        frame   data/chars/enemies/sorceres/w1.png
+	@cmd makespeedunit 1
+        frame   data/chars/enemies/sorceres/w1.png
+
+anim pain3   #nazad
+	bbox 	160 100 250 333
+#	range	0 580
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.65 0.65
+        delay   1
+        offset  240 470
+	@cmd changeAnimation "ANI_FOLLOW2"
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+
+anim pain2   #Stay
+	bbox 	160 100 250 333
+#	range	0 580
+	fastattack 1
+        loop   0
+	drawmethod	scale 	0.65 0.65
+        delay   1
+        offset  240 470
+	@cmd makenomovetrue
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+
+anim pain6
+#	custknife fireballw
+#	throwframe 4
+	bbox 	160 100 250 333
+	range	0 730
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.65 0.65
+        delay   1
+	platform   311 40  -20 -20 10 10 300 200
+        offset  240 470
+	#@cmd rotateunit
+	@cmd makenopaintrue
+        frame   data/chars/enemies/sorceres/w1.png
+	@cmd rotateunit
+        delay   12
+        frame   data/chars/enemies/sorceres/w1.png
+	@cmd rotateunit
+        frame   data/chars/enemies/sorceres/a1.png
+#	sound   data/sounds/rifa1.wav
+	@cmd	projectile 2 "faryball" 11 0 195 1 0 0  #11 dlinna  195 visota
+        delay   19
+	@cmd rotateunit
+        frame   data/chars/enemies/sorceres/a1.png
+	@cmd rotateunit
+        delay   19
+       	frame   data/chars/enemies/sorceres/a1.png
+	@cmd rotateunit
+        delay   10
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+        delay   1
+	@cmd makenopainfalse
+#	@cmd  goto_if_nearx
+	bbox 	160 100 250 333
+        frame   data/chars/enemies/sorceres/w1.png
+
+
+anim follow2
+        loop    1
+        offset  240 470
+	bbox 	160 100 250 333
+        delay   10
+	drawmethod	scale 	0.65 0.65
+	move 10
+	@cmd rotateleft
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+
+
+
+anim follow3
+        loop    1
+        offset  240 470
+	bbox 	160 100 250 333
+        delay   10
+	drawmethod	scale 	0.65 0.65
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+
+anim walk
+        loop    1
+        offset  240 470
+	bbox 	160 100 250 333
+        delay   8
+	drawmethod	scale 	0.65 0.65
+	platform   311 40  -20 -20 10 10 300 200
+	@cmd rotateunit
+        frame   data/chars/enemies/sorceres/w1.png
+	@cmd rotateunit
+        frame   data/chars/enemies/sorceres/w2.png
+	@cmd rotateunit
+        frame   data/chars/enemies/sorceres/w3.png
+	@cmd rotateunit
+        frame   data/chars/enemies/sorceres/w2.png
+
+
+
+anim attack1
+#	custknife fireballw
+#	throwframe 4
+	bbox 	160 100 250 333
+	range	0 730
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.65 0.65
+        delay   1
+	platform   311 40  -20 -20 10 10 300 200
+        offset  240 470
+	#@cmd rotateunit
+	@cmd makenopaintrue
+        frame   data/chars/enemies/sorceres/w1.png
+	@cmd rotateunit
+        delay   12
+        frame   data/chars/enemies/sorceres/w1.png
+	@cmd rotateunit
+        frame   data/chars/enemies/sorceres/a1.png
+#	sound   data/sounds/rifa1.wav
+	@cmd	projectile 2 "faryball" 11 0 195 1 0 0  #11 dlinna  195 visota
+        delay   19
+	@cmd rotateunit
+        frame   data/chars/enemies/sorceres/a1.png
+	@cmd rotateunit
+        delay   19
+       	frame   data/chars/enemies/sorceres/a1.png
+	@cmd rotateunit
+        delay   10
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+        delay   1
+	@cmd makenopainfalse
+#	@cmd  goto_if_nearx
+	bbox 	160 100 250 333
+        frame   data/chars/enemies/sorceres/w1.png
+
+
+
+
+
+
+anim pain5
+#	custknife fireballw
+#	throwframe 4
+	bbox 	160 100 250 333
+	range	0 730
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.65 0.65
+        delay   1
+	platform   311 40  -20 -20 10 10 300 200
+        offset  240 470
+	#@cmd rotateunit
+	@cmd makenopaintrue
+        frame   data/chars/enemies/sorceres/w1.png
+	@cmd rotateunit
+        delay   12
+        frame   data/chars/enemies/sorceres/w1.png
+	@cmd rotateunit
+        frame   data/chars/enemies/sorceres/a1.png
+#	sound   data/sounds/rifa1.wav
+	@cmd	projectile 2 "faryball" 11 0 195 1 0 0  #11 dlinna  195 visota
+        delay   19
+	@cmd rotateunit
+        frame   data/chars/enemies/sorceres/a1.png
+	@cmd rotateunit
+        delay   19
+       	frame   data/chars/enemies/sorceres/a1.png
+	@cmd rotateunit
+        delay   10
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w1.png
+        frame   data/chars/enemies/sorceres/w2.png
+        frame   data/chars/enemies/sorceres/w3.png
+        frame   data/chars/enemies/sorceres/w2.png
+        delay   1
+	@cmd makenopainfalse
+#	@cmd  goto_if_nearx
+	bbox 	160 100 250 333
+        frame   data/chars/enemies/sorceres/w1.png
+
+
+anim death
+         loop   0
+         delay  10
+        offset  240 470
+	drawmethod	scale 	0.65 0.65
+         frame   data/chars/enemies/sorceres/a1.png
+         frame   data/chars/enemies/sorceres/a1.png
+	 delay 1
+         frame   data/chars/enemies/sorceres/a1.png
+
+

@@ -1,0 +1,60 @@
+# Do not forget to name your character.
+# Health is optional.
+
+name	palatkaorc
+health	400
+type	enemy
+gfxshadow 1 3
+#icon	data/chars/misc/walll.gif
+nomove 1 1
+load Orc2
+death 1
+
+palette data/chars/palatka/a
+diesound data/sounds/wood.wav
+
+offscreenkill 30000
+
+anim spawn 
+	loop	0
+	delay	2
+	offset	272 199
+	#jumpframe	1 28.5 0 1
+	#landframe 5
+	move    -650
+	frame	data/chars/palatka/sp
+	frame	data/chars/palatka/sp
+	frame	data/chars/palatka/sp
+	frame	data/chars/palatka/sp
+	frame	data/chars/palatka/sp
+	move    -400
+	frame	data/chars/palatka/sp
+	move 0
+	frame	data/chars/palatka/sp
+	movez	280
+	frame	data/chars/palatka/sp
+
+
+anim idle
+	spawnframe 4 10 10 0 0
+	custentity Orc2
+	loop	1
+	delay	198  #168
+	offset	272 199
+	bbox	110 83 340 113
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+
+anim death
+	delay	1000
+	offset	272 199
+	frame	data/chars/palatka/a

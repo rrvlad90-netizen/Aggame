@@ -1,0 +1,205 @@
+name	Swordman1
+health	60
+speed	18
+type   npc
+hostile enemy
+candamage enemy
+nolife 1
+shadow  0
+noquake 1
+makeinv 4
+agression 90
+
+#nopain 1
+
+nodieblink 1
+nodrop 2
+
+setlayer 2
+
+
+offscreenkill 30000
+
+death 1
+
+palette  data/chars/enemies/swordman/GONDOR1.png
+diesound data/sounds/fotdie.wav
+
+subject_to_obstacle 0
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+
+anim spawn
+	loop	0
+        offset  185 395
+    	bbox    130 55 185 325     #130 55 255 325
+	drawmethod	scale 	0.53 0.53
+        delay   15
+        frame   data/chars/enemies/swordman/GONDOR1.png
+
+
+anim idle
+        loop    1
+        offset  185 395
+    	bbox    130 55 185 325
+	drawmethod	scale 	0.53 0.53
+        delay   15
+	platform   247 40  -20 -20 10 10 300 200
+#	@cmd makenopainfalse
+        frame   data/chars/enemies/swordman/GONDOR1.png
+
+
+
+
+anim attack1
+        loop    0
+        offset  185 395
+    	bbox    130 55 185 325
+	drawmethod	scale 	0.53 0.53
+        delay   8
+	platform   247 40  -20 -20 10 10 300 200
+	@cmd makenopaintrue
+        frame   data/chars/enemies/swordman/GONDORATT1.png
+	sound   data/sounds/sword1.wav
+        frame   data/chars/enemies/swordman/GONDORATT2.png
+        frame   data/chars/enemies/swordman/GONDORATT3.png
+        frame   data/chars/enemies/swordman/GONDORATT4.png
+	sound   data/sounds/bbeat1.wav
+	attack3  230 190 135 160 3 0 0 0 5
+        frame   data/chars/enemies/swordman/GONDORATT5.png
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/enemies/swordman/GONDORATT6.png
+        frame   data/chars/enemies/swordman/GONDORATT7.png
+        frame   data/chars/enemies/swordman/GONDORATT8.png
+        delay   39
+        frame   data/chars/enemies/swordman/GONDORATT8.png
+        delay   1
+	@cmd makenopainfalse
+        frame   data/chars/enemies/swordman/GONDORATT8.png
+
+##############
+
+
+anim attack2
+        loop    0
+        offset  185 395
+    	bbox    130 55 185 325
+	drawmethod	scale 	0.53 0.53
+        delay   8
+	platform   247 40  -20 -20 10 10 300 200
+	@cmd makenopaintrue
+        frame   data/chars/enemies/swordman/GONATT1.png
+	sound   data/sounds/sword1.wav
+        frame   data/chars/enemies/swordman/GONATT2.png
+        frame   data/chars/enemies/swordman/GONATT3.png
+	sound   data/sounds/bbeat1.wav
+	attack3  230 190 135 160 3 0 0 0 5
+        frame   data/chars/enemies/swordman/GONATT4.png
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/enemies/swordman/GONATT3.png
+        delay   39
+        frame   data/chars/enemies/swordman/GONATT2.png
+        delay   1
+	@cmd makenopainfalse
+        frame   data/chars/enemies/swordman/GONATT1.png
+
+
+anim pain2   #Stay
+    	bbox    130 55 185 325
+#	range	0 580
+	fastattack 1
+        loop   0
+	drawmethod	scale 	0.53 0.53
+        delay   1
+        offset  185 395
+	@cmd makenomovetrue
+        frame   data/chars/enemies/swordman/GONDOR1.png
+
+anim pain3   #nazad
+        loop    1
+        delay   8
+        offset  185 395
+    	bbox    130 55 185 325
+	drawmethod	scale 	0.53 0.53
+	move 9
+	@cmd rotateleft
+        frame   data/chars/enemies/swordman/GONDOR8.PNG
+        frame   data/chars/enemies/swordman/GONDOR9.PNG
+        frame   data/chars/enemies/swordman/GONDOR91.PNG
+        frame   data/chars/enemies/swordman/GONDOR92.PNG
+        frame   data/chars/enemies/swordman/GONDOR2.PNG
+        frame   data/chars/enemies/swordman/GONDOR3.PNG
+        frame   data/chars/enemies/swordman/GONDOR4.PNG
+        frame   data/chars/enemies/swordman/GONDOR5.PNG
+        frame   data/chars/enemies/swordman/GONDOR6.PNG
+        frame   data/chars/enemies/swordman/GONDOR7.PNG
+
+
+anim pain4    #vpered
+    	bbox    130 55 185 325
+#	range	0 580
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.53 0.53
+        delay   1
+        offset  185 395
+	@cmd rotateright
+        frame   data/chars/enemies/swordman/GONDOR1.png
+	@cmd makespeedunit 1
+        frame   data/chars/enemies/swordman/GONDOR1.png
+
+anim pain5
+        loop    0
+        offset  185 395
+    	bbox    130 55 185 325
+	drawmethod	scale 	0.53 0.53
+	delay 1
+        frame   data/chars/enemies/swordman/GONDOR1.png
+
+anim pain6
+        loop    0
+        offset  185 395
+    	bbox    130 55 185 325
+	drawmethod	scale 	0.53 0.53
+	delay 1
+	@cmd makenopaintrue
+        frame   data/chars/enemies/swordman/GONDOR1.png
+
+
+##########################
+anim walk
+        loop    1
+        delay   8
+        offset  185 395
+    	bbox    130 55 185 325
+	drawmethod	scale 	0.53 0.53
+#	platform   247 40  -20 -20 10 10 300 200
+	@cmd rotateunit
+        frame   data/chars/enemies/swordman/GONDOR8.PNG
+        frame   data/chars/enemies/swordman/GONDOR9.PNG
+        frame   data/chars/enemies/swordman/GONDOR91.PNG
+        frame   data/chars/enemies/swordman/GONDOR92.PNG
+        frame   data/chars/enemies/swordman/GONDOR2.PNG
+        frame   data/chars/enemies/swordman/GONDOR3.PNG
+        frame   data/chars/enemies/swordman/GONDOR4.PNG
+        frame   data/chars/enemies/swordman/GONDOR5.PNG
+        frame   data/chars/enemies/swordman/GONDOR6.PNG
+        frame   data/chars/enemies/swordman/GONDOR7.PNG
+
+
+anim death
+         loop   0
+         delay  10
+        offset  185 395
+	drawmethod	scale 	0.53 0.53
+         frame  data/chars/enemies/swordman/GOND1.png
+         frame  data/chars/enemies/swordman/GOND2.png
+         frame  data/chars/enemies/swordman/GOND3.png
+         frame  data/chars/enemies/swordman/GOND4.png
+         frame  data/chars/enemies/swordman/GOND5.png
+         frame  data/chars/enemies/swordman/GOND6.png
+         frame  data/chars/enemies/swordman/GOND7.png
+         frame  data/chars/enemies/swordman/GOND8.png

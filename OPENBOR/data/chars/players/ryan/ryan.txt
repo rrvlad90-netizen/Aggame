@@ -1,0 +1,265 @@
+name	Ryan
+health	5000
+speed	200
+type    player
+
+candamage npc obstacle
+jumpheight 1
+
+shadow  0
+noquake 1
+makeinv 4
+diesound data/sounds/die1.wav
+#icon     data/chars/players/Ryan/icon
+holdblock 1
+nodieblink 1
+nopain 1
+cantgrab 1
+notgrab 1
+turndelay 5
+death 1
+
+nodrop 2
+
+facing 1
+
+atchain     1 2 #3  kakie ataki budet dealt po oceredi
+
+palette  data/chars/players/Ryan/s
+
+
+subject_to_hole 0
+subject_to_obstacle 0
+subject_to_platform 0
+subject_to_wall 0
+
+animationscript data/scripts/myanimmmmm.c
+
+fmap    1
+
+#remap   data/chars/players/Ryan/stand data/chars/players/Ryan/fmap
+
+#com  d d a 	freespecial3
+#com  d d   	freespecial1
+#com  u u   	freespecial2
+
+
+com  s   	freespecial1
+#com  a2   	freespecial2
+
+
+com  d j   	freespecial7  #make building
+
+com  a3   	freespecial8  #make 1st type unit
+com  a4   	freespecial9  #make 2nd type unit
+
+
+
+
+
+anim spawn
+        loop    0
+        offset  38 96
+        bbox    0 0 0 0
+        delay   1
+#	@cmd decreasehealthh 4800
+	@cmd decreasehealthh 3150
+         frame   data/chars/players/Ryan/s
+
+anim idle
+        loop    1
+        offset  38 96
+#        bbox    0 150 200 100
+        bbox    0 0 0 0
+        delay   10
+         frame   data/chars/players/Ryan/s
+
+anim walk
+        loop    1
+        delay   15
+        offset  38 96
+#        bbox    0 150 200 100
+         bbox    0 0 0 0
+        frame   data/chars/players/Ryan/s
+
+
+anim attack1
+	hitflash empflash
+	fastattack	1
+        loop    0
+        delay   8
+        offset  38 96
+#        bbox    0 150 200 100
+        bbox    0 0 0 0
+#	sound   data/sounds/sword1.wav
+        frame   data/chars/players/Ryan/sb
+        frame   data/chars/players/Ryan/sb
+        frame   data/chars/players/Ryan/sb
+        frame   data/chars/players/Ryan/sb
+#       attack3  -40 20 150 76 0 0 0 0 0 200 
+        attack3  20 20 50 76 0 0 0 0 0 500 
+        delay   10
+        frame   data/chars/players/Ryan/sb
+        attack3  0 0 0 0 0 0 0 0 0
+        delay   8
+        frame   data/chars/players/Ryan/sb
+        frame   data/chars/players/Ryan/sb
+
+
+anim attack2
+	hitflash empflash
+        loop    0
+        delay   8
+        offset  38 96
+#        bbox    0 150 200 100
+        bbox    0 0 0 0
+        frame   data/chars/players/Ryan/s
+
+
+anim freespecial1
+	hitflash empflash
+	fastattack	1
+        loop    0
+        delay   8
+        offset  38 96
+#        bbox    0 150 200 100
+        bbox    0 0 0 0
+#	sound   data/sounds/sword1.wav
+        frame   data/chars/players/Ryan/sf
+        frame   data/chars/players/Ryan/sf
+        frame   data/chars/players/Ryan/sf
+        attack4  20 20 50 76 0 0 0 0 0 500 
+        delay   10
+        frame   data/chars/players/Ryan/sf
+        attack4  0 0 0 0 0 0 0 0 0
+        delay   8
+        frame   data/chars/players/Ryan/sf
+
+anim jump
+	hitflash empflash
+        loop    0
+        delay   1
+        offset  38 96
+#        bbox    0 150 200 100
+        bbox    0 0 0 0
+#	sound   data/sounds/sword1.wav
+        frame   data/chars/players/Ryan/sstay
+        attack2 20 20 50 76 0 0 0 0 0 500 
+        delay   10
+        frame   data/chars/players/Ryan/sstay
+        attack2  0 0 0 0 0 0 0 0 0
+        delay   8
+        frame   data/chars/players/Ryan/sstay
+
+
+anim fall
+         loop   0
+         delay  40
+        offset  38 96
+         frame   data/chars/players/Ryan/s
+         delay  20
+         frame   data/chars/players/Ryan/s
+         delay  10
+         frame   data/chars/players/Ryan/s
+
+anim death
+         loop   0
+         delay  40
+        offset  38 96
+         frame   data/chars/players/Ryan/s
+         delay  20
+         frame   data/chars/players/Ryan/s
+         delay  10
+         frame   data/chars/players/Ryan/s
+anim rise
+         loop   0
+         delay  15
+        offset  38 96
+         frame  data/chars/players/Ryan/s
+
+
+
+anim    freespecial7
+	hitflash empflash
+	fastattack	1
+        loop    0
+        delay   8
+        offset  38 96
+#        bbox    0 150 200 100
+        bbox    0 0 0 0
+#	sound   data/sounds/sword1.wav
+
+#	@script
+#	@end_script
+
+	@cmd gotoidleifhealthlower 50
+        frame   data/chars/players/Ryan/sa1
+
+	@cmd decreasehealthh 400
+        frame   data/chars/players/Ryan/sa1
+        frame   data/chars/players/Ryan/sa1
+        frame   data/chars/players/Ryan/sa1
+        attack7 -13450 20 14450 1 0 0 0 0 0
+        delay   10
+        frame   data/chars/players/Ryan/sa1
+        attack8  0 0 0 0 0 0 0 0 0
+        delay   120
+        frame   data/chars/players/Ryan/sa1
+
+
+anim    freespecial8
+	hitflash empflash
+	fastattack	1
+        loop    0
+        delay   8
+        offset  38 96
+#        bbox    0 150 200 100
+        bbox    0 0 0 0
+#	sound   data/sounds/sword1.wav
+
+#	@script
+#	@end_script
+
+	@cmd gotoidleifhealthlower 50
+        frame   data/chars/players/Ryan/sa1
+
+	@cmd decreasehealthh 50
+        frame   data/chars/players/Ryan/sa1
+        frame   data/chars/players/Ryan/sa1
+        frame   data/chars/players/Ryan/sa1
+        attack8  -13450 20 14450 1 0 0 0 0 0
+        delay   10
+        frame   data/chars/players/Ryan/sa1
+        attack8  0 0 0 0 0 0 0 0 0
+        delay   120
+        frame   data/chars/players/Ryan/sa1
+
+anim freespecial9
+	hitflash empflash
+	fastattack	1
+        loop    0
+        delay   8
+        offset  38 96
+#        bbox    0 150 200 100
+        bbox    0 0 0 0
+#	sound   data/sounds/sword1.wav
+
+	@cmd gotoidleifhealthlower 75
+        frame   data/chars/players/Ryan/sa2
+
+	@cmd decreasehealthh 75
+        frame   data/chars/players/Ryan/sa2
+        frame   data/chars/players/Ryan/sa2
+        frame   data/chars/players/Ryan/sa2
+        attack9  -13450 20 14450 1 0 0 0 0 0
+        delay   10
+        frame   data/chars/players/Ryan/sa2
+        attack9  0 0 0 0 0 0 0 0 0
+        delay   120
+        frame   data/chars/players/Ryan/sa2
+
+anim land
+         loop   0
+         delay  15
+        offset  38 96
+         frame  data/chars/players/Ryan/s

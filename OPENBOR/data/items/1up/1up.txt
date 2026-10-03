@@ -5,6 +5,8 @@ subtype touch
 grabdistance 1
 nolife 1
 
+offscreenkill 30000
+
 anim idle
 	loop 1
 	delay 15

@@ -1,0 +1,28 @@
+name	wallblock
+health	0
+type  none
+#nomove 1
+shadow	0
+setlayer 10
+
+subject_to_hole 0
+subject_to_obstacle 0
+subject_to_platform 0
+subject_to_gravity 0
+subject_to_minz 0
+subject_to_maxz 0
+
+offscreenkill 30000
+
+
+#palette  data/chars/wallblock/dd1.png
+palette  data/chars/wallblock/dd2.PNG
+
+
+anim idle
+        loop    1
+        delay   9
+	offset	24 20
+#	platform  -10  90  0  0  900  900  15  70
+	platform   40 31  -20 -20 10 10 300 200
+	frame	data/chars/wallblock/dd2.PNG

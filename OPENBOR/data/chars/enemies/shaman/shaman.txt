@@ -1,0 +1,116 @@
+name	shaman
+health	35
+nolife 1
+speed	8
+nopain 1
+#nomove 1
+type   enemy
+hostile npc
+candamage npc
+shadow  0
+noquake 1
+makeinv 4
+agression 90
+
+nodieblink 1
+atchain     1 2
+#load    fireballw
+nodrop 2
+
+facing 2
+
+offscreenkill 30000
+
+setlayer 7
+
+death 1
+
+palette  data/chars/enemies/shaman/w1.png
+#diesound data/sounds/rifdie.wav
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+subject_to_obstacle 0
+
+anim spawn
+	loop	0
+        offset  240 420
+	bbox 	160 100 270 323
+        delay   10
+	drawmethod	scale 	0.55 0.55
+        frame   data/chars/enemies/shaman/w1.png
+
+
+anim idle
+        loop    1
+        offset  240 420
+	bbox 	160 100 270 323
+        delay   10
+	drawmethod	scale 	0.55 0.55
+	platform   311 40  -20 -20 10 10 300 200
+        frame   data/chars/enemies/shaman/w1.png
+
+anim walk
+        loop    1
+        offset  240 420
+	bbox 	160 100 270 323
+        delay   4
+	drawmethod	scale 	0.55 0.55
+	platform   311 40  -20 -20 10 10 300 200
+        frame   data/chars/enemies/shaman/w1.png
+
+
+anim attack1
+#	custknife fireballw
+#	throwframe 4
+	bbox 	160 100 270 323
+	range	0 730
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.55 0.55
+        delay   7
+	platform   311 40  -20 -20 10 10 300 200
+        offset  240 420
+	@cmd rotateunit
+        frame   data/chars/enemies/shaman/w1.png
+	@cmd rotateunit
+        frame   data/chars/enemies/shaman/w1.png
+	@cmd rotateunit
+        frame   data/chars/enemies/shaman/a1.png
+	@cmd rotateunit
+#	sound   data/sounds/rifa1.wav
+	@cmd	projectile 2 "shamanball" 11 0 195 1 0 0  #11 dlinna  195 visota 
+        delay   19
+	@cmd rotateunit
+        frame   data/chars/enemies/shaman/a1.png
+	@cmd rotateunit
+        delay   19
+       	frame   data/chars/enemies/shaman/a1.png
+	@cmd rotateunit
+        delay   10
+        frame   data/chars/enemies/shaman/w1.png
+        frame   data/chars/enemies/shaman/w1.png
+        frame   data/chars/enemies/shaman/w1.png
+        frame   data/chars/enemies/shaman/w1.png
+        frame   data/chars/enemies/shaman/w1.png
+        frame   data/chars/enemies/shaman/w1.png
+        frame   data/chars/enemies/shaman/w1.png
+        frame   data/chars/enemies/shaman/w1.png
+        frame   data/chars/enemies/shaman/w1.png
+        frame   data/chars/enemies/shaman/w1.png
+        frame   data/chars/enemies/shaman/w1.png
+        frame   data/chars/enemies/shaman/w1.png
+
+
+anim death
+         loop   0
+         delay  10
+        offset  240 420
+	drawmethod	scale 	0.55 0.55
+        frame   data/chars/enemies/shaman/w1.png
+	 delay 1
+        frame   data/chars/enemies/shaman/w1.png
+
+

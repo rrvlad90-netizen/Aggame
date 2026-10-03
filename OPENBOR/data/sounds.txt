@@ -1,0 +1,3 @@
+urkfall1    data/chars/enemies/urukhai/orcd1.wav
+urkfall2    data/chars/enemies/urukhai/orcd2.wav
+urkfall3    data/chars/enemies/urukhai/orcd3.wav

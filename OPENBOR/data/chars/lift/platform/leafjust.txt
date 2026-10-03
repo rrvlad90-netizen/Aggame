@@ -1,0 +1,42 @@
+# Do not forget to name your character.
+# Health is optional.
+
+
+name	leafjust
+health	0
+type	none
+shadow	0
+setlayer 10
+
+facing 1
+
+subject_to_hole 0
+subject_to_obstacle 0
+subject_to_platform 0
+subject_to_gravity 0
+subject_to_minz 0
+subject_to_maxz 0
+
+#  alternatepal   data/chars/cave/plat1c.PNG
+#  alternatepal   data/chars/cave/plat1c.PNG
+#  alternatepal   data/chars/cave/plat1c.PNG
+
+
+
+		
+anim	idle
+	loop	1
+	delay	7
+	offset	30 30
+#	platform	80 38	-60 -60 50 50 60 20				
+	platform	70 31	-65 -65 9 9 30 20
+	frame	data/chars/leaf/leaf.PNG
+
+
+
+		
+
+#anim	attack1
+#anim	attack2
+#anim	attack3
+#anim	follow

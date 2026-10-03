@@ -1,0 +1,18 @@
+# Hit flash
+
+name	trollhit
+type	none
+shadow	0
+toflip 1
+
+palette data/chars/enemies/thrower/e1.png #1
+
+anim idle
+	loop	0
+	delay	3
+	offset     48 32
+	drawmethod	scale 	5 5
+	sound   data/sounds/s/MetalHeavyBashFlesh1.wav
+	frame	data/chars/enemies/thrower/e92.PNG
+	frame	data/chars/enemies/thrower/e92.PNG
+

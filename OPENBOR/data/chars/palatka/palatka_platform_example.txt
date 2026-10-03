@@ -1,0 +1,70 @@
+# Do not forget to name your character.
+# Health is optional.
+
+name	palatka1
+health	500
+type	npc
+shadow 0
+#icon	data/chars/misc/walll.gif
+nomove 1 1
+load Gondor
+death 1
+
+palette data/chars/palatka/a
+diesound data/sounds/wood.wav
+
+offscreenkill 30000
+
+anim spawn 
+	loop	0
+	delay	2
+	offset	282 192
+#	platform   247 40  -20 -20 10 10 300 200
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+
+anim idle
+	spawnframe 6 30 30 0 0
+#	custentity Gondor
+	loop	1
+	delay	170
+	offset	282 192
+	bbox	110 83 340 113
+	#platform {xpos} {zpos} {upperleft} {lowerleft} {upperright} {lowerright} {depth} {alt}
+	#depth - eto shirina sverhu vniz, esli 0  to platforma eto prosto linia
+	#kotoraya blokiruet po gorizontale, no esli ne  0
+	#to eto znacenie kotoroe blokiruet po verticali
+	platform	108 250 -32 -32 368 368 80 10
+
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+#
+
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+	frame	data/chars/palatka/a
+
+anim death
+	delay	1000
+	offset	272 199
+	frame	data/chars/palatka/a

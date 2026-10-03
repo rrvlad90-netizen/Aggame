@@ -1,14 +1,21 @@
 name item1
 type item
-health 200
+health 28
 subtype touch
 grabdistance 1
 nolife 1
 
+
+#setlayer 4
+
+subject_to_obstacle 0
+
+offscreenkill 30000
+
 anim idle
 	loop 1
-	delay 15
-	offset 45 54
-		bbox  0  0  119  117
-	frame	data/items/item1/1.png
+	delay 20
+	offset 18 42
+		bbox  41  48  9  7
+	frame	data/items/item1/potion.png
 

@@ -1,0 +1,101 @@
+name	elfmagebuild
+health	120
+nolife 1
+speed	9
+#nopain 1
+nomove 1
+type   npc
+#hostile obstacle
+#candamage none #player #obstacle 
+shadow  0
+noquake 1
+makeinv 4
+#agression 90
+#diesound data/chars/giantant/orc_attack_scream_09.wav
+
+nodieblink 1
+#atchain     1 2
+#load    fireballw
+nodrop 2
+
+facing 1
+
+setlayer 7
+
+offscreenkill 30000
+
+death 1
+
+palette  data/chars/enemies/buildings/elfmagebuild.png
+#diesound data/sounds/rifdie.wav
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+anim spawn
+	loop	0
+        offset  270 432
+	bbox 	106 0 410 600
+	drawmethod	scale 	0.97 0.97
+        delay   10
+        frame   data/chars/enemies/buildings/elfmagebuild.png
+
+
+anim idle
+        loop    1
+        offset  270 432
+	bbox 	106 0 410 600
+	drawmethod	scale 	0.97 0.97
+        delay   10
+#	platform   311 40  -20 -20 10 10 300 200
+        frame   data/chars/enemies/buildings/elfmagebuild.png
+
+
+anim pain8
+	spawnframe 1     5 0 5 0   #pervaya cifra - y, vtoraya - x
+	custentity sorceres2
+        loop    0
+        offset  270 432
+	bbox 	106 0 410 600
+	drawmethod	scale 	0.97 0.97
+        delay   10
+        frame   data/chars/enemies/buildings/elfmagebuild.png
+        frame   data/chars/enemies/buildings/elfmagebuild.png
+	@cmd changeAnimation "ANI_FOLLOW1"
+        frame   data/chars/enemies/buildings/elfmagebuild.png
+
+anim follow1
+	spawnframe 1     5 0 5 0
+	custentity sorceres
+        loop    0
+        offset  270 432
+	bbox 	106 0 410 600
+	drawmethod	scale 	0.97 0.97
+        delay   10
+        frame   data/chars/enemies/buildings/elfmagebuild.png
+        frame   data/chars/enemies/buildings/elfmagebuild.png
+        delay   300
+        frame   data/chars/enemies/buildings/elfmagebuild.png
+
+
+anim walk
+        loop    1
+        offset  270 432
+	bbox 	106 0 410 600
+	drawmethod	scale 	0.97 0.97
+        delay   8
+        frame   data/chars/enemies/buildings/elfmagebuild.png
+
+
+anim death
+         loop  0 
+        offset  270 432
+	spawnframe 1     5 0 5 0
+	custentity elfmagebuildplace
+         delay  10
+	drawmethod	scale 	0.97 0.97
+         frame   data/chars/enemies/buildings/elfmagebuild.png
+         frame   data/chars/enemies/buildings/elfmagebuild.png
+
+

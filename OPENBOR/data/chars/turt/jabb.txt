@@ -1,0 +1,49 @@
+
+
+name	jabb
+type	none
+shadow  0
+speed  4
+subject_to_hole 0
+subject_to_obstacle 0
+subject_to_platform 0
+subject_to_gravity 0 
+palette data/chars/turt/jabb.gif
+gfxshadow   0
+toflip  1
+ offscreenkill  200
+ candamage player #enemy npc obstacle
+  lifespan  5
+
+
+remove  0
+
+anim	idle
+	loop	0
+	offset	6 6
+	bbox	0 0 0 0
+	jumpframe	1 2 -1
+	landframe	2
+	sound	data/sounds/jabb.wav
+	hitfx	data/sounds/0.wav
+	delay	7
+	attackone	1
+	attack	0 0 14 14 20 0 0 0 0
+	frame	data/chars/turt/jabb2.gif
+	frame	data/chars/turt/jabb.gif
+	frame	data/chars/turt/jabb2.gif
+	frame	data/chars/turt/jabb.gif
+	frame	data/chars/turt/jabb2.gif
+	frame	data/chars/turt/jabb.gif
+	frame	data/chars/turt/jabb2.gif
+	frame	data/chars/turt/jabb.gif
+
+
+anim	death
+	loop	0
+	offset	6 6
+	frame	data/chars/turt/jabb2.gif
+
+		
+#|edited by openBor Stats v 0.67
+		

@@ -1,0 +1,90 @@
+# Street
+music		data/music/LightingoftheBeacons.Ogg
+bossmusic       data/music/LightingoftheBeacons.Ogg
+palette		data/bgs/Bridge/bb1.png
+
+# Load images
+#background	data/bgs/Bridge/bb2.png
+
+# Front layer
+#frontpanel	data/bgs/jungle/fg-01.gif
+#frontpanel	data/bgs/jungle/fg-01.gif
+#frontpanel	data/bgs/jungle/fg-02.gif
+#frontpanel	data/bgs/jungle/fg-01.gif
+#frontpanel	data/bgs/jungle/fg-02.gif
+
+# Load 'panels'. Up to 26 panels can be loaded.
+# They can be referenced using A-Z
+# Specify normal, neon and screen, or 'none'
+
+panel		data/bgs/Bridge/bb1.png none none
+
+direction both
+
+settime 0
+notime  1
+
+scrollspeed 50
+cameratype  1
+cameraoffset 20  -180
+
+
+spawn1  380 415
+
+# Set the order (don't make the lines too long)
+# Syntax:
+#	order	[a...z]		(a sequence of panels, e.g. abcdefghij)
+#	order	[a...z]
+#
+order a
+
+# Spawn format:
+#
+#	spawn	[id]
+#	alias	[name]		(change the displayed name, optional)
+#	map	[num]		(colourmap, range 0-3, optional)
+#	health	[num]		(optional)
+#	item	[id]		(obstacles only: contained item, optional)
+#	boss	[0/1]		(see below, optional)
+#	flip	[0/1]		(0 = face left, 1 = face right, optional)
+#	coords	[num] [num]	(coords relative to scrollpos)
+#	at	[scrollpos]
+#
+# Also:
+#	wait			(blocks scrolling until all enemies defeated)
+#	at	[scrollpos]
+#
+# And:
+#	group	[min] [max]	(set minimum and maximum enemies, see below)
+#	at	[scrollpos]
+#
+#
+#
+# Using group, you may set two values, namely:
+#
+# [min]
+# If the number of enemies drops below [min], more enemies will be spawned
+# (if possible).
+#
+# [max]
+# No more than [max] enemies will be present.
+#
+# So, to make enemies appear in groups of four, use this:
+# group 1 4
+#
+# To make them appear normally, use this:
+# group 4 4
+
+#wall 610 250 -130 -130 110 110 100 5000 
+#wall 400 320 -100 -100 300 300 100 5000 
+#wall 550 290 -100 -100 600 600 100 5000
+#wall 1670 280 -100 -100 800 800 100 5000  
+#wall 1670 110 -100 -100 800 800 100 5000 
+#wall 2924 130 -100 -100 800 800 100 5000
+#--group1-----
+
+
+spawn   palatka1
+coords  680 1615
+at      0
+

@@ -1,0 +1,68 @@
+# Do not forget to name your character.
+# Health is optional.
+
+name	palatka11
+health	400
+type	npc
+shadow 0
+#icon	data/chars/misc/walll.gif
+nomove 1 1
+load Gondor
+death 1
+
+palette data/chars/palatka/empty
+diesound data/sounds/wood.wav
+
+#offscreenkill 30000
+
+
+anim spawn 
+	loop	0
+	delay	2
+	drawmethod	scale 	1 1.5
+	offset	272 199
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+
+#
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+
+anim idle
+	spawnframe 6 30 30 0 0
+	custentity Gondor
+	loop	1
+	delay	220 #170
+	drawmethod	scale 	1 1.5	
+	offset	272 199
+	bbox	110 83 340 113
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+	frame	data/chars/palatka/empty
+
+anim death
+	delay	1000
+	drawmethod	scale 	1 1.5	
+	offset	272 199
+	frame	data/chars/palatka/empty

@@ -1,0 +1,303 @@
+name	gondorarcher
+health	30
+nolife 1
+speed	4
+#nopain 1
+nomove 1
+type   npc
+hostile enemy
+candamage enemy
+shadow  0
+noquake 1
+makeinv 4
+agression 90
+#diesound data/chars/giantant/orc_attack_scream_09.wav
+
+nodieblink 1
+atchain     1 2
+#load    fireballw
+nodrop 2
+
+offscreenkill 30000
+
+death 1
+
+palette  data/chars/enemies/gondorarcher/arch1
+diesound data/sounds/rifdie.wav
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+anim spawn
+	loop	0
+        offset  183 222
+	bbox 	135 95 90 140
+        delay   10
+	drawmethod	scale 	0.7 0.7
+        frame   data/chars/enemies/gondorarcher/arch1
+
+
+
+anim pain4    #vpered
+	bbox 	135 95 90 140
+#	range	0 580
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.7 0.7
+        delay   1
+        offset  183 222
+	@cmd rotateright
+        frame   data/chars/enemies/gondorarcher/arch1
+	@cmd makespeedunit 1
+        frame   data/chars/enemies/gondorarcher/arch1
+
+anim pain3   #nazad
+	bbox 	135 95 90 140
+#	range	0 580
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.7 0.7
+        delay   1
+        offset  183 222
+	@cmd changeAnimation "ANI_FOLLOW2"
+        frame   data/chars/enemies/gondorarcher/arch1
+
+anim pain2   #Stay
+	bbox 	135 95 90 140
+#	range	0 580
+	fastattack 1
+        loop   0
+	drawmethod	scale 	0.7 0.7
+        delay   1
+        offset  183 222
+	@cmd makenomovetrue
+        frame   data/chars/enemies/gondorarcher/arch1
+
+#anim idle
+#        loop    1
+#        offset  183 222
+#	bbox 	135 95 90 140
+#        delay   10
+#	drawmethod	scale 	0.7 0.7
+#	platform   311 40  -20 -20 10 10 300 200
+#       frame   data/chars/enemies/gondorarcher/arch1
+
+
+anim follow2
+        loop    1
+        offset  183 222
+	bbox 	135 95 90 140
+        delay   5
+	drawmethod	scale 	0.7 0.7
+        frame   data/chars/enemies/gondorarcher/archw1
+        frame   data/chars/enemies/gondorarcher/archw2
+        frame   data/chars/enemies/gondorarcher/archw3
+        frame   data/chars/enemies/gondorarcher/archw4
+        frame   data/chars/enemies/gondorarcher/archw5
+        frame   data/chars/enemies/gondorarcher/archw6
+        frame   data/chars/enemies/gondorarcher/archw7
+        frame   data/chars/enemies/gondorarcher/archw8
+        frame   data/chars/enemies/gondorarcher/archw9
+        frame   data/chars/enemies/gondorarcher/archw91
+        frame   data/chars/enemies/gondorarcher/archw92
+        frame   data/chars/enemies/gondorarcher/archw93
+        frame   data/chars/enemies/gondorarcher/archw94
+        frame   data/chars/enemies/gondorarcher/archw95
+        frame   data/chars/enemies/gondorarcher/archw96
+        frame   data/chars/enemies/gondorarcher/archw97
+        frame   data/chars/enemies/gondorarcher/archw98
+        frame   data/chars/enemies/gondorarcher/archw99
+        frame   data/chars/enemies/gondorarcher/archw991
+        frame   data/chars/enemies/gondorarcher/archw992
+        frame   data/chars/enemies/gondorarcher/archw993
+        frame   data/chars/enemies/gondorarcher/archw994
+        frame   data/chars/enemies/gondorarcher/archw995
+
+
+
+anim follow3
+        loop    1
+        offset  183 222
+	bbox 	135 95 90 140
+        delay   10
+	drawmethod	scale 	0.7 0.7
+        frame   data/chars/enemies/gondorarcher/arch1
+
+anim idle
+        loop    1
+        offset  183 222
+	bbox 	135 95 90 140
+        delay   5
+	drawmethod	scale 	0.7 0.7
+	move 4
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw1
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw2
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw3
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw4
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw5
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw6
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw7
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw8
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw9
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw91
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw92
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw93
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw94
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw95
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw96
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw97
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw98
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw99
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw991
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw992
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw993
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw994
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/archw995
+
+
+anim pain6
+	bbox 	135 95 90 140
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.7 0.7
+        delay   2
+        offset  183 222
+	@cmd rotateunit
+        frame   data/chars/enemies/gondorarcher/archa1
+	@cmd rotateunit
+        frame   data/chars/enemies/gondorarcher/archa2
+	@cmd rotateunit
+        frame   data/chars/enemies/gondorarcher/archa3
+        frame   data/chars/enemies/gondorarcher/archa4
+        frame   data/chars/enemies/gondorarcher/archa5
+        frame   data/chars/enemies/gondorarcher/archa6
+        frame   data/chars/enemies/gondorarcher/archa7
+        frame   data/chars/enemies/gondorarcher/archa8
+        frame   data/chars/enemies/gondorarcher/archa9
+        frame   data/chars/enemies/gondorarcher/archa91
+        frame   data/chars/enemies/gondorarcher/archa92
+        frame   data/chars/enemies/gondorarcher/archa93
+        frame   data/chars/enemies/gondorarcher/archa94
+        frame   data/chars/enemies/gondorarcher/archa95
+        frame   data/chars/enemies/gondorarcher/archa96
+        frame   data/chars/enemies/gondorarcher/archa97
+        frame   data/chars/enemies/gondorarcher/archa98
+	sound   data/sounds/rifa1.wav
+        delay   19
+	@cmd rotateunit
+        frame   data/chars/enemies/gondorarcher/archa98
+        delay   2
+	@cmd	projectile 2 "arroww" 11 0 65 1 0 0  #11 dlinna  65 visota
+        frame   data/chars/enemies/gondorarcher/archa99
+        frame   data/chars/enemies/gondorarcher/archa991
+        frame   data/chars/enemies/gondorarcher/archa992
+        frame   data/chars/enemies/gondorarcher/archa993
+        frame   data/chars/enemies/gondorarcher/archa994
+        frame   data/chars/enemies/gondorarcher/archa995
+        frame   data/chars/enemies/gondorarcher/archa996
+	@cmd rotateunit
+        delay   138
+        frame   data/chars/enemies/gondorarcher/arch1
+	@cmd rotateunit
+        delay   56
+#	@cmd  goto_if_nearx
+        frame   data/chars/enemies/gondorarcher/arch1
+	delay 1
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/arch1
+
+
+
+anim attack1
+	bbox 	135 95 90 140
+	range	979 980
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.7 0.7
+        delay   2
+        offset  183 222
+	@cmd rotateunit
+        frame   data/chars/enemies/gondorarcher/archa1
+	@cmd rotateunit
+        frame   data/chars/enemies/gondorarcher/archa2
+	@cmd rotateunit
+        frame   data/chars/enemies/gondorarcher/archa3
+        frame   data/chars/enemies/gondorarcher/archa4
+        frame   data/chars/enemies/gondorarcher/archa5
+        frame   data/chars/enemies/gondorarcher/archa6
+        frame   data/chars/enemies/gondorarcher/archa7
+        frame   data/chars/enemies/gondorarcher/archa8
+        frame   data/chars/enemies/gondorarcher/archa9
+        frame   data/chars/enemies/gondorarcher/archa91
+        frame   data/chars/enemies/gondorarcher/archa92
+        frame   data/chars/enemies/gondorarcher/archa93
+        frame   data/chars/enemies/gondorarcher/archa94
+        frame   data/chars/enemies/gondorarcher/archa95
+        frame   data/chars/enemies/gondorarcher/archa96
+        frame   data/chars/enemies/gondorarcher/archa97
+        frame   data/chars/enemies/gondorarcher/archa98
+	sound   data/sounds/rifa1.wav
+        delay   19
+	@cmd rotateunit
+        frame   data/chars/enemies/gondorarcher/archa98
+        delay   2
+	@cmd	projectile 2 "arroww" 11 0 65 1 0 0  #11 dlinna  65 visota
+        frame   data/chars/enemies/gondorarcher/archa99
+        frame   data/chars/enemies/gondorarcher/archa991
+        frame   data/chars/enemies/gondorarcher/archa992
+        frame   data/chars/enemies/gondorarcher/archa993
+        frame   data/chars/enemies/gondorarcher/archa994
+        frame   data/chars/enemies/gondorarcher/archa995
+        frame   data/chars/enemies/gondorarcher/archa996
+	@cmd rotateunit
+        delay   138
+        frame   data/chars/enemies/gondorarcher/arch1
+	@cmd rotateunit
+        delay   56
+#	@cmd  goto_if_nearx
+        frame   data/chars/enemies/gondorarcher/arch1
+	delay 1
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/gondorarcher/arch1
+
+anim death
+         loop   0
+         delay  10
+        offset  183 222
+	drawmethod	scale 	0.7 0.7
+         frame   data/chars/enemies/gondorarcher/archd1
+         frame   data/chars/enemies/gondorarcher/archd2
+         frame   data/chars/enemies/gondorarcher/archd3
+         frame   data/chars/enemies/gondorarcher/archd4
+         frame   data/chars/enemies/gondorarcher/archd5
+         frame   data/chars/enemies/gondorarcher/archd6
+         frame   data/chars/enemies/gondorarcher/archd7
+         frame   data/chars/enemies/gondorarcher/archd8
+	 delay 500
+         frame   data/chars/enemies/gondorarcher/archd8
+
+

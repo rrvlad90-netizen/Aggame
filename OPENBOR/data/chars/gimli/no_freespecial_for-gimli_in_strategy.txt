@@ -1,0 +1,43 @@
+anim freespecial1
+        loop    0
+        offset  180 256
+    	bbox    110 100 110 160
+	drawmethod	scale 	0.66 0.66
+        delay   2
+       frame   data/chars/gimli/GIMLIT1.png
+	sound   data/sounds/sword1.wav
+       frame   data/chars/gimli/GIMLIT2.png
+       frame   data/chars/gimli/GIMLIT3.png
+       frame   data/chars/gimli/GIMLIT4.png
+       frame   data/chars/gimli/GIMLIT5.png
+       frame   data/chars/gimli/GIMLIT6.png
+       frame   data/chars/gimli/GIMLIT7.png
+       frame   data/chars/gimli/GIMLIT8.png
+        offset  193 220
+       frame   data/chars/gimli/GIMLIT9.png
+       frame   data/chars/gimli/GIMLIT91.png
+       frame   data/chars/gimli/GIMLIT92.png
+       frame   data/chars/gimli/GIMLIT93.png
+       frame   data/chars/gimli/GIMLIT94.png
+       frame   data/chars/gimli/GIMLIT95.png
+       frame   data/chars/gimli/GIMLIT96.png
+       frame   data/chars/gimli/GIMLIT97.png
+	sound   data/sounds/bbeat1.wav
+#	attack3  200 140 170 180 3 0 0 0 5
+       frame   data/chars/gimli/GIMLIT98.png
+#	attack3  0 0 0 0 0 0 0 0 0
+       frame   data/chars/gimli/GIMLIT99.png
+       frame   data/chars/gimli/GIMLIT991.png
+       frame   data/chars/gimli/GIMLIT992.png
+       frame   data/chars/gimli/GIMLIT993.png
+       frame   data/chars/gimli/GIMLIT994.png
+       frame   data/chars/gimli/GIMLIT995.png
+       frame   data/chars/gimli/GIMLIT996.png
+       frame   data/chars/gimli/GIMLIT997.png
+       frame   data/chars/gimli/GIMLIT998.png
+       frame   data/chars/gimli/GIMLIT999.png
+       frame   data/chars/gimli/GIMLIT9991.png
+       frame   data/chars/gimli/GIMLIT9992.png
+       frame   data/chars/gimli/GIMLIT9993.png
+       frame   data/chars/gimli/GIMLIT9994.png
+       frame   data/chars/gimli/GIMLIT9995.png

@@ -1,0 +1,213 @@
+name	urukcrossbow
+health	30
+nolife 1
+speed	4
+nopain 1
+nomove 1
+type   enemy
+hostile npc
+candamage npc
+shadow  0
+noquake 1
+makeinv 4
+agression 90
+#diesound data/chars/giantant/orc_attack_scream_09.wav
+
+nodieblink 1
+atchain     1 2
+#load    fireballw
+nodrop 2
+
+offscreenkill 30000
+
+death 1
+
+palette  data/chars/enemies/urukcross/urukcrossbwss
+
+subject_to_obstacle 0
+
+
+animationscript data/scripts/myanimmmmm.c
+
+
+anim spawn
+	loop	0
+        offset  145 245
+	bbox 	140 140 80 105
+        delay   10
+	drawmethod	scale 	0.7 0.7
+        frame   data/chars/enemies/urukcross/urukcrossbwss
+
+
+#anim idle
+#        loop    1
+#        offset  145 245
+#	bbox 	140 180 80 65
+#       delay   10
+#	drawmethod	scale 	0.7 0.7
+#	platform   311 40  -20 -20 10 10 300 200
+#        frame   data/chars/enemies/urukcross/urukcrossbwss
+
+anim idle
+        loop    1
+        offset  145 245
+	bbox 	140 140 80 105
+        delay   5
+	drawmethod	scale 	0.7 0.7
+	move 4
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw1
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw2
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw3
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw4
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw5
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw6
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw7
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw9
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw91
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw92
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw93
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw94
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw95
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw96
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw97
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw98
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw99
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw991
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw992
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw993
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw994
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw995
+
+
+anim follow1
+        loop    1
+        offset  145 245
+	bbox 	140 140 80 105
+        delay   5
+	drawmethod	scale 	0.7 0.7
+	move 4
+        frame   data/chars/enemies/urukcross/urukcrossbw1
+        frame   data/chars/enemies/urukcross/urukcrossbw2
+        frame   data/chars/enemies/urukcross/urukcrossbw3
+        frame   data/chars/enemies/urukcross/urukcrossbw4
+        frame   data/chars/enemies/urukcross/urukcrossbw5
+        frame   data/chars/enemies/urukcross/urukcrossbw6
+        frame   data/chars/enemies/urukcross/urukcrossbw7
+        frame   data/chars/enemies/urukcross/urukcrossbw9
+        frame   data/chars/enemies/urukcross/urukcrossbw91
+        frame   data/chars/enemies/urukcross/urukcrossbw92
+        frame   data/chars/enemies/urukcross/urukcrossbw93
+        frame   data/chars/enemies/urukcross/urukcrossbw94
+        frame   data/chars/enemies/urukcross/urukcrossbw95
+        frame   data/chars/enemies/urukcross/urukcrossbw96
+        frame   data/chars/enemies/urukcross/urukcrossbw97
+        frame   data/chars/enemies/urukcross/urukcrossbw98
+        frame   data/chars/enemies/urukcross/urukcrossbw99
+        frame   data/chars/enemies/urukcross/urukcrossbw991
+        frame   data/chars/enemies/urukcross/urukcrossbw992
+        frame   data/chars/enemies/urukcross/urukcrossbw993
+        frame   data/chars/enemies/urukcross/urukcrossbw994
+        delay   4
+        frame   data/chars/enemies/urukcross/urukcrossbw995
+        delay   1
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbw995
+
+
+anim attack1
+	bbox 	140 140 80 105
+	range	0 980
+	fastattack 1
+        loop    0
+	drawmethod	scale 	0.7 0.7
+        delay   3
+        offset  145 245
+	@cmd rotateunit
+        frame   data/chars/enemies/urukcross/urukcrossbwa1
+	@cmd rotateunit
+        frame   data/chars/enemies/urukcross/urukcrossbwa2
+	@cmd rotateunit
+        frame   data/chars/enemies/urukcross/urukcrossbwa3
+	sound   data/sounds/rifa1.wav
+        delay   19
+	@cmd rotateunit
+        frame   data/chars/enemies/urukcross/urukcrossbwa3
+        delay   3
+	@cmd	projectile 2 "arroww2" 11 0 105 1 0 1  #11 dlinna  95 visota
+        frame   data/chars/enemies/urukcross/urukcrossbwa4
+        frame   data/chars/enemies/urukcross/urukcrossbwa5
+        frame   data/chars/enemies/urukcross/urukcrossbwa6
+        frame   data/chars/enemies/urukcross/urukcrossbwa7
+        frame   data/chars/enemies/urukcross/urukcrossbwa8
+        frame   data/chars/enemies/urukcross/urukcrossbwa9
+        frame   data/chars/enemies/urukcross/urukcrossbwa91
+        frame   data/chars/enemies/urukcross/urukcrossbwa92
+        frame   data/chars/enemies/urukcross/urukcrossbwa93
+        frame   data/chars/enemies/urukcross/urukcrossbwa94
+        frame   data/chars/enemies/urukcross/urukcrossbwa95
+        frame   data/chars/enemies/urukcross/urukcrossbwa96
+        frame   data/chars/enemies/urukcross/urukcrossbwa97
+        frame   data/chars/enemies/urukcross/urukcrossbwa98
+        frame   data/chars/enemies/urukcross/urukcrossbwa99
+        frame   data/chars/enemies/urukcross/urukcrossbwa991
+        frame   data/chars/enemies/urukcross/urukcrossbwa992
+        frame   data/chars/enemies/urukcross/urukcrossbwa993
+        frame   data/chars/enemies/urukcross/urukcrossbwa994
+        frame   data/chars/enemies/urukcross/urukcrossbwa995
+        frame   data/chars/enemies/urukcross/urukcrossbwa996
+        frame   data/chars/enemies/urukcross/urukcrossbwa997
+        frame   data/chars/enemies/urukcross/urukcrossbwa998
+	@cmd rotateunit
+        delay   138
+        frame   data/chars/enemies/urukcross/urukcrossbwa998
+	@cmd rotateunit
+        delay   56
+#	@cmd  goto_if_nearx
+        frame   data/chars/enemies/urukcross/urukcrossbwa998
+	delay 1
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbwa998
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbwa998
+	@cmd  goto_if_nearx_archer
+        frame   data/chars/enemies/urukcross/urukcrossbwa998
+
+anim death
+         loop   0
+         delay  10
+        offset  145 245
+	drawmethod	scale 	0.7 0.7
+         frame   data/chars/enemies/urukcross/urukcrossbwd1
+         frame   data/chars/enemies/urukcross/urukcrossbwd2
+         frame   data/chars/enemies/urukcross/urukcrossbwd3
+         frame   data/chars/enemies/urukcross/urukcrossbwd4
+         frame   data/chars/enemies/urukcross/urukcrossbwd5
+         frame   data/chars/enemies/urukcross/urukcrossbwd6
+         frame   data/chars/enemies/urukcross/urukcrossbwd7
+         frame   data/chars/enemies/urukcross/urukcrossbwd7
+	 delay 500
+         frame   data/chars/enemies/urukcross/urukcrossbwd7
+
+

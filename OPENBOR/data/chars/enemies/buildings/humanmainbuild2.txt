@@ -1,0 +1,204 @@
+name	humanmainbuild2
+health	250
+nolife 1
+speed	9
+#nopain 1
+nomove 1
+type   npc
+hostile none #obstacle
+candamage none #player #obstacle 
+shadow  0
+noquake 1
+makeinv 4
+#agression 90
+#diesound data/chars/giantant/orc_attack_scream_09.wav
+
+nodieblink 1
+#atchain     1 2
+#load    fireballw
+nodrop 2
+
+facing 1
+
+setlayer 7
+
+offscreenkill 30000
+
+death 1
+
+palette  data/chars/enemies/buildings/humanmainbuild.png
+#diesound data/sounds/rifdie.wav
+
+load swordman
+load gondorarcher
+
+animationscript data/scripts/myanimmmmm.c
+
+
+anim spawn
+	loop	0
+        offset  270 400
+	bbox 	106 0 410 400
+	drawmethod	scale 	1.37 1.37
+        delay   10
+	attack11 10 0 410 400 10 0 0 0 0
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+
+
+anim idle
+        loop    1
+        offset  270 400
+	bbox 	106 0 410 400
+	drawmethod	scale 	1.37 1.37
+        delay   10
+#	platform   311 40  -20 -20 10 10 300 200
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+#	attack11 0 0 0 0 0 0 0 0 0
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        delay  600
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+
+
+anim pain8
+	spawnframe 1     5 0 5 0   #pervaya cifra - y, vtoraya - x
+	custentity Swordman
+        loop    0
+        offset  270 400
+	bbox 	106 0 410 400
+	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+	@cmd changeAnimation "ANI_FOLLOW1"
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+
+anim follow1
+	spawnframe 1     5 0 5 0
+	custentity Swordman
+        loop    0
+        offset  270 400
+	bbox 	106 0 410 400
+	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+	@cmd changeAnimation "ANI_FOLLOW2"
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        delay   300
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+
+
+anim follow2
+	spawnframe 1     5 0 5 0
+	custentity Swordman
+        loop    0
+        offset  270 400
+	bbox 	106 0 410 400
+	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+	@cmd changeAnimation "ANI_ATTACK1"
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        delay   300
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+
+
+#
+
+anim attack1
+	spawnframe 1     5 0 5 0
+	custentity Swordman
+        loop    0
+        offset  270 400
+	bbox 	106 0 410 400
+	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+	@cmd changeAnimation "ANI_ATTACK2"
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        delay   300
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+
+
+anim attack2
+	spawnframe 1     5 0 5 0
+	custentity Swordman
+        loop    0
+        offset  270 400
+	bbox 	106 0 410 400
+	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        delay   300
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+
+
+
+###############################################
+
+
+anim pain9
+	spawnframe 1     5 0 5 0
+	custentity gondorarcher
+        loop    0
+        offset  270 400
+	bbox 	106 0 410 400
+	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+	@cmd changeAnimation "ANI_FOLLOW3"
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        delay   300
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+
+
+anim follow3
+	spawnframe 1     5 0 5 0
+	custentity gondorarcher
+        loop    0
+        offset  270 400
+	bbox 	106 0 410 400
+	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+	@cmd changeAnimation "ANI_FOLLOW4"
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        delay   300
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+
+
+anim follow4
+	spawnframe 1     5 0 5 0
+	custentity gondorarcher
+        loop    0
+        offset  270 400
+	bbox 	106 0 410 400
+	drawmethod	scale 	1.37 1.37
+        delay   10
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+        delay   300
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+
+anim walk
+        loop    1
+        offset  270 400
+	bbox 	106 0 410 400
+	drawmethod	scale 	1.37 1.37
+        delay   8
+        frame   data/chars/enemies/buildings/humanmainbuild.png
+
+
+anim death
+         loop   0
+         delay  10
+        offset  270 400
+	drawmethod	scale 	1.37 1.37
+         frame   data/chars/enemies/buildings/humanmainbuild.png
+
+

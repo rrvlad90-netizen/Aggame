@@ -1,0 +1,15 @@
+#	music		[path] [loop]		# BOR file to play
+#	animation	[path] [x] [y]		# GIF animation to play
+#	silence					# Stop music
+
+
+animation	data/scenes/batl1win 20 0
+animation	data/scenes/batl1win 20 0
+animation	data/scenes/batl1win 20 0
+animation	data/scenes/batl1win 20 0
+animation	data/scenes/batl1win 20 0
+animation	data/scenes/batl1win 20 0
+animation	data/scenes/batl1win 20 0
+animation	data/scenes/batl1win 20 0
+animation	data/scenes/batl1win 20 0
+animation	data/scenes/batl1win 20 0

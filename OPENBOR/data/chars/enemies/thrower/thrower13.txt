@@ -1,0 +1,64 @@
+name	Thrower13
+health	30
+nolife 1
+speed	6
+nopain 1
+nomove 1
+type   enemy
+shadow  0
+noquake 1
+makeinv 4
+agression 90
+#diesound data/chars/giantant/orc_attack_scream_09.wav
+
+nodieblink 1
+atchain     1 2
+facing 2
+
+death 1
+
+palette  data/chars/enemies/thrower/tt.png
+
+
+offscreenkill 30000
+
+
+
+anim spawn
+	loop	0
+        offset  13 31
+        delay   10
+        frame   data/chars/enemies/thrower/tt.png
+
+
+anim idle
+        loop    1
+        offset  13 31
+        delay   100
+	attack3  6 0 14 30 3 0 0 0 5
+        frame   data/chars/enemies/thrower/tt.png
+
+
+anim attack1
+	range	55 280
+	fastattack 1
+        loop    0
+        delay   39
+        offset  13 31
+        frame   data/chars/enemies/thrower/tt.png
+        delay   19
+	@cmd	projectile 2 "fireball" 11 0 32 1 0 0  #11 dlinna  32 visota
+        frame   data/chars/enemies/thrower/tt.png
+        delay   128
+        frame   data/chars/enemies/thrower/tt.png
+        delay   20
+        frame   data/chars/enemies/thrower/tt.png
+
+
+anim death
+         loop   0
+         delay  5
+        offset  13 31
+         frame   data/chars/enemies/thrower/tt.png
+
+

@@ -1,0 +1,416 @@
+# Street
+music		data/music/LightingoftheBeacons.Ogg
+#bossmusic       data/music/LightingoftheBeacons.Ogg
+palette		data/bgs/Bridge/bb1.png
+
+# Load images
+#background	data/bgs/Bridge/bb2.png
+
+# Front layer
+#frontpanel	data/bgs/jungle/fg-01.gif
+#frontpanel	data/bgs/jungle/fg-01.gif
+#frontpanel	data/bgs/jungle/fg-02.gif
+#frontpanel	data/bgs/jungle/fg-01.gif
+#frontpanel	data/bgs/jungle/fg-02.gif
+
+# Load 'panels'. Up to 26 panels can be loaded.
+# They can be referenced using A-Z
+# Specify normal, neon and screen, or 'none'
+
+panel		data/bgs/Bridge/bb1.png none none
+
+direction both
+
+settime 0
+notime  1
+
+scrollspeed 50
+cameratype  1
+cameraoffset 20  -180
+
+
+spawn1  380 415
+
+# Set the order (don't make the lines too long)
+# Syntax:
+#	order	[a...z]		(a sequence of panels, e.g. abcdefghij)
+#	order	[a...z]
+#
+order a
+
+# Spawn format:
+#
+#	spawn	[id]
+#	alias	[name]		(change the displayed name, optional)
+#	map	[num]		(colourmap, range 0-3, optional)
+#	health	[num]		(optional)
+#	item	[id]		(obstacles only: contained item, optional)
+#	boss	[0/1]		(see below, optional)
+#	flip	[0/1]		(0 = face left, 1 = face right, optional)
+#	coords	[num] [num]	(coords relative to scrollpos)
+#	at	[scrollpos]
+#
+# Also:
+#	wait			(blocks scrolling until all enemies defeated)
+#	at	[scrollpos]
+#
+# And:
+#	group	[min] [max]	(set minimum and maximum enemies, see below)
+#	at	[scrollpos]
+#
+#
+#
+# Using group, you may set two values, namely:
+#
+# [min]
+# If the number of enemies drops below [min], more enemies will be spawned
+# (if possible).
+#
+# [max]
+# No more than [max] enemies will be present.
+#
+# So, to make enemies appear in groups of four, use this:
+# group 1 4
+#
+# To make them appear normally, use this:
+# group 4 4
+
+#wall 610 250 -130 -130 110 110 100 5000 
+#wall 400 320 -100 -100 300 300 100 5000 
+#wall 550 290 -100 -100 600 600 100 5000
+#wall 1670 280 -100 -100 800 800 100 5000  
+#wall 1670 110 -100 -100 800 800 100 5000 
+#wall 2924 130 -100 -100 800 800 100 5000
+#--group1-----
+
+
+trollwaitbeatemup
+
+spawn  trollwaitbeatemup
+coords  4485 1202
+at      0
+
+#----------------
+
+#spawn	Strong2
+#coords  91 229
+#flip    1
+#at      0
+
+#----------------
+
+group 1 53
+at 0
+
+#wait
+#at 0
+
+spawn   tree2
+coords  485 602
+at      0
+
+spawn   rock14
+coords  1443 898
+at      0
+
+spawn   rock13
+coords  1338 700
+at      0
+
+spawn   rock13
+coords  1195 761
+at      0
+
+spawn   rock14
+coords  1289 876
+at      0
+
+spawn   rock14
+coords  1402 812
+at      0
+
+spawn   tree2
+coords  1985 1202
+at      0
+
+spawn   rock14
+coords  1843 1198
+at      0
+
+spawn   rock13
+coords  1795 1091
+at      0
+
+spawn   rock13
+coords  1838 1200
+at      0
+
+spawn   rock14
+coords  1889 1176
+at      0
+
+spawn   rock14
+coords  1762 1212
+at      0
+
+########
+
+spawn   rock13
+coords  1195 1551
+at      0
+
+spawn   rock14
+coords  1343 1598
+at      0
+
+spawn   rock13
+coords  1238 1500
+at      0
+
+spawn   rock13
+coords  1095 1561
+at      0
+
+spawn   rock14
+coords  1189 1616
+at      0
+
+spawn   rock14
+coords  1302 712
+at      0
+
+
+
+
+#######
+
+spawn   palatka1
+coords  680 615
+at      0
+
+spawn   palatka11
+coords  680 615
+at      0
+
+
+spawn   palatka1
+coords  980 1315
+at      0
+
+spawn   palatka11
+coords  980 1315
+at      0
+
+
+
+
+
+#######
+
+spawn   palatka1
+coords  680 615
+at      0
+
+spawn   palatka11
+coords  680 615
+at      0
+
+
+spawn   palatka1
+coords  980 1315
+at      0
+
+spawn   palatka11
+coords  980 1315
+at      0
+
+spawn   palatkaorc
+#coords  775 605
+coords  4700 3500
+#at	54
+at      0
+
+spawn   palatka2
+#coords  780 2055
+coords  4700 700
+#at	54
+at      0
+
+spawn   palatka2
+#coords  780 2055
+coords  4700 700
+at      0
+
+spawn   palatka2
+coords  780 2055
+#coords  780 2055
+coords  4700 700
+at      0
+
+spawn   palatka3
+#coords  780 3515
+coords  3900 2900
+at      0
+
+spawn   palatka3
+#coords  780 3515
+coords  3900 2900
+at      0
+
+spawn   palatka3
+#coords  780 3515
+coords  3900 2900
+at      0
+
+
+
+spawn   urukdestoryer #Orc2
+coords  680 915
+at      0
+
+spawn   Orc2
+coords  680 1315
+at      0
+
+#spawn   Orcarcher
+#coords  680 1315
+#at      0
+
+
+spawn   tree2
+coords  1485 600
+at      0
+
+spawn   tree2
+coords  2985 602
+at      0
+
+spawn   Orc2
+coords  780 1515
+at      0
+
+
+
+###
+
+
+spawn   Gondor
+coords  -1680 915
+at      3000
+
+spawn   Gondor
+coords  -680 1315
+at      3000
+
+
+spawn   Gondor
+coords  -680 815
+at      3000
+
+spawn   Gondor
+coords  -680 1515
+at      3000
+
+spawn   Gondor
+coords  -1680 915
+at      3000
+
+spawn   Gondor
+coords  -680 1315
+at      3000
+
+spawn   Gondor
+coords  -1680 915
+at      3000
+
+spawn   Gondor
+coords  -1680 1315
+at      3000
+
+
+spawn   Gondor
+coords  -680 815
+at      3000
+
+spawn   Gondor
+coords  -1680 1515
+at      3000
+
+spawn   Gondor
+coords  -1680 915
+at      3000
+
+spawn   Gondor
+coords  -1680 1315
+at      3000
+
+
+###
+
+spawn   Nazgul
+coords  680 915
+at      3000
+
+
+spawn   Orc2
+coords  680 915
+at      3000
+
+spawn   Orc2
+coords  680 1315
+at      3000
+
+
+spawn   Orc2
+coords  680 815
+at      3000
+
+spawn   urukdestoryer #Orc2
+coords  680 1515
+at      3000
+
+spawn   Orc2
+coords  680 915
+at      3000
+
+spawn   Orc2
+coords  680 1315
+at      3000
+
+
+
+spawn   Orc2
+coords  1680 915
+at      3000
+
+spawn   urukdestoryer #Orc2
+coords  1680 1315
+at      3000
+
+
+spawn   Orc2
+coords  1680 815
+at      3000
+
+spawn   urukdestoryer #Orc2
+coords  1680 1515
+at      3000
+
+spawn   Orc2
+coords  1680 915
+at      3000
+
+spawn   Orc2
+coords  1680 1315
+at      3000
+
+
+
+
+#coords 980 1515
+#at     2614
+
+#--group2-----------
+
+#|edited by openBor Stats v 0.40
+

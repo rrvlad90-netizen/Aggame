@@ -1,0 +1,40 @@
+# Do not forget to name your character.
+# Health is optional.
+
+
+name	flat1
+health	0
+type	none
+shadow	0
+setlayer 10
+
+subject_to_hole 0
+subject_to_obstacle 0
+subject_to_platform 0
+subject_to_gravity 0
+subject_to_minz 0
+subject_to_maxz 0
+
+#  alternatepal   data/chars/cave/plat1c.PNG
+#  alternatepal   data/chars/cave/plat1c.PNG
+#  alternatepal   data/chars/cave/plat1c.PNG
+
+
+
+		
+anim	idle
+	loop	1
+	delay	7
+	offset	30 30
+#	platform	80 38	-60 -60 50 50 60 20				
+	platform	40 31	-40 -40 20 20 30 20
+	frame	data/chars/cave/plat1ccc.PNG
+
+
+
+		
+
+#anim	attack1
+#anim	attack2
+#anim	attack3
+#anim	follow

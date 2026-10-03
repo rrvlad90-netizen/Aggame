@@ -1,0 +1,13 @@
+platform {upperleft} {lowerleft} {upperright} {lowerright} {depth} {alt} 
+*OR* 
+platform {xpos} {zpos} {upperleft} {lowerleft} {upperright} {lowerright} {depth} {alt}
+
+Turns an entity into a walkable platform.
+There are 2 ways of setting this command but both works. The 1st is the old one while 2nd is new and updated one. If you not sure which one to choose, just use 2nd one.
+This is a bit complicated, so listen up! {xpos} and {zpos} are the x and z positions at which the platform starts . For 1st form, {xpos} and {zpos} aren't required and they uses 'offset' (see above) instead. If you're not sure what to set, just use 'offset' value for them.
+{lowerleft}, {upperleft}, {lowerright}, and {upperright} determine the x position of the four corners of the platform. These numbers are how far from the {xpos} the corners are.
+{depth} is the z depth of the platform: how far it stretches from the {zpos} to the top of the screen.
+{alt} is used to control the height of the platform. It's measured in pixels. So for a platform with 10 for it's {alt} value would be 10 pixels high, any entity on the platform would be displayed 10 pixels off the ground, and entities would need to jump at least 10 pixels off the ground to get on top of the platform.
+This can be changed on a per-frame basis to make platforms move up and down or shift left and right (or both, or neither).
+If this entity moves with command or script, any entities on top of it will also move together with it.
+You can stack multiple platforms on top of each other. If you do, seta commands will be cumulative (that is, if you have a platform with seta 30 spawn on top of one with seta 50, it will be treated as being 50+30= 80 pixels off the ground, instead of 30 or 50.)
