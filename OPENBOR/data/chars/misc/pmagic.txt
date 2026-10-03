@@ -1,0 +1,20 @@
+name	Pmagic
+health	1
+nolife  1
+type	pshot
+speed   12
+shadow	0
+
+anim idle
+	loop	1
+        delay   8
+	offset	6 45
+	burn	4 4 65 39 45 1 1
+        hitfx   data/sounds/sla.wav
+	frame	data/chars/misc/fireb1.gif
+        delay   8
+        frame	data/chars/misc/fireb2.gif
+        delay   8
+        frame	data/chars/misc/fireb1.gif
+        delay   8
+        frame	data/chars/misc/fireb2.gif

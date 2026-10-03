@@ -1,0 +1,74 @@
+#include "data/scripts/damage/"
+
+
+
+@cmd dmparent {força}
+
+-ataca quem deu origem a esta entidade. "força" quantifica o dano.
+
+@cmd dmgent {nome-alias} {número de KO's}
+
+- serve para estabelecer o número de vezes que este comando deve ser chamado para destruir a entidade especificada no nome-alias. (usado para contagem de KO, ele destrói o "contfall").
+
+
+
+@cmd dmgent2 {força}
+
+- Estabelece a força com que todos os players serão atingidos quando este comando for executado.
+
+
+
+@cmd dmgent3 {nome-alias} {força}
+
+_estabelece a força com que a entidade designada (nome-alias) receberá o dano. A pontuação será concedida ao atacante.
+
+
+
+
+
+@cmd dieself
+
+- Entidade se suicida e mostra a animação"death".
+
+
+
+
+@cmd kill
+
+Entidade se suicida simplesmente sumindo.
+
+
+
+
+@cmd kill2 {nome-alias}
+
+Mata a unidade especificada simplesmente sumindo.
+
+
+
+
+@cmd killtime
+
+- reseta o contador de tempo "tmchange" usado para modificar animações com o decurso do tempo.
+
+
+
+
+
+@cmd damage {força} {ativar KO} {animação}
+
+- Atinge a última entidade contactada , pode derrubá-la e ainda a força a rodar uma animação específica.
+
+
+
+@cmd defense {tipo} {fator de defesa}
+
+- Incrementa o fator de defesa pelo valor especificado.
+O tipo de defesa varia de 0  a 11.  0 engloba todos os tipos de ataques. 1 - attack1 ; 2 -attack2 .....10- attack10;  11 -blast
+
+
+
+
+
+
+

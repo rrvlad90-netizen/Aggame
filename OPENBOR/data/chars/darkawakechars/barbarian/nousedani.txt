@@ -1,0 +1,15 @@
+anim	jumpland
+	delay	4
+	offset	34 140
+	bbox	10 10 80 110
+	sound	data/sounds/stand.wav
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/barbarian/jump/b_41-4.png
+	offset	34 138
+	frame	data/chars/DarkAwakeChars/barbarian/jump/b_41-5.png
+	offset	34 138
+	frame	data/chars/DarkAwakeChars/barbarian/jump/b_41-6.png
+	offset	34 157
+	frame	data/chars/DarkAwakeChars/barbarian/jump/b_41-7.png
+	offset	34 166
+	frame	data/chars/DarkAwakeChars/barbarian/jump/b_41-8.png

@@ -1,0 +1,72 @@
+name	snowfall
+type	none
+shadow	0
+
+setlayer	200
+
+anim idle
+        loop    1
+	delay	9
+	offset  50 340
+	bbox	0 0 0 0
+	frame	data/chars/misc/snowfall.gif
+	offset  48 336
+	frame	data/chars/misc/snowfall.gif
+	offset  46 332
+	frame	data/chars/misc/snowfall.gif
+	offset  44 328
+	frame	data/chars/misc/snowfall.gif
+	offset  42 324
+	frame	data/chars/misc/snowfall.gif
+	offset  40 320
+	frame	data/chars/misc/snowfall.gif
+	offset  38 316
+	frame	data/chars/misc/snowfall.gif
+	offset  36 312
+	frame	data/chars/misc/snowfall.gif
+	offset  34 308
+	frame	data/chars/misc/snowfall.gif
+	offset  3036 304
+	frame	data/chars/misc/snowfall.gif
+	offset  38 300
+	frame	data/chars/misc/snowfall.gif
+	offset  40 296
+	frame	data/chars/misc/snowfall.gif
+	offset  42 292
+	frame	data/chars/misc/snowfall.gif
+	offset  44 288
+	frame	data/chars/misc/snowfall.gif
+	offset  46 284
+	frame	data/chars/misc/snowfall.gif
+	offset  48 280
+	frame	data/chars/misc/snowfall.gif
+	offset  50 276
+	frame	data/chars/misc/snowfall.gif
+	offset  50 272
+	frame	data/chars/misc/snowfall.gif
+	offset  48 268
+	frame	data/chars/misc/snowfall.gif
+	offset  46 264
+	frame	data/chars/misc/snowfall.gif
+	offset  44 260
+	frame	data/chars/misc/snowfall.gif
+	offset  42 256
+	frame	data/chars/misc/snowfall.gif
+	offset  40 252
+	frame	data/chars/misc/snowfall.gif
+	offset  38 248
+	frame	data/chars/misc/snowfall.gif
+	offset  36 244
+	frame	data/chars/misc/snowfall.gif
+	offset  34 240
+	frame	data/chars/misc/snowfall.gif
+	offset  35 236
+	frame	data/chars/misc/snowfall.gif
+	offset  40 232
+	frame	data/chars/misc/snowfall.gif
+	offset  45 228
+	frame	data/chars/misc/snowfall.gif
+	offset  50 224
+	frame	data/chars/misc/snowfall.gif
+
+

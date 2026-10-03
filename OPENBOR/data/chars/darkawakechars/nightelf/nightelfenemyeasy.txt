@@ -1,0 +1,569 @@
+name	NightElf__
+health	200
+speed	12
+running       22 3 2 1 0
+type	    enemy
+hostile player npc
+candamage player npc
+shadow	2	
+noquake 1
+dust    dust
+bflash bflash
+cantgrab 1
+notgrab 1
+blockodds 1
+blockback 1
+thold     49
+falldie 2
+#risetime 250
+holdblock 1
+jumpheight 4
+#facing 1
+#icon	data/chars/DarkAwakeChars/nightelf/icon.gif
+#icondie    data/chars/misc/icond.gif
+diesound data/chars/DarkAwakeChars/nightelf/die.wav
+fmap 3
+aimove Avoidx
+rate 0.75
+aggression 50
+nodieblink   3
+
+palette data/chars/DarkAwakeChars/nightelf/n_0-0.png
+
+#remap	data/chars/DarkAwakeChars/nightelf/idle.gif   data/chars/DarkAwakeChars/nightelf/alt.gif
+
+animationscript data/scripts/myanimmmmm.c
+
+
+#com     a2	freespecial12
+#com     b	freespecial13
+
+
+anim	attack1
+	range	0 100
+	loop	0
+	delay	4
+	offset	43 92
+	bbox	10 10 70 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/nightelf/lowpunch/n_230-0.png
+	offset	43 85
+	frame	data/chars/DarkAwakeChars/nightelf/lowpunch/n_230-1.png
+	offset	43 84
+	attack	10 10 114 110 6 0 0 0 0
+	frame	data/chars/DarkAwakeChars/nightelf/lowpunch/n_230-2.png
+	offset	43 83
+	sound	data/sounds/sword1.wav
+	attack	0 0 0 0 0 0 0 0 0 0
+	hitfx	data/chars/DarkAwakeChars/nightelf/attack.wav
+	attack	10 10 114 110 6 0 0 0 0
+	frame	data/chars/DarkAwakeChars/nightelf/lowpunch/n_230-3.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	43 83
+	frame	data/chars/DarkAwakeChars/nightelf/lowpunch/n_230-4.png
+	offset	43 83
+	frame	data/chars/DarkAwakeChars/nightelf/lowpunch/n_230-5.png
+	offset	43 93
+	frame	data/chars/DarkAwakeChars/nightelf/lowpunch/n_230-6.png
+	offset	43 95
+	frame	data/chars/DarkAwakeChars/nightelf/lowpunch/n_230-7.png
+	offset	43 100
+	frame	data/chars/DarkAwakeChars/nightelf/lowpunch/n_230-8.png
+	#####
+	delay	5
+	offset	38 119
+	bbox	10 10 64 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-0.png
+	offset	38 112
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-1.png
+	offset	38 104
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-2.png
+	offset	38 94
+	attack	10 10 110 110 19 0 0 0 0
+	hitfx	data/chars/DarkAwakeChars/nightelf/attack.wav
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-3.png
+	offset	38 93
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-4.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	38 94
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-5.png
+	offset	38 95
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-6.png
+	offset	38 96
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-6.png
+
+		
+anim	freespecial12
+#	range	0 90
+	loop	0
+	delay	5
+	offset	38 119
+	bbox	10 10 64 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-0.png
+	offset	38 112
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-1.png
+	offset	38 104
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-2.png
+	offset	38 94
+	attack	10 10 110 110 19 0 0 0 0
+	hitfx	data/chars/DarkAwakeChars/nightelf/attack.wav
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-3.png
+	offset	38 93
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-4.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	38 94
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-5.png
+	offset	38 95
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-6.png
+	offset	38 96
+	frame	data/chars/DarkAwakeChars/nightelf/attack2/n_210-6.png
+		
+				
+anim	block
+	loop	0
+	delay	3
+	offset	42 91
+	bbox	0 0 0 0
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/guard.wav
+	attack  10 10 80 110 0 0 0 0 0
+	frame	data/chars/DarkAwakeChars/nightelf/block/n_110-0.png
+	delay 20
+	offset	42 94
+	frame	data/chars/DarkAwakeChars/nightelf/block/n_110-1.png
+	offset	42 94
+	frame	data/chars/DarkAwakeChars/nightelf/block/n_110-1.png
+	delay 3
+	@cmd changeAnimation "ANI_ATTACK1"
+	offset	42 94
+	frame	data/chars/DarkAwakeChars/nightelf/block/n_110-1.png
+		
+		
+anim	death
+	loop	0
+	delay	10
+	offset	55 50
+	bbox	0 0 0 0
+	@cmd 	restoreHealthforplayer
+	frame	data/chars/DarkAwakeChars/nightelf/fall/n_5040-5.png
+	frame	data/chars/DarkAwakeChars/nightelf/fall/n_5040-5.png
+
+
+
+
+anim	duck
+	loop	0
+	delay	5
+	offset	52 105
+	bbox	10 10 80 110
+	delay	1
+#	platform  -10  90  0  0  40  40  25  10
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-0.png
+	offset	52 104
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-1.png
+	offset	52 98
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-2.png
+	offset	52 90
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-3.png
+	offset	52 83
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-4.png
+	offset	52 78
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_11-0.png
+
+
+anim	duckattack
+	loop	0
+	offset	44 80
+	bbox	10 10 80 110
+	delay	3
+	frame	data/chars/DarkAwakeChars/nightelf/duckattack/n_420-0.png
+	offset	44 81
+	frame	data/chars/DarkAwakeChars/nightelf/duckattack/n_420-1.png
+	offset	44 78
+	frame	data/chars/DarkAwakeChars/nightelf/duckattack/n_420-2.png
+	offset	44 77
+	frame	data/chars/DarkAwakeChars/nightelf/duckattack/n_420-3.png
+	offset	44 77
+	attack	10 10 112 110 18 0 0 0 0
+	delay	4
+	frame	data/chars/DarkAwakeChars/nightelf/duckattack/n_420-4.png
+	attack	0 0 0 0 0 0 0 0 0
+	delay 	6
+	offset	44 76
+	frame	data/chars/DarkAwakeChars/nightelf/duckattack/n_420-5.png
+	offset	44 75
+	frame	data/chars/DarkAwakeChars/nightelf/duckattack/n_420-6.png
+	offset	44 76
+	frame	data/chars/DarkAwakeChars/nightelf/duckattack/n_420-7.png
+	offset	44 75
+	frame	data/chars/DarkAwakeChars/nightelf/duckattack/n_420-8.png
+
+		
+anim	fall
+	loop	0
+	delay	1
+	offset	55 65
+#	platform  -10  90  0  0  40  40  30 10
+	sound	data/sounds/skldie.wav
+	frame	data/chars/DarkAwakeChars/nightelf/fall/n_5040-3.png
+	offset	55 50
+	frame	data/chars/DarkAwakeChars/nightelf/fall/n_5040-4.png
+	offset	55 50
+	frame	data/chars/DarkAwakeChars/nightelf/fall/n_5040-5.png
+		
+
+
+anim 	jump
+	loop	0
+	delay	5
+	offset	52 120
+	bbox	10 10 80 110
+	delay	1
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/nightelf/jump/n_41-0.png
+	offset	52 122
+	frame	data/chars/DarkAwakeChars/nightelf/jump/n_41-1.png
+	offset	52 122
+	frame	data/chars/DarkAwakeChars/nightelf/jump/n_41-2.png
+	offset	52 109
+	frame	data/chars/DarkAwakeChars/nightelf/jump/n_41-3.png
+	offset	52 94
+	frame	data/chars/DarkAwakeChars/nightelf/jump/n_41-4.png
+	offset	52 101
+	frame	data/chars/DarkAwakeChars/nightelf/jump/n_41-5.png
+	offset	52 126
+	frame	data/chars/DarkAwakeChars/nightelf/jump/n_41-6.png
+#	offset	52 146
+#	frame	data/chars/DarkAwakeChars/nightelf/jump/n_41-7.png
+
+		
+anim	jumpattack
+#	range   100 150 
+	loop	0
+	delay	4
+	offset	30 127
+	bbox	10 10 80 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/nightelf/jumpattack/n_600-0.png
+	offset	30 118
+	frame	data/chars/DarkAwakeChars/nightelf/jumpattack/n_600-1.png
+	offset	30 103
+	frame	data/chars/DarkAwakeChars/nightelf/jumpattack/n_600-2.png
+	offset	30 103
+	delay 3
+	attack	10 10 110 110 14 1 0 0 19
+	frame	data/chars/DarkAwakeChars/nightelf/jumpattack/n_600-3.png
+	offset	30 103
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/DarkAwakeChars/nightelf/jumpattack/n_600-2.png
+	offset	30 118
+	frame	data/chars/DarkAwakeChars/nightelf/jumpattack/n_600-1.png
+	offset	30 127
+	frame	data/chars/DarkAwakeChars/nightelf/jumpattack/n_600-0.png
+
+
+anim	jumpland
+	loop	0
+	delay	4
+	offset	52 105
+	bbox	10 10 80 110
+	delay	1
+#	platform  -10  90  0  0  40  40  25  10
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-0.png
+	offset	52 104
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-1.png
+	offset	52 98
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-2.png
+	offset	52 90
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-3.png
+	offset	52 83
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-4.png
+	offset	52 78
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_11-0.png
+	offset	52 83
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-4.png
+	offset	52 90
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-3.png
+	offset	52 98
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-2.png
+	offset	52 104
+	frame	data/chars/DarkAwakeChars/nightelf/duck/n_10-1.png
+######
+	delay	3
+	move   -7
+	offset	45 98
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-0.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-1.png
+	offset	45 100
+	bbox	10 10 80 110
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-2.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-3.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-4.png
+	offset	45 101
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-5.png
+	offset	45 104
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-6.png
+	offset	45 106
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-7.png
+	offset	45 106
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-8.png
+	offset	45 105
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-9.png
+	offset	45 104
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-10.png
+	offset	45 104
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-11.png
+	offset	45 101
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-12.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-13.png
+	offset	45 99
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-14.png
+	offset	45 99
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-15.png
+
+
+		
+	
+anim	pain
+	loop	0
+	delay	5
+	offset	54 103
+	bbox	0 0 0 0
+	sound	data/sounds/sklhit.wav
+	move -6
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/nightelf/pain1/n_5000-0.png
+	offset	54 102
+	frame	data/chars/DarkAwakeChars/nightelf/pain1/n_5000-1.png
+	offset	54 100
+	frame	data/chars/DarkAwakeChars/nightelf/pain1/n_5000-10.png
+######
+	delay	3
+	move   -7
+	offset	45 98
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-0.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-1.png
+	offset	45 100
+	bbox	10 10 80 110
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-2.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-3.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-4.png
+	offset	45 101
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-5.png
+	offset	45 104
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-6.png
+	offset	45 106
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-7.png
+
+		
+anim	rise
+	loop	0
+	offset	55 50
+	delay	8
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/nightelf/fall/n_5040-5.png
+	frame	data/chars/DarkAwakeChars/nightelf/fall/n_5040-5.png
+		
+anim	spawn
+	loop	0
+	offset	30 111
+	bbox	0 0 0 0
+	delay	10
+	frame	data/chars/DarkAwakeChars/nightelf/intro/n_191-0.png
+	offset	30 110
+	frame	data/chars/DarkAwakeChars/nightelf/intro/n_191-1.png
+	offset	30 109
+	frame	data/chars/DarkAwakeChars/nightelf/intro/n_191-2.png
+	offset	30 108
+	frame	data/chars/DarkAwakeChars/nightelf/intro/n_191-3.png
+	offset	30 108
+	frame	data/chars/DarkAwakeChars/nightelf/intro/n_191-4.png
+	offset	30 110
+	frame	data/chars/DarkAwakeChars/nightelf/intro/n_191-5.png
+	offset	30 108
+	frame	data/chars/DarkAwakeChars/nightelf/intro/n_191-6.png
+	offset	33 105
+	frame	data/chars/DarkAwakeChars/nightelf/intro/n_191-7.png
+	offset	50 102
+	frame	data/chars/DarkAwakeChars/nightelf/intro/n_191-8.png
+	offset	53 99
+	frame	data/chars/DarkAwakeChars/nightelf/intro/n_191-9.png
+	offset	50 104
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-0.png
+	offset	50 104
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-0.png
+	offset	50 104
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-0.png
+	offset	50 104
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-0.png
+
+anim	idle
+	loop	1
+	offset	50 104
+	bbox	10 10 80 110
+	delay	9
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  40  40  30 10
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-0.png
+	offset	47 104
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-1.png
+	offset	43 105
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-2.png
+	offset	38 105
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-3.png
+	offset	34 105
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-4.png
+	offset	35 104
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-5.png
+	offset	34 102
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-6.png
+	offset	35 104
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-5.png
+	offset	34 105
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-4.png
+	offset	38 105
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-3.png
+	offset	43 105
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-2.png
+	offset	47 104
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-1.png
+		
+anim	walk
+	loop	1
+	offset	45 99
+	bbox	10 10 80 110
+#	bbox	0 0 0 0
+	delay	8
+#	#@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	offset	45 98
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-0.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-1.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-2.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-3.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-4.png
+	offset	45 101
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-5.png
+	offset	45 104
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-6.png
+	offset	45 106
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-7.png
+	offset	45 106
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-8.png
+	offset	45 105
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-9.png
+	offset	45 104
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-10.png
+	offset	45 104
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-11.png
+	offset	45 101
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-12.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-13.png
+	offset	45 99
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-14.png
+	offset	45 99
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-15.png
+
+
+anim	freespecial13
+	loop	0
+	offset	45 99
+	bbox	10 10 80 110
+#	bbox	0 0 0 0
+	delay	4
+	move   -7
+	offset	45 98
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-0.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-1.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-2.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-3.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-4.png
+	offset	45 101
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-5.png
+	offset	45 104
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-6.png
+	offset	45 106
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-7.png
+	offset	45 106
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-8.png
+	offset	45 105
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-9.png
+	offset	45 104
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-10.png
+	offset	45 104
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-11.png
+	offset	45 101
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-12.png
+	offset	45 100
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-13.png
+	offset	45 99
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-14.png
+	offset	45 99
+	frame	data/chars/DarkAwakeChars/nightelf/walk/n_20-15.png
+
+anim	run
+	loop	0
+	offset	45 89
+	bbox	10 10 80 110
+#	bbox	0 0 0 0
+	delay	8
+#	#@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-0.png
+	offset	45 86
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-1.png
+	offset	45 88
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-2.png
+	offset	45 89
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-3.png
+	offset	45 91
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-4.png
+	offset	45 92
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-5.png
+	offset	45 94
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-6.png
+	offset	45 96
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-7.png
+	offset	45 98
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-8.png
+	offset	45 97
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-9.png
+	offset	45 96
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-10.png
+	offset	45 95
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-11.png
+	offset	45 94
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-12.png
+	offset	45 94
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-13.png
+	offset	45 93
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-14.png
+	offset	45 91
+	frame	data/chars/DarkAwakeChars/nightelf/run/n_101-15.png
+		
+#|edited by openBor Stats v 0.41
+		

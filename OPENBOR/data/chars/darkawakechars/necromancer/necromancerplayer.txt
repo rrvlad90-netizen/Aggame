@@ -1,0 +1,264 @@
+name	Necromancer
+health	100
+speed	8     #12
+running       16 3 2 1 0
+type	    player
+hostile enemy npc
+candamage enemy npc
+shadow	2	
+noquake 1
+dust    dust
+bflash bflash
+cantgrab 1
+notgrab 1
+aggression 1
+blockodds 2
+thold     49
+falldie 2
+risetime 250
+holdblock 1
+jumpheight 4
+#facing 1
+#icon	data/chars/DarkAwakeChars/necromancer/icon.gif
+#icondie    data/chars/misc/icond.gif
+diesound data/chars/DarkAwakeChars/necromancer/die.wav
+fmap 3
+nodieblink   3
+
+
+palette data/chars/DarkAwakeChars/necromancer/necro_0.png
+
+#remap	data/chars/DarkAwakeChars/necromancer/idle.gif   data/chars/DarkAwakeChars/necromancer/alt.gif
+
+animationscript data/scripts/myanimmmmm.c
+
+
+com     a2	freespecial12
+
+
+anim	attack1
+#	range	0 90
+	loop	0
+	delay	4
+	offset	50 116
+	bbox	10 10 50 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/punch1.wav
+	frame	data/chars/DarkAwakeChars/necromancer/lowpunch/necro_81.png
+	delay	18
+	offset	50 116
+	#projectile
+	@cmd	projectile 2 "necroprojectile" 12 0 63 1 0 1 #63 visota
+	frame	data/chars/DarkAwakeChars/necromancer/lowpunch/necro_82.png
+	frame	data/chars/DarkAwakeChars/necromancer/lowpunch/necro_82.png
+	delay	12
+	offset	50 116
+	frame	data/chars/DarkAwakeChars/necromancer/lowpunch/necro_83.png
+	frame	data/chars/DarkAwakeChars/necromancer/lowpunch/necro_83.png
+	offset	30 112
+	frame	data/chars/DarkAwakeChars/necromancer/idle/necro_0.png
+
+		
+anim	freespecial12
+#	range	0 90
+	loop	0
+	delay	4
+	offset	45 116
+	bbox	10 10 50 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/punch1.wav
+	frame	data/chars/DarkAwakeChars/necromancer/attack2/necro_86.png
+	delay	26
+	offset	50 116
+	#projectile
+	@cmd	projectile 2 "necroprojectile2" 12 0 43 1 0 0 #43 visota
+	frame	data/chars/DarkAwakeChars/necromancer/attack2/necro_87.png
+	frame	data/chars/DarkAwakeChars/necromancer/attack2/necro_87.png
+	delay	14
+	offset	45 116
+	frame	data/chars/DarkAwakeChars/necromancer/attack2/necro_88.png
+	frame	data/chars/DarkAwakeChars/necromancer/attack2/necro_88.png
+	offset	30 112
+	frame	data/chars/DarkAwakeChars/necromancer/idle/necro_0.png
+		
+				
+anim	block
+	loop	0
+	delay	3
+	offset	50 116
+	bbox	10 10 50 110
+	#move	-10
+	@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/guard.wav
+	frame	data/chars/DarkAwakeChars/necromancer/block/necro_117.png
+	offset	50 116
+	frame	data/chars/DarkAwakeChars/necromancer/block/necro_118.png
+		
+		
+anim	death
+	loop	0
+	delay	10
+	offset	62 45
+	bbox	0 0 0 0
+	frame	data/chars/DarkAwakeChars/necromancer/fall/necro_178.png
+
+		
+anim	fall
+	loop	0
+	delay	1
+	offset	65 82
+#	platform  -10  90  0  0  40  40  30 10
+	sound	data/sounds/skldie.wav
+	frame	data/chars/DarkAwakeChars/necromancer/fall/necro_169.png
+	offset	74 74
+	frame	data/chars/DarkAwakeChars/necromancer/fall/necro_170.png
+	offset	65 55
+	frame	data/chars/DarkAwakeChars/necromancer/fall/necro_171.png
+	offset	62 45
+	frame	data/chars/DarkAwakeChars/necromancer/fall/necro_178.png
+	offset	62 45
+	frame	data/chars/DarkAwakeChars/necromancer/fall/necro_179.png
+		
+
+anim 	jump
+	loop	0
+	delay	5
+	bbox	30 10 50 110
+	delay	1
+	@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+	offset	50 146
+	frame	data/chars/DarkAwakeChars/necromancer/jump/necro_91.png
+	offset	50 144
+	frame	data/chars/DarkAwakeChars/necromancer/jump/necro_92.png
+	offset	50 144
+	frame	data/chars/DarkAwakeChars/necromancer/jump/necro_93.png
+
+
+anim 	jumpattack
+	loop	0
+	delay	5
+	bbox	30 10 50 110
+	delay	1
+	@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+	offset	50 112
+	@cmd	projectile 2 "necroprojectile2" 62 0 43 1 0 0 #43 visota
+	frame	data/chars/DarkAwakeChars/necromancer/jumpattack/necro_244.png
+
+		
+	
+anim	pain
+	loop	0
+	delay	3
+	offset	50 122
+	bbox	0 0 0 0
+	sound	data/sounds/sklhit.wav
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/necromancer/pain1/necro_181.png
+	offset	50 122
+	frame	data/chars/DarkAwakeChars/necromancer/pain1/necro_182.png
+	offset	50 122
+	frame	data/chars/DarkAwakeChars/necromancer/pain1/necro_183.png
+		
+anim	rise
+	loop	0
+	offset	62 45
+	delay	8
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/necromancer/fall/necro_178.png
+		
+anim	spawn
+	loop	0
+	offset	42 107
+	bbox	0 0 0 0
+	delay	10
+	offset	42 127
+	frame	data/chars/DarkAwakeChars/necromancer/intro/necro_124.png
+	offset	42 127
+	frame	data/chars/DarkAwakeChars/necromancer/intro/necro_125.png
+	delay	25
+	offset	42 127
+	frame	data/chars/DarkAwakeChars/necromancer/intro/necro_126.png
+	delay	10
+	offset	42 127
+	frame	data/chars/DarkAwakeChars/necromancer/intro/necro_125.png
+	offset	42 127
+	frame	data/chars/DarkAwakeChars/necromancer/intro/necro_124.png
+
+anim	idle
+	loop	1
+	bbox	10 10 50 110
+	delay	9
+	@cmd    rotateunit
+#	platform  -10  90  0  0  40  40  30 10
+	offset	30 112
+	frame	data/chars/DarkAwakeChars/necromancer/idle/necro_0.png
+	offset	30 112
+	frame	data/chars/DarkAwakeChars/necromancer/idle/necro_1.png
+	offset	30 112
+	frame	data/chars/DarkAwakeChars/necromancer/idle/necro_2.png
+	offset	30 112
+	frame	data/chars/DarkAwakeChars/necromancer/idle/necro_3.png
+	offset	30 112
+	frame	data/chars/DarkAwakeChars/necromancer/idle/necro_4.png
+	offset	30 112
+	frame	data/chars/DarkAwakeChars/necromancer/idle/necro_3.png
+	offset	30 112
+	frame	data/chars/DarkAwakeChars/necromancer/idle/necro_2.png
+	offset	30 112
+	frame	data/chars/DarkAwakeChars/necromancer/idle/necro_1.png
+
+		
+anim	walk
+	loop	1
+	bbox	10 10 50 110
+#	bbox	0 0 0 0
+	delay	8
+#	@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/walk/necro_50.png
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/walk/necro_51.png
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/walk/necro_52.png
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/walk/necro_51.png
+
+anim	backwalk
+	loop	1
+	bbox	10 10 50 110
+#	bbox	0 0 0 0
+	delay	8
+#	@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/walk/necro_50.png
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/walk/necro_51.png
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/walk/necro_52.png
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/walk/necro_51.png
+
+anim	run
+	loop	1
+	offset	50 85
+	bbox	10 10 50 110
+#	bbox	0 0 0 0
+	delay	8
+#	@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/run/necro_53.png
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/run/necro_54.png
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/run/necro_55.png
+	offset	40 124
+	frame	data/chars/DarkAwakeChars/necromancer/run/necro_56.png
+		
+#|edited by openBor Stats v 0.41
+		

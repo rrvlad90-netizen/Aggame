@@ -1,0 +1,36 @@
+name       Portal
+type    endlevel
+shadow    0
+branch    PathB
+palette  	data/chars/misc/Gate5.gif
+
+
+
+
+anim	idle
+	delay	10
+	#bbox	25 2 102 46 0
+	bbox	105 197 102 46 
+	offset	103 197
+	loop	1
+	sound   data/sounds/portal.wav
+	frame	data/chars/misc/Gate5.gif
+	frame	data/chars/misc/Gate6.gif
+	frame	data/chars/misc/Gate7.gif
+	frame	data/chars/misc/Gate8.gif
+	frame	data/chars/misc/Gate9.gif
+	frame	data/chars/misc/Gate10.gif
+	frame	data/chars/misc/Gate11.gif
+	frame	data/chars/misc/Gate12.gif
+	frame	data/chars/misc/Gate13.gif
+		
+anim	spawn
+	delay	10
+	offset	103 197
+	frame	data/chars/misc/Gate1.gif
+	frame	data/chars/misc/Gate2.gif
+	frame	data/chars/misc/Gate3.gif
+	frame	data/chars/misc/Gate4.gif
+		
+#|edited by openBor Stats v 0.41
+		

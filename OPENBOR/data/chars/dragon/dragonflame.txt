@@ -1,0 +1,44 @@
+name	dragonflame
+type none
+speed 1      #16
+candamage player
+setlayer 1
+subject_to_hole 0
+subject_to_obstacle 0
+subject_to_platform 0
+subject_to_gravity 0 
+ candamage player npc
+
+animationscript data/scripts/myanimmmmm.c
+
+anim idle
+	loop	1
+	delay	1
+	offset     64 80
+#	drawmethod	scale 	0.15 0.15
+#	hitflash fl400
+	#bbox	0 0 10 10
+	attack  0 0 160 128 2 0 0 0 30
+	move -1
+	frame	data/chars/dragon/dragonflame/dragon.pak_171.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_172.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_173.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_174.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_175.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_176.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_177.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_178.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_179.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_180.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_181.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_182.png
+	frame	data/chars/dragon/dragonflame/dragon.pak_183.png
+	@cmd 	changeperformattack "ANI_DIE"
+	frame	data/chars/dragon/dragonflame/dragon.pak_184.png
+
+anim	death
+	loop	0
+	delay	1
+	offset     64 80
+	frame	data/chars/dragon/dragonflame/dragon.pak_184.png
+

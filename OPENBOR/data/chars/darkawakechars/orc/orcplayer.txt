@@ -1,0 +1,536 @@
+name	Orc
+health	200
+speed	12
+running       22 3 2 1 0
+type	    player
+hostile enemy npc
+candamage enemy npc
+shadow	2	
+noquake 1
+dust    dust
+bflash bflash
+cantgrab 1
+notgrab 1
+aggression 1
+blockodds 2
+thold     49
+falldie 2
+risetime 250
+holdblock 1
+jumpheight 4
+#facing 1
+#icon	data/chars/DarkAwakeChars/orc/icon.gif
+#icondie    data/chars/misc/icond.gif
+diesound data/chars/DarkAwakeChars/orc/die.wav
+fmap 3
+nodieblink   3
+
+palette data/chars/DarkAwakeChars/orc/o_0-0.png
+
+#remap	data/chars/DarkAwakeChars/orc/idle.gif   data/chars/DarkAwakeChars/orc/alt.gif
+
+animationscript data/scripts/myanimmmmm.c
+
+atchain     1
+
+com     a2	freespecial12
+com     b	freespecial13
+
+anim	attack1
+#	range	0 90
+	loop	0
+	delay	5
+	offset	60 118
+	bbox	10 10 70 110
+#	platform  -10  90  0  0  40 40  35 15
+	move 0
+	@cmd    rotateunit
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/orc/lowpunch/o_200-0.png
+	offset	61 115
+	frame	data/chars/DarkAwakeChars/orc/lowpunch/o_200-1.png
+	offset	48 115
+	frame	data/chars/DarkAwakeChars/orc/lowpunch/o_200-2.png
+	hitfx	data/chars/DarkAwakeChars/orc/attack.wav
+	offset	38 117
+	attack	10 10 110 112 12 0 0 0 12
+	frame	data/chars/DarkAwakeChars/orc/lowpunch/o_200-3.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	38 118
+	frame	data/chars/DarkAwakeChars/orc/lowpunch/o_200-4.png
+	delay	9
+	offset	37 120
+	@cmd keyint "ANI_FREESPECIAL13" 0 "B" 0
+	frame	data/chars/DarkAwakeChars/orc/lowpunch/o_200-5.png
+		
+anim	freespecial12
+#	range	0 90
+	loop	0
+	delay	6
+	offset	55 120
+	bbox	10 10 64 110
+#	platform  -10  90  0  0  40 40  35 15
+	move 0
+	@cmd    rotateunit
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/orc/attack2/o_210-0.png
+	offset	90 119
+	frame	data/chars/DarkAwakeChars/orc/attack2/o_210-1.png
+	offset	72 125
+	frame	data/chars/DarkAwakeChars/orc/attack2/o_210-2.png
+	offset	36 115
+	frame	data/chars/DarkAwakeChars/orc/attack2/o_210-3.png
+	offset	38 112
+	attack	10 10 110 112 19 0 0 0 19
+	hitfx	data/chars/DarkAwakeChars/orc/attack.wav
+	frame	data/chars/DarkAwakeChars/orc/attack2/o_210-4.png
+	offset	36 112
+	frame	data/chars/DarkAwakeChars/orc/attack2/o_210-5.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	38 116
+	delay	14
+	@cmd keyint "ANI_FREESPECIAL13" 0 "B" 0
+	frame	data/chars/DarkAwakeChars/orc/attack2/o_210-6.png
+		
+				
+anim	block
+	loop	0
+	delay	3
+	offset	56 124
+	bbox	0 0 0 0
+	#move	-10
+	@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+	attack 	10 10 80 110 0 0 0 0 0
+	sound	data/sounds/guard.wav
+	frame	data/chars/DarkAwakeChars/orc/block/o_120-0.png
+	offset	56 125
+	frame	data/chars/DarkAwakeChars/orc/block/o_120-1.png
+	offset	56 126
+	frame	data/chars/DarkAwakeChars/orc/block/o_120-2.png
+	offset	56 127
+	frame	data/chars/DarkAwakeChars/orc/block/o_120-3.png
+	offset	56 128
+	@cmd keyint "ANI_FREESPECIAL13" 0 "B" 0
+	frame	data/chars/DarkAwakeChars/orc/block/o_121-0.png
+		
+		
+anim	death
+	loop	0
+	delay	10
+	offset	74 75
+	bbox	0 0 0 0
+	frame	data/chars/DarkAwakeChars/orc/fall/o_5040-10.png
+
+
+
+
+anim	duck
+	loop	0
+	delay	5
+	offset	55 118
+	bbox	10 40 80 110
+	delay	1
+#	platform  -10  90  0  0  40  40  25  10
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-0.png
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-1.png
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-2.png
+	offset	55 119
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-3.png
+	offset	55 120
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-4.png
+	offset	55 123
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-0.png
+	offset	55 122
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-1.png
+	offset	55 121
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-2.png
+	offset	55 118
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-3.png
+	offset	55 117
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-4.png
+	offset	55 116
+	@cmd keyint "ANI_FREESPECIAL13" 0 "B" 0
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-5.png
+
+
+anim	duckattack
+	loop	0
+	offset	63 110
+	bbox	10 40 80 110
+	delay	4
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-0.png
+	offset	63 102
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-1.png
+	offset	63 106
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-2.png
+	offset	63 161
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-3.png
+	offset	63 188
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-4.png
+	offset	63 193
+	attack	10 40 120 170 18 0 0 0 19
+	delay	9
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-5.png
+	attack	0 0 0 0 0 0 0 0 0
+	offset	63 188
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-4.png
+	offset	63 161
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-3.png
+	offset	63 106
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-2.png
+	offset	63 102
+	@cmd keyint "ANI_FREESPECIAL13" 0 "B" 0
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-1.png
+
+		
+anim	fall
+	loop	0
+	delay	1
+	offset	115 63
+#	platform  -10  90  0  0  40  40  30 10
+	sound	data/sounds/skldie.wav
+	frame	data/chars/DarkAwakeChars/orc/fall/o_5040-1.png
+	offset	107 70
+	frame	data/chars/DarkAwakeChars/orc/fall/o_5040-2.png
+	offset	90 75
+	frame	data/chars/DarkAwakeChars/orc/fall/o_5040-3.png
+	offset	74 75
+	frame	data/chars/DarkAwakeChars/orc/fall/o_5040-10.png
+		
+
+
+anim jump
+	loop	0
+	delay	5
+	offset	34 122
+	bbox	10 10 80 110
+	delay	1
+	@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/orc/jump/o_40-0.png
+	offset	34 135
+	frame	data/chars/DarkAwakeChars/orc/jump/o_41-0.png
+	offset	34 131
+	frame	data/chars/DarkAwakeChars/orc/jump/o_41-1.png
+	offset	34 128
+	frame	data/chars/DarkAwakeChars/orc/jump/o_41-2.png
+	offset	34 129
+	frame	data/chars/DarkAwakeChars/orc/jump/o_41-3.png
+
+		
+anim	jumpattack
+	range	91 160
+	loop	0
+	delay	2
+	offset	53 133
+	bbox	10 10 80 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-0.png
+	offset	53 151
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-1.png
+	offset	53 158
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-2.png
+	offset	53 161
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-3.png
+	offset	53 162
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-4.png
+	offset	53 157
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-5.png
+	offset	53 135
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-6.png
+	offset	53 96
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-7.png
+	offset	53 112
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-8.png
+	offset	53 151
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-9.png
+	offset	53 163
+	delay 3
+	attack	10 10 120 140 14 1 0 0 19
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-10.png
+	attack	0 0 0 0 0 0 0 0 0
+	offset	53 161
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-11.png
+	offset	53 149
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-12.png
+	offset	53 127
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-13.png
+	offset	53 110
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-14.png
+	offset	53 104
+	frame	data/chars/DarkAwakeChars/orc/jumpattack/o_640-15.png
+
+
+anim	jumpland
+	loop	0
+	delay	2
+	offset	55 118
+	bbox	10 10 80 110
+#	platform  -10  90  0  0  40  40  25  10
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-0.png
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-1.png
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-2.png
+	offset	55 119
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-3.png
+	offset	55 120
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-4.png
+	offset	55 123
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-0.png
+	offset	55 122
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-1.png
+	offset	55 121
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-2.png
+	offset	55 118
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-3.png
+	offset	55 117
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-4.png
+	offset	55 116
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-5.png
+	offset	55 117
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-4.png
+	offset	55 118
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-3.png
+	offset	55 121
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-2.png
+	offset	55 122
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-1.png
+	offset	55 123
+	frame	data/chars/DarkAwakeChars/orc/duck/o_11-0.png
+	offset	55 119
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-3.png
+	offset	55 118
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-2.png
+	@cmd keyint "ANI_FREESPECIAL13" 0 "B" 0
+	frame	data/chars/DarkAwakeChars/orc/duck/o_10-1.png
+		
+	
+anim	pain
+	loop	0
+	delay	3
+	offset	55 126
+	bbox	0 0 0 0
+	sound	data/sounds/sklhit.wav
+#	platform  -10  90  0  0  40 40  35 15
+	move -6
+	frame	data/chars/DarkAwakeChars/orc/pain1/o_5000-0.png
+	offset	52 128
+	frame	data/chars/DarkAwakeChars/orc/pain1/o_5000-1.png
+	offset	52 131
+	frame	data/chars/DarkAwakeChars/orc/pain1/o_5000-10.png
+	offset	55 133
+	frame	data/chars/DarkAwakeChars/orc/pain1/o_5000-11.png
+	offset	56 135
+	frame	data/chars/DarkAwakeChars/orc/pain1/o_5000-20.png
+	offset	56 135
+	@cmd keyint "ANI_FREESPECIAL13" 0 "B" 0
+	frame	data/chars/DarkAwakeChars/orc/pain1/o_5000-21.png
+		
+anim	pain2
+	loop	0
+	delay	3
+	offset	31 58
+	bbox	0 0 0 0
+	move	-10
+	sound	data/sounds/sklhit.wav
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/orc/pain2/o_5010-0.png
+	frame	data/chars/DarkAwakeChars/orc/pain2/o_5010-1.png
+	frame	data/chars/DarkAwakeChars/orc/pain2/o_5010-10.png
+	frame	data/chars/DarkAwakeChars/orc/pain2/o_5010-11.png
+	frame	data/chars/DarkAwakeChars/orc/pain2/o_5010-20.png
+	frame	data/chars/DarkAwakeChars/orc/pain2/o_5010-21.png
+		
+anim	rise
+	loop	0
+	offset	74 75
+	delay	8
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/orc/fall/o_5040-10.png
+	@cmd keyint "ANI_FREESPECIAL13" 0 "B" 0
+	frame	data/chars/DarkAwakeChars/orc/fall/o_5040-10.png
+		
+anim	spawn
+	loop	0
+	offset	63 110
+	bbox	0 0 0 0
+	delay	10
+	@cmd    setFullHealth
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-0.png
+	offset	63 102
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-1.png
+	offset	63 106
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-2.png
+	offset	63 161
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-3.png
+	offset	63 188
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-4.png
+	offset	63 193
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-5.png
+	offset	63 188
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-6.png
+	offset	63 193
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-5.png
+	offset	63 188
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-4.png
+	offset	63 161
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-3.png
+	offset	63 106
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-2.png
+	offset	63 102
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-1.png
+	offset	63 110
+	frame	data/chars/DarkAwakeChars/orc/intro/o_182-0.png
+	offset	56 120
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-0.png
+	offset	56 120
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-0.png
+
+anim	idle
+	loop	1
+	offset	56 120
+	bbox	10 10 80 110
+	delay	9
+	@cmd    rotateunit
+#	platform  -10  90  0  0  40  40  30 10
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-0.png
+	offset	56 119
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-1.png
+	offset	56 118
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-2.png
+	offset	56 118
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-3.png
+	offset	56 119
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-4.png
+	offset	57 119
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-5.png
+	offset	56 119
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-4.png
+	offset	56 118
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-3.png
+	offset	56 118
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-2.png
+	offset	56 119
+	frame	data/chars/DarkAwakeChars/orc/idle/o_0-1.png
+
+		
+anim	walk
+	loop	1
+	offset	56 111
+	bbox	10 10 80 110
+#	bbox	0 0 0 0
+	delay	8
+#	@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	@cmd keyint "ANI_FREESPECIAL13" 0 "B" 0
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-0.png
+	offset	56 106
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-1.png
+	offset	56 103
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-2.png
+	offset	56 106
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-3.png
+	offset	56 113
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-4.png
+	offset	56 115
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-5.png
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-6.png
+	offset	56 114
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-7.png
+
+
+anim	freespecial13
+	loop	0
+	bbox	10 10 80 110
+#	bbox	0 0 0 0
+	delay	4
+	move   -7
+#	@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+
+
+	offset	56 114
+	@cmd keyint "ANI_ATTACK1" 0 "A" 0
+	@cmd keyint "ANI_JUMP" 0 "J" 0
+	@cmd keyint "ANI_DUCK" 0 "D" 0
+	@cmd keyint "ANI_IDLE" 0 "F" 0
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-7.png
+
+	offset	56 115
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-5.png
+	@cmd keyint "ANI_ATTACK1" 0 "A" 0
+	@cmd keyint "ANI_JUMP" 0 "J" 0
+	@cmd keyint "ANI_DUCK" 0 "D" 0
+	@cmd keyint "ANI_IDLE" 0 "F" 0
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-6.png
+
+	offset	56 113
+	@cmd keyint "ANI_ATTACK1" 0 "A" 0
+	@cmd keyint "ANI_JUMP" 0 "J" 0
+	@cmd keyint "ANI_DUCK" 0 "D" 0
+	@cmd keyint "ANI_IDLE" 0 "F" 0
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-4.png
+
+	offset	56 106
+	@cmd keyint "ANI_ATTACK1" 0 "A" 0
+	@cmd keyint "ANI_JUMP" 0 "J" 0
+	@cmd keyint "ANI_DUCK" 0 "D" 0
+	@cmd keyint "ANI_IDLE" 0 "F" 0
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-3.png
+
+	offset	56 103
+	@cmd keyint "ANI_ATTACK1" 0 "A" 0
+	@cmd keyint "ANI_JUMP" 0 "J" 0
+	@cmd keyint "ANI_DUCK" 0 "D" 0
+	@cmd keyint "ANI_IDLE" 0 "F" 0
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-2.png
+
+	offset	56 106
+	@cmd keyint "ANI_ATTACK1" 0 "A" 0
+	@cmd keyint "ANI_JUMP" 0 "J" 0
+	@cmd keyint "ANI_DUCK" 0 "D" 0
+	@cmd keyint "ANI_IDLE" 0 "F" 0
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-1.png
+
+
+	offset	56 111
+	@cmd keyint "ANI_ATTACK1" 0 "A" 0
+	@cmd keyint "ANI_JUMP" 0 "J" 0
+	@cmd keyint "ANI_DUCK" 0 "D" 0
+	@cmd keyint "ANI_IDLE" 0 "F" 0
+	@cmd keyint "ANI_FREESPECIAL13" 0 "B" 0
+	frame	data/chars/DarkAwakeChars/orc/walk/o_20-0.png
+
+
+
+
+
+
+anim	run
+	loop	1
+	offset	56 125
+	bbox	10 10 80 110
+#	bbox	0 0 0 0
+	delay	8
+#	@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	frame	data/chars/DarkAwakeChars/orc/run/o_101-0.png
+	offset	56 127
+	frame	data/chars/DarkAwakeChars/orc/run/o_101-1.png
+	offset	56 133
+	frame	data/chars/DarkAwakeChars/orc/run/o_101-2.png
+	offset	56 132
+	frame	data/chars/DarkAwakeChars/orc/run/o_101-3.png
+	offset	56 133
+	frame	data/chars/DarkAwakeChars/orc/run/o_101-4.png
+	offset	56 135
+	frame	data/chars/DarkAwakeChars/orc/run/o_101-5.png
+	offset	56 133
+	frame	data/chars/DarkAwakeChars/orc/run/o_101-6.png
+	offset	56 128
+	frame	data/chars/DarkAwakeChars/orc/run/o_101-7.png
+		
+#|edited by openBor Stats v 0.41
+		

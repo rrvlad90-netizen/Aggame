@@ -1,0 +1,17 @@
+name	Shot2
+health	1
+nolife  1
+type	enemy
+speed   30
+shadow	0
+
+anim idle
+	loop	0
+        delay   1000
+	offset	8 67
+	attack	4 3 10 5 30 1 1
+        hitflash blood
+        sound   data/chars/torque/tshot.wav
+        hitfx   data/sounds/sla.wav
+	frame	data/chars/misc/pshot.gif
+

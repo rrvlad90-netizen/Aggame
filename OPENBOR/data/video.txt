@@ -1,0 +1,8 @@
+
+video 320x240
+
+colourdepth 32bit
+
+
+
+

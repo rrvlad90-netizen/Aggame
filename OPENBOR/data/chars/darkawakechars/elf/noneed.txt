@@ -1,0 +1,64 @@
+anim	riseattack
+	loop 0
+	delay	4
+	offset	50 100
+	bbox	10 10 70 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/punch1.wav
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-0.png
+	offset	50 98
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-1.png
+	offset	50 95
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-2.png
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-3.png
+	offset	50 92
+	hitfx	data/chars/DarkAwakeChars/elf/attack.wav
+	attack	10 10 110 110 12 0 0 0 12
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-4.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	50 91
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-5.png
+	delay	4
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-6.png
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-7.png
+	offset	50 94
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-8.png
+	offset	50 95
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-9.png
+	offset	50 96
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-10.png
+	offset	50 97
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-11.png
+	###
+	offset	46 81
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-0.png
+	offset	46 80
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-1.png
+	offset	46 81
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-2.png
+	offset	46 81
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-3.png
+	offset	46 70
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-4.png
+	offset	46 61
+	attack	10 10 110 110 18 0 0 0 19
+	delay	4
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-5.png
+	attack	0 0 0 0 0 0 0 0 0
+	offset	46 61
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-6.png
+	offset	46 65
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-7.png
+	offset	46 82
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-8.png
+	offset	46 102
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-9.png
+	offset	46 84
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-10.png
+	offset	46 75
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-11.png
+	offset	46 76
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-12.png

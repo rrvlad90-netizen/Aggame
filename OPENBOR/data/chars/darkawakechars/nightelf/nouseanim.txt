@@ -1,0 +1,46 @@
+anim	idle
+	loop	1
+	offset	50 104
+	bbox	10 10 80 110
+	delay	9
+	@cmd    rotateunit
+#	platform  -10  90  0  0  40  40  30 10
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-0.png
+	offset	47 104
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-1.png
+	offset	43 105
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-2.png
+	offset	38 105
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-3.png
+	offset	34 105
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-4.png
+	offset	35 104
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-5.png
+	offset	34 102
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-6.png
+	offset	36 100
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-7.png
+	offset	35 96
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-8.png
+	offset	37 93
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-9.png
+	offset	37 91
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-10.png
+	offset	37 90
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-11.png
+	offset	36 90
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-12.png
+	offset	36 90
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-13.png
+	offset	36 91
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-14.png
+	offset	35 91
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-15.png
+	offset	38 92
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-16.png
+	offset	42 93
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-17.png
+	offset	46 95
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-18.png
+	offset	50 98
+	frame	data/chars/DarkAwakeChars/nightelf/idle/n_0-19.png

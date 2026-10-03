@@ -1,0 +1,22 @@
+# Hit flash
+
+name	Flash3
+type	none
+shadow	0
+toflip 1
+
+
+
+anim idle
+	loop	0
+	delay	3
+	offset	32 32
+	frame	data/chars/misc/po01.gif
+	frame	data/chars/misc/po02.gif
+	frame	data/chars/misc/po03.gif
+	frame	data/chars/misc/po04.gif
+	frame	data/chars/misc/po05.gif
+	frame	data/chars/misc/po06.gif
+	frame	data/chars/misc/po07.gif
+
+	

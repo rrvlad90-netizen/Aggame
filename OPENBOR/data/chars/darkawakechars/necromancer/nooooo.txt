@@ -1,0 +1,15 @@
+		
+anim	jumpattack
+	loop	0
+	delay	3
+	offset	54 112
+	bbox	10 10 80 110
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/necromancer/jumpattack/e_600-0.png
+	offset	54 118
+	frame	data/chars/DarkAwakeChars/necromancer/jumpattack/e_600-1.png
+	offset	54 95
+	frame	data/chars/DarkAwakeChars/necromancer/jumpattack/e_600-2.png
+	offset	54 99
+	attack	10 10 110 110 19 1 0 0 19
+	frame	data/chars/DarkAwakeChars/necromancer/jumpattack/e_600-3.png

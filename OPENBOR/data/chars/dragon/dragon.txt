@@ -1,0 +1,299 @@
+name	Dragon
+health	300
+speed	14
+#running       24 3 2 1 0
+type	    enemy
+hostile player npc
+candamage player npc
+shadow	2	
+noquake 1
+dust    dust
+bflash bflash
+cantgrab 1
+notgrab 1
+#aggression 1
+#blockodds 1
+#thold     49
+falldie 2
+#risetime 250
+#holdblock 1
+jumpheight 5
+#facing 1
+#icon	data/chars/dragon/icon.gif
+#icondie    data/chars/misc/icond.gif
+diesound data/chars/dragon/die.wav
+fmap 3
+aimove Avoidx
+rate 0.75
+agression 99
+#facing 3
+nodieblink   3
+
+
+palette data/chars/dragon/dragonpalette.png
+
+#remap	data/chars/dragon/idle.gif   data/chars/dragon/alt.gif
+
+
+
+anim	attack1
+	range	0 130
+	loop	0
+	delay	4
+	move 8
+	offset	400 390
+	bbox	350 230 170 220
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragona1.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragona2.png
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragona3.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragona2.png
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragona1.png
+	move -16
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon3.png
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon3.png
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon3.png
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon3.png
+		
+anim	attack2
+	range	140 260
+	loop	0
+	delay	4
+	offset	400 390
+	bbox	350 230 170 220
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragona1.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragona2.png
+	delay   2
+	attack	430 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dra1.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dra2.png
+	attack	430 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dra3.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dra4.png
+	attack	430 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dra5.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dra6.png
+	attack	430 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dra7.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dra8.png
+	attack	430 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dra9.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dra91.png
+	attack	430 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dra92.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dra93.png
+	attack	430 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dra94.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dra95.png
+	attack	430 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dra96.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragona2.png
+	delay 4
+#	@cmd	projectile 2 "dragonflame" 12 0 23 1 0 0 #23 visota
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragona3.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragona2.png
+	move -16
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon3.png
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon3.png
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon3.png
+	attack	320 230 170 220 11 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon3.png
+		
+			
+anim	death
+	loop	0
+	delay	9
+	offset	400 390
+	bbox	0 0 0 0
+	frame	data/chars/dragon/dragona1.png
+	offset	400 420
+	frame	data/chars/dragon/dragona2.png
+	offset	400 450
+	frame	data/chars/dragon/dragona3.png
+	offset	400 470
+	frame	data/chars/dragon/dragona3.png
+	offset	400 510
+	frame	data/chars/dragon/dragona3.png
+	offset	400 560
+	frame	data/chars/dragon/dragona3.png
+	offset	400 590
+	frame	data/chars/dragon/dragona3.png
+	offset	400 610
+	frame	data/chars/dragon/dragona3.png
+	offset	400 650
+	frame	data/chars/dragon/dragona3.png
+	offset	400 700
+	frame	data/chars/dragon/dragona3.png
+	offset	400 730
+	frame	data/chars/dragon/dragona3.png
+	offset	400 760
+	frame	data/chars/dragon/dragona3.png
+
+	
+anim	fall
+	loop	0
+	delay	1
+	offset	400 390
+	sound	data/sounds/skldie.wav
+	frame	data/chars/dragon/dragon2.png
+		
+	
+	
+anim	pain
+	loop	0
+	delay	3
+	offset	400 390
+	bbox	0 0 0 0
+	sound	data/sounds/sklhit.wav
+	move -9
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragona1.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragona2.png
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragona3.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragona2.png
+		
+anim	rise
+	loop	0
+	offset	400 390
+	delay	4
+	bbox 	0 0 0 0
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+		
+anim	spawn
+	loop	0
+	bbox	0 0 0 0
+	delay	10
+
+	offset	400 760
+	frame	data/chars/dragon/dragona3.png
+	offset	400 730
+	frame	data/chars/dragon/dragona3.png
+	offset	400 700
+	frame	data/chars/dragon/dragona3.png
+	offset	400 650
+	frame	data/chars/dragon/dragona3.png
+	offset	400 610
+	frame	data/chars/dragon/dragona3.png
+	offset	400 590
+	frame	data/chars/dragon/dragona3.png
+	offset	400 560
+	frame	data/chars/dragon/dragona3.png
+	offset	400 510
+	frame	data/chars/dragon/dragona3.png
+	offset	400 470
+	frame	data/chars/dragon/dragona3.png
+	offset	400 450
+	frame	data/chars/dragon/dragona3.png
+	offset	400 420
+	frame	data/chars/dragon/dragona2.png
+	offset	400 390
+	frame	data/chars/dragon/dragona1.png
+######################
+	offset	400 390
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+
+
+anim	idle
+	loop	1
+	bbox	350 230 170 220
+	delay	20
+	offset	400 390
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+
+
+		
+anim	walk
+	loop	1
+	offset	400 390
+	bbox	350 230 170 220
+	delay	10
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon3.png
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragon2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragon3.png
+
+
+anim	turn
+	loop	0
+	bbox	350 230 170 220
+	delay	8
+	offset	340 390
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragont1.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/dragon/dragont2.png
+	attack	320 230 170 220 5 0 0 0 0
+	frame	data/chars/dragon/dragont3.png
+
+		
+#|edited by openBor Stats v 0.41
+		

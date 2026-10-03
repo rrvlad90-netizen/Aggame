@@ -1,0 +1,14 @@
+name item1
+type item
+health 200
+subtype touch
+grabdistance 1
+nolife 1
+
+anim idle
+	loop 1
+	delay 15
+	offset 45 54
+		bbox  0  0  119  117
+	frame	data/items/item1/1.png
+

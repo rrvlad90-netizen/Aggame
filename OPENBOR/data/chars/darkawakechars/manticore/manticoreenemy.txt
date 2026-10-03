@@ -1,0 +1,339 @@
+name	Manticore
+health	230
+speed	14
+#running       24 3 2 1 0
+type	    enemy
+hostile player npc
+candamage player npc
+shadow	2	
+noquake 1
+dust    dust
+bflash bflash
+cantgrab 1
+notgrab 1
+#aggression 1
+#blockodds 1
+#thold     49
+#falldie 2
+#risetime 250
+#holdblock 1
+jumpheight 5
+#facing 1
+#icon	data/chars/DarkAwakeChars/manticore/icon.gif
+#icondie    data/chars/misc/icond.gif
+diesound data/chars/DarkAwakeChars/manticore/die.wav
+fmap 3
+aimove Avoidx
+rate 0.75
+agression 99
+nodieblink   3
+
+palette data/chars/DarkAwakeChars/manticore/m_0-0.png
+
+#remap	data/chars/DarkAwakeChars/manticore/idle.gif   data/chars/DarkAwakeChars/manticore/alt.gif
+
+animationscript data/scripts/myanimmmmm.c
+
+
+com     a2	freespecial12
+
+
+anim	attack1
+	range	0 130
+	loop	0
+	delay	4
+	offset	108 178
+	bbox	40 75 130 60
+#	delay	7
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  40  40  30 10
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-12.png
+	offset	108 178
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-13.png
+	offset	108 178
+	attack	10 10 205 170 25 1 0 0 19
+	hitfx	data/chars/DarkAwakeChars/manticore/attack.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-14.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	108 178
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-15.png
+	offset	108 162
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-16.png
+	offset	108 162
+	attack	10 10 205 170 25 1 0 0 19
+	hitfx	data/chars/DarkAwakeChars/manticore/attack.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-17.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	108 178
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-18.png
+	offset	108 162
+	attack	10 10 205 170 25 1 0 0 19
+	hitfx	data/chars/DarkAwakeChars/manticore/attack.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-19.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	108 162
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-20.png
+	offset	108 178
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-21.png
+
+		
+anim	freespecial12
+	range	90 190
+	loop	0
+	delay	5
+	offset	104 148
+	bbox	40 75 130 60
+#	delay	9
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  40  40  30 10
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/manticore/attack2/m_200-0.png
+	offset	118 164
+	frame	data/chars/DarkAwakeChars/manticore/attack2/m_200-1.png
+	offset	108 180
+	frame	data/chars/DarkAwakeChars/manticore/attack2/m_200-2.png
+	offset	76 164
+	frame	data/chars/DarkAwakeChars/manticore/attack2/m_200-3.png
+	offset	76 180
+	frame	data/chars/DarkAwakeChars/manticore/attack2/m_200-4.png
+	offset	76 180
+	attack	10 10 205 170 25 1 0 0 19
+	hitfx	data/chars/DarkAwakeChars/manticore/attack.wav
+	frame	data/chars/DarkAwakeChars/manticore/attack2/m_200-5.png
+	offset	76 164	
+	attack	0 0 0 0 0 0 0 0 0 0
+	frame	data/chars/DarkAwakeChars/manticore/attack2/m_200-6.png
+	delay	10
+	offset	108 180
+	frame	data/chars/DarkAwakeChars/manticore/attack2/m_200-7.png
+	offset	108 164
+	frame	data/chars/DarkAwakeChars/manticore/attack2/m_200-8.png
+	offset	104 148
+	frame	data/chars/DarkAwakeChars/manticore/attack2/m_200-0.png
+		
+			
+anim	death
+	loop	0
+	delay	10
+	offset	134 68
+	bbox	0 0 0 0
+	@cmd 	restoreHealthforplayer
+	frame	data/chars/DarkAwakeChars/manticore/fall/m_5041-10.png
+	frame	data/chars/DarkAwakeChars/manticore/fall/m_5041-10.png
+
+
+		
+anim	fall
+	loop	0
+	delay	3
+	offset	106 161
+#	platform  -10  90  0  0  40  40  30 10
+	sound	data/sounds/skldie.wav
+	frame	data/chars/DarkAwakeChars/manticore/fall/m_5041-0.png
+	offset	134 68
+	frame	data/chars/DarkAwakeChars/manticore/fall/m_5041-10.png
+		
+
+
+anim 	jump
+	loop	0
+	delay	5
+	offset	115 140
+	bbox	40 75 130 60
+	delay	1
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/manticore/jump/m_100-0.png
+	offset	115 144
+	frame	data/chars/DarkAwakeChars/manticore/jump/m_100-1.png
+	offset	115 128
+	frame	data/chars/DarkAwakeChars/manticore/jump/m_100-2.png
+	offset	115 144
+	frame	data/chars/DarkAwakeChars/manticore/jump/m_100-3.png
+	offset	115 144
+	frame	data/chars/DarkAwakeChars/manticore/jump/m_100-4.png
+	offset	115 144
+	frame	data/chars/DarkAwakeChars/manticore/jump/m_100-5.png
+	offset	115 160
+	frame	data/chars/DarkAwakeChars/manticore/jump/m_100-6.png
+	offset	115 176
+	frame	data/chars/DarkAwakeChars/manticore/jump/m_100-7.png
+
+		
+anim	jumpattack
+	loop	0
+	range	160 220
+	delay	3
+	offset	100 224
+	bbox	40 75 130 60
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/manticore/jumpattack/m_330-0.png
+	offset	100 208
+	frame	data/chars/DarkAwakeChars/manticore/jumpattack/m_330-1.png
+	offset	100 208
+	frame	data/chars/DarkAwakeChars/manticore/jumpattack/m_330-2.png
+	offset	100 208
+	attack	40 75 150 100 19 1 0 0 19
+	frame	data/chars/DarkAwakeChars/manticore/jumpattack/m_330-3.png		
+	
+anim	pain
+	loop	0
+	delay	3
+	offset	115 162
+	bbox	0 0 0 0
+	sound	data/sounds/sklhit.wav
+#	platform  -10  90  0  0  40 40  35 15
+	move -9
+	frame	data/chars/DarkAwakeChars/manticore/pain1/m_5000-0.png
+	offset	115 162
+	frame	data/chars/DarkAwakeChars/manticore/pain1/m_5000-10.png
+	offset	115 162
+	frame	data/chars/DarkAwakeChars/manticore/pain1/m_5000-20.png
+		
+anim	rise
+	loop	0
+	offset	134 68
+	delay	8
+	bbox 	0 0 0 0
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/manticore/fall/m_5041-10.png
+	frame	data/chars/DarkAwakeChars/manticore/fall/m_5041-10.png
+#####
+	delay 6
+	move -7
+	offset	105 146
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-0.png
+	offset	105 146
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-1.png
+	offset	105 146
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-2.png
+	offset	105 146
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-3.png
+	offset	105 130
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-4.png
+	offset	105 130
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-5.png
+	offset	105 130
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-6.png
+######
+	move 0
+	delay 4
+	offset	108 178
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-12.png
+	offset	108 178
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-13.png
+	offset	108 178
+	attack	10 10 205 170 25 1 0 0 19
+	hitfx	data/chars/DarkAwakeChars/manticore/attack.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-14.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	108 178
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-15.png
+	offset	108 162
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-16.png
+	offset	108 162
+	attack	10 10 205 170 25 1 0 0 19
+	hitfx	data/chars/DarkAwakeChars/manticore/attack.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-17.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	108 178
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-18.png
+	offset	108 162
+	attack	10 10 205 170 25 1 0 0 19
+	hitfx	data/chars/DarkAwakeChars/manticore/attack.wav
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-19.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	108 162
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-20.png
+	offset	108 178
+	frame	data/chars/DarkAwakeChars/manticore/lowpunch/m_3000-21.png
+		
+anim	spawn
+	loop	0
+	offset	120 132
+	bbox	0 0 0 0
+	delay	10
+	frame	data/chars/DarkAwakeChars/manticore/intro/m_195-0.png
+	offset	118 132
+
+	frame	data/chars/DarkAwakeChars/manticore/intro/m_195-1.png
+	offset	132 132
+	delay 100
+	frame	data/chars/DarkAwakeChars/manticore/intro/m_195-2.png
+	delay 10
+	offset	118 132
+	frame	data/chars/DarkAwakeChars/manticore/intro/m_195-1.png
+
+
+	offset	120 132
+	frame	data/chars/DarkAwakeChars/manticore/intro/m_195-0.png
+
+
+anim	idle
+	loop	1
+	bbox	40 75 130 60
+	delay	9
+	offset	98 132
+	frame	data/chars/DarkAwakeChars/manticore/idle/m_0-0.png
+	offset	114 132
+	frame	data/chars/DarkAwakeChars/manticore/idle/m_0-1.png
+	offset	114 148
+	frame	data/chars/DarkAwakeChars/manticore/idle/m_0-2.png
+	offset	114 148
+	frame	data/chars/DarkAwakeChars/manticore/idle/m_0-3.png
+	offset	82 164
+	frame	data/chars/DarkAwakeChars/manticore/idle/m_0-4.png
+	offset	82 164
+	frame	data/chars/DarkAwakeChars/manticore/idle/m_0-5.png
+	offset	82 164
+	frame	data/chars/DarkAwakeChars/manticore/idle/m_0-6.png
+	offset	82 148
+	frame	data/chars/DarkAwakeChars/manticore/idle/m_0-7.png
+	offset	82 148
+	frame	data/chars/DarkAwakeChars/manticore/idle/m_0-8.png
+	offset	82 148
+	frame	data/chars/DarkAwakeChars/manticore/idle/m_0-9.png
+
+		
+anim	walk
+	loop	1
+	offset	105 146
+	bbox	40 75 130 60
+#	bbox	0 0 0 0
+	delay	8
+#	#@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-0.png
+	offset	105 146
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-1.png
+	offset	105 146
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-2.png
+	offset	105 146
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-3.png
+	offset	105 130
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-4.png
+	offset	105 130
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-5.png
+	offset	105 130
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-6.png
+	offset	105 130
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-7.png
+	offset	105 130
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-8.png
+	offset	105 130
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-9.png
+	offset	105 130
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-10.png
+	offset	105 146
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-11.png
+	offset	105 146
+	frame	data/chars/DarkAwakeChars/manticore/walk/m_20-12.png
+		
+#|edited by openBor Stats v 0.41
+		

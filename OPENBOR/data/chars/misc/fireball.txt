@@ -1,0 +1,24 @@
+name	fireball
+health	1
+nolife  1
+#hitenemy 1
+type	pshot
+speed   30
+shadow	0
+#subtype flydie
+
+anim idle
+	loop	1
+        delay   8
+	#offset	-86 20
+offset -86 0
+hitflash flash6
+	burn	4 4 30 16 55 1 1 0 1 120
+        hitfx   data/sounds/sla.wav
+	frame	data/chars/misc/fireb1.gif
+        delay   8
+        frame	data/chars/misc/fireb2.gif
+        delay   8
+        frame	data/chars/misc/fireb1.gif
+        delay   8
+        frame	data/chars/misc/fireb2.gif

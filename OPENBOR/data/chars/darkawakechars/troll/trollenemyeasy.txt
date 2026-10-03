@@ -1,0 +1,491 @@
+name	Troll__
+health	200
+speed	8
+running       16 3 2 1 0
+type	    enemy
+hostile player npc
+candamage player npc
+shadow	2	
+noquake 1
+dust    dust
+bflash bflash
+cantgrab 1
+notgrab 1
+#aggression 1
+blockodds 1
+thold     49
+#falldie 2
+#risetime 250
+#holdblock 1
+jumpheight 4
+#facing 1
+#icon	data/chars/DarkAwakeChars/troll/icon.gif
+#icondie    data/chars/misc/icond.gif
+diesound data/chars/DarkAwakeChars/troll/die.wav
+fmap 3
+aimove Avoidx
+rate 0.75
+agression 70
+nodieblink   3
+
+palette data/chars/DarkAwakeChars/troll/t_0-0.png
+
+#remap	data/chars/DarkAwakeChars/troll/idle.gif   data/chars/DarkAwakeChars/troll/alt.gif
+
+animationscript data/scripts/myanimmmmm.c
+
+
+com     a2	freespecial12
+#com     b	freespecial13
+
+
+anim	attack1
+	range	0 145
+	loop	0
+	delay	5
+	offset	62 162
+	bbox	10 10 110 190
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/dubina.wav
+	frame	data/chars/DarkAwakeChars/troll/lowpunch/t_200-0.png
+	offset	62 160
+	frame	data/chars/DarkAwakeChars/troll/lowpunch/t_200-1.png
+	offset	30 160
+	frame	data/chars/DarkAwakeChars/troll/lowpunch/t_200-2.png
+	offset	30 152
+	frame	data/chars/DarkAwakeChars/troll/lowpunch/t_200-3.png
+	offset	30 151
+	delay	4
+	hitfx	data/chars/DarkAwakeChars/troll/attack.wav
+	attack	10 10 160 110 15 0 0 0 12
+	frame	data/chars/DarkAwakeChars/troll/lowpunch/t_200-4.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	30 152
+	frame	data/chars/DarkAwakeChars/troll/lowpunch/t_200-5.png
+	offset	32 158
+	frame	data/chars/DarkAwakeChars/troll/lowpunch/t_200-6.png
+	#########	
+	offset	50 162
+	sound	data/sounds/dubina.wav
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-0.png
+	offset	50 170
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-1.png
+	offset	50 260
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-2.png
+	offset	50 274
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-3.png
+	offset	50 279
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-4.png
+	offset	50 278
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-5.png
+	offset	70 275
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-6.png
+	offset	70 187
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-7.png
+	offset	70 165
+	delay	5
+	attack	30 95 190 70 20 0 0 0 19
+	hitfx	data/chars/DarkAwakeChars/troll/attack.wav
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-8.png
+	offset	70 167
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-9.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	70 166
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-10.png
+	offset	70 158
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-11.png
+	delay	6
+	offset	70 164
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-12.png
+	offset	70 161
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-13.png
+	#####
+	move   -4
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-0.png
+	offset	50 167
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-1.png
+	offset	50 163
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-2.png
+	offset	50 159
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-3.png
+	offset	50 162
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-4.png
+	offset	50 164
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-5.png
+	offset	75 167
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-6.png
+	offset	75 166
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-7.png
+
+		
+anim	freespecial12
+#	range	0 90
+	loop	0
+	delay	5
+	offset	50 162
+	bbox	10 10 110 190
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/dubina.wav
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-0.png
+	offset	50 170
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-1.png
+	offset	50 260
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-2.png
+	offset	50 274
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-3.png
+	offset	50 279
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-4.png
+	offset	50 278
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-5.png
+	offset	70 275
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-6.png
+	offset	70 187
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-7.png
+	offset	70 165
+	delay	5
+	attack	30 95 190 70 19 0 0 0 19
+	hitfx	data/chars/DarkAwakeChars/troll/attack.wav
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-8.png
+	offset	70 167
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-9.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	70 166
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-10.png
+	offset	70 158
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-11.png
+	offset	70 164
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-12.png
+	offset	70 161
+	frame	data/chars/DarkAwakeChars/troll/attack2/t_240-13.png
+	###################
+	delay	6
+	move   -4
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-0.png
+	offset	50 167
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-1.png
+	offset	50 163
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-2.png
+	offset	50 159
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-3.png
+	offset	50 162
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-4.png
+	offset	50 164
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-5.png
+	offset	75 167
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-6.png
+	offset	75 166
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-7.png
+		
+				
+anim	block
+	loop	0
+	delay	3
+	offset	65 162
+	bbox	0 0 0 0
+	#move	-10
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/guard.wav
+	attack  10 10 110 190 0 0 0 0 0
+	frame	data/chars/DarkAwakeChars/troll/block/t_120-0.png
+	offset	65 164
+	frame	data/chars/DarkAwakeChars/troll/block/t_120-1.png
+	offset	65 163
+	frame	data/chars/DarkAwakeChars/troll/block/t_120-2.png
+	offset	65 165
+	frame	data/chars/DarkAwakeChars/troll/block/t_120-3.png
+	offset	65 167
+	delay 	50
+	frame	data/chars/DarkAwakeChars/troll/block/t_121-0.png
+	offset	65 167
+	frame	data/chars/DarkAwakeChars/troll/block/t_121-0.png
+	delay   3
+	offset	65 167
+	frame	data/chars/DarkAwakeChars/troll/block/t_121-0.png
+		
+		
+anim	death
+	loop	0
+	delay	10
+	offset	95 130
+	bbox	0 0 0 0
+	@cmd 	restoreHealthforplayer
+	frame	data/chars/DarkAwakeChars/troll/fall/t_5030-30.png
+	frame	data/chars/DarkAwakeChars/troll/fall/t_5030-30.png
+
+
+anim	duck
+	loop	0
+	delay	5
+	offset	80 135
+	bbox	30 30 120 170
+	delay	1
+#	platform  -10  90  0  0  40  40  25  10
+	frame	data/chars/DarkAwakeChars/troll/duck/t_6-2.png
+
+
+anim	duckattack
+	loop	0
+	offset	74 136
+	bbox	10 30 110 170
+	delay	3
+	frame	data/chars/DarkAwakeChars/troll/duckattack/t_400-0.png
+	offset	34 135
+	frame	data/chars/DarkAwakeChars/troll/duckattack/t_400-1.png
+	offset	34 135
+	frame	data/chars/DarkAwakeChars/troll/duckattack/t_400-2.png
+	offset	34 135
+	attack	10 10 170 110 24 0 0 0 19
+	delay	4
+	frame	data/chars/DarkAwakeChars/troll/duckattack/t_400-3.png
+	attack	0 0 0 0 0 0 0 0 0
+	offset	32 133
+	frame	data/chars/DarkAwakeChars/troll/duckattack/t_400-4.png
+	offset	32 132
+	frame	data/chars/DarkAwakeChars/troll/duckattack/t_400-5.png
+
+		
+anim	fall
+	loop	0
+	delay	1
+	offset	95 170
+#	platform  -10  90  0  0  40  40  30 10
+	sound	data/sounds/skldie.wav
+	frame	data/chars/DarkAwakeChars/troll/fall/t_5030-20.png
+	offset	95 130
+	frame	data/chars/DarkAwakeChars/troll/fall/t_5030-30.png
+	offset	95 130
+	frame	data/chars/DarkAwakeChars/troll/fall/t_5030-40.png
+		
+
+
+anim 	jump
+	loop	0
+	delay	5
+	offset	75 192
+	bbox	10 10 110 160
+	delay	1
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/troll/jump/t_41-0.png
+	offset	75 187
+	frame	data/chars/DarkAwakeChars/troll/jump/t_41-1.png
+	offset	75 180
+	frame	data/chars/DarkAwakeChars/troll/jump/t_41-2.png
+	offset	75 174
+	frame	data/chars/DarkAwakeChars/troll/jump/t_41-3.png
+	offset	75 172
+	frame	data/chars/DarkAwakeChars/troll/jump/t_41-4.png
+	offset	75 174
+	frame	data/chars/DarkAwakeChars/troll/jump/t_41-5.png
+	offset	75 180
+	frame	data/chars/DarkAwakeChars/troll/jump/t_41-6.png
+	offset	75 183
+	frame	data/chars/DarkAwakeChars/troll/jump/t_41-7.png
+	offset	75 187
+	frame	data/chars/DarkAwakeChars/troll/jump/t_41-8.png
+
+		
+anim	jumpattack
+	loop	0
+	delay	4
+	offset	64 162
+	bbox	10 10 110 160
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/troll/jumpattack/t_600-0.png
+	offset	64 159
+	frame	data/chars/DarkAwakeChars/troll/jumpattack/t_600-1.png
+	offset	64 162
+	frame	data/chars/DarkAwakeChars/troll/jumpattack/t_600-2.png
+	offset	64 169
+	attack	10 45 140 120 21 1 0 0 19
+	frame	data/chars/DarkAwakeChars/troll/jumpattack/t_600-3.png
+	offset	64 172
+	frame	data/chars/DarkAwakeChars/troll/jumpattack/t_600-4.png
+	attack	0 0 0 0 0 0 0 0 0
+	offset	64 168
+	frame	data/chars/DarkAwakeChars/troll/jumpattack/t_600-5.png
+		
+
+
+anim	jumpland
+	loop	0
+	delay	5
+	offset	80 135
+	bbox	30 30 120 170
+	delay	6
+#	platform  -10  90  0  0  40  40  25  10
+	frame	data/chars/DarkAwakeChars/troll/duck/t_6-2.png
+	frame	data/chars/DarkAwakeChars/troll/duck/t_6-2.png
+	
+anim	pain
+	loop	0
+	delay	3
+	offset	60 163
+	bbox	0 0 0 0
+	move -6
+	sound	data/sounds/sklhit.wav
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/troll/pain1/t_5000-0.png
+	offset	60 169
+	frame	data/chars/DarkAwakeChars/troll/pain1/t_5000-1.png
+	offset	60 172
+	frame	data/chars/DarkAwakeChars/troll/pain1/t_5000-10.png
+
+		
+anim	rise
+	loop	0
+	offset	95 130
+	delay	8
+	bbox 	0 0 0 0
+#	platform  -10  90  0  0  40 40  35 15
+	@cmd changeAnimation "ANI_BLOCK"
+	frame	data/chars/DarkAwakeChars/troll/fall/t_5030-30.png
+	frame	data/chars/DarkAwakeChars/troll/fall/t_5030-30.png
+		
+anim	spawn
+	loop	0
+	offset	56 160
+	bbox	0 0 0 0
+	delay	10
+	frame	data/chars/DarkAwakeChars/troll/intro/t_10-0.png
+	offset	56 158
+	frame	data/chars/DarkAwakeChars/troll/intro/t_10-1.png
+	offset	56 148
+	frame	data/chars/DarkAwakeChars/troll/intro/t_10-2.png
+	offset	56 142
+	frame	data/chars/DarkAwakeChars/troll/intro/t_10-3.png
+	offset	56 136
+	frame	data/chars/DarkAwakeChars/troll/intro/t_11-0.png
+	offset	56 136
+	frame	data/chars/DarkAwakeChars/troll/intro/t_11-1.png
+	offset	56 135
+	frame	data/chars/DarkAwakeChars/troll/intro/t_11-2.png
+	offset	56 134
+	frame	data/chars/DarkAwakeChars/troll/intro/t_11-3.png
+	offset	56 134
+	frame	data/chars/DarkAwakeChars/troll/intro/t_11-4.png
+	offset	56 134
+	frame	data/chars/DarkAwakeChars/troll/intro/t_11-3.png
+	offset	56 134
+	frame	data/chars/DarkAwakeChars/troll/intro/t_11-4.png
+	offset	56 135
+	frame	data/chars/DarkAwakeChars/troll/intro/t_11-2.png
+	offset	56 136
+	frame	data/chars/DarkAwakeChars/troll/intro/t_11-1.png
+	offset	56 136
+	frame	data/chars/DarkAwakeChars/troll/intro/t_11-0.png
+	offset	56 142
+	frame	data/chars/DarkAwakeChars/troll/intro/t_10-3.png
+	delay 9
+	offset	56 148
+	frame	data/chars/DarkAwakeChars/troll/intro/t_10-2.png
+	delay 8
+	offset	56 158
+	frame	data/chars/DarkAwakeChars/troll/intro/t_10-1.png
+
+anim	idle
+	loop	1
+	offset	60 161
+	bbox	10 10 110 190
+	delay	11
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  40  40  30 10
+	frame	data/chars/DarkAwakeChars/troll/idle/t_0-0.png
+	offset	59 161
+	frame	data/chars/DarkAwakeChars/troll/idle/t_0-1.png
+	offset	57 161
+	frame	data/chars/DarkAwakeChars/troll/idle/t_0-2.png
+	offset	55 161
+	frame	data/chars/DarkAwakeChars/troll/idle/t_0-3.png
+	offset	53 160
+	frame	data/chars/DarkAwakeChars/troll/idle/t_0-4.png
+	offset	55 161
+	frame	data/chars/DarkAwakeChars/troll/idle/t_0-3.png
+	offset	57 161
+	frame	data/chars/DarkAwakeChars/troll/idle/t_0-2.png
+	offset	59 161
+	frame	data/chars/DarkAwakeChars/troll/idle/t_0-1.png
+
+
+		
+anim	walk
+	loop	1
+	offset	50 168
+	bbox	10 10 110 190
+#	bbox	0 0 0 0
+	delay	8
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-0.png
+	offset	50 167
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-1.png
+	offset	50 163
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-2.png
+	offset	50 159
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-3.png
+	offset	50 162
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-4.png
+	offset	50 164
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-5.png
+	offset	50 167
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-6.png
+	offset	50 166
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-7.png
+
+
+anim	freespecial13
+	loop	0
+	offset	50 168
+	bbox	10 10 110 190
+#	bbox	0 0 0 0
+	delay	6
+	move   -4
+	#@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-0.png
+	offset	50 167
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-1.png
+	offset	50 163
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-2.png
+	offset	50 159
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-3.png
+	offset	50 162
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-4.png
+	offset	50 164
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-5.png
+	offset	75 167
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-6.png
+	offset	75 166
+	frame	data/chars/DarkAwakeChars/troll/walk/t_20-7.png
+
+anim	run
+	loop	1
+	offset	50 167
+	bbox	10 10 110 190
+#	bbox	0 0 0 0
+	delay	8
+#	#@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	frame	data/chars/DarkAwakeChars/troll/run/t_101-0.png
+	offset	50 170
+	frame	data/chars/DarkAwakeChars/troll/run/t_101-1.png
+	offset	50 171
+	frame	data/chars/DarkAwakeChars/troll/run/t_101-2.png
+	offset	50 160
+	frame	data/chars/DarkAwakeChars/troll/run/t_101-3.png
+	offset	50 165
+	frame	data/chars/DarkAwakeChars/troll/run/t_101-4.png
+	offset	50 169
+	frame	data/chars/DarkAwakeChars/troll/run/t_101-5.png
+	offset	50 172
+	frame	data/chars/DarkAwakeChars/troll/run/t_101-6.png
+	offset	50 172
+	frame	data/chars/DarkAwakeChars/troll/run/t_101-7.png
+		
+#|edited by openBor Stats v 0.41
+		

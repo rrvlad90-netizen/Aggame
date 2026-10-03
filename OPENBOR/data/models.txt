@@ -1,0 +1,143 @@
+
+nolost 1
+versusdamage 0
+spdirection  1 1 1 1
+nodropen 1
+autoland  2
+colourselect 1
+ajspecial 0
+maxattacks		20
+maxfreespecials		20
+
+# Required objects. These must always be loaded.
+load	Dust		data/chars/misc/dust.txt
+load	Flash		data/chars/misc/flash.txt
+load	Flash2	data/chars/misc/flash2.txt
+load	Flash3	data/chars/misc/flash3.txt
+load	Flash4	data/chars/misc/flash4.txt
+load	Flash5	data/chars/misc/flash5.txt
+load	Flash6	data/chars/misc/flash6.txt
+load	Bflash	data/chars/misc/bflash.txt
+load	NoFlash		data/chars/misc/nflash.txt
+load	Freze		data/chars/misc/freze.txt
+
+# Players must also be loaded.
+load 	Orc		data/chars/DarkAwakeChars/orc/orcplayer.txt
+load	Barbarian 	data/chars/DarkAwakeChars/barbarian/barbarianplayer.txt
+load	Elf		data/chars/DarkAwakeChars/elf/elfplayer.txt
+load    Dwarf 		data/chars/DarkAwakeChars/dwarf/dwarfplayer.txt
+load    Nightelf	data/chars/DarkAwakeChars/nightelf/nightelfplayer.txt
+load    Necromancer	data/chars/DarkAwakeChars/necromancer/necromancerplayer.txt
+load 	Troll		data/chars/DarkAwakeChars/troll/trollplayer.txt
+load 	Manticore 	data/chars/DarkAwakeChars/manticore/manticoreenemy.txt
+
+
+load 	Orc_		data/chars/DarkAwakeChars/orc/orcenemy.txt
+load 	Orc__		data/chars/DarkAwakeChars/orc/orcenemyeasy.txt
+load	Elf_		data/chars/DarkAwakeChars/elf/elfenemy.txt
+load	Elf__		data/chars/DarkAwakeChars/elf/elfenemyeasy.txt
+load	NightElf_	data/chars/DarkAwakeChars/nightelf/nightelfenemy.txt
+load	NightElf__	data/chars/DarkAwakeChars/nightelf/nightelfenemyeasy.txt
+load	Troll_		data/chars/DarkAwakeChars/troll/trollenemy.txt
+load	Troll__		data/chars/DarkAwakeChars/troll/trollenemyeasy.txt
+
+load	Dragon		data/chars/dragon/dragon.txt
+
+#items
+know	item1	data/items/item1/item1.txt
+know	item2	data/items/item2/item2.txt
+know	1up	data/items/1up/1up.txt
+
+
+load    necroprojectile data/chars/DarkAwakeChars/necromancer/necroprojectile.txt
+load    necroprojectile2 data/chars/DarkAwakeChars/necromancer/necroprojectile2.txt
+load    dragonflame	data/chars/dragon/dragonflame.txt
+
+#----
+know 	skeleton2 	data/chars/skeleton/skeleton2.txt
+
+# Magics.
+load    ma1		data/chars/misc/magic/ma1.txt
+#load    ma1hit	data/chars/misc/magic/ma1hit.txt
+#load    ma2		data/chars/misc/magic/ma2.txt
+#load    ma2hit	data/chars/misc/magic/ma2hit.txt
+#load    ma3		data/chars/misc/magic/ma3.txt
+#load    ma4		data/chars/misc/magic/ma4.txt
+load    ma5		data/chars/misc/magic/ma5.txt
+#load    ma6		data/chars/misc/magic/ma6.txt
+load    ma8		data/chars/misc/magic/ma8.txt
+
+# Items and other objects can be loaded when needed.
+know    gold1      data/chars/misc/gold1.txt
+know    gold2      data/chars/misc/gold2.txt
+know    gold3      data/chars/misc/gold3.txt
+know    gaunt      data/chars/misc/gaunt.txt
+know    amet       data/chars/misc/amet.txt
+know    topaz      data/chars/misc/topaz.txt
+know    amber      data/chars/misc/amber.txt
+know    diamond    data/chars/misc/diamond.txt
+know    straw      data/chars/misc/straw.txt
+know    banana     data/chars/misc/banana.txt
+know    grapes     data/chars/misc/grapes.txt
+know    gapple     data/chars/misc/gapple.txt
+know    rapple     data/chars/misc/rapple.txt
+know    spotion	 data/chars/misc/spotion.txt
+know    bpotion	 data/chars/misc/bpotion.txt
+know    scroll	 data/chars/misc/scroll.txt
+know    pork     data/chars/misc/pork.txt
+know    meat     data/chars/misc/meat.txt
+know    Bloodstone       data/chars/misc/Bloodstone.txt
+know    LevelEnd	data/chars/misc/LevelEnd.txt
+know 	Portal		data/chars/misc/Portal.txt
+know	horse3		data/chars/misc/horse3.txt
+know	firepit		data/chars/misc/firepit.txt
+know    Bread       data/chars/misc/Bread.txt
+
+# Obstacles (item containers)
+know    casket1	data/chars/misc/casket1.txt
+know    casket2	data/chars/misc/casket2.txt
+know    casket3	data/chars/misc/casket3.txt
+know    crate	data/chars/misc/crate.txt
+know    barrel	data/chars/misc/barrel.txt
+know    jar1	data/chars/misc/jar1.txt
+know    jar2	data/chars/misc/jar2.txt
+know    corpse	data/chars/misc/corpse.txt
+know    fence	data/chars/misc/fence.txt
+know    lamp	data/chars/misc/lamp.txt
+know    sign	data/chars/misc/sign.txt
+#know	Pool          data/chars/Pool/Pool.txt
+know	icefr		data/chars/misc/icefr.txt
+know	wheel		data/chars/misc/wheel.txt
+know	wall		data/chars/misc/wall.txt
+know	dmist		data/chars/misc/dmist.txt
+
+know 	stone		data/chars/misc/stone/stone.txt
+#know 	stone2		data/chars/misc/stone2.txt
+
+know    Knife     data/chars/misc/knife.txt
+know    Knife1     data/chars/misc/knife1.txt
+know    quote1    data/chars/misc/quote1.txt
+know    quote2    data/chars/misc/quote2.txt
+know    quote3    data/chars/misc/quote3.txt
+know    quote4    data/chars/misc/quote4.txt
+know    quote5    data/chars/misc/quote5.txt
+know    flame01	data/chars/misc/flame/flame01.txt
+know    flame02	data/chars/misc/flame/flame02.txt
+know    flame03	data/chars/misc/flame/flame03.txt
+know    mist	data/chars/misc/mist.txt
+know    help	data/chars/misc/help.txt
+know    boat	data/chars/misc/boat.txt
+know    Knife      data/chars/misc/knife.txt
+load    Shot2      data/chars/misc/shot2.txt
+load   Fireball      data/chars/misc/Fireball.txt
+load    Magicb     data/chars/misc/magicb.txt
+load    Blastb     data/chars/misc/blastb.txt
+load    Iceb       data/chars/misc/iceb.txt
+know	Snowfall	data/chars/misc/snowfall.txt
+know  lb       data/chars/misc/lb/lb.txt
+#know litball    data/chars/may/litball.txt
+load	x		data/chars/misc/x.txt
+load	wolf		data/chars/misc/wolf.txt
+load	ball		data/chars/misc/ball.txt
+
+

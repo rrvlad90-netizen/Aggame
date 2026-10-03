@@ -1,0 +1,562 @@
+name	Elf_
+health	200
+speed	12
+running       22 3 2 1 0
+type	    enemy
+hostile player npc
+candamage player npc
+shadow	2	
+noquake 1
+dust    dust
+bflash bflash
+cantgrab 1
+notgrab 1
+#aggression 1
+blockodds 1
+# 1 = Block attacks from back are possible
+blockback 1  
+jumpheight 4
+thold     49
+falldie 2
+#risetime 250
+holdblock 1
+#facing 1
+#icon	data/chars/DarkAwakeChars/elf/icon.gif
+#icondie    data/chars/misc/icond.gif
+diesound data/chars/DarkAwakeChars/elf/die.wav
+fmap 3
+aimove Avoidx
+rate 0.75
+agression 99
+nodieblink   3
+
+palette data/chars/DarkAwakeChars/elf/e_0-0.png
+
+#remap	data/chars/DarkAwakeChars/elf/idle.gif   data/chars/DarkAwakeChars/elf/alt.gif
+
+animationscript data/scripts/myanimmmmm.c
+
+
+#com     a2	freespecial12
+
+
+anim	attack1
+#	range	0 90
+	loop	0
+	delay	3
+	offset	50 100
+	bbox	10 10 70 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-0.png
+	offset	50 98
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-1.png
+	offset	50 95
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-2.png
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-3.png
+	offset	50 92
+	hitfx	data/chars/DarkAwakeChars/elf/attack.wav
+	attack	10 10 110 110 12 0 0 0 12
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-4.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	delay	4
+	offset	50 91
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-5.png
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-6.png
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-7.png
+	offset	50 94
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-8.png
+	offset	50 95
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-9.png
+	offset	50 96
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-10.png
+	offset	50 97
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-11.png
+	###
+	sound	data/sounds/sword1.wav
+	offset	46 81
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-0.png
+	offset	46 80
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-1.png
+	offset	46 81
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-2.png
+	offset	46 81
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-3.png
+	offset	46 70
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-4.png
+	offset	46 61
+	attack	10 10 110 110 18 0 0 0 19
+	delay	4
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-5.png
+	attack	0 0 0 0 0 0 0 0 0
+	offset	46 61
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-6.png
+	offset	46 65
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-7.png
+	offset	46 82
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-8.png
+	offset	46 102
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-9.png
+	offset	46 84
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-10.png
+	offset	46 75
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-11.png
+	offset	46 76
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-12.png
+		
+anim	attack2
+#	range	0 90
+	loop	0
+	delay	5
+	offset	70 103
+	bbox	10 10 64 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-0.png
+	offset	66 102
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-1.png
+	offset	50 100
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-2.png
+	offset	50 97
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-3.png
+	offset	38 92
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-4.png
+	offset	38 112
+	attack	10 10 110 110 19 0 0 0 19
+	hitfx	data/chars/DarkAwakeChars/elf/attack.wav
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-5.png
+	offset	38 108
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-6.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	36 104
+#	delay	5
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-7.png
+	offset	36 98
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-8.png
+	offset	36 98
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-9.png
+	offset	50 98
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-10.png
+	offset	50 101
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-11.png
+	offset	60 100
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-12.png
+	offset	62 101
+	frame	data/chars/DarkAwakeChars/elf/attack2/e_240-13.png
+		
+				
+anim	block
+	loop	0
+	range 0 1200
+#	rangea 21 200
+#	rangez -50 150
+	delay	3
+	offset	50 99
+#	bbox	10 10 80 110
+	bbox	0 0 0 0
+	#move	-10
+#	@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+#	sound	data/sounds/guard.wav
+	attack  10 10 80 110 0 0 0 0 0
+	frame	data/chars/DarkAwakeChars/elf/block/e_115-3.png
+	offset	50 95
+	frame	data/chars/DarkAwakeChars/elf/block/e_115-2.png
+	offset	50 96
+	frame	data/chars/DarkAwakeChars/elf/block/e_115-1.png
+	offset	50 96
+	delay 10
+	frame	data/chars/DarkAwakeChars/elf/block/e_115-0.png
+	frame	data/chars/DarkAwakeChars/elf/block/e_115-0.png
+	frame	data/chars/DarkAwakeChars/elf/block/e_115-0.png
+	frame	data/chars/DarkAwakeChars/elf/block/e_115-0.png
+	delay 1
+	@cmd changeAnimation "ANI_ATTACK1"
+	frame	data/chars/DarkAwakeChars/elf/block/e_115-0.png	
+		
+anim	death
+	loop	0
+	delay	10
+	offset	55 32
+	bbox	0 0 0 0
+	@cmd 	restoreHealthforplayer
+	frame	data/chars/DarkAwakeChars/elf/fall/e_5041-10.png
+	frame	data/chars/DarkAwakeChars/elf/fall/e_5041-10.png
+
+
+
+
+anim	duck
+	loop	0
+	delay	4
+	offset	50 93
+	bbox	10 10 80 110
+#	platform  -10  90  0  0  40  40  25  10
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-0.png
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-1.png
+	offset	50 89
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-2.png
+	offset	50 87
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-3.png
+	offset	50 84
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-4.png
+
+
+anim	duckattack
+	loop	0
+	offset	46 81
+	bbox	10 10 80 110
+	delay	3
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-0.png
+	offset	46 80
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-1.png
+	offset	46 81
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-2.png
+	offset	46 81
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-3.png
+	offset	46 70
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-4.png
+	offset	46 61
+	attack	10 10 110 110 18 0 0 0 19
+	delay	4
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-5.png
+	attack	0 0 0 0 0 0 0 0 0
+	offset	46 61
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-6.png
+	offset	46 65
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-7.png
+	offset	46 82
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-8.png
+	offset	46 102
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-9.png
+	offset	46 84
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-10.png
+	offset	46 75
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-11.png
+	offset	46 76
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-12.png
+
+		
+anim	fall
+	loop	0
+	delay	1
+	offset	55 32
+#	platform  -10  90  0  0  40  40  30 10
+	sound	data/sounds/skldie.wav
+	frame	data/chars/DarkAwakeChars/elf/fall/e_5031-20.png
+	offset	55 31
+	frame	data/chars/DarkAwakeChars/elf/fall/e_5031-30.png
+	offset	55 32
+	frame	data/chars/DarkAwakeChars/elf/fall/e_5041-10.png
+	offset	55 32
+	frame	data/chars/DarkAwakeChars/elf/fall/e_5041-20.png
+		
+
+
+anim 	jump
+	loop	0
+	delay	5
+	offset	58 141
+	bbox	10 10 80 110
+	delay	1
+	@cmd    rotateunit
+#	platform  -10  90  0  0  40 40  35 15
+	frame	data/chars/DarkAwakeChars/elf/jump/e_41-0.png
+	offset	58 118
+	frame	data/chars/DarkAwakeChars/elf/jump/e_41-1.png
+	offset	58 107
+	frame	data/chars/DarkAwakeChars/elf/jump/e_41-2.png
+	offset	58 102
+	frame	data/chars/DarkAwakeChars/elf/jump/e_41-3.png
+	offset	58 101
+	frame	data/chars/DarkAwakeChars/elf/jump/e_41-4.png
+	offset	58 105
+	frame	data/chars/DarkAwakeChars/elf/jump/e_41-5.png
+	offset	58 110
+	frame	data/chars/DarkAwakeChars/elf/jump/e_41-6.png
+	offset	58 118
+	frame	data/chars/DarkAwakeChars/elf/jump/e_41-7.png
+	offset	58 130
+	frame	data/chars/DarkAwakeChars/elf/jump/e_41-8.png
+
+		
+anim	jumpattack
+	loop	0
+	range	111 160
+	delay	3
+	offset	54 112
+	bbox	10 10 80 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/sword1.wav
+	frame	data/chars/DarkAwakeChars/elf/jumpattack/e_600-0.png
+	offset	54 118
+	frame	data/chars/DarkAwakeChars/elf/jumpattack/e_600-1.png
+	offset	54 95
+	frame	data/chars/DarkAwakeChars/elf/jumpattack/e_600-2.png
+	offset	54 99
+	attack	10 10 110 110 14 1 0 0 19
+	frame	data/chars/DarkAwakeChars/elf/jumpattack/e_600-3.png
+	frame	data/chars/DarkAwakeChars/elf/jumpattack/e_600-3.png
+	frame	data/chars/DarkAwakeChars/elf/jumpattack/e_600-3.png
+	frame	data/chars/DarkAwakeChars/elf/jumpattack/e_600-3.png
+	offset	54 95
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/DarkAwakeChars/elf/jumpattack/e_600-2.png
+	offset	54 118
+	frame	data/chars/DarkAwakeChars/elf/jumpattack/e_600-1.png
+	offset	54 112
+	frame	data/chars/DarkAwakeChars/elf/jumpattack/e_600-0.png
+
+
+anim	jumpland
+	loop	0
+	delay	2
+	offset	50 93
+	bbox	10 10 80 110
+#	platform  -10  90  0  0  40  40  25  10
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-0.png
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-1.png
+	offset	50 89
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-2.png
+	offset	50 87
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-3.png
+	offset	50 84
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-4.png
+	offset	50 87
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-3.png
+	offset	50 89
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-2.png
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/duck/e_10-1.png
+		
+	
+anim	pain
+	loop	0
+	delay	3
+	offset	80 89
+	bbox	0 0 0 0
+	sound	data/sounds/sklhit.wav
+#	platform  -10  90  0  0  40 40  35 15
+	move -6
+	frame	data/chars/DarkAwakeChars/elf/pain1/e_5000-40.png
+	offset	80 87
+	frame	data/chars/DarkAwakeChars/elf/pain1/e_5000-50.png
+	offset	80 88
+	frame	data/chars/DarkAwakeChars/elf/pain1/e_5000-51.png
+##############
+	move 0
+	delay	4
+	offset	50 100
+	bbox	10 10 70 110
+#	platform  -10  90  0  0  40 40  35 15
+	sound	data/sounds/punch1.wav
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-0.png
+	offset	50 98
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-1.png
+	offset	50 95
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-2.png
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-3.png
+	offset	50 92
+	hitfx	data/chars/DarkAwakeChars/elf/attack.wav
+	attack	10 10 110 110 12 0 0 0 12
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-4.png
+	attack	0 0 0 0 0 0 0 0 0 0
+	offset	50 91
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-5.png
+	delay	4
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-6.png
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-7.png
+	offset	50 94
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-8.png
+	offset	50 95
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-9.png
+	offset	50 96
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-10.png
+	offset	50 97
+	frame	data/chars/DarkAwakeChars/elf/lowpunch/e_200-11.png
+	###
+	offset	46 81
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-0.png
+	offset	46 80
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-1.png
+	offset	46 81
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-2.png
+	offset	46 81
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-3.png
+	offset	46 70
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-4.png
+	offset	46 61
+	attack	10 10 110 110 18 0 0 0 19
+	delay	4
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-5.png
+	attack	0 0 0 0 0 0 0 0 0
+	offset	46 61
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-6.png
+	offset	46 65
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-7.png
+	offset	46 82
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-8.png
+	offset	46 102
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-9.png
+	offset	46 84
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-10.png
+	offset	46 75
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-11.png
+	offset	46 76
+	frame	data/chars/DarkAwakeChars/elf/duckattack/e_440-12.png
+		
+anim	rise
+	loop	0
+	offset	55 32
+	delay	8
+	bbox 	0 0 0 0 
+#	platform  -10  90  0  0  40 40  35 15
+#	@cmd changeAnimation "ANI_BLOCK"
+	frame	data/chars/DarkAwakeChars/elf/fall/e_5041-10.png
+	frame	data/chars/DarkAwakeChars/elf/fall/e_5041-10.png
+		
+anim	spawn
+	loop	0
+	offset	35 107
+	bbox	0 0 0 0
+	delay	9
+	frame	data/chars/DarkAwakeChars/elf/intro/e_182-0.png
+	offset	35 107
+	frame	data/chars/DarkAwakeChars/elf/intro/e_182-1.png
+	offset	38 107
+	frame	data/chars/DarkAwakeChars/elf/intro/e_182-2.png
+	offset	44 107
+	frame	data/chars/DarkAwakeChars/elf/intro/e_182-3.png
+	offset	54 107
+	frame	data/chars/DarkAwakeChars/elf/intro/e_182-4.png
+	offset	56 107
+	frame	data/chars/DarkAwakeChars/elf/intro/e_182-5.png
+	offset	54 107
+	frame	data/chars/DarkAwakeChars/elf/intro/e_182-6.png
+	offset	58 118
+	frame	data/chars/DarkAwakeChars/elf/intro/e_182-7.png
+	offset	44 107
+	frame	data/chars/DarkAwakeChars/elf/intro/e_182-3.png
+	offset	38 107
+	frame	data/chars/DarkAwakeChars/elf/intro/e_182-2.png
+	offset	35 107
+	frame	data/chars/DarkAwakeChars/elf/intro/e_182-1.png
+
+
+anim	idle
+	loop	1
+	offset	50 96
+	bbox	10 10 80 110
+	delay	9
+	@cmd    rotateunit
+#	platform  -10  90  0  0  40  40  30 10
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-0.png
+	offset	50 95
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-1.png
+	offset	50 95
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-2.png
+	offset	50 94
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-3.png
+	offset	50 94
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-4.png
+	offset	50 94
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-5.png
+	offset	50 94
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-6.png
+	offset	50 94
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-7.png
+	offset	50 94
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-8.png
+	offset	50 94
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-9.png
+	offset	50 95
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-10.png
+	offset	50 95
+	frame	data/chars/DarkAwakeChars/elf/idle/e_0-11.png
+
+		
+anim	walk
+	loop	1
+	offset	75 102
+	bbox	10 10 80 110
+#	bbox	0 0 0 0
+	delay	8
+#	@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	offset	75 104
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-0.png
+	offset	75 108
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-1.png
+	offset	75 110
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-2.png
+	offset	75 112
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-3.png
+	offset	75 112
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-4.png
+	offset	75 110
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-5.png
+	offset	75 107
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-6.png
+	offset	75 104
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-7.png
+
+
+anim	backwalk
+	loop	1
+	offset	75 102
+	bbox	10 10 80 110
+#	bbox	0 0 0 0
+	delay	8
+#	@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	offset	75 104
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-0.png
+	offset	75 108
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-1.png
+	offset	75 110
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-2.png
+	offset	75 112
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-3.png
+	offset	75 112
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-4.png
+	offset	75 110
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-5.png
+	offset	75 107
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-6.png
+	offset	75 104
+	frame	data/chars/DarkAwakeChars/elf/walk/e_20-7.png
+
+anim	run
+	loop	1
+	offset	50 85
+	bbox	10 10 80 110
+#	bbox	0 0 0 0
+	delay	8
+#	@cmd    rotateunit
+#	platform  -10  90  0  0  90  90  150 300
+	frame	data/chars/DarkAwakeChars/elf/run/e_101-0.png
+	offset	50 84
+	frame	data/chars/DarkAwakeChars/elf/run/e_101-1.png
+	offset	50 88
+	frame	data/chars/DarkAwakeChars/elf/run/e_101-2.png
+	offset	50 90
+	frame	data/chars/DarkAwakeChars/elf/run/e_101-3.png
+	offset	50 92
+	frame	data/chars/DarkAwakeChars/elf/run/e_101-4.png
+	offset	50 93
+	frame	data/chars/DarkAwakeChars/elf/run/e_101-5.png
+	offset	50 93
+	frame	data/chars/DarkAwakeChars/elf/run/e_101-6.png
+	offset	50 90
+	frame	data/chars/DarkAwakeChars/elf/run/e_101-7.png
+		
+#|edited by openBor Stats v 0.41
+		

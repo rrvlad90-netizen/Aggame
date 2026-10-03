@@ -1,0 +1,16 @@
+name	wall
+health	0
+type	item
+shadow	0
+icon	data/chars/misc/apple.gif
+
+anim idle
+	loop	1
+	delay	16
+	offset	0 145
+	frame	data/chars/misc/wall1.gif
+	frame	data/chars/misc/wall2.gif
+	frame	data/chars/misc/wall3.gif
+
+
+
