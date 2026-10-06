@@ -148,6 +148,16 @@ object MoriaTroll
     frame TRLD { light 64SHADOW  }
 }
 
+object BattleMoriaTroll
+{
+    frame TRLL { light 64SHADOW  }
+	frame TRL1 { light 64SHADOW  }
+    frame TRLA { light 64SHADOW  }
+    frame TRAA { light 64SHADOW  }
+    frame TRLD { light 64SHADOW  }
+}
+
+
 
 object LotrOrc110
 {

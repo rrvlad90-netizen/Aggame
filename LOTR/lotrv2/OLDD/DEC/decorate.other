@@ -52,7 +52,6 @@ ACTOR NazgulBoss
 	//DeathSound "Orcdeath"
 	//PainChance "isee", 255
 	//DamageFactor "isee", 1
-			DamageFactor "Mordor", 0
 	States
 	{
 	Spawn:
@@ -159,20 +158,18 @@ Actor Troll
   health 650
   Radius 29
   Height 45
-  Speed 12
+  Speed 7
   mass 9999
   Monster
   +LOOKALLAROUND
   +NOTARGET
   +DROPOFF
-  +NOBLOOD
   +RANDOMIZE
+  +NOBLOOD
    +BOSS
-   	DamageFactor "Mordor", 0
 SeeSound "trollsee"
 PainSound "troll"
 DeathSound "troll"
-
   States
   {
   Spawn:
@@ -182,37 +179,37 @@ DeathSound "troll"
     Loop
 
 See:
-    TRLL ABCDEFGHIJKLM 2 A_Chase
-	TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 512, 512, 360, "See")
+    TRLL ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_Chase
+	TRL1 ABCDEFGHIJKLMN 1 A_Chase
+    TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 512, 512, 360, "See")
     Loop
 
 Melee:
    TNT1 A 0 A_Jump(128,"Melee2")
-   TRLA AABBCCDEFGHI 2 A_FaceTarget
-   TNT1 A 0 A_PlaySound("AxeSwing")
-   TRLA J 4 A_CustomMissile("TrollSlash",18, -13) //A_CustomMeleeAttack(38,"trolbam")//A_SargAttack
-   TRLA KLMNOP 2
+   TRLA AAAABBBCCDEFGHIJKLMN 1 A_FaceTarget
+   TNT1 A 0 A_PlaySound("Swordswoosh")
+   TRLA O 4 A_SargAttack
+   TRLA PQRSTUVWXYZZZ 2
    Goto See
 
 Melee2:
-   TRAA AABBCCDEFGHIJ 2 A_FaceTarget
-   TNT1 A 0 A_PlaySound("AxeSwing")
-   TRAA K 4 A_CustomMissile("TrollSlash",18, -13) //A_CustomMeleeAttack(38,"trolbam")//A_SargAttack
-   TRAA LMNOP 2
+   TRAA AAAABBBCCDEFGHIJKLMNOP 1 A_FaceTarget
+   TNT1 A 0 A_PlaySound("Swordswoosh")
+   TRAA Q 4 A_SargAttack
+   TRAA STUVWXYZZZ 2
    Goto See
 
 Pain:
-	//TNT1 A 0 A_PlaySound("sworbam")
+//	TNT1 A 0 A_PlaySound("sworbam")
     TRLA A 2 A_Pain
     Goto See
 
 Death:
-    TRLD A 1 A_Scream
-    TRLD B 1 A_NoBlocking
-    TRLD DEFGHIJKLMNOPQRSTUVWXYZ 1
-	TRDD ABDEFGHIJKLMNOPQRSTUVWXYZ 1
-	TRDD Z 680
-    TRDD Z 1 A_Respawn
+    TRLD A 6 A_Scream
+    TRLD B 5 A_NoBlocking
+    TRLD DEFGHIJKLMNOPQRSTU 5
+    TRLD U 600
+    TRLD UUUUUUUUUUUUUUU 2 A_FadeOut
     Stop		
   }
 }
@@ -240,7 +237,6 @@ Health 45
   ActiveSound "null"
 
 //DropItem "SkyrimArrow", 84, 5
-		DamageFactor "Mordor", 0
 Reactiontime 1
 States
   {
@@ -313,7 +309,6 @@ MONSTER
 Reactiontime 1
 //Scale 0.5
 Painchance 100
-		DamageFactor "Gondor", 0
 States
 {
 Spawn:
@@ -432,7 +427,6 @@ MONSTER
 Reactiontime 1
 //Scale 0.5
 Painchance 100
-		DamageFactor "Mordor", 0
 States
 {
 Spawn:
@@ -856,7 +850,6 @@ Health 35
   PainSound "null"
   ActiveSound "null"
   //HitObituary "Skeleton archer smash"
-		DamageFactor "Gondor", 0
 
 //DropItem "SkyrimArrow", 84, 5
 Reactiontime 1
@@ -892,7 +885,7 @@ States
 	MES1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_FaceTarget
 	MES2 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_FaceTarget
 	TNT1 A 0 A_PlaySound("ArrowSwing")
-        MES2 Z 2 A_CustomMissile("ArrowProj1")//A_CustomBulletAttack(2, 2, 1, 2)
+        MES2 Z 2 A_CustomMissile("ArrowProj2")//A_CustomBulletAttack(2, 2, 1, 2)
 	MES3 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_FaceTarget
         MES4 AB 1 A_FaceTarget
     TNT1 A 0 Thing_ChangeTID(0, 888)
@@ -931,7 +924,6 @@ Health 40
   AttackSound "null"
   PainSound "null"
   ActiveSound "null"
-  DamageFactor "Mordor", 0
 
 //DropItem "SkyrimArrow", 84, 5
 Reactiontime 1
@@ -1002,7 +994,6 @@ Health 40
   AttackSound "null"
   PainSound "null"
   ActiveSound "null"
-  DamageFactor "Mordor", 0
 
 //DropItem "SkyrimArrow", 84, 5
 Reactiontime 1
@@ -1048,37 +1039,6 @@ States
  }
 }
 
-ACTOR ArrowProj1
-{
-  Radius 9
-  Height 8
-  Speed 24
-  Damage 3
-  Projectile
-  //-ACTIVATEIMPACT
-  //-ACTIVATEPCROSS
-  -NOBLOCKMAP
-  //+ABSVIEWANGLES
-  //+WINDTHRUST
-  //RenderStyle Add
-  SeeSound "ArrowSwing"
-  //DeathSound "weapons/bowhit"
-  Obituary "$OB_MPCROSSBOW"
-  DamageType "Gondor"
-  States
-  {
-  Spawn:
-    MES2 A 1 //Bright
-    Loop
-  Death:
-    //MES2 A 218 B//right
-	TNT1 A 1 A_SpawnItem("BulletPuff")
-	//PUF3 A 4 Bright
-    //PUF3 BCD 4
-    Stop
-  }
-}
-
 ACTOR ArrowProj2
 {
   Radius 9
@@ -1095,7 +1055,6 @@ ACTOR ArrowProj2
   SeeSound "ArrowSwing"
   //DeathSound "weapons/bowhit"
   Obituary "$OB_MPCROSSBOW"
-  DamageType "Mordor"
   States
   {
   Spawn:

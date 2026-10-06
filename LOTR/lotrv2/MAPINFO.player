@@ -46,3 +46,30 @@ ResetItems
 music = "D_RUNNIN"
 next = "EndGame"
 }
+
+map MAPWIN "Victory"
+{
+    NoIntermission
+    NoJump
+    NoCrouch
+}
+
+map MAPLOSE "Defeat"
+{
+    NoIntermission
+    NoJump
+    NoCrouch
+}
+
+DoomEdNums
+{
+    15100 = BattleDirector
+    15101 = BattleSpawnSpot
+    15102 = BattlePlayerSpawn
+    15103 = BattleWaypoint
+
+    15110 = GondorBattleStandard
+    15111 = OrcBattleCamp
+
+    15012 = OrcArcher
+}

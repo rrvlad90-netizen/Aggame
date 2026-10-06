@@ -1,0 +1,377 @@
+class WarriorVisualBody : Actor
+{
+    Default
+    {
+        Radius 1;
+        Height 1;
+
+        RenderStyle "Normal";
+        Alpha 1.0;
+
+        +NOBLOCKMAP;
+        +NOGRAVITY;
+        +NOCLIP;
+    }
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        if (Master == null)
+            Destroy();
+    }
+
+    States
+    {
+    Spawn:
+        TNT1 A -1;
+        Stop;
+    }
+}
+
+
+class WarriorThirdPersonCamera : Actor
+{
+    Default
+    {
+        Radius 1;
+        Height 1;
+
+        +NOBLOCKMAP;
+        +NOGRAVITY;
+        +NOCLIP;
+        +INVISIBLE;
+    }
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        if (Master == null)
+            Destroy();
+    }
+
+    States
+    {
+    Spawn:
+        TNT1 A -1;
+        Stop;
+    }
+}
+
+
+class WarriorThirdPersonBase : PlayerPawn
+{
+    Actor ThirdPersonCamera;
+    Actor VisualBody;
+
+    double CameraYaw;
+    double BodyYaw;
+
+    double CameraDistance;
+    double CameraHeight;
+    double CameraSide;
+    double CameraWallGap;
+
+    bool CameraInitialized;
+    bool AttackLocked;
+
+    override void PostBeginPlay()
+    {
+        Super.PostBeginPlay();
+
+        CameraDistance = 128.0;
+        CameraHeight = 72.0;
+        CameraSide = 12.0;
+        CameraWallGap = 6.0;
+
+        CameraYaw = Angle;
+        BodyYaw = Angle;
+
+        CameraInitialized = true;
+        AttackLocked = false;
+
+        CreateThirdPersonActors();
+    }
+
+    void CreateThirdPersonActors()
+    {
+        if (ThirdPersonCamera == null)
+        {
+            ThirdPersonCamera = Spawn(
+                "WarriorThirdPersonCamera",
+                Pos
+            );
+
+            if (ThirdPersonCamera != null)
+                ThirdPersonCamera.Master = self;
+        }
+
+        if (VisualBody == null)
+        {
+            VisualBody = Spawn(
+                "WarriorVisualBody",
+                Pos
+            );
+
+            if (VisualBody != null)
+                VisualBody.Master = self;
+        }
+    }
+
+    void BeginWarriorAttack()
+    {
+        if (Health <= 0)
+            return;
+
+        AttackLocked = true;
+
+        CameraYaw = Angle;
+        BodyYaw = CameraYaw;
+
+        Vel.X = 0;
+        Vel.Y = 0;
+
+        if (player != null)
+        {
+            player.cmd.forwardmove = 0;
+            player.cmd.sidemove = 0;
+            player.cmd.buttons &= ~BT_JUMP;
+        }
+    }
+
+    void FinishWarriorAttack()
+    {
+        AttackLocked = false;
+
+        Vel.X = 0;
+        Vel.Y = 0;
+    }
+
+    void ResetWarriorControl()
+    {
+        AttackLocked = false;
+    }
+
+    action void A_BeginWarriorAttack()
+    {
+        invoker.BeginWarriorAttack();
+    }
+
+    action void A_FinishWarriorAttack()
+    {
+        invoker.FinishWarriorAttack();
+    }
+
+    action void A_ResetWarriorControl()
+    {
+        invoker.ResetWarriorControl();
+    }
+
+    void LockWarriorInput()
+    {
+        if (player == null)
+            return;
+
+        player.cmd.forwardmove = 0;
+        player.cmd.sidemove = 0;
+
+        player.cmd.buttons &= ~BT_JUMP;
+
+        Vel.X = 0;
+        Vel.Y = 0;
+    }
+
+    void UpdateBodyDirection()
+    {
+        if (player == null)
+            return;
+
+        if (AttackLocked)
+        {
+            BodyYaw = CameraYaw;
+            return;
+        }
+
+        double forward =
+            player.cmd.forwardmove;
+
+        double side =
+            player.cmd.sidemove;
+
+        if (forward == 0 &&
+            side == 0)
+        {
+            return;
+        }
+
+        double movementOffset =
+            ATan2(-side, forward);
+
+        BodyYaw =
+            CameraYaw + movementOffset;
+    }
+
+    void UpdateVisualBody()
+    {
+        if (VisualBody == null)
+            return;
+
+        VisualBody.SetOrigin(
+            Pos,
+            true
+        );
+
+        VisualBody.Sprite = Sprite;
+        VisualBody.Frame = Frame;
+        VisualBody.Scale = Scale;
+        VisualBody.Translation = Translation;
+        VisualBody.Alpha = 1.0;
+        VisualBody.FloorClip = FloorClip;
+
+        VisualBody.Angle = BodyYaw;
+        VisualBody.Pitch = 0;
+        VisualBody.Roll = 0;
+    }
+
+    void UpdateThirdPersonCamera()
+    {
+        if (player == null ||
+            ThirdPersonCamera == null)
+        {
+            return;
+        }
+
+        player.camera =
+            ThirdPersonCamera;
+
+        double backX =
+            -Cos(CameraYaw) *
+            CameraDistance;
+
+        double backY =
+            -Sin(CameraYaw) *
+            CameraDistance;
+
+        double sideX =
+            Cos(CameraYaw - 90) *
+            CameraSide;
+
+        double sideY =
+            Sin(CameraYaw - 90) *
+            CameraSide;
+
+        double offsetX =
+            backX + sideX;
+
+        double offsetY =
+            backY + sideY;
+
+        double wantedDistance =
+            Sqrt(
+                offsetX * offsetX +
+                offsetY * offsetY
+            );
+
+        double traceAngle =
+            ATan2(
+                offsetY,
+                offsetX
+            );
+
+        double realDistance =
+            wantedDistance;
+
+        FLineTraceData trace;
+
+        bool cameraBlocked =
+            LineTrace(
+                traceAngle,
+                wantedDistance,
+                0,
+                TRF_THRUACTORS,
+                CameraHeight,
+                0,
+                0,
+                trace
+            );
+
+        if (cameraBlocked &&
+            trace.Distance < realDistance)
+        {
+            realDistance = Max(
+                8.0,
+                trace.Distance -
+                    CameraWallGap
+            );
+        }
+
+        Vector3 cameraPosition =
+            Pos;
+
+        cameraPosition.X +=
+            Cos(traceAngle) *
+            realDistance;
+
+        cameraPosition.Y +=
+            Sin(traceAngle) *
+            realDistance;
+
+        cameraPosition.Z +=
+            CameraHeight;
+
+        ThirdPersonCamera.SetOrigin(
+            cameraPosition,
+            true
+        );
+
+        ThirdPersonCamera.Angle =
+            CameraYaw;
+
+        ThirdPersonCamera.Pitch =
+            Pitch;
+
+        ThirdPersonCamera.Roll =
+            Roll;
+    }
+
+    override void Tick()
+    {
+        /*
+         * Блокируем ввод до Super.Tick(), чтобы движок
+         * не начал перемещение.
+         */
+        if (player != null &&
+            AttackLocked)
+        {
+            LockWarriorInput();
+        }
+
+        Super.Tick();
+
+        if (player == null)
+            return;
+
+        CreateThirdPersonActors();
+
+        if (!CameraInitialized)
+        {
+            CameraYaw = Angle;
+            BodyYaw = Angle;
+            CameraInitialized = true;
+        }
+
+        CameraYaw = Angle;
+
+        /*
+         * Атака могла начаться внутри Super.Tick().
+         * Поэтому повторно останавливаем игрока.
+         */
+        if (AttackLocked)
+            LockWarriorInput();
+
+        UpdateBodyDirection();
+        UpdateVisualBody();
+        UpdateThirdPersonCamera();
+    }
+}

@@ -20,7 +20,6 @@ Health 235
   PainSound "null"
   ActiveSound "null"
   //HitObituary "Skeleton archer smash"
-DamageFactor "Mordor", 0
 
 //DropItem "SkyrimArrow", 84, 5
 Reactiontime 1

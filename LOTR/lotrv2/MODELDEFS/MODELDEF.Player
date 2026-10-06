@@ -1,4 +1,4 @@
-Model PlayerWarrior
+Model WarriorVisualBody
 { 
    Path "Models/gondor"
    MODEL 0 "gondorarmouratt1s.md3"
@@ -21,7 +21,7 @@ Model PlayerWarrior
 
 
 
-Model PlayerWarrior
+Model WarriorVisualBody
 { 
    Path "Models/gondor"
    MODEL 0 "gondorarmourrun.md3"
@@ -72,7 +72,7 @@ Model PlayerWarrior
 }
 
 
-Model PlayerWarrior
+Model WarriorVisualBody
 { 
    Path "Models/gondor"
    MODEL 0 "gondorarmouratt1.md3"
@@ -131,7 +131,7 @@ FrameIndex GN22 N 0 39  FrameIndex GN22 N 1 39  FrameIndex GN22 N 2 39
 FrameIndex GN22 O 0 40  FrameIndex GN22 O 1 40  FrameIndex GN22 O 2 40
 }
 
-Model PlayerWarrior
+Model WarriorVisualBody
 { 
    Path "Models/gondor"
    MODEL 0 "gondorarmouratt2.md3"
@@ -184,7 +184,7 @@ FrameIndex GNN4 H 0 33  FrameIndex GNN4 H 1 33  FrameIndex GNN4 H 2 33
 }
 
 
-Model PlayerWarrior 
+Model WarriorVisualBody 
 { 
    Path "Models/gondor"
    MODEL 0 "gondorarmourdie.md3"

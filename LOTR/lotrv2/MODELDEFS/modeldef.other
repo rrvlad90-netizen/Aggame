@@ -1,3 +1,31 @@
+Model GondorBattleStandard
+{
+    Path "Models/build"
+
+    Model 0 "flag1.md2"
+    Skin 0 "flags.png"
+
+    Scale 1.25 1.25 1.25
+
+    FrameIndex TURR A 0 0
+}
+
+Model OrcBattleCamp
+{
+    Path "Models/build"
+
+    Model 0 "flag2.md2"
+    Skin 0 "flags.png"
+
+    Model 1 "palatka.md3"
+    Skin 1 "palatka.png"
+
+    Scale 1.25 1.25 1.25
+
+    FrameIndex TURR A 0 0
+    FrameIndex TURR A 1 0
+}
+
 
 Model HumanSpawner
 {

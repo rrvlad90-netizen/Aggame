@@ -1,0 +1,3400 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LOTR Battle Map Editor</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  color: #eee;
+  background: #151813;
+  font: 14px Arial, sans-serif;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  min-height: 100vh;
+}
+
+aside {
+  padding: 16px;
+  overflow: auto;
+  background: #20251d;
+  border-right: 1px solid #495440;
+}
+
+h1, h2 {
+  margin: 0 0 12px;
+  color: #dcebc9;
+}
+
+h1 { font-size: 21px; }
+
+h2 {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+label {
+  display: block;
+  margin: 9px 0 4px;
+  color: #bbc8ae;
+}
+
+input, button {
+  width: 100%;
+  padding: 7px;
+  color: #eee;
+  background: #30372b;
+  border: 1px solid #59654e;
+  border-radius: 4px;
+}
+
+button {
+  margin-top: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover { background: #46523b; }
+
+button.primary {
+  color: #17200e;
+  background: #9bc66b;
+}
+
+button.danger {
+  color: #fff;
+  background: #71362f;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.args {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+
+.viewer {
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  overflow: hidden;
+}
+
+canvas {
+  max-width: 100%;
+  max-height: calc(100vh - 36px);
+  background: #080a07;
+  border: 1px solid #48513f;
+  user-select: none;
+}
+
+.stats, .help {
+  margin-top: 12px;
+  padding: 9px;
+  line-height: 1.5;
+  color: #c5cfba;
+  background: #181c16;
+  border-radius: 4px;
+}
+
+.route1 { color: white; }
+.route2 { color: #ff4b42; }
+.route3 { color: #4b8dff; }
+
+@media (max-width: 850px) {
+  main { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+<main>
+<aside>
+  <h1>LOTR Battle Map Editor</h1>
+
+  <label for="seed">Seed</label>
+  <input id="seed" value="battle-of-the-valley">
+
+  <div class="row">
+    <div>
+      <label for="grid">Сетка</label>
+      <input id="grid" type="number"
+             min="12" max="48" value="24">
+    </div>
+
+    <div>
+      <label for="size">Размер</label>
+      <input id="size" type="number"
+             min="3072" max="8192"
+             step="256" value="4096">
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <label for="mapScale">Scale</label>
+      <input id="mapScale" type="number"
+             min="0.25" max="4"
+             step="0.25" value="1">
+    </div>
+
+    <div>
+      <label for="centralHeight">Центральный холм</label>
+      <input id="centralHeight"
+             type="number"
+             min="32" max="320"
+             value="128">
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <label for="mountainHeight">Горы</label>
+      <input id="mountainHeight"
+             type="number"
+             min="128" max="1024"
+             value="480">
+    </div>
+
+    <div>
+      <label for="floorTexture">Земля</label>
+      <input id="floorTexture" value="GRASS1">
+    </div>
+  </div>
+
+  <label for="wallTexture">Текстура скал</label>
+  <input id="wallTexture" value="ROCK1">
+
+  <button id="generate" class="primary">
+    Сгенерировать заново
+  </button>
+
+  <button id="randomSeed">
+    Случайный seed
+  </button>
+
+  <h2>Сущности</h2>
+
+  <div id="selectionInfo" class="stats">
+    Ничего не выделено
+  </div>
+
+  <div class="row">
+    <div>
+      <label for="thingType">Type</label>
+      <input id="thingType" type="number">
+    </div>
+
+    <div>
+      <label for="thingId">TID</label>
+      <input id="thingId" type="number">
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <label for="thingAngle">Угол</label>
+      <input id="thingAngle" type="number">
+    </div>
+
+    <div>
+      <label for="newType">Тип нового</label>
+      <input id="newType" type="number" value="5091">
+    </div>
+  </div>
+
+  <label>Аргументы</label>
+
+  <div class="args">
+    <input id="arg0" type="number" placeholder="arg0">
+    <input id="arg1" type="number" placeholder="arg1">
+    <input id="arg2" type="number" placeholder="arg2">
+    <input id="arg3" type="number" placeholder="arg3">
+    <input id="arg4" type="number" placeholder="arg4">
+  </div>
+
+  <button id="applyProperties">
+    Применить свойства
+  </button>
+
+  <button id="addThing">
+    Добавить сущность в центр
+  </button>
+
+  <button id="deleteThing" class="danger">
+    Удалить выделенные
+  </button>
+
+  <h2>Экспорт</h2>
+
+  <button id="exportWad" class="primary">
+    Экспорт LOTRBattle.wad
+  </button>
+
+  <button id="exportText">
+    Экспорт TEXTMAP.txt
+  </button>
+
+  <div id="stats" class="stats"></div>
+
+  <div class="help">
+    ЛКМ — выделить и переместить.<br>
+    Ctrl+ЛКМ — групповое выделение.<br>
+    Delete — удалить.<br>
+    Ctrl+C / Ctrl+V — копирование.<br>
+    Ctrl+Z — отмена.<br><br>
+
+    <span class="route1">━━ маршрут 1</span><br>
+    <span class="route2">━━ маршрут 2</span><br>
+    <span class="route3">━━ маршрут 3</span>
+  </div>
+</aside>
+
+<section class="viewer">
+  <canvas id="canvas" width="950" height="950"></canvas>
+</section>
+</main>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+const canvas = $("canvas");
+const ctx = canvas.getContext("2d");
+
+const TYPE = {
+  playerStart: 1,
+  director: 15100,
+  spawnSpot: 15101,
+  playerSpawn: 15102,
+  waypoint: 15103,
+  gondorStandard: 15110,
+  orcCamp: 15111,
+  orcArcher: 15012,
+  tree: 47,
+  deadTree: 54,
+  deadMumak: 5060,
+  ruin: 5070,
+  rockLarge: 5090,
+  rockSmall: 5091
+};
+
+const TYPE_NAMES = {
+  1: "Player Start",
+  47: "Tree",
+  54: "Dead Tree",
+  5060: "Dead Mumak",
+  5070: "Ruin",
+  5090: "Large Rock",
+  5091: "Small Rock",
+  15012: "Orc Archer",
+  15100: "Battle Director",
+  15101: "Wave Spawn",
+  15102: "Player Respawn",
+  15103: "Waypoint",
+  15110: "Gondor Standard",
+  15111: "Orc Camp"
+};
+
+let generated = null;
+let selected = [];
+let clipboard = [];
+let undoStack = [];
+
+let dragging = false;
+let dragMoved = false;
+let dragStart = null;
+let dragOriginal = [];
+
+const view = {
+  padding: 25,
+  scale: 1,
+  half: 2048
+};
+
+/* =========================================================
+ * Random
+ * ========================================================= */
+
+function hashString(text) {
+  let hash = 2166136261 >>> 0;
+
+  for (let i = 0; i < text.length; i++) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  return hash >>> 0;
+}
+
+function mulberry32(seed) {
+  return function () {
+    seed |= 0;
+    seed = seed + 0x6D2B79F5 | 0;
+
+    let value = seed;
+
+    value = Math.imul(
+      value ^ value >>> 15,
+      value | 1
+    );
+
+    value ^= value + Math.imul(
+      value ^ value >>> 7,
+      value | 61
+    );
+
+    return (
+      (value ^ value >>> 14) >>> 0
+    ) / 4294967296;
+  };
+}
+
+function smoothstep(value) {
+  value = Math.max(0, Math.min(1, value));
+  return value * value * (3 - 2 * value);
+}
+
+function hashNoise(x, y, seed) {
+  let hash = Math.imul(x | 0, 374761393);
+
+  hash += Math.imul(y | 0, 668265263);
+  hash += Math.imul(seed | 0, 1442695041);
+
+  hash = Math.imul(
+    hash ^ hash >>> 13,
+    1274126177
+  );
+
+  return (
+    (hash ^ hash >>> 16) >>> 0
+  ) / 4294967295;
+}
+
+function noise(x, y, seed) {
+  const ix = Math.floor(x);
+  const iy = Math.floor(y);
+
+  const fx = smoothstep(x - ix);
+  const fy = smoothstep(y - iy);
+
+  const a = hashNoise(ix, iy, seed);
+  const b = hashNoise(ix + 1, iy, seed);
+  const c = hashNoise(ix, iy + 1, seed);
+  const d = hashNoise(ix + 1, iy + 1, seed);
+
+  const top = a + (b - a) * fx;
+  const bottom = c + (d - c) * fx;
+
+  return top + (bottom - top) * fy;
+}
+
+/* =========================================================
+ * Settings and terrain
+ * ========================================================= */
+
+function readSettings() {
+  const scale = Math.max(
+    0.25,
+    Math.min(
+      4,
+      +$("mapScale").value || 1
+    )
+  );
+
+  return {
+    seedText:
+      $("seed").value.trim() || "battle",
+
+    grid: Math.max(
+      12,
+      Math.min(48, +$("grid").value || 24)
+    ),
+
+    scale,
+
+    size:
+      Math.max(
+        3072,
+        +$("size").value || 4096
+      ) * scale,
+
+    mountainHeight:
+      Math.max(
+        128,
+        +$("mountainHeight").value || 480
+      ) * scale,
+
+    centralHeight:
+      Math.max(
+        32,
+        +$("centralHeight").value || 128
+      ) * scale,
+
+    floorTexture:
+      $("floorTexture").value.trim() ||
+      "GRASS1",
+
+    wallTexture:
+      $("wallTexture").value.trim() ||
+      "ROCK1"
+  };
+}
+
+function flattenArea(
+  vertices,
+  point,
+  flatRadius,
+  blendRadius
+) {
+  for (const vertex of vertices) {
+    const distance = Math.hypot(
+      vertex.x - point.x,
+      vertex.y - point.y
+    );
+
+    if (distance >= blendRadius)
+      continue;
+
+    let amount = 1;
+
+    if (distance > flatRadius) {
+      amount =
+        1 -
+        smoothstep(
+          (
+            distance - flatRadius
+          ) /
+          (
+            blendRadius - flatRadius
+          )
+        );
+    }
+
+    vertex.z =
+      vertex.z * (1 - amount) +
+      point.z * amount;
+  }
+}
+
+function createTerrain(settings) {
+  const grid = settings.grid;
+  const size = settings.size;
+  const half = size / 2;
+  const step = size / grid;
+
+  const seed = hashString(settings.seedText);
+  const vertices = [];
+
+  for (let gy = 0; gy <= grid; gy++) {
+    for (let gx = 0; gx <= grid; gx++) {
+      const x = -half + gx * step;
+      const y = -half + gy * step;
+
+      let z = 16 * settings.scale;
+
+      z += (
+        noise(
+          x / (600 * settings.scale),
+          y / (600 * settings.scale),
+          seed
+        ) - 0.5
+      ) * 40 * settings.scale;
+
+      const centerDistance = Math.hypot(
+        x / (size * 0.27),
+        y / (size * 0.22)
+      );
+
+      const centerAmount = Math.max(
+        0,
+        1 - centerDistance
+      );
+
+      z +=
+        settings.centralHeight *
+        smoothstep(centerAmount);
+
+      const horizontalEdge = smoothstep(
+        (
+          Math.abs(x) -
+          size * 0.37
+        ) /
+        (size * 0.12)
+      );
+
+      const verticalEdge = smoothstep(
+        (
+          Math.abs(y) -
+          size * 0.34
+        ) /
+        (size * 0.15)
+      );
+
+      const mountainAmount = Math.max(
+        horizontalEdge,
+        verticalEdge
+      );
+
+      const mountainNoise =
+        0.75 +
+        noise(
+          x / (380 * settings.scale),
+          y / (380 * settings.scale),
+          seed + 7001
+        ) * 0.55;
+
+      z +=
+        mountainAmount *
+        settings.mountainHeight *
+        mountainNoise;
+
+      z =
+        Math.round(
+          z / (8 * settings.scale)
+        ) *
+        (8 * settings.scale);
+
+      vertices.push({ x, y, z });
+    }
+  }
+
+  const gondorBase = {
+    x: -size * 0.32,
+    y: 0,
+    z: 32 * settings.scale
+  };
+
+  const orcBase = {
+    x: size * 0.32,
+    y: 0,
+    z: 32 * settings.scale
+  };
+
+  flattenArea(
+    vertices,
+    gondorBase,
+    size * 0.085,
+    size * 0.14
+  );
+
+  flattenArea(
+    vertices,
+    orcBase,
+    size * 0.085,
+    size * 0.14
+  );
+
+  const triangles = [];
+
+  function index(x, y) {
+    return y * (grid + 1) + x;
+  }
+
+  for (let y = 0; y < grid; y++) {
+    for (let x = 0; x < grid; x++) {
+      const a = index(x, y);
+      const b = index(x + 1, y);
+      const c = index(x + 1, y + 1);
+      const d = index(x, y + 1);
+
+      if ((x + y) % 2 === 0) {
+        triangles.push([a, c, b]);
+        triangles.push([a, d, c]);
+      } else {
+        triangles.push([a, d, b]);
+        triangles.push([b, d, c]);
+      }
+    }
+  }
+
+  const heights = vertices.map(v => v.z);
+
+  return {
+    settings,
+    seed,
+    vertices,
+    triangles,
+    gondorBase,
+    orcBase,
+    minHeight: Math.min(...heights),
+    maxHeight: Math.max(...heights)
+  };
+}
+
+/* =========================================================
+ * Height lookup
+ * ========================================================= */
+
+function triangleHeight(x, y, a, b, c) {
+  const divisor =
+    (b.y - c.y) * (a.x - c.x) +
+    (c.x - b.x) * (a.y - c.y);
+
+  if (Math.abs(divisor) < 0.000001)
+    return (a.z + b.z + c.z) / 3;
+
+  const wa = (
+    (b.y - c.y) * (x - c.x) +
+    (c.x - b.x) * (y - c.y)
+  ) / divisor;
+
+  const wb = (
+    (c.y - a.y) * (x - c.x) +
+    (a.x - c.x) * (y - c.y)
+  ) / divisor;
+
+  const wc = 1 - wa - wb;
+
+  return a.z * wa + b.z * wb + c.z * wc;
+}
+
+function groundHeight(data, x, y) {
+  const grid = data.settings.grid;
+  const size = data.settings.size;
+  const half = size / 2;
+  const step = size / grid;
+
+  let cx = Math.floor((x + half) / step);
+  let cy = Math.floor((y + half) / step);
+
+  cx = Math.max(0, Math.min(grid - 1, cx));
+  cy = Math.max(0, Math.min(grid - 1, cy));
+
+  function index(ix, iy) {
+    return iy * (grid + 1) + ix;
+  }
+
+  const a = data.vertices[index(cx, cy)];
+  const b = data.vertices[index(cx + 1, cy)];
+  const c = data.vertices[index(cx + 1, cy + 1)];
+  const d = data.vertices[index(cx, cy + 1)];
+
+  const localX = (x - a.x) / step;
+  const localY = (y - a.y) / step;
+
+  if ((cx + cy) % 2 === 0) {
+    if (localY <= localX)
+      return triangleHeight(x, y, a, c, b);
+
+    return triangleHeight(x, y, a, d, c);
+  }
+
+  if (localX + localY <= 1)
+    return triangleHeight(x, y, a, d, b);
+
+  return triangleHeight(x, y, b, d, c);
+}
+
+/* =========================================================
+ * Things and routes
+ * ========================================================= */
+
+function makeThing(
+  type,
+  x,
+  y,
+  angle = 0,
+  id = 0,
+  args = []
+) {
+  const fullArgs = [0, 0, 0, 0, 0];
+
+  for (let i = 0; i < args.length && i < 5; i++)
+    fullArgs[i] = args[i];
+
+  return {
+    type,
+    x,
+    y,
+    height: 0,
+    angle,
+    id,
+    args: fullArgs
+  };
+}
+
+function cloneThing(thing) {
+  return {
+    type: thing.type,
+    x: thing.x,
+    y: thing.y,
+    height: thing.height,
+    angle: thing.angle,
+    id: thing.id,
+    args: thing.args.slice()
+  };
+}
+
+function updateThingHeight(thing) {
+  if (!generated)
+    return;
+
+  const half =
+    generated.terrain.settings.size / 2;
+
+  thing.x = Math.max(
+    -half + 16,
+    Math.min(half - 16, thing.x)
+  );
+
+  thing.y = Math.max(
+    -half + 16,
+    Math.min(half - 16, thing.y)
+  );
+
+  thing.height =
+    groundHeight(
+      generated.terrain,
+      thing.x,
+      thing.y
+    ) + 2;
+}
+
+function addRoute(
+  things,
+  start,
+  finish,
+  firstTID,
+  bend
+) {
+  const count = 7;
+
+  for (let i = 0; i < count; i++) {
+    const amount = (i + 1) / count;
+
+    const x =
+      start.x +
+      (finish.x - start.x) * amount;
+
+    const y =
+      start.y +
+      (finish.y - start.y) * amount +
+      Math.sin(amount * Math.PI) * bend;
+
+    const tid = firstTID + i;
+
+    things.push(
+      makeThing(
+        TYPE.waypoint,
+        x,
+        y,
+        0,
+        tid,
+        [
+          i === count - 1
+            ? 0
+            : tid + 1
+        ]
+      )
+    );
+  }
+
+  return firstTID;
+}
+
+function buildInitialThings(data) {
+  const things = [];
+
+  const size = data.settings.size;
+  const scale = data.settings.scale;
+
+  const gondor = data.gondorBase;
+  const orcs = data.orcBase;
+
+  things.push(
+    makeThing(
+      TYPE.playerStart,
+      gondor.x - 160 * scale,
+      gondor.y
+    )
+  );
+
+  things.push(
+    makeThing(
+      TYPE.director,
+      gondor.x,
+      gondor.y - 180 * scale,
+      0,
+      6500,
+      [70, 100, 70, 12]
+    )
+  );
+
+  things.push(
+    makeThing(
+      TYPE.gondorStandard,
+      gondor.x,
+      gondor.y,
+      0,
+      888
+    )
+  );
+
+  things.push(
+    makeThing(
+      TYPE.orcCamp,
+      orcs.x,
+      orcs.y,
+      180,
+      2700
+    )
+  );
+
+  const playerOffsets = [
+    [-180, -110],
+    [-180, 110],
+    [-60, -180],
+    [-60, 180]
+  ];
+
+  for (const offset of playerOffsets) {
+    things.push(
+      makeThing(
+        TYPE.playerSpawn,
+        gondor.x + offset[0] * scale,
+        gondor.y + offset[1] * scale,
+        0,
+        6400
+      )
+    );
+  }
+
+  const routeBend = size * 0.23;
+
+  /*
+   * Gondor routes.
+   */
+  const gondorCentral = addRoute(
+    things,
+    gondor,
+    orcs,
+    7001,
+    0
+  );
+
+  const gondorNorth = addRoute(
+    things,
+    gondor,
+    orcs,
+    7021,
+    routeBend
+  );
+
+  const gondorSouth = addRoute(
+    things,
+    gondor,
+    orcs,
+    7041,
+    -routeBend
+  );
+
+  /*
+   * Orc routes.
+   */
+  const orcCentral = addRoute(
+    things,
+    orcs,
+    gondor,
+    7101,
+    0
+  );
+
+  const orcNorth = addRoute(
+    things,
+    orcs,
+    gondor,
+    7121,
+    routeBend
+  );
+
+  const orcSouth = addRoute(
+    things,
+    orcs,
+    gondor,
+    7141,
+    -routeBend
+  );
+
+  const gondorSpawns = [
+    [-150, -150],
+    [-150, -50],
+    [-150, 50],
+    [-150, 150]
+  ];
+
+  for (const spawn of gondorSpawns) {
+    things.push(
+      makeThing(
+        TYPE.spawnSpot,
+        gondor.x + spawn[0] * scale,
+        gondor.y + spawn[1] * scale,
+        0,
+        6301,
+        [
+          gondorCentral,
+          1,
+          gondorNorth,
+          gondorSouth
+        ]
+      )
+    );
+  }
+
+  const defenderSpawns = [
+    [120, -170],
+    [120, 0],
+    [120, 170]
+  ];
+
+  for (const spawn of defenderSpawns) {
+    things.push(
+      makeThing(
+        TYPE.spawnSpot,
+        orcs.x + spawn[0] * scale,
+        orcs.y + spawn[1] * scale,
+        180,
+        6302,
+        [0, 0, 0, 0]
+      )
+    );
+  }
+
+  const assaultSpawns = [
+    [-130, -150],
+    [-130, -50],
+    [-130, 50],
+    [-130, 150]
+  ];
+
+  for (const spawn of assaultSpawns) {
+    things.push(
+      makeThing(
+        TYPE.spawnSpot,
+        orcs.x + spawn[0] * scale,
+        orcs.y + spawn[1] * scale,
+        180,
+        6302,
+        [
+          orcCentral,
+          1,
+          orcNorth,
+          orcSouth
+        ]
+      )
+    );
+  }
+
+  const archers = [
+    [
+      orcs.x - 230 * scale,
+      orcs.y - 330 * scale,
+      150
+    ],
+    [
+      orcs.x - 230 * scale,
+      orcs.y + 330 * scale,
+      210
+    ],
+    [0, -270 * scale, 90],
+    [0, 270 * scale, 270]
+  ];
+
+  for (const archer of archers) {
+    things.push(
+      makeThing(
+        TYPE.orcArcher,
+        archer[0],
+        archer[1],
+        archer[2]
+      )
+    );
+  }
+
+  addDecorations(things, data);
+
+  for (const thing of things) {
+    thing.height =
+      groundHeight(
+        data,
+        thing.x,
+        thing.y
+      ) + 2;
+  }
+
+  return things;
+}
+
+function addDecorations(things, data) {
+  const random =
+    mulberry32(data.seed ^ 0x39A7F21D);
+
+  const size = data.settings.size;
+  const half = size / 2;
+  const occupied = [];
+
+  function reserved(x, y) {
+    if (
+      Math.hypot(
+        x - data.gondorBase.x,
+        y - data.gondorBase.y
+      ) < size * 0.09
+    ) {
+      return true;
+    }
+
+    if (
+      Math.hypot(
+        x - data.orcBase.x,
+        y - data.orcBase.y
+      ) < size * 0.09
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function scatter(
+    type,
+    count,
+    minimumDistance,
+    sideOnly
+  ) {
+    let placed = 0;
+    let attempts = 0;
+
+    while (
+      placed < count &&
+      attempts < count * 100
+    ) {
+      attempts++;
+
+      const x =
+        (random() - 0.5) * size * 0.78;
+
+      let y;
+
+      if (sideOnly) {
+        const side =
+          random() < 0.5 ? -1 : 1;
+
+        y =
+          side *
+          (
+            size * 0.20 +
+            random() * size * 0.13
+          );
+      } else {
+        y =
+          (random() - 0.5) * size * 0.64;
+      }
+
+      if (
+        Math.abs(x) > half * 0.82 ||
+        Math.abs(y) > half * 0.82 ||
+        reserved(x, y)
+      ) {
+        continue;
+      }
+
+      let blocked = false;
+
+      for (const other of occupied) {
+        if (
+          Math.hypot(
+            x - other.x,
+            y - other.y
+          ) < minimumDistance
+        ) {
+          blocked = true;
+          break;
+        }
+      }
+
+      if (blocked)
+        continue;
+
+      occupied.push({ x, y });
+
+      things.push(
+        makeThing(
+          type,
+          x,
+          y,
+          random() * 360
+        )
+      );
+
+      placed++;
+    }
+  }
+
+  const scale = data.settings.scale;
+
+  scatter(TYPE.rockLarge, 16, 120 * scale, true);
+  scatter(TYPE.rockSmall, 25, 80 * scale, false);
+  scatter(TYPE.tree, 14, 150 * scale, true);
+  scatter(TYPE.deadTree, 12, 130 * scale, false);
+  scatter(TYPE.ruin, 3, 300 * scale, true);
+
+  things.push(
+    makeThing(
+      TYPE.deadMumak,
+      size * 0.08,
+      -size * 0.29,
+      random() * 360
+    )
+  );
+}
+
+/* =========================================================
+ * Editing
+ * ========================================================= */
+
+function snapshotThings() {
+  return generated.things.map(cloneThing);
+}
+
+function pushUndo() {
+  if (!generated)
+    return;
+
+  undoStack.push(snapshotThings());
+
+  if (undoStack.length > 50)
+    undoStack.shift();
+}
+
+function undo() {
+  if (!generated || undoStack.length === 0)
+    return;
+
+  generated.things = undoStack.pop();
+  selected = [];
+
+  rebuildOutput();
+  updatePropertyPanel();
+  draw();
+}
+
+function copySelected() {
+  if (!generated || selected.length === 0)
+    return;
+
+  clipboard = selected.map(
+    index => cloneThing(generated.things[index])
+  );
+}
+
+function pasteClipboard() {
+  if (!generated || clipboard.length === 0)
+    return;
+
+  pushUndo();
+  selected = [];
+
+  const offset =
+    64 * generated.terrain.settings.scale;
+
+  for (const source of clipboard) {
+    const copy = cloneThing(source);
+
+    copy.x += offset;
+    copy.y += offset;
+
+    generated.things.push(copy);
+    updateThingHeight(copy);
+
+    selected.push(
+      generated.things.length - 1
+    );
+  }
+
+  rebuildOutput();
+  updatePropertyPanel();
+  draw();
+}
+
+function deleteSelected() {
+  if (!generated || selected.length === 0)
+    return;
+
+  pushUndo();
+
+  const sorted = selected
+    .slice()
+    .sort((a, b) => b - a);
+
+  for (const index of sorted)
+    generated.things.splice(index, 1);
+
+  selected = [];
+
+  rebuildOutput();
+  updatePropertyPanel();
+  draw();
+}
+
+function mixedValue(getter) {
+  if (selected.length === 0)
+    return "";
+
+  const first =
+    getter(generated.things[selected[0]]);
+
+  for (const index of selected) {
+    if (getter(generated.things[index]) !== first)
+      return "";
+  }
+
+  return first;
+}
+
+function updatePropertyPanel() {
+  if (!generated || selected.length === 0) {
+    $("selectionInfo").textContent =
+      "Ничего не выделено";
+
+    $("thingType").value = "";
+    $("thingId").value = "";
+    $("thingAngle").value = "";
+
+    for (let i = 0; i < 5; i++)
+      $("arg" + i).value = "";
+
+    return;
+  }
+
+  if (selected.length === 1) {
+    const thing =
+      generated.things[selected[0]];
+
+    $("selectionInfo").innerHTML =
+      "<b>" +
+      (TYPE_NAMES[thing.type] || "Unknown") +
+      "</b><br>" +
+      "Type: " + thing.type +
+      "<br>TID: " + thing.id +
+      "<br>X: " + thing.x.toFixed(1) +
+      "<br>Y: " + thing.y.toFixed(1);
+  } else {
+    $("selectionInfo").textContent =
+      "Выделено: " + selected.length;
+  }
+
+  $("thingType").value =
+    mixedValue(t => t.type);
+
+  $("thingId").value =
+    mixedValue(t => t.id);
+
+  $("thingAngle").value =
+    mixedValue(t => t.angle);
+
+  for (let i = 0; i < 5; i++) {
+    $("arg" + i).value =
+      mixedValue(t => t.args[i]);
+  }
+}
+
+function applyProperties() {
+  if (!generated || selected.length === 0)
+    return;
+
+  pushUndo();
+
+  const values = {
+    type: $("thingType").value,
+    id: $("thingId").value,
+    angle: $("thingAngle").value,
+    args: []
+  };
+
+  for (let i = 0; i < 5; i++)
+    values.args.push($("arg" + i).value);
+
+  for (const index of selected) {
+    const thing = generated.things[index];
+
+    if (values.type !== "")
+      thing.type = Number(values.type);
+
+    if (values.id !== "")
+      thing.id = Number(values.id);
+
+    if (values.angle !== "")
+      thing.angle = Number(values.angle);
+
+    for (let i = 0; i < 5; i++) {
+      if (values.args[i] !== "")
+        thing.args[i] = Number(values.args[i]);
+    }
+  }
+
+  rebuildOutput();
+  updatePropertyPanel();
+  draw();
+}
+
+function addNewThing() {
+  if (!generated)
+    return;
+
+  pushUndo();
+
+  const type =
+    Number($("newType").value) ||
+    TYPE.rockSmall;
+
+  const thing = makeThing(type, 0, 0);
+
+  updateThingHeight(thing);
+
+  generated.things.push(thing);
+
+  selected = [
+    generated.things.length - 1
+  ];
+
+  rebuildOutput();
+  updatePropertyPanel();
+  draw();
+}
+
+/* =========================================================
+ * Canvas
+ * ========================================================= */
+
+function worldToScreen(point) {
+  return {
+    x:
+      view.padding +
+      (point.x + view.half) * view.scale,
+
+    y:
+      canvas.height -
+      view.padding -
+      (point.y + view.half) * view.scale
+  };
+}
+
+function screenToWorld(x, y) {
+  return {
+    x:
+      (x - view.padding) / view.scale -
+      view.half,
+
+    y:
+      (
+        canvas.height -
+        view.padding -
+        y
+      ) / view.scale -
+      view.half
+  };
+}
+
+function mousePosition(event) {
+  const rect = canvas.getBoundingClientRect();
+
+  return {
+    x:
+      (event.clientX - rect.left) *
+      canvas.width / rect.width,
+
+    y:
+      (event.clientY - rect.top) *
+      canvas.height / rect.height
+  };
+}
+
+function findThingAt(screenX, screenY) {
+  if (!generated)
+    return -1;
+
+  let best = -1;
+  let bestDistance = 15;
+
+  for (
+    let index = generated.things.length - 1;
+    index >= 0;
+    index--
+  ) {
+    const position =
+      worldToScreen(generated.things[index]);
+
+    const distance = Math.hypot(
+      position.x - screenX,
+      position.y - screenY
+    );
+
+    if (distance < bestDistance) {
+      best = index;
+      bestDistance = distance;
+    }
+  }
+
+  return best;
+}
+
+/* =========================================================
+ * Route rendering
+ * ========================================================= */
+
+function findWaypointByTID(tid) {
+  if (!generated || tid === 0)
+    return null;
+
+  return generated.things.find(
+    thing =>
+      thing.type === TYPE.waypoint &&
+      thing.id === tid
+  ) || null;
+}
+
+function drawRouteChain(
+  firstTID,
+  color,
+  width
+) {
+  let waypoint =
+    findWaypointByTID(firstTID);
+
+  if (!waypoint)
+    return;
+
+  const visited = new Set();
+
+  ctx.beginPath();
+
+  let position =
+    worldToScreen(waypoint);
+
+  ctx.moveTo(
+    position.x,
+    position.y
+  );
+
+  let safety = 0;
+
+  while (
+    waypoint &&
+    safety < 100
+  ) {
+    safety++;
+
+    if (visited.has(waypoint.id))
+      break;
+
+    visited.add(waypoint.id);
+
+    const nextTID =
+      waypoint.args[0];
+
+    if (nextTID === 0)
+      break;
+
+    const next =
+      findWaypointByTID(nextTID);
+
+    if (!next)
+      break;
+
+    position =
+      worldToScreen(next);
+
+    ctx.lineTo(
+      position.x,
+      position.y
+    );
+
+    waypoint = next;
+  }
+
+  ctx.strokeStyle = color;
+  ctx.lineWidth = width;
+  ctx.globalAlpha = 0.85;
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+}
+
+function drawAllRoutes() {
+  /*
+   * Gondor and Orc versions of every route.
+   */
+  drawRouteChain(7001, "#ffffff", 4);
+  drawRouteChain(7101, "#ffffff", 2);
+
+  drawRouteChain(7021, "#ff443d", 4);
+  drawRouteChain(7121, "#ff443d", 2);
+
+  drawRouteChain(7041, "#4387ff", 4);
+  drawRouteChain(7141, "#4387ff", 2);
+}
+
+function entityColor(thing) {
+  if (thing.type === TYPE.gondorStandard)
+    return "#55aaff";
+
+  if (thing.type === TYPE.orcCamp)
+    return "#e34f38";
+
+  if (thing.type === TYPE.director)
+    return "#d477ff";
+
+  if (thing.type === TYPE.waypoint)
+    return "#f3df63";
+
+  if (thing.type === TYPE.playerSpawn)
+    return "#5ff1ec";
+
+  if (thing.type === TYPE.playerStart)
+    return "#ffffff";
+
+  if (thing.type === TYPE.orcArcher)
+    return "#ff922f";
+
+  if (thing.type === TYPE.spawnSpot) {
+    return thing.id === 6301
+      ? "#79bdff"
+      : "#ff7761";
+  }
+
+  if (
+    thing.type === TYPE.tree ||
+    thing.type === TYPE.deadTree
+  ) {
+    return "#57a957";
+  }
+
+  return "#b8b8b8";
+}
+
+function draw() {
+  if (!generated)
+    return;
+
+  const data = generated.terrain;
+
+  view.padding = 25;
+  view.half = data.settings.size / 2;
+
+  view.scale =
+    (canvas.width - view.padding * 2) /
+    data.settings.size;
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  ctx.fillStyle = "#080a07";
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  for (const triangle of data.triangles) {
+    const va = data.vertices[triangle[0]];
+    const vb = data.vertices[triangle[1]];
+    const vc = data.vertices[triangle[2]];
+
+    const a = worldToScreen(va);
+    const b = worldToScreen(vb);
+    const c = worldToScreen(vc);
+
+    const height =
+      (va.z + vb.z + vc.z) / 3;
+
+    const amount =
+      (height - data.minHeight) /
+      Math.max(
+        1,
+        data.maxHeight - data.minHeight
+      );
+
+    ctx.beginPath();
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(b.x, b.y);
+    ctx.lineTo(c.x, c.y);
+    ctx.closePath();
+
+    ctx.fillStyle =
+      "rgb(" +
+      Math.round(45 + amount * 105) + "," +
+      Math.round(70 + amount * 80) + "," +
+      Math.round(35 + amount * 50) + ")";
+
+    ctx.fill();
+
+    ctx.strokeStyle =
+      "rgba(0,0,0,0.12)";
+
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+  }
+
+  /*
+   * Lines are drawn beneath entity points.
+   */
+  drawAllRoutes();
+
+  for (
+    let index = 0;
+    index < generated.things.length;
+    index++
+  ) {
+    const thing =
+      generated.things[index];
+
+    const position =
+      worldToScreen(thing);
+
+    const isSelected =
+      selected.indexOf(index) >= 0;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      position.x,
+      position.y,
+      isSelected ? 7 : 5,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fillStyle =
+      entityColor(thing);
+
+    ctx.fill();
+
+    ctx.strokeStyle =
+      isSelected
+        ? "#ffff00"
+        : "#111";
+
+    ctx.lineWidth =
+      isSelected ? 3 : 1;
+
+    ctx.stroke();
+
+    if (isSelected) {
+      ctx.fillStyle = "#fff";
+      ctx.font = "11px Arial";
+      ctx.textAlign = "center";
+
+      ctx.fillText(
+        String(thing.type),
+        position.x,
+        position.y - 11
+      );
+    }
+  }
+
+  ctx.strokeStyle = "#b7d58f";
+  ctx.lineWidth = 2;
+
+  ctx.strokeRect(
+    view.padding,
+    view.padding,
+    canvas.width - view.padding * 2,
+    canvas.height - view.padding * 2
+  );
+}
+
+/* =========================================================
+ * Mouse and keyboard
+ * ========================================================= */
+
+canvas.addEventListener("mousedown", event => {
+  if (!generated || event.button !== 0)
+    return;
+
+  const mouse = mousePosition(event);
+
+  const hit =
+    findThingAt(mouse.x, mouse.y);
+
+  const toggle =
+    event.ctrlKey || event.metaKey;
+
+  if (hit < 0) {
+    if (!toggle)
+      selected = [];
+
+    updatePropertyPanel();
+    draw();
+    return;
+  }
+
+  const selectedPosition =
+    selected.indexOf(hit);
+
+  if (toggle) {
+    if (selectedPosition >= 0) {
+      selected.splice(selectedPosition, 1);
+
+      updatePropertyPanel();
+      draw();
+      return;
+    }
+
+    selected.push(hit);
+  } else if (selectedPosition < 0) {
+    selected = [hit];
+  }
+
+  pushUndo();
+
+  dragging = true;
+  dragMoved = false;
+
+  dragStart =
+    screenToWorld(mouse.x, mouse.y);
+
+  dragOriginal =
+    selected.map(index => ({
+      index,
+      x: generated.things[index].x,
+      y: generated.things[index].y
+    }));
+
+  updatePropertyPanel();
+  draw();
+});
+
+window.addEventListener("mousemove", event => {
+  if (!dragging || !generated)
+    return;
+
+  const mouse = mousePosition(event);
+
+  const world =
+    screenToWorld(mouse.x, mouse.y);
+
+  const dx = world.x - dragStart.x;
+  const dy = world.y - dragStart.y;
+
+  if (Math.abs(dx) + Math.abs(dy) > 1)
+    dragMoved = true;
+
+  for (const original of dragOriginal) {
+    const thing =
+      generated.things[original.index];
+
+    thing.x = original.x + dx;
+    thing.y = original.y + dy;
+
+    updateThingHeight(thing);
+  }
+
+  updatePropertyPanel();
+  draw();
+});
+
+window.addEventListener("mouseup", () => {
+  if (!dragging)
+    return;
+
+  dragging = false;
+
+  if (dragMoved)
+    rebuildOutput();
+
+  draw();
+});
+
+window.addEventListener("keydown", event => {
+  const tag =
+    document.activeElement
+      ? document.activeElement.tagName
+      : "";
+
+  if (tag === "INPUT" || tag === "TEXTAREA")
+    return;
+
+  const control =
+    event.ctrlKey || event.metaKey;
+
+  if (
+    control &&
+    event.key.toLowerCase() === "c"
+  ) {
+    event.preventDefault();
+    copySelected();
+    return;
+  }
+
+  if (
+    control &&
+    event.key.toLowerCase() === "v"
+  ) {
+    event.preventDefault();
+    pasteClipboard();
+    return;
+  }
+
+  if (
+    control &&
+    event.key.toLowerCase() === "z"
+  ) {
+    event.preventDefault();
+    undo();
+    return;
+  }
+
+  if (
+    event.key === "Delete" ||
+    event.key === "Backspace"
+  ) {
+    event.preventDefault();
+    deleteSelected();
+  }
+});
+
+/* =========================================================
+ * UDMF
+ * ========================================================= */
+
+function planeFromTriangle(a, b, c) {
+  const determinant =
+    a.x * (b.y - c.y) +
+    b.x * (c.y - a.y) +
+    c.x * (a.y - b.y);
+
+  if (Math.abs(determinant) < 0.000001) {
+    return {
+      a: 0,
+      b: 0,
+      c: 1,
+      d: -a.z
+    };
+  }
+
+  const p = (
+    a.z * (b.y - c.y) +
+    b.z * (c.y - a.y) +
+    c.z * (a.y - b.y)
+  ) / determinant;
+
+  const q = (
+    a.z * (c.x - b.x) +
+    b.z * (a.x - c.x) +
+    c.z * (b.x - a.x)
+  ) / determinant;
+
+  const r = (
+    a.z * (b.x * c.y - c.x * b.y) +
+    b.z * (c.x * a.y - a.x * c.y) +
+    c.z * (a.x * b.y - b.x * a.y)
+  ) / determinant;
+
+  let pa = -p;
+  let pb = -q;
+  let pc = 1;
+  let pd = -r;
+
+  const length = Math.hypot(pa, pb, pc);
+
+  pa /= length;
+  pb /= length;
+  pc /= length;
+  pd /= length;
+
+  return {
+    a: pa,
+    b: pb,
+    c: pc,
+    d: pd
+  };
+}
+
+function number(value) {
+  if (Math.abs(value) < 0.0000001)
+    value = 0;
+
+  return Number(
+    value.toFixed(8)
+  ).toString();
+}
+
+function quoted(value) {
+  return (
+    '"' +
+    String(value)
+      .replace(/\\/g, "\\\\")
+      .replace(/"/g, '\\"') +
+    '"'
+  );
+}
+
+function buildUDMF(data, things) {
+  const vertices = data.vertices;
+  const triangles = data.triangles;
+
+  const sectors = triangles.map(triangle => {
+    const a = vertices[triangle[0]];
+    const b = vertices[triangle[1]];
+    const c = vertices[triangle[2]];
+
+    return {
+      floorHeight: (a.z + b.z + c.z) / 3,
+      plane: planeFromTriangle(a, b, c)
+    };
+  });
+
+  const sidedefs = [];
+  const linedefs = [];
+  const edges = new Map();
+
+  function makeSidedef(sectorIndex) {
+    const index = sidedefs.length;
+
+    sidedefs.push({
+      sector: sectorIndex
+    });
+
+    return index;
+  }
+
+  for (
+    let sectorIndex = 0;
+    sectorIndex < triangles.length;
+    sectorIndex++
+  ) {
+    const triangle = triangles[sectorIndex];
+
+    for (let edge = 0; edge < 3; edge++) {
+      const from = triangle[edge];
+      const to = triangle[(edge + 1) % 3];
+
+      const key =
+        from < to
+          ? from + ":" + to
+          : to + ":" + from;
+
+      const sideIndex =
+        makeSidedef(sectorIndex);
+
+      if (!edges.has(key)) {
+        edges.set(key, linedefs.length);
+
+        linedefs.push({
+          v1: from,
+          v2: to,
+          front: sideIndex,
+          back: -1
+        });
+      } else {
+        linedefs[edges.get(key)].back =
+          sideIndex;
+      }
+    }
+  }
+
+  const output = [
+    'namespace = "zdoom";',
+    ""
+  ];
+
+  for (const vertex of vertices) {
+    output.push(
+      "vertex",
+      "{",
+      "x = " + number(vertex.x) + ";",
+      "y = " + number(vertex.y) + ";",
+      "}",
+      ""
+    );
+  }
+
+  for (const line of linedefs) {
+    output.push(
+      "linedef",
+      "{",
+      "v1 = " + line.v1 + ";",
+      "v2 = " + line.v2 + ";",
+      "sidefront = " + line.front + ";"
+    );
+
+    if (line.back >= 0) {
+      output.push(
+        "sideback = " + line.back + ";",
+        "twosided = true;"
+      );
+    } else {
+      output.push("blocking = true;");
+    }
+
+    output.push("}", "");
+  }
+
+  for (const side of sidedefs) {
+    output.push(
+      "sidedef",
+      "{",
+      "sector = " + side.sector + ";",
+      "offsetx = 0;",
+      "offsety = 0;",
+      "texturetop = " +
+        quoted(data.settings.wallTexture) + ";",
+      "texturebottom = " +
+        quoted(data.settings.wallTexture) + ";",
+      'texturemiddle = "-";',
+      "}",
+      ""
+    );
+  }
+
+  const ceiling = Math.max(
+    2048 * data.settings.scale,
+    data.maxHeight + 512 * data.settings.scale
+  );
+
+  for (const sector of sectors) {
+    const p = sector.plane;
+
+    output.push(
+      "sector",
+      "{",
+      "heightfloor = " +
+        number(sector.floorHeight) + ";",
+      "heightceiling = " +
+        number(ceiling) + ";",
+      "texturefloor = " +
+        quoted(data.settings.floorTexture) + ";",
+      'textureceiling = "F_SKY1";',
+      "lightlevel = 192;",
+      "floorplane_a = " + number(p.a) + ";",
+      "floorplane_b = " + number(p.b) + ";",
+      "floorplane_c = " + number(p.c) + ";",
+      "floorplane_d = " + number(p.d) + ";",
+      "}",
+      ""
+    );
+  }
+
+  for (const thing of things) {
+    output.push(
+      "thing",
+      "{",
+      "x = " + number(thing.x) + ";",
+      "y = " + number(thing.y) + ";",
+      "height = " + number(thing.height) + ";",
+      "angle = " + number(thing.angle) + ";",
+      "type = " + Math.round(thing.type) + ";"
+    );
+
+    if (thing.id !== 0)
+      output.push("id = " + Math.round(thing.id) + ";");
+
+    for (let i = 0; i < 5; i++) {
+      output.push(
+        "arg" + i + " = " +
+        Math.round(thing.args[i] || 0) + ";"
+      );
+    }
+
+    output.push(
+      "skill1 = true;",
+      "skill2 = true;",
+      "skill3 = true;",
+      "skill4 = true;",
+      "skill5 = true;",
+      "single = true;",
+      "cooperative = true;",
+      "}",
+      ""
+    );
+  }
+
+  return {
+    text: output.join("\n"),
+
+    stats: {
+      vertices: vertices.length,
+      linedefs: linedefs.length,
+      sectors: sectors.length,
+      things: things.length
+    }
+  };
+}
+
+/* =========================================================
+ * WAD export
+ * ========================================================= */
+
+function asciiName(name) {
+  const bytes = new Uint8Array(8);
+
+  for (let i = 0; i < Math.min(8, name.length); i++)
+    bytes[i] = name.charCodeAt(i) & 255;
+
+  return bytes;
+}
+
+function createWAD(textmap) {
+  const encoder = new TextEncoder();
+
+  const lumps = [
+    { name: "MAP01", data: new Uint8Array(0) },
+    { name: "TEXTMAP", data: encoder.encode(textmap) },
+    { name: "ENDMAP", data: new Uint8Array(0) }
+  ];
+
+  const headerSize = 12;
+  let dataSize = 0;
+
+  for (const lump of lumps) {
+    lump.offset = headerSize + dataSize;
+    dataSize += lump.data.length;
+  }
+
+  const directoryOffset = headerSize + dataSize;
+
+  const buffer = new ArrayBuffer(
+    directoryOffset + lumps.length * 16
+  );
+
+  const bytes = new Uint8Array(buffer);
+  const viewData = new DataView(buffer);
+
+  bytes.set(encoder.encode("PWAD"), 0);
+
+  viewData.setInt32(4, lumps.length, true);
+  viewData.setInt32(8, directoryOffset, true);
+
+  for (const lump of lumps)
+    bytes.set(lump.data, lump.offset);
+
+  lumps.forEach((lump, index) => {
+    const position =
+      directoryOffset + index * 16;
+
+    viewData.setInt32(
+      position,
+      lump.offset,
+      true
+    );
+
+    viewData.setInt32(
+      position + 4,
+      lump.data.length,
+      true
+    );
+
+    bytes.set(
+      asciiName(lump.name),
+      position + 8
+    );
+  });
+
+  return new Blob(
+    [buffer],
+    { type: "application/octet-stream" }
+  );
+}
+
+function download(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = filename;
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(
+    () => URL.revokeObjectURL(url),
+    1000
+  );
+}
+
+/* =========================================================
+ * Main
+ * ========================================================= */
+
+function rebuildOutput() {
+  if (!generated)
+    return;
+
+  const udmf = buildUDMF(
+    generated.terrain,
+    generated.things
+  );
+
+  generated.text = udmf.text;
+  generated.stats = udmf.stats;
+
+  $("stats").innerHTML = [
+    "<b>Scale:</b> " +
+      generated.terrain.settings.scale + "×",
+
+    "<b>Вершины:</b> " +
+      udmf.stats.vertices,
+
+    "<b>Линии:</b> " +
+      udmf.stats.linedefs,
+
+    "<b>Сектора:</b> " +
+      udmf.stats.sectors,
+
+    "<b>Сущности:</b> " +
+      udmf.stats.things,
+
+    "<b>Выделено:</b> " +
+      selected.length,
+
+    "<b>TEXTMAP:</b> " +
+      Math.round(udmf.text.length / 1024) +
+      " КБ"
+  ].join("<br>");
+}
+
+function generate() {
+  try {
+    const settings = readSettings();
+    const terrain = createTerrain(settings);
+    const things = buildInitialThings(terrain);
+
+    generated = {
+      terrain,
+      things,
+      text: "",
+      stats: {}
+    };
+
+    selected = [];
+    clipboard = [];
+    undoStack = [];
+
+    rebuildOutput();
+    updatePropertyPanel();
+    draw();
+  } catch (error) {
+    console.error(error);
+
+    $("stats").textContent =
+      "Ошибка: " + error.message;
+  }
+}
+
+$("generate").addEventListener(
+  "click",
+  generate
+);
+
+$("randomSeed").addEventListener(
+  "click",
+  () => {
+    $("seed").value =
+      Math.random().toString(36).slice(2) +
+      "-" +
+      Date.now().toString(36);
+
+    generate();
+  }
+);
+
+$("applyProperties").addEventListener(
+  "click",
+  applyProperties
+);
+
+$("addThing").addEventListener(
+  "click",
+  addNewThing
+);
+
+$("deleteThing").addEventListener(
+  "click",
+  deleteSelected
+);
+
+$("exportText").addEventListener(
+  "click",
+  () => {
+    rebuildOutput();
+
+    download(
+      new Blob(
+        [generated.text],
+        {
+          type:
+            "text/plain;charset=utf-8"
+        }
+      ),
+      "TEXTMAP.txt"
+    );
+  }
+);
+
+$("exportWad").addEventListener(
+  "click",
+  () => {
+    rebuildOutput();
+
+    download(
+      createWAD(generated.text),
+      "LOTRBattle.wad"
+    );
+  }
+);
+
+generate();
+</script>
+<script>
+"use strict";
+
+/*
+ * В UDMF Thing.height — высота над полом,
+ * а не абсолютная координата мира.
+ */
+const originalBuildInitialThings =
+  buildInitialThings;
+
+buildInitialThings = function (data) {
+  const things =
+    originalBuildInitialThings(data);
+
+  for (const thing of things) {
+    thing.height = 0;
+  }
+
+  return things;
+};
+
+/*
+ * После перемещения сущность остаётся
+ * непосредственно на полу нового сектора.
+ */
+updateThingHeight = function (thing) {
+  if (!generated)
+    return;
+
+  const half =
+    generated.terrain.settings.size / 2;
+
+  thing.x = Math.max(
+    -half + 16,
+    Math.min(
+      half - 16,
+      thing.x
+    )
+  );
+
+  thing.y = Math.max(
+    -half + 16,
+    Math.min(
+      half - 16,
+      thing.y
+    )
+  );
+
+  thing.height = 0;
+};
+
+/*
+ * Ручная привязка выделенных сущностей к земле.
+ * Если ничего не выделено — привязываются все.
+ */
+function snapThingsToGround() {
+  if (!generated)
+    return;
+
+  pushUndo();
+
+  let targets;
+
+  if (selected.length > 0) {
+    targets = selected.map(
+      index =>
+        generated.things[index]
+    );
+  } else {
+    targets = generated.things;
+  }
+
+  for (const thing of targets) {
+    thing.height = 0;
+  }
+
+  rebuildOutput();
+  updatePropertyPanel();
+  draw();
+}
+
+/*
+ * Добавляем кнопку после кнопки удаления.
+ */
+const snapButton =
+  document.createElement("button");
+
+snapButton.id =
+  "snapThingsToGround";
+
+snapButton.type =
+  "button";
+
+snapButton.textContent =
+  "Привязать к земле";
+
+snapButton.addEventListener(
+  "click",
+  snapThingsToGround
+);
+
+$("deleteThing").insertAdjacentElement(
+  "afterend",
+  snapButton
+);
+
+/*
+ * Пересоздаём начальную карту уже
+ * с правильными относительными высотами.
+ */
+generate();
+</script>
+<script>
+"use strict";
+
+/* =========================================================
+ * UDMF/WAD loading
+ * ========================================================= */
+
+function readAscii(
+  bytes,
+  offset,
+  length
+) {
+  let text = "";
+
+  for (let i = 0; i < length; i++) {
+    const value = bytes[offset + i];
+
+    if (value === 0)
+      break;
+
+    text += String.fromCharCode(value);
+  }
+
+  return text;
+}
+
+function extractTextmapFromWad(buffer) {
+  const bytes =
+    new Uint8Array(buffer);
+
+  const view =
+    new DataView(buffer);
+
+  const signature =
+    readAscii(bytes, 0, 4);
+
+  if (
+    signature !== "PWAD" &&
+    signature !== "IWAD"
+  ) {
+    throw new Error(
+      "Файл не является WAD"
+    );
+  }
+
+  const lumpCount =
+    view.getInt32(4, true);
+
+  const directoryOffset =
+    view.getInt32(8, true);
+
+  for (
+    let index = 0;
+    index < lumpCount;
+    index++
+  ) {
+    const entryOffset =
+      directoryOffset +
+      index * 16;
+
+    const lumpOffset =
+      view.getInt32(
+        entryOffset,
+        true
+      );
+
+    const lumpSize =
+      view.getInt32(
+        entryOffset + 4,
+        true
+      );
+
+    const lumpName =
+      readAscii(
+        bytes,
+        entryOffset + 8,
+        8
+      ).toUpperCase();
+
+    if (lumpName !== "TEXTMAP")
+      continue;
+
+    const textBytes =
+      bytes.slice(
+        lumpOffset,
+        lumpOffset + lumpSize
+      );
+
+    return new TextDecoder(
+      "utf-8"
+    ).decode(textBytes);
+  }
+
+  throw new Error(
+    "В WAD отсутствует TEXTMAP"
+  );
+}
+
+/* =========================================================
+ * UDMF parser
+ * ========================================================= */
+
+function parseUDMFValue(text) {
+  const value = text.trim();
+
+  if (
+    value.startsWith('"') &&
+    value.endsWith('"')
+  ) {
+    return value
+      .slice(1, -1)
+      .replace(/\\"/g, '"')
+      .replace(/\\\\/g, "\\");
+  }
+
+  if (value === "true")
+    return true;
+
+  if (value === "false")
+    return false;
+
+  const numberValue =
+    Number(value);
+
+  if (!Number.isNaN(numberValue))
+    return numberValue;
+
+  return value;
+}
+
+function parseUDMFProperties(body) {
+  const properties = {};
+
+  const expression =
+    /([A-Za-z_][A-Za-z0-9_]*)\s*=\s*("(?:\\.|[^"])*"|[^;]+)\s*;/g;
+
+  let match;
+
+  while (
+    (
+      match =
+        expression.exec(body)
+    ) !== null
+  ) {
+    properties[
+      match[1].toLowerCase()
+    ] = parseUDMFValue(
+      match[2]
+    );
+  }
+
+  return properties;
+}
+
+function parseUDMFBlocks(
+  text,
+  blockName
+) {
+  const blocks = [];
+
+  const expression =
+    new RegExp(
+      "\\b" +
+      blockName +
+      "\\s*\\{([\\s\\S]*?)\\}",
+      "gi"
+    );
+
+  let match;
+
+  while (
+    (
+      match =
+        expression.exec(text)
+    ) !== null
+  ) {
+    blocks.push(
+      parseUDMFProperties(
+        match[1]
+      )
+    );
+  }
+
+  return blocks;
+}
+
+function propertyNumber(
+  object,
+  name,
+  fallback
+) {
+  const value = object[name];
+
+  if (
+    value === undefined ||
+    value === null
+  ) {
+    return fallback;
+  }
+
+  const result = Number(value);
+
+  return Number.isFinite(result)
+    ? result
+    : fallback;
+}
+
+/* =========================================================
+ * Geometry restoration
+ * ========================================================= */
+
+function restoreTerrainFromUDMF(text) {
+  const vertexBlocks =
+    parseUDMFBlocks(
+      text,
+      "vertex"
+    );
+
+  const linedefBlocks =
+    parseUDMFBlocks(
+      text,
+      "linedef"
+    );
+
+  const sidedefBlocks =
+    parseUDMFBlocks(
+      text,
+      "sidedef"
+    );
+
+  const sectorBlocks =
+    parseUDMFBlocks(
+      text,
+      "sector"
+    );
+
+  const thingBlocks =
+    parseUDMFBlocks(
+      text,
+      "thing"
+    );
+
+  if (
+    vertexBlocks.length === 0 ||
+    sectorBlocks.length === 0
+  ) {
+    throw new Error(
+      "В TEXTMAP отсутствует геометрия"
+    );
+  }
+
+  const vertices =
+    vertexBlocks.map(
+      block => ({
+        x:
+          propertyNumber(
+            block,
+            "x",
+            0
+          ),
+
+        y:
+          propertyNumber(
+            block,
+            "y",
+            0
+          ),
+
+        z: 0
+      })
+    );
+
+  const sidedefs =
+    sidedefBlocks.map(
+      block => ({
+        sector:
+          propertyNumber(
+            block,
+            "sector",
+            -1
+          ),
+
+        textureTop:
+          block.texturetop ||
+          "ROCK1",
+
+        textureBottom:
+          block.texturebottom ||
+          "ROCK1"
+      })
+    );
+
+  const linedefs =
+    linedefBlocks.map(
+      block => ({
+        v1:
+          propertyNumber(
+            block,
+            "v1",
+            -1
+          ),
+
+        v2:
+          propertyNumber(
+            block,
+            "v2",
+            -1
+          ),
+
+        front:
+          propertyNumber(
+            block,
+            "sidefront",
+            -1
+          ),
+
+        back:
+          propertyNumber(
+            block,
+            "sideback",
+            -1
+          )
+      })
+    );
+
+  const sectorVertices =
+    sectorBlocks.map(
+      () => new Set()
+    );
+
+  function addLineToSector(
+    sideIndex,
+    line
+  ) {
+    if (
+      sideIndex < 0 ||
+      sideIndex >= sidedefs.length
+    ) {
+      return;
+    }
+
+    const sectorIndex =
+      sidedefs[
+        sideIndex
+      ].sector;
+
+    if (
+      sectorIndex < 0 ||
+      sectorIndex >=
+        sectorVertices.length
+    ) {
+      return;
+    }
+
+    sectorVertices[
+      sectorIndex
+    ].add(line.v1);
+
+    sectorVertices[
+      sectorIndex
+    ].add(line.v2);
+  }
+
+  for (const line of linedefs) {
+    addLineToSector(
+      line.front,
+      line
+    );
+
+    addLineToSector(
+      line.back,
+      line
+    );
+  }
+
+  /*
+   * Вершина может принадлежать нескольким
+   * наклонным секторам. Усредняем вычисленный Z.
+   */
+  const heightSums =
+    vertices.map(() => 0);
+
+  const heightCounts =
+    vertices.map(() => 0);
+
+  function sectorHeightAt(
+    sector,
+    x,
+    y
+  ) {
+    const planeA =
+      propertyNumber(
+        sector,
+        "floorplane_a",
+        0
+      );
+
+    const planeB =
+      propertyNumber(
+        sector,
+        "floorplane_b",
+        0
+      );
+
+    const planeC =
+      propertyNumber(
+        sector,
+        "floorplane_c",
+        1
+      );
+
+    const planeD =
+      propertyNumber(
+        sector,
+        "floorplane_d",
+        0
+      );
+
+    if (
+      Math.abs(planeC) <
+      0.000001
+    ) {
+      return propertyNumber(
+        sector,
+        "heightfloor",
+        0
+      );
+    }
+
+    return -(
+      planeA * x +
+      planeB * y +
+      planeD
+    ) / planeC;
+  }
+
+  sectorVertices.forEach(
+    function (
+      vertexSet,
+      sectorIndex
+    ) {
+      const sector =
+        sectorBlocks[
+          sectorIndex
+        ];
+
+      for (
+        const vertexIndex of
+        vertexSet
+      ) {
+        if (
+          vertexIndex < 0 ||
+          vertexIndex >=
+            vertices.length
+        ) {
+          continue;
+        }
+
+        const vertex =
+          vertices[
+            vertexIndex
+          ];
+
+        const height =
+          sectorHeightAt(
+            sector,
+            vertex.x,
+            vertex.y
+          );
+
+        heightSums[
+          vertexIndex
+        ] += height;
+
+        heightCounts[
+          vertexIndex
+        ]++;
+      }
+    }
+  );
+
+  for (
+    let index = 0;
+    index < vertices.length;
+    index++
+  ) {
+    if (
+      heightCounts[index] > 0
+    ) {
+      vertices[index].z =
+        heightSums[index] /
+        heightCounts[index];
+    }
+  }
+
+  /*
+   * Восстанавливаем треугольники.
+   * Сектора с большим количеством вершин
+   * превращаются в веер треугольников.
+   */
+  const triangles = [];
+
+  for (
+    const vertexSet of
+    sectorVertices
+  ) {
+    const indices =
+      Array.from(vertexSet);
+
+    if (indices.length < 3)
+      continue;
+
+    let centerX = 0;
+    let centerY = 0;
+
+    for (const index of indices) {
+      centerX += vertices[index].x;
+      centerY += vertices[index].y;
+    }
+
+    centerX /= indices.length;
+    centerY /= indices.length;
+
+    indices.sort(
+      (left, right) => {
+        const leftAngle =
+          Math.atan2(
+            vertices[left].y -
+              centerY,
+
+            vertices[left].x -
+              centerX
+          );
+
+        const rightAngle =
+          Math.atan2(
+            vertices[right].y -
+              centerY,
+
+            vertices[right].x -
+              centerX
+          );
+
+        return rightAngle -
+          leftAngle;
+      }
+    );
+
+    for (
+      let index = 1;
+      index <
+        indices.length - 1;
+      index++
+    ) {
+      triangles.push([
+        indices[0],
+        indices[index],
+        indices[index + 1]
+      ]);
+    }
+  }
+
+  if (triangles.length === 0) {
+    throw new Error(
+      "Не удалось восстановить сектора"
+    );
+  }
+
+  const things =
+    thingBlocks.map(
+      block => {
+        const args = [];
+
+        for (
+          let index = 0;
+          index < 5;
+          index++
+        ) {
+          args.push(
+            propertyNumber(
+              block,
+              "arg" + index,
+              0
+            )
+          );
+        }
+
+        return {
+          type:
+            propertyNumber(
+              block,
+              "type",
+              0
+            ),
+
+          x:
+            propertyNumber(
+              block,
+              "x",
+              0
+            ),
+
+          y:
+            propertyNumber(
+              block,
+              "y",
+              0
+            ),
+
+          height:
+            propertyNumber(
+              block,
+              "height",
+              0
+            ),
+
+          angle:
+            propertyNumber(
+              block,
+              "angle",
+              0
+            ),
+
+          id:
+            propertyNumber(
+              block,
+              "id",
+              0
+            ),
+
+          args: args
+        };
+      }
+    );
+
+  let minimumX = Infinity;
+  let maximumX = -Infinity;
+  let minimumY = Infinity;
+  let maximumY = -Infinity;
+
+  let minimumHeight = Infinity;
+  let maximumHeight = -Infinity;
+
+  for (const vertex of vertices) {
+    minimumX = Math.min(
+      minimumX,
+      vertex.x
+    );
+
+    maximumX = Math.max(
+      maximumX,
+      vertex.x
+    );
+
+    minimumY = Math.min(
+      minimumY,
+      vertex.y
+    );
+
+    maximumY = Math.max(
+      maximumY,
+      vertex.y
+    );
+
+    minimumHeight = Math.min(
+      minimumHeight,
+      vertex.z
+    );
+
+    maximumHeight = Math.max(
+      maximumHeight,
+      vertex.z
+    );
+  }
+
+  const mapSize = Math.max(
+    maximumX - minimumX,
+    maximumY - minimumY
+  );
+
+  const floorTexture =
+    sectorBlocks[0]
+      .texturefloor ||
+    "GRASS1";
+
+  const wallTexture =
+    sidedefs.length > 0
+      ? (
+          sidedefs[0]
+            .textureBottom ||
+          sidedefs[0]
+            .textureTop ||
+          "ROCK1"
+        )
+      : "ROCK1";
+
+  const gondorThing =
+    things.find(
+      thing =>
+        thing.type ===
+        TYPE.gondorStandard
+    );
+
+  const orcThing =
+    things.find(
+      thing =>
+        thing.type ===
+        TYPE.orcCamp
+    );
+
+  const gondorBase = gondorThing
+    ? {
+        x: gondorThing.x,
+        y: gondorThing.y,
+        z: 0
+      }
+    : {
+        x: -mapSize * 0.32,
+        y: 0,
+        z: 0
+      };
+
+  const orcBase = orcThing
+    ? {
+        x: orcThing.x,
+        y: orcThing.y,
+        z: 0
+      }
+    : {
+        x: mapSize * 0.32,
+        y: 0,
+        z: 0
+      };
+
+  const estimatedGrid =
+    Math.max(
+      1,
+      Math.round(
+        Math.sqrt(
+          vertices.length
+        ) - 1
+      )
+    );
+
+  const terrain = {
+    settings: {
+      seedText: "loaded-map",
+      grid: estimatedGrid,
+      scale: 1,
+      size: mapSize,
+      mountainHeight: 0,
+      centralHeight: 0,
+      floorTexture:
+        floorTexture,
+      wallTexture:
+        wallTexture
+    },
+
+    seed:
+      hashString("loaded-map"),
+
+    vertices: vertices,
+    triangles: triangles,
+
+    gondorBase:
+      gondorBase,
+
+    orcBase:
+      orcBase,
+
+    minHeight:
+      minimumHeight,
+
+    maxHeight:
+      maximumHeight
+  };
+
+  return {
+    terrain: terrain,
+    things: things
+  };
+}
+
+/* =========================================================
+ * Loading UI
+ * ========================================================= */
+
+async function loadMapFile(file) {
+  if (!file)
+    return;
+
+  let text;
+
+  const lowerName =
+    file.name.toLowerCase();
+
+  if (lowerName.endsWith(".wad")) {
+    const buffer =
+      await file.arrayBuffer();
+
+    text =
+      extractTextmapFromWad(
+        buffer
+      );
+  } else {
+    text =
+      await file.text();
+  }
+
+  const restored =
+    restoreTerrainFromUDMF(
+      text
+    );
+
+  generated = {
+    terrain:
+      restored.terrain,
+
+    things:
+      restored.things,
+
+    text: text,
+
+    stats: {}
+  };
+
+  selected = [];
+  clipboard = [];
+  undoStack = [];
+
+  $("seed").value =
+    "loaded-map";
+
+  $("size").value =
+    Math.round(
+      restored.terrain
+        .settings.size
+    );
+
+  $("grid").value =
+    restored.terrain
+      .settings.grid;
+
+  $("mapScale").value = 1;
+
+  $("floorTexture").value =
+    restored.terrain
+      .settings
+      .floorTexture;
+
+  $("wallTexture").value =
+    restored.terrain
+      .settings
+      .wallTexture;
+
+  rebuildOutput();
+  updatePropertyPanel();
+  draw();
+}
+
+const loadInput =
+  document.createElement(
+    "input"
+  );
+
+loadInput.type = "file";
+
+loadInput.accept =
+  ".wad,.txt,.udmf";
+
+loadInput.style.display =
+  "none";
+
+loadInput.addEventListener(
+  "change",
+  async function () {
+    try {
+      const file =
+        loadInput.files[0];
+
+      await loadMapFile(file);
+
+      loadInput.value = "";
+    } catch (error) {
+      console.error(error);
+
+      $("stats").textContent =
+        "Ошибка загрузки: " +
+        error.message;
+    }
+  }
+);
+
+document.body.appendChild(
+  loadInput
+);
+
+const loadButton =
+  document.createElement(
+    "button"
+  );
+
+loadButton.type = "button";
+
+loadButton.textContent =
+  "Загрузить WAD или TEXTMAP";
+
+loadButton.addEventListener(
+  "click",
+  function () {
+    loadInput.click();
+  }
+);
+
+$("randomSeed")
+  .insertAdjacentElement(
+    "afterend",
+    loadButton
+  );
+</script>
+</body>
+</html>

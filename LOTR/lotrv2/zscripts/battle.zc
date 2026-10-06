@@ -1,0 +1,1593 @@
+// ============================================================
+// LOTR Battle mode
+// ============================================================
+
+class BattleRouteFinished : Inventory
+{
+    Default
+    {
+        Inventory.MaxAmount 1;
+    }
+}
+
+// ============================================================
+// Map markers
+// ============================================================
+
+class BattleWaypoint : Actor
+{
+    Default
+    {
+        Radius 8;
+        Height 8;
+
+        +NOBLOCKMAP
+        +NOINTERACTION
+        +NOGRAVITY
+        +INVISIBLE
+    }
+
+    States
+    {
+    Spawn:
+        TNT1 A -1;
+        Stop;
+    }
+}
+
+// ------------------------------------------------------------
+// Wave spawn marker
+//
+// TID 6301: Gondor
+// TID 6302: Orcs
+// TID 6303: Troll
+//
+// args[0]: central route
+// args[1]: 0 defender, 1 assault
+// args[2]: northern route
+// args[3]: southern route
+// ------------------------------------------------------------
+
+class BattleSpawnSpot : Actor
+{
+    Default
+    {
+        Radius 8;
+        Height 8;
+
+        +NOBLOCKMAP
+        +NOINTERACTION
+        +NOGRAVITY
+        +INVISIBLE
+    }
+
+    States
+    {
+    Spawn:
+        TNT1 A -1;
+        Stop;
+    }
+}
+
+// ------------------------------------------------------------
+// Player respawn marker
+//
+// TID 6400
+// ------------------------------------------------------------
+
+class BattlePlayerSpawn : Actor
+{
+    Default
+    {
+        Radius 8;
+        Height 8;
+
+        +NOBLOCKMAP
+        +NOINTERACTION
+        +NOGRAVITY
+        +INVISIBLE
+    }
+
+    States
+    {
+    Spawn:
+        TNT1 A -1;
+        Stop;
+    }
+}
+
+// ============================================================
+// Route actor
+// ============================================================
+
+class BattleRouteActor : Actor
+{
+    Actor CurrentWaypoint;
+
+    bool RouteActive;
+    bool RoutePaused;
+    bool DeathReported;
+
+    bool WaitingForRouteStart;
+    int RouteStartDelay;
+
+    int FirstWaypointTID;
+
+    Vector3 LastRoutePosition;
+
+    int RouteStuckTicks;
+    int RouteStrafeTicks;
+    int RouteStrafeDirection;
+
+    BattleDirector FindBattleDirector()
+    {
+        ActorIterator iterator =
+            ActorIterator.Create(6500);
+
+        return BattleDirector(
+            iterator.Next()
+        );
+    }
+
+    Actor FindWaypoint(int pointTID)
+    {
+        if (pointTID == 0)
+            return null;
+
+        ActorIterator iterator =
+            ActorIterator.Create(
+                pointTID
+            );
+
+        return iterator.Next();
+    }
+
+    void FinishBattleRoute()
+    {
+        RouteActive = false;
+        RoutePaused = false;
+
+        WaitingForRouteStart = false;
+        RouteStartDelay = 0;
+
+        CurrentWaypoint = null;
+
+        Vel.X = 0;
+        Vel.Y = 0;
+
+        A_GiveInventory(
+            "BattleRouteFinished",
+            1
+        );
+    }
+
+    void StartBattleRoute(
+        int firstPointTID,
+        int startDelay = 0
+    )
+    {
+        FirstWaypointTID =
+            firstPointTID;
+
+        CurrentWaypoint =
+            FindWaypoint(
+                firstPointTID
+            );
+
+        RoutePaused = false;
+
+        RouteStartDelay =
+            Max(0, startDelay);
+
+        WaitingForRouteStart =
+            RouteStartDelay > 0;
+
+        RouteStuckTicks = 0;
+        RouteStrafeTicks = 0;
+
+        LastRoutePosition = Pos;
+
+        Vel.X = 0;
+        Vel.Y = 0;
+
+        A_TakeInventory(
+            "BattleRouteFinished",
+            1
+        );
+
+        if (CurrentWaypoint == null)
+        {
+            FinishBattleRoute();
+            return;
+        }
+
+        RouteActive = true;
+
+        if (WaitingForRouteStart)
+            SetStateLabel("RouteWait");
+        else
+            SetStateLabel("Route");
+    }
+
+    void SelectNextWaypoint()
+    {
+        if (CurrentWaypoint == null)
+        {
+            FinishBattleRoute();
+            return;
+        }
+
+        int nextTID =
+            CurrentWaypoint.args[0];
+
+        if (nextTID == 0)
+        {
+            FinishBattleRoute();
+            return;
+        }
+
+        CurrentWaypoint =
+            FindWaypoint(nextTID);
+
+        if (CurrentWaypoint == null)
+            FinishBattleRoute();
+    }
+
+    action void A_ReportBattleDeath(
+        int team
+    )
+    {
+        BattleRouteActor unit =
+            BattleRouteActor(invoker);
+
+        if (
+            unit == null ||
+            unit.DeathReported
+        )
+        {
+            return;
+        }
+
+        unit.DeathReported = true;
+
+        BattleDirector director =
+            unit.FindBattleDirector();
+
+        if (director != null)
+        {
+            director.ReportCasualty(
+                team
+            );
+        }
+    }
+
+    virtual bool ShouldPauseRoute()
+    {
+        if (Target == null)
+            return false;
+
+        if (Target.Health <= 0)
+            return false;
+
+        /*
+         * Лагерь и штандарт не заставляют
+         * бойца преждевременно остановиться.
+         */
+        if (BattleObjective(Target) != null)
+            return false;
+
+        double combatDistance =
+            Radius +
+            Target.Radius +
+            32;
+
+        return
+            Distance2D(Target) <=
+            combatDistance;
+    }
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        if (Health <= 0)
+            return;
+
+        if (!RouteActive)
+            return;
+
+        /*
+         * Воин уже создан, но некоторое время
+         * стоит на точке появления.
+         */
+        if (WaitingForRouteStart)
+        {
+            Vel.X = 0;
+            Vel.Y = 0;
+
+            RouteStartDelay--;
+
+            if (RouteStartDelay <= 0)
+            {
+                RouteStartDelay = 0;
+                WaitingForRouteStart = false;
+
+                LastRoutePosition = Pos;
+                SetStateLabel("Route");
+            }
+
+            return;
+        }
+
+        if (CurrentWaypoint == null)
+        {
+            FinishBattleRoute();
+            return;
+        }
+
+        /*
+         * Противник подошёл достаточно близко.
+         * Передаём управление обычному A_Chase.
+         */
+        if (ShouldPauseRoute())
+        {
+            if (!RoutePaused)
+            {
+                RoutePaused = true;
+
+                Vel.X = 0;
+                Vel.Y = 0;
+
+                SetStateLabel("See");
+            }
+
+            return;
+        }
+
+        /*
+         * Противник погиб или отошёл.
+         */
+        if (RoutePaused)
+        {
+            RoutePaused = false;
+
+            LastRoutePosition = Pos;
+            RouteStuckTicks = 0;
+            RouteStrafeTicks = 0;
+
+            SetStateLabel("Route");
+        }
+
+        /*
+         * Достижение текущей точки.
+         */
+        if (
+            Distance2D(
+                CurrentWaypoint
+            ) <= 32
+        )
+        {
+            SelectNextWaypoint();
+
+            if (
+                !RouteActive ||
+                CurrentWaypoint == null
+            )
+            {
+                return;
+            }
+
+            LastRoutePosition = Pos;
+            RouteStuckTicks = 0;
+        }
+
+        /*
+         * Проверяем, движется ли воин.
+         */
+		double movedDistance = Sqrt(
+			(Pos.X - LastRoutePosition.X) *
+			(Pos.X - LastRoutePosition.X) +
+
+			(Pos.Y - LastRoutePosition.Y) *
+			(Pos.Y - LastRoutePosition.Y)
+		);
+
+		if (movedDistance < 4)
+		{
+			RouteStuckTicks++;
+		}
+		else
+		{
+			RouteStuckTicks = 0;
+			LastRoutePosition = Pos;
+		}
+
+        /*
+         * Если боец застрял в союзнике,
+         * некоторое время идём под углом.
+         */
+        if (
+            RouteStuckTicks >= 12 &&
+            RouteStrafeTicks <= 0
+        )
+        {
+            RouteStrafeTicks = 20;
+            RouteStuckTicks = 0;
+
+            if (Random(0, 1) == 0)
+                RouteStrafeDirection = -1;
+            else
+                RouteStrafeDirection = 1;
+        }
+
+        double direction =
+            AngleTo(CurrentWaypoint);
+
+        if (RouteStrafeTicks > 0)
+        {
+            direction +=
+                35 *
+                RouteStrafeDirection;
+
+            RouteStrafeTicks--;
+        }
+
+        Angle = direction;
+
+        Vel.X =
+            Cos(direction) * Speed;
+
+        Vel.Y =
+            Sin(direction) * Speed;
+    }
+}
+
+// ============================================================
+// Base objective
+// ============================================================
+
+class BattleObjective : Actor
+{
+    bool ObjectiveDestroyed;
+
+    BattleDirector FindBattleDirector()
+    {
+        ActorIterator iterator =
+            ActorIterator.Create(6500);
+
+        return BattleDirector(
+            iterator.Next()
+        );
+    }
+
+    action void A_NotifyObjectiveDestroyed(
+        int destroyedTeam
+    )
+    {
+        BattleObjective objective =
+            BattleObjective(invoker);
+
+        if (
+            objective == null ||
+            objective.ObjectiveDestroyed
+        )
+        {
+            return;
+        }
+
+        objective.ObjectiveDestroyed = true;
+
+        BattleDirector director =
+            objective.FindBattleDirector();
+
+        if (director != null)
+        {
+            director.ObjectiveDestroyed(
+                destroyedTeam
+            );
+        }
+    }
+}
+
+// ============================================================
+// Gondor camp
+//
+// Map TID: 888
+// ============================================================
+
+class GondorBattleStandard
+    : BattleObjective
+{
+    Default
+    {
+        Health 900;
+        Radius 48;
+        Height 80;
+        Mass 10000;
+        PainChance 256;
+		DamageFactor "Gondor", 0;
+		
+        +SOLID
+        +SHOOTABLE
+        +FRIENDLY
+        +NOBLOOD
+        +NOGRAVITY
+        +NORADIUSDMG
+    }
+
+    States
+    {
+    Spawn:
+        TURR A -1;
+        Stop;
+
+    Pain:
+        TURR A 3;
+        Goto Spawn;
+
+    Death:
+        TNT1 A 0
+            A_NotifyObjectiveDestroyed(1);
+        TNT1 A 1 A_NoBlocking;
+        TNT1 A -1;
+        Stop;
+    }
+}
+
+// ============================================================
+// Orc camp
+//
+// Map TID: 2700
+// ============================================================
+
+class OrcBattleCamp
+    : BattleObjective
+{
+    int DefenseCooldown;
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        if (DefenseCooldown > 0)
+            DefenseCooldown--;
+    }
+
+    action void A_RequestCampDefender()
+    {
+        OrcBattleCamp camp =
+            OrcBattleCamp(invoker);
+
+        if (camp == null)
+            return;
+
+        /*
+         * Начинает защищаться после
+         * потери 25% здоровья.
+         */
+        if (camp.Health >= 750)
+            return;
+
+        if (camp.DefenseCooldown > 0)
+            return;
+
+        BattleDirector director =
+            camp.FindBattleDirector();
+
+        if (director == null)
+            return;
+
+        if (
+            director.SpawnEmergencyOrc(
+                camp
+            )
+        )
+        {
+            /*
+             * Не чаще одного защитника
+             * каждые пять секунд.
+             */
+            camp.DefenseCooldown =
+                5 * 35;
+        }
+    }
+
+    Default
+    {
+        Health 1000;
+        Radius 48;
+        Height 80;
+        Mass 10000;
+        PainChance 256;
+		
+		DamageFactor "Mordor", 0;
+
+        +SOLID
+        +SHOOTABLE
+        +NOBLOOD
+        +NOGRAVITY
+        +NORADIUSDMG
+    }
+
+    States
+    {
+    Spawn:
+        TURR A -1;
+        Stop;
+
+    Pain:
+        TNT1 A 0
+            A_RequestCampDefender;
+        TURR A 3;
+        Goto Spawn;
+
+    Death:
+        TNT1 A 0
+            A_NotifyObjectiveDestroyed(2);
+        TNT1 A 1 A_NoBlocking;
+        TNT1 A -1;
+        Stop;
+    }
+}
+
+// ============================================================
+// Battle director
+//
+// Map TID: 6500
+//
+// args[0]: Gondor reserve
+// args[1]: Orc reserve
+// args[2]: Gondor casualty limit
+// args[3]: wave interval in seconds
+// args[4]: troll delay in seconds
+// ============================================================
+
+class BattleDirector : Actor
+{
+    int GondorReserve;
+    int OrcReserve;
+
+    int GondorInitialReserve;
+    int OrcInitialReserve;
+
+    int GondorLossLimit;
+
+    int GondorCasualties;
+    int OrcCasualties;
+
+    int WaveTimer;
+    int WaveDelay;
+    int WaveNumber;
+
+    int StatusTimer;
+
+    int TrollTimer;
+    bool TrollSpawned;
+
+    int EndTimer;
+    int Winner;
+
+    bool GameFinished;
+    bool OrcArmyExhausted;
+
+    Array<bool> PlayerDeathReported;
+
+    override void PostBeginPlay()
+    {
+        Super.PostBeginPlay();
+
+        GondorReserve = args[0];
+
+        if (GondorReserve <= 0)
+            GondorReserve = 70;
+
+        OrcReserve = args[1];
+
+        if (OrcReserve <= 0)
+            OrcReserve = 100;
+
+        GondorLossLimit = args[2];
+
+        if (GondorLossLimit <= 0)
+            GondorLossLimit = 70;
+
+        WaveDelay =
+            args[3] * 35;
+
+        if (WaveDelay <= 0)
+            WaveDelay = 12 * 35;
+
+        TrollTimer =
+            args[4] * 35;
+
+        if (TrollTimer <= 0)
+            TrollTimer = 120 * 35;
+
+        GondorInitialReserve =
+            GondorReserve;
+
+        OrcInitialReserve =
+            OrcReserve;
+
+        WaveTimer = 35;
+        StatusTimer = 5 * 35;
+
+        PlayerDeathReported.Resize(
+            MAXPLAYERS
+        );
+
+        A_PrintBold(
+            "Destroy the Orc camp"
+        );
+    }
+
+    int CountLivingTeam(int team)
+    {
+        int teamTID;
+
+        if (team == 1)
+            teamTID = 888;
+        else
+            teamTID = 2700;
+
+        int count = 0;
+
+        ActorIterator iterator =
+            ActorIterator.Create(
+                teamTID
+            );
+
+        Actor unit;
+
+        while (
+            (
+                unit =
+                iterator.Next()
+            ) != null
+        )
+        {
+            if (unit.Health <= 0)
+                continue;
+
+            /*
+             * Objective shares team TID,
+             * but is not a soldier.
+             */
+            if (
+                BattleRouteActor(unit) ==
+                null
+            )
+            {
+                continue;
+            }
+
+            count++;
+        }
+
+        return count;
+    }
+
+    int CountSpawnSpots(
+        int spawnTID
+    )
+    {
+        int count = 0;
+
+        ActorIterator iterator =
+            ActorIterator.Create(
+                spawnTID
+            );
+
+        while (
+            iterator.Next() != null
+        )
+        {
+            count++;
+        }
+
+        return count;
+    }
+
+    BattleSpawnSpot GetSpawnSpot(
+        int spawnTID,
+        int wantedIndex
+    )
+    {
+        ActorIterator iterator =
+            ActorIterator.Create(
+                spawnTID
+            );
+
+        int currentIndex = 0;
+        Actor candidate;
+
+        while (
+            (
+                candidate =
+                iterator.Next()
+            ) != null
+        )
+        {
+            if (
+                currentIndex ==
+                wantedIndex
+            )
+            {
+                return BattleSpawnSpot(
+                    candidate
+                );
+            }
+
+            currentIndex++;
+        }
+
+        return null;
+    }
+
+    Name SelectUnitClass(
+        int team,
+        bool commander
+    )
+    {
+        if (team == 1)
+        {
+            if (commander)
+            {
+                return
+                    'LotrGondorCommander';
+            }
+
+            return 'LotrGondor2';
+        }
+
+        if (commander)
+            return 'LotrOrcCommander';
+
+        if (Random(0, 1) == 0)
+            return 'LotrOrc100';
+
+        return 'LotrOrc110';
+    }
+
+    int GetReserve(int team)
+    {
+        if (team == 1)
+            return GondorReserve;
+
+        return OrcReserve;
+    }
+
+    void ChangeReserve(
+        int team,
+        int amount
+    )
+    {
+        if (team == 1)
+        {
+            GondorReserve =
+                Max(
+                    0,
+                    GondorReserve +
+                    amount
+                );
+        }
+        else
+        {
+            OrcReserve =
+                Max(
+                    0,
+                    OrcReserve +
+                    amount
+                );
+        }
+    }
+
+    bool SpendReserve(
+        int team,
+        int amount
+    )
+    {
+        if (
+            GetReserve(team) <
+            amount
+        )
+        {
+            return false;
+        }
+
+        ChangeReserve(
+            team,
+            -amount
+        );
+
+        return true;
+    }
+
+    void SpawnTeamWave(int team)
+    {
+        if (GameFinished)
+            return;
+
+        if (GetReserve(team) <= 0)
+            return;
+
+        int living =
+            CountLivingTeam(team);
+
+        int livingLimit;
+
+        if (team == 1)
+            livingLimit = 18;
+        else
+            livingLimit = 24;
+
+        if (living >= livingLimit)
+            return;
+
+        int waveSize = 3;
+
+        /*
+         * Orc waves can be larger.
+         */
+        if (team == 2)
+        {
+            int roll =
+                Random(0, 99);
+
+            if (roll >= 60)
+                waveSize = 4;
+
+            if (roll >= 90)
+                waveSize = 5;
+        }
+
+        waveSize = Min(
+            waveSize,
+            livingLimit - living
+        );
+
+        int spawnTID;
+
+        if (team == 1)
+            spawnTID = 6301;
+        else
+            spawnTID = 6302;
+
+        int spotCount =
+            CountSpawnSpots(
+                spawnTID
+            );
+
+        if (spotCount <= 0)
+            return;
+
+        int usedSpots = 0;
+        int spawned = 0;
+
+        while (
+            spawned < waveSize &&
+            spawned < spotCount
+        )
+        {
+            int spotIndex;
+            int spotBit;
+
+            /*
+             * Random spawn marker without
+             * reusing the same marker
+             * within one wave.
+             */
+            do
+            {
+                spotIndex =
+                    Random(
+                        0,
+                        spotCount - 1
+                    );
+
+                spotBit =
+                    1 << spotIndex;
+            }
+            while (
+                spotCount <= 30 &&
+                (
+                    usedSpots &
+                    spotBit
+                ) != 0
+            );
+
+            if (spotCount <= 30)
+            {
+                usedSpots |=
+                    spotBit;
+            }
+
+            BattleSpawnSpot spot =
+                GetSpawnSpot(
+                    spawnTID,
+                    spotIndex
+                );
+
+            if (spot == null)
+                continue;
+
+            bool commander =
+                WaveNumber > 0 &&
+                WaveNumber % 5 == 0 &&
+                spawned == 0;
+
+            int cost;
+
+            if (commander)
+                cost = 2;
+            else
+                cost = 1;
+
+            if (
+                !SpendReserve(
+                    team,
+                    cost
+                )
+            )
+            {
+                break;
+            }
+
+            Name unitClass =
+                SelectUnitClass(
+                    team,
+                    commander
+                );
+
+            Actor unit = Spawn(
+                unitClass,
+                spot.Pos
+            );
+
+            if (unit == null)
+            {
+                ChangeReserve(
+                    team,
+                    cost
+                );
+
+                continue;
+            }
+
+            unit.Angle =
+                spot.Angle;
+
+            BattleRouteActor routed =
+                BattleRouteActor(unit);
+
+            /*
+             * Route is selected exactly once,
+             * when this unit is spawned.
+             *
+             * args[0]: central
+             * args[2]: north
+             * args[3]: south
+             */
+            if (
+                routed != null &&
+                spot.args[1] == 1
+            )
+            {
+                int selectedRoute =
+                    spot.args[0];
+
+                int routeChoice =
+                    Random(0, 2);
+
+                if (
+                    routeChoice == 1 &&
+                    spot.args[2] != 0
+                )
+                {
+                    selectedRoute =
+                        spot.args[2];
+                }
+                else if (
+                    routeChoice == 2 &&
+                    spot.args[3] != 0
+                )
+                {
+                    selectedRoute =
+                        spot.args[3];
+                }
+
+                if (selectedRoute != 0)
+                {
+				/*
+				 * Каждый следующий боец начинает движение
+				 * немного позже предыдущего.
+				 *
+				 * При волне из пяти бойцов максимальная
+				 * задержка будет меньше секунды.
+				 */
+				int startDelay =
+					spawned * 5 +
+					Random(2, 10);
+
+				routed.StartBattleRoute(
+					selectedRoute,
+					startDelay
+				);
+                }
+            }
+
+            spawned++;
+        }
+    }
+
+    bool SpawnEmergencyOrc(
+        OrcBattleCamp camp
+    )
+    {
+        if (
+            GameFinished ||
+            camp == null ||
+            camp.Health <= 0
+        )
+        {
+            return false;
+        }
+
+        if (!SpendReserve(2, 1))
+            return false;
+
+        double direction =
+            Random(0, 359);
+
+        Vector3 spawnPosition =
+            camp.Pos;
+
+        spawnPosition.X +=
+            Cos(direction) * 96;
+
+        spawnPosition.Y +=
+            Sin(direction) * 96;
+
+        Actor unit = Spawn(
+            'LotrOrc100',
+            spawnPosition
+        );
+
+        if (unit == null)
+        {
+            ChangeReserve(2, 1);
+            return false;
+        }
+
+        unit.Angle =
+            direction + 180;
+
+        return true;
+    }
+
+    void TrySpawnBattleTroll()
+    {
+        if (
+            GameFinished ||
+            TrollSpawned
+        )
+        {
+            return;
+        }
+
+        /*
+         * Troll costs eight units
+         * from the Orc reserve.
+         */
+        if (!SpendReserve(2, 8))
+        {
+            TrollTimer =
+                10 * 35;
+
+            return;
+        }
+
+        Vector3 spawnPosition =
+            Pos;
+
+        double spawnAngle = 180;
+
+        ActorIterator markerIterator =
+            ActorIterator.Create(6303);
+
+        Actor marker =
+            markerIterator.Next();
+
+        if (marker != null)
+        {
+            spawnPosition =
+                marker.Pos;
+
+            spawnAngle =
+                marker.Angle;
+        }
+        else
+        {
+            ActorIterator campIterator =
+                ActorIterator.Create(2700);
+
+            Actor candidate;
+            OrcBattleCamp camp = null;
+
+            while (
+                (
+                    candidate =
+                    campIterator.Next()
+                ) != null
+            )
+            {
+                camp =
+                    OrcBattleCamp(
+                        candidate
+                    );
+
+                if (camp != null)
+                    break;
+            }
+
+            if (
+                camp == null ||
+                camp.Health <= 0
+            )
+            {
+                ChangeReserve(2, 8);
+
+                TrollTimer =
+                    10 * 35;
+
+                return;
+            }
+
+            spawnPosition =
+                camp.Pos;
+
+            spawnPosition.X -=
+                160;
+        }
+
+        Actor troll = Spawn(
+            'BattleMoriaTroll',
+            spawnPosition
+        );
+
+        if (troll == null)
+        {
+            ChangeReserve(2, 8);
+
+            TrollTimer =
+                10 * 35;
+
+            return;
+        }
+
+        troll.Angle =
+            spawnAngle;
+
+        TrollSpawned = true;
+
+        A_PrintBold(
+            "An Orc troll has entered the battle!"
+        );
+    }
+
+    void ReportCasualty(int team)
+    {
+        if (GameFinished)
+            return;
+
+        if (team == 1)
+        {
+            GondorCasualties++;
+
+            if (
+                GondorCasualties >=
+                GondorLossLimit
+            )
+            {
+                FinishGame(2);
+            }
+        }
+        else
+        {
+            OrcCasualties++;
+        }
+    }
+
+    void ObjectiveDestroyed(
+        int destroyedTeam
+    )
+    {
+        if (GameFinished)
+            return;
+
+        if (destroyedTeam == 1)
+            FinishGame(2);
+        else
+            FinishGame(1);
+    }
+
+    BattlePlayerSpawn
+    FindSafePlayerSpawn()
+    {
+        ActorIterator spawnIterator =
+            ActorIterator.Create(6400);
+
+        BattlePlayerSpawn bestSpot =
+            null;
+
+        double bestDistance = -1;
+
+        BattlePlayerSpawn spot;
+
+        while (
+            (
+                spot =
+                BattlePlayerSpawn(
+                    spawnIterator.Next()
+                )
+            ) != null
+        )
+        {
+            double closestOrc =
+                999999;
+
+            ActorIterator orcIterator =
+                ActorIterator.Create(2700);
+
+            Actor orc;
+
+            while (
+                (
+                    orc =
+                    orcIterator.Next()
+                ) != null
+            )
+            {
+                if (
+                    orc.Health <= 0 ||
+                    BattleRouteActor(orc) ==
+                    null
+                )
+                {
+                    continue;
+                }
+
+                closestOrc = Min(
+                    closestOrc,
+                    spot.Distance2D(orc)
+                );
+            }
+
+            if (
+                bestSpot == null ||
+                closestOrc >
+                bestDistance
+            )
+            {
+                bestSpot = spot;
+                bestDistance =
+                    closestOrc;
+            }
+        }
+
+        return bestSpot;
+    }
+
+    void CheckPlayers()
+    {
+        for (
+            int index = 0;
+            index < players.Size();
+            index++
+        )
+        {
+            PlayerPawn pawn =
+                players[index].mo;
+
+            if (pawn == null)
+                continue;
+
+            if (pawn.Health <= 0)
+            {
+                if (
+                    !PlayerDeathReported[
+                        index
+                    ]
+                )
+                {
+                    PlayerDeathReported[
+                        index
+                    ] = true;
+
+                    ReportCasualty(1);
+                }
+
+                continue;
+            }
+
+            /*
+             * Normal AllowRespawn happened.
+             */
+            if (
+                PlayerDeathReported[index]
+            )
+            {
+                PlayerDeathReported[
+                    index
+                ] = false;
+
+                BattlePlayerSpawn spawnSpot =
+                    FindSafePlayerSpawn();
+
+                if (spawnSpot != null)
+                {
+                    pawn.SetOrigin(
+                        spawnSpot.Pos,
+                        false
+                    );
+
+                    pawn.Angle =
+                        spawnSpot.Angle;
+                }
+            }
+        }
+    }
+
+    void CheckArmyState()
+    {
+        if (
+            !OrcArmyExhausted &&
+            OrcReserve <= 0 &&
+            CountLivingTeam(2) <= 0
+        )
+        {
+            OrcArmyExhausted = true;
+
+            A_PrintBold(
+                "The Orc army is destroyed.\nBurn their camp!"
+            );
+        }
+    }
+
+    void PrintStatus()
+    {
+        A_Print(
+            String.Format(
+                "Gondor losses: %d / %d\nOrcs killed: %d / %d\nReserves: %d | %d",
+                GondorCasualties,
+                GondorLossLimit,
+                OrcCasualties,
+                OrcInitialReserve,
+                GondorReserve,
+                OrcReserve
+            )
+        );
+    }
+
+    void FinishGame(int winningTeam)
+    {
+        if (GameFinished)
+            return;
+
+        GameFinished = true;
+        Winner = winningTeam;
+        EndTimer = 3 * 35;
+
+        if (Winner == 1)
+        {
+            A_PrintBold(
+                "VICTORY\nThe Orc camp is destroyed"
+            );
+
+            A_PlaySound(
+                "battle/victory"
+            );
+        }
+        else
+        {
+            A_PrintBold(
+                "DEFEAT\nThe Gondor army has fallen"
+            );
+
+            A_PlaySound(
+                "battle/defeat"
+            );
+        }
+    }
+
+    void FinishTransition()
+    {
+        if (Winner == 1)
+        {
+            Level.ChangeLevel(
+                "MAPWIN",
+                0,
+                0,
+                -1
+            );
+        }
+        else
+        {
+            Level.ChangeLevel(
+                "MAPLOSE",
+                0,
+                0,
+                -1
+            );
+        }
+    }
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        if (GameFinished)
+        {
+            EndTimer--;
+
+            if (EndTimer <= 0)
+            {
+                FinishTransition();
+
+                EndTimer =
+                    999999;
+            }
+
+            return;
+        }
+
+        CheckPlayers();
+        CheckArmyState();
+
+        if (!TrollSpawned)
+        {
+            TrollTimer--;
+
+            if (TrollTimer <= 0)
+                TrySpawnBattleTroll();
+        }
+
+        WaveTimer--;
+
+        if (WaveTimer <= 0)
+        {
+            WaveTimer =
+                WaveDelay;
+
+            WaveNumber++;
+
+            SpawnTeamWave(1);
+            SpawnTeamWave(2);
+        }
+
+        StatusTimer--;
+
+        if (StatusTimer <= 0)
+        {
+            StatusTimer =
+                5 * 35;
+
+            PrintStatus();
+        }
+    }
+
+    Default
+    {
+        +NOBLOCKMAP
+        +NOINTERACTION
+        +NOGRAVITY
+        +INVISIBLE
+    }
+
+    States
+    {
+    Spawn:
+        TNT1 A -1;
+        Stop;
+    }
+}

@@ -1,4 +1,6 @@
 version "3.3"
 
+#include "zscripts/thirdperson.zc"
 #include "zscripts/StepEventHandler.zc"
-#include "zscripts/nashmove.zc"   //player dons slide on floor after stopping
+#include "zscripts/nashmove.zc"
+#include "zscripts/battle.zc"

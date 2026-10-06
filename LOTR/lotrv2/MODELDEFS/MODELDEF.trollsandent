@@ -2,10 +2,10 @@
 Model MoriaTroll
 {
    Path "models/troll"
-   Model 0 "trollrun.md3"
-   Skin 0 "troll.png"
-   Model 1 "trollweaponrun.md3"
-   Skin 1 "StoneDark.png"
+   Model 0 "trollwalk.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2walk.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
    Scale 1.22 1.22 1.22
@@ -28,50 +28,20 @@ FrameIndex TRLL J 0 9  FrameIndex TRLL J 1 9
 FrameIndex TRLL K 0 10  FrameIndex TRLL K 1 10
 FrameIndex TRLL L 0 11  FrameIndex TRLL L 1 11
 FrameIndex TRLL M 0 12  FrameIndex TRLL M 1 12
-FrameIndex TRLL N 0 13  FrameIndex TRLL N 1 13
-FrameIndex TRLL O 0 14  FrameIndex TRLL O 1 14
-FrameIndex TRLL P 0 15  FrameIndex TRLL P 1 15
-FrameIndex TRLL Q 0 16  FrameIndex TRLL Q 1 16
-FrameIndex TRLL R 0 17  FrameIndex TRLL R 1 17
-FrameIndex TRLL S 0 18  FrameIndex TRLL S 1 18
-FrameIndex TRLL T 0 19  FrameIndex TRLL T 1 19
-FrameIndex TRLL U 0 20  FrameIndex TRLL U 1 20
-FrameIndex TRLL V 0 21  FrameIndex TRLL V 1 21
-FrameIndex TRLL W 0 22  FrameIndex TRLL W 1 22
-FrameIndex TRLL X 0 23  FrameIndex TRLL X 1 23
-FrameIndex TRLL Y 0 24  FrameIndex TRLL Y 1 24
-FrameIndex TRLL Z 0 25  FrameIndex TRLL Z 1 25
-
-////////
-
-FrameIndex TRL1 A 0 26  FrameIndex TRL1 A 1 26
-FrameIndex TRL1 B 0 27  FrameIndex TRL1 B 1 27
-FrameIndex TRL1 C 0 28  FrameIndex TRL1 C 1 28
-FrameIndex TRL1 D 0 29  FrameIndex TRL1 D 1 29
-FrameIndex TRL1 E 0 30  FrameIndex TRL1 E 1 30
-FrameIndex TRL1 F 0 31  FrameIndex TRL1 F 1 31
-FrameIndex TRL1 G 0 32  FrameIndex TRL1 G 1 32
-FrameIndex TRL1 H 0 33  FrameIndex TRL1 H 1 33
-FrameIndex TRL1 I 0 34  FrameIndex TRL1 I 1 34
-FrameIndex TRL1 J 0 35  FrameIndex TRL1 J 1 35
-FrameIndex TRL1 K 0 36  FrameIndex TRL1 K 1 36
-FrameIndex TRL1 L 0 37  FrameIndex TRL1 L 1 37
-FrameIndex TRL1 M 0 38  FrameIndex TRL1 M 1 38
-FrameIndex TRL1 N 0 39  FrameIndex TRL1 N 1 39
 }
 
 
 Model MoriaTroll
 {
    Path "models/troll"
-   Model 0 "trollattack1.md3"
-   Skin 0 "troll.png"
-   Model 1 "trollweaponattack1.md3"
-   Skin 1 "StoneDark.png"
+   Model 0 "trollatt1.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att1.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
-   Scale 1.80 1.80 1.80
-      Offset 0.0 0.0 -11.0
+      Scale 1.22 1.22 1.22
+//      Offset 0.0 0.0 -11.0
 //    USEACTORROLL
 //	USEACTORPITCH
 //	SCALEWEAPONFOV
@@ -86,81 +56,61 @@ FrameIndex TRLA F 0 5 FrameIndex TRLA F 1 5
 FrameIndex TRLA G 0 6 FrameIndex TRLA G 1 6
 FrameIndex TRLA H 0 7 FrameIndex TRLA H 1 7
 FrameIndex TRLA I 0 8 FrameIndex TRLA I 1 8
-FrameIndex TRLA J 0 9 FrameIndex TRLA J 1 9
+FrameIndex TRLA J 0 9 FrameIndex TRLA J 1 9  //hit
 FrameIndex TRLA K 0 10 FrameIndex TRLA K 1 10
 FrameIndex TRLA L 0 11 FrameIndex TRLA L 1 11
 FrameIndex TRLA M 0 12 FrameIndex TRLA M 1 12
 FrameIndex TRLA N 0 13 FrameIndex TRLA N 1 13
 FrameIndex TRLA O 0 14 FrameIndex TRLA O 1 14
 FrameIndex TRLA P 0 15 FrameIndex TRLA P 1 15
-FrameIndex TRLA Q 0 16 FrameIndex TRLA Q 1 16
-FrameIndex TRLA R 0 17 FrameIndex TRLA R 1 17
-FrameIndex TRLA S 0 18 FrameIndex TRLA S 1 18
-FrameIndex TRLA T 0 19 FrameIndex TRLA T 1 19
-FrameIndex TRLA U 0 20 FrameIndex TRLA U 1 20
-FrameIndex TRLA V 0 21 FrameIndex TRLA V 1 21
-FrameIndex TRLA W 0 22 FrameIndex TRLA W 1 22
-FrameIndex TRLA X 0 23 FrameIndex TRLA X 1 23
-FrameIndex TRLA Y 0 24 FrameIndex TRLA Y 1 24
-FrameIndex TRLA Z 0 25 FrameIndex TRLA Z 1 25
 }
 
 Model MoriaTroll
 {
    Path "models/troll"
-   Model 0 "trollattack2.md3"
-   Skin 0 "troll.png"
-   Model 1 "trollweaponattack2.md3"
-   Skin 1 "StoneDark.png"
+   Model 0 "trollatt2.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att2.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
-   Scale 1.80 1.80 1.80
-      Offset 0.0 0.0 -11.0
+      Scale 1.22 1.22 1.22
+//      Offset 0.0 0.0 -11.0
 //    USEACTORROLL
 //	USEACTORPITCH
 //	SCALEWEAPONFOV
 	
 //attacck2 
 FrameIndex TRAA A 0 0 FrameIndex TRAA A 1 0
-FrameIndex TRAA B 0 3 FrameIndex TRAA B 1 3
-FrameIndex TRAA C 0 5 FrameIndex TRAA C 1 5
-FrameIndex TRAA D 0 7 FrameIndex TRAA D 1 7
-FrameIndex TRAA E 0 9 FrameIndex TRAA E 1 9
-FrameIndex TRAA F 0 11 FrameIndex TRAA F 1 11
-FrameIndex TRAA G 0 12 FrameIndex TRAA G 1 12
-FrameIndex TRAA H 0 13 FrameIndex TRAA H 1 13
-FrameIndex TRAA I 0 14 FrameIndex TRAA I 1 14
-FrameIndex TRAA J 0 15 FrameIndex TRAA J 1 15
-FrameIndex TRAA K 0 16 FrameIndex TRAA K 1 16
-FrameIndex TRAA L 0 17 FrameIndex TRAA L 1 17
-FrameIndex TRAA M 0 18 FrameIndex TRAA M 1 18
-FrameIndex TRAA N 0 19 FrameIndex TRAA N 1 19
-FrameIndex TRAA O 0 20 FrameIndex TRAA O 1 20
-FrameIndex TRAA P 0 22 FrameIndex TRAA P 1 22
-FrameIndex TRAA Q 0 24 FrameIndex TRAA Q 1 24
-FrameIndex TRAA R 0 25 FrameIndex TRAA R 1 25
-FrameIndex TRAA S 0 26 FrameIndex TRAA S 1 26
-FrameIndex TRAA T 0 27 FrameIndex TRAA T 1 27
-FrameIndex TRAA U 0 29 FrameIndex TRAA U 1 29
-FrameIndex TRAA V 0 30 FrameIndex TRAA V 1 30
-FrameIndex TRAA W 0 32 FrameIndex TRAA W 1 32
-FrameIndex TRAA X 0 34 FrameIndex TRAA X 1 34
-FrameIndex TRAA Y 0 35 FrameIndex TRAA Y 1 35
-FrameIndex TRAA Z 0 36 FrameIndex TRAA Z 1 36
+FrameIndex TRAA B 0 1 FrameIndex TRAA B 1 1
+FrameIndex TRAA C 0 2 FrameIndex TRAA C 1 2
+FrameIndex TRAA D 0 3 FrameIndex TRAA D 1 3
+FrameIndex TRAA E 0 4 FrameIndex TRAA E 1 4
+FrameIndex TRAA F 0 5 FrameIndex TRAA F 1 5
+FrameIndex TRAA G 0 6 FrameIndex TRAA G 1 6
+FrameIndex TRAA H 0 7 FrameIndex TRAA H 1 7
+FrameIndex TRAA I 0 8 FrameIndex TRAA I 1 8
+FrameIndex TRAA J 0 9 FrameIndex TRAA J 1 9  
+FrameIndex TRAA K 0 10 FrameIndex TRAA K 1 10 //hit
+FrameIndex TRAA L 0 11 FrameIndex TRAA L 1 11
+FrameIndex TRAA M 0 12 FrameIndex TRAA M 1 12
+FrameIndex TRAA N 0 13 FrameIndex TRAA N 1 13
+FrameIndex TRAA O 0 14 FrameIndex TRAA O 1 14
+FrameIndex TRAA P 0 15 FrameIndex TRAA P 1 15
 }
 
 
 Model MoriaTroll
 {
    Path "models/troll"
-   Model 0 "trolldeath.md3"
-   Skin 0 "troll.png"
-   Model 1 "trollweapondeath.md3"
-   Skin 1 "StoneDark.png"
+   Model 0 "trollatt2.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att2.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
-   Scale 1.80 1.80 1.80
-      Offset 0.0 0.0 -11.0
+      Scale 1.22 1.22 1.22
+//      Offset 0.0 0.0 -11.0
 //    USEACTORROLL
 //	USEACTORPITCH
 //	SCALEWEAPONFOV
@@ -187,215 +137,386 @@ FrameIndex TRLD R 0 17 FrameIndex TRLD R 1 17
 FrameIndex TRLD S 0 18 FrameIndex TRLD S 1 18
 FrameIndex TRLD T 0 19 FrameIndex TRLD T 1 19
 FrameIndex TRLD U 0 20 FrameIndex TRLD U 1 20
+FrameIndex TRLD V 0 21 FrameIndex TRLD V 1 21
+FrameIndex TRLD W 0 22 FrameIndex TRLD W 1 22
+FrameIndex TRLD X 0 23 FrameIndex TRLD X 1 23
+FrameIndex TRLD Y 0 24 FrameIndex TRLD Y 1 24
+FrameIndex TRLD Z 0 25 FrameIndex TRLD Z 1 25
+
+FrameIndex TRDD A 0 26 FrameIndex TRDD A 1 26
+FrameIndex TRDD B 0 27 FrameIndex TRDD B 1 27
+FrameIndex TRDD C 0 28 FrameIndex TRDD C 1 28
+FrameIndex TRDD D 0 29 FrameIndex TRDD D 1 29
+FrameIndex TRDD E 0 30 FrameIndex TRDD E 1 30
+FrameIndex TRDD F 0 31 FrameIndex TRDD F 1 31
+FrameIndex TRDD G 0 32 FrameIndex TRDD G 1 32
+FrameIndex TRDD H 0 33 FrameIndex TRDD H 1 33
+FrameIndex TRDD I 0 34 FrameIndex TRDD I 1 34
+FrameIndex TRDD J 0 35 FrameIndex TRDD J 1 35
+FrameIndex TRDD K 0 36 FrameIndex TRDD K 1 36
+FrameIndex TRDD L 0 37 FrameIndex TRDD L 1 37
+FrameIndex TRDD M 0 38 FrameIndex TRDD M 1 38
+FrameIndex TRDD N 0 39 FrameIndex TRDD N 1 39
+FrameIndex TRDD O 0 40 FrameIndex TRDD O 1 40
+FrameIndex TRDD P 0 41 FrameIndex TRDD P 1 41
+FrameIndex TRDD Q 0 42 FrameIndex TRDD Q 1 42
+FrameIndex TRDD R 0 43 FrameIndex TRDD R 1 43
+FrameIndex TRDD S 0 44 FrameIndex TRDD S 1 44
+FrameIndex TRDD T 0 45 FrameIndex TRDD T 1 45
+FrameIndex TRDD U 0 46 FrameIndex TRDD U 1 46
+FrameIndex TRDD V 0 47 FrameIndex TRDD V 1 47
+FrameIndex TRDD W 0 48 FrameIndex TRDD W 1 48
+FrameIndex TRDD X 0 48 FrameIndex TRDD X 1 49
+FrameIndex TRDD Y 0 48 FrameIndex TRDD Y 1 50
+FrameIndex TRDD Z 0 48 FrameIndex TRDD Z 1 50
+}
+
+//////////!!!!!!!!
+Model BattleMoriaTroll
+{
+   Path "models/troll"
+   Model 0 "trollwalk.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2walk.md3"
+   Skin 1 "TrollBulava.jpg"
+   
+// PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
+      Scale 1.22 1.22 1.22
+//      Offset 0.0 0.0 -11.0
+//    USEACTORROLL
+//	USEACTORPITCH
+//	SCALEWEAPONFOV
+	
+//run  
+FrameIndex TRLL A 0 0  FrameIndex TRLL A 1 0
+FrameIndex TRLL B 0 1  FrameIndex TRLL B 1 1
+FrameIndex TRLL C 0 2  FrameIndex TRLL C 1 2
+FrameIndex TRLL D 0 3  FrameIndex TRLL D 1 3
+FrameIndex TRLL E 0 4  FrameIndex TRLL E 1 4
+FrameIndex TRLL F 0 5  FrameIndex TRLL F 1 5
+FrameIndex TRLL G 0 6  FrameIndex TRLL G 1 6
+FrameIndex TRLL H 0 7  FrameIndex TRLL H 1 7
+FrameIndex TRLL I 0 8  FrameIndex TRLL I 1 8
+FrameIndex TRLL J 0 9  FrameIndex TRLL J 1 9
+FrameIndex TRLL K 0 10  FrameIndex TRLL K 1 10
+FrameIndex TRLL L 0 11  FrameIndex TRLL L 1 11
+FrameIndex TRLL M 0 12  FrameIndex TRLL M 1 12
 }
 
 
+Model BattleMoriaTroll
+{
+   Path "models/troll"
+   Model 0 "trollatt1.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att1.md3"
+   Skin 1 "TrollBulava.jpg"
+   
+// PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
+   Scale 1.22 1.22 1.22
+//      Offset 0.0 0.0 -11.0
+//    USEACTORROLL
+//	USEACTORPITCH
+//	SCALEWEAPONFOV
+	
+//attacck1 
+FrameIndex TRLA A 0 0 FrameIndex TRLA A 1 0
+FrameIndex TRLA B 0 1 FrameIndex TRLA B 1 1
+FrameIndex TRLA C 0 2 FrameIndex TRLA C 1 2
+FrameIndex TRLA D 0 3 FrameIndex TRLA D 1 3
+FrameIndex TRLA E 0 4 FrameIndex TRLA E 1 4
+FrameIndex TRLA F 0 5 FrameIndex TRLA F 1 5
+FrameIndex TRLA G 0 6 FrameIndex TRLA G 1 6
+FrameIndex TRLA H 0 7 FrameIndex TRLA H 1 7
+FrameIndex TRLA I 0 8 FrameIndex TRLA I 1 8
+FrameIndex TRLA J 0 9 FrameIndex TRLA J 1 9  //hit
+FrameIndex TRLA K 0 10 FrameIndex TRLA K 1 10
+FrameIndex TRLA L 0 11 FrameIndex TRLA L 1 11
+FrameIndex TRLA M 0 12 FrameIndex TRLA M 1 12
+FrameIndex TRLA N 0 13 FrameIndex TRLA N 1 13
+FrameIndex TRLA O 0 14 FrameIndex TRLA O 1 14
+FrameIndex TRLA P 0 15 FrameIndex TRLA P 1 15
+}
+
+Model BattleMoriaTroll
+{
+   Path "models/troll"
+   Model 0 "trollatt2.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att2.md3"
+   Skin 1 "TrollBulava.jpg"
+   
+// PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
+   Scale 1.22 1.22 1.22
+//    Offset 0.0 0.0 -11.0
+//    USEACTORROLL
+//	USEACTORPITCH
+//	SCALEWEAPONFOV
+	
+//attacck2 
+FrameIndex TRAA A 0 0 FrameIndex TRAA A 1 0
+FrameIndex TRAA B 0 1 FrameIndex TRAA B 1 1
+FrameIndex TRAA C 0 2 FrameIndex TRAA C 1 2
+FrameIndex TRAA D 0 3 FrameIndex TRAA D 1 3
+FrameIndex TRAA E 0 4 FrameIndex TRAA E 1 4
+FrameIndex TRAA F 0 5 FrameIndex TRAA F 1 5
+FrameIndex TRAA G 0 6 FrameIndex TRAA G 1 6
+FrameIndex TRAA H 0 7 FrameIndex TRAA H 1 7
+FrameIndex TRAA I 0 8 FrameIndex TRAA I 1 8
+FrameIndex TRAA J 0 9 FrameIndex TRAA J 1 9  
+FrameIndex TRAA K 0 10 FrameIndex TRAA K 1 10 //hit
+FrameIndex TRAA L 0 11 FrameIndex TRAA L 1 11
+FrameIndex TRAA M 0 12 FrameIndex TRAA M 1 12
+FrameIndex TRAA N 0 13 FrameIndex TRAA N 1 13
+FrameIndex TRAA O 0 14 FrameIndex TRAA O 1 14
+FrameIndex TRAA P 0 15 FrameIndex TRAA P 1 15
+}
 
 
-/////////
+Model BattleMoriaTroll
+{
+   Path "models/troll"
+   Model 0 "trollatt2.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att2.md3"
+   Skin 1 "TrollBulava.jpg"
+   
+// PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
+   Scale 1.22 1.22 1.22
+//    Offset 0.0 0.0 -11.0
+//    USEACTORROLL
+//	USEACTORPITCH
+//	SCALEWEAPONFOV
+	
+//die
+FrameIndex TRLD A 0 0 FrameIndex TRLD A 1 0
+FrameIndex TRLD B 0 1 FrameIndex TRLD B 1 1
+FrameIndex TRLD C 0 2 FrameIndex TRLD C 1 2
+FrameIndex TRLD D 0 3 FrameIndex TRLD D 1 3
+FrameIndex TRLD E 0 4 FrameIndex TRLD E 1 4
+FrameIndex TRLD F 0 5 FrameIndex TRLD F 1 5
+FrameIndex TRLD G 0 6 FrameIndex TRLD G 1 6
+FrameIndex TRLD H 0 7 FrameIndex TRLD H 1 7
+FrameIndex TRLD I 0 8 FrameIndex TRLD I 1 8
+FrameIndex TRLD J 0 9 FrameIndex TRLD J 1 9
+FrameIndex TRLD K 0 10 FrameIndex TRLD K 1 10
+FrameIndex TRLD L 0 11 FrameIndex TRLD L 1 11
+FrameIndex TRLD M 0 12 FrameIndex TRLD M 1 12
+FrameIndex TRLD N 0 13 FrameIndex TRLD N 1 13
+FrameIndex TRLD O 0 14 FrameIndex TRLD O 1 14
+FrameIndex TRLD P 0 15 FrameIndex TRLD P 1 15
+FrameIndex TRLD Q 0 16 FrameIndex TRLD Q 1 16
+FrameIndex TRLD R 0 17 FrameIndex TRLD R 1 17
+FrameIndex TRLD S 0 18 FrameIndex TRLD S 1 18
+FrameIndex TRLD T 0 19 FrameIndex TRLD T 1 19
+FrameIndex TRLD U 0 20 FrameIndex TRLD U 1 20
+FrameIndex TRLD V 0 21 FrameIndex TRLD V 1 21
+FrameIndex TRLD W 0 22 FrameIndex TRLD W 1 22
+FrameIndex TRLD X 0 23 FrameIndex TRLD X 1 23
+FrameIndex TRLD Y 0 24 FrameIndex TRLD Y 1 24
+FrameIndex TRLD Z 0 25 FrameIndex TRLD Z 1 25
 
+FrameIndex TRDD A 0 26 FrameIndex TRDD A 1 26
+FrameIndex TRDD B 0 27 FrameIndex TRDD B 1 27
+FrameIndex TRDD C 0 28 FrameIndex TRDD C 1 28
+FrameIndex TRDD D 0 29 FrameIndex TRDD D 1 29
+FrameIndex TRDD E 0 30 FrameIndex TRDD E 1 30
+FrameIndex TRDD F 0 31 FrameIndex TRDD F 1 31
+FrameIndex TRDD G 0 32 FrameIndex TRDD G 1 32
+FrameIndex TRDD H 0 33 FrameIndex TRDD H 1 33
+FrameIndex TRDD I 0 34 FrameIndex TRDD I 1 34
+FrameIndex TRDD J 0 35 FrameIndex TRDD J 1 35
+FrameIndex TRDD K 0 36 FrameIndex TRDD K 1 36
+FrameIndex TRDD L 0 37 FrameIndex TRDD L 1 37
+FrameIndex TRDD M 0 38 FrameIndex TRDD M 1 38
+FrameIndex TRDD N 0 39 FrameIndex TRDD N 1 39
+FrameIndex TRDD O 0 40 FrameIndex TRDD O 1 40
+FrameIndex TRDD P 0 41 FrameIndex TRDD P 1 41
+FrameIndex TRDD Q 0 42 FrameIndex TRDD Q 1 42
+FrameIndex TRDD R 0 43 FrameIndex TRDD R 1 43
+FrameIndex TRDD S 0 44 FrameIndex TRDD S 1 44
+FrameIndex TRDD T 0 45 FrameIndex TRDD T 1 45
+FrameIndex TRDD U 0 46 FrameIndex TRDD U 1 46
+FrameIndex TRDD V 0 47 FrameIndex TRDD V 1 47
+FrameIndex TRDD W 0 48 FrameIndex TRDD W 1 48
+FrameIndex TRDD X 0 48 FrameIndex TRDD X 1 49
+FrameIndex TRDD Y 0 48 FrameIndex TRDD Y 1 50
+FrameIndex TRDD Z 0 48 FrameIndex TRDD Z 1 50
+}
 
+/////////!!!!!!!!!
 //Troll2
 Model MoriaTroll2
 {
    Path "models/troll"
-   Model 0 "trollrun.md3"
-   Skin 0 "troll2.png"
-   Model 1 "trollweaponrun.md3"
-   Skin 1 "StoneDark.png"
-   Model 2 "trollhelmetrun.md3"
-   Skin 2 "or_armour.png"
+   Model 0 "trollwalk.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2walk.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
-   Scale 1.80 1.80 1.80
-      Offset 0.0 0.0 -11.0
-//   USEACTORROLL
+   Scale 1.22 1.22 1.22
+//      Offset 0.0 0.0 -11.0
+//    USEACTORROLL
 //	USEACTORPITCH
 //	SCALEWEAPONFOV
 	
 //run  
-FrameIndex TRLL A 0 0  FrameIndex TRLL A 1 0  FrameIndex TRLL A 2 0
-FrameIndex TRLL B 0 1  FrameIndex TRLL B 1 1  FrameIndex TRLL B 2 1
-FrameIndex TRLL C 0 2  FrameIndex TRLL C 1 2  FrameIndex TRLL C 2 2
-FrameIndex TRLL D 0 3  FrameIndex TRLL D 1 3  FrameIndex TRLL D 2 3
-FrameIndex TRLL E 0 4  FrameIndex TRLL E 1 4  FrameIndex TRLL E 2 4
-FrameIndex TRLL F 0 5  FrameIndex TRLL F 1 5  FrameIndex TRLL F 2 5
-FrameIndex TRLL G 0 6  FrameIndex TRLL G 1 6  FrameIndex TRLL G 2 6
-FrameIndex TRLL H 0 7  FrameIndex TRLL H 1 7  FrameIndex TRLL H 2 7
-FrameIndex TRLL I 0 8  FrameIndex TRLL I 1 8  FrameIndex TRLL I 2 8
-FrameIndex TRLL J 0 9  FrameIndex TRLL J 1 9  FrameIndex TRLL J 2 9
-FrameIndex TRLL K 0 10  FrameIndex TRLL K 1 10  FrameIndex TRLL K 2 10
-FrameIndex TRLL L 0 11  FrameIndex TRLL L 1 11  FrameIndex TRLL L 2 11
-FrameIndex TRLL M 0 12  FrameIndex TRLL M 1 12  FrameIndex TRLL M 2 12
-FrameIndex TRLL N 0 13  FrameIndex TRLL N 1 13  FrameIndex TRLL N 2 13
-FrameIndex TRLL O 0 14  FrameIndex TRLL O 1 14  FrameIndex TRLL O 2 14
-FrameIndex TRLL P 0 15  FrameIndex TRLL P 1 15  FrameIndex TRLL P 2 15
-FrameIndex TRLL Q 0 16  FrameIndex TRLL Q 1 16  FrameIndex TRLL Q 2 16
-FrameIndex TRLL R 0 17  FrameIndex TRLL R 1 17  FrameIndex TRLL R 2 17
-FrameIndex TRLL S 0 18  FrameIndex TRLL S 1 18  FrameIndex TRLL S 2 18
-FrameIndex TRLL T 0 19  FrameIndex TRLL T 1 19  FrameIndex TRLL T 2 19
-FrameIndex TRLL U 0 20  FrameIndex TRLL U 1 20  FrameIndex TRLL U 2 20
-FrameIndex TRLL V 0 21  FrameIndex TRLL V 1 21  FrameIndex TRLL V 2 21
-FrameIndex TRLL W 0 22  FrameIndex TRLL W 1 22  FrameIndex TRLL W 2 22
-FrameIndex TRLL X 0 23  FrameIndex TRLL X 1 23  FrameIndex TRLL X 2 23
-FrameIndex TRLL Y 0 24  FrameIndex TRLL Y 1 24  FrameIndex TRLL Y 2 24
-FrameIndex TRLL Z 0 25  FrameIndex TRLL Z 1 25  FrameIndex TRLL Z 2 25
-
-///////
-
-FrameIndex TRL1 A 0 26  FrameIndex TRL1 A 1 26  FrameIndex TRL1 A 2 26
-FrameIndex TRL1 B 0 27  FrameIndex TRL1 B 1 27  FrameIndex TRL1 B 2 27
-FrameIndex TRL1 C 0 28  FrameIndex TRL1 C 1 28  FrameIndex TRL1 C 2 28
-FrameIndex TRL1 D 0 29  FrameIndex TRL1 D 1 29  FrameIndex TRL1 D 2 29
-FrameIndex TRL1 E 0 30  FrameIndex TRL1 E 1 30  FrameIndex TRL1 E 2 30
-FrameIndex TRL1 F 0 31  FrameIndex TRL1 F 1 31  FrameIndex TRL1 F 2 31
-FrameIndex TRL1 G 0 32  FrameIndex TRL1 G 1 32  FrameIndex TRL1 G 2 32
-FrameIndex TRL1 H 0 33  FrameIndex TRL1 H 1 33  FrameIndex TRL1 H 2 33
-FrameIndex TRL1 I 0 34  FrameIndex TRL1 I 1 34  FrameIndex TRL1 I 2 34
-FrameIndex TRL1 J 0 35  FrameIndex TRL1 J 1 35  FrameIndex TRL1 J 2 35
-FrameIndex TRL1 K 0 36  FrameIndex TRL1 K 1 36  FrameIndex TRL1 K 2 36
-FrameIndex TRL1 L 0 37  FrameIndex TRL1 L 1 37  FrameIndex TRL1 L 2 37
-FrameIndex TRL1 M 0 38  FrameIndex TRL1 M 1 38  FrameIndex TRL1 M 2 38
-FrameIndex TRL1 N 0 39  FrameIndex TRL1 N 1 39  FrameIndex TRL1 N 2 39
+FrameIndex TRLL A 0 0  FrameIndex TRLL A 1 0
+FrameIndex TRLL B 0 1  FrameIndex TRLL B 1 1
+FrameIndex TRLL C 0 2  FrameIndex TRLL C 1 2
+FrameIndex TRLL D 0 3  FrameIndex TRLL D 1 3
+FrameIndex TRLL E 0 4  FrameIndex TRLL E 1 4
+FrameIndex TRLL F 0 5  FrameIndex TRLL F 1 5
+FrameIndex TRLL G 0 6  FrameIndex TRLL G 1 6
+FrameIndex TRLL H 0 7  FrameIndex TRLL H 1 7
+FrameIndex TRLL I 0 8  FrameIndex TRLL I 1 8
+FrameIndex TRLL J 0 9  FrameIndex TRLL J 1 9
+FrameIndex TRLL K 0 10  FrameIndex TRLL K 1 10
+FrameIndex TRLL L 0 11  FrameIndex TRLL L 1 11
+FrameIndex TRLL M 0 12  FrameIndex TRLL M 1 12
 }
 
 
 Model MoriaTroll2
 {
    Path "models/troll"
-   Model 0 "trollattack1.md3"
-   Skin 0 "troll2.png"
-   Model 1 "trollweaponattack1.md3"
-   Skin 1 "StoneDark.png"
-   Model 2 "trollattack1helmet.md3"
-   Skin 2 "or_armour.png"
+   Model 0 "trollatt1.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att1.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
-   Scale 1.80 1.80 1.80
-      Offset 0.0 0.0 -11.0
-//   USEACTORROLL
+   Scale 1.22 1.22 1.22
+//    Offset 0.0 0.0 -11.0
+//    USEACTORROLL
 //	USEACTORPITCH
 //	SCALEWEAPONFOV
 	
 //attacck1 
-FrameIndex TRLA A 0 0 FrameIndex TRLA A 1 0 FrameIndex TRLA A 2 0
-FrameIndex TRLA B 0 1 FrameIndex TRLA B 1 1 FrameIndex TRLA B 2 1
-FrameIndex TRLA C 0 2 FrameIndex TRLA C 1 2 FrameIndex TRLA C 2 2
-FrameIndex TRLA D 0 3 FrameIndex TRLA D 1 3 FrameIndex TRLA D 2 3
-FrameIndex TRLA E 0 4 FrameIndex TRLA E 1 4 FrameIndex TRLA E 2 4
-FrameIndex TRLA F 0 5 FrameIndex TRLA F 1 5 FrameIndex TRLA F 2 5
-FrameIndex TRLA G 0 6 FrameIndex TRLA G 1 6 FrameIndex TRLA G 2 6
-FrameIndex TRLA H 0 7 FrameIndex TRLA H 1 7 FrameIndex TRLA H 2 7
-FrameIndex TRLA I 0 8 FrameIndex TRLA I 1 8 FrameIndex TRLA I 2 8
-FrameIndex TRLA J 0 9 FrameIndex TRLA J 1 9 FrameIndex TRLA J 2 9
-FrameIndex TRLA K 0 10 FrameIndex TRLA K 1 10 FrameIndex TRLA K 2 10
-FrameIndex TRLA L 0 11 FrameIndex TRLA L 1 11 FrameIndex TRLA L 2 11
-FrameIndex TRLA M 0 12 FrameIndex TRLA M 1 12 FrameIndex TRLA M 2 12
-FrameIndex TRLA N 0 13 FrameIndex TRLA N 1 13 FrameIndex TRLA N 2 13
-FrameIndex TRLA O 0 14 FrameIndex TRLA O 1 14 FrameIndex TRLA O 2 14
-FrameIndex TRLA P 0 15 FrameIndex TRLA P 1 15 FrameIndex TRLA P 2 15
-FrameIndex TRLA Q 0 16 FrameIndex TRLA Q 1 16 FrameIndex TRLA Q 2 16
-FrameIndex TRLA R 0 17 FrameIndex TRLA R 1 17 FrameIndex TRLA R 2 17
-FrameIndex TRLA S 0 18 FrameIndex TRLA S 1 18 FrameIndex TRLA S 2 18
-FrameIndex TRLA T 0 19 FrameIndex TRLA T 1 19 FrameIndex TRLA T 2 19
-FrameIndex TRLA U 0 20 FrameIndex TRLA U 1 20 FrameIndex TRLA U 2 20
-FrameIndex TRLA V 0 21 FrameIndex TRLA V 1 21 FrameIndex TRLA V 2 21
-FrameIndex TRLA W 0 22 FrameIndex TRLA W 1 22 FrameIndex TRLA W 2 22
-FrameIndex TRLA X 0 23 FrameIndex TRLA X 1 23 FrameIndex TRLA X 2 23
-FrameIndex TRLA Y 0 24 FrameIndex TRLA Y 1 24 FrameIndex TRLA Y 2 24
-FrameIndex TRLA Z 0 24 FrameIndex TRLA Z 1 24 FrameIndex TRLA Z 2 24
+FrameIndex TRLA A 0 0 FrameIndex TRLA A 1 0
+FrameIndex TRLA B 0 1 FrameIndex TRLA B 1 1
+FrameIndex TRLA C 0 2 FrameIndex TRLA C 1 2
+FrameIndex TRLA D 0 3 FrameIndex TRLA D 1 3
+FrameIndex TRLA E 0 4 FrameIndex TRLA E 1 4
+FrameIndex TRLA F 0 5 FrameIndex TRLA F 1 5
+FrameIndex TRLA G 0 6 FrameIndex TRLA G 1 6
+FrameIndex TRLA H 0 7 FrameIndex TRLA H 1 7
+FrameIndex TRLA I 0 8 FrameIndex TRLA I 1 8
+FrameIndex TRLA J 0 9 FrameIndex TRLA J 1 9  //hit
+FrameIndex TRLA K 0 10 FrameIndex TRLA K 1 10
+FrameIndex TRLA L 0 11 FrameIndex TRLA L 1 11
+FrameIndex TRLA M 0 12 FrameIndex TRLA M 1 12
+FrameIndex TRLA N 0 13 FrameIndex TRLA N 1 13
+FrameIndex TRLA O 0 14 FrameIndex TRLA O 1 14
+FrameIndex TRLA P 0 15 FrameIndex TRLA P 1 15
 }
 
 Model MoriaTroll2
 {
    Path "models/troll"
-   Model 0 "trollattack2.md3"
-   Skin 0 "troll2.png"
-   Model 1 "trollweaponattack2.md3"
-   Skin 1 "StoneDark.png"
-   Model 2 "tr2h.md3"
-   Skin 2 "or_armour.png"
+   Model 0 "trollatt2.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att2.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
-   Scale 1.80 1.80 1.80
-      Offset 0.0 0.0 -11.0
-//   USEACTORROLL
+   Scale 1.22 1.22 1.22
+//    Offset 0.0 0.0 -11.0
+//    USEACTORROLL
 //	USEACTORPITCH
 //	SCALEWEAPONFOV
 	
 //attacck2 
-FrameIndex TRAA A 0 0 FrameIndex TRAA A 1 0 FrameIndex TRAA A 2 0
-FrameIndex TRAA B 0 3 FrameIndex TRAA B 1 3 FrameIndex TRAA B 2 3
-FrameIndex TRAA C 0 5 FrameIndex TRAA C 1 5 FrameIndex TRAA C 2 5
-FrameIndex TRAA D 0 7 FrameIndex TRAA D 1 7 FrameIndex TRAA D 2 7
-FrameIndex TRAA E 0 9 FrameIndex TRAA E 1 9 FrameIndex TRAA E 2 9
-FrameIndex TRAA F 0 11 FrameIndex TRAA F 1 11 FrameIndex TRAA F 2 11
-FrameIndex TRAA G 0 12 FrameIndex TRAA G 1 12 FrameIndex TRAA G 2 12
-FrameIndex TRAA H 0 13 FrameIndex TRAA H 1 13 FrameIndex TRAA H 2 13
-FrameIndex TRAA I 0 14 FrameIndex TRAA I 1 14 FrameIndex TRAA I 2 14
-FrameIndex TRAA J 0 15 FrameIndex TRAA J 1 15 FrameIndex TRAA J 2 15
-FrameIndex TRAA K 0 16 FrameIndex TRAA K 1 16 FrameIndex TRAA K 2 16
-FrameIndex TRAA L 0 17 FrameIndex TRAA L 1 17 FrameIndex TRAA L 2 17
-FrameIndex TRAA M 0 18 FrameIndex TRAA M 1 18 FrameIndex TRAA M 2 18
-FrameIndex TRAA N 0 19 FrameIndex TRAA N 1 19 FrameIndex TRAA N 2 19
-FrameIndex TRAA O 0 20 FrameIndex TRAA O 1 20 FrameIndex TRAA O 2 20
-FrameIndex TRAA P 0 22 FrameIndex TRAA P 1 22 FrameIndex TRAA P 2 22
-FrameIndex TRAA Q 0 24 FrameIndex TRAA Q 1 24 FrameIndex TRAA Q 2 24
-FrameIndex TRAA R 0 25 FrameIndex TRAA R 1 25 FrameIndex TRAA R 2 25
-FrameIndex TRAA S 0 26 FrameIndex TRAA S 1 26 FrameIndex TRAA S 2 26
-FrameIndex TRAA T 0 27 FrameIndex TRAA T 1 27 FrameIndex TRAA T 2 27
-FrameIndex TRAA U 0 29 FrameIndex TRAA U 1 29 FrameIndex TRAA U 2 29
-FrameIndex TRAA V 0 30 FrameIndex TRAA V 1 30 FrameIndex TRAA V 2 30
-FrameIndex TRAA W 0 32 FrameIndex TRAA W 1 32 FrameIndex TRAA W 2 32
-FrameIndex TRAA X 0 34 FrameIndex TRAA X 1 34 FrameIndex TRAA X 2 34
-FrameIndex TRAA Y 0 35 FrameIndex TRAA Y 1 35 FrameIndex TRAA Y 2 35
-FrameIndex TRAA Z 0 36 FrameIndex TRAA Z 1 36 FrameIndex TRAA Z 2 36
+FrameIndex TRAA A 0 0 FrameIndex TRAA A 1 0
+FrameIndex TRAA B 0 1 FrameIndex TRAA B 1 1
+FrameIndex TRAA C 0 2 FrameIndex TRAA C 1 2
+FrameIndex TRAA D 0 3 FrameIndex TRAA D 1 3
+FrameIndex TRAA E 0 4 FrameIndex TRAA E 1 4
+FrameIndex TRAA F 0 5 FrameIndex TRAA F 1 5
+FrameIndex TRAA G 0 6 FrameIndex TRAA G 1 6
+FrameIndex TRAA H 0 7 FrameIndex TRAA H 1 7
+FrameIndex TRAA I 0 8 FrameIndex TRAA I 1 8
+FrameIndex TRAA J 0 9 FrameIndex TRAA J 1 9  
+FrameIndex TRAA K 0 10 FrameIndex TRAA K 1 10 //hit
+FrameIndex TRAA L 0 11 FrameIndex TRAA L 1 11
+FrameIndex TRAA M 0 12 FrameIndex TRAA M 1 12
+FrameIndex TRAA N 0 13 FrameIndex TRAA N 1 13
+FrameIndex TRAA O 0 14 FrameIndex TRAA O 1 14
+FrameIndex TRAA P 0 15 FrameIndex TRAA P 1 15
 }
 
 
 Model MoriaTroll2
 {
    Path "models/troll"
-   Model 0 "trolldeath.md3"
-   Skin 0 "troll2.png"
-   Model 1 "trollweapondeath.md3"
-   Skin 1 "StoneDark.png"
-   Model 2 "trollhelmetdeath.md3"
-   Skin 2 "or_armour.png"
+   Model 0 "trollatt2.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att2.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
-   Scale 1.80 1.80 1.80
-      Offset 0.0 0.0 -11.0
-//   USEACTORROLL
+   Scale 1.22 1.22 1.22
+//    Offset 0.0 0.0 -11.0
+//    USEACTORROLL
 //	USEACTORPITCH
 //	SCALEWEAPONFOV
 	
 //die
-FrameIndex TRLD A 0 0 FrameIndex TRLD A 1 0 FrameIndex TRLD A 2 0
-FrameIndex TRLD B 0 1 FrameIndex TRLD B 1 1 FrameIndex TRLD B 2 1
-FrameIndex TRLD C 0 2 FrameIndex TRLD C 1 2 FrameIndex TRLD C 2 2
-FrameIndex TRLD D 0 3 FrameIndex TRLD D 1 3 FrameIndex TRLD D 2 3
-FrameIndex TRLD E 0 4 FrameIndex TRLD E 1 4 FrameIndex TRLD E 2 4
-FrameIndex TRLD F 0 5 FrameIndex TRLD F 1 5 FrameIndex TRLD F 2 5
-FrameIndex TRLD G 0 6 FrameIndex TRLD G 1 6 FrameIndex TRLD G 2 6
-FrameIndex TRLD H 0 7 FrameIndex TRLD H 1 7 FrameIndex TRLD H 2 7
-FrameIndex TRLD I 0 8 FrameIndex TRLD I 1 8 FrameIndex TRLD I 2 8
-FrameIndex TRLD J 0 9 FrameIndex TRLD J 1 9 FrameIndex TRLD J 2 9
-FrameIndex TRLD K 0 10 FrameIndex TRLD K 1 10 FrameIndex TRLD K 2 10
-FrameIndex TRLD L 0 11 FrameIndex TRLD L 1 11 FrameIndex TRLD L 2 11
-FrameIndex TRLD M 0 12 FrameIndex TRLD M 1 12 FrameIndex TRLD M 2 12
-FrameIndex TRLD N 0 13 FrameIndex TRLD N 1 13 FrameIndex TRLD N 2 13
-FrameIndex TRLD O 0 14 FrameIndex TRLD O 1 14 FrameIndex TRLD O 2 14
-FrameIndex TRLD P 0 15 FrameIndex TRLD P 1 15 FrameIndex TRLD P 2 15
-FrameIndex TRLD Q 0 16 FrameIndex TRLD Q 1 16 FrameIndex TRLD Q 2 16
-FrameIndex TRLD R 0 17 FrameIndex TRLD R 1 17 FrameIndex TRLD R 2 17
-FrameIndex TRLD S 0 18 FrameIndex TRLD S 1 18 FrameIndex TRLD S 2 18
-FrameIndex TRLD T 0 19 FrameIndex TRLD T 1 19 FrameIndex TRLD T 2 19
-FrameIndex TRLD U 0 20 FrameIndex TRLD U 1 20 FrameIndex TRLD U 2 20
+FrameIndex TRLD A 0 0 FrameIndex TRLD A 1 0
+FrameIndex TRLD B 0 1 FrameIndex TRLD B 1 1
+FrameIndex TRLD C 0 2 FrameIndex TRLD C 1 2
+FrameIndex TRLD D 0 3 FrameIndex TRLD D 1 3
+FrameIndex TRLD E 0 4 FrameIndex TRLD E 1 4
+FrameIndex TRLD F 0 5 FrameIndex TRLD F 1 5
+FrameIndex TRLD G 0 6 FrameIndex TRLD G 1 6
+FrameIndex TRLD H 0 7 FrameIndex TRLD H 1 7
+FrameIndex TRLD I 0 8 FrameIndex TRLD I 1 8
+FrameIndex TRLD J 0 9 FrameIndex TRLD J 1 9
+FrameIndex TRLD K 0 10 FrameIndex TRLD K 1 10
+FrameIndex TRLD L 0 11 FrameIndex TRLD L 1 11
+FrameIndex TRLD M 0 12 FrameIndex TRLD M 1 12
+FrameIndex TRLD N 0 13 FrameIndex TRLD N 1 13
+FrameIndex TRLD O 0 14 FrameIndex TRLD O 1 14
+FrameIndex TRLD P 0 15 FrameIndex TRLD P 1 15
+FrameIndex TRLD Q 0 16 FrameIndex TRLD Q 1 16
+FrameIndex TRLD R 0 17 FrameIndex TRLD R 1 17
+FrameIndex TRLD S 0 18 FrameIndex TRLD S 1 18
+FrameIndex TRLD T 0 19 FrameIndex TRLD T 1 19
+FrameIndex TRLD U 0 20 FrameIndex TRLD U 1 20
+FrameIndex TRLD V 0 21 FrameIndex TRLD V 1 21
+FrameIndex TRLD W 0 22 FrameIndex TRLD W 1 22
+FrameIndex TRLD X 0 23 FrameIndex TRLD X 1 23
+FrameIndex TRLD Y 0 24 FrameIndex TRLD Y 1 24
+FrameIndex TRLD Z 0 25 FrameIndex TRLD Z 1 25
+
+FrameIndex TRDD A 0 26 FrameIndex TRDD A 1 26
+FrameIndex TRDD B 0 27 FrameIndex TRDD B 1 27
+FrameIndex TRDD C 0 28 FrameIndex TRDD C 1 28
+FrameIndex TRDD D 0 29 FrameIndex TRDD D 1 29
+FrameIndex TRDD E 0 30 FrameIndex TRDD E 1 30
+FrameIndex TRDD F 0 31 FrameIndex TRDD F 1 31
+FrameIndex TRDD G 0 32 FrameIndex TRDD G 1 32
+FrameIndex TRDD H 0 33 FrameIndex TRDD H 1 33
+FrameIndex TRDD I 0 34 FrameIndex TRDD I 1 34
+FrameIndex TRDD J 0 35 FrameIndex TRDD J 1 35
+FrameIndex TRDD K 0 36 FrameIndex TRDD K 1 36
+FrameIndex TRDD L 0 37 FrameIndex TRDD L 1 37
+FrameIndex TRDD M 0 38 FrameIndex TRDD M 1 38
+FrameIndex TRDD N 0 39 FrameIndex TRDD N 1 39
+FrameIndex TRDD O 0 40 FrameIndex TRDD O 1 40
+FrameIndex TRDD P 0 41 FrameIndex TRDD P 1 41
+FrameIndex TRDD Q 0 42 FrameIndex TRDD Q 1 42
+FrameIndex TRDD R 0 43 FrameIndex TRDD R 1 43
+FrameIndex TRDD S 0 44 FrameIndex TRDD S 1 44
+FrameIndex TRDD T 0 45 FrameIndex TRDD T 1 45
+FrameIndex TRDD U 0 46 FrameIndex TRDD U 1 46
+FrameIndex TRDD V 0 47 FrameIndex TRDD V 1 47
+FrameIndex TRDD W 0 48 FrameIndex TRDD W 1 48
+FrameIndex TRDD X 0 48 FrameIndex TRDD X 1 49
+FrameIndex TRDD Y 0 48 FrameIndex TRDD Y 1 50
+FrameIndex TRDD Z 0 48 FrameIndex TRDD Z 1 50
 }
-
-
-///////////////////
 
 
 /////////
@@ -403,204 +524,176 @@ FrameIndex TRLD U 0 20 FrameIndex TRLD U 1 20 FrameIndex TRLD U 2 20
 Model Troll
 {
    Path "models/troll"
-   Model 0 "trollrun.md3"
-   Skin 0 "troll2.png"
-   Model 1 "trollweaponrun.md3"
-   Skin 1 "StoneDark.png"
-   Model 2 "trollhelmetrun.md3"
-   Skin 2 "or_armour.png"
+   Model 0 "trollwalk.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2walk.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
-   Scale 1.15 1.15 1.15
-      Offset 0.0 0.0 -11.0
-//   USEACTORROLL
+   Scale 1.22 1.22 1.22
+//      Offset 0.0 0.0 -11.0
+//    USEACTORROLL
 //	USEACTORPITCH
 //	SCALEWEAPONFOV
 	
 //run  
-FrameIndex TRLL A 0 0  FrameIndex TRLL A 1 0  FrameIndex TRLL A 2 0
-FrameIndex TRLL B 0 1  FrameIndex TRLL B 1 1  FrameIndex TRLL B 2 1
-FrameIndex TRLL C 0 2  FrameIndex TRLL C 1 2  FrameIndex TRLL C 2 2
-FrameIndex TRLL D 0 3  FrameIndex TRLL D 1 3  FrameIndex TRLL D 2 3
-FrameIndex TRLL E 0 4  FrameIndex TRLL E 1 4  FrameIndex TRLL E 2 4
-FrameIndex TRLL F 0 5  FrameIndex TRLL F 1 5  FrameIndex TRLL F 2 5
-FrameIndex TRLL G 0 6  FrameIndex TRLL G 1 6  FrameIndex TRLL G 2 6
-FrameIndex TRLL H 0 7  FrameIndex TRLL H 1 7  FrameIndex TRLL H 2 7
-FrameIndex TRLL I 0 8  FrameIndex TRLL I 1 8  FrameIndex TRLL I 2 8
-FrameIndex TRLL J 0 9  FrameIndex TRLL J 1 9  FrameIndex TRLL J 2 9
-FrameIndex TRLL K 0 10  FrameIndex TRLL K 1 10  FrameIndex TRLL K 2 10
-FrameIndex TRLL L 0 11  FrameIndex TRLL L 1 11  FrameIndex TRLL L 2 11
-FrameIndex TRLL M 0 12  FrameIndex TRLL M 1 12  FrameIndex TRLL M 2 12
-FrameIndex TRLL N 0 13  FrameIndex TRLL N 1 13  FrameIndex TRLL N 2 13
-FrameIndex TRLL O 0 14  FrameIndex TRLL O 1 14  FrameIndex TRLL O 2 14
-FrameIndex TRLL P 0 15  FrameIndex TRLL P 1 15  FrameIndex TRLL P 2 15
-FrameIndex TRLL Q 0 16  FrameIndex TRLL Q 1 16  FrameIndex TRLL Q 2 16
-FrameIndex TRLL R 0 17  FrameIndex TRLL R 1 17  FrameIndex TRLL R 2 17
-FrameIndex TRLL S 0 18  FrameIndex TRLL S 1 18  FrameIndex TRLL S 2 18
-FrameIndex TRLL T 0 19  FrameIndex TRLL T 1 19  FrameIndex TRLL T 2 19
-FrameIndex TRLL U 0 20  FrameIndex TRLL U 1 20  FrameIndex TRLL U 2 20
-FrameIndex TRLL V 0 21  FrameIndex TRLL V 1 21  FrameIndex TRLL V 2 21
-FrameIndex TRLL W 0 22  FrameIndex TRLL W 1 22  FrameIndex TRLL W 2 22
-FrameIndex TRLL X 0 23  FrameIndex TRLL X 1 23  FrameIndex TRLL X 2 23
-FrameIndex TRLL Y 0 24  FrameIndex TRLL Y 1 24  FrameIndex TRLL Y 2 24
-FrameIndex TRLL Z 0 25  FrameIndex TRLL Z 1 25  FrameIndex TRLL Z 2 25
-
-///////
-
-FrameIndex TRL1 A 0 26  FrameIndex TRL1 A 1 26  FrameIndex TRL1 A 2 26
-FrameIndex TRL1 B 0 27  FrameIndex TRL1 B 1 27  FrameIndex TRL1 B 2 27
-FrameIndex TRL1 C 0 28  FrameIndex TRL1 C 1 28  FrameIndex TRL1 C 2 28
-FrameIndex TRL1 D 0 29  FrameIndex TRL1 D 1 29  FrameIndex TRL1 D 2 29
-FrameIndex TRL1 E 0 30  FrameIndex TRL1 E 1 30  FrameIndex TRL1 E 2 30
-FrameIndex TRL1 F 0 31  FrameIndex TRL1 F 1 31  FrameIndex TRL1 F 2 31
-FrameIndex TRL1 G 0 32  FrameIndex TRL1 G 1 32  FrameIndex TRL1 G 2 32
-FrameIndex TRL1 H 0 33  FrameIndex TRL1 H 1 33  FrameIndex TRL1 H 2 33
-FrameIndex TRL1 I 0 34  FrameIndex TRL1 I 1 34  FrameIndex TRL1 I 2 34
-FrameIndex TRL1 J 0 35  FrameIndex TRL1 J 1 35  FrameIndex TRL1 J 2 35
-FrameIndex TRL1 K 0 36  FrameIndex TRL1 K 1 36  FrameIndex TRL1 K 2 36
-FrameIndex TRL1 L 0 37  FrameIndex TRL1 L 1 37  FrameIndex TRL1 L 2 37
-FrameIndex TRL1 M 0 38  FrameIndex TRL1 M 1 38  FrameIndex TRL1 M 2 38
-FrameIndex TRL1 N 0 39  FrameIndex TRL1 N 1 39  FrameIndex TRL1 N 2 39
+FrameIndex TRLL A 0 0  FrameIndex TRLL A 1 0
+FrameIndex TRLL B 0 1  FrameIndex TRLL B 1 1
+FrameIndex TRLL C 0 2  FrameIndex TRLL C 1 2
+FrameIndex TRLL D 0 3  FrameIndex TRLL D 1 3
+FrameIndex TRLL E 0 4  FrameIndex TRLL E 1 4
+FrameIndex TRLL F 0 5  FrameIndex TRLL F 1 5
+FrameIndex TRLL G 0 6  FrameIndex TRLL G 1 6
+FrameIndex TRLL H 0 7  FrameIndex TRLL H 1 7
+FrameIndex TRLL I 0 8  FrameIndex TRLL I 1 8
+FrameIndex TRLL J 0 9  FrameIndex TRLL J 1 9
+FrameIndex TRLL K 0 10  FrameIndex TRLL K 1 10
+FrameIndex TRLL L 0 11  FrameIndex TRLL L 1 11
+FrameIndex TRLL M 0 12  FrameIndex TRLL M 1 12
 }
 
 
 Model Troll
 {
    Path "models/troll"
-   Model 0 "trollattack1.md3"
-   Skin 0 "troll2.png"
-   Model 1 "trollweaponattack1.md3"
-   Skin 1 "StoneDark.png"
-   Model 2 "trollattack1helmet.md3"
-   Skin 2 "or_armour.png"
+   Model 0 "trollatt1.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att1.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
-   Scale 1.80 1.80 1.80
-      Offset 0.0 0.0 -11.0
-//   USEACTORROLL
+   Scale 1.22 1.22 1.22
+//    Offset 0.0 0.0 -11.0
+//    USEACTORROLL
 //	USEACTORPITCH
 //	SCALEWEAPONFOV
 	
 //attacck1 
-FrameIndex TRLA A 0 0 FrameIndex TRLA A 1 0 FrameIndex TRLA A 2 0
-FrameIndex TRLA B 0 1 FrameIndex TRLA B 1 1 FrameIndex TRLA B 2 1
-FrameIndex TRLA C 0 2 FrameIndex TRLA C 1 2 FrameIndex TRLA C 2 2
-FrameIndex TRLA D 0 3 FrameIndex TRLA D 1 3 FrameIndex TRLA D 2 3
-FrameIndex TRLA E 0 4 FrameIndex TRLA E 1 4 FrameIndex TRLA E 2 4
-FrameIndex TRLA F 0 5 FrameIndex TRLA F 1 5 FrameIndex TRLA F 2 5
-FrameIndex TRLA G 0 6 FrameIndex TRLA G 1 6 FrameIndex TRLA G 2 6
-FrameIndex TRLA H 0 7 FrameIndex TRLA H 1 7 FrameIndex TRLA H 2 7
-FrameIndex TRLA I 0 8 FrameIndex TRLA I 1 8 FrameIndex TRLA I 2 8
-FrameIndex TRLA J 0 9 FrameIndex TRLA J 1 9 FrameIndex TRLA J 2 9
-FrameIndex TRLA K 0 10 FrameIndex TRLA K 1 10 FrameIndex TRLA K 2 10
-FrameIndex TRLA L 0 11 FrameIndex TRLA L 1 11 FrameIndex TRLA L 2 11
-FrameIndex TRLA M 0 12 FrameIndex TRLA M 1 12 FrameIndex TRLA M 2 12
-FrameIndex TRLA N 0 13 FrameIndex TRLA N 1 13 FrameIndex TRLA N 2 13
-FrameIndex TRLA O 0 14 FrameIndex TRLA O 1 14 FrameIndex TRLA O 2 14
-FrameIndex TRLA P 0 15 FrameIndex TRLA P 1 15 FrameIndex TRLA P 2 15
-FrameIndex TRLA Q 0 16 FrameIndex TRLA Q 1 16 FrameIndex TRLA Q 2 16
-FrameIndex TRLA R 0 17 FrameIndex TRLA R 1 17 FrameIndex TRLA R 2 17
-FrameIndex TRLA S 0 18 FrameIndex TRLA S 1 18 FrameIndex TRLA S 2 18
-FrameIndex TRLA T 0 19 FrameIndex TRLA T 1 19 FrameIndex TRLA T 2 19
-FrameIndex TRLA U 0 20 FrameIndex TRLA U 1 20 FrameIndex TRLA U 2 20
-FrameIndex TRLA V 0 21 FrameIndex TRLA V 1 21 FrameIndex TRLA V 2 21
-FrameIndex TRLA W 0 22 FrameIndex TRLA W 1 22 FrameIndex TRLA W 2 22
-FrameIndex TRLA X 0 23 FrameIndex TRLA X 1 23 FrameIndex TRLA X 2 23
-FrameIndex TRLA Y 0 24 FrameIndex TRLA Y 1 24 FrameIndex TRLA Y 2 24
-FrameIndex TRLA Z 0 24 FrameIndex TRLA Z 1 24 FrameIndex TRLA Z 2 24
+FrameIndex TRLA A 0 0 FrameIndex TRLA A 1 0
+FrameIndex TRLA B 0 1 FrameIndex TRLA B 1 1
+FrameIndex TRLA C 0 2 FrameIndex TRLA C 1 2
+FrameIndex TRLA D 0 3 FrameIndex TRLA D 1 3
+FrameIndex TRLA E 0 4 FrameIndex TRLA E 1 4
+FrameIndex TRLA F 0 5 FrameIndex TRLA F 1 5
+FrameIndex TRLA G 0 6 FrameIndex TRLA G 1 6
+FrameIndex TRLA H 0 7 FrameIndex TRLA H 1 7
+FrameIndex TRLA I 0 8 FrameIndex TRLA I 1 8
+FrameIndex TRLA J 0 9 FrameIndex TRLA J 1 9  //hit
+FrameIndex TRLA K 0 10 FrameIndex TRLA K 1 10
+FrameIndex TRLA L 0 11 FrameIndex TRLA L 1 11
+FrameIndex TRLA M 0 12 FrameIndex TRLA M 1 12
+FrameIndex TRLA N 0 13 FrameIndex TRLA N 1 13
+FrameIndex TRLA O 0 14 FrameIndex TRLA O 1 14
+FrameIndex TRLA P 0 15 FrameIndex TRLA P 1 15
 }
 
 Model Troll
 {
    Path "models/troll"
-   Model 0 "trollattack2.md3"
-   Skin 0 "troll2.png"
-   Model 1 "trollweaponattack2.md3"
-   Skin 1 "StoneDark.png"
-   Model 2 "tr2h.md3"
-   Skin 2 "or_armour.png"
+   Model 0 "trollatt2.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att2.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
-   Scale 1.80 1.80 1.80
-      Offset 0.0 0.0 -11.0
-//   USEACTORROLL
+   Scale 1.22 1.22 1.22
+//    Offset 0.0 0.0 -11.0
+//    USEACTORROLL
 //	USEACTORPITCH
 //	SCALEWEAPONFOV
 	
 //attacck2 
-FrameIndex TRAA A 0 0 FrameIndex TRAA A 1 0 FrameIndex TRAA A 2 0
-FrameIndex TRAA B 0 3 FrameIndex TRAA B 1 3 FrameIndex TRAA B 2 3
-FrameIndex TRAA C 0 5 FrameIndex TRAA C 1 5 FrameIndex TRAA C 2 5
-FrameIndex TRAA D 0 7 FrameIndex TRAA D 1 7 FrameIndex TRAA D 2 7
-FrameIndex TRAA E 0 9 FrameIndex TRAA E 1 9 FrameIndex TRAA E 2 9
-FrameIndex TRAA F 0 11 FrameIndex TRAA F 1 11 FrameIndex TRAA F 2 11
-FrameIndex TRAA G 0 12 FrameIndex TRAA G 1 12 FrameIndex TRAA G 2 12
-FrameIndex TRAA H 0 13 FrameIndex TRAA H 1 13 FrameIndex TRAA H 2 13
-FrameIndex TRAA I 0 14 FrameIndex TRAA I 1 14 FrameIndex TRAA I 2 14
-FrameIndex TRAA J 0 15 FrameIndex TRAA J 1 15 FrameIndex TRAA J 2 15
-FrameIndex TRAA K 0 16 FrameIndex TRAA K 1 16 FrameIndex TRAA K 2 16
-FrameIndex TRAA L 0 17 FrameIndex TRAA L 1 17 FrameIndex TRAA L 2 17
-FrameIndex TRAA M 0 18 FrameIndex TRAA M 1 18 FrameIndex TRAA M 2 18
-FrameIndex TRAA N 0 19 FrameIndex TRAA N 1 19 FrameIndex TRAA N 2 19
-FrameIndex TRAA O 0 20 FrameIndex TRAA O 1 20 FrameIndex TRAA O 2 20
-FrameIndex TRAA P 0 22 FrameIndex TRAA P 1 22 FrameIndex TRAA P 2 22
-FrameIndex TRAA Q 0 24 FrameIndex TRAA Q 1 24 FrameIndex TRAA Q 2 24
-FrameIndex TRAA R 0 25 FrameIndex TRAA R 1 25 FrameIndex TRAA R 2 25
-FrameIndex TRAA S 0 26 FrameIndex TRAA S 1 26 FrameIndex TRAA S 2 26
-FrameIndex TRAA T 0 27 FrameIndex TRAA T 1 27 FrameIndex TRAA T 2 27
-FrameIndex TRAA U 0 29 FrameIndex TRAA U 1 29 FrameIndex TRAA U 2 29
-FrameIndex TRAA V 0 30 FrameIndex TRAA V 1 30 FrameIndex TRAA V 2 30
-FrameIndex TRAA W 0 32 FrameIndex TRAA W 1 32 FrameIndex TRAA W 2 32
-FrameIndex TRAA X 0 34 FrameIndex TRAA X 1 34 FrameIndex TRAA X 2 34
-FrameIndex TRAA Y 0 35 FrameIndex TRAA Y 1 35 FrameIndex TRAA Y 2 35
-FrameIndex TRAA Z 0 36 FrameIndex TRAA Z 1 36 FrameIndex TRAA Z 2 36
+FrameIndex TRAA A 0 0 FrameIndex TRAA A 1 0
+FrameIndex TRAA B 0 1 FrameIndex TRAA B 1 1
+FrameIndex TRAA C 0 2 FrameIndex TRAA C 1 2
+FrameIndex TRAA D 0 3 FrameIndex TRAA D 1 3
+FrameIndex TRAA E 0 4 FrameIndex TRAA E 1 4
+FrameIndex TRAA F 0 5 FrameIndex TRAA F 1 5
+FrameIndex TRAA G 0 6 FrameIndex TRAA G 1 6
+FrameIndex TRAA H 0 7 FrameIndex TRAA H 1 7
+FrameIndex TRAA I 0 8 FrameIndex TRAA I 1 8
+FrameIndex TRAA J 0 9 FrameIndex TRAA J 1 9  
+FrameIndex TRAA K 0 10 FrameIndex TRAA K 1 10 //hit
+FrameIndex TRAA L 0 11 FrameIndex TRAA L 1 11
+FrameIndex TRAA M 0 12 FrameIndex TRAA M 1 12
+FrameIndex TRAA N 0 13 FrameIndex TRAA N 1 13
+FrameIndex TRAA O 0 14 FrameIndex TRAA O 1 14
+FrameIndex TRAA P 0 15 FrameIndex TRAA P 1 15
 }
 
 
 Model Troll
 {
    Path "models/troll"
-   Model 0 "trolldeath.md3"
-   Skin 0 "troll2.png"
-   Model 1 "trollweapondeath.md3"
-   Skin 1 "StoneDark.png"
-   Model 2 "trollhelmetdeath.md3"
-   Skin 2 "or_armour.png"
+   Model 0 "trollatt2.md3"
+   Skin 0 "BattleTrollBody.jpg"
+   Model 1 "troll2att2.md3"
+   Skin 1 "TrollBulava.jpg"
    
 // PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
-   Scale 1.80 1.80 1.80
-      Offset 0.0 0.0 -11.0
-//   USEACTORROLL
+   Scale 1.22 1.22 1.22
+//    Offset 0.0 0.0 -11.0
+//    USEACTORROLL
 //	USEACTORPITCH
 //	SCALEWEAPONFOV
 	
 //die
-FrameIndex TRLD A 0 0 FrameIndex TRLD A 1 0 FrameIndex TRLD A 2 0
-FrameIndex TRLD B 0 1 FrameIndex TRLD B 1 1 FrameIndex TRLD B 2 1
-FrameIndex TRLD C 0 2 FrameIndex TRLD C 1 2 FrameIndex TRLD C 2 2
-FrameIndex TRLD D 0 3 FrameIndex TRLD D 1 3 FrameIndex TRLD D 2 3
-FrameIndex TRLD E 0 4 FrameIndex TRLD E 1 4 FrameIndex TRLD E 2 4
-FrameIndex TRLD F 0 5 FrameIndex TRLD F 1 5 FrameIndex TRLD F 2 5
-FrameIndex TRLD G 0 6 FrameIndex TRLD G 1 6 FrameIndex TRLD G 2 6
-FrameIndex TRLD H 0 7 FrameIndex TRLD H 1 7 FrameIndex TRLD H 2 7
-FrameIndex TRLD I 0 8 FrameIndex TRLD I 1 8 FrameIndex TRLD I 2 8
-FrameIndex TRLD J 0 9 FrameIndex TRLD J 1 9 FrameIndex TRLD J 2 9
-FrameIndex TRLD K 0 10 FrameIndex TRLD K 1 10 FrameIndex TRLD K 2 10
-FrameIndex TRLD L 0 11 FrameIndex TRLD L 1 11 FrameIndex TRLD L 2 11
-FrameIndex TRLD M 0 12 FrameIndex TRLD M 1 12 FrameIndex TRLD M 2 12
-FrameIndex TRLD N 0 13 FrameIndex TRLD N 1 13 FrameIndex TRLD N 2 13
-FrameIndex TRLD O 0 14 FrameIndex TRLD O 1 14 FrameIndex TRLD O 2 14
-FrameIndex TRLD P 0 15 FrameIndex TRLD P 1 15 FrameIndex TRLD P 2 15
-FrameIndex TRLD Q 0 16 FrameIndex TRLD Q 1 16 FrameIndex TRLD Q 2 16
-FrameIndex TRLD R 0 17 FrameIndex TRLD R 1 17 FrameIndex TRLD R 2 17
-FrameIndex TRLD S 0 18 FrameIndex TRLD S 1 18 FrameIndex TRLD S 2 18
-FrameIndex TRLD T 0 19 FrameIndex TRLD T 1 19 FrameIndex TRLD T 2 19
-FrameIndex TRLD U 0 20 FrameIndex TRLD U 1 20 FrameIndex TRLD U 2 20
+FrameIndex TRLD A 0 0 FrameIndex TRLD A 1 0
+FrameIndex TRLD B 0 1 FrameIndex TRLD B 1 1
+FrameIndex TRLD C 0 2 FrameIndex TRLD C 1 2
+FrameIndex TRLD D 0 3 FrameIndex TRLD D 1 3
+FrameIndex TRLD E 0 4 FrameIndex TRLD E 1 4
+FrameIndex TRLD F 0 5 FrameIndex TRLD F 1 5
+FrameIndex TRLD G 0 6 FrameIndex TRLD G 1 6
+FrameIndex TRLD H 0 7 FrameIndex TRLD H 1 7
+FrameIndex TRLD I 0 8 FrameIndex TRLD I 1 8
+FrameIndex TRLD J 0 9 FrameIndex TRLD J 1 9
+FrameIndex TRLD K 0 10 FrameIndex TRLD K 1 10
+FrameIndex TRLD L 0 11 FrameIndex TRLD L 1 11
+FrameIndex TRLD M 0 12 FrameIndex TRLD M 1 12
+FrameIndex TRLD N 0 13 FrameIndex TRLD N 1 13
+FrameIndex TRLD O 0 14 FrameIndex TRLD O 1 14
+FrameIndex TRLD P 0 15 FrameIndex TRLD P 1 15
+FrameIndex TRLD Q 0 16 FrameIndex TRLD Q 1 16
+FrameIndex TRLD R 0 17 FrameIndex TRLD R 1 17
+FrameIndex TRLD S 0 18 FrameIndex TRLD S 1 18
+FrameIndex TRLD T 0 19 FrameIndex TRLD T 1 19
+FrameIndex TRLD U 0 20 FrameIndex TRLD U 1 20
+FrameIndex TRLD V 0 21 FrameIndex TRLD V 1 21
+FrameIndex TRLD W 0 22 FrameIndex TRLD W 1 22
+FrameIndex TRLD X 0 23 FrameIndex TRLD X 1 23
+FrameIndex TRLD Y 0 24 FrameIndex TRLD Y 1 24
+FrameIndex TRLD Z 0 25 FrameIndex TRLD Z 1 25
+
+FrameIndex TRDD A 0 26 FrameIndex TRDD A 1 26
+FrameIndex TRDD B 0 27 FrameIndex TRDD B 1 27
+FrameIndex TRDD C 0 28 FrameIndex TRDD C 1 28
+FrameIndex TRDD D 0 29 FrameIndex TRDD D 1 29
+FrameIndex TRDD E 0 30 FrameIndex TRDD E 1 30
+FrameIndex TRDD F 0 31 FrameIndex TRDD F 1 31
+FrameIndex TRDD G 0 32 FrameIndex TRDD G 1 32
+FrameIndex TRDD H 0 33 FrameIndex TRDD H 1 33
+FrameIndex TRDD I 0 34 FrameIndex TRDD I 1 34
+FrameIndex TRDD J 0 35 FrameIndex TRDD J 1 35
+FrameIndex TRDD K 0 36 FrameIndex TRDD K 1 36
+FrameIndex TRDD L 0 37 FrameIndex TRDD L 1 37
+FrameIndex TRDD M 0 38 FrameIndex TRDD M 1 38
+FrameIndex TRDD N 0 39 FrameIndex TRDD N 1 39
+FrameIndex TRDD O 0 40 FrameIndex TRDD O 1 40
+FrameIndex TRDD P 0 41 FrameIndex TRDD P 1 41
+FrameIndex TRDD Q 0 42 FrameIndex TRDD Q 1 42
+FrameIndex TRDD R 0 43 FrameIndex TRDD R 1 43
+FrameIndex TRDD S 0 44 FrameIndex TRDD S 1 44
+FrameIndex TRDD T 0 45 FrameIndex TRDD T 1 45
+FrameIndex TRDD U 0 46 FrameIndex TRDD U 1 46
+FrameIndex TRDD V 0 47 FrameIndex TRDD V 1 47
+FrameIndex TRDD W 0 48 FrameIndex TRDD W 1 48
+FrameIndex TRDD X 0 48 FrameIndex TRDD X 1 49
+FrameIndex TRDD Y 0 48 FrameIndex TRDD Y 1 50
+FrameIndex TRDD Z 0 48 FrameIndex TRDD Z 1 50
 }
 
-
 ///////////////
-
 
 //Ent
 Model Ent

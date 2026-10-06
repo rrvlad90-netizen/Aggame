@@ -12,8 +12,8 @@
 
 
 
-#include "DECORATECODE/ADDONITEMS.dec"
+//#include "DECORATECODE/ADDONITEMS.dec"
 #include "DECORATECODE/decorate.other"
-#include "DECORATECODE/CHASECAM.dec"
+//#include "DECORATECODE/CHASECAM.dec"
 #include "DECORATECODE/DECORATE.Player"
 

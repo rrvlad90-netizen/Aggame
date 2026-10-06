@@ -22,7 +22,7 @@ ACTOR FF_Health : Health
   }
 }
 
-ACTOR LotrOrc100 : BattleRouteActor //Replaces shotgunguy //3004
+ACTOR LotrOrc100 //Replaces shotgunguy //3004
 {
 	Health 114
 	Mass 175
@@ -47,7 +47,6 @@ ACTOR LotrOrc100 : BattleRouteActor //Replaces shotgunguy //3004
 	DeathSound "Orcdeath"
 	PainChance "iseeyou", 255
 	DamageFactor "iseeyou", 1
-	DamageFactor "Mordor", 0
 	States
 	{
 	Spawn:
@@ -61,17 +60,7 @@ ACTOR LotrOrc100 : BattleRouteActor //Replaces shotgunguy //3004
 		//ORC1 A 1 A_LookEx(LOF_NOSOUNDCHECK, 0, 4096, 0, 0, "See")
 	//Goto spawn+3 //+4
 			//Goto Idle
-	
-	RouteWait:
-		ORC1 A 1
-		Loop
-
-	Route:
-		VARR JKL 1 Fast
-		VANR ABCDEFGHIJKLMNOPQR 1 Fast
-		VARR ABCDEFGH 1 Fast
-		Loop
-	
+			
 	Idle:
 		TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 512, 0, 0, "See")
     	TNT1 A 0 A_CheckRange(850, "Idle2", true)
@@ -135,7 +124,7 @@ ACTOR LotrOrc100 : BattleRouteActor //Replaces shotgunguy //3004
 		VAT1 AA 3 Fast A_FaceTarget
 		VAT1 BCDFHJKLMNOPQ 1 Fast A_FaceTarget //BCDEFGHIJKLMN 1 A_FaceTarget
     	TNT1 R 0 A_PlaySound("AxeSwing")
-		VAT1 R 5 Fast A_CustomMissile("OrcSlash1",18, -13) //A_CustomMeleeAttack(random(11, 18),"sworbam") //A_SargAttack
+		VAT1 R 5 Fast A_CustomMeleeAttack(random(11, 18),"sworbam") //A_SargAttack
 		VAT1 STUVWXZ 1 Fast
 		VA11 ABCDEFGHIJKLM 1 Fast
 		Goto See
@@ -146,7 +135,7 @@ ACTOR LotrOrc100 : BattleRouteActor //Replaces shotgunguy //3004
 		VAT2 AA 3 Fast A_FaceTarget
 		VAT2 BCDEFGH 1 Fast A_FaceTarget
     	TNT1 A 0 A_PlaySound("AxeSwing")
-		VAT2 H 9 Fast A_CustomMissile("OrcSlash1",18, -13) //A_CustomMeleeAttack(random(16, 22),"sworbam") 
+		VAT2 H 9 Fast A_CustomMeleeAttack(random(16, 22),"sworbam") 
 		VAT2 IJKLMNOPQRSTUVWXYZ 1 Fast
 		VAA2 ABCDEFG 1 Fast 		
 		Goto See
@@ -160,13 +149,12 @@ ACTOR LotrOrc100 : BattleRouteActor //Replaces shotgunguy //3004
 		Goto See
 		
 	Death:
-		TNT1 A 0 A_ReportBattleDeath(2)
 		TNT1 A 0 A_Stop
 		TNT1 A 0 A_Recoil(11)
 		VNDD ABC 1
 		VNDD D 1 A_Scream
 		VNDD E 1 A_NoBlocking
-		VNDD FGHIJKLMNOPQRSTU 1
+	    VNDD FGHIJKLMNOPQRSTU 1
 		VNDD U 380
 		VNDD U 1 A_FadeOut
 		Stop
@@ -283,7 +271,6 @@ ACTOR LotrOrcPlayerHunter //Replaces shotgunguy //3004
 	DeathSound "Orcdeath"
 	//PainChance "isee", 255
 	//DamageFactor "isee", 1
-	DamageFactor "Mordor", 0
 	States
 	{
 Spawn:
@@ -345,7 +332,7 @@ Spawn:
 		VAT1 A 3 Fast A_FaceTarget
 		VAT1 BCDFGHJKLMNO 1 Fast A_FaceTarget //BCDEFGHIJKLMN 1 A_FaceTarget
     	TNT1 A 0 A_PlaySound("AxeSwing")
-		VAT1 P 5 Fast A_CustomMissile("OrcSlash1",18, -13) //A_CustomMeleeAttack(random(11, 18),"sworbam") //A_SargAttack
+		VAT1 P 5 Fast A_CustomMeleeAttack(random(11, 18),"sworbam") //A_SargAttack
 		VAT1 QRSTUVXYYY 1 Fast //PQRSTUVWXYZ 1
 		Goto See
 		
@@ -353,7 +340,7 @@ Spawn:
 		VAT2 A 3 Fast A_FaceTarget
 		VAT2 BDCDEFG 1 Fast A_FaceTarget //BCDEFGHIJKLMN 1 A_FaceTarget
     	TNT1 A 0 A_PlaySound("AxeSwing")
-		VAT2 H 9 Fast A_CustomMissile("OrcSlash1",18, -13) //A_CustomMeleeAttack(random(16, 22),"sworbam") //A_SargAttack
+		VAT2 H 9 Fast A_CustomMeleeAttack(random(16, 22),"sworbam") //A_SargAttack
 		VAT2 IJKLMNOPQRST 1 Fast //ORC4 PQRSTUVWXYZ 1
 		Goto See
 	Block:
@@ -374,34 +361,4 @@ Spawn:
 		VNDD U 1 A_FadeOut
 		Stop
 	}
-}
-
-Actor LotrOrcCommander : LotrOrc100
-{
-    Health 175
-    Scale 1.08
-}
-
-Actor OrcSlash1
-{
-Speed 30
-radius 5
-Height 5
-PROJECTILE
-RenderStyle add
-scale 0.5
-Damage 2
-DamageType "Mordor"
-States
-{
-Spawn:
-TNT1 A 1
-Goto Death2
-
-Death:
-TNT1 A 1 A_PlaySound("sworbam")
-Death2:
-TNT1 A 1
-Stop
-}
 }

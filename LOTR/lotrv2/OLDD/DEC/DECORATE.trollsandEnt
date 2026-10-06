@@ -13,11 +13,9 @@ Actor MoriaTroll
   +NOBLOOD
   +RANDOMIZE
    +BOSS
-   	DamageFactor "Mordor", 0
 SeeSound "trollsee"
 PainSound "troll"
 DeathSound "troll"
-
   States
   {
   Spawn:
@@ -27,23 +25,24 @@ DeathSound "troll"
     Loop
 
 See:
-    TRLL ABCDEFGHIJKLM 2 A_Chase
+    TRLL ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_Chase
+	TRL1 ABCDEFGHIJKLMN 1 A_Chase
 	TNT1 A 0 A_LookEx(LOF_NOSOUNDCHECK, 0, 512, 512, 360, "See")
     Loop
 
 Melee:
    TNT1 A 0 A_Jump(128,"Melee2")
-   TRLA AABBCCDEFGHI 2 A_FaceTarget
+   TRLA AAAABBBCCCDEFGHIJKLMN 1 A_FaceTarget
    TNT1 A 0 A_PlaySound("AxeSwing")
-   TRLA J 4 A_CustomMissile("TrollSlash",18, -13) //A_CustomMeleeAttack(38,"trolbam")//A_SargAttack
-   TRLA KLMNOP 2
+   TRLA O 4 A_CustomMeleeAttack(30,"trolbam")//A_SargAttack
+   TRLA PQRSTUVWXYZZZ 2
    Goto See
 
 Melee2:
-   TRAA AABBCCDEFGHIJ 2 A_FaceTarget
+   TRAA AAAABBBCCCDEFGHIJKLMNOP 1 A_FaceTarget
    TNT1 A 0 A_PlaySound("AxeSwing")
-   TRAA K 4 A_CustomMissile("TrollSlash",18, -13) //A_CustomMeleeAttack(38,"trolbam")//A_SargAttack
-   TRAA LMNOP 2
+   TRAA Q 4 A_CustomMeleeAttack(38,"trolbam")//A_SargAttack
+   TRAA STUVWXYZZZ 2
    Goto See
 
 Pain:
@@ -52,12 +51,11 @@ Pain:
     Goto See
 
 Death:
-    TRLD A 1 A_Scream
-    TRLD B 1 A_NoBlocking
-    TRLD DEFGHIJKLMNOPQRSTUVWXYZ 1
-	TRDD ABDEFGHIJKLMNOPQRSTUVWXYZ 1
-	TRDD Z 680
-    TRDD Z 1 A_Respawn
+    TRLD A 6 A_Scream
+    TRLD B 5 A_NoBlocking
+    TRLD DEFGHIJKLMNOPQRSTU 5
+	TRLD U 680
+    TRLD U 1 A_Respawn
     Stop		
   }
 }
@@ -69,23 +67,6 @@ Actor MoriaTroll2: MoriaTroll
   health 850
 }
 
-Actor BattleMoriaTroll : MoriaTroll
-{
-    Health 700
-
-    States
-    {
-    Death:
-	    TRLD A 1 A_Scream
-		TRLD B 1 A_NoBlocking
-		TRLD DEFGHIJKLMNOPQRSTUVWXYZ 1
-		TRDD ABDEFGHIJKLMNOPQRSTUVWXYZ 1
-		TRDD Z 680
-		TRDD ZZZZZZZZZZZZZ 1 A_FadeOut (0.5)
-		TNT1 A -1
-        Stop
-    }
-}
 
 Actor TrollRespawn : RandomSpawner replaces fatso
 {
@@ -108,8 +89,6 @@ Actor Ent
   +RANDOMIZE
    +BOSS
    +DROPOFF
-   
-   DamageFactor "Gondor", 0
   States
   {
   Spawn:
@@ -141,28 +120,4 @@ Death:
     TRLD U -1
     Stop		
   }
-}
-
-Actor TrollSlash
-{
-Speed 30
-radius 5
-Height 5
-PROJECTILE
-RenderStyle add
-scale 0.5
-Damage 7
-DamageType "Mordor"
-States
-{
-Spawn:
-TNT1 A 1
-Goto Death2
-
-Death:
-TNT1 A 1 A_PlaySound("trolbam")
-Death2:
-TNT1 A 1
-Stop
-}
 }
