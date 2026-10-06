@@ -1,4 +1,2 @@
-git add .gitignore
-git add -A
-git commit -m "Remove large NDS file from history"
-git push origin master
+git log -1 --oneline -- "EMUL/DS/Glob.bin"
+pause
