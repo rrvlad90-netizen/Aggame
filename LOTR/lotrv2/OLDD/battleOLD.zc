@@ -104,9 +104,6 @@ class BattleRouteActor : Actor
 {
     Actor CurrentWaypoint;
 
-	int RouteWeaveTicks;
-	int RouteWeaveDirection;
-
     bool RouteActive;
     bool RoutePaused;
     bool DeathReported;
@@ -164,56 +161,53 @@ class BattleRouteActor : Actor
         );
     }
 
-	void StartBattleRoute(
-		int firstPointTID,
-		int startDelay = 0
-	)
-	{
-		RouteWeaveTicks = Random(12, 28);
-		RouteWeaveDirection = Random(-1, 1);
+    void StartBattleRoute(
+        int firstPointTID,
+        int startDelay = 0
+    )
+    {
+        FirstWaypointTID =
+            firstPointTID;
 
-		FirstWaypointTID =
-			firstPointTID;
+        CurrentWaypoint =
+            FindWaypoint(
+                firstPointTID
+            );
 
-		CurrentWaypoint =
-			FindWaypoint(
-				firstPointTID
-			);
+        RoutePaused = false;
 
-		RoutePaused = false;
+        RouteStartDelay =
+            Max(0, startDelay);
 
-		RouteStartDelay =
-			Max(0, startDelay);
+        WaitingForRouteStart =
+            RouteStartDelay > 0;
 
-		WaitingForRouteStart =
-			RouteStartDelay > 0;
+        RouteStuckTicks = 0;
+        RouteStrafeTicks = 0;
 
-		RouteStuckTicks = 0;
-		RouteStrafeTicks = 0;
+        LastRoutePosition = Pos;
 
-		LastRoutePosition = Pos;
+        Vel.X = 0;
+        Vel.Y = 0;
 
-		Vel.X = 0;
-		Vel.Y = 0;
+        A_TakeInventory(
+            "BattleRouteFinished",
+            1
+        );
 
-		A_TakeInventory(
-			"BattleRouteFinished",
-			1
-		);
+        if (CurrentWaypoint == null)
+        {
+            FinishBattleRoute();
+            return;
+        }
 
-		if (CurrentWaypoint == null)
-		{
-			FinishBattleRoute();
-			return;
-		}
+        RouteActive = true;
 
-		RouteActive = true;
-
-		if (WaitingForRouteStart)
-			SetStateLabel("RouteWait");
-		else
-			SetStateLabel("Route");
-	}
+        if (WaitingForRouteStart)
+            SetStateLabel("RouteWait");
+        else
+            SetStateLabel("Route");
+    }
 
     void SelectNextWaypoint()
     {
@@ -292,151 +286,104 @@ class BattleRouteActor : Actor
             combatDistance;
     }
 
-	override void Tick()
-	{
-		Super.Tick();
+    override void Tick()
+    {
+        Super.Tick();
 
-		if (Health <= 0)
-			return;
+        if (Health <= 0)
+            return;
 
-		if (!RouteActive)
-			return;
+        if (!RouteActive)
+            return;
 
-		/*
-		 * Небольшая задержка после появления.
-		 */
-		if (WaitingForRouteStart)
-		{
-			Vel.X = 0;
-			Vel.Y = 0;
+        /*
+         * Воин уже создан, но некоторое время
+         * стоит на точке появления.
+         */
+        if (WaitingForRouteStart)
+        {
+            Vel.X = 0;
+            Vel.Y = 0;
 
-			RouteStartDelay--;
+            RouteStartDelay--;
 
-			if (RouteStartDelay <= 0)
-			{
-				RouteStartDelay = 0;
-				WaitingForRouteStart = false;
+            if (RouteStartDelay <= 0)
+            {
+                RouteStartDelay = 0;
+                WaitingForRouteStart = false;
 
-				LastRoutePosition = Pos;
-				SetStateLabel("Route");
-			}
+                LastRoutePosition = Pos;
+                SetStateLabel("Route");
+            }
 
-			return;
-		}
+            return;
+        }
 
-		if (CurrentWaypoint == null)
-		{
-			FinishBattleRoute();
-			return;
-		}
+        if (CurrentWaypoint == null)
+        {
+            FinishBattleRoute();
+            return;
+        }
 
-		/*
-		 * Орки отдают приоритет ближайшему игроку
-		 * в радиусе 384 единиц.
-		 */
-		if (tid == 2700)
-		{
-			PlayerPawn nearbyPlayer = null;
-			double closestDistance = 384;
+        /*
+         * Противник подошёл достаточно близко.
+         * Передаём управление обычному A_Chase.
+         */
+        if (ShouldPauseRoute())
+        {
+            if (!RoutePaused)
+            {
+                RoutePaused = true;
 
-			for (
-				int index = 0;
-				index < players.Size();
-				index++
-			)
-			{
-				PlayerPawn pawn =
-					players[index].mo;
+                Vel.X = 0;
+                Vel.Y = 0;
 
-				if (
-					pawn == null ||
-					pawn.Health <= 0
-				)
-				{
-					continue;
-				}
+                SetStateLabel("See");
+            }
 
-				double playerDistance =
-					Distance2D(pawn);
+            return;
+        }
 
-				if (
-					playerDistance <= closestDistance &&
-					CheckSight(pawn)
-				)
-				{
-					nearbyPlayer = pawn;
-					closestDistance =
-						playerDistance;
-				}
-			}
+        /*
+         * Противник погиб или отошёл.
+         */
+        if (RoutePaused)
+        {
+            RoutePaused = false;
 
-			if (nearbyPlayer != null)
-				Target = nearbyPlayer;
-		}
+            LastRoutePosition = Pos;
+            RouteStuckTicks = 0;
+            RouteStrafeTicks = 0;
 
-		bool playerInAggroRange =
-			PlayerPawn(Target) != null &&
-			Distance2D(Target) <= 384;
+            SetStateLabel("Route");
+        }
 
-		/*
-		 * Передаём управление обычному A_Chase.
-		 */
-		if (
-			playerInAggroRange ||
-			ShouldPauseRoute()
-		)
-		{
-			if (!RoutePaused)
-			{
-				RoutePaused = true;
+        /*
+         * Достижение текущей точки.
+         */
+        if (
+            Distance2D(
+                CurrentWaypoint
+            ) <= 32
+        )
+        {
+            SelectNextWaypoint();
 
-				Vel.X = 0;
-				Vel.Y = 0;
+            if (
+                !RouteActive ||
+                CurrentWaypoint == null
+            )
+            {
+                return;
+            }
 
-				SetStateLabel("See");
-			}
+            LastRoutePosition = Pos;
+            RouteStuckTicks = 0;
+        }
 
-			return;
-		}
-
-		/*
-		 * Противник погиб или отошёл.
-		 */
-		if (RoutePaused)
-		{
-			RoutePaused = false;
-
-			LastRoutePosition = Pos;
-			RouteStuckTicks = 0;
-			RouteStrafeTicks = 0;
-
-			SetStateLabel("Route");
-		}
-
-		/*
-		 * Достижение текущей маршрутной точки.
-		 */
-		if (
-			Distance2D(CurrentWaypoint) <= 32
-		)
-		{
-			SelectNextWaypoint();
-
-			if (
-				!RouteActive ||
-				CurrentWaypoint == null
-			)
-			{
-				return;
-			}
-
-			LastRoutePosition = Pos;
-			RouteStuckTicks = 0;
-		}
-
-		/*
-		 * Проверяем, движется ли воин.
-		 */
+        /*
+         * Проверяем, движется ли воин.
+         */
 		double movedDistance = Sqrt(
 			(Pos.X - LastRoutePosition.X) *
 			(Pos.X - LastRoutePosition.X) +
@@ -455,64 +402,44 @@ class BattleRouteActor : Actor
 			LastRoutePosition = Pos;
 		}
 
-		/*
-		 * Усиленный обход при застревании.
-		 */
-		if (
-			RouteStuckTicks >= 12 &&
-			RouteStrafeTicks <= 0
-		)
-		{
-			RouteStrafeTicks = 20;
-			RouteStuckTicks = 0;
+        /*
+         * Если боец застрял в союзнике,
+         * некоторое время идём под углом.
+         */
+        if (
+            RouteStuckTicks >= 12 &&
+            RouteStrafeTicks <= 0
+        )
+        {
+            RouteStrafeTicks = 20;
+            RouteStuckTicks = 0;
 
-			if (Random(0, 1) == 0)
-				RouteStrafeDirection = -1;
-			else
-				RouteStrafeDirection = 1;
-		}
+            if (Random(0, 1) == 0)
+                RouteStrafeDirection = -1;
+            else
+                RouteStrafeDirection = 1;
+        }
 
-		double direction =
-			AngleTo(CurrentWaypoint);
+        double direction =
+            AngleTo(CurrentWaypoint);
 
-		if (RouteStrafeTicks > 0)
-		{
-			direction +=
-				35 * RouteStrafeDirection;
+        if (RouteStrafeTicks > 0)
+        {
+            direction +=
+                35 *
+                RouteStrafeDirection;
 
-			RouteStrafeTicks--;
-		}
+            RouteStrafeTicks--;
+        }
 
-		Angle = direction;
+        Angle = direction;
 
-		/*
-		 * Постоянное небольшое движение
-		 * влево или вправо.
-		 */
-		RouteWeaveTicks--;
+        Vel.X =
+            Cos(direction) * Speed;
 
-		if (RouteWeaveTicks <= 0)
-		{
-			RouteWeaveTicks =
-				Random(12, 28);
-
-			RouteWeaveDirection =
-				Random(-1, 1);
-		}
-
-		double sideSpeed =
-			Speed *
-			0.30 *
-			RouteWeaveDirection;
-
-		Vel.X =
-			Cos(direction) * Speed +
-			Cos(direction + 90) * sideSpeed;
-
-		Vel.Y =
-			Sin(direction) * Speed +
-			Sin(direction + 90) * sideSpeed;
-	}
+        Vel.Y =
+            Sin(direction) * Speed;
+    }
 }
 
 // ============================================================
@@ -1349,15 +1276,27 @@ class BattleDirector : Actor
     }
 
     void ReportCasualty(int team)
-	{
-		if (GameFinished)
-			return;
+    {
+        if (GameFinished)
+            return;
 
-		if (team == 1)
-			GondorCasualties++;
-		else
-			OrcCasualties++;
-	}
+        if (team == 1)
+        {
+            GondorCasualties++;
+
+            if (
+                GondorCasualties >=
+                GondorLossLimit
+            )
+            {
+                FinishGame(2);
+            }
+        }
+        else
+        {
+            OrcCasualties++;
+        }
+    }
 
     void ObjectiveDestroyed(
         int destroyedTeam

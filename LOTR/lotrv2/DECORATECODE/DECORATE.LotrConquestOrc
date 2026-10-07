@@ -48,6 +48,9 @@ ACTOR LotrOrc100 : BattleRouteActor //Replaces shotgunguy //3004
 	PainChance "iseeyou", 255
 	DamageFactor "iseeyou", 1
 	DamageFactor "Mordor", 0
+	DropItem "Stimpack", 26
+	DropItem "Clip", 13
+	
 	States
 	{
 	Spawn:

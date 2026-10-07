@@ -1,3 +1,9 @@
+ACTOR WarriorLungeActive : Inventory
+{
+    Inventory.MaxAmount 1
+    +INVENTORY.UNDROPPABLE
+}
+
 ACTOR Jmp : Inventory {
     Inventory.MaxAmount 1
 	+INVENTORY.UNDROPPABLE
@@ -16,7 +22,7 @@ ACTOR PlayerWarrior : WarriorThirdPersonBase
     Height 56
     Mass 300
     PainChance 0
-    Speed 0.65
+    Speed 0.95
 
     RenderStyle None
 
@@ -33,7 +39,9 @@ ACTOR PlayerWarrior : WarriorThirdPersonBase
 
     Player.DisplayName "PlayerWarrior"
     Player.StartItem "LotrSword"
+	Player.StartItem "Clip", 9
     Player.WeaponSlot 1, LotrSword
+
 		
   Player.ColorRange 225, 240
   Player.ColorSet 0, "Green",         225, 240,  238
@@ -70,34 +78,73 @@ ACTOR PlayerWarrior : WarriorThirdPersonBase
     Loop
 Melee:
 Missile:
-    TNT1 A 0 A_BeginWarriorAttack
+    /*
+     * Даём оружию один тик, чтобы выдать
+     * WarriorLungeActive.
+     */
+	TNT1 A 0 A_Jump(80,"Kick2")
+    GONS A 1
 
-    TNT1 A 0 A_Jump(120, "Kick2")
+    TNT1 A 0 A_JumpIfInventory(
+        "WarriorLungeActive",
+        1,
+        "Lunge"
+    )
+
+    TNT1 A 0 A_BeginWarriorAttack
     TNT1 A 0 A_PlaySound("EMPR")
 
     GON1 ABCDEFGHIJKLMNOPQR 1 Fast
-    GON1 S 1 Fast A_CustomMeleeAttack(57,"CSAWFLESH")
+    GON1 S 1 Fast A_CustomMeleeAttack(
+        57,
+        "CSAWFLESH"
+    )
 
     GON1 TUVWXYZ 1 Fast
     GN22 ABCDEFGHIJKLMN 1 Fast
 
     TNT1 A 0 A_FinishWarriorAttack
-
     Goto Spawn
-
+	
 Kick2:
-    TNT1 A 0 A_BeginWarriorAttack
+    GN22 N 1
 
+    TNT1 A 0 A_JumpIfInventory(
+        "WarriorLungeActive",
+        1,
+        "Lunge"
+    )
+
+    TNT1 A 0 A_BeginWarriorAttack
+    TNT1 A 0 A_PlaySound("EMPR")
+	
+	GN22 MLKJHIGFEDCBA 1 Fast
+	GON1 ZYXWVUT 1 Fast
+
+    GON1 S 1 Fast A_CustomMeleeAttack(
+        57,
+        "CSAWFLESH"
+    )
+	GON1 RQPONMLKJIHGFEDCBA 1 Fast
+
+    TNT1 A 0 A_FinishWarriorAttack
+    Goto Spawn	
+
+
+Lunge:
+    TNT1 A 0 A_BeginWarriorAttack
     TNT1 A 0 A_PlaySound("EMPR")
 
+    /*
+     * Специальная анимация суперудара.
+     * Само движение и урон выполняет LotrSword.
+     */
     GON4 ABCDEFGHIJKLMNOP 1 Fast
-    GON4 Q 1 Fast A_CustomMeleeAttack(57,"CSAWFLESH")
-
+    GON4 Q 1 Fast
     GON4 RSTUVWXYZ 1 Fast
     GNN4 ABCDEFGH 1 Fast
 
     TNT1 A 0 A_FinishWarriorAttack
-
     Goto Spawn
   Jump: 
         TNT1 A 0 A_GiveInventory("Jmp",1)
@@ -176,6 +223,9 @@ ACTOR LotrSword : Weapon replaces Chainsaw
   //+WEAPON.NOAUTOFIRE
   Obituary "$OB_MPCWEAPMACE"
   Tag "$TAG_CWEAPMACE"
+  Weapon.AmmoType2 "Clip"
+  Weapon.AmmoUse2 3
+  +WEAPON.NOAUTOFIRE
   
     DamageType PlayAtt
 
@@ -190,7 +240,7 @@ ACTOR LotrSword : Weapon replaces Chainsaw
   Ready:
     TNT1 A 1 A_WeaponReady
     Loop
-  Fire:
+Fire:
     TNT1 A 0 A_JumpIfInventory("Jmp2",1,"Ready")
 	TNT1 A 0 A_PlayWeaponSound("AxeSwing")
     MAAS A 11 Offset(60, 20)
@@ -201,6 +251,38 @@ ACTOR LotrSword : Weapon replaces Chainsaw
 	TNT1 A 23
     TNT1 A 1 Offset(8, 75) A_ReFire
     Goto Ready
+AltFire:
+    TNT1 A 0 A_JumpIfInventory("Clip", 3, "Lunge")
+    TNT1 A 8
+    Goto Ready
+
+Lunge:
+    TNT1 A 0 A_GiveInventory("WarriorLungeActive", 1)
+    TNT1 A 0 A_TakeInventory("Clip", 3)
+    TNT1 A 0 A_PlayWeaponSound("AxeSwing")
+
+    MAAS A 1 Offset(60, 20) A_Recoil(-3)
+    MAAS A 1 Offset(60, 20) A_Recoil(-3)
+    MAAS A 1 Offset(60, 20) A_Recoil(-3)
+
+    TNT1 A 0 A_CustomPunch(
+        45,
+        true,
+        0,
+        "BulletPuff",
+        80
+    )
+
+    MAAS A 1 Offset(60, 20) A_Recoil(-3)
+    MAAS A 1 Offset(60, 20) A_Recoil(-3)
+    MAAS A 1 Offset(60, 20) A_Recoil(-3)
+
+    MAAS A 5 Offset(60, 20)
+
+    TNT1 A 0 A_TakeInventory("WarriorLungeActive", 1)
+    TNT1 A 18
+    Goto Ready
+	
   }
 }
 

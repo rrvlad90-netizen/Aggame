@@ -178,8 +178,11 @@ class WarriorThirdPersonBase : PlayerPawn
 
         player.cmd.buttons &= ~BT_JUMP;
 
-        Vel.X = 0;
-        Vel.Y = 0;
+		if (CountInv("WarriorLungeActive") <= 0)
+		{
+			Vel.X = 0;
+			Vel.Y = 0;
+		}
     }
 
     void UpdateBodyDirection()
