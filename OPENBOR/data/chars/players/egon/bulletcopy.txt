@@ -1,0 +1,63 @@
+name	bullet
+speed        68
+type	     none
+shadow	     0
+#hostile      enemy
+candamage  	enemy
+
+
+anim	idle
+	loop	0
+	delay	1
+#	hitflash	flash2
+	offset	0 9
+#	attack	0 0 67 20 5 0 0 0 0 50 # 50 - radius ataki po z
+	attack	40 0 17 20 4 0 0 0 1
+	frame	data/chars/players/egon/buller.png
+	delay	5
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+	frame	data/chars/players/egon/bullnull.png
+		
+#|edited by openBor Stats v 0.51
+		

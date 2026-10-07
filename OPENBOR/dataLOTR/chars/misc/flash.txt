@@ -1,0 +1,15 @@
+# Hit flash
+
+name	Flash
+type	none
+shadow	0
+toflip 1
+
+palette data/chars/misc/att/att #1
+
+anim idle
+	loop	0
+	delay	4
+	offset	10 55
+	frame	data/chars/misc/att/att
+	frame	data/chars/misc/att/att

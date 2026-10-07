@@ -1,0 +1,749 @@
+music		data/music/LightingoftheBeacons.Ogg
+#bossmusic       data/music/ost.ogg
+palette		data/bgs/levels/bak2.png
+
+# Load images
+panel		data/bgs/levels/bak2.png #none none
+
+#background	data/bgs/levels/levelbg.PNG #0.9 0.9 10 10
+
+# Front layer
+#frontpanel	data/bgs/jungle/fg-01.gif
+#frontpanel	data/bgs/jungle/fg-01.gif
+#frontpanel	data/bgs/jungle/fg-02.gif
+#frontpanel	data/bgs/jungle/fg-01.gif
+#frontpanel	data/bgs/jungle/fg-02.gif
+
+# Load 'panels'. Up to 26 panels can be loaded.
+# They can be referenced using A-Z
+# Specify normal, neon and screen, or 'none'
+
+
+direction both
+
+settime 0
+notime  1
+
+scrollspeed 90
+#cameratype  1
+cameraoffset 20  -80
+
+spawn1  40 500
+
+# Set the order (don't make the lines too long)
+# Syntax:
+#	order	[a...z]		(a sequence of panels, e.g. abcdefghij)
+#	order	[a...z]
+#
+order aaaaaa
+
+# Spawn format:
+#
+#	spawn	[id]
+#	alias	[name]		(change the displayed name, optional)
+#	map	[num]		(colourmap, range 0-3, optional)
+#	health	[num]		(optional)
+#	item	[id]		(obstacles only: contained item, optional)
+#	boss	[0/1]		(see below, optional)
+#	flip	[0/1]		(0 = face left, 1 = face right, optional)
+#	coords	[num] [num]	(coords relative to scrollpos)
+#	at	[scrollpos]
+#
+# Also:
+#	wait			(blocks scrolling until all enemies defeated)
+#	at	[scrollpos]
+#
+# And:
+#	group	[min] [max]	(set minimum and maximum enemies, see below)
+#	at	[scrollpos]
+#
+#
+#
+# Using group, you may set two values, namely:
+#
+# [min]
+# If the number of enemies drops below [min], more enemies will be spawned
+# (if possible).
+#
+# [max]
+# No more than [max] enemies will be present.
+#
+# So, to make enemies appear in groups of four, use this:
+# group 1 4
+#
+# To make them appear normally, use this:
+# group 4 4
+
+#hole 1420 247 0 0 43 43 110 #5000
+
+Wall  -500 800  0  0  559 529  516  116
+Wall  -500 800  0  0  559 529  516  116
+
+############
+
+#spawn Go2 #floorupfrom0
+#health 1
+#coords 4000 243 340
+#flip 0
+#at 0
+
+############
+
+
+##spawn   wallblock
+##coords  47 500
+##at 	0
+
+#spawn   minee
+#coords  50 498
+#at 	0
+
+spawn   humanmainbuild
+item 	gamovr
+coords  400 500
+at 	0
+
+spawn   unitcreator
+coords  400 700
+at 	0
+
+
+
+#spawn   elfmagebuildplace
+#coords  1000 500
+#at 	0
+
+#spawn   workshopbuildplace
+#coords  1600 500
+#at 	0
+
+
+########################
+
+
+spawn   Gimli
+coords  517 500
+at 	0
+
+spawn   swordman
+coords  517 500
+at 	0
+
+spawn   swordman
+coords  517 520
+at 	0
+
+spawn   swordman
+coords  517 540
+at 	0
+
+spawn   swordman
+coords  517 560
+at 	0
+
+spawn   swordman
+coords  517 580
+at 	0
+
+spawn   swordman
+coords  517 600
+at 	0
+
+spawn   swordman
+coords  517 620
+at 	0
+
+spawn   swordman
+coords  517 640
+at 	0
+
+spawn   swordman
+coords  517 660
+at 	0
+
+spawn   swordman
+coords  517 680
+at 	0
+
+
+
+#########
+
+
+spawn   swordman
+coords  487 500
+at 	0
+
+spawn   swordman
+coords  487 520
+at 	0
+
+spawn   swordman
+coords  487 540
+at 	0
+
+spawn   swordman
+coords  487 560
+at 	0
+
+spawn   swordman
+coords  487 580
+at 	0
+
+spawn   swordman
+coords  487 600
+at 	0
+
+spawn   swordman
+coords  487 620
+at 	0
+
+spawn   swordman
+coords  487 640
+at 	0
+
+spawn   swordman
+coords  487 660
+at 	0
+
+spawn   swordman
+coords  487 680
+at 	0
+
+
+#########
+
+
+spawn   swordman
+coords  457 500
+at 	0
+
+spawn   swordman
+coords  457 520
+at 	0
+
+spawn   swordman
+coords  457 540
+at 	0
+
+spawn   swordman
+coords  457 560
+at 	0
+
+spawn   swordman
+coords  457 580
+at 	0
+
+spawn   swordman
+coords  457 600
+at 	0
+
+spawn   swordman
+coords  457 620
+at 	0
+
+spawn   swordman
+coords  457 640
+at 	0
+
+spawn   swordman
+coords  457 660
+at 	0
+
+spawn   swordman
+coords  457 680
+at 	0
+
+
+#########
+
+
+spawn   swordman
+coords  437 500
+at 	0
+
+spawn   swordman
+coords  437 520
+at 	0
+
+spawn   swordman
+coords  437 540
+at 	0
+
+spawn   swordman
+coords  437 560
+at 	0
+
+spawn   swordman
+coords  437 580
+at 	0
+
+spawn   swordman
+coords  437 600
+at 	0
+
+spawn   swordman
+coords  437 620
+at 	0
+
+spawn   swordman
+coords  437 640
+at 	0
+
+spawn   swordman
+coords  437 660
+at 	0
+
+spawn   swordman
+coords  437 680
+at 	0
+
+
+#########
+
+
+spawn   gondorarcher
+coords  397 500
+at 	0
+
+spawn   gondorarcher
+coords  397 520
+at 	0
+
+spawn   gondorarcher
+coords  397 540
+at 	0
+
+spawn   gondorarcher
+coords  397 560
+at 	0
+
+spawn   gondorarcher
+coords  397 580
+at 	0
+
+spawn   gondorarcher
+coords  397 600
+at 	0
+
+spawn   gondorarcher
+coords  397 620
+at 	0
+
+spawn   gondorarcher
+coords  397 640
+at 	0
+
+spawn   gondorarcher
+coords  397 660
+at 	0
+
+spawn   gondorarcher
+coords  397 680
+at 	0
+
+
+
+#spawn   humanmainbuild
+#item 	gamovr
+#coords  9500 500
+#at 	0
+
+
+
+########
+
+#spawn   humantower
+#coords  2000 500
+#at 	0
+
+#spawn   humantowerbuildplace
+#coords  2300 500
+#at 	0
+
+
+#spawn   humantowerbuildplace
+#coords  2600 500
+#at 	0
+
+########################
+
+
+
+spawn   trollstrat2
+coords  5850 560
+at 	0
+
+spawn   Fellbeast
+coords  6850 560
+at 	0
+
+spawn   Fellbeastwait
+coords  5850 620
+at 	0
+
+
+
+#spawn   catapult
+#coords  9700 500
+#at 	0
+
+
+
+#spawn   orctower
+#coords  9700 500
+#at 	0
+
+
+#spawn   orctower
+#coords  10100 500
+#at 	0
+
+
+#spawn   orctower
+#coords  10500 500
+#at 	0
+
+
+
+
+
+
+
+spawn   urukhaii
+coords  4287 500
+at 	0
+
+spawn   urukhaii
+coords  4287 520
+at 	0
+
+spawn   urukhaii
+coords  4287 540
+at 	0
+
+spawn   urukhaii
+coords  4287 560
+at 	0
+
+spawn   urukhaii
+coords  4287 580
+at 	0
+
+spawn   urukhaii
+coords  4287 600
+at 	0
+
+spawn   urukhaii
+coords  4287 620
+at 	0
+
+spawn   urukhaii
+coords  4287 640
+at 	0
+
+spawn   urukhaii
+coords  4287 660
+at 	0
+
+spawn   urukhaii
+coords  4287 680
+at 	0
+
+
+####
+
+spawn   urukhaii
+coords  4547 500
+at 	0
+
+spawn   urukhaii
+coords  4547 520
+at 	0
+
+spawn   urukhaii
+coords  4547 540
+at 	0
+
+spawn   urukhaii
+coords  4547 560
+at 	0
+
+spawn   urukhaii
+coords  4547 580
+at 	0
+
+spawn   urukhaii
+coords  4547 600
+at 	0
+
+spawn   urukhaii
+coords  4547 620
+at 	0
+
+spawn   urukhaii
+coords  4547 640
+at 	0
+
+spawn   urukhaii
+coords  4547 660
+at 	0
+
+spawn   urukhaii
+coords  4547 680
+at 	0
+
+####
+
+spawn   urukhaii
+coords  4527 500
+at 	0
+
+spawn   urukhaii
+coords  4527 520
+at 	0
+
+spawn   urukhaii
+coords  4527 540
+at 	0
+
+spawn   urukhaii
+coords  4527 560
+at 	0
+
+spawn   urukhaii
+coords  4527 580
+at 	0
+
+spawn   urukhaii
+coords  4527 600
+at 	0
+
+spawn   urukhaii
+coords  4527 620
+at 	0
+
+spawn   urukhaii
+coords  4527 640
+at 	0
+
+spawn   urukhaii
+coords  4527 660
+at 	0
+
+spawn   urukhaii
+coords  4527 680
+at 	0
+
+
+####
+
+spawn   urukhaii
+coords  4497 500
+at 	0
+
+spawn   urukhaii
+coords  4497 520
+at 	0
+
+spawn   urukhaii
+coords  4497 540
+at 	0
+
+spawn   urukhaii
+coords  4497 560
+at 	0
+
+spawn   urukhaii
+coords  4497 580
+at 	0
+
+spawn   urukhaii
+coords  4497 600
+at 	0
+
+spawn   urukhaii
+coords  4497 620
+at 	0
+
+spawn   urukhaii
+coords  4497 640
+at 	0
+
+spawn   urukhaii
+coords  4497 660
+at 	0
+
+spawn   urukhaii
+coords  4497 680
+at 	0
+
+
+
+
+
+############################
+
+
+####
+
+spawn   urukcrossbow
+coords  4797 500
+at 	0
+
+spawn   urukcrossbow
+coords  4797 520
+at 	0
+
+spawn   urukcrossbow
+coords  4797 540
+at 	0
+
+spawn   urukcrossbow
+coords  4797 560
+at 	0
+
+spawn   urukcrossbow
+coords  4797 580
+at 	0
+
+spawn   urukcrossbow
+coords  4797 600
+at 	0
+
+spawn   urukcrossbow
+coords  4797 620
+at 	0
+
+spawn   urukcrossbow
+coords  4797 640
+at 	0
+
+spawn   urukcrossbow
+coords  4797 660
+at 	0
+
+spawn   urukcrossbow
+coords  4797 680
+at 	0
+
+
+####
+
+spawn   urukcrossbow
+coords  4817 500
+at 	0
+
+spawn   urukcrossbow
+coords  4817 520
+at 	0
+
+spawn   urukcrossbow
+coords  4817 540
+at 	0
+
+spawn   urukcrossbow
+coords  4817 560
+at 	0
+
+spawn   urukcrossbow
+coords  4817 580
+at 	0
+
+spawn   urukcrossbow
+coords  4817 600
+at 	0
+
+spawn   urukcrossbow
+coords  4817 620
+at 	0
+
+spawn   urukcrossbow
+coords  4817 640
+at 	0
+
+spawn   urukcrossbow
+coords  4817 660
+at 	0
+
+spawn   urukcrossbow
+coords  4817 680
+at 	0
+
+
+####
+
+spawn   urukcrossbow
+coords  4847 500
+at 	0
+
+spawn   urukcrossbow
+coords  4847 520
+at 	0
+
+spawn   urukcrossbow
+coords  4847 540
+at 	0
+
+spawn   urukcrossbow
+coords  4847 560
+at 	0
+
+spawn   urukcrossbow
+coords  4847 580
+at 	0
+
+spawn   urukcrossbow
+coords  4847 600
+at 	0
+
+spawn   urukcrossbow
+coords  4847 620
+at 	0
+
+spawn   urukcrossbow
+coords  4847 640
+at 	0
+
+spawn   urukcrossbow
+coords  4847 660
+at 	0
+
+spawn   urukcrossbow
+coords  4847 680
+at 	0
+
+
+
+
+
+#############################
+
+#spawn  orcbestiary
+#coords  10850 500
+#at 	0
+
+
+#spawn  shamanbuild
+#coords  11300 500
+#at 	0
+
+
+spawn  orcmainbuild
+boss    1
+coords  11800 500
+at 	0
+
+
+
+##spawn   wallblock1
+##coords  11850 500
+##at 	0
+
+
+
+
+#--group2-----------
+
+#|edited by openBor Stats v 0.40
+

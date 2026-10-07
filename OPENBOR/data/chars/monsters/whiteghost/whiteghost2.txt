@@ -1,0 +1,213 @@
+name	Big_whiteghost
+health	480
+speed	19
+type	    enemy
+hostile player npc
+candamage player npc
+shadow	    1
+nolife 1
+noquake 1
+dust    dust
+bflash bflash
+cantgrab 1
+notgrab 1
+jumpheight   3
+antigravity 30
+risetime 1000
+nodieblink 1
+falldie 1
+aggression 1
+#icon	data/chars/monsters/whiteghost/icon.gif
+#icondie    data/chars/misc/icond.gif
+diesound data/sounds/gobdie.wav
+#aimove Avoidx
+#rate 0.75
+agression 90
+fmap 1
+
+nodrop 2
+
+#subject_to_hole 0
+#subject_to_obstacle 0
+#subject_to_platform 0
+#subject_to_wall 0
+
+palette data/chars/monsters/whiteghost/wh1
+
+load trapp
+
+#remap	   data/chars/monsters/whiteghost/idle00.gif data/chars/monsters/whiteghost/freeze.gif
+
+
+
+
+
+anim	attack1
+	range	0 250
+	loop	0
+	offset	88 148
+	bbox	78 81 39 32
+	drawmethod	scale 	1.6 1.6
+	delay	5
+	move 14
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh1
+	offset	88 148
+	move 12
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+	offset	88 148
+	move 12
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh3
+	offset	88 148
+	move 14
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+	offset	88 148
+	move 12
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh3
+	move 12
+	offset	88 148
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+	move 14
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh1
+	offset	88 148
+	move 12
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+	offset	88 148
+	move 14
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh3
+	offset	88 148
+	move 14
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+	offset	88 148
+	move 12
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh3
+	move 0
+	delay 10
+	offset	88 148
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+
+		
+
+anim	fall
+	loop	0
+	offset	88 148
+	bbox 0 0 0 0
+	drawmethod	scale 	1.6 1.6
+	delay	1
+	frame	data/chars/monsters/whiteghost/wh1
+
+anim	death
+	loop	0
+	offset	88 148
+	spawnframe 1     5 0 5 0
+	custentity trapp
+	bbox 0 0 0 0
+	drawmethod	scale 	1.6 1.6
+	delay	5
+	frame	data/chars/monsters/whiteghost/wh2
+	frame	data/chars/monsters/whiteghost/wh3
+	frame	data/chars/monsters/whiteghost/wh4
+	frame	data/chars/monsters/whiteghost/wh5
+	frame	data/chars/monsters/whiteghost/wh6
+	frame	data/chars/misc/empty.gif
+		
+anim	idle
+	loop	1
+	offset	88 148
+	bbox	78 81 39 32
+	drawmethod	scale 	1.6 1.6
+	delay	5
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh1
+	offset	88 148
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+	offset	88 148
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh1
+
+
+
+anim	pain1
+	loop	0
+	delay	8
+	drawmethod	scale 	1.6 1.6
+	offset	88 150
+	bbox	78 81 39 32
+	frame	data/chars/monsters/whiteghost/wh1
+		
+anim	pain2
+	loop	0
+	delay	8
+	drawmethod	scale 	1.6 1.6
+	offset	88 150
+	bbox	0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh1
+	offset	88 149
+
+	move -29
+	delay	7
+	attack	78 81 39 32 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh1
+	offset	88 148
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+	attack	78 81 39 32 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh1
+	offset	88 148
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+	attack	78 81 39 32 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh1
+	offset	88 148
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+	attack	78 81 39 32 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh1
+	offset	88 148
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+		
+anim	spawn
+	loop	0
+	offset	88 148
+	drawmethod	scale 	1.6 1.6
+	#jumpframe	0 2 2
+	#landframe	1
+	delay	99
+	frame	data/chars/monsters/whiteghost/wh1
+		
+anim	walk
+	loop	1
+	offset	88 148
+	drawmethod	scale 	1.6 1.6
+	bbox	78 81 39 32
+	delay	12
+	attack	78 81 39 32 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh1
+	offset	88 148
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh2
+
+anim	jump
+	loop	1
+	offset	88 148
+	drawmethod	scale 	1.6 1.6
+	bbox	78 81 39 32
+	delay	12
+	attack	78 81 39 32 5 0 0 0 0
+	frame	data/chars/monsters/whiteghost/wh1
+		
+#|edited by openBor Stats v 0.41
+		

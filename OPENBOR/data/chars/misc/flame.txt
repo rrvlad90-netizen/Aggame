@@ -1,0 +1,18 @@
+name	flame
+health	0
+type	item
+shadow	0
+icon	data/chars/misc/flame01.gif
+
+anim idle
+	loop	1
+	delay	5
+	offset	2000 70
+	frame	data/chars/misc/flame01.gif
+	frame	data/chars/misc/flame02.gif
+	frame	data/chars/misc/flame03.gif
+	frame	data/chars/misc/flame04.gif
+	frame	data/chars/misc/flame05.gif
+	frame	data/chars/misc/flame06.gif
+
+

@@ -1,0 +1,17 @@
+#	music		[path] [loop]		# BOR file to play
+#	animation	[path] [x] [y]		# GIF animation to play
+#	silence					# Stop music
+
+#	silence
+#music           data/music/REMIX.bor 0
+#animation	data/scenes/kara.gif 0 0
+#animation	data/scenes/introe.gif 0 0
+#animation	data/scenes/introc.gif 0 0
+#animation	data/scenes/introb.gif 0 0
+#animation	data/scenes/introa.gif 0 0
+#	music           data/music/INTROF.bor 0
+#animation	data/scenes/introf.gif 0 0
+#	animation	data/scenes/introb.gif 0 0
+#	animation	data/scenes/introc.gif 0 0
+#	animation	data/scenes/introd.gif 0 0
+

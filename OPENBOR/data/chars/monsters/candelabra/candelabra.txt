@@ -1,0 +1,105 @@
+name	candelabra
+health	50
+speed	3
+type   enemy
+nolife 1
+nopain 1
+nomove 1
+shadow  0
+noquake 1
+makeinv 4
+agression 90
+
+nodieblink 1
+facing 2
+
+
+death 1
+
+palette  data/chars/monsters/candelabra/candel1.png
+
+animationscript data/scripts/myanimmmmm.c
+
+
+anim spawn
+	loop	0
+        offset  20 130
+    	bbox    0 0 0 0
+        delay   1
+        frame   data/chars/monsters/candelabra/candel1.png
+
+
+anim idle
+        loop    1
+        offset  20 130
+    	bbox    0 0 0 0
+        delay   1
+	@cmd  goto_if_nearx
+        frame   data/chars/monsters/candelabra/candel1.png
+
+
+anim follow1
+        loop    0
+    	bbox    0 0 0 0
+	range 	40 50
+        delay   6
+        offset  20 130
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  22 130
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 130
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  18 130
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 130
+        frame   data/chars/monsters/candelabra/candel1.png
+        delay   5
+	attack3  0 0 39 26 1 0 0 0 5
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 120
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 110
+	attack3  0 0 39 26 1 0 0 0 5
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 100
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 90
+	attack3  0 0 39 26 1 0 0 0 5
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 80
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 70
+	attack3  0 0 39 26 1 0 0 0 5
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 60
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 50
+	attack3  0 0 39 26 1 0 0 0 5
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 40
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 30
+	attack3  0 0 39 26 1 0 0 0 5
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 20
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/monsters/candelabra/candel1.png
+        offset  20 10
+	attack3  0 0 39 26 1 0 0 0 5
+        frame   data/chars/monsters/candelabra/candel1.png
+        delay   9999
+        offset  6 0
+	attack3  0 0 0 0 0 0 0 0 0
+        frame   data/chars/monsters/candelabra/nn.png
+
+
+anim death
+         loop   0
+         delay  20
+         offset  6 0
+         frame  data/chars/monsters/candelabra/nn.png

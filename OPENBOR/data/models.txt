@@ -1,8 +1,4 @@
 
-
-#wallblock1 - sozdaet unitov dlya vraga v glavnom zdanii
-
-
 nolost 1
 versusdamage 0
 spdirection  1 1 1 1
@@ -14,179 +10,50 @@ maxattacks		20
 maxfreespecials		20
 
 # Required objects. These must always be loaded.
-
-load	wallblock	data/chars/wallblock/wallblock.txt
-load	wallblock1	data/chars/wallblock/wallblock1.txt
-
 load	Dust		data/chars/misc/dust.txt
 load	Flash		data/chars/misc/flash.txt
-load	empflash	data/chars/misc/empflash.txt
-
-load	trollhit	data/chars/enemies/thrower/trollhit.txt
-load	exphit		data/chars/enemies/thrower/exphit.txt
-load	exphit2		data/chars/enemies/thrower/exphit2.txt
-
-
-
-
-know	gamovr		data/branches/gamovr.txt
-
-
-load    jab       data/chars/turt/jab.txt
-load    jabb       data/chars/turt/jabb.txt
-load    jabb2       data/chars/turt/jabb2.txt
-load    stoneprj	data/chars/turt/stoneprj.txt
-load    pois1       data/chars/turt/pois1.txt
-load    pois2       data/chars/turt/pois2.txt
+load	Flash2	data/chars/misc/flash2.txt
+load	Flash3	data/chars/misc/flash3.txt
+load	Flash4	data/chars/misc/flash4.txt
+load	Flash6	data/chars/misc/flash6.txt
+load	Bflash	data/chars/misc/bflash.txt
+load	NoFlash		data/chars/misc/nflash.txt
+load	Freze		data/chars/misc/freze.txt
 
 # Players must also be loaded.
+load    Egon		data/chars/players/egon/egon.txt
+load	bullet		data/chars/players/egon/bullet.txt
+load	bullet2		data/chars/players/egon/bullet2.txt
 
-load 	Ryan	data/chars/players/Ryan/Ryan.txt
+# Enemies
+know    blueghost	data/chars/monsters/blueghost/blueghost.txt
+know	yellowghost	data/chars/monsters/yellowghost/yellowghost.txt
+know	whiteghost	data/chars/monsters/whiteghost/whiteghost.txt
+know	handg		data/chars/monsters/handg/handg.txt
 
-load 	Aragorn_	data/chars/aragorn/aragornplayer.txt
-load 	Gimli		data/chars/gimli/gimli.txt
-load 	Gimli_ 		data/chars/gimli/gimliplayer.txt
+know	Big_whiteghost	data/chars/monsters/whiteghost/whiteghost2.txt
 
-load 	Gondor		data/chars/enemies/swordman/Gondor.txt
+know    bossghost  	data/chars/monsters/bossghost/bossghost.txt
 
-load 	Orc2		data/chars/enemies/urukhai/orc2.txt
+know	tableg		data/chars/monsters/table/table.txt
 
-load 	unitcreator 	data/chars/enemies/buildings/unitcreator.txt
-
-load	Fellbeast	data/chars/enemies/Fellbeast/Fellbeast.txt
-load	FellBeastwait	data/chars/enemies/Fellbeast/FellBeastwait.txt
-load 	Knight		data/chars/enemies/Knight/Knight.txt
-
-load 	Swor		data/chars/enemies/swordman/swor.txt
-load 	Sword		data/chars/enemies/swordman/sword.txt
-load 	Swordm		data/chars/enemies/swordman/swordm.txt
-load 	Swordma		data/chars/enemies/swordman/swordma.txt
-load 	Swordman	data/chars/enemies/swordman/swordman.txt
-load 	Swordmann	data/chars/enemies/swordman/swordmann.txt
-load 	Swordmannn	data/chars/enemies/swordman/swordmannn.txt
-load 	Swordmannnn	data/chars/enemies/swordman/swordmannnn.txt
-load 	Swordman1	data/chars/enemies/swordman/swordman1.txt
-load 	Swordman2  	data/chars/enemies/swordman/swordman2.txt
-
-
-load	Sorceres	data/chars/enemies/sorceres/sorceres.txt
-load	Sorceres2	data/chars/enemies/sorceres/sorceres2.txt
-
-load 	mortilaball     data/chars/enemies/thrower/mortilaball.txt
+know	candelabra 	data/chars/monsters/candelabra/candelabra.txt
 
 
 
-load	faryball	data/chars/enemies/thrower/faryball.txt
-load	shamanball	data/chars/enemies/thrower/shamanball.txt
+# objects
+load    walll 		data/chars/misc/walll.txt
+load    ad		data/chars/misc/ad.txt
+load    ad2		data/chars/misc/ad2.txt
+load    ad3		data/chars/misc/ad3.txt
 
+load    rip1		data/chars/misc/rip1.txt
+load    rip2		data/chars/misc/rip2.txt
+load    rip3		data/chars/misc/rip3.txt
+load    rip4		data/chars/misc/rip4.txt
+load    rip5		data/chars/misc/rip5.txt
 
-load	arrowenemy	data/chars/enemies/thrower/arrowenemy.txt
-load	arrownpc	data/chars/enemies/thrower/arrownpc.txt
+load    tree1		data/chars/misc/tree1.txt
+load    tree2		data/chars/misc/tree2.txt
 
-
-load	catapultrock	data/chars/enemies/thrower/catapultrock.txt
-load	trollspearenemy data/chars/enemies/thrower/trollspearenemy.txt
-load	gondorattack    data/chars/enemies/thrower/gondorattack.txt
-load	orcattack	data/chars/enemies/thrower/orcattack.txt
-load	zadolbal	data/chars/enemies/thrower/zadolbal.txt
-
-###########
-load	gondorarcher	data/chars/enemies/gondorarcher/gondorarcher.txt
-load	arroww		data/chars/enemies/gondorarcher/arroww.txt
-
-
-load	urukcrossbow	data/chars/enemies/urukcross/urukcrossbow.txt
-load	arroww2		data/chars/enemies/urukcross/arroww2.txt
-	
-load	catapult	data/chars/enemies/catapult/catapult.txt
-
-
-load 	Grunt		data/chars/enemies/grunt/grunt.txt
-
-load 	Grunt2		data/chars/enemies/grunt/grunt2.txt
-load 	Grunt22		data/chars/enemies/grunt/grunt22.txt
-load 	Grunt222	data/chars/enemies/grunt/grunt222.txt
-load 	Grunt2222	data/chars/enemies/grunt/grunt2222.txt
-
-#beatemupUruk
-load 	urukdestoryer		data/chars/enemies/grunt/urukdestoryer.txt
-
-
-load 	ur		data/chars/enemies/urukhai/ur.txt
-load 	uru		data/chars/enemies/urukhai/uru.txt
-load 	uruk		data/chars/enemies/urukhai/uruk.txt
-load 	urukh		data/chars/enemies/urukhai/urukh.txt
-load 	urukha		data/chars/enemies/urukhai/urukha.txt
-load 	urukhai		data/chars/enemies/urukhai/urukhai.txt
-load 	urukhaii		data/chars/enemies/urukhai/urukhaii.txt
-load 	urukhaiii		data/chars/enemies/urukhai/urukhaiii.txt
-load 	urukhaiii2		data/chars/enemies/urukhai/urukhaiii2.txt
-load 	urukhaiii3		data/chars/enemies/urukhai/urukhaiii3.txt
-
-
-
-
-
-
-load 	trollwaitbeatemup data/chars/enemies/troll/trollwaitbeatemup.txt
-load 	trollstrat1	data/chars/enemies/troll/trollstrat1.txt
-load 	trollstrat2	data/chars/enemies/troll/trollstrat2.txt
-load 	trollstrat3	data/chars/enemies/troll/trollstrat3.txt
-
-
-load 	Nazgul		data/chars/nazgul/Nazgul.txt
-#load 	arrow		data/chars/orcarcher/arrow.txt
-
-load 	palatka1	data/chars/palatka/palatka1.txt
-load 	palatka11	data/chars/palatka/palatka11.txt
-
-load 	palatka2	data/chars/palatka/palatka2.txt
-load 	palatka3	data/chars/palatka/palatka3.txt
-load 	palatkaorc	data/chars/palatka/palatkaorc.txt
-
-
-
-
-
-load	Shaman		data/chars/enemies/shaman/Shaman.txt
-load	Shaman2		data/chars/enemies/shaman/Shaman2.txt
-
-
-#load    ent 		data/chars/enemies/ent/ent.txt
-
-
-load 	humanmainbuild data/chars/enemies/buildings/humanmainbuild.txt
-load 	humanmainbuild2 data/chars/enemies/buildings/humanmainbuild2.txt
-load 	humantower     data/chars/enemies/buildings/humantower.txt
-
-load    humantowerbuildplace data/chars/enemies/buildings/humantowerbuildplace.txt
-
-load	elfmagebuild data/chars/enemies/buildings/elfmagebuild.txt
-load	elfmagebuildplace data/chars/enemies/buildings/elfmagebuildplace.txt
-
-
-
-load	orcmainbuild   data/chars/enemies/buildings/orcmainbuild.txt
-load 	orctower       data/chars/enemies/buildings/orctower.txt
-
-
-load 	orcbestiary       data/chars/enemies/buildings/orcbestiary.txt
-load 	shamanbuild       data/chars/enemies/buildings/shamanbuild.txt
-
-
-#load 	minee 	       data/chars/enemies/buildings/minee.txt
-
-
-#load	playerdeath    data/chars/enemies/buildings/playerdeath.txt
-
-load	rock	data/chars/misc/rock.txt
-load	rock13	data/chars/misc/rock13.txt
-load	rock14	data/chars/misc/rock14.txt
-load	tree2	data/chars/misc/tree2.txt
-
-
-#items
-#know	item1	data/items/item1/item1.txt
-know	item2	data/items/item2/item2.txt
-know	1up	data/items/1up/1up.txt
-
+load	trapp		data/chars/players/egon/trapp.txt

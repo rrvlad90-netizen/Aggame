@@ -1,0 +1,15 @@
+name	icefr
+health	0
+type	item
+shadow	0
+icon	data/chars/misc/apple.gif
+
+anim idle
+	loop	1
+	delay	22
+	offset	0 242
+	frame	data/chars/misc/icefr1.gif
+	frame	data/chars/misc/icefr2.gif
+	frame	data/chars/misc/icefr3.gif
+
+

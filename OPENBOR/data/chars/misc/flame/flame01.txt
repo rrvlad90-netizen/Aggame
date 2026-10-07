@@ -1,0 +1,30 @@
+name	flame01
+health	0
+type	item
+shadow	0
+icon	data/chars/misc/flame/flame01.gif
+setlayer 1000
+
+palette data/chars/misc/flame/flame.gif #1
+
+anim idle
+	loop	1
+	delay	3
+	offset	1030 166
+	frame	data/chars/misc/flame/flame01.gif
+	delay	1
+	frame	data/chars/misc/empty.gif
+	delay	3
+	frame	data/chars/misc/flame/flame02.gif
+	delay	1
+	frame	data/chars/misc/empty.gif
+	delay	3
+	frame	data/chars/misc/flame/flame03.gif
+	delay	1
+	frame	data/chars/misc/empty.gif
+	delay	3
+	frame	data/chars/misc/flame/flame04.gif
+	delay	1
+	frame	data/chars/misc/empty.gif
+
+

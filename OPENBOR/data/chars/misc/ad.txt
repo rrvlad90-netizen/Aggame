@@ -1,0 +1,30 @@
+# Do not forget to name your character.
+# Health is optional.
+
+name	ad
+#health	1000
+type	obstacle
+shadow	0
+#icon	data/chars/misc/walll.gif
+palette data/chars/misc/walll.png
+diesound data/sounds/wood.wav
+
+
+anim idle
+	loop	1
+	delay	10
+	offset	190 35
+	#bbox	10 10 10 30
+	bbox	0 0 0 0
+	frame	data/chars/misc/walll.png
+	frame	data/chars/misc/walll.png
+	#frame	data/chars/misc/ad2.gif
+	#frame	data/chars/misc/ad3.gif
+	#frame	data/chars/misc/ad4.gif
+	#frame	data/chars/misc/ad5.gif
+	#frame	data/chars/misc/ad6.gif
+	#frame	data/chars/misc/ad7.gif
+anim fall
+	delay	1000
+	offset	39 133
+	frame	data/chars/misc/walll.png

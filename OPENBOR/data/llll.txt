@@ -1,0 +1,236 @@
+
+lbarsize  100 6
+mpbarsize 100 3
+timeloc   -100 -500 21 20 1
+p1life 21 15
+p1icon 3 6
+e1life 21 33
+e1icon 3 24
+timeloc 147 4 16 15 1
+p2life 193 15
+e2life 193 33
+p2icon 175 6
+e2icon 175 24
+
+
+set	Original
+custfade 100
+lives   3
+credits 30
+noshare 1
+musicoverlap 0
+continuescore 1
+typemp 0
+cansave 2
+#skipselect Tel'Erond Strongheart Crassus Deimos Lord_Tel'Arin
+select data/sel2.txt
+nosame 1
+hiscorebg 1
+completebg 1
+loadingbg 1 113 194 100 138 220 0
+#loadingbg2  113 194 100 138 220 0
+
+
+
+
+z 150 240 190
+file    data/levels/bg02_2.txt
+z          140 265 210
+file       data/levels/s23.txt
+z 110 225 190
+file    data/levels/OrcFort.txt
+scene    data/scenes/Mercion.txt
+z	160 232 160
+file	data/levels/night.txt
+scene    data/scenes/cut04.txt
+z 100 215 180
+file      data/levels/Bridge.txt
+z 100 190 160
+file    data/levels/bg03_1.txt
+scene    data/scenes/cut07.txt
+z 135 215 180
+file      data/levels/Caverns.txt
+z 145 215 160
+file	data/levels/Hydra.txt
+scene    data/scenes/cut19.txt
+scene    data/scenes/dial11.txt
+z 125 240 180
+file    data/levels/SC.txt
+z 125 240 180
+file    data/levels/Kelek.txt
+scene    data/scenes/KelekEnd.txt
+scene    data/scenes/Bronze.txt
+z       20 265 210
+file    data/levels/Sky.txt
+scene    data/scenes/cut12.txt
+z 165 250 190
+file    data/levels/bg03_2.txt
+scene    data/scenes/dial05.txt
+z 150 240 190
+file    data/levels/Bonus.txt
+z	160 232 160
+file	data/levels/night.txt
+scene    data/scenes/introh.txt
+scene    data/scenes/dial08.txt
+z 165 230 180
+file	data/levels/BG09_1.txt
+z 150 240 190
+file    data/levels/Town.txt
+z 165 290 180
+file	data/levels/DD.txt
+z          140 265 210
+file data/levels/stage2.txt
+z 90 245 190
+file    data/levels/Undead.txt
+z 165 290 380
+file	data/levels/Lich.txt
+z 110 190 120
+file    data/levels/bg22_2.txt
+scene    data/scenes/Danger.txt
+z	160 232 160
+file	data/levels/night.txt
+scene    data/scenes/cut20.txt
+#z	240	272
+#FILE	DATA/LEVELS/castle2.txt
+z 160 240
+file	data/levels/level8.txt
+z 195 240
+file	data/levels/Palace.txt
+
+#file    data/levels/guile2.txt
+#file	data/levels/cave.txt
+#z 300 303 360
+#minotaur
+scene	data/scenes/StrongEnding.txt
+scene	data/scenes/GoodEnding.txt
+end
+#-------------------------
+branch PathB
+z 250 250
+file    data/levels/dragtest.txt
+#scene	data/scenes/reddie.txt
+scene	data/scenes/WardukeEnding.txt
+scene	data/scenes/Ending.txt
+end
+
+
+
+
+
+
+
+
+set	Deimos_Lives
+custfade 100
+lives   3
+credits 30
+noshare 1
+musicoverlap 0
+continuescore 1
+typemp 0
+cansave 2
+#skipselect Tel'Erond Strongheart Crassus Deimos Lord_Tel'Arin
+hiscorebg 1
+completebg 1
+nosame 1
+loadingbg 1 113 194 100 138 220 0
+#loadingbg2  113 194 100 138 220 0
+ifcomplete 1
+select data/sel1.txt
+
+
+
+scene    data/scenes/Deimos1.txt
+#START WOODS OUTSIDE TOWN
+z	122 232 160
+file	data/levels/dd6.txt
+#TOWN
+z	140 232 160
+file	data/levels/dd1.txt
+z	105 232 160
+file	data/levels/dd5.txt
+z	114 604 160
+file	data/levels/slanty2.txt
+###z	160 232 160
+###file	data/levels/dd2.txt
+#BOAT
+z	170 232 160
+file	data/levels/ddboat.txt
+###z	122 232 160
+###file	data/levels/ddboat2.txt
+#WILDERNESS
+z	110 240 160
+file	data/levels/dd7.txt
+z	160 232 160
+file	data/levels/night.txt
+#UNDERGROUND CAVERN-RIVER
+z	130 195 160
+file	data/levels/ddraft.txt
+z	160 232 160
+file	data/levels/dd4.txt
+z 130 240
+file	data/levels/cave2.txt
+z	163 210 160
+file	data/levels/ddcave.txt
+#DUNGEON
+z	105 300 160
+file	data/levels/bkwtf.txt
+z          140 265 210
+file	data/levels/lv1b.txt
+scene    data/scenes/Deimos3.txt
+z	146 232 160
+file	data/levels/ddcastle.txt
+
+#WOODS
+z	85 235 160
+file	data/levels/ddhorse.txt
+#TO RIDE A JUGGERNAUT
+z	124 188 160
+file	data/levels/ddbeh.txt
+#SPOOKY WOODS
+z	140 232 160
+file	data/levels/dd3.txt
+z	160 232 160
+file	data/levels/shrubs.txt
+#SWAMP
+z	125 232 160
+file	data/levels/ddswamp.txt
+#AIRSHIP
+z	160 232 160
+file	data/levels/ddboat3.txt
+scene	data/scenes/17th.txt
+z	80 167 160
+file	data/levels/rdragon.txt
+#LICH TOWER
+z	160 232 160
+file	data/levels/ddice.txt
+z	115 295 160
+file	data/levels/bktower.txt
+z	120 176 160
+file	data/levels/ddplank.txt
+z	115 295 160
+file	data/levels/bktower2.txt
+z          167 250 210
+file	data/levels/Deimos.txt
+#END BATTLE
+z	170 240 160
+file	data/levels/maus.txt
+scene    data/scenes/Deimos2.txt
+scene	data/scenes/Ending.txt
+end
+
+
+
+
+#z 125 240 180
+#file    data/levels/KelekT.txt
+
+
+
+
+
+
+
+####################################
+
+

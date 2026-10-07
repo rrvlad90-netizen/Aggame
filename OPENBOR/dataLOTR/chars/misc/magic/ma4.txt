@@ -1,0 +1,61 @@
+name	ma4
+health	1
+nolife  1
+type	npc
+hostile enemy obstacle
+speed	15
+noquake 1
+falldie 1
+subtype flydie
+shadow	0
+remove 0
+
+palette data/chars/misc/magic/magic.gif #1
+
+anim idle
+#	attackone 1
+	loop	0
+	offset     195 128
+	bbox    	0 0 0 0
+	attack2  197 146 36 53 6 0
+	hitflash flash
+	delay	2
+	frame	data/chars/misc/magic/ma401.gif
+	frame	data/chars/misc/magic/ma402.gif
+	frame	data/chars/misc/magic/ma403.gif
+	frame	data/chars/misc/magic/ma404.gif
+	frame	data/chars/misc/magic/ma405.gif
+	frame	data/chars/misc/magic/ma406.gif
+	frame	data/chars/misc/magic/ma407.gif
+	frame	data/chars/misc/magic/ma408.gif
+	frame	data/chars/misc/magic/ma409.gif
+	frame	data/chars/misc/magic/ma410.gif
+	frame	data/chars/misc/magic/ma411.gif
+	frame	data/chars/misc/magic/ma412.gif
+	frame	data/chars/misc/magic/ma413.gif
+	frame	data/chars/misc/magic/ma414.gif
+	frame	data/chars/misc/magic/ma415.gif
+	frame	data/chars/misc/magic/ma416.gif
+	frame	data/chars/misc/magic/ma417.gif
+	attack2  0 0 0 0 0 0
+	bbox    	0 0 0 0
+	frame	data/chars/misc/empty.gif
+
+anim fall
+	loop	0
+	delay   2
+	offset	30 30
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/empty.gif
+
+anim death
+	loop	0
+	delay   2
+	offset	30 30
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/empty.gif
+
+
+

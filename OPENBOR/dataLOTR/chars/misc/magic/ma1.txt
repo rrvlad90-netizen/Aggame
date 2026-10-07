@@ -1,0 +1,57 @@
+name	ma1
+health	1
+nolife  1
+type	npc
+hostile enemy obstacle
+speed	15
+noquake 1
+falldie 1
+subtype flydie
+shadow	0
+
+palette data/chars/misc/magic/magic.gif #1
+
+anim idle
+#	attackone 1
+	loop	0
+	offset     195 128
+	bbox    	0 0 0 0
+	attack  209 147 32 52 6 0
+	hitflash ma1hit
+	delay	12
+	frame	data/chars/misc/magic/ma101.gif
+	delay	10
+	frame	data/chars/misc/magic/ma102.gif
+	delay	8
+	frame	data/chars/misc/magic/ma103.gif
+	delay	4
+	frame	data/chars/misc/magic/ma104.gif
+	delay	2
+	frame	data/chars/misc/magic/ma105.gif
+	frame	data/chars/misc/magic/ma106.gif
+	attack  0 0 0 0 0 0
+	bbox    	0 0 0 0
+	frame	data/chars/misc/empty.gif
+
+anim fall
+	loop	0
+	delay   2
+	offset	30 30
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/empty.gif
+
+anim death
+	loop	0
+	offset     225 198
+	bbox    	0 0 0 0
+	delay	4
+	frame	data/chars/misc/magic/ma107.gif
+	frame	data/chars/misc/magic/ma108.gif
+	frame	data/chars/misc/magic/ma109.gif
+	frame	data/chars/misc/magic/ma110.gif
+	frame	data/chars/misc/magic/ma111.gif
+	frame	data/chars/misc/magic/ma112.gif
+
+
+

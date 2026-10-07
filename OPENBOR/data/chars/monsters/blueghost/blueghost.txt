@@ -1,0 +1,210 @@
+name	blueghost
+health	360
+speed	21 #23
+type	    enemy
+hostile player npc
+candamage player npc
+shadow	    1
+nolife 1
+noquake 1
+dust    dust
+bflash bflash
+cantgrab 1
+notgrab 1
+jumpheight   3
+antigravity 30
+risetime 1000
+nodieblink 1
+falldie 1
+aggression 1
+aggression 90
+#icon	data/chars/monsters/blueghost/icon.gif
+#icondie    data/chars/misc/icond.gif
+diesound data/sounds/gobdie.wav
+fmap 1
+
+nodrop 2
+
+
+#subject_to_hole 0
+#subject_to_obstacle 0
+#subject_to_platform 0
+#subject_to_wall 0
+
+
+palette data/chars/monsters/blueghost/gh1
+
+#remap	   data/chars/monsters/blueghost/idle00.gif data/chars/monsters/blueghost/freeze.gif
+
+
+load trapp
+
+
+animationscript data/scripts/myanimmmmm.c
+
+		
+
+anim	fall
+	loop	0
+	offset	88 150
+	bbox 0 0 0 0
+	delay	1
+	frame	data/chars/monsters/blueghost/gh1
+
+anim	death
+	loop	0
+	offset	88 150
+	spawnframe 1     5 0 5 0
+	custentity trapp
+	bbox 0 0 0 0
+	delay	5
+	frame	data/chars/monsters/blueghost/gh2
+	frame	data/chars/monsters/blueghost/gh3
+	frame	data/chars/monsters/blueghost/gh4
+	frame	data/chars/monsters/blueghost/gh5
+	frame	data/chars/monsters/blueghost/gh6
+	frame	data/chars/monsters/blueghost/gh7
+	frame	data/chars/monsters/blueghost/gh8
+	frame	data/chars/misc/empty.gif
+		
+anim	idle
+	loop	1
+	offset	88 150
+	bbox	78 81 39 32
+	delay	5
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 148
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 150
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 148
+		
+anim	pain1
+	loop	0
+	delay	8
+	offset	88 150
+ 	@cmd randomscript
+#	bbox	78 81 39 32
+	bbox 	0 0 0 0
+	frame	data/chars/monsters/blueghost/gh1
+
+#	offset	88 150
+#	frame	data/chars/monsters/blueghost/gh2
+#	offset	88 150
+#	frame	data/chars/monsters/blueghost/gh3
+#	offset	88 150
+#	frame	data/chars/monsters/blueghost/gh2
+#	offset	98 154
+#	delay	23
+#	frame	data/chars/monsters/blueghost/gh1
+
+anim	pain2
+	loop	0
+	delay	8
+	offset	88 150
+	move -4
+	movez -3
+#	bbox	78 81 39 32
+	bbox	0 0 0 0
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh3
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 150
+
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh3
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 150
+
+
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh3
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	98 154
+
+	delay	23
+	frame	data/chars/monsters/blueghost/gh1
+
+anim	pain3
+	loop	0
+	delay	8
+	offset	88 150
+	move -4
+	movez 3
+#	bbox	78 81 39 32
+	bbox	0 0 0 0
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh3
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 150
+
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh3
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 150
+
+
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh3
+	offset	88 150
+	frame	data/chars/monsters/blueghost/gh2
+	offset	98 154
+	delay	23
+	frame	data/chars/monsters/blueghost/gh1
+		
+anim	spawn
+	loop	0
+	offset	88 150
+	#jumpframe	0 2 2
+	#landframe	1
+	delay	99
+	frame	data/chars/monsters/blueghost/gh1
+		
+anim	walk
+	loop	1
+	offset	88 150
+	bbox	78 81 39 32
+	delay	12
+	attack	78 81 39 32 5 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 148
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh2
+
+
+anim	jump
+	loop	0
+	offset	88 150
+	bbox	78 81 39 32
+	delay	12
+	attack	78 81 39 32 5 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh1
+		
+#|edited by openBor Stats v 0.41
+		

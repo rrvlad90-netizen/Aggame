@@ -1,0 +1,19 @@
+name	help
+health	0
+type	item
+shadow	0
+icon	data/chars/misc/empty.gif
+
+anim idle
+	loop	0
+	delay	5
+	offset	2000 70
+	sound   	data/sounds/help.wav
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/empty.gif
+
+

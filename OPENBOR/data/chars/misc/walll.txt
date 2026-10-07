@@ -1,0 +1,27 @@
+name	walll
+health  199
+type    obstacle
+shadow	0
+nolife  1
+falldie 1
+nodieblink 1
+
+
+palette data/chars/misc/walll.png #1
+
+
+anim	death
+	loop	0
+	offset	225 198
+	delay	1
+	frame	data/chars/misc/walll.png
+		
+anim	idle
+	loop	1
+	delay	15
+	#offset	0 0
+	bbox	0 0 229 29
+	frame	data/chars/misc/walll.png
+		
+#|edited by openBor Stats v 0.67
+		

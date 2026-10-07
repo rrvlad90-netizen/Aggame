@@ -1,0 +1,30 @@
+anim	attack2
+	fastattack 1
+	range	0 25
+	loop	0
+	delay	6
+        offset  74 154
+	bbox	62 98 30 55
+	sound	data/sounds/stand.wav
+	delay	6
+	frame	data/chars/players/egon/catch1
+	attack	108 58 79 80 340 0 0 0 0
+	frame	data/chars/players/egon/catch2
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/catch3
+	attack	108 58 79 80 340 0 0 0 0
+	frame	data/chars/players/egon/catch2
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/catch3
+	attack	108 58 79 80 340 0 0 0 0
+	frame	data/chars/players/egon/catch2
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/catch3
+	attack	108 58 79 80 340 0 0 0 0
+	frame	data/chars/players/egon/catch2
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/catch3
+	attack	108 58 79 80 340 0 0 0 0
+	frame	data/chars/players/egon/catch2
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/catch1

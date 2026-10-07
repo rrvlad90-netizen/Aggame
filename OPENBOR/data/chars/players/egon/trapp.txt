@@ -1,0 +1,37 @@
+name	trapp
+health  2
+type none
+speed
+shadow	0
+nolife  1
+falldie 1
+nodieblink 1
+#diesound  data/sounds/guard.wav
+
+#setlayer 4
+
+palette data/chars/players/egon/trap1.png
+
+anim idle
+	loop	0
+	delay	7
+	 offset     105 155
+	#bbox    207 170 41 28
+	frame	data/chars/players/egon/trap1.png
+	frame	data/chars/players/egon/trap2.png
+	frame	data/chars/players/egon/trap3.png
+	frame	data/chars/players/egon/trap2.png
+	frame	data/chars/players/egon/trap3.png
+	frame	data/chars/players/egon/trap2.png
+	frame	data/chars/players/egon/trap3.png
+	frame	data/chars/players/egon/trap2.png
+	frame	data/chars/players/egon/trap3.png
+	frame	data/chars/players/egon/trap1.png
+
+anim death
+	loop	0
+	 offset    105 155
+	delay	8
+	frame	data/chars/players/egon/trap1.png
+	
+

@@ -1,0 +1,25 @@
+anim	attack1
+	range	0 15
+	loop	0
+	offset	88 150
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 148
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh1
+	bbox	78 81 39 32
+	delay	4
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh1
+	offset	88 128
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 130
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh3
+	offset	88 128
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh2
+	offset	88 130
+	attack	72 78 30 55 5 0 0 0 0
+	frame	data/chars/monsters/blueghost/gh3

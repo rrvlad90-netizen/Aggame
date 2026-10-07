@@ -1,0 +1,157 @@
+name	tableg
+health	50
+speed	19
+nomove 1
+type	    enemy
+hostile player npc
+candamage player npc
+shadow	    1
+nolife 1
+noquake 1
+dust    dust
+bflash bflash
+cantgrab 1
+nopain 1
+notgrab 1
+#jumpheight   3
+antigravity 30
+risetime 1000
+nodieblink 1
+falldie 1
+aggression 1
+#icon	data/chars/monsters/table/icon.gif
+#icondie    data/chars/misc/icond.gif
+##diesound data/sounds/gobdie.wav
+#aimove Avoidx
+#rate 0.75
+agression 90
+fmap 1
+#facing 1
+
+nodrop 2
+
+#subject_to_hole 0
+#subject_to_obstacle 0
+#subject_to_platform 0
+#subject_to_wall 0
+
+
+palette data/chars/monsters/table/table1.png
+
+#remap	   data/chars/monsters/table/idle00.gif data/chars/monsters/table/freeze.gif
+
+
+load trapp
+
+
+anim	attack1
+	range	0 550
+	loop	0
+	offset	65 103
+	bbox	15 25 75 75
+	delay	5
+	move 14
+	attack	15 25 75 75 5 0 0 0 0
+	frame	data/chars/monsters/table/table1.png
+	move 12
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/table/table1.png
+	move 12
+	attack	15 25 75 75 5 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 14
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 12
+	attack	15 25 75 75 5 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 12
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 14
+	attack	15 25 75 75 5 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 12
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 14
+	attack	15 25 75 75 5 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 14
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 12
+	attack	15 25 75 75 5 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 0
+	delay 12
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 14
+	attack	15 25 75 75 5 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 14
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 12
+	attack	15 25 75 75 5 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	move 0
+	delay 12
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+
+		
+
+anim	fall
+	loop	0
+	offset	65 103
+	bbox 0 0 0 0
+	delay	1
+	frame	data/chars/monsters/table/table2.png
+
+anim	death
+	loop	0
+	offset	65 103
+#	spawnframe 1     5 0 5 0
+#	custentity trapp
+	bbox 0 0 0 0
+	delay	5
+	frame	data/chars/monsters/table/table3.png
+		
+anim	idle
+	loop	1
+	offset	65 90
+	bbox	15 25 75 75
+	delay	5
+	frame	data/chars/monsters/table/table1.png
+		
+anim	spawn
+	loop	0
+	offset	65 90
+	#jumpframe	0 2 2
+	#landframe	1
+	delay	1
+	frame	data/chars/monsters/table/table1.png
+		
+anim	walk
+	loop	1
+	offset	65 103
+	bbox	15 25 75 75
+	delay	12
+	attack	15 25 75 75 5 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+	attack	0 0 0 0 0 0 0 0 0
+	frame	data/chars/monsters/table/table2.png
+
+
+#anim	jump
+#	loop	1
+#	offset	88 148
+#	bbox	78 81 39 32
+#	delay	12
+#	attack	78 81 39 32 5 0 0 0 0
+#	frame	data/chars/monsters/table/wh1
+		
+#|edited by openBor Stats v 0.41
+		

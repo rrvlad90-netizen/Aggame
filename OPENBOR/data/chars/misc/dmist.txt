@@ -1,0 +1,21 @@
+name	dmist
+health	0
+type	item
+shadow	0
+icon	data/chars/misc/apple.gif
+palette	data/chars/misc/dmist.gif
+
+anim idle
+	loop	1
+	delay	3
+	move -1
+	offset	2000 70
+	frame	data/chars/misc/dmist.gif
+	move 0
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/dmist.gif
+	frame	data/chars/misc/empty.gif
+	frame	data/chars/misc/dmist.gif
+	frame	data/chars/misc/empty.gif
+
+

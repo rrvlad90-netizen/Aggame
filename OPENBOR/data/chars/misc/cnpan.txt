@@ -1,0 +1,24 @@
+name walll
+type obstacle
+health 1
+gfxshadow 1
+noatflash 1
+flash bflash
+noquake 1
+diesound data/sounds/klunk.wav
+bounce 1
+nolife 1
+jumpheight 3
+anim idle 
+	loop 1
+	offset 29 104
+	bbox 11 12 32 93 5
+	delay 1000
+	frame data/chars/misc/cnpan1
+anim fall
+	offset 29 104
+	bbox 0 0 0 0
+	delay 1000
+	landframe 1
+	frame data/chars/misc/cnpan1
+	frame data/chars/misc/cnpan1   

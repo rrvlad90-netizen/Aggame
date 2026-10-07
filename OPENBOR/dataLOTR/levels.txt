@@ -1,0 +1,83 @@
+
+lbarsize  100 6
+mpbarsize 100 3
+timeloc   -100 -500 21 20 1
+p1life 21 15
+p1icon 3 6
+e1life 21 33
+e1icon 3 24
+timeloc 147 4 16 15 1
+p2life 193 15
+e2life 193 33
+p2icon 175 6
+e2icon 175 24
+
+
+
+
+set	START
+custfade 100
+lives   3
+credits 15
+noshare 1
+musicoverlap 0
+continuescore 1
+typemp 0
+cansave 2
+#select data/sel2.txt
+nosame 1
+hiscorebg 1
+completebg 1
+loadingbg 1 113 194 100 138 220 0
+#loadingbg2  113 194 100 138 220 0
+skipselect
+
+
+select 	data/levels/dnd_land.txt
+
+z 549 3609 175
+file      data/levels/blevel1.txt
+
+
+
+set	Bonus_battle
+custfade 100
+lives   1
+credits 1
+noshare 1
+musicoverlap 0
+continuescore 1
+typemp 0
+cansave 2
+#select data/sel2.txt
+nosame 1
+hiscorebg 1
+completebg 1
+loadingbg 1 113 194 100 138 220 0
+#loadingbg2  113 194 100 138 220 0
+skipselect
+
+select 	data/levels/selectt.txt
+
+
+
+#scene      data/scenes/batl1.txt
+
+z  500 700
+file      data/levels/level1.txt
+
+#scene      data/scenes/batl1win.txt
+
+
+#---# BRANCHES
+#----------
+#branch	gamovr
+#noslowfx 1
+#nosame 1
+#noshare 1
+#maxplayers 4
+
+#scene      data/scenes/gameover.txt
+
+
+

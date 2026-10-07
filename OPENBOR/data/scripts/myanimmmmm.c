@@ -1,135 +1,69 @@
-void trollcounter()
+// data/scripts/animation.c
+void check_attack_hold()
 {
     void self = getlocalvar("self");
-    int now = openborvariant("elapsed_time");
-    int nextCounter = getentityvar(self, 0);
-    int roll = rand();
+    
+    // Получаем индекс игрока с помощью правильного свойства "playerindex"
+    int player = getentityproperty(self, "playerindex");
 
-    if(roll < 0)
+    // Проверяем, что сущностью действительно управляет игрок (индекс 0, 1, 2, 3)
+    if(player >= 0)
     {
-        roll = -roll;
-    }
+        // Получаем побитовую маску удерживаемых кнопок игрока
+        int hold_keys = getplayerproperty(player, "keys");
 
-    // Контратака доступна и сработал шанс 33%
-    if((nextCounter == NULL() || now >= nextCounter) && roll % 3 == 0)
-    {
-        setentityvar(self, 0, now + 600);
-        performattack(self, openborconstant("ANI_ATTACK2"));
-    }
-    else
-    {
-        makenopainfalse();
-        setidle(self, openborconstant("ANI_IDLE"));
+        // Проверяем, отпущена ли кнопка Атака 1 (битовое значение 1)
+        if(!(hold_keys & 1))
+        {
+            // Возвращаем персонажа в анимацию IDLE
+            executeanimation(self, openborconstant("ANI_IDLE"));
+        }
     }
 }
 
-void walkvariation()
+void keyshoot()
 {
+//int ingame = openborvariant("in_level");
+//if (!ingame) return;
+
     void self = getlocalvar("self");
-    int chance = rand();
+    int pIndex = getentityproperty(self, "playerindex");
+//    int keys = playerkeys(0, 0);
 
-    if(chance < 0)
-    {
-        chance = -chance;
-    }
+//    int KEY_UP = 1;
 
-    chance %= 100;
-
-    // Манёвр примерно в 30% циклов ходьбы
-    if(chance >= 30)
+    if(playerkeys(pIndex, 0, "movedown")&&playerkeys(pIndex, 0, "attack"))
     {
-        return;
+	performattack(self, openborconstant("ANI_DUCKATTACK"));
     }
-
-    float z = getentityproperty(self, "z");
-    float minZ = openborvariant("player_min_z");
-    float maxZ = openborvariant("player_max_z");
-
-    // Не позволяем уходить за края участка
-    if(z < minZ + 80)
+    if(playerkeys(pIndex, 0, "moveup")&&playerkeys(pIndex, 0, "attack"))
     {
-        performattack(self, openborconstant("ANI_FOLLOW2"));
+	performattack(self, openborconstant("ANI_FREESPECIAL1"));
     }
-    else if(z > maxZ - 80)
+    if(playerkeys(pIndex, 0, "attack"))
     {
-        performattack(self, openborconstant("ANI_FOLLOW1"));
-    }
-    else if(chance % 2 == 0)
-    {
-        performattack(self, openborconstant("ANI_FOLLOW1"));
-    }
-    else
-    {
-        performattack(self, openborconstant("ANI_FOLLOW2"));
+	performattack(self, openborconstant("ANI_ATTACK1"));
     }
 }
 
-void randomlongpain()
+
+
+void randomscript()
 {
-    void self = getlocalvar("self");
-    int chance = rand();
-
-    if(chance < 0)
-    {
-        chance = -chance;
-    }
-
-    if(chance % 5 == 0)
-    {
-        performattack(self, openborconstant("ANI_PAIN7"));
-    }
+        void self = getlocalvar("self");
+        int r = rand() % 3;
+            if (r == 0) 
+	    {
+                performattack(self, openborconstant("ANI_PAIN2")); //ANI_ATTACK2
+            } else if (r == 1) {
+                performattack(self, openborconstant("ANI_PAIN3"));
+            } 
+//else {
+//                performattack(self, openborconstant("ANI_PAIN2"));
+//            }
 }
 
-void setchase()
-{
-    void self = getlocalvar("self");
-    changeentityproperty(self, "aimove", 1);
-}
 
-void reposition()
-{
-    void self = getlocalvar("self");
-    int chance = rand();
-    int movement = rand();
-
-    if(chance < 0) chance = -chance;
-    if(movement < 0) movement = -movement;
-
-    chance %= 100;
-    movement %= 100;
-
-    // В 35% случаев остаёмся на месте
-    if(chance >= 65)
-    {
-        setidle(self, openborconstant("ANI_IDLE"));
-        return;
-    }
-
-    if(movement < 35)
-    {
-        performattack(self, openborconstant("ANI_FOLLOW1"));
-    }
-    else if(movement < 70)
-    {
-        performattack(self, openborconstant("ANI_FOLLOW2"));
-    }
-    else if(movement < 85)
-    {
-        performattack(self, openborconstant("ANI_FOLLOW3"));
-    }
-    else
-    {
-        performattack(self, openborconstant("ANI_FOLLOW4"));
-    }
-}
-
-void enableunitpushing()
-{
-    void self = getlocalvar("self");
-
-    changeentityproperty(self, "entitypushing", 1);
-    changeentityproperty(self, "pushingfactor", 0.6);
-}
 
 void rotateunit()
 {
@@ -157,104 +91,30 @@ void rotateunit()
     }
 }
 
-void randomscript()
-{
-        void self = getlocalvar("self");
-        int r = rand() % 3;
-            if (r == 0) 
-	    {
-                performattack(self, openborconstant("ANI_FOLLOW1"));
-            } else if (r == 1) {
-                performattack(self, openborconstant("ANI_FOLLOW2"));
-            } else {
-                performattack(self, openborconstant("ANI_FOLLOW3"));
-            }
-}
-
-
-
-void gotoidleifhealthlower(int hh)
+void keyupcheck()
 {
     void self = getlocalvar("self");
-    int myHealth = getentityproperty(self, "health");
+    int pIndex = getentityproperty(self, "playerindex");
 
-	if(myHealth<hh)
-	{
-            performattack(self, openborconstant("ANI_ATTACK2"));
-	}
+    if(playerkeys(pIndex, 0, "moveup"))
+    {
+	performattack(self, openborconstant("ANI_UP"));
+    }
+
 }
-
-
-void gotodeath()
-{
-    void self = getlocalvar("self");
-    int myHealth = getentityproperty(self, "health");
-
-	if(myHealth<1)
-	{
-            performattack(self, openborconstant("ANI_DIE"));
-	}
-}
-
-
-
-void decreasehealthh(int amount)
-{
-void self = getlocalvar("self"); // Get thing of object
-int curHealth = getentityproperty(self, "health");
-
-int newHealth = curHealth - amount;
-
-   changeentityproperty(self, "health", newHealth);
-}
-
-
-
-void makenomovetrue()
-{
-    void self = getlocalvar("self"); // Get thing of object
-
-   changeentityproperty(self, "speed", 0);
-}
-
-void makespeedunit(int V)
-{
-    void self = getlocalvar("self"); // Get thing of object
-
-   changeentityproperty(self, "speed", V);
-}
-
-
-void makenopaintrue()
-{
-    void self = getlocalvar("self"); // Get thing of object
-
-   changeentityproperty(self, "nopain", 1);
-}
-
-void makenopainfalse()
-{
-    void self = getlocalvar("self"); // Get thing of object
-
-   changeentityproperty(self, "nopain", 0);
-}
-
-
-
 
 void rotateleft()
 {
-    void self = getlocalvar("self"); // Get thing of object
-
-   changeentityproperty(self, "direction", 0);
+    void self = getlocalvar("self"); // Get thing of player
+    
+            changeentityproperty(self, "direction", 0); // Turn to left
 }
-
 
 void rotateright()
 {
-    void self = getlocalvar("self"); // Get thing of object
-
-   changeentityproperty(self, "direction", 1);
+    void self = getlocalvar("self"); // Get thing of player
+    
+            changeentityproperty(self, "direction", 1); // Turn to right
 }
 
 
@@ -419,93 +279,114 @@ void goto_if_nearx()
 	void target = findtarget(self);
 
     float distance_x = getentityproperty(self, "x") - getentityproperty(target, "x"); // Distance x between enemy and player
-    float distance_z = getentityproperty(self, "z") - getentityproperty(target, "z");
+    float distance_y = getentityproperty(self, "y") - getentityproperty(target, "y");
 
 
-    if (distance_x >= 0 && distance_x <= 180 ) // if close  //&& distance_x <= 1580 
+    if (distance_x >= -35 && distance_x <= 35 ) // if close 
     {
-		if (distance_z >= 1 && distance_z <= 10 ) //&& distance_z <= 1 
-        changeentityproperty(self, "animation", openborconstant("ANI_ATTACK1")); // Go to follow1 animation  (before it was be ANI_DIE - death animation)
+//		if (distance_y >= -35 && distance_y <= 35 )
+        changeentityproperty(self, "animation", openborconstant("ANI_FOLLOW1")); // Go to follow1 animation  (before it was be ANI_DIE - death animation)
     }
 }
 
 
-void goto_if_nearx_archer()
+void goto_if_near()
 {
     void self = getlocalvar("self"); //Thing->enemy
     //void player = getentityproperty(self, "opponent"); //Thing->player
 	void target = findtarget(self);
 
     float distance_x = getentityproperty(self, "x") - getentityproperty(target, "x"); // Distance x between enemy and player
-    float distance_z = getentityproperty(self, "z") - getentityproperty(target, "z");
+    float distance_y = getentityproperty(self, "y") - getentityproperty(target, "y");
 
 
-    if (distance_x >= 0 && distance_x <= 1180 ) // if close  //&& distance_x <= 1580 
+    if (distance_x >= -10 && distance_x <= 10 ) // if close 
     {
-		//if (distance_z >= 1 && distance_z <= 10 ) //&& distance_z <= 1 
-        changeentityproperty(self, "animation", openborconstant("ANI_ATTACK1")); // Go to follow1 animation  (before it was be ANI_DIE - death animation)
-    }
-   else 
-    {
-	changeentityproperty(self, "animation", openborconstant("ANI_FOLLOW1"));
+		if (distance_y >= -35 && distance_y <= 35 )
+        changeentityproperty(self, "animation", openborconstant("ANI_FOLLOW1")); // Go to follow1 animation  (before it was be ANI_DIE - death animation)
     }
 }
 
 
-void goto_if_nearx_archer2()
+void gotodeathanimation()
+{
+    void self = getlocalvar("self"); //Thing->
+
+       changeentityproperty(self, "animation", openborconstant("ANI_DIE")); // Go to death animation
+}
+
+
+void gotoanimation(void ani)
+{
+    void self = getlocalvar("self"); //Thing->
+
+       changeentityproperty(self, "animation", openborconstant(ani)); // Go to animation
+}
+
+
+
+void upppp(float howmuch)
+{
+  	void vSelf = getlocalvar("self"); //Get calling player
+        int iVx = getentityproperty(vSelf, "xdir");
+
+        changeentityproperty(vSelf, "velocity", iVx, 0, howmuch);
+}
+
+
+void leffft(float howmuch)
+{
+  	int iPlIndex = getlocalvar("self"); //Get calling player
+    	void vSelf = getplayerproperty(iPlIndex , "entity"); //Get calling entity
+	int iVy = getentityproperty(vSelf, "tossv");
+
+	changeentityproperty(vSelf, "velocity", 1, 0, iVy);
+}
+
+
+
+void goto_if_nearx_random()
 {
     void self = getlocalvar("self"); //Thing->enemy
     //void player = getentityproperty(self, "opponent"); //Thing->player
 	void target = findtarget(self);
 
     float distance_x = getentityproperty(self, "x") - getentityproperty(target, "x"); // Distance x between enemy and player
-    float distance_z = getentityproperty(self, "z") - getentityproperty(target, "z");
+    float distance_y = getentityproperty(self, "y") - getentityproperty(target, "y");
 
 
-    if (distance_x >= -1180 && distance_x <= 0 ) // if close  //&& distance_x <= 1580 
+    int r=rand()%10;
+    if (distance_x >= -335 && distance_x <= 335 ) // if close 
     {
-        changeentityproperty(self, "animation", openborconstant("ANI_ATTACK1")); // Go to follow1 animation  (before it was be ANI_DIE - death animation)
-    }
-   else 
-    {
-	changeentityproperty(self, "animation", openborconstant("ANI_FOLLOW1"));
+//		if (distance_y >= -35 && distance_y <= 35 )	
+    if (r>=5)
+	{
+        changeentityproperty(self, "animation", openborconstant("ANI_FREESPECIAL1"));
+	}
+	else
+	{
+ 	changeentityproperty(self, "animation", openborconstant("ANI_FREESPECIAL2"));
+	}
+
+ // Go to follow1 animation  (before it was be ANI_DIE - death animation)
     }
 }
 
 
-void goto_if_nearx_archer22()
+
+
+void goto_random()
 {
     void self = getlocalvar("self"); //Thing->enemy
-    //void player = getentityproperty(self, "opponent"); //Thing->player
-	void target = findtarget(self);
 
-    float distance_x = getentityproperty(self, "x") - getentityproperty(target, "x"); // Distance x between enemy and player
-    float distance_z = getentityproperty(self, "z") - getentityproperty(target, "z");
+  int r=rand()%1;
+    if (r>=1)
+	{
+        changeentityproperty(self, "animation", openborconstant("ANI_FREESPECIAL1"));
+	}
+	else
+	{
+ 	changeentityproperty(self, "animation", openborconstant("ANI_FREESPECIAL2"));
+	}
 
-
-    if (distance_x >= -1180 && distance_x <= 0 ) // if close  //&& distance_x <= 1580 
-    {
-        changeentityproperty(self, "animation", openborconstant("ANI_ATTACK1")); // Go to follow1 animation  (before it was be ANI_DIE - death animation)
-    }
-   else 
-    {
-	changeentityproperty(self, "animation", openborconstant("ANI_PAIN2"));
-    }
-}
-
-void spawn03(void vName, float fX, float fY, float fZ, int idirection)
-{
-
-	void vSpawn; //Spawn object.
-
-	clearspawnentry(); //Clear current spawn entry.
-      setspawnentry("name", vName); //Acquire spawn entity by name.
-
-	
-	vSpawn = spawn(); //Spawn in entity.
-
-	changeentityproperty(vSpawn, "position", fX, fZ, fY); //Set spawn location.
-	changeentityproperty(vSpawn, "direction", idirection); //Set direction.
-    
-	return vSpawn; //Return spawn.
 }

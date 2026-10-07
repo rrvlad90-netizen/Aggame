@@ -1,0 +1,21 @@
+name	Blastb
+health	1
+nolife  1
+type	enemy
+speed   12
+shadow	0
+
+anim idle
+	loop	1
+        delay   8
+	offset	6 45
+	burn	4 4 65 39 45 1 1
+        sound   data/chars/boss4/missile.wav
+        hitfx   data/sounds/xplode.wav
+	frame	data/chars/misc/blast1.gif
+        delay   8
+        frame	data/chars/misc/blast2.gif
+        delay   8
+        frame	data/chars/misc/blast1.gif
+        delay   8
+        frame	data/chars/misc/blast2.gif

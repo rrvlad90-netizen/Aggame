@@ -1,0 +1,17 @@
+name	wheel
+health	0
+type	item
+shadow	0
+icon	data/chars/misc/apple.gif
+
+anim idle
+	loop	1
+	delay	16
+	offset	0 244
+	frame	data/chars/misc/wheel1.gif
+	frame	data/chars/misc/wheel2.gif
+	frame	data/chars/misc/wheel3.gif
+	frame	data/chars/misc/wheel4.gif
+	frame	data/chars/misc/wheel5.gif
+
+

@@ -1,0 +1,148 @@
+name	Egon
+health	15
+speed	17
+running             24 4 2 1 1
+type    player
+shadow  2
+noquake 1
+makeinv 4
+nolife 1
+#diesound data/sounds/die1.wav
+#icon     data/chars/players/egon/icon.gif
+#holdblock 1
+
+palette  data/chars/players/egon/pal
+
+atchain  1 #2
+
+#fmap    1
+
+#remap   data/chars/players/egon/stand.gif data/chars/players/egon/fmap.gif
+
+
+#com  a d   	freespecial1
+#com  a a d 	freespecial1
+#com  a d d  	freespecial1
+#com  d a   	freespecial1
+#com  d d a  	freespecial1
+com  u u  	freespecial1
+
+#com  u a   	freespecial2
+#com  u u a   	freespecial2
+#com  a u   	freespecial2
+#com  a a u   	freespecial2
+#com  a u u   	freespecial2
+com  d d   	freespecial2
+
+anim idle
+        loop    1
+        offset  74 154
+        bbox    50 70 40 85
+        delay   2
+        frame   data/chars/players/egon/ak1
+
+anim walk
+        loop    1
+        delay   8
+        offset  74 154
+        bbox    50 70 40 85
+        frame   data/chars/players/egon/go/wk0
+        frame   data/chars/players/egon/go/wk1
+        frame   data/chars/players/egon/go/wk3
+        frame   data/chars/players/egon/go/wk5
+        frame   data/chars/players/egon/go/wk6
+
+
+anim	attack1
+	#range	0 25
+	loop	0
+	delay	6
+        offset  74 154
+	bbox	62 98 30 55
+	#jumpframe	1 2 2
+	#landframe	3
+	sound data/sounds/att.wav
+	delay	4
+#	attack1	82 71 160 112 1 0 0 0 0
+	attack1	82 71 160 112 20 0 0 0 0
+	frame	data/chars/players/egon/ff
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ff1
+	attack1	82 71 160 112 20 0 0 0 0 15
+	frame	data/chars/players/egon/ff2
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ff1
+	attack1	82 71 160 112 20 0 0 0 0 15
+	frame	data/chars/players/egon/ff
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ff1
+	attack1	82 71 160 112 20 0 0 0 0 15
+	frame	data/chars/players/egon/ff2
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ff1
+	attack1	82 71 160 112 20 0 0 0 0 15
+	frame	data/chars/players/egon/ff
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ff1
+	loop	0
+	delay	4
+        offset  74 154
+	bbox	62 98 30 55
+	#jumpframe	1 2 2
+	#landframe	3
+	#sound	data/sounds/stand.wav
+	delay	4
+	#attack1	82 71 160 112 340 0 0 0 0 15
+	attack1	82 71 160 112 40 0 0 0 0 15
+	frame	data/chars/players/egon/ff
+	attack2	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ff1
+
+
+#anim	attack2
+#	#range	0 25
+
+
+
+
+anim pain
+        loop    0
+        offset  74 154
+        bbox    0 0 0 0
+        delay   2
+        frame   data/chars/players/egon/ak1
+
+
+anim	freespecial1
+	#range	0 25
+	loop	0
+	delay	6
+        offset  74 154
+        bbox    50 70 40 85
+	#jumpframe	1 2 2
+	#landframe	3
+	##sound	data/sounds/stand.wav
+	delay	5
+	movez -6
+        frame   data/chars/players/egon/go/wk3
+        frame   data/chars/players/egon/go/wk3
+        frame   data/chars/players/egon/go/wk3
+        frame   data/chars/players/egon/go/wk3
+
+
+
+anim	freespecial2
+	loop	0
+	delay	6
+        offset  74 154
+        bbox    50 70 40 85
+	#jumpframe	1 2 2
+	#landframe	3
+	##sound	data/sounds/stand.wav
+	delay	5
+	movez 6
+        frame   data/chars/players/egon/go/wk3
+        frame   data/chars/players/egon/go/wk3
+        frame   data/chars/players/egon/go/wk3
+        frame   data/chars/players/egon/go/wk3
+

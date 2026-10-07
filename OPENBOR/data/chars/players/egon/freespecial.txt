@@ -1,0 +1,119 @@
+anim	freespecial1
+	#range	0 25
+	loop	0
+	delay	6
+        offset  109 110
+	bbox	88 24 40 88
+	#jumpframe	1 2 2
+	#landframe	3
+	sound	data/sounds/stand.wav
+	delay	5
+	attack1	88 24 40 88 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 87 1 0 0 0 #87 smeshebnnie vniz po osi z dly spawna
+	frame	data/chars/players/egon/ffd
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ffd1
+	attack1	88 24 40 88 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 87 1 0 0 0
+	frame	data/chars/players/egon/ffd2
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ffd1
+	attack1	88 24 40 88 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 87 1 0 0 0
+	frame	data/chars/players/egon/ffd
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ffd1
+	attack1	88 24 40 88 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 87 1 0 0 0
+	frame	data/chars/players/egon/ffd2
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ffd1
+	attack1	88 24 40 88 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 87 1 0 0 0
+	frame	data/chars/players/egon/ffd
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ffd1
+	attack1	88 24 40 88 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 87 1 0 0 0
+	frame	data/chars/players/egon/ffd2
+	delay	6
+        offset  109 110
+	bbox	88 24 40 88
+	#jumpframe	1 2 2
+	#landframe	3
+	sound	data/sounds/stand.wav
+	delay	5
+	attack1	0 0 0 0 0 0 0 0 0
+	@cmd	projectile 2 "bullet2" 62 87 1 0 0 0
+	frame	data/chars/players/egon/ffd
+	attack1	88 24 40 88 340 0 0 0 0
+	frame	data/chars/players/egon/ffd1
+	attack1	0 0 0 0 0 0 0 0 0
+	@cmd	projectile 2 "bullet2" 62 87 1 0 0 0
+	frame	data/chars/players/egon/ffd2
+	attack1	88 24 40 88 340 0 0 0 0
+	frame	data/chars/players/egon/ffd1
+	attack1	0 0 0 0 0 0 0 0 0
+	@cmd	projectile 2 "bullet2" 62 87 1 0 0 0
+	attack1	88 24 40 88 340 0 0 0 0
+	frame	data/chars/players/egon/ffd
+
+
+anim	freespecial2
+	loop	0
+	delay	6
+        offset  108 151
+	bbox	88 66 37 85
+	#jumpframe	1 2 2
+	#landframe	3
+	sound	data/sounds/stand.wav
+	delay	5
+	attack1	88 66 37 85 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40  #-87 smeshebnnie vverh po osi z dly spawna
+	frame	data/chars/players/egon/ffu
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ffu1
+	attack1	88 66 37 85 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40
+	frame	data/chars/players/egon/ffu2
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ffu1
+	attack1	88 66 37 85 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40
+	frame	data/chars/players/egon/ffu
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ffu1
+	attack1	88 66 37 85 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40
+	frame	data/chars/players/egon/ffu2
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ffu1
+	attack1	88 66 37 85 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40
+	frame	data/chars/players/egon/ffu
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ffu1
+	attack1	88 66 37 85 1 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40
+	frame	data/chars/players/egon/ffu2
+	delay	6
+        offset  108 151
+	bbox	88 66 37 85
+	#jumpframe	1 2 2
+	#landframe	3
+	sound	data/sounds/stand.wav
+	delay	5
+	attack1	0 0 0 0 0 0 0 0 0
+	@cmd	projectile 2 "bullet2" 62 -87 1 0 0 0 40
+	frame	data/chars/players/egon/ffu
+	attack1	88 66 37 85 340 0 0 0 0
+	frame	data/chars/players/egon/ffu1
+	attack1	0 0 0 0 0 0 0 0 0
+	@cmd	projectile 2 "bullet2" 62 -87 1 0 0 0 40
+	frame	data/chars/players/egon/ffu2
+	attack1	88 66 37 85 340 0 0 0 0
+	frame	data/chars/players/egon/ffu1
+	attack1	0 0 0 0 0 0 0 0 0
+	@cmd	projectile 2 "bullet2" 62 -87 1 0 0 0 40
+	attack1	88 66 37 85 340 0 0 0 0
+	frame	data/chars/players/egon/ffu

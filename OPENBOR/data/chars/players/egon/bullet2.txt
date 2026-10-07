@@ -1,0 +1,26 @@
+name	bullet2
+speed        0
+type	     none
+shadow	     0
+#hostile      enemy
+candamage  	enemy
+
+
+offscreenkill 500
+
+anim idle
+	loop	0
+	delay	6
+        offset  74 154
+	#jumpframe	1 2 2
+	#landframe	3
+	sound	data/sounds/stand.wav
+	delay	5
+	attack1	112 61 40 102 340 0 0 0 0 50  # 50 - sirina po osi z
+	frame	data/chars/players/egon/emptyf
+	attack1	0 0 0 0 0 0 0 0 0
+	move 1000
+	frame	data/chars/players/egon/emptyf
+		
+#|edited by openBor Stats v 0.51
+		

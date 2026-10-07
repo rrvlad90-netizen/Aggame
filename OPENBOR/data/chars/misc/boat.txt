@@ -1,0 +1,16 @@
+name	boat
+health	0
+type	item
+shadow	0
+icon	data/chars/misc/boat.gif
+setlayer 1000
+
+palette data/chars/misc/boat.gif #1
+
+anim idle
+	loop	1
+	delay	100
+	offset	1952 182
+	frame	data/chars/misc/boat.gif
+
+

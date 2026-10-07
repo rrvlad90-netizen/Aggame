@@ -1,0 +1,134 @@
+name	handg
+health	65
+speed	22
+type	    enemy
+hostile player npc
+candamage player npc
+shadow	    1
+nolife 1
+noquake 1
+dust    dust
+bflash bflash
+cantgrab 1
+notgrab 1
+#jumpheight   3
+antigravity 30
+risetime 1000
+nodieblink 1
+falldie 1
+aggression 90
+#icon	data/chars/monsters/handg/icon.gif
+#icondie    data/chars/misc/icond.gif
+##diesound data/sounds/gobdie.wav
+fmap 1
+
+nodrop 2
+
+
+subject_to_hole 0
+subject_to_obstacle 0
+subject_to_platform 0
+subject_to_wall 0
+
+
+palette data/chars/monsters/handg/handg.png
+
+#remap	   data/chars/monsters/handg/idle00.gif data/chars/monsters/handg/freeze.gif
+
+
+load trapp
+
+
+
+anim	attack1
+	range	0 550
+	loop	0
+	drawmethod	scale 	0.82 0.82
+	offset	80 146
+	bbox 	14 0 96 144
+	delay	4
+	move 15
+	attack	14 0 96 144 5 0 0 0 0
+	frame	data/chars/monsters/handg/handg.png
+	frame	data/chars/monsters/handg/handg.png
+	frame	data/chars/monsters/handg/handg.png
+	frame	data/chars/monsters/handg/handg.png
+	frame	data/chars/monsters/handg/handg.png
+	frame	data/chars/monsters/handg/handg.png
+	frame	data/chars/monsters/handg/handg.png
+	frame	data/chars/monsters/handg/handg.png
+	frame	data/chars/monsters/handg/handg.png
+	frame	data/chars/monsters/handg/handg.png
+		
+
+anim	fall
+	loop	0
+	drawmethod	scale 	0.82 0.82
+	offset	80 146
+	bbox 	14 0 96 144
+	delay	1
+	frame	data/chars/monsters/handg/handg.png
+
+anim	death
+	loop	0
+	drawmethod	scale 	0.82 0.82
+	offset	80 146
+	spawnframe 1     5 0 5 0
+	custentity trapp
+	bbox 0 0 0 0
+	delay	5
+	frame	data/chars/monsters/handg/handg.png
+	drawmethod	scale 	0.72 0.72
+	frame	data/chars/monsters/handg/handg.png
+	drawmethod	scale 	0.62 0.62
+	frame	data/chars/monsters/handg/handg.png
+	drawmethod	scale 	0.52 0.52
+	frame	data/chars/monsters/handg/handg.png
+	drawmethod	scale 	0.42 0.42
+	frame	data/chars/monsters/handg/handg.png
+	drawmethod	scale 	0.32 0.32
+	frame	data/chars/monsters/handg/handg.png
+	drawmethod	scale 	0.22 0.22
+	frame	data/chars/monsters/handg/handg.png
+	drawmethod	scale 	0.12 0.12
+	frame	data/chars/monsters/handg/handg.png
+	frame	data/chars/misc/empty.gif
+		
+anim	idle
+	loop	1
+	drawmethod	scale 	0.82 0.82
+	offset	80 146
+	bbox 	14 0 96 144
+	delay	5
+	attack	14 0 96 144 5 0 0 0 0
+	frame	data/chars/monsters/handg/handg.png
+		
+anim	pain1
+	loop	0
+	drawmethod	scale 	0.82 0.82
+	delay	8
+	offset	80 146
+	bbox 	14 0 96 144
+	frame	data/chars/monsters/handg/handg.png
+		
+anim	spawn
+	loop	0
+	drawmethod	scale 	0.82 0.82
+	offset	80 146
+	#jumpframe	0 2 2
+	#landframe	1
+	delay	10
+	frame	data/chars/monsters/handg/handg.png
+		
+anim	walk
+	loop	1
+	drawmethod	scale 	0.82 0.82
+	offset	80 146
+	bbox 	14 0 96 144
+	delay	12
+	attack	14 0 96 144 5 0 0 0 0
+	frame	data/chars/monsters/handg/handg.png
+
+		
+#|edited by openBor Stats v 0.41
+		

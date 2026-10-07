@@ -1,0 +1,76 @@
+# Do not forget to name your character.
+# Health is optional.
+
+name	horse3
+type    item
+subtype	weapon
+weapnum 5
+counter 3
+typeshot 0
+shadow	3
+speed  15
+jumpheight 2
+icon	data/chars/misc/horicon.gif
+weaploss	2
+counter	1
+palette	data/chars/misc/horse1.gif
+
+
+anim idle
+	loop	0
+	delay	100
+	offset  186 207
+	bbox 	147 100 100 100
+	frame	data/chars/misc/horse1.gif
+
+anim walk
+	loop	1
+	delay	7
+	offset  186 207
+	bbox 	147 100 100 100
+	frame	data/chars/misc/horse1.gif
+	frame	data/chars/misc/horse2.gif
+	frame	data/chars/misc/horse3.gif
+	frame	data/chars/misc/horse4.gif
+	frame	data/chars/misc/horse5.gif
+	frame	data/chars/misc/horse6.gif
+
+
+
+
+anim run
+	loop	1
+	delay	7
+	offset  186 207
+	bbox 	147 100 100 100
+	frame	data/chars/misc/horse1.gif
+	frame	data/chars/misc/horse2.gif
+	frame	data/chars/misc/horse3.gif
+	frame	data/chars/misc/horse4.gif
+	frame	data/chars/misc/horse5.gif
+	frame	data/chars/misc/horse6.gif
+
+
+
+anim attack1
+	loop	0
+	delay	100
+	offset  186 207
+	bbox 	147 100 100 100
+	frame	data/chars/misc/horse1.gif
+
+
+anim attack2
+	loop	0
+	delay	100
+	offset  186 207
+	bbox 	147 100 100 100
+	frame	data/chars/misc/horse1.gif
+
+
+anim fall
+	loop	0
+	delay	100
+	offset  186 207
+	bbox 	147 100 100 100
+	frame	data/chars/misc/horse1.gif
