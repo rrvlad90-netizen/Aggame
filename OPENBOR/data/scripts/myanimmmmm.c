@@ -1,23 +1,67 @@
-// data/scripts/animation.c
 void check_attack_hold()
 {
     void self = getlocalvar("self");
-    
-    // Получаем индекс игрока с помощью правильного свойства "playerindex"
-    int player = getentityproperty(self, "playerindex");
 
-    // Проверяем, что сущностью действительно управляет игрок (индекс 0, 1, 2, 3)
-    if(player >= 0)
+    int player;
+    int current_animation;
+    int direction;
+    int forward;
+    int target_animation;
+
+    player = getentityproperty(self, "playerindex");
+
+    if(player < 0)
     {
-        // Получаем побитовую маску удерживаемых кнопок игрока
-        int hold_keys = getplayerproperty(player, "keys");
+        return;
+    }
 
-        // Проверяем, отпущена ли кнопка Атака 1 (битовое значение 1)
-        if(!(hold_keys & 1))
+    // Штатно возвращаем управление игроку.
+    if(!playerkeys(player, 0, "attack"))
+    {
+        setidle(self, openborconstant("ANI_IDLE"));
+        return;
+    }
+
+    current_animation = getentityproperty(self, "animationid");
+    direction = getentityproperty(self, "direction");
+
+    if(direction == 0)
+    {
+        forward = playerkeys(player, 0, "moveleft");
+    }
+    else
+    {
+        forward = playerkeys(player, 0, "moveright");
+    }
+
+    target_animation = openborconstant("ANI_ATTACK1");
+
+    if(playerkeys(player, 0, "moveup"))
+    {
+        if(forward)
         {
-            // Возвращаем персонажа в анимацию IDLE
-            executeanimation(self, openborconstant("ANI_IDLE"));
+            target_animation = openborconstant("ANI_FREESPECIAL4");
         }
+        else
+        {
+            target_animation = openborconstant("ANI_FREESPECIAL2");
+        }
+    }
+    else if(playerkeys(player, 0, "movedown"))
+    {
+        if(forward)
+        {
+            target_animation = openborconstant("ANI_FREESPECIAL3");
+        }
+        else
+        {
+            target_animation = openborconstant("ANI_FREESPECIAL1");
+        }
+    }
+
+    if(current_animation != target_animation)
+    {
+        performattack(self, target_animation);
     }
 }
 

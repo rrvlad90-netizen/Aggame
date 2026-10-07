@@ -1,0 +1,2858 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OpenBOR Box Editor</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#202124;color:#ddd;font:14px Arial}
+button,input,select,textarea{color:#eee;background:#35363a;border:1px solid #666;border-radius:4px;padding:6px}
+button{cursor:pointer}button:hover{background:#4a4b50}
+input[type=number]{width:72px}
+input[type=file],select,textarea{width:100%}
+textarea{height:48px;font:13px monospace;resize:vertical}
+aside{position:fixed;right:0;top:0;bottom:0;width:430px;overflow:auto;padding:14px;background:#292a2d}
+.panel{padding:10px;margin:9px 0;background:#222326;border:1px solid #555;border-radius:5px}
+.row{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:7px 0}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.grid label{font-size:12px;color:#aaa}.grid input{display:block;width:100%;margin-top:3px}
+.info{color:#aaa;line-height:1.4}.ok{color:#75db8e}.blue{color:#55aaff}.red{color:#ff6565}
+h2,h3{margin:0 0 9px}
+#background{position:fixed;inset:0 430px 0 0;background:#777}
+#preview{position:fixed;z-index:20;left:25px;top:25px;width:650px;background:#1c1d20;border:2px solid #444;border-radius:7px;box-shadow:0 10px 40px #000a}
+#bar{display:flex;gap:7px;align-items:center;padding:7px;background:#292a2d;cursor:move}
+#bar b{flex:1}
+#view{position:relative;width:646px;height:500px;background:#00a800;overflow:hidden}
+#canvas{display:block;width:100%;height:100%;image-rendering:pixelated;touch-action:none}
+#hud{position:absolute;left:6px;top:6px;padding:5px;background:#000a;font:12px/1.4 monospace;white-space:pre;pointer-events:none}
+#legend{position:absolute;right:6px;top:6px;padding:5px;background:#000a;pointer-events:none}
+#resize{position:absolute;right:0;bottom:0;width:18px;height:18px;cursor:nwse-resize;background:#aaa}
+#footer{display:flex;gap:10px;align-items:center;padding:7px;background:#292a2d}
+#frameRange{width:100%}
+</style>
+</head>
+<body>
+
+<div id="background"></div>
+
+<aside>
+<h2>OpenBOR Box Editor</h2>
+
+<div class="panel">
+  <h3>1. TXT персонажа</h3>
+  <input id="txtFile" type="file" accept=".txt">
+  <div id="txtInfo" class="info">Файл не загружен</div>
+</div>
+
+<div class="panel">
+  <h3>2. PNG-кадры</h3>
+  <input id="pngFiles" type="file" accept="image/png" multiple>
+  <div id="pngInfo" class="info">Кадры не загружены</div>
+</div>
+
+<div class="panel">
+  <h3>3. Анимация</h3>
+  <select id="anim"></select>
+  <input id="frameRange" type="range" min="0" max="0" value="0">
+
+  <div class="row">
+    <button id="prev">◀ Шаг</button>
+    <button id="play">▶ Пуск</button>
+    <button id="next">Шаг ▶</button>
+  </div>
+
+  <div id="frameInfo" class="info">—</div>
+</div>
+
+<div class="panel">
+  <h3 class="blue">4. BBox</h3>
+  <label><input id="be" type="checkbox"> Включён</label>
+
+  <div class="grid">
+    <label>X<input id="bx" type="number"></label>
+    <label>Y<input id="by" type="number"></label>
+    <label>Ширина<input id="bw" type="number"></label>
+    <label>Высота<input id="bh" type="number"></label>
+  </div>
+
+  <div class="row">
+    <label>Z <input id="bz" type="number"></label>
+    <button id="applyB">Применить</button>
+    <button id="chooseB">Выбрать синюю</button>
+  </div>
+</div>
+
+<div class="panel">
+  <h3 class="red">5. Hitbox</h3>
+  <label><input id="ae" type="checkbox"> Включён</label>
+
+  <div class="grid">
+    <label>X<input id="ax" type="number"></label>
+    <label>Y<input id="ay" type="number"></label>
+    <label>Ширина<input id="aw" type="number"></label>
+    <label>Высота<input id="ah" type="number"></label>
+  </div>
+
+  <div class="row">
+    <label>Тип <input id="atype" value="attack" style="width:80px"></label>
+    <button id="applyA">Применить</button>
+    <button id="chooseA">Выбрать красную</button>
+  </div>
+
+  <label>
+    Остальные параметры
+    <input id="atail" value="23 0 0 0 21 15" style="width:100%">
+  </label>
+</div>
+
+<div class="panel">
+  <h3>6. Offset</h3>
+  <div class="row">
+    <label>X <input id="ox" type="number"></label>
+    <label>Y <input id="oy" type="number"></label>
+    <button id="applyO">Применить</button>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>7. Готовые строки</h3>
+
+  <textarea id="bout" readonly></textarea>
+  <button id="copyB">Копировать BBox</button>
+
+  <br><br>
+
+  <textarea id="aout" readonly></textarea>
+
+  <div class="row">
+    <button id="copyA">Копировать Hitbox</button>
+    <button id="copyAll">Копировать обе</button>
+  </div>
+
+  <div id="status" class="info"></div>
+</div>
+</aside>
+
+<div id="preview">
+  <div id="bar">
+    <b>Предпросмотр</b>
+    <button id="center">Обновить</button>
+  </div>
+
+  <div id="view">
+    <canvas id="canvas"></canvas>
+    <div id="hud">—</div>
+
+    <div id="legend">
+      <span class="blue">■ BBox</span><br>
+      <span class="red">■ Hitbox</span>
+    </div>
+
+    <div id="resize"></div>
+  </div>
+
+  <div id="footer">
+    Масштаб просмотра
+    <input id="zoom" type="range" min="1" max="6" step=".25" value="2">
+    <span id="zoomText">×2</span>
+  </div>
+</div>
+
+<script>
+const $ = selector => document.querySelector(selector);
+
+const state = {
+  animations: [],
+  animation: 0,
+  frame: 0,
+  images: new Map(),
+  zoom: 2,
+  selected: "bbox",
+  playing: false,
+  timer: null
+};
+
+const canvas = $("#canvas");
+const ctx = canvas.getContext("2d");
+const view = $("#view");
+
+function imageKey(path) {
+  return path
+    .replace(/\\/g,"/")
+    .split("/")
+    .pop()
+    .replace(/\.[^.]+$/,"")
+    .toLowerCase();
+}
+
+function removeComment(line) {
+  let quoted = false;
+
+  for (let i = 0; i < line.length; i++) {
+    if (line[i] === '"') quoted = !quoted;
+    if (line[i] === "#" && !quoted) return line.slice(0,i);
+  }
+
+  return line;
+}
+
+function currentAnimation() {
+  return state.animations[state.animation] || null;
+}
+
+function currentFrame() {
+  return currentAnimation()?.frames[state.frame] || null;
+}
+
+function currentImage() {
+  const frame = currentFrame();
+  return frame ? state.images.get(frame.key) : null;
+}
+
+function parseModel(text) {
+  const animations = [];
+  let animation = null;
+
+  let active = {
+    delay:10,
+    ox:0,
+    oy:0,
+    sx:1,
+    sy:1,
+    bbox:null,
+    attack:null
+  };
+
+  const lines = text.replace(/\r\n?/g,"\n").split("\n");
+
+  for (const originalLine of lines) {
+    const line = removeComment(originalLine).trim();
+    if (!line) continue;
+
+    const p = line.split(/\s+/);
+    const command = p[0].toLowerCase();
+
+    if (command === "anim" && p[1]) {
+      animation = {
+        name:p.slice(1).join(" "),
+        loop:false,
+        frames:[]
+      };
+
+      animations.push(animation);
+
+      active = {
+        delay:10,
+        ox:0,
+        oy:0,
+        sx:1,
+        sy:1,
+        bbox:null,
+        attack:null
+      };
+
+      continue;
+    }
+
+    if (!animation) continue;
+
+    if (command === "loop") {
+      animation.loop = Number(p[1]) !== 0;
+    }
+
+    if (command === "delay") {
+      active.delay = Math.max(1,Number(p[1]) || 1);
+    }
+
+    if (command === "offset") {
+      active.ox = Number(p[1]) || 0;
+      active.oy = Number(p[2]) || 0;
+    }
+
+    /*
+     * drawmethod сохраняется в текущем состоянии.
+     * Значение применяется ко всем последующим frame,
+     * пока не встретится новый drawmethod.
+     */
+    if (command === "drawmethod") {
+      const mode = p[1]?.toLowerCase();
+
+      if (mode === "scale") {
+        const scaleX = Number(p[2]);
+        const scaleY = Number(p[3]);
+
+        active.sx = Number.isFinite(scaleX)
+          ? scaleX
+          : 1;
+
+        active.sy = Number.isFinite(scaleY)
+          ? scaleY
+          : active.sx;
+      }
+
+      if (mode === "scalex") {
+        const value = Number(p[2]);
+        if (Number.isFinite(value)) active.sx = value;
+      }
+
+      if (mode === "scaley") {
+        const value = Number(p[2]);
+        if (Number.isFinite(value)) active.sy = value;
+      }
+    }
+
+    if (command === "bbox") {
+      const disabled =
+        p[1]?.toLowerCase() === "none" ||
+        Number(p[3]) <= 0 ||
+        Number(p[4]) <= 0;
+
+      active.bbox = disabled
+        ? null
+        : {
+            x:Number(p[1]) || 0,
+            y:Number(p[2]) || 0,
+            w:Number(p[3]) || 0,
+            h:Number(p[4]) || 0,
+            z:Number(p[5]) || 0
+          };
+    }
+
+    if (/^attack\d*$/.test(command)) {
+      const disabled =
+        Number(p[3]) <= 0 ||
+        Number(p[4]) <= 0;
+
+      active.attack = disabled
+        ? null
+        : {
+            type:command,
+            x:Number(p[1]) || 0,
+            y:Number(p[2]) || 0,
+            w:Number(p[3]) || 0,
+            h:Number(p[4]) || 0,
+            tail:p.slice(5).join(" ") ||
+              "23 0 0 0 21 15"
+          };
+    }
+
+    if (command === "frame") {
+      const path = p.slice(1).join(" ");
+
+      animation.frames.push({
+        path,
+        key:imageKey(path),
+        delay:active.delay,
+        ox:active.ox,
+        oy:active.oy,
+        sx:active.sx,
+        sy:active.sy,
+        bbox:active.bbox ? {...active.bbox} : null,
+        attack:active.attack ? {...active.attack} : null
+      });
+    }
+  }
+
+  state.animations = animations;
+  state.animation = 0;
+  state.frame = 0;
+
+  rebuildAnimationList();
+  syncInterface();
+}
+
+function rebuildAnimationList() {
+  const select = $("#anim");
+  select.innerHTML = "";
+
+  state.animations.forEach((animation,index) => {
+    const option = document.createElement("option");
+
+    option.value = index;
+    option.textContent =
+      `${animation.name} (${animation.frames.length})`;
+
+    select.append(option);
+  });
+}
+
+function syncInterface() {
+  const animation = currentAnimation();
+  const frame = currentFrame();
+  const image = currentImage();
+
+  if (!animation || !frame) {
+    render();
+    return;
+  }
+
+  $("#frameRange").max =
+    Math.max(0,animation.frames.length - 1);
+
+  $("#frameRange").value = state.frame;
+
+  $("#frameInfo").innerHTML =
+    `<b>${animation.name}</b> · ` +
+    `${state.frame + 1}/${animation.frames.length}<br>` +
+    `${frame.path}<br>` +
+    `delay ${frame.delay} · ` +
+    `offset ${frame.ox} ${frame.oy}<br>` +
+    `drawmethod scale ${frame.sx} ${frame.sy}` +
+    (image ? "" : '<br><span class="red">PNG не найден</span>');
+
+  $("#be").checked = Boolean(frame.bbox);
+  $("#bx").value = frame.bbox?.x ?? 0;
+  $("#by").value = frame.bbox?.y ?? 0;
+  $("#bw").value = frame.bbox?.w ?? 0;
+  $("#bh").value = frame.bbox?.h ?? 0;
+  $("#bz").value = frame.bbox?.z ?? 0;
+
+  $("#ae").checked = Boolean(frame.attack);
+  $("#ax").value = frame.attack?.x ?? 0;
+  $("#ay").value = frame.attack?.y ?? 0;
+  $("#aw").value = frame.attack?.w ?? 0;
+  $("#ah").value = frame.attack?.h ?? 0;
+  $("#atype").value = frame.attack?.type ?? "attack";
+  $("#atail").value =
+    frame.attack?.tail ?? "23 0 0 0 21 15";
+
+  $("#ox").value = frame.ox;
+  $("#oy").value = frame.oy;
+
+  updateOutput();
+  render();
+}
+
+function updateOutput() {
+  const frame = currentFrame();
+  if (!frame) return;
+
+  $("#bout").value = frame.bbox
+    ? `bbox ${frame.bbox.x} ${frame.bbox.y} ` +
+      `${frame.bbox.w} ${frame.bbox.h} ${frame.bbox.z}`
+    : "bbox none";
+
+  $("#aout").value = frame.attack
+    ? `${frame.attack.type} ${frame.attack.x} ` +
+      `${frame.attack.y} ${frame.attack.w} ` +
+      `${frame.attack.h} ${frame.attack.tail}`
+    : "attack 0 0 0 0 0 0 0 0 0 0";
+}
+
+/*
+ * Геометрия изображения и collision box разделена.
+ *
+ * spriteScale учитывает drawmethod scale.
+ * boxScale учитывает только масштаб просмотра.
+ */
+function geometry() {
+  const frame = currentFrame();
+  const image = currentImage();
+
+  if (!frame || !image) return null;
+
+  const viewScale = state.zoom;
+
+  const spriteScaleX =
+    frame.sx * viewScale;
+
+  const spriteScaleY =
+    frame.sy * viewScale;
+
+  const originX =
+    view.clientWidth / 2;
+
+  const originY =
+    view.clientHeight * 0.84;
+
+  return {
+    originX,
+    originY,
+
+    spriteScaleX,
+    spriteScaleY,
+
+    spriteX:
+      originX - frame.ox * spriteScaleX,
+
+    spriteY:
+      originY - frame.oy * spriteScaleY,
+
+    spriteW:
+      image.width * spriteScaleX,
+
+    spriteH:
+      image.height * spriteScaleY,
+
+    /*
+     * BBox и Hitbox не получают drawmethod scale.
+     */
+    boxOriginX:
+      originX - frame.ox * viewScale,
+
+    boxOriginY:
+      originY - frame.oy * viewScale,
+
+    boxScaleX:viewScale,
+    boxScaleY:viewScale
+  };
+}
+
+function screenBox(box,g) {
+  if (!box) return null;
+
+  return {
+    x:
+      g.boxOriginX +
+      box.x * g.boxScaleX,
+
+    y:
+      g.boxOriginY +
+      box.y * g.boxScaleY,
+
+    w:
+      box.w * g.boxScaleX,
+
+    h:
+      box.h * g.boxScaleY
+  };
+}
+
+function drawBox(box,color,selected) {
+  if (!box) return;
+
+  ctx.fillStyle =
+    color === "#168cff"
+      ? "rgba(22,140,255,.18)"
+      : "rgba(255,30,30,.18)";
+
+  ctx.strokeStyle = color;
+  ctx.lineWidth = selected ? 3 : 2;
+
+  ctx.fillRect(box.x,box.y,box.w,box.h);
+  ctx.strokeRect(box.x,box.y,box.w,box.h);
+
+  ctx.fillStyle = color;
+  ctx.fillRect(
+    box.x + box.w - 8,
+    box.y + box.h - 8,
+    16,
+    16
+  );
+
+  ctx.strokeStyle = "#fff";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(
+    box.x + box.w - 8,
+    box.y + box.h - 8,
+    16,
+    16
+  );
+}
+
+function render() {
+  canvas.width = view.clientWidth;
+  canvas.height = view.clientHeight;
+
+  ctx.fillStyle = "#00a800";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  const frame = currentFrame();
+  const image = currentImage();
+  const g = geometry();
+
+  if (!frame || !image || !g) {
+    ctx.fillStyle = "#063b06";
+    ctx.font = "14px monospace";
+
+    ctx.fillText(
+      frame
+        ? "PNG кадра не найден"
+        : "Загрузите TXT и PNG",
+      20,
+      30
+    );
+
+    $("#hud").textContent = "—";
+    return;
+  }
+
+  ctx.imageSmoothingEnabled = false;
+
+  /*
+   * Только изображение получает drawmethod scale.
+   */
+  ctx.drawImage(
+    image,
+    g.spriteX,
+    g.spriteY,
+    g.spriteW,
+    g.spriteH
+  );
+
+  ctx.strokeStyle = "#ffe157";
+  ctx.lineWidth = 2;
+
+  ctx.beginPath();
+  ctx.moveTo(g.originX - 8,g.originY);
+  ctx.lineTo(g.originX + 8,g.originY);
+  ctx.moveTo(g.originX,g.originY - 8);
+  ctx.lineTo(g.originX,g.originY + 8);
+  ctx.stroke();
+
+  drawBox(
+    screenBox(frame.bbox,g),
+    "#168cff",
+    state.selected === "bbox"
+  );
+
+  drawBox(
+    screenBox(frame.attack,g),
+    "#ff3030",
+    state.selected === "attack"
+  );
+
+  $("#hud").textContent =
+    `${currentAnimation().name}\n` +
+    `кадр ${state.frame + 1}/${currentAnimation().frames.length}\n` +
+    `draw scale ${frame.sx} ${frame.sy}\n` +
+    `просмотр ×${state.zoom}\n` +
+    `выбрано: ${state.selected}\n` +
+    `${state.playing ? "▶ PLAY" : "⏸ PAUSE"}`;
+}
+
+/* Перемещение и изменение размера рамок. */
+
+let drag = null;
+
+function pointerPosition(event) {
+  const rect = canvas.getBoundingClientRect();
+
+  return {
+    x:event.clientX - rect.left,
+    y:event.clientY - rect.top
+  };
+}
+
+function insideBox(point,box,padding=0) {
+  return box &&
+    point.x >= box.x - padding &&
+    point.y >= box.y - padding &&
+    point.x <= box.x + box.w + padding &&
+    point.y <= box.y + box.h + padding;
+}
+
+function insideHandle(point,box) {
+  if (!box) return false;
+
+  const handleX = box.x + box.w;
+  const handleY = box.y + box.h;
+
+  return (
+    Math.abs(point.x - handleX) <= 14 &&
+    Math.abs(point.y - handleY) <= 14
+  );
+}
+
+canvas.addEventListener("pointerdown",event => {
+  const frame = currentFrame();
+  const g = geometry();
+
+  if (!frame || !g) return;
+
+  pause();
+
+  const point = pointerPosition(event);
+
+  const boxes = {
+    bbox:{
+      model:frame.bbox,
+      screen:screenBox(frame.bbox,g)
+    },
+    attack:{
+      model:frame.attack,
+      screen:screenBox(frame.attack,g)
+    }
+  };
+
+  const order =
+    state.selected === "bbox"
+      ? ["bbox","attack"]
+      : ["attack","bbox"];
+
+  let found = null;
+
+  /*
+   * Маркер размера имеет приоритет.
+   */
+  for (const type of order) {
+    const item = boxes[type];
+
+    if (
+      item.model &&
+      insideHandle(point,item.screen)
+    ) {
+      found = {
+        type,
+        mode:"resize",
+        model:item.model
+      };
+
+      break;
+    }
+  }
+
+  /*
+   * Затем проверяется область рамки.
+   */
+  if (!found) {
+    for (const type of order) {
+      const item = boxes[type];
+
+      if (
+        item.model &&
+        insideBox(point,item.screen,3)
+      ) {
+        found = {
+          type,
+          mode:"move",
+          model:item.model
+        };
+
+        break;
+      }
+    }
+  }
+
+  if (!found) return;
+
+  state.selected = found.type;
+
+  drag = {
+    pointerId:event.pointerId,
+    type:found.type,
+    mode:found.mode,
+    startX:point.x,
+    startY:point.y,
+    original:{...found.model},
+
+    /*
+     * Рамки используют только масштаб просмотра.
+     */
+    scaleX:g.boxScaleX,
+    scaleY:g.boxScaleY
+  };
+
+  canvas.setPointerCapture(event.pointerId);
+
+  canvas.style.cursor =
+    found.mode === "resize"
+      ? "nwse-resize"
+      : "move";
+
+  event.preventDefault();
+  render();
+});
+
+canvas.addEventListener("pointermove",event => {
+  if (
+    !drag ||
+    event.pointerId !== drag.pointerId
+  ) {
+    return;
+  }
+
+  const frame = currentFrame();
+  const point = pointerPosition(event);
+
+  const dx = Math.round(
+    (point.x - drag.startX) /
+    drag.scaleX
+  );
+
+  const dy = Math.round(
+    (point.y - drag.startY) /
+    drag.scaleY
+  );
+
+  const box =
+    drag.type === "bbox"
+      ? frame.bbox
+      : frame.attack;
+
+  if (!box) return;
+
+  if (drag.mode === "resize") {
+    box.w = Math.max(
+      1,
+      drag.original.w + dx
+    );
+
+    box.h = Math.max(
+      1,
+      drag.original.h + dy
+    );
+  } else {
+    box.x = drag.original.x + dx;
+    box.y = drag.original.y + dy;
+  }
+
+  syncInterface();
+  event.preventDefault();
+});
+
+function finishDrag(event) {
+  if (
+    !drag ||
+    event.pointerId !== drag.pointerId
+  ) {
+    return;
+  }
+
+  if (canvas.hasPointerCapture(event.pointerId)) {
+    canvas.releasePointerCapture(event.pointerId);
+  }
+
+  drag = null;
+  canvas.style.cursor = "crosshair";
+
+  updateOutput();
+}
+
+canvas.addEventListener("pointerup",finishDrag);
+canvas.addEventListener("pointercancel",finishDrag);
+
+/* Загрузка. */
+
+$("#txtFile").onchange = async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  parseModel(await file.text());
+
+  const frameCount =
+    state.animations.reduce(
+      (sum,animation) =>
+        sum + animation.frames.length,
+      0
+    );
+
+  $("#txtInfo").innerHTML =
+    `<span class="ok">${file.name}</span><br>` +
+    `Анимаций: ${state.animations.length}; ` +
+    `кадров: ${frameCount}`;
+};
+
+$("#pngFiles").onchange = async event => {
+  state.images.clear();
+
+  for (const file of event.target.files) {
+    const bitmap =
+      await createImageBitmap(file);
+
+    state.images.set(
+      imageKey(file.name),
+      bitmap
+    );
+  }
+
+  $("#pngInfo").innerHTML =
+    `<span class="ok">Загружено: ` +
+    `${state.images.size}</span>`;
+
+  syncInterface();
+};
+
+/* Числовое редактирование. */
+
+$("#applyB").onclick = () => {
+  const frame = currentFrame();
+  if (!frame) return;
+
+  frame.bbox = $("#be").checked
+    ? {
+        x:Number($("#bx").value) || 0,
+        y:Number($("#by").value) || 0,
+        w:Math.max(1,Number($("#bw").value) || 1),
+        h:Math.max(1,Number($("#bh").value) || 1),
+        z:Number($("#bz").value) || 0
+      }
+    : null;
+
+  syncInterface();
+};
+
+$("#applyA").onclick = () => {
+  const frame = currentFrame();
+  if (!frame) return;
+
+  let type =
+    $("#atype").value.trim().toLowerCase();
+
+  if (!/^attack\d*$/.test(type)) {
+    type = "attack";
+  }
+
+  frame.attack = $("#ae").checked
+    ? {
+        type,
+        x:Number($("#ax").value) || 0,
+        y:Number($("#ay").value) || 0,
+        w:Math.max(1,Number($("#aw").value) || 1),
+        h:Math.max(1,Number($("#ah").value) || 1),
+        tail:
+          $("#atail").value.trim() ||
+          "23 0 0 0 21 15"
+      }
+    : null;
+
+  syncInterface();
+};
+
+$("#applyO").onclick = () => {
+  const frame = currentFrame();
+  if (!frame) return;
+
+  frame.ox =
+    Number($("#ox").value) || 0;
+
+  frame.oy =
+    Number($("#oy").value) || 0;
+
+  syncInterface();
+};
+
+$("#chooseB").onclick = () => {
+  state.selected = "bbox";
+  render();
+};
+
+$("#chooseA").onclick = () => {
+  state.selected = "attack";
+  render();
+};
+
+/* Навигация. */
+
+function showFrame(index) {
+  const animation = currentAnimation();
+  if (!animation?.frames.length) return;
+
+  state.frame = Math.max(
+    0,
+    Math.min(
+      animation.frames.length - 1,
+      index
+    )
+  );
+
+  syncInterface();
+}
+
+function step(direction) {
+  pause();
+
+  const animation = currentAnimation();
+  if (!animation?.frames.length) return;
+
+  let index = state.frame + direction;
+
+  if (index >= animation.frames.length) {
+    index = 0;
+  }
+
+  if (index < 0) {
+    index = animation.frames.length - 1;
+  }
+
+  showFrame(index);
+}
+
+/* Проигрывание. */
+
+function play() {
+  if (
+    state.playing ||
+    !currentFrame()
+  ) {
+    return;
+  }
+
+  state.playing = true;
+  $("#play").textContent = "⏸ Пауза";
+
+  schedule();
+}
+
+function pause() {
+  state.playing = false;
+
+  clearTimeout(state.timer);
+
+  $("#play").textContent = "▶ Пуск";
+}
+
+function schedule() {
+  if (!state.playing) return;
+
+  const delay = Math.max(
+    16,
+    (currentFrame()?.delay || 1) * 10
+  );
+
+  state.timer = setTimeout(() => {
+    const animation = currentAnimation();
+
+    if (
+      state.frame <
+      animation.frames.length - 1
+    ) {
+      state.frame++;
+    } else if (animation.loop) {
+      state.frame = 0;
+    } else {
+      pause();
+      return;
+    }
+
+    syncInterface();
+    schedule();
+  },delay);
+}
+
+$("#anim").onchange = event => {
+  pause();
+
+  state.animation =
+    Number(event.target.value);
+
+  state.frame = 0;
+
+  syncInterface();
+};
+
+$("#frameRange").oninput = event => {
+  pause();
+  showFrame(Number(event.target.value));
+};
+
+$("#prev").onclick = () => step(-1);
+$("#next").onclick = () => step(1);
+
+$("#play").onclick = () => {
+  state.playing ? pause() : play();
+};
+
+/* Копирование. */
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+
+    $("#status").innerHTML =
+      '<span class="ok">Скопировано</span>';
+  } catch {
+    /*
+     * Резервный способ для браузеров,
+     * запрещающих Clipboard API.
+     */
+    const textarea =
+      document.createElement("textarea");
+
+    textarea.value = text;
+    document.body.append(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+
+    $("#status").innerHTML =
+      '<span class="ok">Скопировано</span>';
+  }
+}
+
+$("#copyB").onclick = () =>
+  copyText($("#bout").value);
+
+$("#copyA").onclick = () =>
+  copyText($("#aout").value);
+
+$("#copyAll").onclick = () =>
+  copyText(
+    `${$("#bout").value}\n` +
+    `${$("#aout").value}`
+  );
+
+/* Масштаб просмотра. */
+
+$("#zoom").oninput = event => {
+  state.zoom =
+    Number(event.target.value);
+
+  $("#zoomText").textContent =
+    `×${state.zoom}`;
+
+  render();
+};
+
+$("#center").onclick = render;
+
+/* Перетаскивание окна. */
+
+const preview = $("#preview");
+const bar = $("#bar");
+
+let windowDrag = null;
+
+bar.addEventListener("pointerdown",event => {
+  if (event.target.tagName === "BUTTON") {
+    return;
+  }
+
+  windowDrag = {
+    pointerId:event.pointerId,
+    x:event.clientX - preview.offsetLeft,
+    y:event.clientY - preview.offsetTop
+  };
+
+  bar.setPointerCapture(event.pointerId);
+});
+
+bar.addEventListener("pointermove",event => {
+  if (
+    !windowDrag ||
+    event.pointerId !== windowDrag.pointerId
+  ) {
+    return;
+  }
+
+  preview.style.left =
+    `${event.clientX - windowDrag.x}px`;
+
+  preview.style.top =
+    `${event.clientY - windowDrag.y}px`;
+});
+
+bar.addEventListener("pointerup",event => {
+  if (
+    windowDrag?.pointerId ===
+    event.pointerId
+  ) {
+    windowDrag = null;
+  }
+});
+
+/* Изменение размера окна. */
+
+let windowResize = null;
+const resizeHandle = $("#resize");
+
+resizeHandle.addEventListener(
+  "pointerdown",
+  event => {
+    windowResize = {
+      pointerId:event.pointerId,
+      x:event.clientX,
+      y:event.clientY,
+      width:view.clientWidth,
+      height:view.clientHeight
+    };
+
+    resizeHandle.setPointerCapture(
+      event.pointerId
+    );
+
+    event.stopPropagation();
+  }
+);
+
+resizeHandle.addEventListener(
+  "pointermove",
+  event => {
+    if (
+      !windowResize ||
+      event.pointerId !==
+        windowResize.pointerId
+    ) {
+      return;
+    }
+
+    const width = Math.max(
+      300,
+      windowResize.width +
+      event.clientX -
+      windowResize.x
+    );
+
+    const height = Math.max(
+      220,
+      windowResize.height +
+      event.clientY -
+      windowResize.y
+    );
+
+    view.style.width = `${width}px`;
+    view.style.height = `${height}px`;
+
+    preview.style.width =
+      `${width + 4}px`;
+
+    render();
+  }
+);
+
+resizeHandle.addEventListener(
+  "pointerup",
+  event => {
+    if (
+      windowResize?.pointerId ===
+      event.pointerId
+    ) {
+      windowResize = null;
+    }
+  }
+);
+
+if (window.ResizeObserver) {
+  new ResizeObserver(render)
+    .observe(view);
+}
+
+render();
+</script>
+
+
+<script>
+(() =>
+{
+    "use strict";
+
+    /* =====================================================
+     * Оформление
+     * ===================================================== */
+
+    const platformStyle =
+        document.createElement("style");
+
+    platformStyle.textContent = `
+        .green {
+            color:#56e27c;
+        }
+
+        #platformOutput {
+            height:48px;
+        }
+    `;
+
+    document.head.append(platformStyle);
+
+    /*
+     * Разрешаем также GIF.
+     */
+    $("#pngFiles").accept =
+        "image/png,image/gif,.png,.gif";
+
+    const imageTitle =
+        $("#pngFiles")
+            .closest(".panel")
+            .querySelector("h3");
+
+    if(imageTitle)
+    {
+        imageTitle.textContent =
+            "2. PNG/GIF-кадры";
+    }
+
+    /* =====================================================
+     * Панель PlatformBox
+     * ===================================================== */
+
+    const platformPanel =
+        document.createElement("div");
+
+    platformPanel.className = "panel";
+
+    platformPanel.innerHTML = `
+        <h3 class="green">6. PlatformBox</h3>
+
+        <label>
+            <input
+                id="platformEnabled"
+                type="checkbox"
+            >
+            Включён
+        </label>
+
+        <div class="grid">
+            <label>
+                X position
+                <input
+                    id="platformX"
+                    type="number"
+                >
+            </label>
+
+            <label>
+                Z position
+                <input
+                    id="platformZ"
+                    type="number"
+                >
+            </label>
+
+            <label>
+                Upper Left
+                <input
+                    id="platformUL"
+                    type="number"
+                >
+            </label>
+
+            <label>
+                Lower Left
+                <input
+                    id="platformLL"
+                    type="number"
+                >
+            </label>
+
+            <label>
+                Upper Right
+                <input
+                    id="platformUR"
+                    type="number"
+                >
+            </label>
+
+            <label>
+                Lower Right
+                <input
+                    id="platformLR"
+                    type="number"
+                >
+            </label>
+
+            <label>
+                Depth
+                <input
+                    id="platformDepth"
+                    type="number"
+                >
+            </label>
+
+            <label>
+                Altitude
+                <input
+                    id="platformAlt"
+                    type="number"
+                >
+            </label>
+        </div>
+
+        <div class="row">
+            <button id="applyPlatform">
+                Применить
+            </button>
+
+            <button id="choosePlatform">
+                Выбрать зелёную
+            </button>
+        </div>
+
+        <div class="info">
+            Порядок: X, Z, Upper Left, Lower Left,
+            Upper Right, Lower Right, Depth, Altitude.
+        </div>
+    `;
+
+    /*
+     * Вставляем перед Offset.
+     */
+    const offsetPanel =
+        $("#applyO").closest(".panel");
+
+    offsetPanel.before(platformPanel);
+
+    /*
+     * Исправляем номера следующих разделов.
+     */
+    const offsetTitle =
+        offsetPanel.querySelector("h3");
+
+    if(offsetTitle)
+    {
+        offsetTitle.textContent = "7. Offset";
+    }
+
+    const outputPanel =
+        $("#bout").closest(".panel");
+
+    const outputTitle =
+        outputPanel.querySelector("h3");
+
+    if(outputTitle)
+    {
+        outputTitle.textContent =
+            "8. Готовые строки";
+    }
+
+    /* =====================================================
+     * Строка результата PlatformBox
+     * ===================================================== */
+
+    const platformOutputBlock =
+        document.createElement("div");
+
+    platformOutputBlock.innerHTML = `
+        <br>
+
+        <textarea
+            id="platformOutput"
+            readonly
+        ></textarea>
+
+        <button id="copyPlatform">
+            Копировать PlatformBox
+        </button>
+    `;
+
+    $("#aout")
+        .closest("div.panel")
+        .append(platformOutputBlock);
+
+    /*
+     * Добавляем платформу в легенду.
+     */
+    $("#legend").insertAdjacentHTML(
+        "beforeend",
+        `<br><span class="green">
+            ■ PlatformBox
+         </span>`
+    );
+
+    /* =====================================================
+     * Разбор platform из TXT
+     * ===================================================== */
+
+    function parsePlatformCommand(parts)
+    {
+        if(
+            !parts[1] ||
+            parts[1].toLowerCase() === "none"
+        )
+        {
+            return null;
+        }
+
+        const values = parts
+            .slice(1)
+            .map(value => Number(value));
+
+        /*
+         * Новая форма:
+         *
+         * platform
+         * xpos zpos
+         * upperleft lowerleft
+         * upperright lowerright
+         * depth altitude
+         */
+        if(
+            values.length >= 8 &&
+            values
+                .slice(0, 8)
+                .every(Number.isFinite)
+        )
+        {
+            return {
+                modern:true,
+
+                x:values[0],
+                z:values[1],
+
+                ul:values[2],
+                ll:values[3],
+                ur:values[4],
+                lr:values[5],
+
+                depth:values[6],
+                alt:values[7]
+            };
+        }
+
+        /*
+         * Старая форма:
+         *
+         * platform
+         * upperleft lowerleft
+         * upperright lowerright
+         * depth altitude
+         *
+         * X и Z берутся из offset текущего кадра.
+         */
+        if(
+            values.length >= 6 &&
+            values
+                .slice(0, 6)
+                .every(Number.isFinite)
+        )
+        {
+            return {
+                modern:false,
+
+                x:null,
+                z:null,
+
+                ul:values[0],
+                ll:values[1],
+                ur:values[2],
+                lr:values[3],
+
+                depth:values[4],
+                alt:values[5]
+            };
+        }
+
+        return null;
+    }
+
+    function attachPlatformsToFrames(text)
+    {
+        const lines = text
+            .replace(/\r\n?/g, "\n")
+            .split("\n");
+
+        let animationIndex = -1;
+        let frameIndex = 0;
+        let activePlatform = null;
+
+        for(const originalLine of lines)
+        {
+            const line =
+                removeComment(
+                    originalLine
+                ).trim();
+
+            if(!line)
+            {
+                continue;
+            }
+
+            const parts =
+                line.split(/\s+/);
+
+            const command =
+                parts[0].toLowerCase();
+
+            if(command === "anim")
+            {
+                animationIndex++;
+                frameIndex = 0;
+                activePlatform = null;
+
+                continue;
+            }
+
+            if(animationIndex < 0)
+            {
+                continue;
+            }
+
+            if(command === "platform")
+            {
+                activePlatform =
+                    parsePlatformCommand(parts);
+
+                continue;
+            }
+
+            if(command === "frame")
+            {
+                const frame =
+                    state.animations[
+                        animationIndex
+                    ]?.frames[
+                        frameIndex
+                    ];
+
+                if(frame)
+                {
+                    frame.platform =
+                        activePlatform
+                            ? {
+                                ...activePlatform
+                              }
+                            : null;
+                }
+
+                frameIndex++;
+            }
+        }
+    }
+
+    /*
+     * Сначала работает старый парсер,
+     * затем к кадрам добавляется platform.
+     */
+    const parseModelWithoutPlatform =
+        parseModel;
+
+    parseModel = function(text)
+    {
+        parseModelWithoutPlatform(text);
+
+        attachPlatformsToFrames(text);
+
+        syncInterface();
+    };
+
+    /* =====================================================
+     * Нормализация старой формы platform
+     * ===================================================== */
+
+    function makePlatformModern(
+        platform,
+        frame
+    )
+    {
+        if(!platform || platform.modern)
+        {
+            return platform;
+        }
+
+        platform.modern = true;
+
+        /*
+         * Для старого формата движок использует offset
+         * вместо xpos и zpos.
+         */
+        platform.x = frame.ox;
+        platform.z = frame.oy;
+
+        return platform;
+    }
+
+    /* =====================================================
+     * Синхронизация интерфейса
+     * ===================================================== */
+
+    function syncPlatformInterface()
+    {
+        const frame = currentFrame();
+
+        if(!frame)
+        {
+            return;
+        }
+
+        const platform = frame.platform;
+
+        $("#platformEnabled").checked =
+            Boolean(platform);
+
+        $("#platformX").value =
+            platform?.modern
+                ? platform.x
+                : frame.ox;
+
+        $("#platformZ").value =
+            platform?.modern
+                ? platform.z
+                : frame.oy;
+
+        $("#platformUL").value =
+            platform?.ul ?? 0;
+
+        $("#platformLL").value =
+            platform?.ll ?? 0;
+
+        $("#platformUR").value =
+            platform?.ur ?? 0;
+
+        $("#platformLR").value =
+            platform?.lr ?? 0;
+
+        $("#platformDepth").value =
+            platform?.depth ?? 0;
+
+        $("#platformAlt").value =
+            platform?.alt ?? 0;
+
+        updatePlatformOutput();
+    }
+
+    const syncInterfaceWithoutPlatform =
+        syncInterface;
+
+    syncInterface = function()
+    {
+        syncInterfaceWithoutPlatform();
+        syncPlatformInterface();
+    };
+
+    function updatePlatformOutput()
+    {
+        const frame = currentFrame();
+
+        if(!frame || !frame.platform)
+        {
+            $("#platformOutput").value =
+                "platform none";
+
+            return;
+        }
+
+        const platform =
+            frame.platform;
+
+        const x =
+            platform.modern
+                ? platform.x
+                : frame.ox;
+
+        const z =
+            platform.modern
+                ? platform.z
+                : frame.oy;
+
+        $("#platformOutput").value =
+            "platform " +
+            x + " " +
+            z + " " +
+            platform.ul + " " +
+            platform.ll + " " +
+            platform.ur + " " +
+            platform.lr + " " +
+            platform.depth + " " +
+            platform.alt;
+    }
+
+    /* =====================================================
+     * Редактирование PlatformBox
+     * ===================================================== */
+
+    $("#applyPlatform").onclick = () =>
+    {
+        const frame = currentFrame();
+
+        if(!frame)
+        {
+            return;
+        }
+
+        if(!$("#platformEnabled").checked)
+        {
+            frame.platform = null;
+        }
+        else
+        {
+            frame.platform = {
+                modern:true,
+
+                x:
+                    Number(
+                        $("#platformX").value
+                    ) || 0,
+
+                z:
+                    Number(
+                        $("#platformZ").value
+                    ) || 0,
+
+                ul:
+                    Number(
+                        $("#platformUL").value
+                    ) || 0,
+
+                ll:
+                    Number(
+                        $("#platformLL").value
+                    ) || 0,
+
+                ur:
+                    Number(
+                        $("#platformUR").value
+                    ) || 0,
+
+                lr:
+                    Number(
+                        $("#platformLR").value
+                    ) || 0,
+
+                depth:
+                    Math.max(
+                        1,
+                        Number(
+                            $("#platformDepth").value
+                        ) || 1
+                    ),
+
+                alt:
+                    Number(
+                        $("#platformAlt").value
+                    ) || 0
+            };
+        }
+
+        state.selected = "platform";
+
+        syncInterface();
+    };
+
+    $("#choosePlatform").onclick = () =>
+    {
+        state.selected = "platform";
+        render();
+    };
+
+    /* =====================================================
+     * Геометрия PlatformBox
+     * ===================================================== */
+
+    function screenPlatform(
+        frame,
+        geometryData
+    )
+    {
+        const platform =
+            frame.platform;
+
+        if(!platform)
+        {
+            return null;
+        }
+
+        const viewScale =
+            state.zoom;
+
+        /*
+         * В старом формате xpos/zpos заменяются offset.
+         */
+        const platformX =
+            platform.modern
+                ? platform.x
+                : frame.ox;
+
+        const platformZ =
+            platform.modern
+                ? platform.z
+                : frame.oy;
+
+        /*
+         * PlatformBox, как BBox и Hitbox,
+         * не получает drawmethod scale.
+         *
+         * platformX/platformZ находятся в системе
+         * координат исходного кадра.
+         */
+        const baseX =
+            geometryData.originX +
+            (
+                platformX -
+                frame.ox
+            ) *
+            viewScale;
+
+        /*
+         * Высота alt поднимает поверхность вверх.
+         */
+		const baseY =
+			geometryData.originY +
+			(
+				platformZ -
+				frame.oy
+			) *
+			viewScale;
+
+        const upperY =
+            baseY -
+            platform.depth *
+            viewScale;
+
+        return {
+            upperLeft:{
+                x:
+                    baseX +
+                    platform.ul *
+                    viewScale,
+
+                y:upperY
+            },
+
+            lowerLeft:{
+                x:
+                    baseX +
+                    platform.ll *
+                    viewScale,
+
+                y:baseY
+            },
+
+            upperRight:{
+                x:
+                    baseX +
+                    platform.ur *
+                    viewScale,
+
+                y:upperY
+            },
+
+            lowerRight:{
+                x:
+                    baseX +
+                    platform.lr *
+                    viewScale,
+
+                y:baseY
+            },
+
+            baseX,
+            baseY,
+            upperY,
+            scale:viewScale
+        };
+    }
+
+    function platformPolygon(screen)
+    {
+        if(!screen)
+        {
+            return [];
+        }
+
+        return [
+            screen.upperLeft,
+            screen.upperRight,
+            screen.lowerRight,
+            screen.lowerLeft
+        ];
+    }
+
+    function drawPlatformBox(
+        screen,
+        selected
+    )
+    {
+        if(!screen)
+        {
+            return;
+        }
+
+        const points =
+            platformPolygon(screen);
+
+        ctx.save();
+
+        ctx.fillStyle =
+            "rgba(30,220,90,.23)";
+
+        ctx.strokeStyle =
+            "#38e66d";
+
+        ctx.lineWidth =
+            selected ? 3 : 2;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            points[0].x,
+            points[0].y
+        );
+
+        for(let index = 1;
+            index < points.length;
+            index++)
+        {
+            ctx.lineTo(
+                points[index].x,
+                points[index].y
+            );
+        }
+
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        /*
+         * Линия центра xpos.
+         */
+        ctx.strokeStyle = "#d8ffe2";
+        ctx.lineWidth = 1;
+
+        ctx.beginPath();
+        ctx.moveTo(
+            screen.baseX,
+            screen.upperY
+        );
+        ctx.lineTo(
+            screen.baseX,
+            screen.baseY
+        );
+        ctx.stroke();
+
+        /*
+         * Маркер изменения размера находится
+         * в верхнем правом углу.
+         */
+        ctx.fillStyle = "#38e66d";
+
+        ctx.fillRect(
+            screen.upperRight.x - 8,
+            screen.upperRight.y - 8,
+            16,
+            16
+        );
+
+        ctx.strokeStyle = "#fff";
+
+        ctx.strokeRect(
+            screen.upperRight.x - 8,
+            screen.upperRight.y - 8,
+            16,
+            16
+        );
+
+        ctx.restore();
+    }
+
+    /* =====================================================
+     * Добавление PlatformBox в render()
+     * ===================================================== */
+
+    const renderWithoutPlatform =
+        render;
+
+    render = function()
+    {
+        renderWithoutPlatform();
+
+        const frame = currentFrame();
+        const geometryData = geometry();
+
+        if(
+            !frame ||
+            !frame.platform ||
+            !geometryData
+        )
+        {
+            return;
+        }
+
+        drawPlatformBox(
+            screenPlatform(
+                frame,
+                geometryData
+            ),
+            state.selected === "platform"
+        );
+    };
+
+    /* =====================================================
+     * Выбор мышкой
+     * ===================================================== */
+
+    function pointInPolygon(
+        point,
+        polygon
+    )
+    {
+        let inside = false;
+
+        for(
+            let index = 0,
+                previous = polygon.length - 1;
+
+            index < polygon.length;
+
+            previous = index++
+        )
+        {
+            const current =
+                polygon[index];
+
+            const before =
+                polygon[previous];
+
+            const intersects =
+                (
+                    current.y > point.y
+                ) !== (
+                    before.y > point.y
+                ) &&
+                point.x <
+                (
+                    (
+                        before.x -
+                        current.x
+                    ) *
+                    (
+                        point.y -
+                        current.y
+                    ) /
+                    (
+                        before.y -
+                        current.y
+                    ) +
+                    current.x
+                );
+
+            if(intersects)
+            {
+                inside = !inside;
+            }
+        }
+
+        return inside;
+    }
+
+    function insidePlatformHandle(
+        point,
+        screen
+    )
+    {
+        if(!screen)
+        {
+            return false;
+        }
+
+        return (
+            Math.abs(
+                point.x -
+                screen.upperRight.x
+            ) <= 14 &&
+            Math.abs(
+                point.y -
+                screen.upperRight.y
+            ) <= 14
+        );
+    }
+
+    let platformDrag = null;
+
+    canvas.addEventListener(
+        "pointerdown",
+        event =>
+        {
+            const frame = currentFrame();
+            const geometryData = geometry();
+
+            if(
+                !frame ||
+                !frame.platform ||
+                !geometryData
+            )
+            {
+                return;
+            }
+
+            const point =
+                pointerPosition(event);
+
+            const screen =
+                screenPlatform(
+                    frame,
+                    geometryData
+                );
+
+            const resize =
+                insidePlatformHandle(
+                    point,
+                    screen
+                );
+
+            const move =
+                pointInPolygon(
+                    point,
+                    platformPolygon(screen)
+                );
+
+            if(!resize && !move)
+            {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            pause();
+
+            const platform =
+                makePlatformModern(
+                    frame.platform,
+                    frame
+                );
+
+            state.selected =
+                "platform";
+
+            platformDrag = {
+                pointerId:
+                    event.pointerId,
+
+                mode:
+                    resize
+                        ? "resize"
+                        : "move",
+
+                startX:point.x,
+                startY:point.y,
+
+                original:{
+                    ...platform
+                },
+
+                scale:
+                    state.zoom
+            };
+
+            canvas.setPointerCapture(
+                event.pointerId
+            );
+
+            canvas.style.cursor =
+                resize
+                    ? "nwse-resize"
+                    : "move";
+
+            render();
+        },
+        true
+    );
+
+    canvas.addEventListener(
+        "pointermove",
+        event =>
+        {
+            if(
+                !platformDrag ||
+                event.pointerId !==
+                platformDrag.pointerId
+            )
+            {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            const frame =
+                currentFrame();
+
+            const platform =
+                frame.platform;
+
+            const point =
+                pointerPosition(event);
+
+            const deltaX =
+                Math.round(
+                    (
+                        point.x -
+                        platformDrag.startX
+                    ) /
+                    platformDrag.scale
+                );
+
+            const deltaY =
+                Math.round(
+                    (
+                        point.y -
+                        platformDrag.startY
+                    ) /
+                    platformDrag.scale
+                );
+
+            if(
+                platformDrag.mode ===
+                "move"
+            )
+            {
+                platform.x =
+                    platformDrag.original.x +
+                    deltaX;
+
+                platform.z =
+                    platformDrag.original.z +
+                    deltaY;
+            }
+            else
+            {
+                /*
+                 * Верхний правый маркер:
+                 * X изменяет правую сторону,
+                 * Y изменяет глубину.
+                 */
+                platform.ur =
+                    platformDrag.original.ur +
+                    deltaX;
+
+                platform.lr =
+                    platformDrag.original.lr +
+                    deltaX;
+
+                platform.depth =
+                    Math.max(
+                        1,
+                        platformDrag
+                            .original
+                            .depth -
+                        deltaY
+                    );
+            }
+
+            syncPlatformInterface();
+            render();
+        },
+        true
+    );
+
+    function finishPlatformDrag(event)
+    {
+        if(
+            !platformDrag ||
+            event.pointerId !==
+            platformDrag.pointerId
+        )
+        {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        if(
+            canvas.hasPointerCapture(
+                event.pointerId
+            )
+        )
+        {
+            canvas.releasePointerCapture(
+                event.pointerId
+            );
+        }
+
+        platformDrag = null;
+        canvas.style.cursor = "crosshair";
+
+        syncInterface();
+    }
+
+    canvas.addEventListener(
+        "pointerup",
+        finishPlatformDrag,
+        true
+    );
+
+    canvas.addEventListener(
+        "pointercancel",
+        finishPlatformDrag,
+        true
+    );
+
+    /* =====================================================
+     * Копирование
+     * ===================================================== */
+
+    $("#copyPlatform").onclick = () =>
+        copyText(
+            $("#platformOutput").value
+        );
+
+    /*
+     * Кнопка «Копировать обе» теперь копирует
+     * BBox, Hitbox и PlatformBox.
+     */
+    $("#copyAll").textContent =
+        "Копировать всё";
+
+    $("#copyAll").onclick = () =>
+        copyText(
+            $("#bout").value +
+            "\n" +
+            $("#aout").value +
+            "\n" +
+            $("#platformOutput").value
+        );
+
+    syncPlatformInterface();
+    render();
+})();
+</script>
+
+<script>
+(() =>
+{
+    "use strict";
+
+    const platformPanel =
+        document.getElementById(
+            "applyPlatform"
+        )?.closest(".panel");
+
+    if(!platformPanel)
+    {
+        console.error(
+            "Панель PlatformBox не найдена."
+        );
+
+        return;
+    }
+
+    /* =====================================================
+     * Интерфейс
+     * ===================================================== */
+
+    const recommendationPanel =
+        document.createElement("div");
+
+    recommendationPanel.innerHTML = `
+        <br>
+
+        <button id="calculatePlatform">
+            Подобрать рекомендуемый PlatformBox
+        </button>
+
+        <label style="
+            display:flex;
+            align-items:center;
+            gap:7px;
+            margin-top:9px
+        ">
+            <input
+                id="showReferencePerimeter"
+                type="checkbox"
+                checked
+                style="width:auto"
+            >
+            Показывать эталонный периметр
+        </label>
+
+        <div
+            id="platformRecommendationInfo"
+            class="info"
+        >
+            Сначала загрузите TXT и изображение кадра.
+        </div>
+
+        <p class="info">
+            <b>Рекомендация:</b> offset лучше ставить
+            около нижнего центра изображения, а не
+            <code>0 0</code>. PlatformBox рассчитывается
+            на всю ширину исходного кадра.
+        </p>
+    `;
+
+    platformPanel.append(
+        recommendationPanel
+    );
+
+    /* =====================================================
+     * Получение размера изображения
+     * ===================================================== */
+
+    function getImageDimensions()
+    {
+        const image =
+            currentImage();
+
+        if(!image)
+        {
+            return null;
+        }
+
+        const width =
+            image.naturalWidth ||
+            image.width ||
+            0;
+
+        const height =
+            image.naturalHeight ||
+            image.height ||
+            0;
+
+        if(width <= 0 || height <= 0)
+        {
+            return null;
+        }
+
+        return {
+            width:width,
+            height:height
+        };
+    }
+
+    /* =====================================================
+     * Расчёт
+     * ===================================================== */
+
+    function calculateRecommendedPlatform()
+    {
+        const frame =
+            currentFrame();
+
+        const dimensions =
+            getImageDimensions();
+
+        if(!frame || !dimensions)
+        {
+            $("#platformRecommendationInfo")
+                .innerHTML =
+                '<span class="red">' +
+                'Изображение текущего кадра не загружено.' +
+                '</span>';
+
+            return;
+        }
+
+        const width =
+            dimensions.width;
+
+        const height =
+            dimensions.height;
+
+        /*
+         * Если существующий offset уже находится
+         * внутри изображения и не равен нулю,
+         * сохраняем его.
+         */
+        let offsetX =
+            Number(frame.ox);
+
+        let offsetY =
+            Number(frame.oy);
+
+        if(
+            !Number.isFinite(offsetX) ||
+            offsetX <= 0 ||
+            offsetX >= width
+        )
+        {
+            /*
+             * Горизонтальный центр изображения.
+             */
+            offsetX =
+                Math.floor(width / 2);
+        }
+
+        if(
+            !Number.isFinite(offsetY) ||
+            offsetY <= 0 ||
+            offsetY > height
+        )
+        {
+            /*
+             * Оставляем небольшой нижний запас.
+             * Для высоты 35 получится 30.
+             */
+            const bottomMargin =
+                Math.max(
+                    2,
+                    Math.round(
+                        height * 0.14
+                    )
+                );
+
+            offsetY =
+                Math.max(
+                    1,
+                    height -
+                    bottomMargin
+                );
+        }
+
+        /*
+         * Высота платформы в мире.
+         *
+         * Если уже было нормальное значение alt,
+         * сохраняем его. Иначе берём примерно 57%
+         * высоты картинки. Для 35 получится 20.
+         */
+        let altitude =
+            Number(
+                frame.platform?.alt
+            );
+
+        if(
+            !Number.isFinite(altitude) ||
+            altitude <= 0
+        )
+        {
+            altitude =
+                Math.max(
+                    1,
+                    Math.round(
+                        height * 0.57
+                    )
+                );
+        }
+
+        /*
+         * Offset кадра.
+         */
+        frame.ox = offsetX;
+        frame.oy = offsetY;
+
+        /*
+         * PlatformBox занимает всю ширину:
+         *
+         * offsetX + upperLeft = 0
+         * offsetX + upperRight = width
+         */
+        frame.platform = {
+            modern:true,
+
+            x:offsetX,
+
+            /*
+             * На один пиксель ниже offset,
+             * как в рабочем эталоне:
+             *
+             * offset 40 30
+             * platform 40 31 ...
+             */
+            z:offsetY + 1,
+
+            ul:-offsetX,
+            ll:-offsetX,
+
+            ur:width - offsetX,
+            lr:width - offsetX,
+
+            /*
+             * Верхняя граница будет:
+             * z - depth = 1.
+             */
+            depth:offsetY,
+
+            alt:altitude
+        };
+
+        state.selected =
+            "platform";
+
+        syncInterface();
+        render();
+
+        const line =
+            $("#platformOutput").value;
+
+        $("#platformRecommendationInfo")
+            .innerHTML =
+            `<span class="ok">` +
+            `Эталон: ${width}×${height}px` +
+            `</span><br>` +
+            `Рекомендуемый offset: ` +
+            `${offsetX} ${offsetY}<br>` +
+            `<code>${line}</code>`;
+    }
+
+    document
+        .getElementById(
+            "calculatePlatform"
+        )
+        .addEventListener(
+            "click",
+            calculateRecommendedPlatform
+        );
+
+    /* =====================================================
+     * Эталонный периметр изображения
+     * ===================================================== */
+
+    function drawReferencePerimeter()
+    {
+        if(
+            !document.getElementById(
+                "showReferencePerimeter"
+            ).checked
+        )
+        {
+            return;
+        }
+
+        const frame =
+            currentFrame();
+
+        const image =
+            currentImage();
+
+        const geometryData =
+            geometry();
+
+        const dimensions =
+            getImageDimensions();
+
+        if(
+            !frame ||
+            !image ||
+            !geometryData ||
+            !dimensions
+        )
+        {
+            return;
+        }
+
+        /*
+         * Используем систему координат collision box,
+         * то есть без drawmethod scale.
+         */
+        const x =
+            geometryData.boxOriginX;
+
+        const y =
+            geometryData.boxOriginY;
+
+        const width =
+            dimensions.width *
+            state.zoom;
+
+        const height =
+            dimensions.height *
+            state.zoom;
+
+        ctx.save();
+
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([7, 4]);
+
+        ctx.strokeRect(
+            x,
+            y,
+            width,
+            height
+        );
+
+        /*
+         * Метки размеров.
+         */
+        ctx.setLineDash([]);
+        ctx.font = "12px monospace";
+
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "#000";
+        ctx.fillStyle = "#fff";
+
+        const sizeText =
+            `Эталон ${dimensions.width}×` +
+            `${dimensions.height}`;
+
+        ctx.strokeText(
+            sizeText,
+            x + 4,
+            y - 7
+        );
+
+        ctx.fillText(
+            sizeText,
+            x + 4,
+            y - 7
+        );
+
+        /*
+         * Горизонтальный размер.
+         */
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 1;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x,
+            y + height + 8
+        );
+
+        ctx.lineTo(
+            x + width,
+            y + height + 8
+        );
+
+        ctx.moveTo(
+            x,
+            y + height + 4
+        );
+
+        ctx.lineTo(
+            x,
+            y + height + 12
+        );
+
+        ctx.moveTo(
+            x + width,
+            y + height + 4
+        );
+
+        ctx.lineTo(
+            x + width,
+            y + height + 12
+        );
+
+        ctx.stroke();
+
+        /*
+         * Вертикальный размер.
+         */
+        ctx.beginPath();
+
+        ctx.moveTo(
+            x - 8,
+            y
+        );
+
+        ctx.lineTo(
+            x - 8,
+            y + height
+        );
+
+        ctx.moveTo(
+            x - 12,
+            y
+        );
+
+        ctx.lineTo(
+            x - 4,
+            y
+        );
+
+        ctx.moveTo(
+            x - 12,
+            y + height
+        );
+
+        ctx.lineTo(
+            x - 4,
+            y + height
+        );
+
+        ctx.stroke();
+
+        ctx.restore();
+    }
+
+    /*
+     * Рисуем периметр поверх остальных рамок.
+     */
+    const renderWithoutReference =
+        render;
+
+    render = function()
+    {
+        renderWithoutReference();
+        drawReferencePerimeter();
+    };
+
+    document
+        .getElementById(
+            "showReferencePerimeter"
+        )
+        .addEventListener(
+            "change",
+            render
+        );
+
+    render();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,8743 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OpenBOR Level Editor</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    overflow:hidden;
+    background:#101419;
+    color:#e6edf3;
+    font-family:Arial,sans-serif
+}
+.app{
+    display:grid;
+    grid-template-columns:330px minmax(0,1fr);
+    width:100vw;
+    height:100vh;
+    min-height:0;
+    overflow:hidden
+}
+aside{
+    width:330px;
+    height:100vh;
+    min-height:0;
+    padding:12px;
+    overflow-x:hidden;
+    overflow-y:scroll;
+    overscroll-behavior:contain;
+    scrollbar-gutter:stable;
+    background:#171c24;
+    border-right:1px solid #394452
+}
+main{
+    min-width:0;
+    min-height:0;
+    overflow:hidden;
+    display:grid;
+    grid-template-rows:auto minmax(0,1fr) auto
+}
+h1{margin:0 0 14px;font-size:19px}
+h2{
+    margin:17px 0 7px;
+    color:#9fb3c8;
+    font-size:12px;
+    text-transform:uppercase
+}
+label{
+    display:grid;
+    gap:4px;
+    margin:7px 0;
+    color:#bdc9d6;
+    font-size:12px
+}
+input,select,button,textarea{
+    width:100%;
+    padding:6px;
+    color:#e6edf3;
+    background:#222b37;
+    border:1px solid #47566a;
+    border-radius:5px
+}
+button{cursor:pointer}
+button:hover{background:#303d4e}
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px
+}
+.toolbar{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    padding:8px;
+    border-bottom:1px solid #394452;
+    overflow-x:auto
+}
+.toolbar button{width:auto}
+.toolbar label{
+    display:flex;
+    align-items:center;
+    width:auto;
+    margin:0;
+    white-space:nowrap
+}
+.toolbar input{width:auto}
+.grow{flex:1}
+#viewport{
+    min-width:0;
+    min-height:0;
+    overflow:auto;
+    position:relative;
+    background:#080b0f
+}
+#canvas{
+    display:block;
+    image-rendering:pixelated;
+    transform-origin:top left;
+    touch-action:none
+}
+#status{
+    min-height:30px;
+    padding:7px 10px;
+    color:#a9bacb;
+    border-top:1px solid #394452;
+    font:12px Consolas,monospace
+}
+#levelText{
+    min-height:180px;
+    resize:vertical;
+    background:#0d1117;
+    font:11px Consolas,monospace
+}
+.hint{
+    color:#8191a3;
+    font-size:11px;
+    line-height:1.45
+}
+.danger{color:#ffb4b4;border-color:#9b4646}
+.primary{background:#1769aa;border-color:#3184c5}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside>
+    <h1>OpenBOR Level Editor</h1>
+
+    <h2>Проект</h2>
+
+    <label>
+        Папка проекта или папка data
+        <input id="folderInput" type="file" webkitdirectory multiple>
+    </label>
+
+    <label>
+        Уровень
+        <select id="levelSelect">
+            <option value="">Выберите папку</option>
+        </select>
+    </label>
+
+    <div class="row">
+        <button id="openLevel">Открыть</button>
+        <button id="openExample">Пример склона</button>
+    </div>
+
+    <h2>Стартовый игрок</h2>
+
+    <label>
+        Модель игрока
+        <select id="playerSelect">
+            <option value="">Автоматически</option>
+        </select>
+    </label>
+
+    <h2>Добавление объекта</h2>
+
+    <label>
+        Модель
+        <select id="modelSelect">
+            <option value="">Нет моделей</option>
+        </select>
+    </label>
+
+    <button id="addEntity">Добавить в центр экрана</button>
+
+    <section id="selectionPanel" hidden>
+        <h2>Выбранный объект</h2>
+
+        <label>
+            Модель
+            <input id="selName">
+        </label>
+
+        <div class="row">
+            <label>
+                X
+                <input id="selX" type="number" step="1">
+            </label>
+
+            <label>
+                Z
+                <input id="selZ" type="number" step="1">
+            </label>
+        </div>
+
+        <div class="row">
+            <label>
+                A — высота
+                <input id="selA" type="number" step="1">
+            </label>
+
+            <label>
+                at
+                <input id="selAt" type="number" step="1">
+            </label>
+        </div>
+
+        <div class="row">
+            <label>
+                flip
+                <select id="selFlip">
+                    <option value="">нет</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                </select>
+            </label>
+
+            <label>
+                alias
+                <input id="selAlias">
+            </label>
+        </div>
+
+        <button id="deleteEntity" class="danger">Удалить объект</button>
+    </section>
+
+    <h2>Калибровка</h2>
+
+    <div class="row">
+        <label>
+            Масштаб X
+            <input id="scaleX" type="number" value="1" step="0.01">
+        </label>
+
+        <label>
+            Масштаб Y
+            <input id="scaleY" type="number" value="1" step="0.01">
+        </label>
+    </div>
+
+    <div class="row">
+        <label>
+            Сдвиг X
+            <input id="shiftX" type="number" value="0">
+        </label>
+
+        <label>
+            Сдвиг Y
+            <input id="shiftY" type="number" value="0">
+        </label>
+    </div>
+
+    <div class="row">
+        <label>
+            Platform X
+            <input id="platformX" type="number" value="0">
+        </label>
+
+        <label>
+            Platform Y
+            <input id="platformY" type="number" value="0">
+        </label>
+    </div>
+
+    <button id="saveCalibration">Запомнить калибровку</button>
+
+    <h2>TXT уровня</h2>
+
+    <textarea id="levelText" spellcheck="false"></textarea>
+
+    <div class="row">
+        <button id="applyText">Применить TXT</button>
+        <button id="downloadText" class="primary">Скачать TXT</button>
+    </div>
+
+    <p class="hint">
+        Перетаскивание меняет X и Z.<br>
+        Shift + перетаскивание меняет X и высоту A.<br>
+        Delete удаляет выбранный объект.<br>
+        Неизвестные команды и комментарии сохраняются.
+    </p>
+</aside>
+
+<main>
+    <div class="toolbar">
+        <button id="zoomOut">−</button>
+        <span id="zoomLabel">100%</span>
+        <button id="zoomIn">+</button>
+        <button id="fitView">Вместить</button>
+
+        <span class="grow"></span>
+
+        <label><input id="showSprites" type="checkbox" checked> кадры</label>
+        <label><input id="showGeometry" type="checkbox" checked> геометрия</label>
+        <label><input id="showPlatforms" type="checkbox" checked> platform</label>
+        <label><input id="showLabels" type="checkbox" checked> подписи</label>
+        <label><input id="showGrid" type="checkbox" checked> сетка</label>
+    </div>
+
+    <div id="viewport">
+        <canvas id="canvas" width="800" height="480"></canvas>
+    </div>
+
+    <div id="status">
+        Выберите папку проекта или откройте пример.
+    </div>
+</main>
+
+</div>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+const canvas = $("canvas");
+const ctx = canvas.getContext("2d");
+const viewport = $("viewport");
+
+const projectFiles = new Map();
+const modelMap = new Map();
+const imageMap = new Map();
+const levelZMap = new Map();
+const objectURLs = [];
+
+const state = {
+    sourceName: "level.txt",
+    levelPath: "",
+    stageZ: null,
+
+    nodes: [],
+    entities: [],
+    terrain: [],
+    panels: [],
+
+    order: "",
+    background: "",
+    palette: "",
+    spawn1: null,
+
+    selected: null,
+    drag: null,
+    nextID: 1,
+
+    width: 800,
+    height: 480,
+    zoom: 1,
+
+    calibration: {
+        scaleX: 1,
+        scaleY: 1,
+        shiftX: 0,
+        shiftY: 0,
+        platformX: 0,
+        platformY: 0
+    }
+};
+
+function setStatus(text)
+{
+    $("status").textContent = text;
+}
+
+function number(value, fallback = 0)
+{
+    const result = Number(value);
+
+    return Number.isFinite(result)
+        ? result
+        : fallback;
+}
+
+function round(value)
+{
+    return Math.round(value * 100) / 100;
+}
+
+function clamp(value, minimum, maximum)
+{
+    return Math.max(
+        minimum,
+        Math.min(maximum, value)
+    );
+}
+
+function stripComment(line)
+{
+    return line.split("#")[0].trim();
+}
+
+function getTokens(line)
+{
+    const code = stripComment(line);
+
+    return code
+        ? code.split(/\s+/)
+        : [];
+}
+
+function normalizePath(path)
+{
+    let result = String(path || "")
+        .replace(/\\/g, "/")
+        .replace(/^\.\//, "");
+
+    const lower = result.toLowerCase();
+    const dataPosition = lower.indexOf("data/");
+
+    if(dataPosition >= 0)
+    {
+        result = result.substring(dataPosition);
+    }
+
+    return result.toLowerCase();
+}
+
+function makeDataPath(path)
+{
+    let result = normalizePath(path);
+
+    if(!result.startsWith("data/"))
+    {
+        result = "data/" + result;
+    }
+
+    return result;
+}
+
+function findProjectFile(path)
+{
+    return projectFiles.get(makeDataPath(path)) ||
+           projectFiles.get(normalizePath(path));
+}
+
+function escapeHTML(value)
+{
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+}
+
+async function readText(file)
+{
+    const buffer = await file.arrayBuffer();
+
+    return new TextDecoder("utf-8")
+        .decode(buffer)
+        .replace(/^\uFEFF/, "");
+}
+
+function releaseImages()
+{
+    while(objectURLs.length)
+    {
+        URL.revokeObjectURL(objectURLs.pop());
+    }
+
+    imageMap.clear();
+}
+
+function getImage(path)
+{
+    if(!path)
+    {
+        return null;
+    }
+
+    const key = makeDataPath(path);
+
+    if(imageMap.has(key))
+    {
+        return imageMap.get(key);
+    }
+
+    const file = findProjectFile(key);
+
+    if(!file)
+    {
+        return null;
+    }
+
+    const url = URL.createObjectURL(file);
+    objectURLs.push(url);
+
+    const image = new Image();
+    image.src = url;
+
+    image.onload = function()
+    {
+        resizeCanvas();
+        render();
+    };
+
+    imageMap.set(key, image);
+
+    return image;
+}
+
+/* =========================================================
+ * Загрузка проекта
+ * ========================================================= */
+
+async function loadProject(fileList)
+{
+    projectFiles.clear();
+    modelMap.clear();
+    levelZMap.clear();
+    releaseImages();
+
+    for(const file of fileList)
+    {
+        const relativePath =
+            file.webkitRelativePath || file.name;
+
+        projectFiles.set(
+            normalizePath(relativePath),
+            file
+        );
+    }
+
+    const levels = [...projectFiles.keys()]
+        .filter(path =>
+            /^data\/levels\/[^/]+\.txt$/i.test(path)
+        )
+        .sort();
+
+    if(levels.length)
+    {
+        $("levelSelect").innerHTML =
+            levels.map(path =>
+                `<option value="${escapeHTML(path)}">` +
+                `${escapeHTML(path)}</option>`
+            ).join("");
+    }
+    else
+    {
+        $("levelSelect").innerHTML =
+            `<option value="">Уровни не найдены</option>`;
+    }
+
+    await loadLevelDefinitions();
+    await loadModels();
+
+    setStatus(
+        "Файлов: " + projectFiles.size +
+        ", моделей: " + getUniqueModels().length +
+        ", уровней: " + levels.length +
+        ", записей Z: " + levelZMap.size
+    );
+}
+
+/* =========================================================
+ * data/levels.txt
+ * ========================================================= */
+
+async function loadLevelDefinitions()
+{
+    levelZMap.clear();
+
+    const file = findProjectFile("data/levels.txt");
+
+    if(!file)
+    {
+        return;
+    }
+
+    const text = await readText(file);
+    const lines = text.split(/\r?\n/);
+
+    let currentZ = null;
+
+    for(const line of lines)
+    {
+        const values = getTokens(line);
+
+        if(!values.length)
+        {
+            continue;
+        }
+
+        const command = values[0].toLowerCase();
+
+        if(command === "z" && values.length >= 3)
+        {
+            currentZ = {
+                minimum: number(values[1]),
+                maximum: number(values[2]),
+
+                backgroundHeight:
+                    values.length >= 4
+                        ? number(values[3])
+                        : null
+            };
+
+            continue;
+        }
+
+        if(command === "file" && values[1] && currentZ)
+        {
+            const path = makeDataPath(values[1]);
+
+            levelZMap.set(path, {
+                minimum: currentZ.minimum,
+                maximum: currentZ.maximum,
+                backgroundHeight:
+                    currentZ.backgroundHeight
+            });
+        }
+    }
+}
+
+/* =========================================================
+ * Модели
+ * ========================================================= */
+
+async function loadModels()
+{
+    const modelsFile =
+        findProjectFile("data/models.txt");
+
+    if(!modelsFile)
+    {
+        refreshModelLists();
+        return;
+    }
+
+    const text = await readText(modelsFile);
+    const entries = [];
+
+    for(const line of text.split(/\r?\n/))
+    {
+        const values = getTokens(line);
+
+        if(values.length < 3)
+        {
+            continue;
+        }
+
+        const command = values[0].toLowerCase();
+
+        if(command === "load" || command === "know")
+        {
+            entries.push({
+                alias: values[1],
+                path: makeDataPath(values[2])
+            });
+        }
+    }
+
+    for(const entry of entries)
+    {
+        const file = findProjectFile(entry.path);
+
+        if(!file)
+        {
+            modelMap.set(
+                entry.alias.toLowerCase(),
+                {
+                    alias: entry.alias,
+                    name: entry.alias,
+                    path: entry.path,
+                    missing: true,
+                    type: "",
+                    frame: "",
+                    offset: [0, 0],
+                    bbox: null,
+                    platform: null
+                }
+            );
+
+            continue;
+        }
+
+        const modelText = await readText(file);
+        const model = parseModel(modelText, entry);
+
+        modelMap.set(
+            entry.alias.toLowerCase(),
+            model
+        );
+
+        if(model.name)
+        {
+            modelMap.set(
+                model.name.toLowerCase(),
+                model
+            );
+        }
+    }
+
+    refreshModelLists();
+}
+
+function parseModel(text, entry)
+{
+    const lines = text.split(/\r?\n/);
+
+    let name = entry.alias;
+    let type = "";
+
+    let animationFound = false;
+    let currentAnimation = "";
+
+    let offset = [0, 0];
+    let bbox = null;
+    let platform = null;
+
+    let firstFrame = null;
+    let idleFrame = null;
+
+    for(const line of lines)
+    {
+        const values = getTokens(line);
+
+        if(!values.length)
+        {
+            continue;
+        }
+
+        const command = values[0].toLowerCase();
+
+        if(!animationFound &&
+           command === "name" &&
+           values[1])
+        {
+            name = values[1];
+        }
+
+        if(!animationFound &&
+           command === "type" &&
+           values[1])
+        {
+            type = values[1].toLowerCase();
+        }
+
+        if(command === "anim")
+        {
+            animationFound = true;
+            currentAnimation =
+                (values[1] || "").toLowerCase();
+
+            offset = [0, 0];
+            bbox = null;
+            platform = null;
+
+            continue;
+        }
+
+        if(!animationFound)
+        {
+            continue;
+        }
+
+        if(command === "offset" &&
+           values.length >= 3)
+        {
+            offset = [
+                number(values[1]),
+                number(values[2])
+            ];
+        }
+
+        if(command === "bbox" &&
+           values.length >= 5)
+        {
+            bbox = values
+                .slice(1)
+                .map(value => number(value));
+        }
+
+        if(command === "platform")
+        {
+            platform = values
+                .slice(1)
+                .map(value => number(value));
+        }
+
+        if(command === "frame" && values[1])
+        {
+            const frameData = {
+                frame: makeDataPath(values[1]),
+                offset: [...offset],
+                bbox: bbox ? [...bbox] : null,
+                platform:
+                    platform ? [...platform] : null
+            };
+
+            if(!firstFrame)
+            {
+                firstFrame = frameData;
+            }
+
+            if(
+                currentAnimation === "idle" &&
+                !idleFrame
+            )
+            {
+                idleFrame = frameData;
+            }
+        }
+    }
+
+    /*
+     * Используем буквально первый frame модели.
+     */
+    const selectedFrame =
+        firstFrame ||
+        idleFrame ||
+        {
+            frame: "",
+            offset: [0, 0],
+            bbox: null,
+            platform: null
+        };
+
+    return {
+        alias: entry.alias,
+        path: entry.path,
+        name: name,
+        type: type,
+
+        frame: selectedFrame.frame,
+        offset: selectedFrame.offset,
+        bbox: selectedFrame.bbox,
+        platform: selectedFrame.platform
+    };
+}
+
+function getUniqueModels()
+{
+    const unique = new Map();
+
+    for(const model of modelMap.values())
+    {
+        unique.set(
+            model.alias.toLowerCase(),
+            model
+        );
+    }
+
+    return [...unique.values()]
+        .sort((a, b) =>
+            a.alias.localeCompare(b.alias)
+        );
+}
+
+function refreshModelLists()
+{
+    const models = getUniqueModels();
+
+    if(models.length)
+    {
+        $("modelSelect").innerHTML =
+            models.map(model =>
+                `<option value="${escapeHTML(model.alias)}">` +
+                `${escapeHTML(model.alias)}` +
+                `${model.missing ? " — нет файла" : ""}` +
+                `</option>`
+            ).join("");
+    }
+    else
+    {
+        $("modelSelect").innerHTML =
+            `<option value="">Нет моделей</option>`;
+    }
+
+    const players = models.filter(model =>
+        model.type === "player"
+    );
+
+    $("playerSelect").innerHTML =
+        `<option value="">Автоматически</option>` +
+        players.map(model =>
+            `<option value="${escapeHTML(model.alias)}">` +
+            `${escapeHTML(model.alias)}</option>`
+        ).join("");
+}
+
+/* =========================================================
+ * Разбор уровня
+ * ========================================================= */
+
+function parseLevel(text, fileName = "level.txt")
+{
+    state.sourceName =
+        fileName.split("/").pop() || "level.txt";
+
+    state.levelPath = makeDataPath(fileName);
+
+    state.stageZ =
+        levelZMap.get(state.levelPath) || null;
+
+    state.nodes = [];
+    state.entities = [];
+    state.terrain = [];
+    state.panels = [];
+
+    state.order = "";
+    state.background = "";
+    state.palette = "";
+    state.spawn1 = null;
+
+    state.selected = null;
+    state.drag = null;
+    state.nextID = 1;
+
+    const lines = text
+        .replace(/^\uFEFF/, "")
+        .split(/\r?\n/);
+
+    let index = 0;
+
+    while(index < lines.length)
+    {
+        const values = getTokens(lines[index]);
+
+        const command =
+            (values[0] || "").toLowerCase();
+
+        if(command === "spawn")
+        {
+            const block = [];
+
+            while(index < lines.length)
+            {
+                const currentValues =
+                    getTokens(lines[index]);
+
+                const currentCommand =
+                    (currentValues[0] || "")
+                        .toLowerCase();
+
+                if(
+                    block.length &&
+                    currentCommand === "spawn"
+                )
+                {
+                    break;
+                }
+
+                block.push(lines[index]);
+                index++;
+
+                if(currentCommand === "at")
+                {
+                    break;
+                }
+            }
+
+            const entity =
+                parseSpawnBlock(block);
+
+            state.entities.push(entity);
+
+            state.nodes.push({
+                type: "spawn",
+                entity: entity
+            });
+
+            continue;
+        }
+
+        const node = {
+            type: "raw",
+            line: lines[index]
+        };
+
+        state.nodes.push(node);
+
+        parseLevelCommand(
+            lines[index],
+            node
+        );
+
+        index++;
+    }
+
+    updateSelectionPanel();
+    updateTextArea();
+    resizeCanvas();
+    render();
+
+    let ground = "не найден";
+
+    if(state.stageZ)
+    {
+        ground =
+            state.stageZ.minimum +
+            "–" +
+            state.stageZ.maximum;
+    }
+
+    setStatus(
+        "Уровень: " + state.sourceName +
+        ", объектов: " + state.entities.length +
+        ", геометрии: " + state.terrain.length +
+        ", земля Z: " + ground
+    );
+}
+
+function parseSpawnBlock(lines)
+{
+    const entity = {
+        id: state.nextID++,
+        lines: lines,
+
+        name: "",
+        alias: "",
+
+        x: 0,
+        z: 0,
+        a: 0,
+        at: 0,
+
+        flip: "",
+        deleted: false,
+        added: false
+    };
+
+    for(const line of lines)
+    {
+        const values = getTokens(line);
+
+        if(!values.length)
+        {
+            continue;
+        }
+
+        const command = values[0].toLowerCase();
+
+        if(command === "spawn")
+        {
+            entity.name = values[1] || "";
+        }
+        else if(command === "alias")
+        {
+            entity.alias =
+                values.slice(1).join(" ");
+        }
+        else if(command === "coords")
+        {
+            entity.x = number(values[1]);
+            entity.z = number(values[2]);
+            entity.a = number(values[3]);
+        }
+        else if(command === "at")
+        {
+            entity.at = number(values[1]);
+        }
+        else if(command === "flip")
+        {
+            entity.flip = values[1] ?? "";
+        }
+    }
+
+    return entity;
+}
+
+function parseLevelCommand(line, node)
+{
+    const values = getTokens(line);
+
+    if(!values.length)
+    {
+        return;
+    }
+
+    const command = values[0].toLowerCase();
+
+    if(command === "panel" && values[1])
+    {
+        state.panels.push(
+            makeDataPath(values[1])
+        );
+    }
+    else if(command === "background" && values[1])
+    {
+        state.background =
+            makeDataPath(values[1]);
+    }
+    else if(command === "palette" && values[1])
+    {
+        state.palette =
+            makeDataPath(values[1]);
+    }
+    else if(command === "order")
+    {
+        state.order = values[1] || "";
+    }
+    else if(command === "spawn1")
+    {
+        state.spawn1 = {
+            x: number(values[1]),
+            z: number(values[2]),
+            a: number(values[3])
+        };
+    }
+    else if(command === "wall" ||
+            command === "hole")
+    {
+        const terrain = {
+            kind: command,
+            values: values
+                .slice(1)
+                .map(value => number(value)),
+            node: node
+        };
+
+        if(terrain.values.length >= 7)
+        {
+            state.terrain.push(terrain);
+            node.terrain = terrain;
+        }
+    }
+    else if(command === "basemap")
+    {
+        const terrain = {
+            kind: command,
+            values: values
+                .slice(1)
+                .map(value => number(value)),
+            node: node
+        };
+
+        if(terrain.values.length >= 6)
+        {
+            state.terrain.push(terrain);
+            node.terrain = terrain;
+        }
+    }
+}
+
+/* =========================================================
+ * Экспорт
+ * ========================================================= */
+
+function serializeEntity(entity)
+{
+    const output = [];
+
+    let hasSpawn = false;
+    let hasCoords = false;
+    let hasAt = false;
+    let hasAlias = false;
+    let hasFlip = false;
+
+    for(const line of entity.lines || [])
+    {
+        const values = getTokens(line);
+
+        const command =
+            (values[0] || "").toLowerCase();
+
+        if(command === "spawn")
+        {
+            output.push(
+                "spawn\t" + entity.name
+            );
+
+            hasSpawn = true;
+        }
+        else if(command === "coords")
+        {
+            let result =
+                "coords\t" +
+                round(entity.x) + " " +
+                round(entity.z);
+
+            if(entity.a !== 0)
+            {
+                result += " " + round(entity.a);
+            }
+
+            output.push(result);
+            hasCoords = true;
+        }
+        else if(command === "at")
+        {
+            output.push(
+                "at\t" + round(entity.at)
+            );
+
+            hasAt = true;
+        }
+        else if(command === "alias")
+        {
+            hasAlias = true;
+
+            if(entity.alias)
+            {
+                output.push(
+                    "alias\t" + entity.alias
+                );
+            }
+        }
+        else if(command === "flip")
+        {
+            hasFlip = true;
+
+            if(entity.flip !== "")
+            {
+                output.push(
+                    "flip\t" + entity.flip
+                );
+            }
+        }
+        else
+        {
+            output.push(line);
+        }
+    }
+
+    if(!hasSpawn)
+    {
+        output.unshift(
+            "spawn\t" + entity.name
+        );
+    }
+
+    let atIndex = output.findIndex(line =>
+    {
+        const values = getTokens(line);
+
+        return (
+            values[0] || ""
+        ).toLowerCase() === "at";
+    });
+
+    if(atIndex < 0)
+    {
+        atIndex = output.length;
+    }
+
+    if(!hasAlias && entity.alias)
+    {
+        output.splice(
+            atIndex,
+            0,
+            "alias\t" + entity.alias
+        );
+
+        atIndex++;
+    }
+
+    if(!hasFlip && entity.flip !== "")
+    {
+        output.splice(
+            atIndex,
+            0,
+            "flip\t" + entity.flip
+        );
+
+        atIndex++;
+    }
+
+    if(!hasCoords)
+    {
+        let result =
+            "coords\t" +
+            round(entity.x) + " " +
+            round(entity.z);
+
+        if(entity.a !== 0)
+        {
+            result += " " + round(entity.a);
+        }
+
+        output.splice(
+            atIndex,
+            0,
+            result
+        );
+    }
+
+    if(!hasAt)
+    {
+        output.push(
+            "at\t" + round(entity.at)
+        );
+    }
+
+    return output.join("\n");
+}
+
+function serializeLevel()
+{
+    const output = [];
+    const existingEntities = new Set();
+
+    for(const node of state.nodes)
+    {
+        if(node.type === "spawn")
+        {
+            existingEntities.add(
+                node.entity.id
+            );
+
+            if(!node.entity.deleted)
+            {
+                output.push(
+                    serializeEntity(node.entity)
+                );
+            }
+        }
+        else
+        {
+            output.push(node.line);
+        }
+    }
+
+    for(const entity of state.entities)
+    {
+        if(
+            !entity.deleted &&
+            !existingEntities.has(entity.id)
+        )
+        {
+            output.push("");
+            output.push(
+                serializeEntity(entity)
+            );
+        }
+    }
+
+    return output.join("\n") + "\n";
+}
+
+function updateTextArea()
+{
+    $("levelText").value =
+        serializeLevel();
+}
+
+/* =========================================================
+ * Координаты
+ * ========================================================= */
+
+function getModel(name)
+{
+    return modelMap.get(
+        String(name || "").toLowerCase()
+    ) || null;
+}
+
+function getWorldX(entity)
+{
+    /*
+     * coords X задаётся относительно at.
+     */
+    return entity.x + entity.at;
+}
+
+function project(x, z, altitude = 0)
+{
+    const calibration =
+        state.calibration;
+
+    return {
+        x:
+            x * calibration.scaleX +
+            calibration.shiftX,
+
+        y:
+            (z - altitude) *
+            calibration.scaleY +
+            calibration.shiftY
+    };
+}
+
+/* =========================================================
+ * Размер уровня
+ * ========================================================= */
+
+function resizeCanvas()
+{
+    let width = 800;
+    let height = 480;
+
+    let panelWidth = 0;
+    let panelHeight = 0;
+
+    for(const character of
+        state.order.toLowerCase())
+    {
+        const index =
+            character.charCodeAt(0) - 97;
+
+        const image =
+            getImage(state.panels[index]);
+
+        if(
+            image &&
+            image.complete &&
+            image.naturalWidth
+        )
+        {
+            panelWidth += image.naturalWidth;
+
+            panelHeight = Math.max(
+                panelHeight,
+                image.naturalHeight
+            );
+        }
+    }
+
+    width = Math.max(width, panelWidth);
+    height = Math.max(height, panelHeight);
+
+    for(const entity of state.entities)
+    {
+        if(entity.deleted)
+        {
+            continue;
+        }
+
+        width = Math.max(
+            width,
+            getWorldX(entity) + 300
+        );
+
+        height = Math.max(
+            height,
+            entity.z + 150
+        );
+    }
+
+    for(const terrain of state.terrain)
+    {
+        const values = terrain.values;
+
+        if(terrain.kind === "basemap")
+        {
+            width = Math.max(
+                width,
+                values[0] + values[2] + 100
+            );
+        }
+        else
+        {
+            const right = Math.max(
+                values[2] || 0,
+                values[3] || 0,
+                values[4] || 0,
+                values[5] || 0
+            );
+
+            width = Math.max(
+                width,
+                values[0] + right + 100
+            );
+        }
+    }
+
+    width = Math.ceil(
+        Math.max(320, width)
+    );
+
+    height = Math.ceil(
+        Math.max(240, height)
+    );
+
+    if(
+        canvas.width !== width ||
+        canvas.height !== height
+    )
+    {
+        canvas.width = width;
+        canvas.height = height;
+    }
+
+    state.width = width;
+    state.height = height;
+
+    applyZoom();
+}
+
+/* =========================================================
+ * Главная отрисовка
+ * ========================================================= */
+
+function render()
+{
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation =
+        "source-over";
+
+    ctx.fillStyle = "#151a20";
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    /*
+     * 1. Background и panel.
+     */
+    drawBackground();
+
+    /*
+     * 2. Сетка.
+     */
+    if($("showGrid").checked)
+    {
+        drawGrid();
+    }
+
+    /*
+     * 3. Земля и геометрия.
+     */
+    if($("showGeometry").checked)
+    {
+        drawGround();
+
+        for(const terrain of state.terrain)
+        {
+            drawTerrain(terrain);
+        }
+    }
+
+    /*
+     * 4. Старт игрока.
+     */
+    if(state.spawn1)
+    {
+        drawPlayerSpawn();
+    }
+
+    /*
+     * 5. Сущности всегда рисуются последними.
+     */
+    const entities = state.entities
+        .filter(entity => !entity.deleted)
+        .sort((a, b) =>
+            (a.z - a.a) -
+            (b.z - b.a)
+        );
+
+    for(const entity of entities)
+    {
+        drawEntity(entity);
+    }
+}
+
+/* =========================================================
+ * Background и panel
+ * ========================================================= */
+
+function drawBackground()
+{
+    const background =
+        getImage(state.background) ||
+        getImage(state.palette);
+
+    if(
+        background &&
+        background.complete &&
+        background.naturalWidth
+    )
+    {
+        for(
+            let x = 0;
+            x < canvas.width;
+            x += background.naturalWidth
+        )
+        {
+            ctx.drawImage(
+                background,
+                x,
+                0
+            );
+        }
+    }
+
+    if(
+        !state.order ||
+        !state.panels.length
+    )
+    {
+        return;
+    }
+
+    let currentX = 0;
+
+    for(const character of
+        state.order.toLowerCase())
+    {
+        const panelIndex =
+            character.charCodeAt(0) - 97;
+
+        const image =
+            getImage(
+                state.panels[panelIndex]
+            );
+
+        if(
+            image &&
+            image.complete &&
+            image.naturalWidth
+        )
+        {
+            ctx.drawImage(
+                image,
+                currentX,
+                0
+            );
+
+            currentX += image.naturalWidth;
+        }
+    }
+}
+
+function drawGrid()
+{
+    ctx.save();
+
+    ctx.strokeStyle =
+        "rgba(140,170,200,0.18)";
+
+    ctx.lineWidth = 1;
+
+    for(
+        let x = 0;
+        x < canvas.width;
+        x += 50
+    )
+    {
+        ctx.beginPath();
+        ctx.moveTo(x + 0.5, 0);
+        ctx.lineTo(x + 0.5, canvas.height);
+        ctx.stroke();
+    }
+
+    for(
+        let y = 0;
+        y < canvas.height;
+        y += 50
+    )
+    {
+        ctx.beginPath();
+        ctx.moveTo(0, y + 0.5);
+        ctx.lineTo(canvas.width, y + 0.5);
+        ctx.stroke();
+    }
+
+    ctx.restore();
+}
+
+/* =========================================================
+ * Земля из data/levels.txt
+ * ========================================================= */
+
+function drawGround()
+{
+    let minimumZ;
+    let maximumZ;
+    let backgroundHeight = null;
+    let source = "spawn1";
+
+    if(state.stageZ)
+    {
+        minimumZ = state.stageZ.minimum;
+        maximumZ = state.stageZ.maximum;
+        backgroundHeight =
+            state.stageZ.backgroundHeight;
+
+        source = "data/levels.txt";
+    }
+    else if(state.spawn1)
+    {
+        minimumZ = state.spawn1.z;
+        maximumZ = state.spawn1.z;
+    }
+    else
+    {
+        return;
+    }
+
+    if(minimumZ > maximumZ)
+    {
+        const temporary = minimumZ;
+        minimumZ = maximumZ;
+        maximumZ = temporary;
+    }
+
+    const upperLeft =
+        project(0, minimumZ);
+
+    const upperRight =
+        project(canvas.width, minimumZ);
+
+    const lowerLeft =
+        project(0, maximumZ);
+
+    const lowerRight =
+        project(canvas.width, maximumZ);
+
+    ctx.save();
+
+    if(minimumZ !== maximumZ)
+    {
+        ctx.fillStyle =
+            "rgba(74,222,128,0.16)";
+
+        ctx.beginPath();
+        ctx.moveTo(
+            upperLeft.x,
+            upperLeft.y
+        );
+        ctx.lineTo(
+            upperRight.x,
+            upperRight.y
+        );
+        ctx.lineTo(
+            lowerRight.x,
+            lowerRight.y
+        );
+        ctx.lineTo(
+            lowerLeft.x,
+            lowerLeft.y
+        );
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    ctx.strokeStyle = "#4ade80";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+    ctx.moveTo(
+        upperLeft.x,
+        upperLeft.y
+    );
+    ctx.lineTo(
+        upperRight.x,
+        upperRight.y
+    );
+    ctx.stroke();
+
+    if(minimumZ !== maximumZ)
+    {
+        ctx.strokeStyle = "#16a34a";
+
+        ctx.beginPath();
+        ctx.moveTo(
+            lowerLeft.x,
+            lowerLeft.y
+        );
+        ctx.lineTo(
+            lowerRight.x,
+            lowerRight.y
+        );
+        ctx.stroke();
+    }
+
+    ctx.restore();
+
+    drawLabel(
+        "ЗЕМЛЯ Z: " +
+        minimumZ +
+        (
+            minimumZ !== maximumZ
+                ? "–" + maximumZ
+                : ""
+        ) +
+        " [" + source + "]",
+        8,
+        upperLeft.y - 8,
+        "#86efac"
+    );
+
+    /*
+     * Третий параметр z.
+     */
+    if(backgroundHeight !== null)
+    {
+        const point =
+            project(0, backgroundHeight);
+
+        ctx.save();
+
+        ctx.strokeStyle = "#e879f9";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 5]);
+
+        ctx.beginPath();
+        ctx.moveTo(0, point.y);
+        ctx.lineTo(canvas.width, point.y);
+        ctx.stroke();
+
+        ctx.restore();
+
+        drawLabel(
+            "BG HEIGHT: " +
+            backgroundHeight,
+            8,
+            point.y - 7,
+            "#f0abfc"
+        );
+    }
+}
+
+/* =========================================================
+ * Wall, hole и basemap
+ * ========================================================= */
+
+function terrainPolygon(values, altitude)
+{
+    const x = values[0];
+    const z = values[1];
+
+    const upperLeft = values[2];
+    const lowerLeft = values[3];
+    const upperRight = values[4];
+    const lowerRight = values[5];
+
+    const depth = values[6];
+
+    return [
+        project(
+            x + upperLeft,
+            z - depth,
+            altitude
+        ),
+        project(
+            x + upperRight,
+            z - depth,
+            altitude
+        ),
+        project(
+            x + lowerRight,
+            z,
+            altitude
+        ),
+        project(
+            x + lowerLeft,
+            z,
+            altitude
+        )
+    ];
+}
+
+function drawTerrain(terrain)
+{
+    const values = terrain.values;
+
+    if(terrain.kind === "basemap")
+    {
+        drawBasemap(values);
+        return;
+    }
+
+    const altitude = number(values[7]);
+    const points =
+        terrainPolygon(values, altitude);
+
+    if(terrain.kind === "hole")
+    {
+        drawPolygon(
+            points,
+            "rgba(239,68,68,0.28)",
+            "#ef4444",
+            2
+        );
+
+        drawLabel(
+            "HOLE " + values.join(" "),
+            points[0].x,
+            points[0].y - 5,
+            "#fca5a5"
+        );
+    }
+    else
+    {
+        drawPolygon(
+            points,
+            "rgba(250,204,21,0.22)",
+            "#facc15",
+            2
+        );
+
+        drawLabel(
+            "WALL " + values.join(" "),
+            points[0].x,
+            points[0].y - 5,
+            "#fde047"
+        );
+    }
+}
+
+function drawBasemap(values)
+{
+    const x = values[0];
+    const z = values[1];
+    const width = values[2];
+    const depth = values[3];
+    const minimumAltitude = values[4];
+    const maximumAltitude = values[5];
+
+    const points = [
+        project(
+            x,
+            z,
+            minimumAltitude
+        ),
+        project(
+            x + width,
+            z,
+            maximumAltitude
+        ),
+        project(
+            x + width,
+            z + depth,
+            maximumAltitude
+        ),
+        project(
+            x,
+            z + depth,
+            minimumAltitude
+        )
+    ];
+
+    drawPolygon(
+        points,
+        "rgba(56,189,248,0.23)",
+        "#38bdf8",
+        2
+    );
+
+    const slopeStart =
+        project(
+            x,
+            z + depth,
+            minimumAltitude
+        );
+
+    const slopeEnd =
+        project(
+            x + width,
+            z + depth,
+            maximumAltitude
+        );
+
+    ctx.save();
+
+    ctx.strokeStyle = "#7dd3fc";
+    ctx.lineWidth = 4;
+
+    ctx.beginPath();
+    ctx.moveTo(
+        slopeStart.x,
+        slopeStart.y
+    );
+    ctx.lineTo(
+        slopeEnd.x,
+        slopeEnd.y
+    );
+    ctx.stroke();
+
+    ctx.restore();
+
+    drawLabel(
+        "BASEMAP " + values.join(" "),
+        points[0].x,
+        points[0].y - 5,
+        "#7dd3fc"
+    );
+}
+
+function drawPolygon(
+    points,
+    fillColor,
+    strokeColor,
+    lineWidth
+)
+{
+    if(!points.length)
+    {
+        return;
+    }
+
+    ctx.save();
+
+    ctx.fillStyle = fillColor;
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = lineWidth;
+
+    ctx.beginPath();
+    ctx.moveTo(
+        points[0].x,
+        points[0].y
+    );
+
+    for(let i = 1; i < points.length; i++)
+    {
+        ctx.lineTo(
+            points[i].x,
+            points[i].y
+        );
+    }
+
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.restore();
+}
+
+/* =========================================================
+ * Игрок
+ * ========================================================= */
+
+function drawPlayerSpawn()
+{
+    const point = project(
+        state.spawn1.x,
+        state.spawn1.z,
+        state.spawn1.a
+    );
+
+    ctx.save();
+
+    ctx.strokeStyle = "#4ade80";
+    ctx.lineWidth = 3;
+
+    ctx.beginPath();
+    ctx.moveTo(point.x - 10, point.y);
+    ctx.lineTo(point.x + 10, point.y);
+    ctx.moveTo(point.x, point.y - 10);
+    ctx.lineTo(point.x, point.y + 10);
+    ctx.stroke();
+
+    ctx.restore();
+
+    drawLabel(
+        "spawn1",
+        point.x + 12,
+        point.y - 8,
+        "#86efac"
+    );
+
+    let player = null;
+
+    if($("playerSelect").value)
+    {
+        player = getModel(
+            $("playerSelect").value
+        );
+    }
+    else
+    {
+        player = getUniqueModels()
+            .find(model =>
+                model.type === "player"
+            );
+    }
+
+    if(
+        player &&
+        $("showSprites").checked
+    )
+    {
+        drawModelSprite(
+            player,
+            point.x,
+            point.y,
+            false,
+            0.8
+        );
+    }
+}
+
+/* =========================================================
+ * Сущности
+ * ========================================================= */
+
+function drawEntity(entity)
+{
+    const point = project(
+        getWorldX(entity),
+        entity.z,
+        entity.a
+    );
+
+    const model = getModel(entity.name);
+    let spriteWasDrawn = false;
+
+    if(
+        model &&
+        $("showSprites").checked
+    )
+    {
+        spriteWasDrawn =
+            drawModelSprite(
+                model,
+                point.x,
+                point.y,
+                entity.flip === "1",
+                1
+            );
+    }
+
+    if(!spriteWasDrawn)
+    {
+        ctx.save();
+
+        ctx.fillStyle =
+            model ? "#facc15" : "#f97316";
+
+        ctx.strokeStyle = "#000";
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        ctx.arc(
+            point.x,
+            point.y,
+            8,
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.restore();
+
+        if(model && model.frame)
+        {
+            drawLabel(
+                "КАДР НЕ ЗАГРУЖЕН: " +
+                model.frame,
+                point.x + 10,
+                point.y - 8,
+                "#fde047"
+            );
+        }
+        else
+        {
+            drawLabel(
+                "МОДЕЛЬ НЕ НАЙДЕНА: " +
+                entity.name,
+                point.x + 10,
+                point.y - 8,
+                "#fdba74"
+            );
+        }
+    }
+
+    if(
+        model &&
+        model.platform &&
+        $("showPlatforms").checked
+    )
+    {
+        drawModelPlatform(
+            model,
+            point.x,
+            point.y
+        );
+    }
+
+    if(
+        state.selected &&
+        state.selected.id === entity.id
+    )
+    {
+        ctx.save();
+
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 3]);
+
+        ctx.strokeRect(
+            point.x - 40,
+            point.y - 100,
+            80,
+            105
+        );
+
+        ctx.restore();
+    }
+
+    drawLabel(
+        entity.name +
+        " X:" + round(entity.x) +
+        " Z:" + round(entity.z) +
+        " A:" + round(entity.a) +
+        " at:" + round(entity.at),
+        point.x + 8,
+        point.y + 16,
+        "#fff"
+    );
+}
+
+function drawModelSprite(
+    model,
+    x,
+    y,
+    flip,
+    alpha
+)
+{
+    const image = getImage(model.frame);
+
+    if(
+        !image ||
+        !image.complete ||
+        !image.naturalWidth
+    )
+    {
+        return false;
+    }
+
+    const offsetX =
+        model.offset[0] || 0;
+
+    const offsetY =
+        model.offset[1] || 0;
+
+    ctx.save();
+
+    ctx.globalAlpha = alpha;
+    ctx.globalCompositeOperation =
+        "source-over";
+
+    if(flip)
+    {
+        ctx.translate(x, 0);
+        ctx.scale(-1, 1);
+
+        ctx.drawImage(
+            image,
+            -offsetX,
+            y - offsetY
+        );
+    }
+    else
+    {
+        ctx.drawImage(
+            image,
+            x - offsetX,
+            y - offsetY
+        );
+    }
+
+    ctx.restore();
+
+    if(
+        model.bbox &&
+        $("showGeometry").checked
+    )
+    {
+        const bboxX = model.bbox[0];
+        const bboxY = model.bbox[1];
+        const bboxWidth = model.bbox[2];
+        const bboxHeight = model.bbox[3];
+
+        ctx.save();
+
+        ctx.strokeStyle = "#fb7185";
+        ctx.lineWidth = 1;
+
+        ctx.strokeRect(
+            x - offsetX + bboxX,
+            y - offsetY + bboxY,
+            bboxWidth,
+            bboxHeight
+        );
+
+        ctx.restore();
+    }
+
+    return true;
+}
+
+/* =========================================================
+ * Platform сущности
+ * ========================================================= */
+
+function drawModelPlatform(
+    model,
+    entityX,
+    entityY
+)
+{
+    const values = model.platform;
+
+    if(!values || values.length < 6)
+    {
+        return;
+    }
+
+    let platformX;
+    let platformZ;
+    let lowerLeft;
+    let upperLeft;
+    let lowerRight;
+    let upperRight;
+    let depth;
+    let altitude;
+
+    if(values.length >= 8)
+    {
+        platformX = values[0];
+        platformZ = values[1];
+        lowerLeft = values[2];
+        upperLeft = values[3];
+        lowerRight = values[4];
+        upperRight = values[5];
+        depth = values[6];
+        altitude = values[7];
+    }
+    else
+    {
+        platformX = model.offset[0];
+        platformZ = model.offset[1];
+        upperLeft = values[0];
+        lowerLeft = values[1];
+        upperRight = values[2];
+        lowerRight = values[3];
+        depth = values[4];
+        altitude = values[5];
+    }
+
+    const offsetX = model.offset[0] || 0;
+    const offsetY = model.offset[1] || 0;
+
+    const originX =
+        entityX +
+        platformX -
+        offsetX +
+        state.calibration.platformX;
+
+    const originY =
+        entityY +
+        platformZ -
+        offsetY -
+        altitude +
+        state.calibration.platformY;
+
+    const points = [
+        {
+            x: originX + upperLeft,
+            y: originY - depth
+        },
+        {
+            x: originX + upperRight,
+            y: originY - depth
+        },
+        {
+            x: originX + lowerRight,
+            y: originY
+        },
+        {
+            x: originX + lowerLeft,
+            y: originY
+        }
+    ];
+
+    drawPolygon(
+        points,
+        "rgba(34,197,94,0.24)",
+        "#22c55e",
+        2
+    );
+
+    drawLabel(
+        "PLATFORM",
+        points[0].x,
+        points[0].y - 4,
+        "#86efac"
+    );
+}
+
+function drawLabel(
+    text,
+    x,
+    y,
+    color
+)
+{
+    if(!$("showLabels").checked)
+    {
+        return;
+    }
+
+    ctx.save();
+
+    ctx.font =
+        "11px Consolas,monospace";
+
+    ctx.lineWidth = 3;
+    ctx.strokeStyle =
+        "rgba(0,0,0,0.9)";
+
+    ctx.fillStyle = color;
+
+    ctx.strokeText(text, x, y);
+    ctx.fillText(text, x, y);
+
+    ctx.restore();
+}
+
+/* =========================================================
+ * Выбор и перемещение
+ * ========================================================= */
+
+function canvasPoint(event)
+{
+    const rectangle =
+        canvas.getBoundingClientRect();
+
+    return {
+        x:
+            (event.clientX - rectangle.left) *
+            canvas.width /
+            rectangle.width,
+
+        y:
+            (event.clientY - rectangle.top) *
+            canvas.height /
+            rectangle.height
+    };
+}
+
+function findEntityAt(x, y)
+{
+    let result = null;
+    let closest = 60;
+
+    for(const entity of state.entities)
+    {
+        if(entity.deleted)
+        {
+            continue;
+        }
+
+        const point = project(
+            getWorldX(entity),
+            entity.z,
+            entity.a
+        );
+
+        const distance = Math.hypot(
+            point.x - x,
+            point.y - y
+        );
+
+        if(distance < closest)
+        {
+            closest = distance;
+            result = entity;
+        }
+    }
+
+    return result;
+}
+
+canvas.addEventListener(
+    "pointerdown",
+    event =>
+    {
+        const point = canvasPoint(event);
+
+        const entity = findEntityAt(
+            point.x,
+            point.y
+        );
+
+        state.selected = entity;
+
+        updateSelectionPanel();
+        render();
+
+        if(entity)
+        {
+            state.drag = {
+                entity: entity,
+
+                startX: point.x,
+                startY: point.y,
+
+                x: entity.x,
+                z: entity.z,
+                a: entity.a,
+
+                altitudeMode:
+                    event.shiftKey
+            };
+
+            canvas.setPointerCapture(
+                event.pointerId
+            );
+        }
+    }
+);
+
+canvas.addEventListener(
+    "pointermove",
+    event =>
+    {
+        if(!state.drag)
+        {
+            return;
+        }
+
+        const point = canvasPoint(event);
+        const drag = state.drag;
+
+        const deltaX =
+            (point.x - drag.startX) /
+            state.calibration.scaleX;
+
+        const deltaY =
+            (point.y - drag.startY) /
+            state.calibration.scaleY;
+
+        drag.entity.x =
+            drag.x + deltaX;
+
+        if(
+            drag.altitudeMode ||
+            event.shiftKey
+        )
+        {
+            drag.entity.a =
+                drag.a - deltaY;
+        }
+        else
+        {
+            drag.entity.z =
+                drag.z + deltaY;
+        }
+
+        updateSelectionFields();
+        render();
+    }
+);
+
+canvas.addEventListener(
+    "pointerup",
+    () =>
+    {
+        if(state.drag)
+        {
+            state.drag = null;
+
+            resizeCanvas();
+            updateTextArea();
+            render();
+        }
+    }
+);
+
+function updateSelectionPanel()
+{
+    $("selectionPanel").hidden =
+        !state.selected;
+
+    updateSelectionFields();
+}
+
+function updateSelectionFields()
+{
+    const entity = state.selected;
+
+    if(!entity)
+    {
+        return;
+    }
+
+    $("selName").value = entity.name;
+    $("selX").value = round(entity.x);
+    $("selZ").value = round(entity.z);
+    $("selA").value = round(entity.a);
+    $("selAt").value = round(entity.at);
+    $("selFlip").value = entity.flip;
+    $("selAlias").value = entity.alias;
+}
+
+function applySelectionFields()
+{
+    const entity = state.selected;
+
+    if(!entity)
+    {
+        return;
+    }
+
+    entity.name =
+        $("selName").value.trim();
+
+    entity.x =
+        number($("selX").value);
+
+    entity.z =
+        number($("selZ").value);
+
+    entity.a =
+        number($("selA").value);
+
+    entity.at =
+        number($("selAt").value);
+
+    entity.flip =
+        $("selFlip").value;
+
+    entity.alias =
+        $("selAlias").value.trim();
+
+    resizeCanvas();
+    updateTextArea();
+    render();
+}
+
+/* =========================================================
+ * Калибровка и масштаб
+ * ========================================================= */
+
+function readCalibration()
+{
+    state.calibration.scaleX =
+        number($("scaleX").value, 1);
+
+    state.calibration.scaleY =
+        number($("scaleY").value, 1);
+
+    state.calibration.shiftX =
+        number($("shiftX").value);
+
+    state.calibration.shiftY =
+        number($("shiftY").value);
+
+    state.calibration.platformX =
+        number($("platformX").value);
+
+    state.calibration.platformY =
+        number($("platformY").value);
+}
+
+function applyZoom()
+{
+    canvas.style.width =
+        canvas.width *
+        state.zoom +
+        "px";
+
+    canvas.style.height =
+        canvas.height *
+        state.zoom +
+        "px";
+
+    $("zoomLabel").textContent =
+        Math.round(
+            state.zoom * 100
+        ) + "%";
+}
+
+function setZoom(value)
+{
+    state.zoom = clamp(
+        value,
+        0.15,
+        5
+    );
+
+    applyZoom();
+}
+
+/* =========================================================
+ * Интерфейс
+ * ========================================================= */
+
+$("folderInput").addEventListener(
+    "change",
+    event =>
+    {
+        loadProject(event.target.files);
+    }
+);
+
+$("openLevel").addEventListener(
+    "click",
+    async () =>
+    {
+        const path =
+            $("levelSelect").value;
+
+        const file =
+            findProjectFile(path);
+
+        if(!file)
+        {
+            setStatus(
+                "Файл уровня не выбран."
+            );
+
+            return;
+        }
+
+        parseLevel(
+            await readText(file),
+            path
+        );
+    }
+);
+
+$("openExample").addEventListener(
+    "click",
+    () =>
+    {
+        parseLevel(
+            EXAMPLE_LEVEL,
+            "data/levels/slope_example.txt"
+        );
+    }
+);
+
+$("applyText").addEventListener(
+    "click",
+    () =>
+    {
+        parseLevel(
+            $("levelText").value,
+            state.levelPath ||
+            state.sourceName
+        );
+    }
+);
+
+$("downloadText").addEventListener(
+    "click",
+    () =>
+    {
+        const blob = new Blob(
+            [serializeLevel()],
+            {
+                type:
+                    "text/plain;charset=utf-8"
+            }
+        );
+
+        const url =
+            URL.createObjectURL(blob);
+
+        const link =
+            document.createElement("a");
+
+        link.href = url;
+        link.download =
+            state.sourceName || "level.txt";
+
+        link.click();
+
+        setTimeout(
+            () => URL.revokeObjectURL(url),
+            1000
+        );
+    }
+);
+
+$("addEntity").addEventListener(
+    "click",
+    () =>
+    {
+        const modelName =
+            $("modelSelect").value;
+
+        if(!modelName)
+        {
+            return;
+        }
+
+        const centerX =
+            (
+                viewport.scrollLeft +
+                viewport.clientWidth / 2
+            ) /
+            state.zoom;
+
+        const entity = {
+            id: state.nextID++,
+            lines: [],
+
+            name: modelName,
+            alias: "",
+
+            x: centerX,
+            z:
+                state.spawn1
+                    ? state.spawn1.z
+                    : 200,
+
+            a: 0,
+            at: 0,
+            flip: "",
+
+            deleted: false,
+            added: true
+        };
+
+        state.entities.push(entity);
+        state.selected = entity;
+
+        updateSelectionPanel();
+        resizeCanvas();
+        updateTextArea();
+        render();
+    }
+);
+
+$("deleteEntity").addEventListener(
+    "click",
+    () =>
+    {
+        if(!state.selected)
+        {
+            return;
+        }
+
+        state.selected.deleted = true;
+        state.selected = null;
+
+        updateSelectionPanel();
+        updateTextArea();
+        render();
+    }
+);
+
+for(const id of [
+    "selName",
+    "selX",
+    "selZ",
+    "selA",
+    "selAt",
+    "selFlip",
+    "selAlias"
+])
+{
+    $(id).addEventListener(
+        "change",
+        applySelectionFields
+    );
+}
+
+for(const id of [
+    "scaleX",
+    "scaleY",
+    "shiftX",
+    "shiftY",
+    "platformX",
+    "platformY"
+])
+{
+    $(id).addEventListener(
+        "input",
+        () =>
+        {
+            readCalibration();
+            render();
+        }
+    );
+}
+
+$("saveCalibration").addEventListener(
+    "click",
+    () =>
+    {
+        readCalibration();
+
+        localStorage.setItem(
+            "openbor-level-editor-calibration",
+            JSON.stringify(
+                state.calibration
+            )
+        );
+
+        setStatus(
+            "Калибровка сохранена."
+        );
+    }
+);
+
+for(const id of [
+    "showSprites",
+    "showGeometry",
+    "showPlatforms",
+    "showLabels",
+    "showGrid",
+    "playerSelect"
+])
+{
+    $(id).addEventListener(
+        "change",
+        render
+    );
+}
+
+$("zoomIn").addEventListener(
+    "click",
+    () =>
+    {
+        setZoom(
+            state.zoom * 1.25
+        );
+    }
+);
+
+$("zoomOut").addEventListener(
+    "click",
+    () =>
+    {
+        setZoom(
+            state.zoom / 1.25
+        );
+    }
+);
+
+$("fitView").addEventListener(
+    "click",
+    () =>
+    {
+        const horizontal =
+            viewport.clientWidth /
+            canvas.width;
+
+        const vertical =
+            viewport.clientHeight /
+            canvas.height;
+
+        setZoom(
+            Math.min(
+                horizontal,
+                vertical
+            )
+        );
+    }
+);
+
+window.addEventListener(
+    "keydown",
+    event =>
+    {
+        const activeTag =
+            document.activeElement.tagName;
+
+        if(
+            event.key === "Delete" &&
+            state.selected &&
+            activeTag !== "INPUT" &&
+            activeTag !== "TEXTAREA" &&
+            activeTag !== "SELECT"
+        )
+        {
+            $("deleteEntity").click();
+        }
+    }
+);
+
+/* =========================================================
+ * Пример
+ * ========================================================= */
+
+const EXAMPLE_LEVEL = `# OpenBOR slope example
+music data/music/aud.ogg
+
+palette data/bgs/sand/levelbg.png
+background data/bgs/sand/levelbg.png
+panel data/bgs/sand/level.png none none
+
+order a
+direction both
+
+settime 0
+notime 1
+
+scrollspeed 2
+cameratype 1
+cameraoffset 40 20
+
+spawn1 120 295
+
+# Подъём
+basemap 300 95 250 200 0 100
+
+# Вершина
+wall 550 295 0 0 180 180 200 100
+
+# Спуск
+basemap 730 95 250 200 100 0
+
+# Яма
+hole 1080 295 0 0 170 170 200 0
+
+spawn Barbarian
+alias Player_preview
+coords 120 295
+at 0
+
+spawn Orc_
+coords 430 295
+at 0
+
+spawn Troll_
+coords 620 295 100
+at 0
+`;
+
+/* =========================================================
+ * Запуск
+ * ========================================================= */
+
+try
+{
+    const savedCalibration =
+        JSON.parse(
+            localStorage.getItem(
+                "openbor-level-editor-calibration"
+            )
+        );
+
+    if(savedCalibration)
+    {
+        Object.assign(
+            state.calibration,
+            savedCalibration
+        );
+    }
+}
+catch(error)
+{
+    console.warn(error);
+}
+
+for(const [key, value] of
+    Object.entries(state.calibration))
+{
+    $(key).value = value;
+}
+
+parseLevel(
+    EXAMPLE_LEVEL,
+    "data/levels/slope_example.txt"
+);
+</script>
+<script>
+/*
+ * OpenBOR Level Editor Add-on:
+ * - исправляет загрузку PNG/GIF;
+ * - выбирает первый реально существующий кадр;
+ * - добавляет рисование подъёма, стены, спуска и ямы;
+ * - исправляет направление глубины basemap по Z.
+ */
+(() =>
+{
+    "use strict";
+
+    /* =====================================================
+     * Интерфейс инструментов
+     * ===================================================== */
+
+    const toolSection = document.createElement("section");
+
+    toolSection.innerHTML = `
+        <h2>Рисование земли</h2>
+
+        <div class="row">
+            <button class="terrainTool" data-mode="rise">
+                Подъём A → B
+            </button>
+
+            <button class="terrainTool" data-mode="descent">
+                Спуск A → B
+            </button>
+        </div>
+
+        <div class="row" style="margin-top:7px">
+            <button class="terrainTool" data-mode="wall">
+                Стена A — B
+            </button>
+
+            <button class="terrainTool" data-mode="hole">
+                Яма A — B
+            </button>
+        </div>
+
+        <label>
+            Глубина по Z
+            <input
+                id="terrainDepth"
+                type="number"
+                value="110"
+                min="1"
+                step="1"
+            >
+        </label>
+
+        <div class="row">
+            <button id="terrainSelect">
+                Выбор объектов
+            </button>
+
+            <button id="terrainCancel">
+                Сбросить точку A
+            </button>
+        </div>
+
+        <p id="terrainHelp" class="hint">
+            Выберите инструмент, затем укажите мышкой
+            точку A и точку B.
+        </p>
+    `;
+
+    const textTitle = [...document.querySelectorAll("aside h2")]
+        .find(element =>
+            element.textContent.trim() === "TXT уровня"
+        );
+
+    if(textTitle)
+    {
+        textTitle.before(toolSection);
+    }
+    else
+    {
+        document.querySelector("aside").append(toolSection);
+    }
+
+    const style = document.createElement("style");
+
+    style.textContent = `
+        .terrainTool.active,
+        #terrainSelect.active {
+            color:#fff;
+            background:#1769aa;
+            border-color:#54a9ed;
+            box-shadow:0 0 0 1px #54a9ed inset;
+        }
+
+        #canvas.terrainDrawing {
+            cursor:crosshair;
+        }
+    `;
+
+    document.head.append(style);
+
+    const terrainTool = {
+        mode: "select",
+        pointA: null,
+        mousePoint: null
+    };
+
+    /* =====================================================
+     * Надёжная загрузка PNG/GIF
+     * ===================================================== */
+
+    function getImageMime(path)
+    {
+        const extension = String(path || "")
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+        if(extension === "gif")
+        {
+            return "image/gif";
+        }
+
+        if(extension === "png")
+        {
+            return "image/png";
+        }
+
+        if(extension === "jpg" ||
+           extension === "jpeg")
+        {
+            return "image/jpeg";
+        }
+
+        if(extension === "webp")
+        {
+            return "image/webp";
+        }
+
+        if(extension === "bmp")
+        {
+            return "image/bmp";
+        }
+
+        return "application/octet-stream";
+    }
+
+    /*
+     * Заменяем старую функцию getImage().
+     */
+    getImage = function(path)
+    {
+        if(!path)
+        {
+            return null;
+        }
+
+        const key = makeDataPath(path);
+
+        if(imageMap.has(key))
+        {
+            return imageMap.get(key);
+        }
+
+        const file = findProjectFile(key);
+
+        if(!file)
+        {
+            return null;
+        }
+
+        /*
+         * Принудительно указываем MIME-тип.
+         * Это особенно важно для некоторых GIF.
+         */
+        const typedBlob = file.slice(
+            0,
+            file.size,
+            getImageMime(key)
+        );
+
+        const url = URL.createObjectURL(typedBlob);
+        objectURLs.push(url);
+
+        const image = new Image();
+
+        image.onload = function()
+        {
+            image.loadFailed = false;
+
+            resizeCanvas();
+            render();
+
+            setStatus(
+                "Загружено изображение: " + key
+            );
+        };
+
+        image.onerror = function()
+        {
+            image.loadFailed = true;
+
+            console.error(
+                "Не удалось загрузить изображение:",
+                key
+            );
+
+            setStatus(
+                "Ошибка изображения: " + key
+            );
+
+            render();
+        };
+
+        image.src = url;
+
+        imageMap.set(key, image);
+
+        return image;
+    };
+
+    /* =====================================================
+     * Первый существующий кадр модели
+     * ===================================================== */
+
+    parseModel = function(text, entry)
+    {
+        const lines = text.split(/\r?\n/);
+
+        let name = entry.alias;
+        let type = "";
+
+        let animationFound = false;
+        let currentAnimation = "";
+
+        let offset = [0, 0];
+        let bbox = null;
+        let platform = null;
+
+        const allFrames = [];
+        const idleFrames = [];
+
+        for(const line of lines)
+        {
+            const values = getTokens(line);
+
+            if(!values.length)
+            {
+                continue;
+            }
+
+            const command =
+                values[0].toLowerCase();
+
+            if(!animationFound &&
+               command === "name" &&
+               values[1])
+            {
+                name = values[1];
+            }
+
+            if(!animationFound &&
+               command === "type" &&
+               values[1])
+            {
+                type = values[1].toLowerCase();
+            }
+
+            if(command === "anim")
+            {
+                animationFound = true;
+
+                currentAnimation =
+                    (values[1] || "")
+                        .toLowerCase();
+
+                offset = [0, 0];
+                bbox = null;
+                platform = null;
+
+                continue;
+            }
+
+            if(!animationFound)
+            {
+                continue;
+            }
+
+            if(command === "offset" &&
+               values.length >= 3)
+            {
+                offset = [
+                    number(values[1]),
+                    number(values[2])
+                ];
+            }
+
+            if(command === "bbox" &&
+               values.length >= 5)
+            {
+                bbox = values
+                    .slice(1)
+                    .map(value => number(value));
+            }
+
+            if(command === "platform")
+            {
+                platform = values
+                    .slice(1)
+                    .map(value => number(value));
+            }
+
+            if(command === "frame" && values[1])
+            {
+                const frameData = {
+                    frame: makeDataPath(values[1]),
+                    offset: [...offset],
+
+                    bbox:
+                        bbox
+                            ? [...bbox]
+                            : null,
+
+                    platform:
+                        platform
+                            ? [...platform]
+                            : null
+                };
+
+                allFrames.push(frameData);
+
+                if(currentAnimation === "idle")
+                {
+                    idleFrames.push(frameData);
+                }
+            }
+        }
+
+        /*
+         * Ищем первый кадр, файл которого
+         * действительно существует в выбранной папке.
+         */
+        let selectedFrame = allFrames.find(frame =>
+            findProjectFile(frame.frame)
+        );
+
+        /*
+         * Если первые анимации ссылаются на отсутствующие
+         * файлы, пробуем первый существующий idle.
+         */
+        if(!selectedFrame)
+        {
+            selectedFrame = idleFrames.find(frame =>
+                findProjectFile(frame.frame)
+            );
+        }
+
+        /*
+         * Последний запасной вариант.
+         */
+        if(!selectedFrame)
+        {
+            selectedFrame =
+                allFrames[0] ||
+                idleFrames[0] ||
+                {
+                    frame: "",
+                    offset: [0, 0],
+                    bbox: null,
+                    platform: null
+                };
+        }
+
+        return {
+            alias: entry.alias,
+            path: entry.path,
+            name: name,
+            type: type,
+
+            frame: selectedFrame.frame,
+            offset: selectedFrame.offset,
+            bbox: selectedFrame.bbox,
+            platform: selectedFrame.platform
+        };
+    };
+
+    /* =====================================================
+     * Исправленное отображение basemap
+     * ===================================================== */
+
+    drawBasemap = function(values)
+    {
+        const x = values[0];
+        const z = values[1];
+        const width = values[2];
+        const depth = values[3];
+
+        const altitudeLeft = values[4];
+        const altitudeRight = values[5];
+
+        /*
+         * Как у wall и hole:
+         * z — нижняя граница;
+         * z - depth — верхняя граница.
+         */
+        const points = [
+            project(
+                x,
+                z - depth,
+                altitudeLeft
+            ),
+            project(
+                x + width,
+                z - depth,
+                altitudeRight
+            ),
+            project(
+                x + width,
+                z,
+                altitudeRight
+            ),
+            project(
+                x,
+                z,
+                altitudeLeft
+            )
+        ];
+
+        drawPolygon(
+            points,
+            "rgba(56,189,248,0.23)",
+            "#38bdf8",
+            2
+        );
+
+        /*
+         * Основная линия наклонной поверхности.
+         */
+        const lineA = project(
+            x,
+            getReferenceGroundZ(),
+            altitudeLeft
+        );
+
+        const lineB = project(
+            x + width,
+            getReferenceGroundZ(),
+            altitudeRight
+        );
+
+        ctx.save();
+
+        ctx.strokeStyle = "#7dd3fc";
+        ctx.lineWidth = 4;
+
+        ctx.beginPath();
+        ctx.moveTo(lineA.x, lineA.y);
+        ctx.lineTo(lineB.x, lineB.y);
+        ctx.stroke();
+
+        ctx.restore();
+
+        drawLabel(
+            "BASEMAP " + values.join(" "),
+            points[0].x,
+            points[0].y - 5,
+            "#7dd3fc"
+        );
+    };
+
+    /* =====================================================
+     * Координаты инструмента
+     * ===================================================== */
+
+    function getReferenceGroundZ()
+	{
+		/*
+		 * В первую очередь используем землю
+		 * из корневого data/levels.txt.
+		 */
+		if(state.stageZ)
+		{
+			const minimum = Math.min(
+				state.stageZ.minimum,
+				state.stageZ.maximum
+			);
+
+			const maximum = Math.max(
+				state.stageZ.minimum,
+				state.stageZ.maximum
+			);
+
+			/*
+			 * Если spawn1 находится внутри дорожки,
+			 * используем его Z как точную линию земли.
+			 */
+			if(state.spawn1)
+			{
+				return Math.max(
+					minimum,
+					Math.min(maximum, state.spawn1.z)
+				);
+			}
+
+			return (minimum + maximum) / 2;
+		}
+
+		if(state.spawn1)
+		{
+			return state.spawn1.z;
+		}
+
+		return 200;
+	}
+	
+	function getMaximumFloorZ()
+	{
+		if(state.stageZ)
+		{
+			return Math.max(
+				state.stageZ.minimum,
+				state.stageZ.maximum
+			);
+		}
+
+		if(state.spawn1)
+		{
+			return state.spawn1.z;
+		}
+
+		return getReferenceGroundZ();
+	}
+
+    function getTerrainPlane()
+    {
+        const requestedDepth = Math.max(
+            1,
+            number(
+                document.getElementById(
+                    "terrainDepth"
+                ).value,
+                110
+            )
+        );
+
+        let centerZ = getReferenceGroundZ();
+        let depth = requestedDepth;
+
+        if(state.stageZ)
+        {
+            const stageDepth = Math.abs(
+                state.stageZ.maximum -
+                state.stageZ.minimum
+            );
+
+            depth = Math.max(
+                requestedDepth,
+                stageDepth || 1
+            );
+
+            if(stageDepth > 0)
+            {
+                centerZ = (
+                    state.stageZ.minimum +
+                    state.stageZ.maximum
+                ) / 2;
+            }
+        }
+
+        /*
+         * Геометрия покрывает область от
+         * z - depth до z.
+         */
+        return {
+            z: centerZ + depth / 2,
+            depth: depth
+        };
+    }
+
+	function unprojectPoint(canvasPosition)
+	{
+		const calibration = state.calibration;
+
+		const worldX = (
+			canvasPosition.x -
+			calibration.shiftX
+		) / calibration.scaleX;
+
+		const projectedY = (
+			canvasPosition.y -
+			calibration.shiftY
+		) / calibration.scaleY;
+
+		const groundZ =
+			getReferenceGroundZ();
+
+		/*
+		 * Высота относительно земли.
+		 */
+		let altitude =
+			groundZ - projectedY;
+
+		/*
+		 * Запрещаем рисовать ниже земли.
+		 */
+		altitude = Math.max(0, altitude);
+
+		/*
+		 * Экранная позиция пересчитывается заново.
+		 * Если мышь находится ниже земли, точка
+		 * прилипнет к земле.
+		 */
+		const snappedPosition = project(
+			worldX,
+			groundZ,
+			altitude
+		);
+
+		return {
+			screenX: snappedPosition.x,
+			screenY: snappedPosition.y,
+
+			x: worldX,
+			altitude: altitude
+		};
+	}
+
+    /* =====================================================
+     * Создание команд
+     * ===================================================== */
+
+    function appendTerrainCommand(command)
+    {
+        const node = {
+            type: "raw",
+            line: command
+        };
+
+        state.nodes.push(node);
+
+        parseLevelCommand(
+            command,
+            node
+        );
+
+        updateTextArea();
+        resizeCanvas();
+        render();
+
+        setStatus(
+            "Добавлено: " + command
+        );
+    }
+
+    function createTerrain(pointA, pointB)
+	{
+		const mode = terrainTool.mode;
+
+		let leftPoint = pointA;
+		let rightPoint = pointB;
+
+		if(leftPoint.x > rightPoint.x)
+		{
+			leftPoint = pointB;
+			rightPoint = pointA;
+		}
+
+		const startX =
+			Math.round(leftPoint.x);
+
+		const width = Math.max(
+			1,
+			Math.round(
+				rightPoint.x -
+				leftPoint.x
+			)
+		);
+
+		const plane =
+			getTerrainPlane();
+
+		const normalZ =
+			Math.round(plane.z);
+
+		const depth =
+			Math.round(plane.depth);
+
+		let altitudeLeft =
+			Math.max(
+				0,
+				Math.round(
+					leftPoint.altitude
+				)
+			);
+
+		let altitudeRight =
+			Math.max(
+				0,
+				Math.round(
+					rightPoint.altitude
+				)
+			);
+
+		if(mode === "rise")
+		{
+			if(altitudeLeft === altitudeRight)
+			{
+				altitudeRight =
+					altitudeLeft + 100;
+			}
+
+			appendTerrainCommand(
+				"basemap " +
+				startX + " " +
+				normalZ + " " +
+				width + " " +
+				depth + " " +
+				altitudeLeft + " " +
+				altitudeRight
+			);
+		}
+		else if(mode === "descent")
+		{
+			if(altitudeLeft === altitudeRight)
+			{
+				altitudeLeft =
+					altitudeRight + 100;
+			}
+
+			appendTerrainCommand(
+				"basemap " +
+				startX + " " +
+				normalZ + " " +
+				width + " " +
+				depth + " " +
+				altitudeLeft + " " +
+				altitudeRight
+			);
+		}
+		else if(mode === "wall")
+		{
+			const wallHeight =
+				Math.max(
+					0,
+					Math.round(
+						pointA.altitude
+					)
+				);
+
+			/*
+			 * Чем больше Z, тем ниже находится
+			 * нижняя граница wall.
+			 *
+			 * Ограничиваем её нижней границей пола,
+			 * полученной из data/levels.txt.
+			 */
+			const wallZ = Math.min(
+				normalZ,
+				Math.round(
+					getMaximumFloorZ()
+				)
+			);
+
+			appendTerrainCommand(
+				"wall " +
+				startX + " " +
+				wallZ + " " +
+				"0 0 " +
+				width + " " +
+				width + " " +
+				depth + " " +
+				wallHeight
+			);
+		}
+		else if(mode === "hole")
+		{
+			appendTerrainCommand(
+				"hole " +
+				startX + " " +
+				normalZ + " " +
+				"0 0 " +
+				width + " " +
+				width + " " +
+				depth + " 0"
+			);
+		}
+	}
+
+    /* =====================================================
+     * Предпросмотр A и B
+     * ===================================================== */
+
+    function drawPointMarker(point, name, color)
+    {
+        if(!point)
+        {
+            return;
+        }
+
+        ctx.save();
+
+        ctx.fillStyle = color;
+        ctx.strokeStyle = "#000";
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        ctx.arc(
+            point.screenX,
+            point.screenY,
+            7,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = "bold 13px Arial";
+        ctx.fillStyle = color;
+        ctx.strokeStyle = "#000";
+        ctx.lineWidth = 3;
+
+        ctx.strokeText(
+            name,
+            point.screenX + 10,
+            point.screenY - 10
+        );
+
+        ctx.fillText(
+            name,
+            point.screenX + 10,
+            point.screenY - 10
+        );
+
+        ctx.restore();
+    }
+
+    function drawTerrainToolPreview()
+    {
+        if(
+            terrainTool.mode === "select" ||
+            !terrainTool.pointA
+        )
+        {
+            return;
+        }
+
+        const pointA = terrainTool.pointA;
+        const pointB = terrainTool.mousePoint;
+
+        drawPointMarker(
+            pointA,
+            "A  X:" +
+            Math.round(pointA.x) +
+            " H:" +
+            Math.round(pointA.altitude),
+            "#22c55e"
+        );
+
+        if(!pointB)
+        {
+            return;
+        }
+
+        ctx.save();
+
+        if(terrainTool.mode === "hole")
+        {
+            ctx.strokeStyle = "#ef4444";
+        }
+        else if(terrainTool.mode === "wall")
+        {
+            ctx.strokeStyle = "#facc15";
+        }
+        else
+        {
+            ctx.strokeStyle = "#38bdf8";
+        }
+
+        ctx.lineWidth = 4;
+        ctx.setLineDash([8, 4]);
+
+        ctx.beginPath();
+        ctx.moveTo(
+            pointA.screenX,
+            pointA.screenY
+        );
+
+        ctx.lineTo(
+            pointB.screenX,
+            pointB.screenY
+        );
+
+        ctx.stroke();
+        ctx.restore();
+
+        drawPointMarker(
+            pointB,
+            "B  X:" +
+            Math.round(pointB.x) +
+            " H:" +
+            Math.round(pointB.altitude),
+            "#f97316"
+        );
+    }
+
+    /*
+     * Оборачиваем основную функцию render(),
+     * чтобы поверх уровня рисовался предпросмотр.
+     */
+    const originalRender = render;
+
+    render = function()
+    {
+        originalRender();
+        drawTerrainToolPreview();
+    };
+
+    /* =====================================================
+     * Режимы инструментов
+     * ===================================================== */
+
+    function setTerrainMode(mode)
+    {
+        terrainTool.mode = mode;
+        terrainTool.pointA = null;
+        terrainTool.mousePoint = null;
+
+        document
+            .querySelectorAll(".terrainTool")
+            .forEach(button =>
+            {
+                button.classList.toggle(
+                    "active",
+                    button.dataset.mode === mode
+                );
+            });
+
+        document
+            .getElementById("terrainSelect")
+            .classList.toggle(
+                "active",
+                mode === "select"
+            );
+
+        canvas.classList.toggle(
+            "terrainDrawing",
+            mode !== "select"
+        );
+
+        const descriptions = {
+            select:
+                "Режим выбора и перемещения объектов.",
+
+            rise:
+                "Подъём: укажите нижнюю точку A, затем верхнюю точку B.",
+
+            descent:
+                "Спуск: укажите верхнюю точку A, затем нижнюю точку B.",
+
+            wall:
+                "Стена: укажите начало A и конец B. Высота берётся из точки A.",
+
+            hole:
+                "Яма: укажите левую и правую границы."
+        };
+
+        document.getElementById(
+            "terrainHelp"
+        ).textContent = descriptions[mode];
+
+        render();
+    }
+
+    document
+        .querySelectorAll(".terrainTool")
+        .forEach(button =>
+        {
+            button.addEventListener(
+                "click",
+                () =>
+                {
+                    setTerrainMode(
+                        button.dataset.mode
+                    );
+                }
+            );
+        });
+
+    document
+        .getElementById("terrainSelect")
+        .addEventListener(
+            "click",
+            () => setTerrainMode("select")
+        );
+
+    document
+        .getElementById("terrainCancel")
+        .addEventListener(
+            "click",
+            () =>
+            {
+                terrainTool.pointA = null;
+                terrainTool.mousePoint = null;
+
+                setStatus(
+                    "Точка A сброшена."
+                );
+
+                render();
+            }
+        );
+
+    /* =====================================================
+     * Перехват мыши для рисования
+     * ===================================================== */
+
+    canvas.addEventListener(
+        "pointerdown",
+        event =>
+        {
+            if(terrainTool.mode === "select")
+            {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            const position = canvasPoint(event);
+            const point = unprojectPoint(position);
+
+            if(!terrainTool.pointA)
+            {
+                terrainTool.pointA = point;
+                terrainTool.mousePoint = point;
+
+                setStatus(
+                    "Точка A установлена. Укажите точку B."
+                );
+
+                render();
+                return;
+            }
+
+            createTerrain(
+                terrainTool.pointA,
+                point
+            );
+
+            /*
+             * Инструмент остаётся активным,
+             * можно сразу рисовать следующий участок.
+             */
+            terrainTool.pointA = null;
+            terrainTool.mousePoint = null;
+
+            render();
+        },
+        true
+    );
+
+    canvas.addEventListener(
+        "pointermove",
+        event =>
+        {
+            if(
+                terrainTool.mode === "select" ||
+                !terrainTool.pointA
+            )
+            {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            terrainTool.mousePoint =
+                unprojectPoint(
+                    canvasPoint(event)
+                );
+
+            render();
+        },
+        true
+    );
+
+    canvas.addEventListener(
+        "contextmenu",
+        event =>
+        {
+            if(terrainTool.mode !== "select")
+            {
+                event.preventDefault();
+
+                terrainTool.pointA = null;
+                terrainTool.mousePoint = null;
+
+                render();
+            }
+        }
+    );
+
+    window.addEventListener(
+        "keydown",
+        event =>
+        {
+            if(event.key === "Escape")
+            {
+                terrainTool.pointA = null;
+                terrainTool.mousePoint = null;
+
+                render();
+            }
+        }
+    );
+
+    setTerrainMode("select");
+})();
+</script>
+<script>
+(() =>
+{
+    "use strict";
+
+    let selectedTerrain = null;
+
+    /* =====================================================
+     * Кнопка удаления геометрии
+     * ===================================================== */
+
+    const deleteButton =
+        document.createElement("button");
+
+    deleteButton.id = "deleteTerrain";
+    deleteButton.className = "danger";
+    deleteButton.textContent =
+        "Удалить выбранную геометрию";
+
+    deleteButton.disabled = true;
+
+    const terrainHelp =
+        document.getElementById("terrainHelp");
+
+    terrainHelp.before(deleteButton);
+
+    function updateTerrainDeleteButton()
+    {
+        deleteButton.disabled =
+            !selectedTerrain;
+
+        if(selectedTerrain)
+        {
+            deleteButton.textContent =
+                "Удалить " +
+                selectedTerrain.kind.toUpperCase();
+        }
+        else
+        {
+            deleteButton.textContent =
+                "Удалить выбранную геометрию";
+        }
+    }
+
+    /* =====================================================
+     * Отрисовка стены от земли до точки A
+     * ===================================================== */
+
+    drawTerrain = function(terrain)
+    {
+        const values = terrain.values;
+
+        if(terrain.kind === "basemap")
+        {
+            drawBasemap(values);
+            return;
+        }
+
+        if(terrain.kind === "hole")
+        {
+            const points =
+                terrainPolygon(values, 0);
+
+            drawPolygon(
+                points,
+                "rgba(239,68,68,0.28)",
+                "#ef4444",
+                2
+            );
+
+            drawLabel(
+                "HOLE " + values.join(" "),
+                points[0].x,
+                points[0].y - 5,
+                "#fca5a5"
+            );
+
+            return;
+        }
+
+        /*
+         * Высота wall берётся из последнего параметра.
+         * Этот параметр создаётся из точки A.
+         */
+        const wallHeight = number(values[7]);
+
+        /*
+         * Верх стены.
+         */
+        const topPoints =
+            terrainPolygon(
+                values,
+                wallHeight
+            );
+
+        /*
+         * Низ стены находится на обычной земле:
+         * altitude = 0.
+         */
+        const bottomPoints =
+            terrainPolygon(
+                values,
+                0
+            );
+
+        /*
+         * Передняя вертикальная поверхность стены.
+         */
+        const frontFace = [
+            topPoints[3],
+            topPoints[2],
+            bottomPoints[2],
+            bottomPoints[3]
+        ];
+
+        drawPolygon(
+            frontFace,
+            "rgba(161,98,7,0.48)",
+            "#ca8a04",
+            2
+        );
+
+        /*
+         * Левая боковая поверхность.
+         */
+        const leftFace = [
+            topPoints[0],
+            topPoints[3],
+            bottomPoints[3],
+            bottomPoints[0]
+        ];
+
+        drawPolygon(
+            leftFace,
+            "rgba(133,77,14,0.42)",
+            "#a16207",
+            2
+        );
+
+        /*
+         * Правая боковая поверхность.
+         */
+        const rightFace = [
+            topPoints[1],
+            topPoints[2],
+            bottomPoints[2],
+            bottomPoints[1]
+        ];
+
+        drawPolygon(
+            rightFace,
+            "rgba(180,105,10,0.38)",
+            "#b45309",
+            2
+        );
+
+        /*
+         * Верхняя поверхность.
+         */
+        drawPolygon(
+            topPoints,
+            "rgba(250,204,21,0.32)",
+            "#facc15",
+            3
+        );
+
+        drawLabel(
+            "WALL H:" +
+            wallHeight +
+            "  " +
+            values.join(" "),
+            topPoints[0].x,
+            topPoints[0].y - 7,
+            "#fde047"
+        );
+    };
+
+    /* =====================================================
+     * Геометрические проверки
+     * ===================================================== */
+
+    function pointInPolygon(point, polygon)
+    {
+        let inside = false;
+
+        for(
+            let i = 0, j = polygon.length - 1;
+            i < polygon.length;
+            j = i++
+        )
+        {
+            const pointI = polygon[i];
+            const pointJ = polygon[j];
+
+            const crosses =
+                (
+                    pointI.y > point.y
+                ) !== (
+                    pointJ.y > point.y
+                );
+
+            if(crosses)
+            {
+                const intersectionX =
+                    (
+                        pointJ.x - pointI.x
+                    ) *
+                    (
+                        point.y - pointI.y
+                    ) /
+                    (
+                        pointJ.y -
+                        pointI.y
+                    ) +
+                    pointI.x;
+
+                if(point.x < intersectionX)
+                {
+                    inside = !inside;
+                }
+            }
+        }
+
+        return inside;
+    }
+
+    function distanceToSegment(
+        point,
+        segmentA,
+        segmentB
+    )
+    {
+        const deltaX =
+            segmentB.x - segmentA.x;
+
+        const deltaY =
+            segmentB.y - segmentA.y;
+
+        const lengthSquared =
+            deltaX * deltaX +
+            deltaY * deltaY;
+
+        if(lengthSquared === 0)
+        {
+            return Math.hypot(
+                point.x - segmentA.x,
+                point.y - segmentA.y
+            );
+        }
+
+        let position =
+            (
+                (
+                    point.x - segmentA.x
+                ) * deltaX +
+                (
+                    point.y - segmentA.y
+                ) * deltaY
+            ) /
+            lengthSquared;
+
+        position = Math.max(
+            0,
+            Math.min(1, position)
+        );
+
+        const nearestX =
+            segmentA.x +
+            position * deltaX;
+
+        const nearestY =
+            segmentA.y +
+            position * deltaY;
+
+        return Math.hypot(
+            point.x - nearestX,
+            point.y - nearestY
+        );
+    }
+
+    function pointNearPolygon(
+        point,
+        polygon,
+        tolerance = 10
+    )
+    {
+        if(pointInPolygon(point, polygon))
+        {
+            return true;
+        }
+
+        for(let index = 0;
+            index < polygon.length;
+            index++)
+        {
+            const nextIndex =
+                (index + 1) %
+                polygon.length;
+
+            if(
+                distanceToSegment(
+                    point,
+                    polygon[index],
+                    polygon[nextIndex]
+                ) <= tolerance
+            )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /* =====================================================
+     * Полигоны для выбора мышкой
+     * ===================================================== */
+
+    function getBasemapPolygon(values)
+    {
+        const x = values[0];
+        const z = values[1];
+        const width = values[2];
+        const depth = values[3];
+
+        const altitudeLeft = values[4];
+        const altitudeRight = values[5];
+
+        return [
+            project(
+                x,
+                z - depth,
+                altitudeLeft
+            ),
+            project(
+                x + width,
+                z - depth,
+                altitudeRight
+            ),
+            project(
+                x + width,
+                z,
+                altitudeRight
+            ),
+            project(
+                x,
+                z,
+                altitudeLeft
+            )
+        ];
+    }
+
+    function getTerrainPolygons(terrain)
+    {
+        const values = terrain.values;
+
+        if(terrain.kind === "basemap")
+        {
+            return [
+                getBasemapPolygon(values)
+            ];
+        }
+
+        if(terrain.kind === "hole")
+        {
+            return [
+                terrainPolygon(values, 0)
+            ];
+        }
+
+        const wallHeight =
+            number(values[7]);
+
+        const top =
+            terrainPolygon(
+                values,
+                wallHeight
+            );
+
+        const bottom =
+            terrainPolygon(
+                values,
+                0
+            );
+
+        return [
+            top,
+
+            [
+                top[3],
+                top[2],
+                bottom[2],
+                bottom[3]
+            ],
+
+            [
+                top[0],
+                top[3],
+                bottom[3],
+                bottom[0]
+            ],
+
+            [
+                top[1],
+                top[2],
+                bottom[2],
+                bottom[1]
+            ]
+        ];
+    }
+
+    function findTerrainAt(point)
+    {
+        /*
+         * Проверяем с конца, чтобы выбирать
+         * последний нарисованный участок.
+         */
+        for(
+            let index =
+                state.terrain.length - 1;
+            index >= 0;
+            index--
+        )
+        {
+            const terrain =
+                state.terrain[index];
+
+            const polygons =
+                getTerrainPolygons(terrain);
+
+            for(const polygon of polygons)
+            {
+                if(
+                    pointNearPolygon(
+                        point,
+                        polygon
+                    )
+                )
+                {
+                    return terrain;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /* =====================================================
+     * Подсветка выбранной геометрии
+     * ===================================================== */
+
+    function drawSelectedTerrain()
+    {
+        if(!selectedTerrain)
+        {
+            return;
+        }
+
+        const polygons =
+            getTerrainPolygons(
+                selectedTerrain
+            );
+
+        ctx.save();
+
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 4;
+        ctx.setLineDash([8, 4]);
+
+        for(const polygon of polygons)
+        {
+            if(!polygon.length)
+            {
+                continue;
+            }
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                polygon[0].x,
+                polygon[0].y
+            );
+
+            for(
+                let index = 1;
+                index < polygon.length;
+                index++
+            )
+            {
+                ctx.lineTo(
+                    polygon[index].x,
+                    polygon[index].y
+                );
+            }
+
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        ctx.restore();
+
+        const firstPolygon = polygons[0];
+
+        if(firstPolygon && firstPolygon[0])
+        {
+            drawLabel(
+                "ВЫБРАНО: " +
+                selectedTerrain.kind.toUpperCase() +
+                " — Delete для удаления",
+                firstPolygon[0].x,
+                firstPolygon[0].y - 20,
+                "#ffffff"
+            );
+        }
+    }
+
+    /*
+     * Добавляем подсветку после основной отрисовки.
+     */
+    const renderBeforeSelection = render;
+
+    render = function()
+    {
+        renderBeforeSelection();
+        drawSelectedTerrain();
+    };
+
+    /* =====================================================
+     * Выбор геометрии
+     * ===================================================== */
+
+    canvas.addEventListener(
+        "pointerdown",
+        event =>
+        {
+            /*
+             * Не мешаем инструментам рисования.
+             */
+            if(
+                typeof terrainTool !== "undefined" &&
+                terrainTool.mode !== "select"
+            )
+            {
+                return;
+            }
+
+            const point =
+                canvasPoint(event);
+
+            /*
+             * Сущность имеет приоритет.
+             * Поэтому монстра на стене всё ещё
+             * можно выбрать и переместить.
+             */
+            const entity =
+                findEntityAt(
+                    point.x,
+                    point.y
+                );
+
+            if(entity)
+            {
+                selectedTerrain = null;
+                updateTerrainDeleteButton();
+                return;
+            }
+
+            const terrain =
+                findTerrainAt(point);
+
+            if(terrain)
+            {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+
+                selectedTerrain = terrain;
+                state.selected = null;
+
+                updateSelectionPanel();
+                updateTerrainDeleteButton();
+                render();
+
+                setStatus(
+                    "Выбрано: " +
+                    terrain.kind +
+                    ". Нажмите Delete для удаления."
+                );
+            }
+            else
+            {
+                selectedTerrain = null;
+                updateTerrainDeleteButton();
+                render();
+            }
+        },
+        true
+    );
+
+    /* =====================================================
+     * Удаление
+     * ===================================================== */
+
+    function deleteSelectedTerrain()
+    {
+        if(!selectedTerrain)
+        {
+            return;
+        }
+
+        const terrainToDelete =
+            selectedTerrain;
+
+        /*
+         * Удаляем из списка геометрии.
+         */
+        state.terrain =
+            state.terrain.filter(
+                terrain =>
+                    terrain !== terrainToDelete
+            );
+
+        /*
+         * Удаляем исходную строку wall/hole/basemap
+         * из структуры TXT.
+         */
+        state.nodes =
+            state.nodes.filter(
+                node =>
+                    node !==
+                    terrainToDelete.node
+            );
+
+        selectedTerrain = null;
+
+        updateTerrainDeleteButton();
+        updateTextArea();
+        resizeCanvas();
+        render();
+
+        setStatus(
+            "Геометрия удалена."
+        );
+    }
+
+    deleteButton.addEventListener(
+        "click",
+        deleteSelectedTerrain
+    );
+
+    window.addEventListener(
+        "keydown",
+        event =>
+        {
+            const activeElement =
+                document.activeElement;
+
+            const inputActive =
+                activeElement &&
+                (
+                    activeElement.tagName === "INPUT" ||
+                    activeElement.tagName === "TEXTAREA" ||
+                    activeElement.tagName === "SELECT"
+                );
+
+            if(
+                event.key === "Delete" &&
+                selectedTerrain &&
+                !inputActive
+            )
+            {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+
+                deleteSelectedTerrain();
+            }
+        },
+        true
+    );
+
+    updateTerrainDeleteButton();
+    render();
+})();
+</script>
+<script>
+(() =>
+{
+    "use strict";
+
+    let movableTerrain = null;
+
+    const deleteTerrainButton =
+        document.getElementById("deleteTerrain");
+
+    const movementPanel =
+        document.createElement("div");
+
+    movementPanel.innerHTML = `
+        <div class="row" style="margin-top:7px">
+            <button id="terrainMoveUp" disabled>
+                ▲ Выше
+            </button>
+
+            <button id="terrainMoveDown" disabled>
+                ▼ Ниже
+            </button>
+        </div>
+
+        <label>
+            Шаг перемещения
+            <input
+                id="terrainMoveStep"
+                type="number"
+                value="10"
+                min="1"
+                step="1"
+            >
+        </label>
+    `;
+
+    deleteTerrainButton.after(movementPanel);
+
+    const moveUpButton =
+        document.getElementById(
+            "terrainMoveUp"
+        );
+
+    const moveDownButton =
+        document.getElementById(
+            "terrainMoveDown"
+        );
+
+    function updateMovementButtons()
+    {
+        const terrainStillExists =
+            movableTerrain &&
+            state.terrain.includes(
+                movableTerrain
+            );
+
+        if(!terrainStillExists)
+        {
+            movableTerrain = null;
+        }
+
+        moveUpButton.disabled =
+            !movableTerrain;
+
+        moveDownButton.disabled =
+            !movableTerrain;
+    }
+
+    /* =====================================================
+     * Поиск геометрии под мышкой
+     * ===================================================== */
+
+    function pointInsidePolygon(
+        point,
+        polygon
+    )
+    {
+        let inside = false;
+
+        for(
+            let i = 0, j = polygon.length - 1;
+            i < polygon.length;
+            j = i++
+        )
+        {
+            const a = polygon[i];
+            const b = polygon[j];
+
+            const intersects =
+                (
+                    a.y > point.y
+                ) !== (
+                    b.y > point.y
+                ) &&
+                point.x <
+                (
+                    (b.x - a.x) *
+                    (point.y - a.y) /
+                    (b.y - a.y) +
+                    a.x
+                );
+
+            if(intersects)
+            {
+                inside = !inside;
+            }
+        }
+
+        return inside;
+    }
+
+    function basemapPolygon(values)
+    {
+        const x = values[0];
+        const z = values[1];
+        const width = values[2];
+        const depth = values[3];
+
+        const leftHeight = values[4];
+        const rightHeight = values[5];
+
+        return [
+            project(
+                x,
+                z - depth,
+                leftHeight
+            ),
+            project(
+                x + width,
+                z - depth,
+                rightHeight
+            ),
+            project(
+                x + width,
+                z,
+                rightHeight
+            ),
+            project(
+                x,
+                z,
+                leftHeight
+            )
+        ];
+    }
+
+    function getSelectionPolygons(terrain)
+    {
+        const values = terrain.values;
+
+        if(terrain.kind === "basemap")
+        {
+            return [
+                basemapPolygon(values)
+            ];
+        }
+
+        if(terrain.kind === "hole")
+        {
+            return [
+                terrainPolygon(values, 0)
+            ];
+        }
+
+        const wallHeight =
+            number(values[7]);
+
+        const top =
+            terrainPolygon(
+                values,
+                wallHeight
+            );
+
+        const bottom =
+            terrainPolygon(
+                values,
+                0
+            );
+
+        return [
+            top,
+
+            /*
+             * Передняя поверхность wall.
+             */
+            [
+                top[3],
+                top[2],
+                bottom[2],
+                bottom[3]
+            ],
+
+            /*
+             * Левая поверхность.
+             */
+            [
+                top[0],
+                top[3],
+                bottom[3],
+                bottom[0]
+            ],
+
+            /*
+             * Правая поверхность.
+             */
+            [
+                top[1],
+                top[2],
+                bottom[2],
+                bottom[1]
+            ]
+        ];
+    }
+
+    function findMovableTerrain(point)
+    {
+        for(
+            let index =
+                state.terrain.length - 1;
+            index >= 0;
+            index--
+        )
+        {
+            const terrain =
+                state.terrain[index];
+
+            const polygons =
+                getSelectionPolygons(
+                    terrain
+                );
+
+            for(const polygon of polygons)
+            {
+                if(
+                    pointInsidePolygon(
+                        point,
+                        polygon
+                    )
+                )
+                {
+                    return terrain;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /*
+     * Отслеживаем тот же участок, который
+     * выбирается предыдущим скриптом.
+     *
+     * Обработчик стоит на window, поэтому он
+     * выполняется раньше обработчика canvas.
+     */
+    window.addEventListener(
+        "pointerdown",
+        event =>
+        {
+            if(event.target !== canvas)
+            {
+                return;
+            }
+
+            /*
+             * Во время рисования ничего
+             * не выбираем.
+             */
+            if(
+                canvas.classList.contains(
+                    "terrainDrawing"
+                )
+            )
+            {
+                return;
+            }
+
+            const point =
+                canvasPoint(event);
+
+            /*
+             * Сущности имеют приоритет.
+             */
+            const entity =
+                findEntityAt(
+                    point.x,
+                    point.y
+                );
+
+            if(entity)
+            {
+                movableTerrain = null;
+                updateMovementButtons();
+                return;
+            }
+
+            movableTerrain =
+                findMovableTerrain(point);
+
+            updateMovementButtons();
+        },
+        true
+    );
+
+    /* =====================================================
+     * Обновление строки TXT
+     * ===================================================== */
+
+    function updateTerrainSourceLine(terrain)
+    {
+        const values = terrain.values
+            .map(value => round(value));
+
+        terrain.node.line =
+            terrain.kind +
+            " " +
+            values.join(" ");
+    }
+
+    /* =====================================================
+     * Перемещение
+     * ===================================================== */
+
+    function moveTerrain(direction)
+    {
+        if(
+            !movableTerrain ||
+            !state.terrain.includes(
+                movableTerrain
+            )
+        )
+        {
+            movableTerrain = null;
+            updateMovementButtons();
+            return;
+        }
+
+        const step = Math.max(
+            1,
+            number(
+                document.getElementById(
+                    "terrainMoveStep"
+                ).value,
+                10
+            )
+        );
+
+        const terrain = movableTerrain;
+        const values = terrain.values;
+
+        if(terrain.kind === "wall")
+        {
+            /*
+             * Последний параметр wall — высота.
+             * Низ стены остаётся на земле A=0.
+             */
+            const oldHeight =
+                number(values[7]);
+
+            values[7] = Math.max(
+                0,
+                oldHeight +
+                direction * step
+            );
+        }
+        else if(terrain.kind === "basemap")
+        {
+            /*
+             * Поднимаем или опускаем сразу
+             * обе точки склона.
+             */
+            const leftHeight =
+                number(values[4]);
+
+            const rightHeight =
+                number(values[5]);
+
+            /*
+             * Не позволяем ни одной стороне
+             * уйти ниже земли.
+             */
+            if(direction < 0)
+            {
+                const maximumDownMovement =
+                    Math.min(
+                        leftHeight,
+                        rightHeight,
+                        step
+                    );
+
+                values[4] = Math.max(
+                    0,
+                    leftHeight -
+                    maximumDownMovement
+                );
+
+                values[5] = Math.max(
+                    0,
+                    rightHeight -
+                    maximumDownMovement
+                );
+            }
+            else
+            {
+                values[4] =
+                    leftHeight + step;
+
+                values[5] =
+                    rightHeight + step;
+            }
+        }
+        else if(terrain.kind === "hole")
+        {
+            /*
+             * У ямы нет высоты A.
+             * Поэтому она перемещается по оси Z.
+             *
+             * Вверх на экране = уменьшение Z.
+             * Вниз на экране = увеличение Z.
+             */
+            values[1] +=
+                direction > 0
+                    ? -step
+                    : step;
+
+            /*
+             * Если у уровня есть диапазон Z,
+             * удерживаем центр ямы в этом диапазоне.
+             */
+            if(state.stageZ)
+            {
+                const minimumZ = Math.min(
+                    state.stageZ.minimum,
+                    state.stageZ.maximum
+                );
+
+                const maximumZ = Math.max(
+                    state.stageZ.minimum,
+                    state.stageZ.maximum
+                );
+
+                const depth =
+                    Math.max(1, number(values[6]));
+
+                let centerZ =
+                    values[1] - depth / 2;
+
+                centerZ = Math.max(
+                    minimumZ,
+                    Math.min(
+                        maximumZ,
+                        centerZ
+                    )
+                );
+
+                values[1] =
+                    centerZ + depth / 2;
+            }
+        }
+
+        updateTerrainSourceLine(terrain);
+        updateTextArea();
+        resizeCanvas();
+        render();
+
+        setStatus(
+            "Перемещено: " +
+            terrain.kind +
+            ". Новая строка: " +
+            terrain.node.line
+        );
+    }
+
+    moveUpButton.addEventListener(
+        "click",
+        () => moveTerrain(1)
+    );
+
+    moveDownButton.addEventListener(
+        "click",
+        () => moveTerrain(-1)
+    );
+
+    /*
+     * Можно использовать стрелки клавиатуры.
+     */
+    window.addEventListener(
+        "keydown",
+        event =>
+        {
+            const active =
+                document.activeElement;
+
+            const editing =
+                active &&
+                (
+                    active.tagName === "INPUT" ||
+                    active.tagName === "TEXTAREA" ||
+                    active.tagName === "SELECT"
+                );
+
+            if(editing || !movableTerrain)
+            {
+                return;
+            }
+
+            if(event.key === "ArrowUp")
+            {
+                event.preventDefault();
+                moveTerrain(1);
+            }
+
+            if(event.key === "ArrowDown")
+            {
+                event.preventDefault();
+                moveTerrain(-1);
+            }
+        }
+    );
+
+    /*
+     * После удаления сбрасываем выбранный участок.
+     */
+    deleteTerrainButton.addEventListener(
+        "click",
+        () =>
+        {
+            movableTerrain = null;
+            updateMovementButtons();
+        }
+    );
+
+    updateMovementButtons();
+})();
+</script>
+<script>
+(() =>
+{
+    "use strict";
+
+    let resizableTerrain = null;
+
+    /* =====================================================
+     * Интерфейс
+     * ===================================================== */
+
+    const resizePanel =
+        document.createElement("section");
+
+    resizePanel.innerHTML = `
+        <h2>Размер геометрии</h2>
+
+        <div class="row">
+            <button id="terrainWider" disabled>
+                ↔ Шире
+            </button>
+
+            <button id="terrainNarrower" disabled>
+                → Уже ←
+            </button>
+        </div>
+
+        <div class="row" style="margin-top:7px">
+            <button id="terrainTaller" disabled>
+                ↕ Высота +
+            </button>
+
+            <button id="terrainShorter" disabled>
+                ↕ Высота −
+            </button>
+        </div>
+
+        <label>
+            Шаг изменения размера
+            <input
+                id="terrainResizeStep"
+                type="number"
+                value="10"
+                min="1"
+                step="1"
+            >
+        </label>
+
+        <p class="hint">
+            Ширина изменяется равномерно с двух сторон.
+            Высота склона изменяет его крутизну.
+        </p>
+    `;
+
+    const movementStep =
+        document.getElementById(
+            "terrainMoveStep"
+        );
+
+    if(movementStep)
+    {
+        movementStep
+            .closest("label")
+            .after(resizePanel);
+    }
+    else
+    {
+        document
+            .getElementById("deleteTerrain")
+            .after(resizePanel);
+    }
+
+    const widerButton =
+        document.getElementById(
+            "terrainWider"
+        );
+
+    const narrowerButton =
+        document.getElementById(
+            "terrainNarrower"
+        );
+
+    const tallerButton =
+        document.getElementById(
+            "terrainTaller"
+        );
+
+    const shorterButton =
+        document.getElementById(
+            "terrainShorter"
+        );
+
+    function updateResizeButtons()
+    {
+        if(
+            resizableTerrain &&
+            !state.terrain.includes(
+                resizableTerrain
+            )
+        )
+        {
+            resizableTerrain = null;
+        }
+
+        const disabled =
+            !resizableTerrain;
+
+        widerButton.disabled = disabled;
+        narrowerButton.disabled = disabled;
+        tallerButton.disabled = disabled;
+        shorterButton.disabled = disabled;
+    }
+
+    /* =====================================================
+     * Поиск выбранной геометрии
+     * ===================================================== */
+
+    function pointInsidePolygon(
+        point,
+        polygon
+    )
+    {
+        let inside = false;
+
+        for(
+            let index = 0,
+                previous = polygon.length - 1;
+
+            index < polygon.length;
+
+            previous = index++
+        )
+        {
+            const currentPoint =
+                polygon[index];
+
+            const previousPoint =
+                polygon[previous];
+
+            const intersection =
+                (
+                    currentPoint.y > point.y
+                ) !== (
+                    previousPoint.y > point.y
+                ) &&
+                point.x <
+                (
+                    (
+                        previousPoint.x -
+                        currentPoint.x
+                    ) *
+                    (
+                        point.y -
+                        currentPoint.y
+                    ) /
+                    (
+                        previousPoint.y -
+                        currentPoint.y
+                    ) +
+                    currentPoint.x
+                );
+
+            if(intersection)
+            {
+                inside = !inside;
+            }
+        }
+
+        return inside;
+    }
+
+    function getBasemapPolygon(values)
+    {
+        const x = values[0];
+        const z = values[1];
+        const width = values[2];
+        const depth = values[3];
+
+        const leftHeight = values[4];
+        const rightHeight = values[5];
+
+        return [
+            project(
+                x,
+                z - depth,
+                leftHeight
+            ),
+            project(
+                x + width,
+                z - depth,
+                rightHeight
+            ),
+            project(
+                x + width,
+                z,
+                rightHeight
+            ),
+            project(
+                x,
+                z,
+                leftHeight
+            )
+        ];
+    }
+
+    function getTerrainPolygons(terrain)
+    {
+        const values = terrain.values;
+
+        if(terrain.kind === "basemap")
+        {
+            return [
+                getBasemapPolygon(values)
+            ];
+        }
+
+        if(terrain.kind === "hole")
+        {
+            return [
+                terrainPolygon(values, 0)
+            ];
+        }
+
+        const wallHeight =
+            number(values[7]);
+
+        const top =
+            terrainPolygon(
+                values,
+                wallHeight
+            );
+
+        const bottom =
+            terrainPolygon(
+                values,
+                0
+            );
+
+        return [
+            top,
+
+            [
+                top[3],
+                top[2],
+                bottom[2],
+                bottom[3]
+            ],
+
+            [
+                top[0],
+                top[3],
+                bottom[3],
+                bottom[0]
+            ],
+
+            [
+                top[1],
+                top[2],
+                bottom[2],
+                bottom[1]
+            ]
+        ];
+    }
+
+    function findResizableTerrain(point)
+    {
+        for(
+            let index =
+                state.terrain.length - 1;
+
+            index >= 0;
+
+            index--
+        )
+        {
+            const terrain =
+                state.terrain[index];
+
+            const polygons =
+                getTerrainPolygons(
+                    terrain
+                );
+
+            for(const polygon of polygons)
+            {
+                if(
+                    pointInsidePolygon(
+                        point,
+                        polygon
+                    )
+                )
+                {
+                    return terrain;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /*
+     * Запоминаем выбранную мышкой геометрию.
+     */
+    window.addEventListener(
+        "pointerdown",
+        event =>
+        {
+            if(event.target !== canvas)
+            {
+                return;
+            }
+
+            if(
+                canvas.classList.contains(
+                    "terrainDrawing"
+                )
+            )
+            {
+                return;
+            }
+
+            const point =
+                canvasPoint(event);
+
+            /*
+             * Сущность имеет приоритет.
+             */
+            const entity =
+                findEntityAt(
+                    point.x,
+                    point.y
+                );
+
+            if(entity)
+            {
+                resizableTerrain = null;
+                updateResizeButtons();
+                return;
+            }
+
+            resizableTerrain =
+                findResizableTerrain(point);
+
+            updateResizeButtons();
+        },
+        true
+    );
+
+    /* =====================================================
+     * Обновление TXT
+     * ===================================================== */
+
+    function updateTerrainLine(terrain)
+    {
+        terrain.node.line =
+            terrain.kind +
+            " " +
+            terrain.values
+                .map(value => round(value))
+                .join(" ");
+    }
+
+    function finishResize(description)
+    {
+        updateTerrainLine(
+            resizableTerrain
+        );
+
+        updateTextArea();
+        resizeCanvas();
+        render();
+
+        setStatus(
+            description +
+            ": " +
+            resizableTerrain.node.line
+        );
+    }
+
+    function getResizeStep()
+    {
+        return Math.max(
+            1,
+            number(
+                document.getElementById(
+                    "terrainResizeStep"
+                ).value,
+                10
+            )
+        );
+    }
+
+    function terrainIsAvailable()
+    {
+        if(
+            !resizableTerrain ||
+            !state.terrain.includes(
+                resizableTerrain
+            )
+        )
+        {
+            resizableTerrain = null;
+            updateResizeButtons();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /* =====================================================
+     * Изменение ширины
+     * ===================================================== */
+
+    function resizeWidth(direction)
+    {
+        if(!terrainIsAvailable())
+        {
+            return;
+        }
+
+        const terrain =
+            resizableTerrain;
+
+        const values =
+            terrain.values;
+
+        const requestedChange =
+            getResizeStep() * direction;
+
+        if(terrain.kind === "basemap")
+        {
+            const oldWidth =
+                Math.max(
+                    1,
+                    number(values[2])
+                );
+
+            const newWidth =
+                Math.max(
+                    1,
+                    oldWidth +
+                    requestedChange
+                );
+
+            const actualChange =
+                newWidth - oldWidth;
+
+            /*
+             * Левая сторона перемещается на половину,
+             * правая — на вторую половину.
+             */
+            values[0] -=
+                actualChange / 2;
+
+            values[2] =
+                newWidth;
+        }
+        else
+        {
+            /*
+             * wall и hole могут быть трапециями:
+             *
+             * values[2] = upperLeft
+             * values[3] = lowerLeft
+             * values[4] = upperRight
+             * values[5] = lowerRight
+             */
+
+            const upperWidth =
+                values[4] - values[2];
+
+            const lowerWidth =
+                values[5] - values[3];
+
+            const minimumWidth =
+                Math.min(
+                    upperWidth,
+                    lowerWidth
+                );
+
+            let actualChange =
+                requestedChange;
+
+            /*
+             * Не позволяем сторонам поменяться местами.
+             */
+            if(
+                minimumWidth +
+                actualChange <
+                1
+            )
+            {
+                actualChange =
+                    1 - minimumWidth;
+            }
+
+            const halfChange =
+                actualChange / 2;
+
+            /*
+             * Расширение или сужение происходит
+             * равномерно с обеих сторон.
+             */
+            values[2] -= halfChange;
+            values[3] -= halfChange;
+
+            values[4] += halfChange;
+            values[5] += halfChange;
+        }
+
+        finishResize(
+            direction > 0
+                ? "Геометрия расширена"
+                : "Геометрия сужена"
+        );
+    }
+
+    /* =====================================================
+     * Изменение высоты
+     * ===================================================== */
+
+    function resizeHeight(direction)
+    {
+        if(!terrainIsAvailable())
+        {
+            return;
+        }
+
+        const terrain =
+            resizableTerrain;
+
+        const values =
+            terrain.values;
+
+        const requestedChange =
+            getResizeStep() * direction;
+
+        if(terrain.kind === "wall")
+        {
+            /*
+             * Высота wall.
+             * Низ стены остаётся на земле A=0.
+             */
+            values[7] = Math.max(
+                0,
+                number(values[7]) +
+                requestedChange
+            );
+        }
+        else if(terrain.kind === "hole")
+        {
+            /*
+             * У hole нет высоты A.
+             * Поэтому меняем её глубину по Z.
+             *
+             * Центр ямы остаётся на месте:
+             * верхняя и нижняя стороны двигаются
+             * равномерно.
+             */
+            const oldDepth =
+                Math.max(
+                    1,
+                    number(values[6])
+                );
+
+            const newDepth =
+                Math.max(
+                    1,
+                    oldDepth +
+                    requestedChange
+                );
+
+            const actualChange =
+                newDepth - oldDepth;
+
+            /*
+             * z является нижней границей.
+             * Сдвигаем её на половину изменения.
+             */
+            values[1] +=
+                actualChange / 2;
+
+            values[6] =
+                newDepth;
+        }
+        else if(terrain.kind === "basemap")
+        {
+            /*
+             * Для подъёма или спуска высота —
+             * это разница между двумя концами.
+             */
+            const leftHeight =
+                Math.max(
+                    0,
+                    number(values[4])
+                );
+
+            const rightHeight =
+                Math.max(
+                    0,
+                    number(values[5])
+                );
+
+            const oldDifference =
+                Math.abs(
+                    rightHeight -
+                    leftHeight
+                );
+
+            const newDifference =
+                Math.max(
+                    0,
+                    oldDifference +
+                    requestedChange
+                );
+
+            const centerHeight =
+                (
+                    leftHeight +
+                    rightHeight
+                ) / 2;
+
+            let lowerHeight =
+                centerHeight -
+                newDifference / 2;
+
+            let upperHeight =
+                centerHeight +
+                newDifference / 2;
+
+            /*
+             * Нельзя опустить склон ниже земли.
+             * Если нижняя точка стала отрицательной,
+             * переносим остаток в верхнюю точку.
+             */
+            if(lowerHeight < 0)
+            {
+                upperHeight -=
+                    lowerHeight;
+
+                lowerHeight = 0;
+            }
+
+            /*
+             * Сохраняем направление склона.
+             */
+            if(rightHeight >= leftHeight)
+            {
+                values[4] =
+                    lowerHeight;
+
+                values[5] =
+                    upperHeight;
+            }
+            else
+            {
+                values[4] =
+                    upperHeight;
+
+                values[5] =
+                    lowerHeight;
+            }
+        }
+
+        finishResize(
+            direction > 0
+                ? "Высота увеличена"
+                : "Высота уменьшена"
+        );
+    }
+
+    /* =====================================================
+     * Кнопки
+     * ===================================================== */
+
+    widerButton.addEventListener(
+        "click",
+        () => resizeWidth(1)
+    );
+
+    narrowerButton.addEventListener(
+        "click",
+        () => resizeWidth(-1)
+    );
+
+    tallerButton.addEventListener(
+        "click",
+        () => resizeHeight(1)
+    );
+
+    shorterButton.addEventListener(
+        "click",
+        () => resizeHeight(-1)
+    );
+
+    /*
+     * После удаления сбрасываем объект изменения.
+     */
+    const deleteButton =
+        document.getElementById(
+            "deleteTerrain"
+        );
+
+    deleteButton.addEventListener(
+        "click",
+        () =>
+        {
+            resizableTerrain = null;
+            updateResizeButtons();
+        }
+    );
+
+    updateResizeButtons();
+})();
+</script>
+<script>
+(() =>
+{
+    "use strict";
+
+    /* =====================================================
+     * Настройки полосы ходьбы
+     * ===================================================== */
+
+    const controls =
+        document.createElement("div");
+
+    controls.innerHTML = `
+        <h2>Полоса ходьбы на стенах</h2>
+
+        <label style="display:flex;align-items:center;gap:7px">
+            <input
+                id="showWallWalkingArea"
+                type="checkbox"
+                checked
+                style="width:auto"
+            >
+            Показывать розовую полосу
+        </label>
+
+        <label>
+            Ширина полосы для фиксированного Z
+            <input
+                id="wallWalkingWidth"
+                type="number"
+                value="24"
+                min="1"
+                step="1"
+            >
+        </label>
+
+        <p class="hint">
+            Если в levels.txt указан диапазон Z,
+            используются его реальные границы.
+        </p>
+    `;
+
+    const resizeStep =
+        document.getElementById(
+            "terrainResizeStep"
+        );
+
+    if(resizeStep)
+    {
+        resizeStep
+            .closest("section")
+            .after(controls);
+    }
+    else
+    {
+        document
+            .querySelector("aside")
+            .append(controls);
+    }
+
+    /* =====================================================
+     * Границы ходьбы из data/levels.txt
+     * ===================================================== */
+
+    function getWalkingZBounds()
+    {
+        const visualWidth = Math.max(
+            1,
+            number(
+                document.getElementById(
+                    "wallWalkingWidth"
+                ).value,
+                24
+            )
+        );
+
+        if(state.stageZ)
+        {
+            const minimum = Math.min(
+                state.stageZ.minimum,
+                state.stageZ.maximum
+            );
+
+            const maximum = Math.max(
+                state.stageZ.minimum,
+                state.stageZ.maximum
+            );
+
+            /*
+             * Настоящий диапазон ходьбы.
+             */
+            if(maximum > minimum)
+            {
+                return {
+                    minimum: minimum,
+                    maximum: maximum,
+                    exact: true
+                };
+            }
+
+            /*
+             * Если Z фиксированный, рисуем полосу
+             * равномерно относительно этой линии.
+             */
+            return {
+                minimum:
+                    minimum -
+                    visualWidth / 2,
+
+                maximum:
+                    maximum +
+                    visualWidth / 2,
+
+                exact: false
+            };
+        }
+
+        /*
+         * Запасной вариант, если уровень
+         * отсутствует в data/levels.txt.
+         */
+        if(state.spawn1)
+        {
+            return {
+                minimum:
+                    state.spawn1.z -
+                    visualWidth / 2,
+
+                maximum:
+                    state.spawn1.z +
+                    visualWidth / 2,
+
+                exact: false
+            };
+        }
+
+        return null;
+    }
+
+    /* =====================================================
+     * X стены в заданной координате Z
+     * ===================================================== */
+
+    function getWallXAtZ(
+        values,
+        targetZ
+    )
+    {
+        const x = values[0];
+        const bottomZ = values[1];
+
+        const upperLeft = values[2];
+        const lowerLeft = values[3];
+        const upperRight = values[4];
+        const lowerRight = values[5];
+
+        const depth = Math.max(
+            1,
+            number(values[6])
+        );
+
+        const upperZ =
+            bottomZ - depth;
+
+        let position =
+            (
+                targetZ - upperZ
+            ) / depth;
+
+        position = Math.max(
+            0,
+            Math.min(1, position)
+        );
+
+        const leftOffset =
+            upperLeft +
+            (
+                lowerLeft -
+                upperLeft
+            ) *
+            position;
+
+        const rightOffset =
+            upperRight +
+            (
+                lowerRight -
+                upperRight
+            ) *
+            position;
+
+        return {
+            left: x + leftOffset,
+            right: x + rightOffset
+        };
+    }
+
+    /* =====================================================
+     * Розовая полоса
+     * ===================================================== */
+
+    function drawWallWalkingArea(terrain)
+    {
+        if(
+            terrain.kind !== "wall" ||
+            !document.getElementById(
+                "showWallWalkingArea"
+            ).checked
+        )
+        {
+            return;
+        }
+
+        const bounds =
+            getWalkingZBounds();
+
+        if(!bounds)
+        {
+            return;
+        }
+
+        const values = terrain.values;
+
+        const wallBottomZ =
+            values[1];
+
+        const wallDepth = Math.max(
+            1,
+            number(values[6])
+        );
+
+        const wallUpperZ =
+            wallBottomZ -
+            wallDepth;
+
+        /*
+         * Пересечение границ ходьбы
+         * с поверхностью wall.
+         */
+        const walkingUpperZ = Math.max(
+            bounds.minimum,
+            wallUpperZ
+        );
+
+        const walkingBottomZ = Math.min(
+            bounds.maximum,
+            wallBottomZ
+        );
+
+        /*
+         * Стена не пересекается с игровой дорожкой.
+         */
+        if(walkingUpperZ > walkingBottomZ)
+        {
+            const warningPosition =
+                terrainPolygon(
+                    values,
+                    number(values[7])
+                )[0];
+
+            drawLabel(
+                "WALL ВНЕ ЗОНЫ ХОДЬБЫ",
+                warningPosition.x,
+                warningPosition.y - 25,
+                "#fb7185"
+            );
+
+            return;
+        }
+
+        const upperX =
+            getWallXAtZ(
+                values,
+                walkingUpperZ
+            );
+
+        const bottomX =
+            getWallXAtZ(
+                values,
+                walkingBottomZ
+            );
+
+        const wallHeight =
+            Math.max(
+                0,
+                number(values[7])
+            );
+
+        const points = [
+            project(
+                upperX.left,
+                walkingUpperZ,
+                wallHeight
+            ),
+
+            project(
+                upperX.right,
+                walkingUpperZ,
+                wallHeight
+            ),
+
+            project(
+                bottomX.right,
+                walkingBottomZ,
+                wallHeight
+            ),
+
+            project(
+                bottomX.left,
+                walkingBottomZ,
+                wallHeight
+            )
+        ];
+
+        /*
+         * Полупрозрачная розовая поверхность.
+         */
+        drawPolygon(
+            points,
+            "rgba(236,72,153,0.42)",
+            "#f472b6",
+            3
+        );
+
+        /*
+         * Верхняя граница ходьбы.
+         */
+        ctx.save();
+
+        ctx.strokeStyle = "#f9a8d4";
+        ctx.lineWidth = 4;
+
+        ctx.beginPath();
+        ctx.moveTo(
+            points[0].x,
+            points[0].y
+        );
+        ctx.lineTo(
+            points[1].x,
+            points[1].y
+        );
+        ctx.stroke();
+
+        /*
+         * Нижняя граница ходьбы.
+         */
+        ctx.strokeStyle = "#db2777";
+
+        ctx.beginPath();
+        ctx.moveTo(
+            points[3].x,
+            points[3].y
+        );
+        ctx.lineTo(
+            points[2].x,
+            points[2].y
+        );
+        ctx.stroke();
+
+        ctx.restore();
+
+        drawLabel(
+            bounds.exact
+                ? "ХОДЬБА Z: " +
+                  round(walkingUpperZ) +
+                  "–" +
+                  round(walkingBottomZ)
+                : "ВИЗУАЛЬНАЯ ПОЛОСА ХОДЬБЫ",
+
+            points[0].x,
+            points[0].y - 7,
+            "#f9a8d4"
+        );
+    }
+
+    /* =====================================================
+     * Добавление поверх обычной wall
+     * ===================================================== */
+
+    const drawTerrainWithoutWalkingArea =
+        drawTerrain;
+
+    drawTerrain = function(terrain)
+    {
+        drawTerrainWithoutWalkingArea(
+            terrain
+        );
+
+        drawWallWalkingArea(
+            terrain
+        );
+    };
+
+    document
+        .getElementById(
+            "showWallWalkingArea"
+        )
+        .addEventListener(
+            "change",
+            render
+        );
+
+    document
+        .getElementById(
+            "wallWalkingWidth"
+        )
+        .addEventListener(
+            "input",
+            render
+        );
+
+    render();
+})();
+</script>
+<script>
+(() =>
+{
+    "use strict";
+
+    let spawnPlacementMode = 0;
+
+    /* =====================================================
+     * Интерфейс
+     * ===================================================== */
+
+    const panel = document.createElement("section");
+
+    panel.innerHTML = `
+        <h2>Стартовые позиции</h2>
+
+        <div class="row">
+            <button id="setSpawn1">
+                Указать старт игрока 1
+            </button>
+
+            <button id="setSpawn2">
+                Указать старт игрока 2
+            </button>
+        </div>
+
+        <button
+            id="roundAllPositions"
+            style="margin-top:7px"
+        >
+            Округлить все координаты
+        </button>
+
+        <p class="hint">
+            После нажатия кнопки укажите позицию
+            игрока мышкой на уровне.
+        </p>
+    `;
+
+    const projectTitle = [...document.querySelectorAll("aside h2")]
+        .find(element =>
+            element.textContent.trim() === "Проект"
+        );
+
+    if(projectTitle)
+    {
+        const projectControls =
+            projectTitle.nextElementSibling;
+
+        let insertAfter = projectControls;
+
+        while(
+            insertAfter &&
+            insertAfter.nextElementSibling &&
+            insertAfter.nextElementSibling.tagName !== "H2"
+        )
+        {
+            insertAfter =
+                insertAfter.nextElementSibling;
+        }
+
+        insertAfter.after(panel);
+    }
+    else
+    {
+        document
+            .querySelector("aside")
+            .prepend(panel);
+    }
+
+    const style = document.createElement("style");
+
+    style.textContent = `
+        #setSpawn1.active {
+            color:#fff;
+            background:#16a34a;
+            border-color:#86efac;
+        }
+
+        #setSpawn2.active {
+            color:#fff;
+            background:#2563eb;
+            border-color:#93c5fd;
+        }
+
+        #canvas.spawnPlacement {
+            cursor:crosshair;
+        }
+    `;
+
+    document.head.append(style);
+
+    const spawn1Button =
+        document.getElementById("setSpawn1");
+
+    const spawn2Button =
+        document.getElementById("setSpawn2");
+
+    /* =====================================================
+     * Поддержка spawn2 при разборе уровня
+     * ===================================================== */
+
+    state.spawn2 = null;
+
+    const parseLevelCommandBeforeSpawn2 =
+        parseLevelCommand;
+
+    parseLevelCommand = function(line, node)
+    {
+        parseLevelCommandBeforeSpawn2(
+            line,
+            node
+        );
+
+        const values = getTokens(line);
+
+        if(!values.length)
+        {
+            return;
+        }
+
+        const command =
+            values[0].toLowerCase();
+
+        if(command === "spawn2")
+        {
+            state.spawn2 = {
+                x: number(values[1]),
+                z: number(values[2]),
+                a: number(values[3])
+            };
+        }
+    };
+
+    /*
+     * Перед открытием другого уровня очищаем spawn2.
+     */
+    const parseLevelBeforeSpawn2 =
+        parseLevel;
+
+    parseLevel = function(text, fileName)
+    {
+        state.spawn2 = null;
+
+        parseLevelBeforeSpawn2(
+            text,
+            fileName
+        );
+    };
+
+    /*
+     * Текущий уровень был разобран до подключения
+     * дополнения — ищем spawn2 вручную.
+     */
+    function readCurrentSpawn2()
+    {
+        state.spawn2 = null;
+
+        for(const node of state.nodes)
+        {
+            if(node.type !== "raw")
+            {
+                continue;
+            }
+
+            const values =
+                getTokens(node.line);
+
+            if(
+                values.length &&
+                values[0].toLowerCase() ===
+                "spawn2"
+            )
+            {
+                state.spawn2 = {
+                    x: number(values[1]),
+                    z: number(values[2]),
+                    a: number(values[3])
+                };
+
+                break;
+            }
+        }
+    }
+
+    readCurrentSpawn2();
+
+    /* =====================================================
+     * Изменение строки spawn1 или spawn2
+     * ===================================================== */
+
+    function formatSpawnLine(
+        playerNumber,
+        position
+    )
+    {
+        let line =
+            "spawn" +
+            playerNumber +
+            " " +
+            round(position.x) +
+            " " +
+            round(position.z);
+
+        if(position.a)
+        {
+            line +=
+                " " +
+                round(position.a);
+        }
+
+        return line;
+    }
+
+    function findSpawnNode(playerNumber)
+    {
+        const commandName =
+            "spawn" + playerNumber;
+
+        for(const node of state.nodes)
+        {
+            if(node.type !== "raw")
+            {
+                continue;
+            }
+
+            const values =
+                getTokens(node.line);
+
+            if(
+                values.length &&
+                values[0].toLowerCase() ===
+                commandName
+            )
+            {
+                return node;
+            }
+        }
+
+        return null;
+    }
+
+    function setSpawnPosition(
+        playerNumber,
+        position,
+        refresh = true
+    )
+    {
+        const line = formatSpawnLine(
+            playerNumber,
+            position
+        );
+
+        let node =
+            findSpawnNode(playerNumber);
+
+        if(node)
+        {
+            /*
+             * Старая строка полностью затирается.
+             */
+            node.line = line;
+        }
+        else
+        {
+            node = {
+                type: "raw",
+                line: line
+            };
+
+            /*
+             * Новую строку вставляем перед первым
+             * spawn объекта или первой геометрией.
+             */
+            let insertIndex =
+                state.nodes.findIndex(item =>
+                    item.type === "spawn" ||
+                    (
+                        item.type === "raw" &&
+                        /^(wall|hole|basemap)\b/i.test(
+                            stripComment(item.line)
+                        )
+                    )
+                );
+
+            if(insertIndex < 0)
+            {
+                insertIndex =
+                    state.nodes.length;
+            }
+
+            state.nodes.splice(
+                insertIndex,
+                0,
+                node
+            );
+        }
+
+        if(playerNumber === 1)
+        {
+            state.spawn1 = {
+                x: position.x,
+                z: position.z,
+                a: position.a || 0
+            };
+        }
+        else
+        {
+            state.spawn2 = {
+                x: position.x,
+                z: position.z,
+                a: position.a || 0
+            };
+        }
+
+        if(refresh)
+        {
+            updateTextArea();
+            resizeCanvas();
+            render();
+
+            setStatus(
+                "Установлено: " + line
+            );
+        }
+    }
+
+    /* =====================================================
+     * Координата земли
+     * ===================================================== */
+
+    function clampSpawnZ(value)
+    {
+        if(!state.stageZ)
+        {
+            return value;
+        }
+
+        const minimum = Math.min(
+            state.stageZ.minimum,
+            state.stageZ.maximum
+        );
+
+        const maximum = Math.max(
+            state.stageZ.minimum,
+            state.stageZ.maximum
+        );
+
+        return Math.max(
+            minimum,
+            Math.min(maximum, value)
+        );
+    }
+
+    function getArcadeGroundY()
+	{
+		if(state.stageZ)
+		{
+			const minimum = Math.min(
+				state.stageZ.minimum,
+				state.stageZ.maximum
+			);
+
+			const maximum = Math.max(
+				state.stageZ.minimum,
+				state.stageZ.maximum
+			);
+
+			/*
+			 * В аркадном уровне обычно оба значения
+			 * одинаковые. Для диапазона используем центр.
+			 */
+			return (
+				minimum + maximum
+			) / 2;
+		}
+
+		if(state.spawn1)
+		{
+			return state.spawn1.z;
+		}
+
+		return 200;
+	}
+
+
+	function getSpawnPositionFromMouse(event)
+	{
+		const point =
+			canvasPoint(event);
+
+		const calibration =
+			state.calibration;
+
+		const worldX = (
+			point.x -
+			calibration.shiftX
+		) / calibration.scaleX;
+
+		const screenY = (
+			point.y -
+			calibration.shiftY
+		) / calibration.scaleY;
+
+		const fixedGroundY =
+			getArcadeGroundY();
+
+		/*
+		 * Высота над фиксированной землёй.
+		 * Ниже земли ставить игрока нельзя.
+		 */
+		const heightZ = Math.max(
+			0,
+			fixedGroundY - screenY
+		);
+
+		return {
+			x: Math.round(worldX),
+
+			/*
+			 * Второй параметр coords всегда фиксирован.
+			 */
+			z: Math.round(fixedGroundY),
+
+			/*
+			 * Третий параметр coords — высота.
+			 */
+			a: Math.round(heightZ)
+		};
+	}
+
+    /* =====================================================
+     * Режим установки старта
+     * ===================================================== */
+
+    function startSpawnPlacement(playerNumber)
+    {
+        spawnPlacementMode =
+            playerNumber;
+
+        /*
+         * Отключаем рисование геометрии.
+         */
+        const terrainSelect =
+            document.getElementById(
+                "terrainSelect"
+            );
+
+        if(terrainSelect)
+        {
+            terrainSelect.click();
+        }
+
+        spawn1Button.classList.toggle(
+            "active",
+            playerNumber === 1
+        );
+
+        spawn2Button.classList.toggle(
+            "active",
+            playerNumber === 2
+        );
+
+        canvas.classList.add(
+            "spawnPlacement"
+        );
+
+        setStatus(
+            "Укажите мышкой старт игрока " +
+            playerNumber +
+            ". Escape — отмена."
+        );
+    }
+
+    function stopSpawnPlacement()
+    {
+        spawnPlacementMode = 0;
+
+        spawn1Button.classList.remove(
+            "active"
+        );
+
+        spawn2Button.classList.remove(
+            "active"
+        );
+
+        canvas.classList.remove(
+            "spawnPlacement"
+        );
+    }
+
+    spawn1Button.addEventListener(
+        "click",
+        () => startSpawnPlacement(1)
+    );
+
+    spawn2Button.addEventListener(
+        "click",
+        () => startSpawnPlacement(2)
+    );
+
+    /*
+     * Перехватываем клик раньше остальных
+     * инструментов редактора.
+     */
+    window.addEventListener(
+        "pointerdown",
+        event =>
+        {
+            if(
+                !spawnPlacementMode ||
+                event.target !== canvas
+            )
+            {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            const playerNumber =
+                spawnPlacementMode;
+
+            const position =
+                getSpawnPositionFromMouse(
+                    event
+                );
+
+            setSpawnPosition(
+                playerNumber,
+                position
+            );
+
+            stopSpawnPlacement();
+        },
+        true
+    );
+
+    window.addEventListener(
+        "keydown",
+        event =>
+        {
+            if(
+                event.key === "Escape" &&
+                spawnPlacementMode
+            )
+            {
+                stopSpawnPlacement();
+
+                setStatus(
+                    "Установка стартовой позиции отменена."
+                );
+            }
+        },
+        true
+    );
+
+    /* =====================================================
+     * Отображение spawn2
+     * ===================================================== */
+
+    function drawSpawn2()
+    {
+        if(!state.spawn2)
+        {
+            return;
+        }
+
+        const point = project(
+            state.spawn2.x,
+            state.spawn2.z,
+            state.spawn2.a || 0
+        );
+
+        ctx.save();
+
+        ctx.strokeStyle = "#60a5fa";
+        ctx.fillStyle =
+            "rgba(37,99,235,0.25)";
+
+        ctx.lineWidth = 3;
+
+        ctx.beginPath();
+        ctx.arc(
+            point.x,
+            point.y,
+            12,
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(
+            point.x - 10,
+            point.y
+        );
+        ctx.lineTo(
+            point.x + 10,
+            point.y
+        );
+        ctx.moveTo(
+            point.x,
+            point.y - 10
+        );
+        ctx.lineTo(
+            point.x,
+            point.y + 10
+        );
+        ctx.stroke();
+
+        ctx.restore();
+
+        drawLabel(
+            "spawn2",
+            point.x + 14,
+            point.y - 10,
+            "#93c5fd"
+        );
+    }
+
+    const renderBeforeSpawn2 =
+        render;
+
+    render = function()
+    {
+        renderBeforeSpawn2();
+        drawSpawn2();
+    };
+
+    /* =====================================================
+     * Округление координат
+     * ===================================================== */
+
+    function updateTerrainNode(terrain)
+    {
+        terrain.node.line =
+            terrain.kind +
+            " " +
+            terrain.values
+                .map(value =>
+                    Math.round(value)
+                )
+                .join(" ");
+    }
+
+    function roundAllPositions()
+    {
+        /*
+         * Сущности.
+         */
+        for(const entity of state.entities)
+        {
+            entity.x =
+                Math.round(entity.x);
+
+            entity.z =
+                Math.round(entity.z);
+
+            entity.a =
+                Math.round(entity.a);
+
+            entity.at =
+                Math.round(entity.at);
+        }
+
+        /*
+         * Wall, hole и basemap.
+         */
+        for(const terrain of state.terrain)
+        {
+            terrain.values =
+                terrain.values.map(value =>
+                    Math.round(value)
+                );
+
+            updateTerrainNode(terrain);
+        }
+
+        /*
+         * Старт игрока 1.
+         */
+        if(state.spawn1)
+        {
+            state.spawn1.x =
+                Math.round(state.spawn1.x);
+
+            state.spawn1.z =
+                Math.round(state.spawn1.z);
+
+            state.spawn1.a =
+                Math.round(
+                    state.spawn1.a || 0
+                );
+
+            setSpawnPosition(
+                1,
+                state.spawn1,
+                false
+            );
+        }
+
+        /*
+         * Старт игрока 2.
+         */
+        if(state.spawn2)
+        {
+            state.spawn2.x =
+                Math.round(state.spawn2.x);
+
+            state.spawn2.z =
+                Math.round(state.spawn2.z);
+
+            state.spawn2.a =
+                Math.round(
+                    state.spawn2.a || 0
+                );
+
+            setSpawnPosition(
+                2,
+                state.spawn2,
+                false
+            );
+        }
+
+        updateSelectionFields();
+        updateTextArea();
+        resizeCanvas();
+        render();
+
+        setStatus(
+            "Все позиции округлены до целых чисел."
+        );
+    }
+
+    document
+        .getElementById(
+            "roundAllPositions"
+        )
+        .addEventListener(
+            "click",
+            roundAllPositions
+        );
+
+    render();
+})();
+</script>
+<script>
+(() =>
+{
+    "use strict";
+
+    let copiedEntity = null;
+    const undoHistory = [];
+    const maximumUndoSteps = 50;
+
+    /* =====================================================
+     * Перемещение кнопки округления вниз
+     * ===================================================== */
+
+    const roundButton =
+        document.getElementById(
+            "roundAllPositions"
+        );
+
+    const downloadButton =
+        document.getElementById(
+            "downloadText"
+        );
+
+    if(roundButton && downloadButton)
+    {
+        const textButtonsRow =
+            downloadButton.closest(".row");
+
+        roundButton.style.marginTop = "7px";
+        roundButton.style.width = "100%";
+
+        textButtonsRow.after(roundButton);
+
+        const keyboardHint =
+            document.createElement("p");
+
+        keyboardHint.className = "hint";
+
+        keyboardHint.innerHTML = `
+            Ctrl+C — копировать объект<br>
+            Ctrl+V — вставить объект<br>
+            Ctrl+Z — отменить последнее изменение
+        `;
+
+        roundButton.after(keyboardHint);
+    }
+
+    /* =====================================================
+     * История
+     * ===================================================== */
+
+    function createSnapshot()
+    {
+        return {
+            text: serializeLevel(),
+
+            path:
+                state.levelPath ||
+                state.sourceName ||
+                "level.txt"
+        };
+    }
+
+    function saveUndoSnapshot()
+    {
+        const snapshot =
+            createSnapshot();
+
+        const previous =
+            undoHistory[
+                undoHistory.length - 1
+            ];
+
+        /*
+         * Не сохраняем одинаковые состояния.
+         */
+        if(
+            previous &&
+            previous.text === snapshot.text
+        )
+        {
+            return;
+        }
+
+        undoHistory.push(snapshot);
+
+        if(
+            undoHistory.length >
+            maximumUndoSteps
+        )
+        {
+            undoHistory.shift();
+        }
+    }
+
+    function undoLastAction()
+    {
+        if(!undoHistory.length)
+        {
+            setStatus(
+                "Нет действий для отмены."
+            );
+
+            return;
+        }
+
+        const snapshot =
+            undoHistory.pop();
+
+        parseLevel(
+            snapshot.text,
+            snapshot.path
+        );
+
+        state.selected = null;
+        updateSelectionPanel();
+        render();
+
+        setStatus(
+            "Последнее действие отменено. " +
+            "Осталось шагов: " +
+            undoHistory.length
+        );
+    }
+
+    /*
+     * Начальное состояние уровня.
+     */
+    saveUndoSnapshot();
+
+    /* =====================================================
+     * Автоматическое сохранение перед действиями
+     * ===================================================== */
+
+    const changingButtons = new Set([
+        "addEntity",
+        "deleteEntity",
+        "deleteTerrain",
+        "roundAllPositions",
+        "applyText",
+
+        "terrainMoveUp",
+        "terrainMoveDown",
+
+        "terrainWider",
+        "terrainNarrower",
+        "terrainTaller",
+        "terrainShorter",
+		"terrainMoveLeft",
+		"terrainMoveRight",
+
+        /*
+         * Перед установкой spawn сохраняем уровень.
+         * Сам клик по canvas перехватывается другим
+         * инструментом раньше этого дополнения.
+         */
+        "setSpawn1",
+        "setSpawn2"
+    ]);
+
+    document.addEventListener(
+        "pointerdown",
+        event =>
+        {
+            /*
+             * Начало перемещения сущности или
+             * создание геометрии точками A/B.
+             */
+            if(event.target === canvas)
+            {
+                saveUndoSnapshot();
+                return;
+            }
+
+            const button =
+                event.target.closest("button");
+
+            if(
+                button &&
+                changingButtons.has(button.id)
+            )
+            {
+                saveUndoSnapshot();
+            }
+        },
+        true
+    );
+
+    /*
+     * Сохраняем состояние перед ручным изменением
+     * полей выбранного объекта.
+     */
+    for(const id of [
+        "selName",
+        "selX",
+        "selZ",
+        "selA",
+        "selAt",
+        "selFlip",
+        "selAlias"
+    ])
+    {
+        const field =
+            document.getElementById(id);
+
+        if(field)
+        {
+            field.addEventListener(
+                "focus",
+                saveUndoSnapshot
+            );
+        }
+    }
+
+    /* =====================================================
+     * Копирование
+     * ===================================================== */
+
+    function copySelectedEntity()
+    {
+        const entity =
+            state.selected;
+
+        if(!entity || entity.deleted)
+        {
+            setStatus(
+                "Сначала выберите объект для копирования."
+            );
+
+            return;
+        }
+
+        copiedEntity = {
+            name: entity.name,
+            alias: entity.alias,
+
+            x: entity.x,
+            z: entity.z,
+            a: entity.a,
+            at: entity.at,
+
+            flip: entity.flip,
+
+            /*
+             * Сохраняем дополнительные команды:
+             * health, map, boss, item и другие.
+             */
+            lines: Array.isArray(entity.lines)
+                ? [...entity.lines]
+                : []
+        };
+
+        setStatus(
+            "Скопирован объект: " +
+            entity.name
+        );
+    }
+
+    /* =====================================================
+     * Вставка
+     * ===================================================== */
+
+    function pasteCopiedEntity()
+    {
+        if(!copiedEntity)
+        {
+            setStatus(
+                "Буфер объектов пуст. " +
+                "Сначала нажмите Ctrl+C."
+            );
+
+            return;
+        }
+
+        saveUndoSnapshot();
+
+        const entity = {
+            id: state.nextID++,
+
+            lines: [
+                ...copiedEntity.lines
+            ],
+
+            name: copiedEntity.name,
+            alias: copiedEntity.alias,
+
+            /*
+             * Копия появляется немного правее,
+             * чтобы она не совпала с оригиналом.
+             */
+            x: copiedEntity.x + 20,
+            z: copiedEntity.z,
+            a: copiedEntity.a,
+            at: copiedEntity.at,
+
+            flip: copiedEntity.flip,
+
+            deleted: false,
+            added: true
+        };
+
+        state.entities.push(entity);
+        state.selected = entity;
+
+        /*
+         * Следующая вставка будет ещё правее.
+         */
+        copiedEntity.x += 20;
+
+        updateSelectionPanel();
+        updateTextArea();
+        resizeCanvas();
+        render();
+
+        setStatus(
+            "Вставлен объект: " +
+            entity.name +
+            ". X=" +
+            round(entity.x) +
+            ", Z=" +
+            round(entity.z)
+        );
+    }
+
+    /* =====================================================
+     * Горячие клавиши
+     * ===================================================== */
+
+    window.addEventListener(
+        "keydown",
+        event =>
+        {
+            const controlPressed =
+                event.ctrlKey ||
+                event.metaKey;
+
+            if(!controlPressed)
+            {
+                return;
+            }
+
+            const activeElement =
+                document.activeElement;
+
+            const editingText =
+                activeElement &&
+                (
+                    activeElement.tagName ===
+                    "INPUT" ||
+
+                    activeElement.tagName ===
+                    "TEXTAREA" ||
+
+                    activeElement.tagName ===
+                    "SELECT"
+                );
+
+            /*
+             * В полях оставляем стандартное
+             * копирование текста и отмену ввода.
+             */
+            if(editingText)
+            {
+                return;
+            }
+
+            const key =
+                event.key.toLowerCase();
+
+            if(key === "c")
+            {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+
+                copySelectedEntity();
+            }
+            else if(key === "v")
+            {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+
+                pasteCopiedEntity();
+            }
+            else if(key === "z")
+            {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+
+                undoLastAction();
+            }
+        },
+        true
+    );
+})();
+</script>
+<script>
+(() =>
+{
+    "use strict";
+
+    let horizontalTerrain = null;
+
+    /* =====================================================
+     * Кнопки
+     * ===================================================== */
+
+    const horizontalPanel =
+        document.createElement("div");
+
+    horizontalPanel.className = "row";
+    horizontalPanel.style.marginTop = "7px";
+
+    horizontalPanel.innerHTML = `
+        <button id="terrainMoveLeft" disabled>
+            ◀ Влево
+        </button>
+
+        <button id="terrainMoveRight" disabled>
+            Вправо ▶
+        </button>
+    `;
+
+    const moveDownButton =
+        document.getElementById(
+            "terrainMoveDown"
+        );
+
+    if(moveDownButton)
+    {
+        moveDownButton
+            .closest(".row")
+            .after(horizontalPanel);
+    }
+    else
+    {
+        document
+            .getElementById("deleteTerrain")
+            .after(horizontalPanel);
+    }
+
+    const leftButton =
+        document.getElementById(
+            "terrainMoveLeft"
+        );
+
+    const rightButton =
+        document.getElementById(
+            "terrainMoveRight"
+        );
+
+    function updateButtons()
+    {
+        if(
+            horizontalTerrain &&
+            !state.terrain.includes(
+                horizontalTerrain
+            )
+        )
+        {
+            horizontalTerrain = null;
+        }
+
+        const disabled =
+            !horizontalTerrain;
+
+        leftButton.disabled = disabled;
+        rightButton.disabled = disabled;
+    }
+
+    /* =====================================================
+     * Поиск геометрии под мышкой
+     * ===================================================== */
+
+    function pointInsidePolygon(
+        point,
+        polygon
+    )
+    {
+        let inside = false;
+
+        for(
+            let index = 0,
+                previous = polygon.length - 1;
+
+            index < polygon.length;
+
+            previous = index++
+        )
+        {
+            const currentPoint =
+                polygon[index];
+
+            const previousPoint =
+                polygon[previous];
+
+            const intersects =
+                (
+                    currentPoint.y > point.y
+                ) !== (
+                    previousPoint.y > point.y
+                ) &&
+                point.x <
+                (
+                    (
+                        previousPoint.x -
+                        currentPoint.x
+                    ) *
+                    (
+                        point.y -
+                        currentPoint.y
+                    ) /
+                    (
+                        previousPoint.y -
+                        currentPoint.y
+                    ) +
+                    currentPoint.x
+                );
+
+            if(intersects)
+            {
+                inside = !inside;
+            }
+        }
+
+        return inside;
+    }
+
+    function getBasemapPolygon(values)
+    {
+        const x = values[0];
+        const z = values[1];
+        const width = values[2];
+        const depth = values[3];
+
+        const leftHeight = values[4];
+        const rightHeight = values[5];
+
+        return [
+            project(
+                x,
+                z - depth,
+                leftHeight
+            ),
+            project(
+                x + width,
+                z - depth,
+                rightHeight
+            ),
+            project(
+                x + width,
+                z,
+                rightHeight
+            ),
+            project(
+                x,
+                z,
+                leftHeight
+            )
+        ];
+    }
+
+    function getTerrainPolygons(terrain)
+    {
+        const values = terrain.values;
+
+        if(terrain.kind === "basemap")
+        {
+            return [
+                getBasemapPolygon(values)
+            ];
+        }
+
+        if(terrain.kind === "hole")
+        {
+            return [
+                terrainPolygon(values, 0)
+            ];
+        }
+
+        const wallHeight =
+            number(values[7]);
+
+        const top =
+            terrainPolygon(
+                values,
+                wallHeight
+            );
+
+        const bottom =
+            terrainPolygon(
+                values,
+                0
+            );
+
+        return [
+            top,
+
+            /*
+             * Передняя сторона стены.
+             */
+            [
+                top[3],
+                top[2],
+                bottom[2],
+                bottom[3]
+            ],
+
+            /*
+             * Левая сторона.
+             */
+            [
+                top[0],
+                top[3],
+                bottom[3],
+                bottom[0]
+            ],
+
+            /*
+             * Правая сторона.
+             */
+            [
+                top[1],
+                top[2],
+                bottom[2],
+                bottom[1]
+            ]
+        ];
+    }
+
+    function findHorizontalTerrain(point)
+    {
+        for(
+            let index =
+                state.terrain.length - 1;
+
+            index >= 0;
+
+            index--
+        )
+        {
+            const terrain =
+                state.terrain[index];
+
+            const polygons =
+                getTerrainPolygons(
+                    terrain
+                );
+
+            for(const polygon of polygons)
+            {
+                if(
+                    pointInsidePolygon(
+                        point,
+                        polygon
+                    )
+                )
+                {
+                    return terrain;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /*
+     * Запоминаем выбранную стену, яму
+     * или склон.
+     */
+    window.addEventListener(
+        "pointerdown",
+        event =>
+        {
+            if(event.target !== canvas)
+            {
+                return;
+            }
+
+            if(
+                canvas.classList.contains(
+                    "terrainDrawing"
+                ) ||
+                canvas.classList.contains(
+                    "spawnPlacement"
+                )
+            )
+            {
+                return;
+            }
+
+            const point =
+                canvasPoint(event);
+
+            /*
+             * Сущность имеет приоритет.
+             */
+            const entity =
+                findEntityAt(
+                    point.x,
+                    point.y
+                );
+
+            if(entity)
+            {
+                horizontalTerrain = null;
+                updateButtons();
+                return;
+            }
+
+            horizontalTerrain =
+                findHorizontalTerrain(point);
+
+            updateButtons();
+        },
+        true
+    );
+
+    /* =====================================================
+     * Смещение
+     * ===================================================== */
+
+    function getMovementStep()
+    {
+        const movementField =
+            document.getElementById(
+                "terrainMoveStep"
+            );
+
+        return Math.max(
+            1,
+            number(
+                movementField
+                    ? movementField.value
+                    : 10,
+                10
+            )
+        );
+    }
+
+    function updateTerrainLine(terrain)
+    {
+        terrain.node.line =
+            terrain.kind +
+            " " +
+            terrain.values
+                .map(value => round(value))
+                .join(" ");
+    }
+
+    function moveHorizontal(direction)
+    {
+        if(
+            !horizontalTerrain ||
+            !state.terrain.includes(
+                horizontalTerrain
+            )
+        )
+        {
+            horizontalTerrain = null;
+            updateButtons();
+            return;
+        }
+
+        const step =
+            getMovementStep();
+
+        /*
+         * Первый параметр wall, hole и basemap
+         * всегда является координатой X.
+         */
+        horizontalTerrain.values[0] +=
+            step * direction;
+
+        updateTerrainLine(
+            horizontalTerrain
+        );
+
+        updateTextArea();
+        resizeCanvas();
+        render();
+
+        setStatus(
+            direction < 0
+                ? "Геометрия смещена влево: "
+                : "Геометрия смещена вправо: "
+            +
+            horizontalTerrain.node.line
+        );
+    }
+
+    leftButton.addEventListener(
+        "click",
+        () => moveHorizontal(-1)
+    );
+
+    rightButton.addEventListener(
+        "click",
+        () => moveHorizontal(1)
+    );
+
+    /*
+     * После удаления сбрасываем выбор.
+     */
+    document
+        .getElementById("deleteTerrain")
+        .addEventListener(
+            "click",
+            () =>
+            {
+                horizontalTerrain = null;
+                updateButtons();
+            }
+        );
+
+    updateButtons();
+})();
+</script>
+<script>
+(() =>
+{
+    "use strict";
+
+    const leftButton =
+        document.getElementById(
+            "terrainMoveLeft"
+        );
+
+    const rightButton =
+        document.getElementById(
+            "terrainMoveRight"
+        );
+
+    const upButton =
+        document.getElementById(
+            "terrainMoveUp"
+        );
+
+    const downButton =
+        document.getElementById(
+            "terrainMoveDown"
+        );
+
+    function getObjectMovementStep()
+    {
+        const field =
+            document.getElementById(
+                "terrainMoveStep"
+            );
+
+        return Math.max(
+            1,
+            number(
+                field ? field.value : 10,
+                10
+            )
+        );
+    }
+
+    function selectedEntityExists()
+    {
+        return (
+            state.selected &&
+            !state.selected.deleted &&
+            state.entities.includes(
+                state.selected
+            )
+        );
+    }
+
+    /*
+     * Если выбрана сущность, активируем кнопки,
+     * даже если геометрия не выбрана.
+     */
+    function updateEntityMovementButtons()
+    {
+        if(!selectedEntityExists())
+        {
+            return;
+        }
+
+        if(leftButton)
+        {
+            leftButton.disabled = false;
+        }
+
+        if(rightButton)
+        {
+            rightButton.disabled = false;
+        }
+
+        if(upButton)
+        {
+            upButton.disabled = false;
+        }
+
+        if(downButton)
+        {
+            downButton.disabled = false;
+        }
+    }
+
+    /*
+     * Оборачиваем обновление панели выбора,
+     * чтобы кнопки включались автоматически.
+     */
+    const updateSelectionPanelBeforeMovement =
+        updateSelectionPanel;
+
+    updateSelectionPanel = function()
+    {
+        updateSelectionPanelBeforeMovement();
+
+        setTimeout(
+            updateEntityMovementButtons,
+            0
+        );
+    };
+
+    function finishObjectMovement(
+        directionName
+    )
+    {
+        updateSelectionFields();
+        updateTextArea();
+        resizeCanvas();
+        render();
+
+        const entity = state.selected;
+
+        setStatus(
+            entity.name +
+            " перемещён " +
+            directionName +
+            ". X=" +
+            round(entity.x) +
+            ", Z=" +
+            round(entity.z)
+        );
+
+        updateEntityMovementButtons();
+    }
+
+    function moveEntityLeft()
+    {
+        if(!selectedEntityExists())
+        {
+            return;
+        }
+
+        state.selected.x -=
+            getObjectMovementStep();
+
+        finishObjectMovement(
+            "влево"
+        );
+    }
+
+    function moveEntityRight()
+    {
+        if(!selectedEntityExists())
+        {
+            return;
+        }
+
+        state.selected.x +=
+            getObjectMovementStep();
+
+        finishObjectMovement(
+            "вправо"
+        );
+    }
+
+    function moveEntityUp()
+    {
+        if(!selectedEntityExists())
+        {
+            return;
+        }
+
+        /*
+         * Меньший Z находится выше на экране.
+         */
+        state.selected.z -=
+            getObjectMovementStep();
+
+        finishObjectMovement(
+            "вверх"
+        );
+    }
+
+    function moveEntityDown()
+    {
+        if(!selectedEntityExists())
+        {
+            return;
+        }
+
+        /*
+         * Больший Z находится ниже на экране.
+         */
+        state.selected.z +=
+            getObjectMovementStep();
+
+        finishObjectMovement(
+            "вниз"
+        );
+    }
+
+    /*
+     * Старые обработчики продолжат двигать
+     * wall/hole/basemap, а эти обработчики
+     * работают только для выбранной сущности.
+     */
+    leftButton.addEventListener(
+        "click",
+        moveEntityLeft
+    );
+
+    rightButton.addEventListener(
+        "click",
+        moveEntityRight
+    );
+
+    upButton.addEventListener(
+        "click",
+        moveEntityUp
+    );
+
+    downButton.addEventListener(
+        "click",
+        moveEntityDown
+    );
+
+    /*
+     * После выбора мышкой состояние обновляется
+     * уже после старых обработчиков canvas.
+     */
+    document.addEventListener(
+        "pointerup",
+        () =>
+        {
+            setTimeout(
+                updateEntityMovementButtons,
+                0
+            );
+        }
+    );
+
+    /*
+     * Нужно после добавления и вставки объекта.
+     */
+    window.addEventListener(
+        "keyup",
+        () =>
+        {
+            setTimeout(
+                updateEntityMovementButtons,
+                0
+            );
+        }
+    );
+
+    updateEntityMovementButtons();
+})();
+</script>
+<script>
+(() =>
+{
+    "use strict";
+
+    let arcadeDrag = null;
+
+    function getFixedArcadeGround()
+    {
+        if(state.stageZ)
+        {
+            const minimum = Math.min(
+                state.stageZ.minimum,
+                state.stageZ.maximum
+            );
+
+            const maximum = Math.max(
+                state.stageZ.minimum,
+                state.stageZ.maximum
+            );
+
+            return (
+                minimum + maximum
+            ) / 2;
+        }
+
+        if(state.spawn1)
+        {
+            return state.spawn1.z;
+        }
+
+        return 200;
+    }
+
+    function getMovementStep()
+    {
+        const field =
+            document.getElementById(
+                "terrainMoveStep"
+            );
+
+        return Math.max(
+            1,
+            number(
+                field ? field.value : 10,
+                10
+            )
+        );
+    }
+
+    function selectedObjectExists()
+    {
+        return (
+            state.selected &&
+            !state.selected.deleted &&
+            state.entities.includes(
+                state.selected
+            )
+        );
+    }
+
+    /* =====================================================
+     * Названия координат в интерфейсе
+     * ===================================================== */
+
+    const yField =
+        document.getElementById("selZ");
+
+    const heightField =
+        document.getElementById("selA");
+
+    if(yField)
+    {
+        const label =
+            yField.closest("label");
+
+        if(label && label.firstChild)
+        {
+            label.firstChild.nodeValue =
+                "Y — земля из levels.txt ";
+        }
+
+        /*
+         * Фиксированную землю нельзя менять вручную.
+         */
+        yField.readOnly = true;
+        yField.title =
+            "Задаётся командой z в data/levels.txt";
+    }
+
+    if(heightField)
+    {
+        const label =
+            heightField.closest("label");
+
+        if(label && label.firstChild)
+        {
+            label.firstChild.nodeValue =
+                "Z — высота ";
+        }
+    }
+
+    /* =====================================================
+     * Вертикальное перетаскивание меняет высоту
+     * ===================================================== */
+
+    canvas.addEventListener(
+        "pointerdown",
+        event =>
+        {
+            if(
+                canvas.classList.contains(
+                    "terrainDrawing"
+                ) ||
+                canvas.classList.contains(
+                    "spawnPlacement"
+                )
+            )
+            {
+                return;
+            }
+
+            const point =
+                canvasPoint(event);
+
+            const entity =
+                findEntityAt(
+                    point.x,
+                    point.y
+                );
+
+            if(!entity)
+            {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            state.selected = entity;
+
+            /*
+             * Y всегда возвращается на линию земли.
+             */
+            entity.z =
+                getFixedArcadeGround();
+
+            arcadeDrag = {
+                entity: entity,
+
+                startX: point.x,
+                startY: point.y,
+
+                x: entity.x,
+                height: entity.a
+            };
+
+            updateSelectionPanel();
+            render();
+
+            canvas.setPointerCapture(
+                event.pointerId
+            );
+        },
+        true
+    );
+
+    canvas.addEventListener(
+        "pointermove",
+        event =>
+        {
+            if(!arcadeDrag)
+            {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            const point =
+                canvasPoint(event);
+
+            const deltaX = (
+                point.x -
+                arcadeDrag.startX
+            ) / state.calibration.scaleX;
+
+            const deltaY = (
+                point.y -
+                arcadeDrag.startY
+            ) / state.calibration.scaleY;
+
+            arcadeDrag.entity.x =
+                arcadeDrag.x +
+                deltaX;
+
+            /*
+             * Движение мыши вверх увеличивает
+             * третий параметр coords.
+             */
+            arcadeDrag.entity.a =
+                Math.max(
+                    0,
+                    arcadeDrag.height -
+                    deltaY
+                );
+
+            /*
+             * Второй параметр остаётся фиксированным.
+             */
+            arcadeDrag.entity.z =
+                getFixedArcadeGround();
+
+            updateSelectionFields();
+            render();
+        },
+        true
+    );
+
+    canvas.addEventListener(
+        "pointerup",
+        event =>
+        {
+            if(!arcadeDrag)
+            {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            arcadeDrag.entity.z =
+                getFixedArcadeGround();
+
+            arcadeDrag = null;
+
+            updateSelectionFields();
+            updateTextArea();
+            resizeCanvas();
+            render();
+        },
+        true
+    );
+
+    /* =====================================================
+     * Кнопки вверх/вниз меняют высоту
+     * ===================================================== */
+
+    const upButton =
+        document.getElementById(
+            "terrainMoveUp"
+        );
+
+    const downButton =
+        document.getElementById(
+            "terrainMoveDown"
+        );
+
+    upButton.addEventListener(
+        "click",
+        () =>
+        {
+            if(!selectedObjectExists())
+            {
+                return;
+            }
+
+            /*
+             * Предыдущий обработчик мог изменить
+             * второй параметр — возвращаем землю.
+             */
+            state.selected.z =
+                getFixedArcadeGround();
+
+            state.selected.a +=
+                getMovementStep();
+
+            updateSelectionFields();
+            updateTextArea();
+            resizeCanvas();
+            render();
+
+            setStatus(
+                state.selected.name +
+                " поднят. Высота Z=" +
+                round(state.selected.a)
+            );
+        }
+    );
+
+    downButton.addEventListener(
+        "click",
+        () =>
+        {
+            if(!selectedObjectExists())
+            {
+                return;
+            }
+
+            state.selected.z =
+                getFixedArcadeGround();
+
+            state.selected.a =
+                Math.max(
+                    0,
+                    state.selected.a -
+                    getMovementStep()
+                );
+
+            updateSelectionFields();
+            updateTextArea();
+            resizeCanvas();
+            render();
+
+            setStatus(
+                state.selected.name +
+                " опущен. Высота Z=" +
+                round(state.selected.a)
+            );
+        }
+    );
+
+    /* =====================================================
+     * Новые и вставленные объекты
+     * ===================================================== */
+
+    function normalizeSelectedObject()
+    {
+        if(!selectedObjectExists())
+        {
+            return;
+        }
+
+        state.selected.z =
+            getFixedArcadeGround();
+
+        state.selected.a =
+            Math.max(
+                0,
+                number(state.selected.a)
+            );
+
+        updateSelectionFields();
+    }
+
+    const updateSelectionBeforeArcade =
+        updateSelectionPanel;
+
+    updateSelectionPanel = function()
+    {
+        normalizeSelectedObject();
+        updateSelectionBeforeArcade();
+    };
+
+    document
+        .getElementById("addEntity")
+        .addEventListener(
+            "click",
+            () =>
+            {
+                normalizeSelectedObject();
+                updateTextArea();
+                render();
+            }
+        );
+
+    /* =====================================================
+     * Удаление примера склона
+     * ===================================================== */
+
+    const exampleButton =
+        document.getElementById(
+            "openExample"
+        );
+
+    if(exampleButton)
+    {
+        const row =
+            exampleButton.closest(".row");
+
+        exampleButton.remove();
+
+        if(row)
+        {
+            row.style.gridTemplateColumns =
+                "1fr";
+        }
+    }
+
+    /*
+     * При первом запуске больше не показываем
+     * автоматически пример.
+     */
+    if(
+        state.sourceName ===
+        "slope_example.txt"
+    )
+    {
+        parseLevel(
+            "",
+            "data/levels/level.txt"
+        );
+
+        $("levelText").value = "";
+
+        setStatus(
+            "Выберите папку проекта и откройте уровень."
+        );
+    }
+
+    render();
+})();
+</script>
+</body>
+</html>

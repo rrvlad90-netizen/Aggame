@@ -68,34 +68,13 @@ anim	attack1
 	sound data/sounds/att.wav
 	delay	4
 	@cmd    check_attack_hold
-	attack1	82 71 160 112 20 0 0 0 0
+	attack1	82 71 160 112 15 0 0 0 0 45
 	frame	data/chars/players/egon/ff
 	attack1	0 0 0 0 0 0 0 0 0
 	frame	data/chars/players/egon/ff1
-	attack1	82 71 160 112 20 0 0 0 0 15
+	attack1	82 71 160 112 15 0 0 0 0 45
 	frame	data/chars/players/egon/ff2
 	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ff1
-	attack1	82 71 160 112 20 0 0 0 0 15
-	frame	data/chars/players/egon/ff
-	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ff1
-	attack1	82 71 160 112 20 0 0 0 0 15
-	frame	data/chars/players/egon/ff2
-	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ff1
-	attack1	82 71 160 112 20 0 0 0 0 15
-	frame	data/chars/players/egon/ff
-	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ff1
-	loop	0
-	delay	4
-        offset  74 154
-	bbox	62 98 30 55
-	delay	4
-	attack1	82 71 160 112 40 0 0 0 0 15
-	frame	data/chars/players/egon/ff
-	attack2	0 0 0 0 0 0 0 0 0
 	frame	data/chars/players/egon/ff1
 
 anim pain
@@ -110,19 +89,18 @@ anim pain
 # --- FREESPECIAL 1: СТРЕЛЬБА ВНИЗ ---
 # =========================================================================
 anim	freespecial1
-	loop	0
-	delay	6
-        offset  109 110
+	loop	1
+    offset  109 110
 	bbox	88 24 40 88
 	sound	data/sounds/stand.wav
 	delay	5
-	
+	sound data/sounds/att.wav
 	@cmd    check_attack_hold
 	# Используем стандартный синтаксис cancel для старого движка
 	cancel  0 0 0 U freespecial2   # Нажали ВВЕРХ -> Стрельба вверх
 	cancel  0 0 0 F freespecial3   # Нажали ВПЕРЕД -> Уходим на диагональ вниз
-	attack1	88 24 40 88 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 87 1 0 0 0
+	attack1 88 24 40 88 5 0 0 0 0 160
+	@cmd	projectile 2 "bullet" 62 87 18 0 0 0
 	frame	data/chars/players/egon/ffd
 	
 	cancel  1 1 0 U freespecial2
@@ -132,106 +110,31 @@ anim	freespecial1
 	
 	cancel  2 2 0 U freespecial2
 	cancel  2 2 0 F freespecial3
-	attack1	88 24 40 88 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 87 1 0 0 0
+	attack1 88 24 40 88 5 0 0 0 0 160
+	@cmd	projectile 2 "bullet" 62 87 18 0 0 0
 	frame	data/chars/players/egon/ffd2
 	
 	cancel  3 3 0 U freespecial2
 	cancel  3 3 0 F freespecial3
 	attack1	0 0 0 0 0 0 0 0 0
 	frame	data/chars/players/egon/ffd1
-	
-	cancel  4 4 0 U freespecial2
-	cancel  4 4 0 F freespecial3
-	attack1	88 24 40 88 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 87 1 0 0 0
-	frame	data/chars/players/egon/ffd
-	
-	cancel  5 5 0 U freespecial2
-	cancel  5 5 0 F freespecial3
-	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ffd1
-	
-	cancel  6 6 0 U freespecial2
-	cancel  6 6 0 F freespecial3
-	attack1	88 24 40 88 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 87 1 0 0 0
-	frame	data/chars/players/egon/ffd2
-	
-	cancel  7 7 0 U freespecial2
-	cancel  7 7 0 F freespecial3
-	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ffd1
-	
-	cancel  8 8 0 U freespecial2
-	cancel  8 8 0 F freespecial3
-	attack1	88 24 40 88 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 87 1 0 0 0
-	frame	data/chars/players/egon/ffd
-	
-	cancel  9 9 0 U freespecial2
-	cancel  9 9 0 F freespecial3
-	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ffd1
-	
-	cancel  10 10 0 U freespecial2
-	cancel  10 10 0 F freespecial3
-	attack1	88 24 40 88 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 87 1 0 0 0
-	frame	data/chars/players/egon/ffd2
-	
-	delay	6
-        offset  109 110
-	bbox	88 24 40 88
-	sound	data/sounds/stand.wav
-	delay	5
-	
-	cancel  11 11 0 U freespecial2
-	cancel  11 11 0 F freespecial3
-	attack1	0 0 0 0 0 0 0 0 0
-	@cmd	projectile 2 "bullet2" 62 87 1 0 0 0
-	frame	data/chars/players/egon/ffd
-	
-	cancel  12 12 0 U freespecial2
-	cancel  12 12 0 F freespecial3
-	attack1	88 24 40 88 340 0 0 0 0
-	frame	data/chars/players/egon/ffd1
-	
-	cancel  13 13 0 U freespecial2
-	cancel  13 13 0 F freespecial3
-	attack1	0 0 0 0 0 0 0 0 0
-	@cmd	projectile 2 "bullet2" 62 87 1 0 0 0
-	frame	data/chars/players/egon/ffd2
-	
-	cancel  14 14 0 U freespecial2
-	cancel  14 14 0 F freespecial3
-	attack1	88 24 40 88 340 0 0 0 0
-	frame	data/chars/players/egon/ffd1
-	
-	cancel  15 15 0 U freespecial2
-	cancel  15 15 0 F freespecial3
-	attack1	0 0 0 0 0 0 0 0 0
-	@cmd	projectile 2 "bullet2" 62 87 1 0 0 0
-	attack1	88 24 40 88 340 0 0 0 0
-	frame	data/chars/players/egon/ffd
 
 
 # =========================================================================
 # --- FREESPECIAL 2: СТРЕЛЬБА ВВЕРХ ---
 # =========================================================================
 anim	freespecial2
-	loop	0
-	delay	6
-        offset  108 151
+	loop	1
+    offset  108 151
 	bbox	88 66 37 85
 	sound	data/sounds/stand.wav
 	delay	5
-	
+	sound data/sounds/att.wav	
 	@cmd    check_attack_hold
 	cancel  0 0 0 D freespecial1   # Нажали ВНИЗ -> Стрельба вниз
 	cancel  0 0 0 F freespecial4   # Нажали ВПЕРЕД -> Уходим на диагональ вверх
-	attack1	88 66 37 85 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40
+	attack1 88 66 37 85 5 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 -87 18 0 0 0 40
 	frame	data/chars/players/egon/ffu
 	
 	cancel  1 1 0 D freespecial1
@@ -241,143 +144,77 @@ anim	freespecial2
 	
 	cancel  2 2 0 D freespecial1
 	cancel  2 2 0 F freespecial4
-	attack1	88 66 37 85 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40
+	attack1 88 66 37 85 5 0 0 0 0
+	@cmd	projectile 2 "bullet" 62 -87 18 0 0 0 40
 	frame	data/chars/players/egon/ffu2
 	
 	cancel  3 3 0 D freespecial1
 	cancel  3 3 0 F freespecial4
 	attack1	0 0 0 0 0 0 0 0 0
 	frame	data/chars/players/egon/ffu1
-	
-	cancel  4 4 0 D freespecial1
-	cancel  4 4 0 F freespecial4
-	attack1	88 66 37 85 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40
-	frame	data/chars/players/egon/ffu
-	
-	cancel  5 5 0 D freespecial1
-	cancel  5 5 0 F freespecial4
-	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ffu1
-	
-	cancel  6 6 0 D freespecial1
-	cancel  6 6 0 F freespecial4
-	attack1	88 66 37 85 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40
-	frame	data/chars/players/egon/ffu2
-	
-	cancel  7 7 0 D freespecial1
-	cancel  7 7 0 F freespecial4
-	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ffu1
-	
-	cancel  8 8 0 D freespecial1
-	cancel  8 8 0 F freespecial4
-	attack1	88 66 37 85 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40
-	frame	data/chars/players/egon/ffu
-	
-	cancel  9 9 0 D freespecial1
-	cancel  9 9 0 F freespecial4
-	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ffu1
-	
-	cancel  10 10 0 D freespecial1
-	cancel  10 10 0 F freespecial4
-	attack1	88 66 37 85 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 62 -87 1 0 0 0 40
-	frame	data/chars/players/egon/ffu2
-	
-	delay	6
-        offset  108 151
-	bbox	88 66 37 85
-	sound	data/sounds/stand.wav
-	delay	5
-	
-	cancel  11 11 0 D freespecial1
-	cancel  11 11 0 F freespecial4
-	attack1	0 0 0 0 0 0 0 0 0
-	@cmd	projectile 2 "bullet2" 62 -87 1 0 0 0 40
-	frame	data/chars/players/egon/ffu
-	
-	cancel  12 12 0 D freespecial1
-	cancel  12 12 0 F freespecial4
-	attack1	88 66 37 85 340 0 0 0 0
-	frame	data/chars/players/egon/ffu1
-	
-	cancel  13 13 0 D freespecial1
-	cancel  13 13 0 F freespecial4
-	attack1	0 0 0 0 0 0 0 0 0
-	@cmd	projectile 2 "bullet2" 62 -87 1 0 0 0 40
-	frame	data/chars/players/egon/ffu2
-	
-	cancel  14 14 0 D freespecial1
-	cancel  14 14 0 F freespecial4
-	attack1	88 66 37 85 340 0 0 0 0
-	frame	data/chars/players/egon/ffu1
-	
-	cancel  15 15 0 D freespecial1
-	cancel  15 15 0 F freespecial4
-	attack1	0 0 0 0 0 0 0 0 0
-	@cmd	projectile 2 "bullet2" 62 -87 1 0 0 0 40
-	attack1	88 66 37 85 340 0 0 0 0
-	frame	data/chars/players/egon/ffu
-	
 
 # =========================================================================
 # --- FREESPECIAL 3: ДИАГОНАЛЬ ВНИЗ ---
 # =========================================================================
 anim	freespecial3
 	loop	1
-	delay	6
-        offset  109 110
+    offset  109 110
 	bbox	75 40 45 75 
 	sound	data/sounds/stand.wav
 	delay	5
+	sound data/sounds/att.wav
 	@cmd    check_attack_hold
 	cancel  0 0 0 D freespecial1   # Отпустили Вперед (нажато только Вниз) -> строго вниз
 	cancel  0 0 0 U freespecial4   # Быстро перевели вверх -> диагональ вверх
-	attack1	85 65 150 45 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 80 45 1 0 0 0 
+	attack1 87 74 107 45 20 0 0 0 0 90
+#	@cmd	projectile 2 "bullet" 80 45 1 0 0 0 
 	frame	data/chars/players/egon/ffdr
 	
 	cancel  1 1 0 D freespecial1
 	cancel  1 1 0 U freespecial4
 	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ffdr
+	frame	data/chars/players/egon/ffdr1
 	
 	cancel  2 2 0 D freespecial1
 	cancel  2 2 0 U freespecial4
-	attack1	85 65 150 45 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 80 45 1 0 0 0
-	frame	data/chars/players/egon/ffdr
+	attack1 87 74 107 45 20 0 0 0 0 90
+#	@cmd	projectile 2 "bullet" 80 45 1 0 0 0
+	frame	data/chars/players/egon/ffdr2
+	
+	cancel  1 1 0 D freespecial1
+	cancel  1 1 0 U freespecial4
+	attack1	0 0 0 0 0 0 0 0 0
+	frame	data/chars/players/egon/ffdr1
 
 
 # =========================================================================
 # --- FREESPECIAL 4: ДИАГОНАЛЬ ВВЕРХ ---
 # =========================================================================
-anim	freespecial4
-	loop	1
-	delay	6
-        offset  109 110
-	bbox	75 50 45 80
-	sound	data/sounds/stand.wav
-	delay	5
-	
-	##@cmd    executeanimation getlocalvar("self") openborconstant("ANI_IDLE") !playerkeys(getentityproperty(getlocalvar("self"),"player"), 0, "attack")
-	@cmd    check_attack_hold
-	cancel  0 0 0 U freespecial2   # Отпустили Вперед (нажато только Вверх) -> строго вверх
-	cancel  0 0 0 D freespecial3   # Быстро перевели вниз -> диагональ вниз
-	attack1	85 40 140 50 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 80 -45 1 0 0 0
-	frame	data/chars/players/egon/ffur
-	cancel  1 1 0 U freespecial2
-	cancel  1 1 0 D freespecial3
-	attack1	0 0 0 0 0 0 0 0 0
-	frame	data/chars/players/egon/ffur
-	cancel  2 2 0 U freespecial2
-	cancel  2 2 0 D freespecial3
-	attack1	85 40 140 50 1 0 0 0 0
-	@cmd	projectile 2 "bullet" 80 -45 1 0 0 0
-	frame	data/chars/players/egon/ffur
+anim freespecial4
+	loop 1
+	offset 96 194
+	bbox 62 124 45 75
+	sound data/sounds/stand.wav
+	delay 5
+	sound data/sounds/att.wav
+
+	@cmd check_attack_hold
+	cancel 0 0 0 U freespecial2
+	cancel 0 0 0 D freespecial3
+	attack1 71 91 97 43 20 0 0 0 0 90
+	frame data/chars/players/egon/ffur
+
+	cancel 1 1 0 U freespecial2
+	cancel 1 1 0 D freespecial3
+	attack1 0 0 0 0 0 0 0 0 0
+	frame data/chars/players/egon/ffur1
+
+	cancel 2 2 0 U freespecial2
+	cancel 2 2 0 D freespecial3
+	attack1 71 91 97 43 20 0 0 0 0 90
+	frame data/chars/players/egon/ffur2
+
+	cancel 3 3 0 U freespecial2
+	cancel 3 3 0 D freespecial3
+	attack1 0 0 0 0 0 0 0 0 0
+	frame data/chars/players/egon/ffur1
