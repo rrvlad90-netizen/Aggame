@@ -1,0 +1,223 @@
+Model LotrGondorCommander
+{ 
+   Path "Models/gondor"
+   MODEL 0 "gondorarmouratt1s.md3"
+   Skin 0 "GuAnorienA.jpg"
+   MODEL 1 "gonarmupatt1s.md3"
+   Skin 1 "GuAnorienA.jpg"
+   MODEL 2 "faceswordatt1s.md3"
+   Skin 2 "GuGearA.jpg"
+   //Offset 0.0 0.0 18.0
+
+
+   Scale 3.9 3.9 3.9
+   zoffset 4
+
+   //Scale 0.85 0.85 0.85
+   //zoffset 27
+ //stay  
+   FrameIndex GONS A 0 0   FrameIndex GONS A 1 0   FrameIndex GONS A 2 0
+}
+
+
+
+Model LotrGondorCommander
+{ 
+   Path "Models/gondor"
+   MODEL 0 "gondorarmourrun.md3"
+   Skin 0 "GuAnorienA.jpg"
+   MODEL 1 "gonarmuprun.md3"
+   Skin 1 "GuAnorienA.jpg"
+   MODEL 2 "faceswordrun.md3"
+   Skin 2 "GuGearA.jpg"
+//   Offset 0.0 0.0 18.0
+
+   Scale 0.85 0.85 0.85
+   zoffset 27
+//new run
+
+   FrameIndex GON2 J 0 4   FrameIndex GON2 J 1 4   FrameIndex GON2 J 2 4
+   FrameIndex GON2 K 0 5   FrameIndex GON2 K 1 5   FrameIndex GON2 K 2 5
+   FrameIndex GON2 L 0 6   FrameIndex GON2 L 1 6   FrameIndex GON2 L 2 6
+   FrameIndex GON2 M 0 7   FrameIndex GON2 M 1 7   FrameIndex GON2 M 2 7
+   FrameIndex GON2 N 0 8   FrameIndex GON2 N 1 8   FrameIndex GON2 N 2 8
+   FrameIndex GON2 O 0 9   FrameIndex GON2 O 1 9   FrameIndex GON2 O 2 9
+   FrameIndex GON2 P 0 10   FrameIndex GON2 P 1 10   FrameIndex GON2 P 2 10
+   FrameIndex GON2 Q 0 11   FrameIndex GON2 Q 1 11   FrameIndex GON2 Q 2 11
+   FrameIndex GON2 R 0 12   FrameIndex GON2 R 1 12   FrameIndex GON2 R 2 12
+   FrameIndex GON2 S 0 13   FrameIndex GON2 S 1 13   FrameIndex GON2 S 2 13
+   FrameIndex GON2 T 0 14   FrameIndex GON2 T 1 14   FrameIndex GON2 T 2 14
+   FrameIndex GON2 U 0 15   FrameIndex GON2 U 1 15   FrameIndex GON2 U 2 15
+   FrameIndex GON2 V 0 16   FrameIndex GON2 V 1 16   FrameIndex GON2 V 2 16
+   FrameIndex GON2 W 0 17   FrameIndex GON2 W 1 17   FrameIndex GON2 W 2 17
+   FrameIndex GON2 X 0 18   FrameIndex GON2 X 1 18   FrameIndex GON2 X 2 18
+   FrameIndex GON2 Y 0 19   FrameIndex GON2 Y 1 19   FrameIndex GON2 Y 2 19
+   FrameIndex GON2 Z 0 20   FrameIndex GON2 Z 1 20   FrameIndex GON2 Z 2 20
+
+   FrameIndex GON3 A 0 21   FrameIndex GON3 A 1 21   FrameIndex GON3 A 2 21
+   FrameIndex GON3 B 0 22   FrameIndex GON3 B 1 22   FrameIndex GON3 B 2 22
+   
+   FrameIndex GON3 B 0 23   FrameIndex GON3 B 1 23   FrameIndex GON3 B 2 23
+   FrameIndex GON3 C 0 24   FrameIndex GON3 C 1 24   FrameIndex GON3 C 2 24
+   FrameIndex GON3 D 0 25   FrameIndex GON3 D 1 25   FrameIndex GON3 D 2 25
+   FrameIndex GON3 E 0 26   FrameIndex GON3 E 1 26   FrameIndex GON3 E 2 26
+   FrameIndex GON3 F 0 27   FrameIndex GON3 F 1 27   FrameIndex GON3 F 2 27
+   FrameIndex GON3 G 0 28   FrameIndex GON3 G 1 28   FrameIndex GON3 G 2 28
+   FrameIndex GON3 H 0 29   FrameIndex GON3 H 1 29   FrameIndex GON3 H 2 29
+   FrameIndex GON3 I 0 30   FrameIndex GON3 I 1 30   FrameIndex GON3 I 2 30
+   FrameIndex GON3 J 0 31   FrameIndex GON3 J 1 31   FrameIndex GON3 J 2 31
+   FrameIndex GON3 K 0 32   FrameIndex GON3 K 1 32   FrameIndex GON3 K 2 32
+   FrameIndex GON3 L 0 33   FrameIndex GON3 L 1 33   FrameIndex GON3 L 2 33
+   
+}
+
+
+Model LotrGondorCommander
+{ 
+   Path "Models/gondor"
+   MODEL 0 "gondorarmouratt1.md3"
+   Skin 0 "GuAnorienA.jpg"
+   MODEL 1 "gonarmupatt1.md3"
+   Skin 1 "GuAnorienA.jpg"
+   MODEL 2 "faceswordatt1.md3"
+   Skin 2 "GuGearA.jpg"
+   //Offset 0.0 0.0 18.0
+
+   Scale 3.9 3.9 3.9
+   zoffset 4
+
+//hit   
+   FrameIndex GON1 A 0 0   FrameIndex GON1 A 1 0   FrameIndex GON1 A 2 0
+   FrameIndex GON1 B 0 1   FrameIndex GON1 B 1 1   FrameIndex GON1 B 2 1
+   FrameIndex GON1 C 0 2   FrameIndex GON1 C 1 2   FrameIndex GON1 C 2 2
+   FrameIndex GON1 D 0 3   FrameIndex GON1 D 1 3   FrameIndex GON1 D 2 3
+   FrameIndex GON1 E 0 4   FrameIndex GON1 E 1 4   FrameIndex GON1 E 2 4
+   FrameIndex GON1 F 0 5   FrameIndex GON1 F 1 5   FrameIndex GON1 F 2 5
+   FrameIndex GON1 G 0 6   FrameIndex GON1 G 1 6   FrameIndex GON1 G 2 6
+   FrameIndex GON1 H 0 7   FrameIndex GON1 H 1 7   FrameIndex GON1 H 2 7
+   FrameIndex GON1 I 0 8   FrameIndex GON1 I 1 8   FrameIndex GON1 I 2 8
+   FrameIndex GON1 J 0 9   FrameIndex GON1 J 1 9   FrameIndex GON1 J 2 9
+   FrameIndex GON1 K 0 10   FrameIndex GON1 K 1 10   FrameIndex GON1 K 2 10
+   FrameIndex GON1 L 0 11   FrameIndex GON1 L 1 11   FrameIndex GON1 L 2 11
+   FrameIndex GON1 M 0 12   FrameIndex GON1 M 1 12   FrameIndex GON1 M 2 12
+   FrameIndex GON1 N 0 13   FrameIndex GON1 N 1 13   FrameIndex GON1 N 2 13
+   FrameIndex GON1 O 0 14   FrameIndex GON1 O 1 14   FrameIndex GON1 O 2 14
+   FrameIndex GON1 P 0 15   FrameIndex GON1 P 1 15   FrameIndex GON1 P 2 15
+   FrameIndex GON1 Q 0 16   FrameIndex GON1 Q 1 16   FrameIndex GON1 Q 2 16
+   FrameIndex GON1 R 0 17   FrameIndex GON1 R 1 17   FrameIndex GON1 R 2 17   
+   FrameIndex GON1 S 0 18   FrameIndex GON1 S 1 18   FrameIndex GON1 S 2 18		//bam
+   FrameIndex GON1 T 0 19   FrameIndex GON1 T 1 19   FrameIndex GON1 T 2 19
+   FrameIndex GON1 U 0 20   FrameIndex GON1 U 1 20   FrameIndex GON1 U 2 20
+   FrameIndex GON1 V 0 21   FrameIndex GON1 V 1 21   FrameIndex GON1 V 2 21
+   FrameIndex GON1 W 0 22   FrameIndex GON1 W 1 22   FrameIndex GON1 W 2 22
+   FrameIndex GON1 X 0 23   FrameIndex GON1 X 1 23   FrameIndex GON1 X 2 23
+   FrameIndex GON1 Y 0 24   FrameIndex GON1 Y 1 24   FrameIndex GON1 Y 2 24
+   FrameIndex GON1 Z 0 25   FrameIndex GON1 Z 1 25   FrameIndex GON1 Z 2 25
+
+FrameIndex GN22 A 0 26  FrameIndex GN22 A 1 26  FrameIndex GN22 A 2 26
+FrameIndex GN22 B 0 27  FrameIndex GN22 B 1 27  FrameIndex GN22 B 2 27
+FrameIndex GN22 C 0 28  FrameIndex GN22 C 1 28  FrameIndex GN22 C 2 28
+FrameIndex GN22 D 0 29  FrameIndex GN22 D 1 29  FrameIndex GN22 D 2 29
+FrameIndex GN22 E 0 30  FrameIndex GN22 E 1 30  FrameIndex GN22 E 2 30
+FrameIndex GN22 F 0 31  FrameIndex GN22 F 1 31  FrameIndex GN22 F 2 31
+FrameIndex GN22 G 0 32  FrameIndex GN22 G 1 32  FrameIndex GN22 G 2 32
+FrameIndex GN22 H 0 33  FrameIndex GN22 H 1 33  FrameIndex GN22 H 2 33
+FrameIndex GN22 I 0 34  FrameIndex GN22 I 1 34  FrameIndex GN22 I 2 34
+FrameIndex GN22 J 0 35  FrameIndex GN22 J 1 35  FrameIndex GN22 J 2 35
+FrameIndex GN22 K 0 36  FrameIndex GN22 K 1 36  FrameIndex GN22 K 2 36
+FrameIndex GN22 L 0 37  FrameIndex GN22 L 1 37  FrameIndex GN22 L 2 37
+FrameIndex GN22 M 0 38  FrameIndex GN22 M 1 38  FrameIndex GN22 M 2 38
+FrameIndex GN22 N 0 39  FrameIndex GN22 N 1 39  FrameIndex GN22 N 2 39
+FrameIndex GN22 O 0 40  FrameIndex GN22 O 1 40  FrameIndex GN22 O 2 40
+}
+
+Model LotrGondorCommander
+{ 
+   Path "Models/gondor"
+   MODEL 0 "gondorarmouratt2.md3"
+   Skin 0 "GuAnorienA.jpg"
+   MODEL 1 "gonarmupatt2.md3"
+   Skin 1 "GuAnorienA.jpg"
+   MODEL 2 "faceswordatt2.md3"
+   Skin 2 "GuGearA.jpg"
+   //Offset 0.0 0.0 18.0
+
+   Scale 3.7 3.7 3.7
+   
+//attack2
+   FrameIndex GON4 A 0 0   FrameIndex GON4 A 1 0   FrameIndex GON4 A 2 0
+   FrameIndex GON4 B 0 1   FrameIndex GON4 B 1 1   FrameIndex GON4 B 2 1
+   FrameIndex GON4 C 0 2   FrameIndex GON4 C 1 2   FrameIndex GON4 C 2 2
+   FrameIndex GON4 D 0 3   FrameIndex GON4 D 1 3   FrameIndex GON4 D 2 3
+   FrameIndex GON4 E 0 4   FrameIndex GON4 E 1 4   FrameIndex GON4 E 2 4
+   FrameIndex GON4 F 0 5   FrameIndex GON4 F 1 5   FrameIndex GON4 F 2 5
+   FrameIndex GON4 G 0 6   FrameIndex GON4 G 1 6   FrameIndex GON4 G 2 6
+   FrameIndex GON4 H 0 7   FrameIndex GON4 H 1 7   FrameIndex GON4 H 2 7
+   FrameIndex GON4 I 0 8   FrameIndex GON4 I 1 8   FrameIndex GON4 I 2 8
+   FrameIndex GON4 J 0 9   FrameIndex GON4 J 1 9   FrameIndex GON4 J 2 9
+   FrameIndex GON4 K 0 10   FrameIndex GON4 K 1 10   FrameIndex GON4 K 2 10  
+   FrameIndex GON4 L 0 11   FrameIndex GON4 L 1 11   FrameIndex GON4 L 2 11
+   FrameIndex GON4 M 0 12   FrameIndex GON4 M 1 12   FrameIndex GON4 M 2 12
+   FrameIndex GON4 N 0 13   FrameIndex GON4 N 1 13   FrameIndex GON4 N 2 13
+   FrameIndex GON4 O 0 14   FrameIndex GON4 O 1 14   FrameIndex GON4 O 2 14
+   FrameIndex GON4 P 0 15   FrameIndex GON4 P 1 15   FrameIndex GON4 P 2 15
+   FrameIndex GON4 Q 0 16   FrameIndex GON4 Q 1 16   FrameIndex GON4 Q 2 16 //bam
+   FrameIndex GON4 R 0 17   FrameIndex GON4 R 1 17   FrameIndex GON4 R 2 17
+   FrameIndex GON4 S 0 18   FrameIndex GON4 S 1 18   FrameIndex GON4 S 2 18
+   FrameIndex GON4 T 0 19   FrameIndex GON4 T 1 19   FrameIndex GON4 T 2 19
+   FrameIndex GON4 U 0 20   FrameIndex GON4 U 1 20   FrameIndex GON4 U 2 20
+   FrameIndex GON4 V 0 21   FrameIndex GON4 V 1 21   FrameIndex GON4 V 2 21
+   FrameIndex GON4 W 0 22   FrameIndex GON4 W 1 22   FrameIndex GON4 W 2 22
+   FrameIndex GON4 X 0 23   FrameIndex GON4 X 1 23   FrameIndex GON4 X 2 23
+   FrameIndex GON4 Y 0 24   FrameIndex GON4 Y 1 24   FrameIndex GON4 Y 2 24   
+   FrameIndex GON4 Z 0 25   FrameIndex GON4 Z 1 25   FrameIndex GON4 Z 2 25 
+
+FrameIndex GNN4 A 0 26  FrameIndex GNN4 A 1 26  FrameIndex GNN4 A 2 26
+FrameIndex GNN4 B 0 27  FrameIndex GNN4 B 1 27  FrameIndex GNN4 B 2 27
+FrameIndex GNN4 C 0 28  FrameIndex GNN4 C 1 28  FrameIndex GNN4 C 2 28
+FrameIndex GNN4 D 0 29  FrameIndex GNN4 D 1 29  FrameIndex GNN4 D 2 29
+FrameIndex GNN4 E 0 30  FrameIndex GNN4 E 1 30  FrameIndex GNN4 E 2 30
+FrameIndex GNN4 F 0 31  FrameIndex GNN4 F 1 31  FrameIndex GNN4 F 2 31
+FrameIndex GNN4 G 0 32  FrameIndex GNN4 G 1 32  FrameIndex GNN4 G 2 32
+FrameIndex GNN4 H 0 33  FrameIndex GNN4 H 1 33  FrameIndex GNN4 H 2 33
+   
+}
+
+
+Model LotrGondorCommander
+{ 
+   Path "Models/gondor"
+   MODEL 0 "gondorarmourdie.md3"
+   Skin 0 "GuAnorienA.jpg"
+   MODEL 1 "gonarmupdie.md3"
+   Skin 1 "GuAnorienA.jpg"
+   MODEL 2 "facesworddie.md3"
+   Skin 2 "GuGearA.jpg"
+   //Offset 0.0 0.0 18.0
+
+   Scale 0.85 0.85 0.85
+   zoffset 27
+   
+//die
+   FrameIndex GOND A 0 0   FrameIndex GOND A 1 0   FrameIndex GOND A 2 0
+   FrameIndex GOND B 0 1   FrameIndex GOND B 1 1   FrameIndex GOND B 2 1
+   FrameIndex GOND C 0 2   FrameIndex GOND C 1 2   FrameIndex GOND C 2 2
+   FrameIndex GOND D 0 3   FrameIndex GOND D 1 3   FrameIndex GOND D 2 3
+   FrameIndex GOND E 0 4   FrameIndex GOND E 1 4   FrameIndex GOND E 2 4
+   FrameIndex GOND F 0 5   FrameIndex GOND F 1 5   FrameIndex GOND F 2 5
+   FrameIndex GOND G 0 6   FrameIndex GOND G 1 6   FrameIndex GOND G 2 6
+   FrameIndex GOND H 0 7   FrameIndex GOND H 1 7   FrameIndex GOND H 2 7
+   FrameIndex GOND I 0 8   FrameIndex GOND I 1 8   FrameIndex GOND I 2 8
+   FrameIndex GOND J 0 9   FrameIndex GOND J 1 9   FrameIndex GOND J 2 9
+   FrameIndex GOND K 0 10   FrameIndex GOND K 1 10   FrameIndex GOND K 2 10  //bam
+   FrameIndex GOND L 0 11   FrameIndex GOND L 1 11   FrameIndex GOND L 2 11
+   FrameIndex GOND M 0 12   FrameIndex GOND M 1 12   FrameIndex GOND M 2 12
+   FrameIndex GOND N 0 13   FrameIndex GOND N 1 13   FrameIndex GOND N 2 13
+   FrameIndex GOND O 0 14   FrameIndex GOND O 1 14   FrameIndex GOND O 2 14
+   FrameIndex GOND P 0 15   FrameIndex GOND P 1 15   FrameIndex GOND P 2 15
+   FrameIndex GOND Q 0 16   FrameIndex GOND Q 1 16   FrameIndex GOND Q 2 16
+   FrameIndex GOND R 0 17   FrameIndex GOND R 1 17   FrameIndex GOND R 2 17
+   FrameIndex GOND S 0 18   FrameIndex GOND S 1 18   FrameIndex GOND S 2 18
+   FrameIndex GOND T 0 19   FrameIndex GOND T 1 19   FrameIndex GOND T 2 19
+   FrameIndex GOND U 0 20   FrameIndex GOND U 1 20   FrameIndex GOND U 2 20
+}

@@ -268,29 +268,56 @@ class BattleRouteActor : Actor
     }
 
     virtual bool ShouldPauseRoute()
-    {
-        if (Target == null)
-            return false;
+	{
+		int enemyTID;
 
-        if (Target.Health <= 0)
-            return false;
+		if (tid == 888)
+			enemyTID = 2700;
+		else if (tid == 2700)
+			enemyTID = 888;
+		else
+			return false;
 
-        /*
-         * Лагерь и штандарт не заставляют
-         * бойца преждевременно остановиться.
-         */
-        if (BattleObjective(Target) != null)
-            return false;
+		Actor nearestEnemy = null;
+		double nearestDistance = 512.0;
 
-        double combatDistance =
-            Radius +
-            Target.Radius +
-            32;
+		ActorIterator iterator =
+			ActorIterator.Create(enemyTID);
 
-        return
-            Distance2D(Target) <=
-            combatDistance;
-    }
+		Actor candidate;
+
+		while (
+			(candidate = iterator.Next()) != null
+		)
+		{
+			if (
+				candidate == self ||
+				candidate.Health <= 0 ||
+				BattleRouteActor(candidate) == null
+			)
+			{
+				continue;
+			}
+
+			double distance =
+				Distance2D(candidate);
+
+			if (
+				distance <= nearestDistance &&
+				CheckSight(candidate)
+			)
+			{
+				nearestEnemy = candidate;
+				nearestDistance = distance;
+			}
+		}
+
+		if (nearestEnemy == null)
+			return false;
+
+		Target = nearestEnemy;
+		return true;
+	}
 
 	override void Tick()
 	{
@@ -1126,6 +1153,11 @@ class BattleDirector : Actor
 
                 continue;
             }
+			
+			if (team == 1)
+				unit.ChangeTid(888);
+			else
+				unit.ChangeTid(2700);
 
             unit.Angle =
                 spot.Angle;
@@ -1562,26 +1594,24 @@ class BattleDirector : Actor
     }
 
     void FinishTransition()
-    {
-        if (Winner == 1)
-        {
-            Level.ChangeLevel(
-                "MAPWIN",
-                0,
-                0,
-                -1
-            );
-        }
-        else
-        {
-            Level.ChangeLevel(
-                "MAPLOSE",
-                0,
-                0,
-                -1
-            );
-        }
-    }
+	{
+		int destinationMap;
+
+		if (Winner == 1)
+			destinationMap = 90;
+		else
+			destinationMap = 91;
+
+		// Special 74 — Teleport_NewMap.
+		A_CallSpecial(
+			74,
+			destinationMap,
+			0,
+			0,
+			0,
+			0
+		);
+	}
 
     override void Tick()
     {

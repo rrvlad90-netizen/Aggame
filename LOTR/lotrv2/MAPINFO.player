@@ -14,7 +14,8 @@ skill nightmare
 
 GameInfo
 {
-   PlayerClasses = "PlayerWarrior"
+//  PlayerClasses = "PlayerWarrior"
+PlayerClasses = "PlayerWarrior", "WarriorCaptain"
 }
 
 map MAP01 "Fields"
@@ -49,6 +50,7 @@ next = "EndGame"
 
 map MAPWIN "Victory"
 {
+    LevelNum = 90
     NoIntermission
     NoJump
     NoCrouch
@@ -56,6 +58,7 @@ map MAPWIN "Victory"
 
 map MAPLOSE "Defeat"
 {
+    LevelNum = 91
     NoIntermission
     NoJump
     NoCrouch

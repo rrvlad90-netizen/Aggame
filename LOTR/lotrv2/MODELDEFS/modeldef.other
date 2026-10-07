@@ -591,6 +591,55 @@ FrameIndex MES4 B 0 160	FrameIndex MES4 B 1 160
 }
 
 
+Model OrcArcher 
+{ 
+   Path "Models/orc"
+   MODEL 0 "orc1.md3"
+   Skin 0 "dorwin_maa46.jpg"
+
+   //Offset 0.0 0.0 18.0
+
+   Scale 0.85 0.85 0.85
+//archer shoot
+FrameIndex MED1 A 0 62
+FrameIndex MED1 B 0 63
+FrameIndex MED1 C 0 64
+FrameIndex MED1 D 0 65
+FrameIndex MED1 E 0 66
+FrameIndex MED1 F 0 67
+FrameIndex MED1 G 0 68
+FrameIndex MED1 H 0 69
+FrameIndex MED1 I 0 70
+FrameIndex MED1 J 0 71
+FrameIndex MED1 K 0 72
+FrameIndex MED1 L 0 73
+FrameIndex MED1 M 0 74
+FrameIndex MED1 N 0 75
+FrameIndex MED1 O 0 76
+FrameIndex MED1 P 0 77
+FrameIndex MED1 Q 0 78
+FrameIndex MED1 R 0 79
+FrameIndex MED1 S 0 80
+FrameIndex MED1 T 0 81
+FrameIndex MED1 U 0 82
+FrameIndex MED1 V 0 83
+FrameIndex MED1 W 0 84
+FrameIndex MED1 X 0 85
+FrameIndex MED1 Y 0 86
+FrameIndex MED1 Z 0 87
+
+FrameIndex MED2 A 0 88
+FrameIndex MED2 B 0 89
+FrameIndex MED2 C 0 90
+FrameIndex MED2 D 0 91
+FrameIndex MED2 E 0 92
+FrameIndex MED2 F 0 93
+FrameIndex MED2 G 0 94
+FrameIndex MED2 H 0 95
+FrameIndex MED2 I 0 96
+FrameIndex MED2 J 0 97
+}
+
 Model Deadtree
 {
   Path "Models/Trees/"   

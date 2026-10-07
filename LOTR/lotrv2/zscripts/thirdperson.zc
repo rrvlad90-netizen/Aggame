@@ -30,6 +30,10 @@ class WarriorVisualBody : Actor
 }
 
 
+class CaptainVisualBody : WarriorVisualBody
+{
+}
+
 class WarriorThirdPersonCamera : Actor
 {
     Default
@@ -95,29 +99,41 @@ class WarriorThirdPersonBase : PlayerPawn
     }
 
     void CreateThirdPersonActors()
-    {
-        if (ThirdPersonCamera == null)
-        {
-            ThirdPersonCamera = Spawn(
-                "WarriorThirdPersonCamera",
-                Pos
-            );
+	{
+		if (ThirdPersonCamera == null)
+		{
+			ThirdPersonCamera = Spawn(
+				"WarriorThirdPersonCamera",
+				Pos
+			);
 
-            if (ThirdPersonCamera != null)
-                ThirdPersonCamera.Master = self;
-        }
+			if (ThirdPersonCamera != null)
+				ThirdPersonCamera.Master = self;
+		}
 
-        if (VisualBody == null)
-        {
-            VisualBody = Spawn(
-                "WarriorVisualBody",
-                Pos
-            );
+		if (VisualBody == null)
+		{
+			Name visualBodyClass =
+				'WarriorVisualBody';
 
-            if (VisualBody != null)
-                VisualBody.Master = self;
-        }
-    }
+			if (
+				self.GetClassName() ==
+				'WarriorCaptain'
+			)
+			{
+				visualBodyClass =
+					'CaptainVisualBody';
+			}
+
+			VisualBody = Spawn(
+				visualBodyClass,
+				Pos
+			);
+
+			if (VisualBody != null)
+				VisualBody.Master = self;
+		}
+	}
 
     void BeginWarriorAttack()
     {

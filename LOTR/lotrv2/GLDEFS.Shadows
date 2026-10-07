@@ -26,6 +26,18 @@ pointlight 64SHADOW
 
 }
 
+object LotrOrcCommander
+{
+    frame ORC1 { light 24SHADOW  }
+	frame VARR { light 24SHADOW  }
+	frame VANR { light 24SHADOW  }
+	frame VNDD { light 24SHADOW  }	
+	frame VAT1 { light 24SHADOW  }	
+	frame VA11 { light 24SHADOW  }	
+	frame VAT2 { light 24SHADOW  }	
+	frame VAA2 { light 24SHADOW  }			
+}
+
 
 object LotrOrc100
 {
@@ -196,6 +208,18 @@ object PlayerWarrior
 	frame GNN4 { light 24SHADOW  }				
 }
 
+object WarriorCaptain
+{
+    frame GONS { light 24SHADOW  }
+	frame VAJK { light 24SHADOW  }
+	frame GON1 { light 24SHADOW  }
+	frame GON2 { light 24SHADOW  }
+	frame GON3 { light 24SHADOW  }	
+	frame GN22 { light 24SHADOW  }	
+	frame GON4 { light 24SHADOW  }	
+	frame GNN4 { light 24SHADOW  }				
+}
+
 
 object LotrArcherGondor2 
 {
@@ -214,6 +238,19 @@ object LotrArcherGondor2
 }
 
 object LotrGondor2
+{
+    frame GONS { light 24SHADOW  }
+	frame VAJK { light 24SHADOW  }
+	frame GON1 { light 24SHADOW  }
+	frame GON2 { light 24SHADOW  }
+	frame GON3 { light 24SHADOW  }
+	frame GN22 { light 24SHADOW  }	
+	frame GON4 { light 24SHADOW  }	
+	frame GNN4 { light 24SHADOW  }
+	frame GNN1 { light 24SHADOW  }
+}
+
+object LotrGondorCommander
 {
     frame GONS { light 24SHADOW  }
 	frame VAJK { light 24SHADOW  }

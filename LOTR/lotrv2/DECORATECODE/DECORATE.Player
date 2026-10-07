@@ -38,11 +38,12 @@ ACTOR PlayerWarrior : WarriorThirdPersonBase
     Player.ViewHeight 48
 
     Player.DisplayName "PlayerWarrior"
+	Player.Portrait "PORT1"
     Player.StartItem "LotrSword"
 	Player.StartItem "Clip", 9
     Player.WeaponSlot 1, LotrSword
 
-		
+  //Player.Face "GOND"	
   Player.ColorRange 225, 240
   Player.ColorSet 0, "Green",         225, 240,  238
   Player.ColorSet 1, "Yellow",        114, 129,  127
@@ -139,10 +140,10 @@ Lunge:
      * Специальная анимация суперудара.
      * Само движение и урон выполняет LotrSword.
      */
-    GON4 ABCDEFGHIJKLMNOP 1 Fast
-    GON4 Q 1 Fast
-    GON4 RSTUVWXYZ 1 Fast
-    GNN4 ABCDEFGH 1 Fast
+    GON4 ABCDEFGHIJKLMNOP 1 Fast A_CustomMeleeAttack(1)
+    GON4 Q 1 Fast A_CustomMeleeAttack(1)
+    GON4 RSTUVWXYZ 1 Fast A_CustomMeleeAttack(1)
+    GNN4 ABCDEFGH 1 Fast A_CustomMeleeAttack(1)
 
     TNT1 A 0 A_FinishWarriorAttack
     Goto Spawn
@@ -209,6 +210,13 @@ Lunge:
 		TNT1 A -1
     Stop
   }
+}
+
+ACTOR WarriorCaptain : PlayerWarrior
+{
+    Player.DisplayName "Warrior Captain"
+	Player.Portrait "PORT2"
+    //Player.Face "CAPT"
 }
 
 ACTOR LotrSword : Weapon replaces Chainsaw

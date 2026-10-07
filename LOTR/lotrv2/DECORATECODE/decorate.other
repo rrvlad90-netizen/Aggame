@@ -281,13 +281,14 @@ Pain:
 Goto See
 
   Death:
-		GON3 EFGHIJKLMNOPQRSTUVWXY 1
-		GON3 Y 1 A_Scream
-		GON3 Y 1 A_NoBlocking
-		GON3 Y 380
-		GON3 Y 1 A_FadeOut
+		MED1 A 1 A_Scream
+		MED1 B 1 A_NoBlocking
+		MED1 CDEFGHIJKLMNOPQRSTUVWXYZ 1
+		MED2 ABCDEFGHI 1 
+		MED2 J 1 
+		MED2 J 380
+		MED2 JJJJJJJJJ 1 A_FadeOut(0.5)
 		Stop
-
  }
 }
 
