@@ -2100,7 +2100,7 @@ function buildUDMF(data, things) {
       "x = " + number(thing.x) + ";",
       "y = " + number(thing.y) + ";",
       "height = " + number(thing.height) + ";",
-      "angle = " + number(thing.angle) + ";",
+      "angle = " + Math.round(thing.angle) + ";",
       "type = " + Math.round(thing.type) + ";"
     );
 
