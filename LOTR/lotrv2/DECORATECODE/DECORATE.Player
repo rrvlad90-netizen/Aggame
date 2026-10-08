@@ -67,7 +67,7 @@ ACTOR PlayerWarrior : WarriorThirdPersonBase
   SpawnLand:
     	 TNT1 A 0 ACS_NamedExecute("LockPlayer")
 	      TNT1 A 0 A_TakeInventory("Jmp",1)
-   VAJK BCDE 1 Fast
+   VAJK BCDE 1 Fast 
    Almost:
     TNT1 A 0 A_TakeInventory("Jmp2",1)
    VAJK FGHIJ 1 Fast

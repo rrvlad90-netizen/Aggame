@@ -7,4 +7,7 @@
 #include "MODELDEFS/modeldef.other"
 #include "MODELDEFS/MODELDEF.Player"
 
+#include "MODELDEFS/MODELDEF.LotrOrcCommander"
+#include "MODELDEFS/modeldef.LotrGondorCommander"
+
 #include "MODELDEFS/modeldef.gondorwarrior"

@@ -5,7 +5,7 @@ Model LotrOrc110
 {
    Path "models/Izengard/URUK" 
    Model 0 "run.md3"
-   Skin 0 "ber_diff.jpg" 
+   Skin 0 "ber_diff.png" 
    
    Scale 0.9 0.9 0.9
    zoffset 27
@@ -51,7 +51,7 @@ Model LotrOrc110
 {
    Path "models/Izengard/URUK"  
    Model 0 "death.md3"
-   Skin 0 "ber_diff.jpg" 
+   Skin 0 "ber_diff.png" 
    
    Scale 0.9 0.9 0.9
  //  zoffset 27
@@ -88,7 +88,7 @@ Model LotrOrc110
 {
    Path "models/Izengard/URUK" 
    Model 0 "attack1.md3"
-   Skin 0 "ber_diff.jpg" 
+   Skin 0 "ber_diff.png" 
    
    Scale 3.9 3.9 3.9
    zoffset 4
@@ -144,7 +144,7 @@ Model LotrOrc110
 {
    Path "models/Izengard/URUK" 
    Model 0 "attack2.md3"
-   Skin 0 "ber_diff.jpg" 
+   Skin 0 "ber_diff.png" 
    
    Scale 3.7 3.7 3.7
 

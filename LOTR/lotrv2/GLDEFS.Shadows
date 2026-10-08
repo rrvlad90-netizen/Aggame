@@ -1,5 +1,3 @@
-///Tyranids
-
 pointlight 24SHADOW
 {
     color 0.5 0.5 0.5
@@ -196,7 +194,7 @@ object OrcArcher
 
 //////////
 
-object PlayerWarrior
+object WarriorVisualBody
 {
     frame GONS { light 24SHADOW  }
 	frame VAJK { light 24SHADOW  }
@@ -208,7 +206,7 @@ object PlayerWarrior
 	frame GNN4 { light 24SHADOW  }				
 }
 
-object WarriorCaptain
+object CaptainVisualBody
 {
     frame GONS { light 24SHADOW  }
 	frame VAJK { light 24SHADOW  }

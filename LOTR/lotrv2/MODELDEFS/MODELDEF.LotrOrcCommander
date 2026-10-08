@@ -2,9 +2,9 @@ Model LotrOrcCommander
 {
    Path "models/Izengard/URUK2" 
    Model 0 "uruk2bodyrun.md3"
-   Skin 0 "heavy_is_diff.jpg" 
+   Skin 0 "heavy_is_diff.png" 
    Model 1 "uruk2weaponrun.md3"
-   Skin 1 "heavy_weapons2.jpg" 
+   Skin 1 "heavy_weapons2.png" 
    
    Scale 0.9 0.9 0.9
    zoffset 27
@@ -51,9 +51,9 @@ Model LotrOrcCommander
 {
    Path "models/Izengard/URUK2"  
    Model 0 "urukhaideathbody.md3"
-   Skin 0 "heavy_is_diff.jpg" 
+   Skin 0 "heavy_is_diff.png" 
    Model 1 "urukhaideathweapon.md3"
-   Skin 1 "heavy_weapons2.jpg" 
+   Skin 1 "heavy_weapons2.png" 
    
    Scale 0.9 0.9 0.9
    zoffset 27
@@ -90,9 +90,9 @@ Model LotrOrcCommander
 {
    Path "models/Izengard/URUK2" 
    Model 0 "at1body.md3"
-   Skin 0 "heavy_is_diff.jpg" 
+   Skin 0 "heavy_is_diff.png" 
    Model 1 "at1weapon.md3"
-   Skin 1 "heavy_weapons2.jpg" 
+   Skin 1 "heavy_weapons2.png" 
    
    Scale 3.9 3.9 3.9
    zoffset 4
@@ -147,9 +147,9 @@ Model LotrOrcCommander
 {
    Path "models/Izengard/URUK2" 
    Model 0 "at2body.md3"
-   Skin 0 "heavy_is_diff.jpg" 
+   Skin 0 "heavy_is_diff.png" 
    Model 1 "at2weapon.md3"
-   Skin 1 "heavy_weapons2.jpg" 
+   Skin 1 "heavy_weapons2.png" 
    
    Scale 3.7 3.7 3.7
 
