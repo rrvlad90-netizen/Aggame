@@ -110,6 +110,7 @@ class BattleRouteActor : Actor
     bool RouteActive;
     bool RoutePaused;
     bool DeathReported;
+	bool PlayerAggroActive;
 
     bool WaitingForRouteStart;
     int RouteStartDelay;
@@ -267,7 +268,7 @@ class BattleRouteActor : Actor
         }
     }
 
-    virtual bool ShouldPauseRoute()
+	virtual bool ShouldPauseRoute()
 	{
 		int enemyTID;
 
@@ -277,6 +278,35 @@ class BattleRouteActor : Actor
 			enemyTID = 888;
 		else
 			return false;
+
+		/*
+		 * Сохраняем конкретного атакующего, которого
+		 * движок установил целью после получения урона.
+		 */
+		if (
+			Target != null &&
+			Target.Health > 0 &&
+			Target.tid == enemyTID &&
+			Threshold > 0
+		)
+		{
+			return true;
+		}
+
+		/*
+		 * Сохраняем текущего живого противника,
+		 * пока он остаётся рядом.
+		 */
+		if (
+			Target != null &&
+			Target.Health > 0 &&
+			Target.tid == enemyTID &&
+			BattleRouteActor(Target) != null &&
+			Distance2D(Target) <= 512.0
+		)
+		{
+			return true;
+		}
 
 		Actor nearestEnemy = null;
 		double nearestDistance = 512.0;
@@ -319,6 +349,138 @@ class BattleRouteActor : Actor
 		return true;
 	}
 
+	bool UpdatePlayerTarget()
+	{
+		if (tid != 2700)
+		{
+			PlayerAggroActive = false;
+			return false;
+		}
+
+		/*
+		 * Threshold устанавливается движком, когда
+		 * актёр получает урон. Не перебиваем атакующего
+		 * автоматическим поиском другой цели.
+		 */
+		if (
+			Target != null &&
+			Target.Health > 0 &&
+			Threshold > 0
+		)
+		{
+			bool attackerIsPlayer =
+				PlayerPawn(Target) != null;
+
+			if (
+				attackerIsPlayer &&
+				!PlayerAggroActive
+			)
+			{
+				Vel.X = 0;
+				Vel.Y = 0;
+
+				SetStateLabel("See");
+			}
+
+			PlayerAggroActive =
+				attackerIsPlayer;
+
+			return attackerIsPlayer;
+		}
+
+		/*
+		 * Не меняем живого гондорца на игрока,
+		 * который просто оказался рядом.
+		 */
+		if (
+			Target != null &&
+			Target.Health > 0 &&
+			Target.tid == 888 &&
+			BattleRouteActor(Target) != null
+		)
+		{
+			PlayerAggroActive = false;
+			return false;
+		}
+
+		PlayerPawn currentPlayer =
+			PlayerPawn(Target);
+
+		/*
+		 * Уже выбранного игрока преследуем,
+		 * пока он не удалится дальше 1024.
+		 */
+		if (
+			currentPlayer != null &&
+			currentPlayer.Health > 0 &&
+			Distance2D(currentPlayer) <= 1024.0
+		)
+		{
+			if (!PlayerAggroActive)
+			{
+				Vel.X = 0;
+				Vel.Y = 0;
+
+				SetStateLabel("See");
+			}
+
+			PlayerAggroActive = true;
+			return true;
+		}
+
+		if (currentPlayer != null)
+			Target = null;
+
+		PlayerPawn nearestPlayer = null;
+		double nearestDistance = 1024.0;
+
+		for (
+			int index = 0;
+			index < players.Size();
+			index++
+		)
+		{
+			PlayerPawn pawn =
+				players[index].mo;
+
+			if (
+				pawn == null ||
+				pawn.Health <= 0
+			)
+			{
+				continue;
+			}
+
+			double distance =
+				Distance2D(pawn);
+
+			if (
+				distance <= nearestDistance &&
+				CheckSight(pawn)
+			)
+			{
+				nearestPlayer = pawn;
+				nearestDistance = distance;
+			}
+		}
+
+		if (nearestPlayer == null)
+		{
+			PlayerAggroActive = false;
+			return false;
+		}
+
+		Target = nearestPlayer;
+
+		Vel.X = 0;
+		Vel.Y = 0;
+
+		SetStateLabel("See");
+
+		PlayerAggroActive = true;
+		return true;
+	}
+
 	override void Tick()
 	{
 		Super.Tick();
@@ -326,11 +488,62 @@ class BattleRouteActor : Actor
 		if (Health <= 0)
 			return;
 
+		bool playerInAggroRange =
+			UpdatePlayerTarget();
+
+		/*
+		 * Бойцы без маршрута: защитники лагеря,
+		 * защитники точек и завершившие маршрут.
+		 */
 		if (!RouteActive)
+		{
+			if (playerInAggroRange)
+			{
+				RoutePaused = true;
+				return;
+			}
+
+			if (ShouldPauseRoute())
+			{
+				if (!RoutePaused)
+				{
+					RoutePaused = true;
+
+					Vel.X = 0;
+					Vel.Y = 0;
+
+					SetStateLabel("See");
+				}
+
+				return;
+			}
+
+			if (RoutePaused)
+			{
+				RoutePaused = false;
+				Target = null;
+
+				Vel.X = 0;
+				Vel.Y = 0;
+
+				SetStateLabel("Idle");
+			}
+
 			return;
+		}
+
+		/*
+		 * Игрок всегда важнее маршрута и бойцов Гондора.
+		 */
+		if (playerInAggroRange)
+		{
+			RoutePaused = true;
+			return;
+		}
 
 		/*
 		 * Небольшая задержка после появления.
+		 * Игрок может прервать её.
 		 */
 		if (WaitingForRouteStart)
 		{
@@ -358,60 +571,10 @@ class BattleRouteActor : Actor
 		}
 
 		/*
-		 * Орки отдают приоритет ближайшему игроку
-		 * в радиусе 384 единиц.
+		 * Если игрока рядом нет, сражаемся
+		 * с бойцами противоположной стороны.
 		 */
-		if (tid == 2700)
-		{
-			PlayerPawn nearbyPlayer = null;
-			double closestDistance = 384;
-
-			for (
-				int index = 0;
-				index < players.Size();
-				index++
-			)
-			{
-				PlayerPawn pawn =
-					players[index].mo;
-
-				if (
-					pawn == null ||
-					pawn.Health <= 0
-				)
-				{
-					continue;
-				}
-
-				double playerDistance =
-					Distance2D(pawn);
-
-				if (
-					playerDistance <= closestDistance &&
-					CheckSight(pawn)
-				)
-				{
-					nearbyPlayer = pawn;
-					closestDistance =
-						playerDistance;
-				}
-			}
-
-			if (nearbyPlayer != null)
-				Target = nearbyPlayer;
-		}
-
-		bool playerInAggroRange =
-			PlayerPawn(Target) != null &&
-			Distance2D(Target) <= 384;
-
-		/*
-		 * Передаём управление обычному A_Chase.
-		 */
-		if (
-			playerInAggroRange ||
-			ShouldPauseRoute()
-		)
+		if (ShouldPauseRoute())
 		{
 			if (!RoutePaused)
 			{
@@ -802,12 +965,12 @@ class BattleDirector : Actor
         GondorReserve = args[0];
 
         if (GondorReserve <= 0)
-            GondorReserve = 70;
-
-        OrcReserve = args[1];
+            GondorReserve = 120;  //sum of gondors soldiers
+ 
+        OrcReserve = args[1];   
 
         if (OrcReserve <= 0)
-            OrcReserve = 100;
+            OrcReserve = 140;  //sum of orcs soldiers
 
         GondorLossLimit = args[2];
 
@@ -1242,50 +1405,67 @@ class BattleDirector : Actor
         }
     }
 
-    bool SpawnEmergencyOrc(
-        OrcBattleCamp camp
-    )
-    {
-        if (
-            GameFinished ||
-            camp == null ||
-            camp.Health <= 0
-        )
-        {
-            return false;
-        }
+	bool SpawnEmergencyOrc(
+		OrcBattleCamp camp
+	)
+	{
+		if (
+			GameFinished ||
+			camp == null ||
+			camp.Health <= 0
+		)
+		{
+			return false;
+		}
 
-        if (!SpendReserve(2, 1))
-            return false;
+		if (!SpendReserve(2, 1))
+			return false;
 
-        double direction =
-            Random(0, 359);
+		double direction =
+			Random(0, 359);
 
-        Vector3 spawnPosition =
-            camp.Pos;
+		Vector3 spawnPosition =
+			camp.Pos;
 
-        spawnPosition.X +=
-            Cos(direction) * 96;
+		spawnPosition.X +=
+			Cos(direction) * 96;
 
-        spawnPosition.Y +=
-            Sin(direction) * 96;
+		spawnPosition.Y +=
+			Sin(direction) * 96;
 
-        Actor unit = Spawn(
-            'LotrOrc100',
-            spawnPosition
-        );
+		Actor unit = Spawn(
+			'LotrOrc100',
+			spawnPosition
+		);
 
-        if (unit == null)
-        {
-            ChangeReserve(2, 1);
-            return false;
-        }
+		if (unit == null)
+		{
+			ChangeReserve(2, 1);
+			return false;
+		}
 
-        unit.Angle =
-            direction + 180;
+		unit.ChangeTid(2700);
 
-        return true;
-    }
+		unit.Angle =
+			direction + 180;
+
+		/*
+		 * Если движок сохранил нападавшего как цель
+		 * палатки, защитник сразу переключается на него.
+		 */
+		PlayerPawn attacker =
+			PlayerPawn(camp.Target);
+
+		if (
+			attacker != null &&
+			attacker.Health > 0
+		)
+		{
+			unit.Target = attacker;
+		}
+
+		return true;
+	}
 
     void TrySpawnBattleTroll()
     {

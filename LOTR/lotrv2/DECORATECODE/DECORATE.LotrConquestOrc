@@ -31,13 +31,14 @@ ACTOR LotrOrc100 : BattleRouteActor //Replaces shotgunguy //3004
 	Radius 14
 	Monster
 	+FLOORCLIP
-        +DROPOFF
+    +DROPOFF
 	//+TELESTOMP
 	+SOLID
-        +RANDOMIZE
-			+LOOKALLAROUND
+    +RANDOMIZE
+	+LOOKALLAROUND
 	+NOBLOOD
-	MaxTargetRange 128
+	+QUICKTORETALIATE
+	MaxTargetRange 1024
         ReactionTime 1
 	PainChance 255
 	PainChance "iamplayerr", 255
@@ -48,12 +49,20 @@ ACTOR LotrOrc100 : BattleRouteActor //Replaces shotgunguy //3004
 	PainChance "iseeyou", 255
 	DamageFactor "iseeyou", 1
 	DamageFactor "Mordor", 0
-	DropItem "Stimpack", 26
-	DropItem "Clip", 13
+	DropItem "Stimpack", 46
+	DropItem "Clip", 16
 	
 	States
 	{
+	
 	Spawn:
+		TNT1 A 0 NoDelay
+		ORC1 A 1 A_ClearTarget
+		TNT1 A 0 Thing_ChangeTID(0, 2700)
+		TNT1 A 0 Thing_Hate(0, 888, 0)
+	Goto Idle
+	
+/*	Spawn:
 	        TNT1 A 0 NoDelay
 		ORC1 A 1 A_ClearTarget
 		//ORC1 A 1 //A_Look
@@ -64,7 +73,7 @@ ACTOR LotrOrc100 : BattleRouteActor //Replaces shotgunguy //3004
 		//ORC1 A 1 A_LookEx(LOF_NOSOUNDCHECK, 0, 4096, 0, 0, "See")
 	//Goto spawn+3 //+4
 			//Goto Idle
-	
+*/	
 	RouteWait:
 		ORC1 A 1
 		Loop
@@ -174,11 +183,11 @@ ACTOR LotrOrc100 : BattleRouteActor //Replaces shotgunguy //3004
 		VNDD U 1 A_FadeOut
 		Stop
 		
-    Diss: 
+ /*   Diss: 
     TNT1 A 0 GiveInventory("ASpan",1)
     TNT1 A 5 A_ClearTarget
     TNT1 A 5 A_Respawn
-    Stop
+    Stop*/
 	}
 }
 

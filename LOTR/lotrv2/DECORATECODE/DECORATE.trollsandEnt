@@ -33,6 +33,7 @@ See:
 
 Melee:
    TNT1 A 0 A_Jump(128,"Melee2")
+   TRLA AAAAA 2  A_FaceTarget
    TRLA AABBCCDEFGHI 2 A_FaceTarget
    TNT1 A 0 A_PlaySound("AxeSwing")
    TRLA J 4 A_CustomMissile("TrollSlash",18, -13) //A_CustomMeleeAttack(38,"trolbam")//A_SargAttack
@@ -40,6 +41,7 @@ Melee:
    Goto See
 
 Melee2:
+   TRAA AA 2 A_FaceTarget
    TRAA AABBCCDEFGHIJ 2 A_FaceTarget
    TNT1 A 0 A_PlaySound("AxeSwing")
    TRAA K 4 A_CustomMissile("TrollSlash",18, -13) //A_CustomMeleeAttack(38,"trolbam")//A_SargAttack

@@ -26,13 +26,15 @@ ACTOR LotrOrc110 : BattleRouteActor //Replaces shotgunguy //3004
 	Radius 14
 	Monster
 	+FLOORCLIP
-        +DROPOFF
+    +DROPOFF
 	//+TELESTOMP
 	+SOLID
-		+LOOKALLAROUND
-        +RANDOMIZE
+	+LOOKALLAROUND
+    +RANDOMIZE
 	+NOBLOOD
-	MaxTargetRange 128
+	+QUICKTORETALIATE
+	
+	MaxTargetRange 1024
         ReactionTime 15
 	PainChance 255
     PainChance "iamplayerr", 255

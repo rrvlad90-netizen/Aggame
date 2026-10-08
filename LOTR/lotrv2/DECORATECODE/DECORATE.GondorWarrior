@@ -36,8 +36,9 @@ Actor LotrGondor2 : BattleRouteActor 2047
 	+LOOKALLAROUND
 	+NOBLOOD
 	+SOLID
+	+QUICKTORETALIATE
 	PainChance 255
-	MaxTargetRange 128
+	MaxTargetRange 1024
         ReactionTime 15
 		
 		DamageFactor "iseeyou", 0
