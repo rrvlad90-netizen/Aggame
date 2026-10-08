@@ -595,9 +595,31 @@ class BattleObjective : Actor
 // Map TID: 888
 // ============================================================
 
-class GondorBattleStandard
-    : BattleObjective
+class GondorBattleStandard : BattleObjective
 {
+	int AttackWarningCooldown;
+
+	override void Tick()
+	{
+		Super.Tick();
+
+		if (AttackWarningCooldown > 0)
+			AttackWarningCooldown--;
+	}
+
+	action void A_WarnCampAttack()
+	{
+		GondorBattleStandard camp =
+			GondorBattleStandard(invoker);
+
+		if (camp == null || camp.AttackWarningCooldown > 0)
+			return;
+
+		camp.AttackWarningCooldown = 3 * 35;
+
+		A_PrintBold("Our camp is under attack!");
+	}
+	
     Default
     {
         Health 900;
@@ -621,9 +643,10 @@ class GondorBattleStandard
         TURR A -1;
         Stop;
 
-    Pain:
-        TURR A 3;
-        Goto Spawn;
+	Pain:
+		TNT1 A 0 A_WarnCampAttack;
+		TURR A 3;
+		Goto Spawn;
 
     Death:
         TNT1 A 0
@@ -722,9 +745,9 @@ class OrcBattleCamp
         Goto Spawn;
 
     Death:
-        TNT1 A 0
-            A_NotifyObjectiveDestroyed(2);
+        TNT1 A 0 A_NotifyObjectiveDestroyed(2);
         TNT1 A 1 A_NoBlocking;
+		TNT1 A 1 A_BrainDie;
         TNT1 A -1;
         Stop;
     }
@@ -817,7 +840,7 @@ class BattleDirector : Actor
         );
 
         A_PrintBold(
-            "Destroy the Orc camp"
+            "Destroy the Orc camp\nDefend the allied camp"
         );
     }
 
@@ -1003,7 +1026,7 @@ class BattleDirector : Actor
         return true;
     }
 
-    void SpawnTeamWave(int team)
+    void SpawnTeamWave(int team) //size of units counts of units troops allys enemies
     {
         if (GameFinished)
             return;
@@ -1017,17 +1040,17 @@ class BattleDirector : Actor
         int livingLimit;
 
         if (team == 1)
-            livingLimit = 18;
+            livingLimit = 18;   //18 gondors in one time on map
         else
-            livingLimit = 24;
+            livingLimit = 24;   //24 orcs in one time on map
 
         if (living >= livingLimit)
             return;
 
-        int waveSize = 3;
+        int waveSize = 3;  //only 3 units in one time for gondor
 
         /*
-         * Orc waves can be larger.
+         * Orc waves can be larger. //random 3 4 or 5 units in one time for orcs
          */
         if (team == 2)
         {
@@ -1203,13 +1226,7 @@ class BattleDirector : Actor
 
                 if (selectedRoute != 0)
                 {
-				/*
-				 * Каждый следующий боец начинает движение
-				 * немного позже предыдущего.
-				 *
-				 * При волне из пяти бойцов максимальная
-				 * задержка будет меньше секунды.
-				 */
+				//random delay for start moving
 				int startDelay =
 					spawned * 5 +
 					Random(2, 10);
@@ -1597,9 +1614,10 @@ class BattleDirector : Actor
 	{
 		int destinationMap;
 
-		if (Winner == 1)
-			destinationMap = 90;
-		else
+		//if (Winner == 1)
+			//A_CallSpecial(11, 0, 0, 0, 0, 0); // Exit_Normal
+		//else
+		if (Winner == 0)
 			destinationMap = 91;
 
 		// Special 74 — Teleport_NewMap.
@@ -1682,3 +1700,51 @@ class BattleDirector : Actor
         Stop;
     }
 }
+/*
+class BattleHUDHandler : EventHandler
+{
+    override void RenderOverlay(RenderEvent e)
+    {
+        ActorIterator iterator = ActorIterator.Create(6500);
+        BattleDirector director =
+            BattleDirector(iterator.Next());
+
+        if (director == null || director.GameFinished)
+            return;
+
+        Font hudFont = Font.GetFont("SmallFont");
+
+        String allies = String.Format(
+           // "Gondor: %d",
+			  "%d",
+            director.GondorReserve
+        );
+
+        String enemies = String.Format(
+          //  "Orcs: %d",
+			  "%d",
+            director.OrcReserve
+        );
+
+        int centerX = Screen.GetWidth() / 2;
+        int y = 8;
+        int gap = 32;
+
+        Screen.DrawText(
+            hudFont,
+            Font.CR_BLUE,
+            centerX - gap - hudFont.StringWidth(allies),
+            y,
+            allies
+        );
+
+        Screen.DrawText(
+            hudFont,
+            Font.CR_RED,
+            centerX + gap,
+            y,
+            enemies
+        );
+    }
+}
+*/

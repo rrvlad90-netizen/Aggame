@@ -18,52 +18,6 @@ GameInfo
 PlayerClasses = "PlayerWarrior", "WarriorCaptain"
 }
 
-map MAP01 "Fields"
-{
-sky1 = "SKY1"//,0.05
-AllowRespawn 
-nocrouch
-nojump
-//--Sbrasivaet vse cto ukazano nize u igroka esli on perehodit na etu kartu (eto dlya primera kartai tak pervaya, i tak vse sbrositsa)
-ResetHealth
-ResetInventory
-ResetItems
-//---
-music = "D_RUNNIN"
-next = "MAP02"
-}
-
-map MAP02 "Canyon"
-{
-sky1 = "SKY1"//,0.05
-AllowRespawn 
-nocrouch
-nojump
-//--Sbrasivaet vse cto ukazano nize u igroka esli on perehodit na etu kartu (eto dlya primera kartai tak pervaya, i tak vse sbrositsa)
-ResetHealth
-ResetInventory
-ResetItems
-//---
-music = "D_RUNNIN"
-next = "EndGame"
-}
-
-map MAPWIN "Victory"
-{
-    LevelNum = 90
-    NoIntermission
-    NoJump
-    NoCrouch
-}
-
-map MAPLOSE "Defeat"
-{
-    LevelNum = 91
-    NoIntermission
-    NoJump
-    NoCrouch
-}
-
 DoomEdNums
 {
     15100 = BattleDirector
