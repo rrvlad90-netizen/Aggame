@@ -1204,6 +1204,14 @@ function Squad:onUnitRemoved(
   end
 end
 
+-- Совместимость с появлением войск из зданий.
+function Squad:moveToPoint(x, z)
+  return self:issueMove(
+    x,
+    z,
+    'spawn'
+  )
+end
 
 -- Проверяет уничтожение отряда.
 function Squad:isDefeated()

@@ -1270,11 +1270,14 @@ function Unit:waitForRangedAttack(
 end
 
 
--- Проверяет будущую мировую позицию.
 function Unit:isMovementPositionValid(
   worldX,
   worldZ
 )
+  if self.flyingBehavior then
+    return true
+  end
+
   local grid =
     self.battle.navigationGrid
 
