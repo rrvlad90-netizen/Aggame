@@ -72,10 +72,10 @@ return {
     -- Задержка освобождения отряда после
     -- исчезновения melee-контакта.
     releaseDelay = 2.5,
-
     -- Радиус поиска новой цели после
     -- завершения текущей схватки.
-    retargetRadius = 22
+    retargetRadius = 22,
+	disengageDuration = 1
   },
 
   selection = {

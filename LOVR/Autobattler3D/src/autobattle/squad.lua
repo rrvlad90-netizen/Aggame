@@ -141,6 +141,7 @@ function Squad.new(settings)
 
   self.engagements = {}
   self.engaged = false
+  self.disengageUntil = 0
 
   self.formationOffsets = {}
 
@@ -517,11 +518,24 @@ function Squad:issueMove(
   z,
   source
 )
-  if
+  if self:isDefeated() then
+    return false, 'defeated'
+  end
+
+  if self.engaged then
+    self.disengageUntil =
+      self.battle.time +
+      (
+        self.gameConfig.engagement
+          .disengageDuration
+        or 1
+      )
+
     self.battle.engagementSystem:
-      isEngaged(self)
-  then
-    return false, 'engaged'
+      clearSquad(
+        self,
+        'movement_order'
+      )
   end
 
   return self:setOrder(
@@ -756,6 +770,12 @@ function Squad:finishAttackOrder()
   return false
 end
 
+-- Проверяет принудительный выход из боя.
+function Squad:isDisengaging()
+  return
+    self.battle.time <
+    self.disengageUntil
+end
 
 -- Вызывается при начале melee-связи.
 function Squad:onEngagementStarted(

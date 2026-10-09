@@ -28,7 +28,10 @@ function EnemyAI.new(settings)
     self.config.decisionInterval
     or 1.5
 
-  self.decisionTimer = 0
+	self.decisionTimer =
+	  self.config.tactical
+	  and self.decisionInterval
+	  or 0
 
   self.attackArmy =
     self.config.attackArmy
