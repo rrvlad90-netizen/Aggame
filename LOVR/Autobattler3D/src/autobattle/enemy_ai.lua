@@ -13,19 +13,16 @@ function EnemyAI.new(settings)
       'EnemyAI has no battle'
     )
 
+  -- В tactical-режиме зданий
+  -- и экономики может не быть.
   self.buildingSystem =
-    assert(
-      settings.buildingSystem,
-      'EnemyAI has no building system'
-    )
+    settings.buildingSystem
 
   self.economy =
-    assert(
-      settings.economy,
-      'EnemyAI has no economy'
-    )
+    settings.economy
 
-  self.config = settings.config or {}
+  self.config =
+    settings.config or {}
 
   self.decisionInterval =
     self.config.decisionInterval
@@ -41,7 +38,8 @@ function EnemyAI.new(settings)
     }
 
   self.minimumReserve =
-    self.config.minimumReserve or 1
+    self.config.minimumReserve
+    or 1
 
   self:prepareInitialArmy()
 
@@ -781,35 +779,38 @@ function EnemyAI:chooseAttackTarget(
   local selected = nil
   local selectedScore = nil
 
-  for _, building in ipairs(
-    self.buildingSystem.buildings
-  ) do
-    if
-      building.team == 'allies'
-      and building:isTargetable()
-    then
-      local dx =
-        building.x - sourceX
-
-      local dz =
-        building.z - sourceZ
-
-      local distance =
-        math.sqrt(
-          dx * dx + dz * dz
-        )
-
-      local score =
-        self:getTargetPriority(
-          building
-        ) - distance * 1.5
-
+  -- На tactical-карте зданий нет.
+  if self.buildingSystem then
+    for _, building in ipairs(
+      self.buildingSystem.buildings
+    ) do
       if
-        not selectedScore
-        or score > selectedScore
+        building.team == 'allies'
+        and building:isTargetable()
       then
-        selected = building
-        selectedScore = score
+        local dx =
+          building.x - sourceX
+
+        local dz =
+          building.z - sourceZ
+
+        local distance =
+          math.sqrt(
+            dx * dx + dz * dz
+          )
+
+        local score =
+          self:getTargetPriority(
+            building
+          ) - distance * 1.5
+
+        if
+          not selectedScore
+          or score > selectedScore
+        then
+          selected = building
+          selectedScore = score
+        end
       end
     end
   end
@@ -989,13 +990,44 @@ function EnemyAI:prepareNewSquads()
   end
 end
 
+-- Отправляет тактические войска в бой.
+function EnemyAI:launchTacticalAttack()
+  local reserves =
+    self:getAvailableSquads(
+      'reserve'
+    )
+
+  for _, squad in ipairs(reserves) do
+    local objective =
+      self:chooseAttackTarget(
+        squad
+      )
+
+    if objective then
+      self:issueObjective(
+        squad,
+        objective
+      )
+
+      squad.aiState = 'assault'
+      squad.aiObjective =
+        objective.target
+    end
+  end
+end
 
 -- Выполняет стратегическое решение.
 function EnemyAI:makeDecision()
   self:prepareNewSquads()
+  self:maintainAssaults()
+
+  if self.config.tactical then
+    self:launchTacticalAttack()
+    return
+  end
+
   self:updateDefenders()
   self:respondToBaseThreat()
-  self:maintainAssaults()
 
   if self:isAttackArmyReady() then
     self:launchAttack()
