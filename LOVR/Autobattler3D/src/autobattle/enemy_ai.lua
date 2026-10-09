@@ -2,7 +2,7 @@ local EnemyAI = {}
 EnemyAI.__index = EnemyAI
 
 
--- Создаёт экономический AI.
+-- Создаёт стратегический AI.
 function EnemyAI.new(settings)
   local self =
     setmetatable({}, EnemyAI)
@@ -25,8 +25,7 @@ function EnemyAI.new(settings)
       'EnemyAI has no economy'
     )
 
-  self.config =
-    settings.config or {}
+  self.config = settings.config or {}
 
   self.decisionInterval =
     self.config.decisionInterval
@@ -34,24 +33,41 @@ function EnemyAI.new(settings)
 
   self.decisionTimer = 0
 
-	self.attackArmy =
-		self.config.attackArmy
-		or {
-		  light_infantry = 4,
-		  archer = 1
-		}
+  self.attackArmy =
+    self.config.attackArmy
+    or {
+      light_infantry = 4,
+      archer = 1
+    }
 
-	  self:prepareInitialArmy()
+  self.minimumReserve =
+    self.config.minimumReserve or 1
+
+  self:prepareInitialArmy()
 
   return self
 end
 
 
--- Возвращает количество активных
--- отрядов каждого типа.
-function EnemyAI:getSquadCounts()
-  local counts = {}
-  local total = 0
+-- Подготавливает начальные войска.
+function EnemyAI:prepareInitialArmy()
+  for _, squad in ipairs(
+    self.battle.squads
+  ) do
+    if
+      squad.team == 'enemies'
+      and not squad:isDefeated()
+    then
+      squad.aiState = 'reserve'
+      squad.aiObjective = nil
+    end
+  end
+end
+
+
+-- Возвращает живые отряды AI.
+function EnemyAI:getSquads()
+  local result = {}
 
   for _, squad in ipairs(
     self.battle.squads
@@ -59,6 +75,54 @@ function EnemyAI:getSquadCounts()
     if
       squad.team == 'enemies'
       and not squad:isDefeated()
+    then
+      result[#result + 1] =
+        squad
+    end
+  end
+
+  return result
+end
+
+
+-- Возвращает свободные отряды.
+function EnemyAI:getAvailableSquads(
+  state
+)
+  local result = {}
+
+  for _, squad in ipairs(
+    self:getSquads()
+  ) do
+    if
+      not squad.engaged
+      and (
+        not state
+        or squad.aiState == state
+      )
+    then
+      result[#result + 1] =
+        squad
+    end
+  end
+
+  return result
+end
+
+
+-- Считает отряды по типам.
+function EnemyAI:getSquadCounts(
+  state
+)
+  local counts = {}
+  local total = 0
+
+  for _, squad in ipairs(
+    self:getSquads()
+  ) do
+    if
+      not state
+      or squad.aiState == state
     then
       local slot =
         squad.unitDefinition.slot
@@ -73,66 +137,11 @@ function EnemyAI:getSquadCounts()
   return counts, total
 end
 
--- Оставляет отряд ждать общего наступления.
-function EnemyAI:holdSquad(squad)
-  squad.aiWaitingForAttack = true
-  squad.currentRoute = nil
-  squad.strategicRoute = nil
-  squad.resumeRoute = nil
 
-  for _, unit in ipairs(
-    squad.units
-  ) do
-    unit.route = nil
-    unit.routePointIndex = nil
-    unit.routeFinished = true
-  end
-end
-
-
--- Останавливает начальные войска противника.
-function EnemyAI:prepareInitialArmy()
-  for _, squad in ipairs(
-    self.battle.squads
-  ) do
-    if
-      squad.team == 'enemies'
-      and not squad:isDefeated()
-    then
-      self:holdSquad(squad)
-    end
-  end
-end
-
-
--- Считает только ожидающие наступления отряды.
-function EnemyAI:getWaitingSquadCounts()
-  local counts = {}
-
-  for _, squad in ipairs(
-    self.battle.squads
-  ) do
-    if
-      squad.team == 'enemies'
-      and squad.aiWaitingForAttack
-      and not squad:isDefeated()
-    then
-      local slot =
-        squad.unitDefinition.slot
-
-      counts[slot] =
-        (counts[slot] or 0) + 1
-    end
-  end
-
-  return counts
-end
-
-
--- Учитывает отряды в очередях казарм.
-function EnemyAI:getPlannedSquadCounts()
+-- Добавляет отряды из очередей.
+function EnemyAI:getPlannedCounts()
   local counts =
-    self:getWaitingSquadCounts()
+    self:getSquadCounts('reserve')
 
   for _, building in ipairs(
     self.buildingSystem.buildings
@@ -141,12 +150,14 @@ function EnemyAI:getPlannedSquadCounts()
       for _, request in ipairs(
         building.recruitQueue or {}
       ) do
-        if request.routeId == false then
-          local slot =
-            request.option.slot
+        local option = request.option
 
-          counts[slot] =
-            (counts[slot] or 0) + 1
+        if option and option.slot then
+          counts[option.slot] =
+            (
+              counts[option.slot]
+              or 0
+            ) + 1
         end
       end
     end
@@ -157,7 +168,10 @@ end
 
 
 -- Проверяет готовность ударной армии.
-function EnemyAI:isAttackArmyReady(counts)
+function EnemyAI:isAttackArmyReady()
+  local counts =
+    self:getSquadCounts('reserve')
+
   for slot, required in pairs(
     self.attackArmy
   ) do
@@ -173,410 +187,20 @@ function EnemyAI:isAttackArmyReady(counts)
 end
 
 
--- Выбирает маршрут для отдельного
--- отряда наступающей волны.
-function EnemyAI:chooseWaveRoute(
-  waveUsage
-)
-  local selected = nil
-  local selectedScore = nil
-
-  for _, settings in ipairs(
-    self.config.routes or {}
-  ) do
-    local route =
-      self.battle:findRoute(
-        'enemy',
-        settings.id
-      )
-
-    if route then
-      local usage =
-        waveUsage[route.id]
-        or 0
-
-      local score =
-        self:getRouteScore(
-          settings
-        )
-
-      -- Сильный штраф заставляет волну
-      -- равномерно занимать маршруты.
-      score =
-        score -
-        usage * 35
-
-      -- Небольшое отклонение сохраняет
-      -- непредсказуемость AI.
-      score =
-        score +
-        math.random() * 8
-
-      if
-        not selectedScore
-        or score > selectedScore
-      then
-        selected = route
-        selectedScore = score
-      end
-    end
-  end
-
-  return selected
-end
-
--- Распределяет накопленную армию
--- по нескольким направлениям.
-function EnemyAI:launchAttack()
-  local waiting = {}
-
-  for _, squad in ipairs(
-    self.battle.squads
-  ) do
-    if
-      squad.team == 'enemies'
-      and squad.aiWaitingForAttack
-      and not squad:isDefeated()
-    then
-      waiting[#waiting + 1] =
-        squad
-    end
-  end
-
-  if #waiting == 0 then
-    return false
-  end
-
-  -- Передние войска получают маршруты
-  -- раньше стрелков и осадных орудий.
-  local priorities = {
-    light_infantry = 1,
-    medium_infantry = 1,
-    heavy_infantry = 1,
-
-    cavalry = 2,
-    heavy_cavalry = 2,
-
-    giant1 = 3,
-    giant2 = 3,
-    giant3 = 3,
-
-    archer = 4,
-    crossbowman = 4,
-    heavy_archer = 4,
-
-    catapult = 5,
-    ballista = 5
-  }
-
-  table.sort(
-    waiting,
-
-    function(first, second)
-      local firstPriority =
-        priorities[
-          first.unitDefinition.slot
-        ] or 3
-
-      local secondPriority =
-        priorities[
-          second.unitDefinition.slot
-        ] or 3
-
-      if
-        firstPriority ==
-        secondPriority
-      then
-        return first.id < second.id
-      end
-
-      return
-        firstPriority <
-        secondPriority
-    end
-  )
-
-  local waveUsage = {}
-  local launched = false
-
-  for _, squad in ipairs(waiting) do
-    local route =
-      self:chooseWaveRoute(
-        waveUsage
-      )
-
-    if route then
-      squad.aiWaitingForAttack =
-        false
-
-	local laneIndex =
-			waveUsage[route.id]
-			or 0
-
-		  local lane = 0
-
-		  -- Получается последовательность:
-		  -- 0, -1, 1, -2, 2...
-		  if laneIndex > 0 then
-			local magnitude =
-			  math.ceil(
-				laneIndex / 2
-			  )
-
-			local side =
-			  laneIndex % 2 == 1
-			  and -1
-			  or 1
-
-			lane =
-			  magnitude * side
-		  end
-
-		  squad.combatLaneOffset =
-			lane *
-			(
-			  self.config
-				.attackLaneSpacing
-			  or 5
-			)
-
-		  squad.combatLaneMergeDistance =
-			self.config
-			  .attackLaneMergeDistance
-			or 12
-
-
-      squad:setStrategicRoute(
-        route
-      )
-
-      waveUsage[route.id] =
-        (
-          waveUsage[route.id]
-          or 0
-        ) + 1
-
-      launched = true
-    end
-  end
-
-  return launched
-end
-
--- Проверяет наличие варианта найма.
-function EnemyAI:getRecruitOption(
-  building,
-  slot
-)
-  local options =
-    building.definition
-      .recruitOptions
-    or {}
-
-  for _, option in ipairs(options) do
-    if option.slot == slot then
-      return option
-    end
-  end
-
-  return nil
-end
-
-
--- Возвращает доступные казармы.
-function EnemyAI:getReadyBarracks()
-  local result = {}
-
-  for _, building in ipairs(
-    self.buildingSystem.buildings
-  ) do
-    if
-      building.team == 'enemies'
-      and building.buildingType ==
-        'barracks'
-      and building:isReady()
-      and #building.recruitQueue < 2
-    then
-      result[#result + 1] =
-        building
-    end
-  end
-
-  return result
-end
-
-
--- Считает отряды, уже направленные
--- по определённому маршруту.
-function EnemyAI:getRouteUsage(
-  routeId
-)
-  local count = 0
-
-  for _, squad in ipairs(
-    self.battle.squads
-  ) do
-    if
-      squad.team == 'enemies'
-      and not squad:isDefeated()
-      and squad.currentRoute
-      and squad.currentRoute.id ==
-        routeId
-    then
-      count = count + 1
-    end
-  end
-
-  return count
-end
-
-
--- Считает союзные войска игрока
--- возле стратегической области.
-function EnemyAI:getThreatNearPoint(
-  point
-)
-  if not point then
-    return 0
-  end
-
-  local radius =
-    point.radius * 1.6
-
-  local radiusSquared =
-    radius * radius
-
-  local threat = 0
-
-  for _, unit in ipairs(
-    self.battle.units
-  ) do
-    if
-      unit.team == 'allies'
-      and unit:isTargetable()
-    then
-      local dx =
-        unit.x - point.x
-
-      local dz =
-        unit.z - point.z
-
-      if
-        dx * dx + dz * dz <=
-        radiusSquared
-      then
-        threat = threat + 1
-      end
-    end
-  end
-
-  return threat
-end
-
-
--- Оценивает стратегический маршрут.
-function EnemyAI:getRouteScore(
-  settings
-)
-  local score =
-    settings.baseScore or 10
-
-  local captureSystem =
-    self.battle.captureSystem
-
-  local point =
-    captureSystem
-    and settings.capturePoint
-    and captureSystem:getPoint(
-      settings.capturePoint
-    )
-
-  if point then
-    if not point.ownerTeam then
-      score = score + 45
-
-    elseif
-      point.ownerTeam == 'allies'
-    then
-      score = score + 65
-
-    elseif
-      point.ownerTeam == 'enemies'
-    then
-      local threat =
-        self:getThreatNearPoint(
-          point
-        )
-
-      score =
-        score + threat * 5
-    end
-  end
-
-  score =
-    score -
-    self:getRouteUsage(
-      settings.id
-    ) * 12
-
-  return score
-end
-
-
--- Выбирает наиболее полезный маршрут.
-function EnemyAI:chooseRoute()
-  local routes =
-    self.config.routes or {}
-
-  local selected = nil
-  local selectedScore = nil
-
-  for _, settings in ipairs(routes) do
-    local route =
-      self.battle:findRoute(
-        'enemy',
-        settings.id
-      )
-
-    if route then
-      local score =
-        self:getRouteScore(
-          settings
-        )
-
-      -- Небольшая случайность не позволяет
-      -- AI всегда действовать одинаково.
-      score =
-        score +
-        math.random() * 4
-
-      if
-        not selectedScore
-        or score > selectedScore
-      then
-        selected = route
-        selectedScore = score
-      end
-    end
-  end
-
-  return selected
-end
-
--- Возвращает приоритет строительства.
+-- Возвращает приоритет здания.
 function EnemyAI:getBuildingPriority(
   building
 )
   if
     building.buildingType ==
-    'barracks'
+      'barracks'
   then
     return 100
   end
 
   if
     building.buildingType ==
-    'tower'
+      'tower'
   then
     return 50
   end
@@ -585,7 +209,7 @@ function EnemyAI:getBuildingPriority(
 end
 
 
--- Выбирает следующую платформу.
+-- Выбирает площадку строительства.
 function EnemyAI:
   chooseConstructionTarget()
   local selected = nil
@@ -596,8 +220,7 @@ function EnemyAI:
   ) do
     if
       building.team == 'enemies'
-      and building.state ==
-        'platform'
+      and building:isPlatform()
     then
       local priority =
         self:getBuildingPriority(
@@ -623,8 +246,7 @@ end
 
 
 -- Пытается построить здание.
--- Второй результат означает накопление.
-function EnemyAI:tryBuild(totalSquads)
+function EnemyAI:tryBuild()
   local building =
     self:chooseConstructionTarget()
 
@@ -637,19 +259,16 @@ function EnemyAI:tryBuild(totalSquads)
     or 0
 
   if self.economy:canAfford(cost) then
-    local built =
+    return
       self.buildingSystem:
         startEnemyConstruction(
           building
-        )
-
-    return built, false
+        ),
+      false
   end
 
-  local minimumArmy =
-    self.config
-      .minimumArmyBeforeSaving
-    or 3
+  local _, total =
+    self:getSquadCounts()
 
   local shouldSave =
     self.config.saveForBuildings
@@ -657,30 +276,72 @@ function EnemyAI:tryBuild(totalSquads)
     and (
       building.buildingType ==
         'barracks'
-      or totalSquads >= minimumArmy
+      or total >=
+        (
+          self.config
+            .minimumArmyBeforeSaving
+          or 3
+        )
     )
 
   return false, shouldSave
 end
 
 
--- Выбирает юнита и казарму.
-function EnemyAI:chooseRecruitment(
-  counts
-)
-  local composition =
-    self.config.composition
-    or {}
-
-  local barracks =
-    self:getReadyBarracks()
-
-  local selectedBuilding = nil
-  local selectedOption = nil
-  local selectedScore = nil
+-- Возвращает готовые казармы.
+function EnemyAI:getReadyBarracks()
+  local result = {}
 
   for _, building in ipairs(
-    barracks
+    self.buildingSystem.buildings
+  ) do
+    if
+      building.team == 'enemies'
+      and building.buildingType ==
+        'barracks'
+      and building:isReady()
+    then
+      result[#result + 1] =
+        building
+    end
+  end
+
+  return result
+end
+
+
+-- Ищет вариант найма.
+function EnemyAI:getRecruitOption(
+  building,
+  slot
+)
+  for _, option in ipairs(
+    building.definition
+      .recruitOptions or {}
+  ) do
+    if option.slot == slot then
+      return option
+    end
+  end
+
+  return nil
+end
+
+
+-- Выбирает следующий тип войск.
+function EnemyAI:chooseRecruitment()
+  local counts =
+    self:getPlannedCounts()
+
+  local composition =
+    self.config.composition or {}
+
+  local bestBuilding = nil
+  local bestOption = nil
+  local bestScore = nil
+
+  for _, building in ipairs(
+    self:getReadyBarracks()
   ) do
     for _, desired in ipairs(
       composition
@@ -691,16 +352,9 @@ function EnemyAI:chooseRecruitment(
           desired.slot
         )
 
-      if
-        option
-        and self.economy:
-          canAfford(
-            option.cost or 0
-          )
-      then
+      if option then
         local existing =
-          counts[desired.slot]
-          or 0
+          counts[desired.slot] or 0
 
         local required =
           self.attackArmy[
@@ -708,13 +362,14 @@ function EnemyAI:chooseRecruitment(
           ] or 0
 
         local missing =
-          required - existing
+          math.max(
+            0,
+            required - existing
+          )
 
         local score
 
         if missing > 0 then
-          -- Сначала закрывает обязательный
-          -- состав ударной армии.
           score =
             1000 +
             missing * 100 +
@@ -726,60 +381,72 @@ function EnemyAI:chooseRecruitment(
         end
 
         score =
-          score +
-          math.random() * .03
+          score + math.random() * .02
 
         if
-          not selectedScore
-          or score > selectedScore
+          not bestScore
+          or score > bestScore
         then
-          selectedBuilding =
-            building
-
-          selectedOption = option
-          selectedScore = score
+          bestBuilding = building
+          bestOption = option
+          bestScore = score
         end
       end
     end
   end
 
-  return
-    selectedBuilding,
-    selectedOption
+  -- Если карта не задала composition,
+  -- использует обязательный состав.
+  if
+    not bestOption
+    and #composition == 0
+  then
+    for _, building in ipairs(
+      self:getReadyBarracks()
+    ) do
+      for slot in pairs(
+        self.attackArmy
+      ) do
+        local option =
+          self:getRecruitOption(
+            building,
+            slot
+          )
+
+        if option then
+          return building, option
+        end
+      end
+    end
+  end
+
+  return bestBuilding, bestOption
 end
 
 
 -- Пытается нанять новый отряд.
-function EnemyAI:tryRecruit(counts)
+function EnemyAI:tryRecruit()
   local building, option =
-    self:chooseRecruitment(
-      counts
-    )
+    self:chooseRecruitment()
 
   if not building or not option then
     return false
   end
 
-  local route =
-    self:chooseRoute()
-
-  if not route then
-    return false
-  end
-
-return
+  return
     self.buildingSystem:
       recruitEnemySquad(
         building,
         option.slot,
 
-        -- Отряд ждёт сбора всей армии.
+        -- Отряд появляется без маршрута.
         false
       )
 end
 
 -- Возвращает здания главной базы.
-function EnemyAI:getMainBaseBuildings()
+function EnemyAI:getBaseBuildings()
+  local result = {}
   local altar = nil
 
   for _, building in ipairs(
@@ -789,14 +456,12 @@ function EnemyAI:getMainBaseBuildings()
       building.team == 'enemies'
       and building.buildingType ==
         'altar'
-      and not building.removed
+      and building:isTargetable()
     then
       altar = building
       break
     end
   end
-
-  local result = {}
 
   if not altar then
     return result
@@ -814,7 +479,7 @@ function EnemyAI:getMainBaseBuildings()
   ) do
     if
       building.team == 'enemies'
-      and not building.removed
+      and building:isTargetable()
     then
       local dx =
         building.x - altar.x
@@ -836,48 +501,46 @@ function EnemyAI:getMainBaseBuildings()
 end
 
 
--- Ищет игрока, атакующего здания базы.
+-- Ищет угрозу главной базе.
 function EnemyAI:findBaseThreat()
   local triggerRadius =
     self.config
       .baseDefenseTriggerRadius
     or 35
 
-  local triggerSquared =
-    triggerRadius *
-    triggerRadius
-
   local selected = nil
   local selectedDistance = nil
 
   for _, building in ipairs(
-    self:getMainBaseBuildings()
+    self:getBaseBuildings()
   ) do
-    for _, unit in ipairs(
-      self.battle.units
+    for _, squad in ipairs(
+      self.battle.squads
     ) do
       if
-        unit.team == 'allies'
-        and unit:isTargetable()
+        squad.team == 'allies'
+        and not squad:isDefeated()
       then
-        local dx =
-          unit.x - building.x
+        local x, z =
+          squad:getCenter()
 
-        local dz =
-          unit.z - building.z
+        local dx = x - building.x
+        local dz = z - building.z
 
         local distance =
-          dx * dx + dz * dz
+          math.sqrt(
+            dx * dx + dz * dz
+          ) - squad:getRadius()
 
         if
-          distance <= triggerSquared
+          distance <= triggerRadius
           and (
             not selectedDistance
             or distance <
               selectedDistance
           )
         then
-          selected = unit
+          selected = squad
           selectedDistance = distance
         end
       end
@@ -888,8 +551,50 @@ function EnemyAI:findBaseThreat()
 end
 
 
--- Отправляет ожидающие отряды
--- защищать атакованную базу.
+-- Возвращает расстояние между отрядами.
+function EnemyAI:getSquadDistance(
+  first,
+  second
+)
+  local firstX, firstZ =
+    first:getCenter()
+
+  local secondX, secondZ =
+    second:getCenter()
+
+  local dx = secondX - firstX
+  local dz = secondZ - firstZ
+
+  return math.sqrt(
+    dx * dx + dz * dz
+  )
+end
+
+
+-- Сортирует отряды по расстоянию.
+function EnemyAI:sortByDistance(
+  squads,
+  target
+)
+  table.sort(
+    squads,
+
+    function(first, second)
+      return
+        self:getSquadDistance(
+          first,
+          target
+        ) <
+        self:getSquadDistance(
+          second,
+          target
+        )
+    end
+  )
+end
+
+
+-- Отправляет войска защищать базу.
 function EnemyAI:respondToBaseThreat()
   local threat =
     self:findBaseThreat()
@@ -898,113 +603,416 @@ function EnemyAI:respondToBaseThreat()
     return false
   end
 
-  local sent = false
+  local candidates = {}
 
-  local spread =
-    self.config.baseDefenseSpread
-    or 8
+  for _, squad in ipairs(
+    self:getAvailableSquads()
+  ) do
+    if
+      squad.aiState == 'reserve'
+      or squad.aiState == 'assault'
+    then
+      candidates[#candidates + 1] =
+        squad
+    end
+  end
+
+  self:sortByDistance(
+    candidates,
+    threat
+  )
+
+  local typicalSize =
+    threat.unitDefinition.squadSize
+    or threat.initialCount
+    or 1
+
+  local required =
+    math.max(
+      1,
+
+      math.ceil(
+        threat.activeCount /
+        math.max(typicalSize, 1)
+      ) + 1
+    )
+
+  required =
+    math.min(
+      required,
+      #candidates
+    )
+
+  for index = 1, required do
+    local squad = candidates[index]
+
+    if
+      squad.aiState ~= 'defense'
+      or squad.aiObjective ~= threat
+      or not squad.currentOrder
+    then
+      squad:issueAttackSquad(
+        threat,
+        'ai_defense'
+      )
+    end
+
+    squad.aiState = 'defense'
+    squad.aiObjective = threat
+  end
+
+  return required > 0
+end
+
+
+-- Возвращает завершившихся защитников
+-- обратно в резерв.
+function EnemyAI:updateDefenders()
+  for _, squad in ipairs(
+    self:getSquads()
+  ) do
+    if squad.aiState == 'defense' then
+      local target =
+        squad.aiObjective
+
+      if
+        not target
+        or target:isDefeated()
+        or not self:findBaseThreat()
+      then
+        squad.aiState = 'reserve'
+        squad.aiObjective = nil
+
+        if
+          squad.currentOrder
+          and squad.currentOrder.source ==
+            'ai_defense'
+        then
+          squad.currentOrder:cancel(
+            'defense_complete',
+            self.battle.time
+          )
+
+          squad.currentOrder = nil
+          squad.state = 'idle'
+        end
+      end
+    end
+  end
+end
+
+
+-- Выбирает незахваченную область.
+function EnemyAI:chooseCapturePoint()
+  local captureSystem =
+    self.battle.captureSystem
+
+  if not captureSystem then
+    return nil
+  end
+
+  local best = nil
+  local bestScore = nil
+
+  for _, point in ipairs(
+    captureSystem.points
+  ) do
+    if point.ownerTeam ~= 'enemies' then
+      local score = 100
+
+      if point.ownerTeam == 'allies' then
+        score = score + 40
+      end
+
+      if
+        not bestScore
+        or score > bestScore
+      then
+        best = point
+        bestScore = score
+      end
+    end
+  end
+
+  return best
+end
+
+
+-- Возвращает ценность здания.
+function EnemyAI:getTargetPriority(
+  building
+)
+  if building.buildingType == 'altar' then
+    return 1000
+  end
+
+  if
+    building.buildingType ==
+      'barracks'
+  then
+    return 650
+  end
+
+  if building.buildingType == 'tower' then
+    return 450
+  end
+
+  return 300
+end
+
+
+-- Выбирает стратегическую цель.
+function EnemyAI:chooseAttackTarget(
+  sourceSquad
+)
+  local capturePoint =
+    self:chooseCapturePoint()
+
+  if capturePoint then
+    return {
+      kind = 'capture',
+      target = capturePoint
+    }
+  end
+
+  local sourceX, sourceZ =
+    sourceSquad:getCenter()
+
+  local selected = nil
+  local selectedScore = nil
+
+  for _, building in ipairs(
+    self.buildingSystem.buildings
+  ) do
+    if
+      building.team == 'allies'
+      and building:isTargetable()
+    then
+      local dx =
+        building.x - sourceX
+
+      local dz =
+        building.z - sourceZ
+
+      local distance =
+        math.sqrt(
+          dx * dx + dz * dz
+        )
+
+      local score =
+        self:getTargetPriority(
+          building
+        ) - distance * 1.5
+
+      if
+        not selectedScore
+        or score > selectedScore
+      then
+        selected = building
+        selectedScore = score
+      end
+    end
+  end
+
+  if selected then
+    return {
+      kind = 'building',
+      target = selected
+    }
+  end
+
+  local nearest = nil
+  local nearestDistance = nil
 
   for _, squad in ipairs(
     self.battle.squads
   ) do
     if
-      squad.team == 'enemies'
-      and squad.aiWaitingForAttack
+      squad.team == 'allies'
       and not squad:isDefeated()
     then
-      local targetMoved = true
-
-      if
-        squad.aiDefenseTargetX
-        and squad.aiDefenseTargetZ
-      then
-        local dx =
-          threat.x -
-          squad.aiDefenseTargetX
-
-        local dz =
-          threat.z -
-          squad.aiDefenseTargetZ
-
-        targetMoved =
-          dx * dx + dz * dz >
-          8 * 8
-      end
-
-      if
-        not squad.aiDefendingBase
-        or targetMoved
-      then
-        local angle =
-          (
-            squad.id * 2.399
-          ) % (
-            math.pi * 2
-          )
-
-        squad:moveToPoint(
-          threat.x +
-          math.cos(angle) * spread,
-
-          threat.z +
-          math.sin(angle) * spread
+      local distance =
+        self:getSquadDistance(
+          sourceSquad,
+          squad
         )
 
-        squad.aiDefendingBase = true
-
-        squad.aiDefenseTargetX =
-          threat.x
-
-        squad.aiDefenseTargetZ =
-          threat.z
+      if
+        not nearestDistance
+        or distance <
+          nearestDistance
+      then
+        nearest = squad
+        nearestDistance = distance
       end
-
-      sent = true
     end
   end
 
-  return sent
+  if nearest then
+    return {
+      kind = 'squad',
+      target = nearest
+    }
+  end
+
+  return nil
 end
 
--- Выполняет одно стратегическое решение.
-function EnemyAI:makeDecision()
-  local waitingCounts =
-    self:getWaitingSquadCounts()
 
--- Защита базы важнее накопления
-  -- и планового наступления.
-  if self:respondToBaseThreat() then
-    return
+-- Отдаёт приказ по выбранной цели.
+function EnemyAI:issueObjective(
+  squad,
+  objective
+)
+  if not objective then
+    return false
   end
 
-  if self:isAttackArmyReady(
-    waitingCounts
-  ) then
-    if self:launchAttack() then
-      return
+  if objective.kind == 'capture' then
+    return squad:issueMove(
+      objective.target.x,
+      objective.target.z,
+      'ai_capture'
+    )
+  end
+
+  if objective.kind == 'building' then
+    return squad:issueAttackBuilding(
+      objective.target,
+      'ai_assault'
+    )
+  end
+
+  if objective.kind == 'squad' then
+    return squad:issueAttackSquad(
+      objective.target,
+      'ai_assault'
+    )
+  end
+
+  return false
+end
+
+
+-- Запускает собранную армию.
+function EnemyAI:launchAttack()
+  local reserves =
+    self:getAvailableSquads(
+      'reserve'
+    )
+
+  if
+    #reserves <= self.minimumReserve
+  then
+    return false
+  end
+
+  local assaultCount =
+    #reserves -
+    self.minimumReserve
+
+  local leader = reserves[1]
+
+  local objective =
+    self:chooseAttackTarget(
+      leader
+    )
+
+  if not objective then
+    return false
+  end
+
+  local issued = false
+
+  for index = 1, assaultCount do
+    local squad = reserves[index]
+
+    if
+      self:issueObjective(
+        squad,
+        objective
+      )
+    then
+      squad.aiState = 'assault'
+      squad.aiObjective =
+        objective.target
+
+      issued = true
     end
   end
 
-  local _, totalSquads =
-    self:getSquadCounts()
+  return issued
+end
+
+
+-- Поддерживает наступающие отряды.
+function EnemyAI:maintainAssaults()
+  for _, squad in ipairs(
+    self:getSquads()
+  ) do
+    if
+      squad.aiState == 'assault'
+      and not squad.engaged
+      and not squad.currentOrder
+    then
+      local objective =
+        self:chooseAttackTarget(
+          squad
+        )
+
+      if objective then
+        self:issueObjective(
+          squad,
+          objective
+        )
+
+        squad.aiObjective =
+          objective.target
+      else
+        squad.aiState = 'reserve'
+        squad.aiObjective = nil
+      end
+    end
+  end
+end
+
+
+-- Нормализует новые отряды.
+function EnemyAI:prepareNewSquads()
+  for _, squad in ipairs(
+    self:getSquads()
+  ) do
+    if not squad.aiState then
+      squad.aiState = 'reserve'
+      squad.aiObjective = nil
+    end
+  end
+end
+
+
+-- Выполняет стратегическое решение.
+function EnemyAI:makeDecision()
+  self:prepareNewSquads()
+  self:updateDefenders()
+  self:respondToBaseThreat()
+  self:maintainAssaults()
+
+  if self:isAttackArmyReady() then
+    self:launchAttack()
+  end
 
   local built, saving =
-    self:tryBuild(totalSquads)
+    self:tryBuild()
 
   if built or saving then
     return
   end
 
-  local plannedCounts =
-    self:getPlannedSquadCounts()
-
-  self:tryRecruit(
-    plannedCounts
-  )
+  self:tryRecruit()
 end
 
 
--- Обновляет экономический AI.
+-- Обновляет AI.
 function EnemyAI:update(dt)
   self.decisionTimer =
     self.decisionTimer + dt

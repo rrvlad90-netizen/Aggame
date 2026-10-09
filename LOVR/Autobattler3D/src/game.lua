@@ -19,6 +19,11 @@ local Field =
 local Battle =
   require('src.autobattle.battle')
 
+local SelectionController =
+  require(
+    'src.autobattle.selection_controller'
+  )
+
 local ModelRegistry =
   require('src.assets.model_registry')
 
@@ -58,7 +63,7 @@ local MenuScreen =
 
 local SoundPlayer =
   require('src.audio.sound_player')
-  
+
 local CampaignRegistry =
   require(
     'src.campaign.campaign_registry'
@@ -77,12 +82,13 @@ local CampaignScreen =
 local CampaignAdvisorScreen =
   require(
     'src.screens.campaign_advisor_screen'
-  )  
-  
+  )
+
 local CampaignSelectScreen =
   require(
     'src.screens.campaign_select_screen'
-  )  
+  )
+
 
 local Game = {}
 Game.__index = Game
@@ -117,7 +123,7 @@ function Game.new()
 
   self.mapRegistry =
     MapRegistry.new()
-	
+
   self.campaignRegistry =
     CampaignRegistry.new()
 
@@ -142,6 +148,12 @@ function Game.new()
   self.selectedEnemySquad = nil
   self.selectedBuilding = nil
 
+  self.selectionController =
+    SelectionController.new(
+      self,
+      Config.selection
+    )
+
   self.sceneRegistry =
     SceneRegistry.new()
 
@@ -155,7 +167,7 @@ function Game.new()
   )
 
   lovr.system.setMouseMode('normal')
-  
+
   self.moveMarkers = {}
 
   self.music = nil
@@ -293,6 +305,10 @@ function Game:clearSelection()
   self.selectedSquads = {}
   self.selectedEnemySquad = nil
   self.selectedBuilding = nil
+
+  if self.selectionController then
+    self.selectionController:cancel()
+  end
 end
 
 
@@ -389,7 +405,7 @@ function Game:showMenu()
 
   self.campaignActive = false
   self.campaignIndex = nil
-  
+
   self.campaignSession = nil
   self.campaignBattlePayload = nil
 
@@ -421,7 +437,6 @@ function Game:startCampaign(
   campaignId,
   loadSave
 )
-
   self:stopMusic()
 
   local definition
@@ -471,6 +486,7 @@ function Game:startCampaign(
   )
 end
 
+
 -- Показывает следующее событие кампании.
 function Game:handleCampaignTurnResult(
   result
@@ -487,7 +503,10 @@ function Game:handleCampaignTurnResult(
     local screen =
       self.screens:top()
 
-    if screen and screen.refreshButtons then
+    if
+      screen
+      and screen.refreshButtons
+    then
       screen:refreshButtons()
     end
 
@@ -501,6 +520,7 @@ function Game:handleCampaignTurnResult(
     )
   )
 end
+
 
 -- Запускает ручной бой кампании.
 function Game:startCampaignManualBattle(
@@ -577,10 +597,9 @@ function Game:startCampaignBattle()
       'Campaign entry not found'
     )
 
-  self:startConfiguredBattle(
-    entry
-  )
+  self:startConfiguredBattle(entry)
 end
+
 
 -- Возвращается из ручного боя
 -- на глобальную карту.
@@ -656,7 +675,8 @@ function Game:showSettings()
   )
 end
 
--- Добавляет уникальную модель в список.
+
+-- Добавляет уникальную модель.
 function Game:addBattleModelId(
   ids,
   known,
@@ -674,7 +694,7 @@ function Game:addBattleModelId(
 end
 
 
--- Добавляет модели доступных войск здания.
+-- Добавляет модели войск здания.
 function Game:addRecruitModelIds(
   ids,
   known,
@@ -727,8 +747,6 @@ function Game:getBattleModelIds(
     enemyUnit.model
   )
 
-  -- Добавляет модели всех отрядов
-  -- динамического боя кампании.
   local function addGroupModels(
     groups,
     sideId
@@ -895,7 +913,6 @@ function Game:prepareBattleResources(
   collectgarbage('collect')
 end
 
-
 -- Начинает загрузку настроенного боя.
 function Game:startConfiguredBattle(
   battleOptions
@@ -906,20 +923,20 @@ function Game:startConfiguredBattle(
   local battleSettings =
     self.settings.battle
 
-	local requestedMap =
-		battleOptions.map
-		or battleSettings.map
+  local requestedMap =
+    battleOptions.map
+    or battleSettings.map
 
-	  local map
+  local map
 
-	  if type(requestedMap) == 'table' then
-		map = requestedMap
-	  else
-		map =
-		  self.mapRegistry:get(
-			requestedMap
-		  )
-	  end
+  if type(requestedMap) == 'table' then
+    map = requestedMap
+  else
+    map =
+      self.mapRegistry:get(
+        requestedMap
+      )
+  end
 
   local playerSide =
     battleOptions.playerSide
@@ -1063,8 +1080,8 @@ end
 function Game:update(dt)
   self.ui:updateWindowSize()
   self:updateMoveMarkers(dt)
-  
- if
+
+  if
     self.state == 'menu'
     or self.state == 'scene'
     or self.state == 'campaign'
@@ -1145,6 +1162,7 @@ function Game:update(dt)
   end
 end
 
+
 -- Строит луч камеры через экран.
 function Game:getScreenRay(x, y)
   local width, height =
@@ -1160,7 +1178,7 @@ function Game:getScreenRay(x, y)
 
   local tangent =
     math.tan(
-      math.rad(67) / 2
+      math.rad(67) * .5
     )
 
   local yaw = self.camera.yaw
@@ -1236,7 +1254,6 @@ function Game:getScreenRay(x, y)
     rayZ / length
 end
 
-
 -- Возвращает точку на земле.
 function Game:getGroundPoint(x, y)
   local originX,
@@ -1259,119 +1276,18 @@ function Game:getGroundPoint(x, y)
 end
 
 
--- Проверяет попадание приказа
--- в точку существующего маршрута.
-function Game:tryAssignSelectedRoute(
-  worldX,
-  worldZ
+-- Добавляет отметку приказа.
+function Game:addCommandMarker(
+  x,
+  z,
+  kind
 )
-  if #self.selectedSquads == 0 then
-    return false
-  end
-
-  local routes =
-    self.battle.map.routes.player
-    or {}
-
-  local endpointRoute = nil
-  local endpointDistance = 9
-
-  local pointRoute = nil
-  local pointIndex = nil
-  local pointDistance = 9
-
-  for _, route in ipairs(routes) do
-    local endpointDx =
-      route.endpoint.x - worldX
-
-    local endpointDz =
-      route.endpoint.z - worldZ
-
-    local endpointDistanceSquared =
-      endpointDx * endpointDx +
-      endpointDz * endpointDz
-
-    if
-      endpointDistanceSquared <=
-      endpointDistance
-    then
-      endpointRoute = route
-
-      endpointDistance =
-        endpointDistanceSquared
-    end
-
-    for index, point in ipairs(
-      route.points or {}
-    ) do
-      local dx = point.x - worldX
-      local dz = point.z - worldZ
-
-      local distanceSquared =
-        dx * dx + dz * dz
-
-      if
-        distanceSquared <=
-        pointDistance
-      then
-        pointRoute = route
-        pointIndex = index
-
-        pointDistance =
-          distanceSquared
-      end
-    end
-  end
-
-  -- Красная точка назначает
-  -- постоянное направление наступления.
-  if endpointRoute then
-    for _, squad in ipairs(
-      self.selectedSquads
-    ) do
-      if
-        squad.team == 'allies'
-        and not squad:isDefeated()
-      then
-        squad:setStrategicRoute(
-          endpointRoute
-        )
-      end
-    end
-
-    return true
-  end
-
-  -- Жёлтая точка становится временной
-  -- целью нового стратегического маршрута.
-  if pointRoute and pointIndex then
-    for _, squad in ipairs(
-      self.selectedSquads
-    ) do
-      if
-        squad.team == 'allies'
-        and not squad:isDefeated()
-      then
-        squad:moveToRoutePoint(
-          pointRoute,
-          pointIndex
-        )
-      end
-    end
-
-    return true
-  end
-
-  return false
-end
-
--- Добавляет отметку приказа движения.
-function Game:addMoveMarker(x, z)
   self.moveMarkers[
     #self.moveMarkers + 1
   ] = {
     x = x,
     z = z,
+    kind = kind or 'move',
     age = 0,
     duration = .5,
     size = 4
@@ -1379,10 +1295,19 @@ function Game:addMoveMarker(x, z)
 end
 
 
--- Обновляет отметки движения.
+-- Совместимость со старым вызовом.
+function Game:addMoveMarker(x, z)
+  self:addCommandMarker(
+    x,
+    z,
+    'move'
+  )
+end
+
+
+-- Обновляет отметки приказов.
 function Game:updateMoveMarkers(dt)
-  for index =
-    #self.moveMarkers,
+  for index = #self.moveMarkers,
     1,
     -1
   do
@@ -1405,7 +1330,7 @@ function Game:updateMoveMarkers(dt)
 end
 
 
--- Рисует отметки движения.
+-- Рисует отметки приказов.
 function Game:drawMoveMarkers(pass)
   pass:setShader()
   pass:setMaterial()
@@ -1421,7 +1346,6 @@ function Game:drawMoveMarkers(pass)
         marker.duration
       )
 
-    -- Плавное уменьшение.
     local smooth =
       remaining *
       remaining *
@@ -1442,38 +1366,100 @@ function Game:drawMoveMarkers(pass)
         marker.z
       ) + .09
 
-    pass:setColor(
-      .15,
-      1,
-      .28,
-      remaining
-    )
+    if marker.kind == 'attack' then
+      pass:setColor(
+        1,
+        .18,
+        .1,
+        remaining
+      )
+    else
+      pass:setColor(
+        .15,
+        1,
+        .28,
+        remaining
+      )
+    end
 
-    -- Горизонтальная часть.
     pass:box(
       marker.x,
       y,
       marker.z,
       size,
       .08,
-      thickness
+      thickness,
+      math.pi * .25,
+      0,
+      1,
+      0
     )
 
-    -- Вертикальная часть.
     pass:box(
       marker.x,
       y,
       marker.z,
       thickness,
       .08,
-      size
+      size,
+      math.pi * .25,
+      0,
+      1,
+      0
     )
   end
 
   pass:setColor(1, 1, 1, 1)
 end
 
--- Отдаёт приказ движения в любую точку.
+
+-- Возвращает смещение группового приказа.
+function Game:getGroupOrderOffset(
+  index,
+  count
+)
+  if count <= 1 then
+    return 0, 0
+  end
+
+  local spacing =
+    Config.squad.groupOrderSpacing
+    or 8
+
+  local columns =
+    math.ceil(
+      math.sqrt(count)
+    )
+
+  local rows =
+    math.ceil(
+      count / columns
+    )
+
+  local zeroIndex = index - 1
+
+  local column =
+    zeroIndex % columns
+
+  local row =
+    math.floor(
+      zeroIndex / columns
+    )
+
+  return
+    (
+      column -
+      (columns - 1) * .5
+    ) * spacing,
+
+    (
+      row -
+      (rows - 1) * .5
+    ) * spacing
+end
+
+
+-- Отдаёт приказ движения.
 function Game:issueSelectedMoveCommand(
   worldX,
   worldZ
@@ -1482,38 +1468,133 @@ function Game:issueSelectedMoveCommand(
     return false
   end
 
-  self:addMoveMarker(
-    worldX,
-    worldZ
-  )
+  local issued = false
+  local count = #self.selectedSquads
 
-  if
-    self:tryAssignSelectedRoute(
-      worldX,
-      worldZ
-    )
-  then
-    return true
-  end
-
-  for _, squad in ipairs(
+  for index, squad in ipairs(
     self.selectedSquads
   ) do
     if
       squad.team == 'allies'
       and not squad:isDefeated()
     then
-      squad:moveToPoint(
-        worldX,
-        worldZ
-      )
+      local offsetX, offsetZ =
+        self:getGroupOrderOffset(
+          index,
+          count
+        )
+
+      local accepted =
+        squad:issueMove(
+          worldX + offsetX,
+          worldZ + offsetZ,
+          'player'
+        )
+
+      if accepted then
+        issued = true
+      end
     end
   end
 
-  return true
+  if issued then
+    self:addCommandMarker(
+      worldX,
+      worldZ,
+      'move'
+    )
+  end
+
+  return issued
 end
 
--- Ищет отряд под точкой.
+
+-- Отдаёт приказ атаки отряда.
+function Game:
+  issueSelectedAttackSquad(
+    target
+  )
+  if
+    not target
+    or target:isDefeated()
+    or #self.selectedSquads == 0
+  then
+    return false
+  end
+
+  local issued = false
+
+  for _, squad in ipairs(
+    self.selectedSquads
+  ) do
+    local accepted =
+      squad:issueAttackSquad(
+        target,
+        'player'
+      )
+
+    if accepted then
+      issued = true
+    end
+  end
+
+  if issued then
+    local x, z =
+      target:getCenter()
+
+    self:addCommandMarker(
+      x,
+      z,
+      'attack'
+    )
+  end
+
+  return issued
+end
+
+
+-- Отдаёт приказ атаки здания.
+function Game:
+  issueSelectedAttackBuilding(
+    building
+  )
+  if
+    not building
+    or not building:isTargetable()
+    or #self.selectedSquads == 0
+  then
+    return false
+  end
+
+  local issued = false
+
+  for _, squad in ipairs(
+    self.selectedSquads
+  ) do
+    local accepted =
+      squad:issueAttackBuilding(
+        building,
+        'player'
+      )
+
+    if accepted then
+      issued = true
+    end
+  end
+
+  if issued then
+    self:addCommandMarker(
+      building.x,
+      building.z,
+      'attack'
+    )
+  end
+
+  return issued
+end
+
+
+-- Ищет отряд под мировой точкой.
 function Game:findSquadAt(
   worldX,
   worldZ
@@ -1521,7 +1602,7 @@ function Game:findSquadAt(
   local nearest = nil
 
   local nearestDistanceSquared =
-    2.5 * 2.5
+    3 * 3
 
   for _, squad in ipairs(
     self.battle.squads
@@ -1558,32 +1639,97 @@ function Game:findSquadAt(
 end
 
 
+-- Ищет здание под мировой точкой.
+function Game:findBuildingAt(
+  worldX,
+  worldZ
+)
+  if not self.battle.buildingSystem then
+    return nil
+  end
+
+  return
+    self.battle.buildingSystem:
+      findAt(
+        worldX,
+        worldZ
+      )
+end
+
+
+-- Выполняет контекстный приказ.
+function Game:issueContextCommand(
+  worldX,
+  worldZ
+)
+  if #self.selectedSquads == 0 then
+    return false
+  end
+
+  local building =
+    self:findBuildingAt(
+      worldX,
+      worldZ
+    )
+
+  if
+    building
+    and building.team ~= 'allies'
+    and building:isTargetable()
+  then
+    return
+      self:
+        issueSelectedAttackBuilding(
+          building
+        )
+  end
+
+  local squad =
+    self:findSquadAt(
+      worldX,
+      worldZ
+    )
+
+  if
+    squad
+    and squad.team ~= 'allies'
+  then
+    return
+      self:
+        issueSelectedAttackSquad(
+          squad
+        )
+  end
+
+  return
+    self:issueSelectedMoveCommand(
+      worldX,
+      worldZ
+    )
+end
+
+
 -- Обрабатывает выбор объекта мира.
 function Game:selectWorldAt(
   worldX,
   worldZ
 )
-  local buildingSystem =
-    self.battle.buildingSystem
+  local building =
+    self:findBuildingAt(
+      worldX,
+      worldZ
+    )
 
-  if buildingSystem then
-    local building =
-      buildingSystem:findAt(
-        worldX,
-        worldZ
+  if building then
+    if building.team == 'allies' then
+      self:selectBuilding(
+        building
       )
-
-    if building then
-      if building.team == 'allies' then
-        self:selectBuilding(
-          building
-        )
-      else
-        self:clearSelection()
-      end
-
-      return
+    else
+      self:clearSelection()
     end
+
+    return
   end
 
   local squad =
@@ -1621,29 +1767,7 @@ end
 
 -- Возвращает центр отряда.
 function Game:getSquadCenter(squad)
-  local x = 0
-  local z = 0
-  local count = 0
-
-  for _, unit in ipairs(
-    squad.units
-  ) do
-    if not unit.removed then
-      x = x + unit.x
-      z = z + unit.z
-      count = count + 1
-    end
-  end
-
-  if count == 0 then
-    return
-      squad.startX,
-      squad.startZ
-  end
-
-  return
-    x / count,
-    z / count
+  return squad:getCenter()
 end
 
 
@@ -1694,7 +1818,6 @@ function Game:selectNextSquad()
   )
 end
 
-
 -- Возвращает границы кнопки найма.
 function Game:getRecruitButtonBounds(
   index
@@ -1734,6 +1857,7 @@ function Game:handleRecruitmentClick(
 
   if
     not building
+    or building.team ~= 'allies'
     or not building:isReady()
   then
     return false
@@ -1786,6 +1910,7 @@ function Game:keypressed(key, isRepeat)
   if
     self.state == 'menu'
     or self.state == 'scene'
+    or self.state == 'campaign'
   then
     self.screens:dispatch(
       'keypressed',
@@ -1848,13 +1973,14 @@ function Game:keypressed(key, isRepeat)
   end
 end
 
--- Обрабатывает нажатие мыши или экрана.
+
+-- Обрабатывает нажатие мыши.
 function Game:mousepressed(
   x,
   y,
   button
 )
- if
+  if
     self.state == 'menu'
     or self.state == 'scene'
     or self.state == 'campaign'
@@ -1892,14 +2018,13 @@ function Game:mousepressed(
     return
   end
 
-  -- ПКМ отдаёт приказ движения.
+  -- ПКМ выбирает движение или атаку.
   if button == 2 then
-    local worldX,
-      worldZ =
+    local worldX, worldZ =
       self:getGroundPoint(x, y)
 
     if worldX then
-      self:issueSelectedMoveCommand(
+      self:issueContextCommand(
         worldX,
         worldZ
       )
@@ -1921,8 +2046,7 @@ function Game:mousepressed(
     return
   end
 
-  local worldX,
-    worldZ =
+  local worldX, worldZ =
     self:getGroundPoint(x, y)
 
   if not worldX then
@@ -1930,6 +2054,8 @@ function Game:mousepressed(
     return
   end
 
+  -- Сенсорное управление остаётся
+  -- без рамочного выделения.
   if
     self.settings.interface
       .touchCameraControls
@@ -1940,18 +2066,12 @@ function Game:mousepressed(
         worldZ
       )
 
-    local building = nil
+    local building =
+      self:findBuildingAt(
+        worldX,
+        worldZ
+      )
 
-    if self.battle.buildingSystem then
-      building =
-        self.battle.buildingSystem:
-          findAt(
-            worldX,
-            worldZ
-          )
-    end
-
-    -- Касание объекта выбирает его.
     if squad or building then
       self:selectWorldAt(
         worldX,
@@ -1961,25 +2081,29 @@ function Game:mousepressed(
       return
     end
 
-    -- Касание пустой земли отдаёт приказ.
     if #self.selectedSquads > 0 then
-      self:issueSelectedMoveCommand(
+      self:issueContextCommand(
         worldX,
         worldZ
       )
 
       return
     end
+
+    self:clearSelection()
+    return
   end
 
-  self:selectWorldAt(
-    worldX,
-    worldZ
+  -- Обычный клик будет обработан при
+  -- отпускании, если рамка не появилась.
+  self.selectionController:begin(
+    x,
+    y
   )
 end
 
 
--- Обрабатывает отпускание.
+-- Обрабатывает отпускание мыши.
 function Game:mousereleased(
   x,
   y,
@@ -2014,6 +2138,54 @@ function Game:mousereleased(
       virtualY,
       button
     )
+
+  if
+    self.state ~= 'playing'
+    or button ~= 1
+    or self.settings.interface
+      .touchCameraControls
+  then
+    return
+  end
+
+  local controller =
+    self.selectionController
+
+  -- Нажатие мог перехватить интерфейс.
+  if not controller.active then
+    return
+  end
+
+  local additive =
+    lovr.system.isKeyDown(
+      'lshift'
+    )
+    or lovr.system.isKeyDown(
+      'rshift'
+    )
+
+  local usedRectangle =
+    controller:finish(
+      x,
+      y,
+      additive
+    )
+
+  if usedRectangle then
+    return
+  end
+
+  local worldX, worldZ =
+    self:getGroundPoint(x, y)
+
+  if worldX then
+    self:selectWorldAt(
+      worldX,
+      worldZ
+    )
+  else
+    self:clearSelection()
+  end
 end
 
 
@@ -2024,7 +2196,7 @@ function Game:mousemoved(
   dx,
   dy
 )
- if
+  if
     self.state == 'menu'
     or self.state == 'scene'
     or self.state == 'campaign'
@@ -2038,9 +2210,17 @@ function Game:mousemoved(
       virtualX,
       virtualY
     )
+
+    return
+  end
+
+  if self.state == 'playing' then
+    self.selectionController:update(
+      x,
+      y
+    )
   end
 end
-
 
 -- Обрабатывает колесо мыши.
 function Game:wheelmoved(
@@ -2058,6 +2238,8 @@ end
 -- Обрабатывает изменение фокуса окна.
 function Game:focus(focused)
   if not focused then
+    self.selectionController:cancel()
+
     self.battleInterface:
       releaseControls()
 
@@ -2109,6 +2291,7 @@ function Game:focus(focused)
   end
 end
 
+
 -- Рисует загрузку.
 function Game:drawLoading(pass)
   self.ui:begin(pass)
@@ -2145,129 +2328,6 @@ function Game:drawLoading(pass)
 
     -3.8
   )
-end
-
-
--- Рисует доступные маршруты.
-function Game:drawSelection(pass)
-  local squad =
-    self.selectedSquad
-
-  if
-    not squad
-    or squad.team ~= 'allies'
-    or squad:isDefeated()
-  then
-    return
-  end
-
-  local routes =
-    self.battle.map.routes.player
-    or {}
-
-  local markers = {}
-
-  local function getMarker(x, z)
-    local key =
-      string.format(
-        '%.3f:%.3f',
-        x,
-        z
-      )
-
-    local marker = markers[key]
-
-    if not marker then
-      marker = {
-        x = x,
-        z = z,
-        endpoint = false,
-        name = nil
-      }
-
-      markers[key] = marker
-    end
-
-    return marker
-  end
-
-  for _, route in ipairs(routes) do
-    for _, point in ipairs(
-      route.points or {}
-    ) do
-      getMarker(
-        point.x,
-        point.z
-      )
-    end
-
-    local endpoint =
-      getMarker(
-        route.endpoint.x,
-        route.endpoint.z
-      )
-
-    endpoint.endpoint = true
-
-    endpoint.name =
-      endpoint.name
-      or route.name
-      or route.id
-  end
-
-  for _, marker in pairs(markers) do
-    local y =
-      self.field:getHeight(
-        marker.x,
-        marker.z
-      )
-
-    if marker.endpoint then
-      pass:setColor(
-        1,
-        .15,
-        .12,
-        .9
-      )
-
-      pass:box(
-        marker.x,
-        y + .08,
-        marker.z,
-        3,
-        .16,
-        3
-      )
-
-      pass:text(
-        marker.name,
-        marker.x,
-        y + 1,
-        marker.z,
-        .25,
-        self.camera.yaw,
-        0,
-        1,
-        0
-      )
-    else
-      pass:setColor(
-        1,
-        .75,
-        .15,
-        .85
-      )
-
-      pass:box(
-        marker.x,
-        y + .06,
-        marker.z,
-        1.4,
-        .12,
-        1.4
-      )
-    end
-  end
 end
 
 
@@ -2318,6 +2378,7 @@ function Game:drawRecruitmentPanel(
 
   if
     not building
+    or building.team ~= 'allies'
     or not building:isReady()
   then
     return
@@ -2476,10 +2537,12 @@ function Game:drawBattleHud(pass)
   self.battleInterface:
     drawHud(pass)
 
+  self.selectionController:draw(pass)
   self:drawResult(pass)
 
   pass:setColor(1, 1, 1, 1)
 end
+
 
 -- Рисует приложение.
 function Game:draw(pass)
@@ -2509,8 +2572,6 @@ function Game:draw(pass)
     pass,
     self.camera
   )
-
-  self:drawSelection(pass)
 
   self.battleInterface:
     drawWorldSelection(pass)
@@ -2546,5 +2607,6 @@ function Game:draw(pass)
 
   self:drawBattleHud(pass)
 end
+
 
 return Game

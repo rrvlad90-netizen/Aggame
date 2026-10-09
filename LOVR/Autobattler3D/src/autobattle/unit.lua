@@ -4,6 +4,7 @@ local Entity =
 local SoundPlayer =
   require('src.audio.sound_player')
 
+
 local Unit = {}
 Unit.__index = Unit
 
@@ -86,18 +87,15 @@ function Unit.new(settings)
   self.rangedCooldown = 0
 
   self.state = 'idle'
+
   self.attackKind = nil
   self.attackPhase = nil
   self.attackDefinition = nil
+
   self.target = nil
 
-  self.route = nil
-  self.routePointIndex = nil
-  self.routeEntryPointIndex = nil
-  self.routeOffset = 0
-  self.routeDepthOffset = 0
-  self.routeFinished = true
-
+  -- Отдельных маршрутов у бойцов больше нет.
+  -- Направление движения задаёт отряд.
   self.blockedTime = 0
 
   self.avoidanceSide =
@@ -170,7 +168,7 @@ function Unit.new(settings)
     animation = 'idle',
     solid = false
   }, settings.modelRegistry)
-  
+
   self.visualYaw =
     self.entity.yaw or 0
 
@@ -203,7 +201,9 @@ function Unit:playSound(name)
     sounds[name],
 
     self.x,
-    self.y + (sounds.height or .8),
+    self.y +
+    (sounds.height or .8),
+
     self.z,
 
     {
@@ -255,8 +255,7 @@ function Unit:getGuardPoint()
 end
 
 
--- Возвращает личное место монстра
--- вокруг охраняемой точки.
+-- Возвращает личное место монстра.
 function Unit:getGuardHomePosition(
   point
 )
@@ -282,6 +281,8 @@ function Unit:getGuardHomePosition(
     math.sin(angle) * radius
 end
 
+
+-- Возвращает монстра к охраняемой точке.
 function Unit:updateGuardMovement(
   dt,
   point
@@ -314,7 +315,7 @@ function Unit:updateGuardMovement(
 end
 
 
--- Синхронизирует сущность.
+-- Синхронизирует визуальную сущность.
 function Unit:syncEntity()
   self.entity.x = self.x
 
@@ -365,7 +366,6 @@ end
 
 
 -- Запоминает желаемое направление.
--- На боевую логику поворот не влияет.
 function Unit:faceDirection(dx, dz)
   if
     dx * dx + dz * dz <
@@ -444,7 +444,7 @@ function Unit:getDistanceTo(target)
 end
 
 
--- Возвращает случайную смерть.
+-- Возвращает случайную анимацию смерти.
 function Unit:getDeathAnimation()
   local deaths =
     self.entity.definition
@@ -456,7 +456,7 @@ function Unit:getDeathAnimation()
 end
 
 
--- Возвращает отдельные анимации падения.
+-- Возвращает анимации падения.
 function Unit:getFallAnimations()
   local battleAnimations =
     self.entity.definition
@@ -471,8 +471,7 @@ function Unit:getFallAnimations()
   end
 
   local animations =
-    self.entity.definition
-      .animations
+    self.entity.definition.animations
 
   if
     not animations
@@ -571,271 +570,173 @@ function Unit:isInsideRangedDistance(
     and distance <= maximum
 end
 
--- Назначает маршрут и место в строю.
-function Unit:setRoute(
-  route,
-  routeOffset,
-  pointIndex,
-  routeDepthOffset
+-- Проверяет разрешение атаковать цель.
+function Unit:isCombatTargetAllowed(
+  target
 )
-  self.route = route
+  if
+    not target
+    or target.team == self.team
+    or not target:isTargetable()
+  then
+    return false
+  end
 
-  self.routePointIndex =
-    math.max(
-      1,
-      math.min(
-        pointIndex or 1,
-        #route.points
+  local engagementSystem =
+    self.battle.engagementSystem
+
+  if
+    self.squad.engaged
+    and not target.isBuilding
+  then
+    return engagementSystem:
+      areInSameBattle(
+        self.squad,
+        target.squad
       )
-    )
-
-  self.routeEntryPointIndex =
-    self.routePointIndex
-
-  self.routeFinished = false
-  self.routeStartX = self.x
-  self.routeStartZ = self.z
-
-  if routeOffset ~= nil then
-    self.routeOffset = routeOffset
-  else
-    local width =
-      route.width
-      or self.battle.config
-        .navigation
-        .defaultCorridorWidth
-
-    self.routeOffset =
-      (math.random() - .5) *
-      width
   end
 
-  self.routeDepthOffset =
-    routeDepthOffset or 0
+  if
+    self.squad.engaged
+    and target.isBuilding
+  then
+    return false
+  end
 
-  self.blockedTime = 0
+  return true
 end
 
 
--- Возвращает начало сегмента.
-function Unit:getPreviousRoutePoint()
-  if
-    self.routePointIndex ==
-    self.routeEntryPointIndex
-  then
-    return
-      self.routeStartX,
-      self.routeStartZ
-  end
-
-  local previous =
-    self.route.points[
-      self.routePointIndex - 1
-    ]
-
-  if not previous then
-    return
-      self.routeStartX,
-      self.routeStartZ
-  end
-
-  return previous.x, previous.z
-end
-
-
--- Возвращает точку с учётом
--- места бойца в строю.
-function Unit:getRoutePoint()
-  if
-    not self.route
-    or self.routeFinished
-  then
-    return nil
-  end
-
-  local point =
-    self.route.points[
-      self.routePointIndex
-    ]
-
-  if not point then
-    self.routeFinished = true
-    return nil
-  end
-
-  local previousX,
-    previousZ =
-    self:getPreviousRoutePoint()
-
-  local segmentX =
-    point.x - previousX
-
-  local segmentZ =
-    point.z - previousZ
-
-  local length =
-    math.sqrt(
-      segmentX * segmentX +
-      segmentZ * segmentZ
-    )
-
-  if length <= .0001 then
-    return point.x, point.z
-  end
-
-  local directionX =
-    segmentX / length
-
-  local directionZ =
-    segmentZ / length
-
-  local perpendicularX =
-    -directionZ
-
-  local perpendicularZ =
-    directionX
-
-  if
-    perpendicularX < 0
-    or (
-      math.abs(perpendicularX) <
-      .0001
-      and perpendicularZ < 0
-    )
-  then
-    perpendicularX =
-      -perpendicularX
-
-    perpendicularZ =
-      -perpendicularZ
-  end
-
-  return
-    point.x +
-    perpendicularX *
-    self.routeOffset -
-    directionX *
-    self.routeDepthOffset,
-
-    point.z +
-    perpendicularZ *
-    self.routeOffset -
-    directionZ *
-    self.routeDepthOffset
-end
-
-
--- Проверяет прохождение точки.
-function Unit:hasPassedRoutePoint(
-  targetX,
-  targetZ
+-- Ищет ближайшего допустимого бойца.
+function Unit:findNearestEnemyUnit(
+  radius
 )
-  local point =
-    self.route.points[
-      self.routePointIndex
-    ]
+  return self.battle.grid:
+    findNearest(
+      self.x,
+      self.z,
+      radius,
 
-  local previousX,
-    previousZ =
-    self:getPreviousRoutePoint()
-
-  local segmentX =
-    point.x - previousX
-
-  local segmentZ =
-    point.z - previousZ
-
-  local beyondX =
-    self.x - targetX
-
-  local beyondZ =
-    self.z - targetZ
-
-  return
-    beyondX * segmentX +
-    beyondZ * segmentZ > 0
+      function(candidate)
+        return
+          candidate ~= self
+          and self:
+            isCombatTargetAllowed(
+              candidate
+            )
+      end
+    )
 end
 
 
--- Возвращает направление маршрута.
-function Unit:getRouteDirection()
-  while true do
-    local targetX, targetZ =
-      self:getRoutePoint()
+-- Ищет предпочтительную боевую цель.
+function Unit:findPreferredEnemy(
+  radius
+)
+  local enemy =
+    self:findNearestEnemyUnit(
+      radius
+    )
 
-    if not targetX then
-      return nil
-    end
-
-    local point =
-      self.route.points[
-        self.routePointIndex
-      ]
-
-    local dx = targetX - self.x
-    local dz = targetZ - self.z
-
-    local distance =
-      math.sqrt(
-        dx * dx + dz * dz
-      )
-
-    local reached =
-      distance <=
-      self.battle.config
-        .navigation
-        .waypointRadius
-
-    local passed =
-      self:hasPassedRoutePoint(
-        targetX,
-        targetZ
-      )
-
-    if not reached and not passed then
-      return
-        dx / distance,
-        dz / distance
-    end
+  if enemy then
+    local order =
+      self.squad.currentOrder
 
     if
-      point.capturePoint
-      and self.battle.captureSystem
-      and not self.battle
-        .captureSystem:
-        isOwnedBy(
-          point.capturePoint,
-          self.team
-        )
+      enemy.squad
+      and not self.squad.engaged
+      and (
+        not order
+        or order:isMove()
+      )
     then
-      return nil
+      self.squad:
+        beginAutomaticAttack(
+          enemy.squad
+        )
     end
 
-    local reachedPoint =
-      self.routePointIndex
-
-    self.routePointIndex =
-      self.routePointIndex + 1
-
-    self.squad:
-      onUnitReachedRoutePoint(
-        self,
-        reachedPoint
-      )
+    return enemy
   end
+
+  local order =
+    self.squad.currentOrder
+
+  if
+    order
+    and order:isAttack()
+    and order:isTargetValid()
+  then
+    if
+      order.type ==
+        'attack_building'
+    then
+      local building =
+        order.target
+
+      if
+        self:getDistanceTo(building)
+        <= radius
+      then
+        return building
+      end
+    elseif
+      order.type ==
+        'attack_squad'
+    then
+      local nearest = nil
+      local nearestDistance = radius
+
+      for _, candidate in ipairs(
+        order.target.units
+      ) do
+        if
+          candidate:isTargetable()
+        then
+          local distance =
+            self:getDistanceTo(
+              candidate
+            )
+
+          if distance < nearestDistance then
+            nearest = candidate
+            nearestDistance = distance
+          end
+        end
+      end
+
+      if nearest then
+        return nearest
+      end
+    end
+  end
+
+  if
+    not self.squad.engaged
+    and self.battle.buildingSystem
+  then
+    return
+      self.battle.buildingSystem:
+        findNearestEnemyBuilding(
+          self,
+          radius
+        )
+  end
+
+  return nil
 end
 
 
--- Удаляет бойца за картой.
+-- Удаляет бойца за границей карты.
 function Unit:checkMapExit()
   local map =
     self.battle.map.field
 
   local outside =
     math.abs(self.x) >
-      map.width / 2
+      map.width * .5
     or math.abs(self.z) >
-      map.length / 2
+      map.length * .5
 
   if not outside then
     return false
@@ -860,8 +761,9 @@ function Unit:tryChargeHit(
   dt
 )
   if
-    not self.route
-    or self.routeFinished
+    self.squad.engaged
+    or not self.squad:
+      hasMovementOrder()
   then
     return false
   end
@@ -952,7 +854,8 @@ function Unit:startMeleeAttack(target)
       self.lastAttackIndex
   then
     attackIndex =
-      attackIndex % #attacks + 1
+      attackIndex %
+      #attacks + 1
   end
 
   self.lastAttackIndex =
@@ -965,6 +868,19 @@ function Unit:startMeleeAttack(target)
   self.attackKind = 'melee'
   self.attackPhase = 'start'
   self.state = 'attacking'
+
+  -- Melee-контакт связывает оба отряда.
+  if
+    target.squad
+    and self.battle
+      .engagementSystem
+  then
+    self.battle.engagementSystem:
+      touchUnits(
+        self,
+        target
+      )
+  end
 
   self.entity:setAnimation(
     self.attackDefinition.start,
@@ -1006,12 +922,23 @@ function Unit:fireProjectile()
   local settings =
     self.rangedAttack
 
-  local target =
-    self.battle:findNearestEnemy(
-      self,
-      settings.maximumDistance
+  local target = self.target
+
+  if
+    not target
+    or not self:
+      isCombatTargetAllowed(target)
+    or not self:
+      isInsideRangedDistance(
+        self:getDistanceTo(target)
+      )
+  then
+    target =
+      self:findPreferredEnemy(
+        settings.maximumDistance
         or self.sightDistance
-    )
+      )
+  end
 
   if not target then
     return false
@@ -1087,7 +1014,8 @@ function Unit:fireProjectile()
       targetX = target.x,
 
       targetY =
-        target.y + targetHeight,
+        target.y +
+        targetHeight,
 
       targetZ = target.z
     }
@@ -1101,12 +1029,10 @@ function Unit:fireProjectile()
   return true
 end
 
-
 -- Обновляет ближнюю атаку.
 function Unit:updateMeleeAttack(dt)
   local victim =
-    self.battle:findNearestEnemy(
-      self,
+    self:findPreferredEnemy(
       self.attackDistance
     )
 
@@ -1117,6 +1043,20 @@ function Unit:updateMeleeAttack(dt)
       victim.x - self.x,
       victim.z - self.z
     )
+
+    -- Поддерживает связь между ударами,
+    -- пока противники остаются рядом.
+    if
+      victim.squad
+      and self.battle
+        .engagementSystem
+    then
+      self.battle.engagementSystem:
+        touchUnits(
+          self,
+          victim
+        )
+    end
   end
 
   self.entity:update(dt)
@@ -1137,14 +1077,25 @@ function Unit:updateMeleeAttack(dt)
     )
 
     victim =
-      self.battle:findNearestEnemy(
-        self,
+      self:findPreferredEnemy(
         self.attackDistance
       )
 
     self.target = victim
 
     if victim then
+      if
+        victim.squad
+        and self.battle
+          .engagementSystem
+      then
+        self.battle.engagementSystem:
+          touchUnits(
+            self,
+            victim
+          )
+      end
+
       self:playSound('attack')
 
       local area =
@@ -1280,6 +1231,7 @@ function Unit:updateAttack(dt)
   end
 end
 
+
 -- Ожидает освобождения пути.
 function Unit:waitForPath(dt)
   self.blockedTime =
@@ -1318,6 +1270,25 @@ function Unit:waitForRangedAttack(
 end
 
 
+-- Проверяет будущую мировую позицию.
+function Unit:isMovementPositionValid(
+  worldX,
+  worldZ
+)
+  local grid =
+    self.battle.navigationGrid
+
+  if not grid then
+    return true
+  end
+
+  return grid:isWorldWalkable(
+    worldX,
+    worldZ
+  )
+end
+
+
 -- Двигает бойца.
 function Unit:moveInDirection(
   dt,
@@ -1337,18 +1308,37 @@ function Unit:moveInDirection(
     return false
   end
 
-  self.blockedTime = 0
-
   local movement =
     self.config.moveSpeed * dt
 
-  self.x =
+  local nextX =
     self.x +
     movementX * movement
 
-  self.z =
+  local nextZ =
     self.z +
     movementZ * movement
+
+  if
+    not self:isMovementPositionValid(
+      nextX,
+      nextZ
+    )
+  then
+    self:waitForPath(dt)
+    return false
+  end
+
+  self.blockedTime = 0
+
+  self.x = nextX
+  self.z = nextZ
+
+  self.y =
+    self.battle.field:getHeight(
+      self.x,
+      self.z
+    )
 
   self:faceDirection(
     movementX,
@@ -1369,8 +1359,7 @@ function Unit:moveInDirection(
 end
 
 
--- Двигается к противнику с учётом
--- боковой полосы своего отряда.
+-- Двигается к противнику.
 function Unit:updateCombatMovement(
   dt,
   target
@@ -1388,78 +1377,6 @@ function Unit:updateCombatMovement(
     return
   end
 
-  local targetX = target.x
-  local targetZ = target.z
-
-  local laneOffset =
-    self.squad.combatLaneOffset
-    or 0
-
-  if math.abs(laneOffset) > .001 then
-    local mergeDistance =
-      self.squad
-        .combatLaneMergeDistance
-      or 12
-
-    -- Вдали от врага смещение полное.
-    -- Возле дистанции атаки оно исчезает,
-    -- поэтому ближний бой не блокируется.
-    local remainingDistance =
-      math.max(
-        0,
-        distance -
-        self.attackDistance
-      )
-
-    local laneStrength =
-      math.min(
-        1,
-        remainingDistance /
-        math.max(
-          mergeDistance,
-          .001
-        )
-      )
-
-    local directionX =
-      dx / distance
-
-    local directionZ =
-      dz / distance
-
-    local perpendicularX =
-      -directionZ
-
-    local perpendicularZ =
-      directionX
-
-    targetX =
-      targetX +
-      perpendicularX *
-      laneOffset *
-      laneStrength
-
-    targetZ =
-      targetZ +
-      perpendicularZ *
-      laneOffset *
-      laneStrength
-
-    dx = targetX - self.x
-    dz = targetZ - self.z
-
-    distance =
-      math.sqrt(
-        dx * dx +
-        dz * dz
-      )
-  end
-
-  if distance <= .0001 then
-    self:waitForPath(dt)
-    return
-  end
-
   self:moveInDirection(
     dt,
     dx / distance,
@@ -1467,25 +1384,53 @@ function Unit:updateCombatMovement(
   )
 end
 
--- Двигается по маршруту.
-function Unit:updateRouteMovement(dt)
-  local directionX, directionZ =
-    self:getRouteDirection()
 
-  if not directionX then
-    self.state = 'idle'
-    self:setAnimation('idle')
-    self.entity:update(dt)
+-- Двигается по приказу отряда.
+function Unit:updateOrderMovement(dt)
+  if
+    self.squad.engaged
+    or not self.squad:
+      hasMovementOrder()
+  then
+    self:waitForPath(dt)
     return
   end
 
+  local targetX, targetZ =
+    self.squad:
+      getUnitMovementTarget(self)
+
+  if not targetX then
+    self:waitForPath(dt)
+    return
+  end
+
+  local dx = targetX - self.x
+  local dz = targetZ - self.z
+
+  local distance =
+    math.sqrt(
+      dx * dx + dz * dz
+    )
+
+  local radius =
+    self.battle.config
+      .navigation
+      .waypointRadius
+
+  if distance <= radius then
+    self:waitForPath(dt)
+    return
+  end
+
+  self.target = nil
+
   self:moveInDirection(
     dt,
-    directionX,
-    directionZ
+    dx / distance,
+    dz / distance
   )
 end
-
 
 -- Завершает отображение тела.
 function Unit:resolveCorpse()
@@ -1664,8 +1609,8 @@ end
 function Unit:startDeath(context)
   self.combatAlive = false
 
-  -- Мёртвый юнит больше никогда
-  -- не участвует в коллизиях.
+  -- Погибший больше не участвует
+  -- в столкновениях.
   self.radius = 0
 
   self.target = nil
@@ -1724,6 +1669,29 @@ function Unit:takeDamage(
     self.health -
     amount * multiplier
 
+  -- Получение melee-урона также
+  -- связывает весь отряд.
+  if
+    context
+    and context.source
+    and context.source.squad
+    and context.radiusAttack ~= true
+    and self.battle.engagementSystem
+  then
+    local source =
+      context.source
+
+    if source.hasMeleeAttack
+      and source:hasMeleeAttack()
+    then
+      self.battle.engagementSystem:
+        touchUnits(
+          source,
+          self
+        )
+    end
+  end
+
   if self.health <= 0 then
     self.health = 0
     self:startDeath(context)
@@ -1731,6 +1699,7 @@ function Unit:takeDamage(
     self:playSound('hit')
   end
 end
+
 
 -- Обновляет обычную смерть.
 function Unit:updateDeath(dt)
@@ -1834,7 +1803,6 @@ function Unit:updateCooldowns(dt)
     )
 end
 
-
 -- Выбирает боевое действие.
 function Unit:updateCombat(
   dt,
@@ -1847,10 +1815,12 @@ function Unit:updateCombat(
     distance <= self.attackDistance
     and self:hasMeleeAttack()
   then
-    if self:tryChargeHit(
-      enemy,
-      dt
-    ) then
+    if
+      self:tryChargeHit(
+        enemy,
+        dt
+      )
+    then
       return
     end
 
@@ -1944,8 +1914,6 @@ function Unit:update(dt)
   local guardHomeDistance = nil
 
   if guardPoint then
-    -- Расстояние до центра охраняемой
-    -- области используется для leash.
     local centerDx =
       self.x - guardPoint.x
 
@@ -1958,8 +1926,6 @@ function Unit:update(dt)
         centerDz * centerDz
       )
 
-    -- Расстояние до личного места
-    -- этого бойца в защитном строю.
     local homeX, homeZ =
       self:getGuardHomePosition(
         guardPoint
@@ -1981,8 +1947,6 @@ function Unit:update(dt)
       guardPoint.guardLeash
       or math.huge
 
-    -- Слишком далеко ушедший монстр
-    -- немедленно возвращается домой.
     if guardDistance > guardLeash then
       self:updateGuardMovement(
         dt,
@@ -1996,8 +1960,7 @@ function Unit:update(dt)
   end
 
   local enemy =
-    self.battle:findNearestEnemy(
-      self,
+    self:findPreferredEnemy(
       self.sightDistance
     )
 
@@ -2015,15 +1978,13 @@ function Unit:update(dt)
         or 1.5
       )
   then
-    -- После боя возвращается не в центр,
-    -- а на собственное место.
     self:updateGuardMovement(
       dt,
       guardPoint
     )
 
   else
-    self:updateRouteMovement(dt)
+    self:updateOrderMovement(dt)
   end
 
   self:updateVisualRotation(dt)
@@ -2049,5 +2010,6 @@ function Unit:draw(pass, camera)
     allowLod
   )
 end
+
 
 return Unit
