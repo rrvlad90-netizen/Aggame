@@ -240,9 +240,18 @@ function Battle.new(
   local enemyAIConfig =
     self.map.enemyAI
 
+	local tacticalMode =
+	  self.map.tactical == true
+
 	local aiEnabled =
-	  enemyAIConfig == nil
-	  or enemyAIConfig.enabled ~= false
+	  (
+		tacticalMode
+		or self.buildingSystem ~= nil
+	  )
+	  and (
+		enemyAIConfig == nil
+		or enemyAIConfig.enabled ~= false
+	  )
 
   if aiEnabled then
     if not enemyAIConfig then
@@ -291,6 +300,9 @@ function Battle.new(
       }
     end
 
+	enemyAIConfig.tactical =
+		  tacticalMode
+		  
     -- Новый AI заменяет старые волны,
     -- завязанные на маршрутные точки.
 	if self.buildingSystem then

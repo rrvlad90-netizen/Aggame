@@ -1,6 +1,7 @@
 return {
   id = 'ctest_field',
   name = 'Test Field',
+  tactical = true,
 
   description =
     'A wide battlefield with three routes for each army.',
