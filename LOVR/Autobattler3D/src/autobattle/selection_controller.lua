@@ -142,8 +142,7 @@ function SelectionController:
     self.game.camera
 
   local width, height =
-    lovr.system:
-      getWindowDimensions()
+	lovr.system.getWindowDimensions()
 
   width = math.max(width, 1)
   height = math.max(height, 1)
