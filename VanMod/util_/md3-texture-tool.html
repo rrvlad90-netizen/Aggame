@@ -1,0 +1,1608 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>MD3 Texture Tool</title>
+
+<style>
+	:root {
+		color-scheme: dark;
+		font-family: Arial, sans-serif;
+	}
+
+	body {
+		margin: 0;
+		padding: 20px;
+		background: #17191d;
+		color: #eee;
+	}
+
+	h1 {
+		margin-top: 0;
+		font-size: 24px;
+	}
+
+	.panel {
+		margin-bottom: 16px;
+		padding: 14px;
+		background: #23262c;
+		border: 1px solid #3a3e47;
+		border-radius: 8px;
+	}
+
+	button,
+	.file-button {
+		display: inline-block;
+		box-sizing: border-box;
+		padding: 8px 13px;
+		border: 1px solid #59606c;
+		border-radius: 5px;
+		background: #343944;
+		color: white;
+		cursor: pointer;
+		font-size: 14px;
+	}
+
+	button:hover,
+	.file-button:hover {
+		background: #414855;
+	}
+
+	button:disabled {
+		opacity: .45;
+		cursor: default;
+	}
+
+	input[type="file"] {
+		display: none;
+	}
+
+	input[type="text"] {
+		box-sizing: border-box;
+		width: 100%;
+		min-width: 180px;
+		padding: 7px;
+		border: 1px solid #505661;
+		border-radius: 4px;
+		background: #15171b;
+		color: #fff;
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	th,
+	td {
+		padding: 8px;
+		border-bottom: 1px solid #3b3f47;
+		text-align: left;
+		vertical-align: middle;
+	}
+
+	th {
+		color: #c9cdd5;
+	}
+
+	.surface-name {
+		font-family: monospace;
+		color: #7fc9ff;
+	}
+
+	.texture-file-name {
+		display: inline-block;
+		max-width: 180px;
+		margin-left: 7px;
+		color: #bbb;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		vertical-align: middle;
+	}
+
+	#preview {
+		display: block;
+		width: 100%;
+		height: 520px;
+		background: #0e1013;
+		border-radius: 6px;
+		cursor: grab;
+	}
+
+	#preview:active {
+		cursor: grabbing;
+	}
+
+	#status {
+		margin-top: 10px;
+		color: #b9bec8;
+		white-space: pre-wrap;
+	}
+
+	.error {
+		color: #ff8080 !important;
+	}
+
+	.warning {
+		color: #ffd27d !important;
+	}
+
+	.actions {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+	}
+
+	.note {
+		line-height: 1.45;
+		color: #c5c9d1;
+	}
+
+	@media (max-width: 800px) {
+		table,
+		thead,
+		tbody,
+		tr,
+		th,
+		td {
+			display: block;
+		}
+
+		thead {
+			display: none;
+		}
+
+		td {
+			border: 0;
+			padding: 5px;
+		}
+
+		tr {
+			margin-bottom: 12px;
+			padding: 8px;
+			border: 1px solid #3b3f47;
+			border-radius: 6px;
+		}
+	}
+</style>
+</head>
+
+<body>
+
+<h1>MD3 Texture Tool</h1>
+
+<div class="panel">
+	<label class="file-button">
+		Открыть MD3
+		<input id="modelFile" type="file" accept=".md3">
+	</label>
+
+	<span id="modelFileName">Модель не выбрана</span>
+
+	<div id="status">Ожидание MD3-файла.</div>
+</div>
+
+<div class="panel">
+	<canvas id="preview"></canvas>
+
+	<p class="note">
+		Левая кнопка мыши — вращение. Колесо — масштаб.
+		Предпросмотр показывает первый кадр каждой поверхности.
+	</p>
+</div>
+
+<div class="panel">
+	<table>
+		<thead>
+		<tr>
+			<th>Видна</th>
+			<th>№</th>
+			<th>Часть MD3</th>
+			<th>Имя текстуры в MD3</th>
+			<th>Текстура для предпросмотра</th>
+		</tr>
+		</thead>
+
+		<tbody id="surfaceList">
+		<tr>
+			<td colspan="5">Сначала откройте MD3.</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="panel actions">
+	<button id="applyButton" disabled>
+		Применить названия текстур
+	</button>
+
+	<button id="downloadButton" disabled>
+		Скачать изменённую MD3
+	</button>
+</div>
+
+<script>
+"use strict";
+
+const MAX_SURFACES = 20;
+const MD3_VERSION = 15;
+const MD3_XYZ_SCALE = 1 / 64;
+
+const modelFileInput = document.getElementById("modelFile");
+const modelFileName = document.getElementById("modelFileName");
+const surfaceList = document.getElementById("surfaceList");
+const statusElement = document.getElementById("status");
+const applyButton = document.getElementById("applyButton");
+const downloadButton = document.getElementById("downloadButton");
+const canvas = document.getElementById("preview");
+
+let sourceBuffer = null;
+let patchedBuffer = null;
+let sourceFileName = "model.md3";
+let model = null;
+
+let yaw = -0.7;
+let pitch = -0.3;
+let zoom = 0.82;
+
+let dragging = false;
+let lastMouseX = 0;
+let lastMouseY = 0;
+
+
+// ============================================================
+// СТРОКИ И ПРОВЕРКА ГРАНИЦ
+// ============================================================
+
+function ensureRange(buffer, offset, length, description) {
+	if (
+		offset < 0 ||
+		length < 0 ||
+		offset + length > buffer.byteLength
+	) {
+		throw new Error(
+			"Повреждён MD3: выход за границы в " + description
+		);
+	}
+}
+
+
+function readCString(view, offset, length) {
+	ensureRange(view.buffer, offset, length, "строке");
+
+	const bytes = new Uint8Array(
+		view.buffer,
+		offset,
+		length
+	);
+
+	let end = 0;
+
+	while (end < bytes.length && bytes[end] !== 0)
+		end++;
+
+	return new TextDecoder("utf-8")
+		.decode(bytes.subarray(0, end));
+}
+
+
+function writeCString(bytes, offset, length, value) {
+	ensureRange(bytes.buffer, offset, length, "имени текстуры");
+
+	bytes.fill(0, offset, offset + length);
+
+	const encoded = new TextEncoder().encode(value);
+	const count = Math.min(encoded.length, length - 1);
+
+	bytes.set(encoded.subarray(0, count), offset);
+}
+
+
+// ============================================================
+// ЧТЕНИЕ MD3
+// ============================================================
+
+function parseMD3(buffer) {
+	const view = new DataView(buffer);
+
+	ensureRange(buffer, 0, 108, "заголовке MD3");
+
+	const ident = readCString(view, 0, 4);
+	const version = view.getInt32(4, true);
+
+	if (ident !== "IDP3")
+		throw new Error("Это не MD3-файл: отсутствует IDP3.");
+
+	if (version !== MD3_VERSION) {
+		throw new Error(
+			"Неподдерживаемая версия MD3: " + version +
+			". Ожидалась версия 15."
+		);
+	}
+
+	const header = {
+		name: readCString(view, 8, 64),
+		numFrames: view.getInt32(76, true),
+		numTags: view.getInt32(80, true),
+		numSurfaces: view.getInt32(84, true),
+		numSkins: view.getInt32(88, true),
+		ofsFrames: view.getInt32(92, true),
+		ofsTags: view.getInt32(96, true),
+		ofsSurfaces: view.getInt32(100, true),
+		ofsEnd: view.getInt32(104, true)
+	};
+
+	if (header.numSurfaces < 0 || header.numSurfaces > 1000)
+		throw new Error("Некорректное количество поверхностей.");
+
+	const surfaces = [];
+	let surfaceOffset = header.ofsSurfaces;
+
+	const surfaceCount = Math.min(
+		header.numSurfaces,
+		MAX_SURFACES
+	);
+
+	for (let index = 0; index < surfaceCount; index++) {
+		ensureRange(
+			buffer,
+			surfaceOffset,
+			108,
+			"заголовке поверхности " + index
+		);
+
+		const surfaceIdent =
+			readCString(view, surfaceOffset, 4);
+
+		if (surfaceIdent !== "IDP3") {
+			throw new Error(
+				"Некорректная поверхность №" + index
+			);
+		}
+
+		const surface = {
+			index,
+			offset: surfaceOffset,
+			name: readCString(
+				view,
+				surfaceOffset + 4,
+				64
+			),
+			numFrames: view.getInt32(
+				surfaceOffset + 72,
+				true
+			),
+			numShaders: view.getInt32(
+				surfaceOffset + 76,
+				true
+			),
+			numVerts: view.getInt32(
+				surfaceOffset + 80,
+				true
+			),
+			numTriangles: view.getInt32(
+				surfaceOffset + 84,
+				true
+			),
+			ofsTriangles: view.getInt32(
+				surfaceOffset + 88,
+				true
+			),
+			ofsShaders: view.getInt32(
+				surfaceOffset + 92,
+				true
+			),
+			ofsST: view.getInt32(
+				surfaceOffset + 96,
+				true
+			),
+			ofsXYZNormal: view.getInt32(
+				surfaceOffset + 100,
+				true
+			),
+			ofsEnd: view.getInt32(
+				surfaceOffset + 104,
+				true
+			),
+			shaderName: "",
+			shaderNameOffset: null,
+			visible: true,
+			imageFile: null,
+			imageURL: null,
+			glTexture: null
+		};
+
+		if (
+			surface.numVerts < 0 ||
+			surface.numTriangles < 0 ||
+			surface.numFrames < 1 ||
+			surface.ofsEnd <= 0
+		) {
+			throw new Error(
+				"Некорректные данные поверхности " +
+				surface.name
+			);
+		}
+
+		if (surface.numShaders > 0) {
+			surface.shaderNameOffset =
+				surfaceOffset + surface.ofsShaders;
+
+			ensureRange(
+				buffer,
+				surface.shaderNameOffset,
+				68,
+				"шейдере поверхности " + surface.name
+			);
+
+			surface.shaderName = readCString(
+				view,
+				surface.shaderNameOffset,
+				64
+			);
+		}
+
+		readSurfaceGeometry(view, surface);
+
+		surfaces.push(surface);
+		surfaceOffset += surface.ofsEnd;
+	}
+
+	return {
+		header,
+		surfaces,
+		truncated:
+			header.numSurfaces > MAX_SURFACES
+	};
+}
+
+
+function readSurfaceGeometry(view, surface) {
+	const base = surface.offset;
+
+	const positions = new Float32Array(
+		surface.numVerts * 3
+	);
+
+	const normals = new Float32Array(
+		surface.numVerts * 3
+	);
+
+	const texcoords = new Float32Array(
+		surface.numVerts * 2
+	);
+
+	const indices = new Uint16Array(
+		surface.numTriangles * 3
+	);
+
+	const triangleStart =
+		base + surface.ofsTriangles;
+
+	ensureRange(
+		view.buffer,
+		triangleStart,
+		surface.numTriangles * 12,
+		"треугольниках " + surface.name
+	);
+
+	for (let i = 0; i < surface.numTriangles * 3; i++) {
+		const vertexIndex = view.getInt32(
+			triangleStart + i * 4,
+			true
+		);
+
+		if (vertexIndex < 0 || vertexIndex > 65535) {
+			throw new Error(
+				"Слишком большой индекс вершины в " +
+				surface.name
+			);
+		}
+
+		indices[i] = vertexIndex;
+	}
+
+	const stStart = base + surface.ofsST;
+
+	ensureRange(
+		view.buffer,
+		stStart,
+		surface.numVerts * 8,
+		"UV " + surface.name
+	);
+
+	for (let i = 0; i < surface.numVerts; i++) {
+		texcoords[i * 2] = view.getFloat32(
+			stStart + i * 8,
+			true
+		);
+
+		texcoords[i * 2 + 1] = view.getFloat32(
+			stStart + i * 8 + 4,
+			true
+		);
+	}
+
+	// Первый кадр.
+	const vertexStart =
+		base + surface.ofsXYZNormal;
+
+	ensureRange(
+		view.buffer,
+		vertexStart,
+		surface.numVerts * 8,
+		"вершинах " + surface.name
+	);
+
+	for (let i = 0; i < surface.numVerts; i++) {
+		const offset = vertexStart + i * 8;
+
+		positions[i * 3] =
+			view.getInt16(offset, true) *
+			MD3_XYZ_SCALE;
+
+		positions[i * 3 + 1] =
+			view.getInt16(offset + 2, true) *
+			MD3_XYZ_SCALE;
+
+		positions[i * 3 + 2] =
+			view.getInt16(offset + 4, true) *
+			MD3_XYZ_SCALE;
+
+		const lat =
+			view.getUint8(offset + 6) *
+			Math.PI * 2 / 255;
+
+		const lng =
+			view.getUint8(offset + 7) *
+			Math.PI * 2 / 255;
+
+		normals[i * 3] =
+			Math.cos(lat) * Math.sin(lng);
+
+		normals[i * 3 + 1] =
+			Math.sin(lat) * Math.sin(lng);
+
+		normals[i * 3 + 2] =
+			Math.cos(lng);
+	}
+
+	surface.positions = positions;
+	surface.normals = normals;
+	surface.texcoords = texcoords;
+	surface.indices = indices;
+}
+
+
+// ============================================================
+// ИНТЕРФЕЙС ПОВЕРХНОСТЕЙ
+// ============================================================
+
+function buildSurfaceList() {
+	surfaceList.innerHTML = "";
+
+	for (const surface of model.surfaces) {
+		const row = document.createElement("tr");
+
+		const visibleCell = document.createElement("td");
+		const visibleInput = document.createElement("input");
+
+		visibleInput.type = "checkbox";
+		visibleInput.checked = true;
+
+		visibleInput.addEventListener("change", () => {
+			surface.visible = visibleInput.checked;
+			render();
+		});
+
+		visibleCell.appendChild(visibleInput);
+
+
+		const indexCell = document.createElement("td");
+		indexCell.textContent = String(surface.index);
+
+
+		const nameCell = document.createElement("td");
+		nameCell.className = "surface-name";
+		nameCell.textContent =
+			surface.name || "(без имени)";
+
+
+		const shaderCell = document.createElement("td");
+		const shaderInput = document.createElement("input");
+
+		shaderInput.type = "text";
+		shaderInput.value = surface.shaderName;
+		shaderInput.placeholder =
+			"models/Van/texture.png";
+
+		shaderInput.dataset.surfaceIndex =
+			String(surface.index);
+
+		if (surface.numShaders < 1) {
+			shaderInput.disabled = true;
+			shaderInput.placeholder =
+				"В MD3 нет shader-записи";
+		}
+
+		surface.shaderInput = shaderInput;
+		shaderCell.appendChild(shaderInput);
+
+
+		const fileCell = document.createElement("td");
+		const label = document.createElement("label");
+		const fileInput = document.createElement("input");
+		const fileName = document.createElement("span");
+
+		label.className = "file-button";
+		label.textContent = "Добавить текстуру";
+
+		fileInput.type = "file";
+		fileInput.accept =
+			"image/png,image/jpeg,image/webp,image/bmp";
+
+		fileName.className = "texture-file-name";
+		fileName.textContent = "не выбрана";
+
+		fileInput.addEventListener("change", async () => {
+			const file = fileInput.files[0];
+
+			if (!file)
+				return;
+
+			if (surface.imageURL)
+				URL.revokeObjectURL(surface.imageURL);
+
+			surface.imageFile = file;
+			surface.imageURL = URL.createObjectURL(file);
+
+			fileName.textContent = file.name;
+
+			// Записываем имя файла в MD3 автоматически.
+			if (!shaderInput.disabled)
+				shaderInput.value = file.name;
+
+			await loadSurfaceTexture(surface);
+			render();
+		});
+
+		label.appendChild(fileInput);
+		fileCell.appendChild(label);
+		fileCell.appendChild(fileName);
+
+
+		row.appendChild(visibleCell);
+		row.appendChild(indexCell);
+		row.appendChild(nameCell);
+		row.appendChild(shaderCell);
+		row.appendChild(fileCell);
+
+		surfaceList.appendChild(row);
+	}
+}
+
+
+// ============================================================
+// ИЗМЕНЕНИЕ И СКАЧИВАНИЕ MD3
+// ============================================================
+
+function applyTextureNames() {
+	if (!sourceBuffer || !model)
+		return;
+
+	const result = sourceBuffer.slice(0);
+	const bytes = new Uint8Array(result);
+
+	let changed = 0;
+	const skipped = [];
+
+	for (const surface of model.surfaces) {
+		if (surface.shaderNameOffset === null) {
+			skipped.push(surface.name);
+			continue;
+		}
+
+		const value = surface.shaderInput.value.trim();
+
+		writeCString(
+			bytes,
+			surface.shaderNameOffset,
+			64,
+			value
+		);
+
+		surface.shaderName = value;
+		changed++;
+	}
+
+	patchedBuffer = result;
+	downloadButton.disabled = false;
+
+	let text =
+		"Изменено поверхностей: " + changed + ".";
+
+	if (skipped.length) {
+		text +=
+			"\nНе изменены поверхности без shader-записи: " +
+			skipped.join(", ");
+	}
+
+	setStatus(text, skipped.length ? "warning" : "");
+}
+
+
+function downloadPatchedMD3() {
+	if (!patchedBuffer)
+		return;
+
+	const dot = sourceFileName.lastIndexOf(".");
+
+	const baseName = dot >= 0
+		? sourceFileName.substring(0, dot)
+		: sourceFileName;
+
+	const blob = new Blob(
+		[patchedBuffer],
+		{ type: "application/octet-stream" }
+	);
+
+	const url = URL.createObjectURL(blob);
+	const link = document.createElement("a");
+
+	link.href = url;
+	link.download = baseName + "_textured.md3";
+
+	document.body.appendChild(link);
+	link.click();
+	link.remove();
+
+	setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+
+// ============================================================
+// WEBGL
+// ============================================================
+
+const gl =
+	canvas.getContext("webgl", {
+		alpha: false,
+		antialias: true
+	});
+
+let program = null;
+let whiteTexture = null;
+
+let attribPosition = -1;
+let attribNormal = -1;
+let attribTexcoord = -1;
+
+let uniformYaw = null;
+let uniformPitch = null;
+let uniformZoom = null;
+let uniformAspect = null;
+let uniformTexture = null;
+let uniformHasTexture = null;
+
+
+function createShader(type, source) {
+	const shader = gl.createShader(type);
+
+	gl.shaderSource(shader, source);
+	gl.compileShader(shader);
+
+	if (!gl.getShaderParameter(
+		shader,
+		gl.COMPILE_STATUS
+	)) {
+		throw new Error(
+			gl.getShaderInfoLog(shader)
+		);
+	}
+
+	return shader;
+}
+
+
+function initializeWebGL() {
+	if (!gl) {
+		setStatus(
+			"WebGL недоступен. Изменение MD3 всё равно возможно.",
+			"warning"
+		);
+		return;
+	}
+
+	const vertexSource = `
+		attribute vec3 aPosition;
+		attribute vec3 aNormal;
+		attribute vec2 aTexcoord;
+
+		uniform float uYaw;
+		uniform float uPitch;
+		uniform float uZoom;
+		uniform float uAspect;
+
+		varying vec3 vNormal;
+		varying vec2 vTexcoord;
+
+		mat3 rotateY(float a) {
+			float c = cos(a);
+			float s = sin(a);
+
+			return mat3(
+				 c, 0.0, -s,
+				 0.0, 1.0, 0.0,
+				 s, 0.0,  c
+			);
+		}
+
+		mat3 rotateX(float a) {
+			float c = cos(a);
+			float s = sin(a);
+
+			return mat3(
+				1.0, 0.0, 0.0,
+				0.0, c, s,
+				0.0, -s, c
+			);
+		}
+
+		void main() {
+			// MD3: X/Y — горизонталь, Z — высота.
+			vec3 p = vec3(
+				aPosition.x,
+				aPosition.z,
+				-aPosition.y
+			);
+
+			vec3 n = vec3(
+				aNormal.x,
+				aNormal.z,
+				-aNormal.y
+			);
+
+			mat3 rotation =
+				rotateX(uPitch) *
+				rotateY(uYaw);
+
+			p = rotation * p;
+			n = rotation * n;
+
+			gl_Position = vec4(
+				p.x * uZoom / uAspect,
+				p.y * uZoom,
+				p.z * uZoom * 0.45,
+				1.0
+			);
+
+			vNormal = normalize(n);
+			vTexcoord = aTexcoord;
+		}
+	`;
+
+	const fragmentSource = `
+		precision mediump float;
+
+		uniform sampler2D uTexture;
+		uniform float uHasTexture;
+
+		varying vec3 vNormal;
+		varying vec2 vTexcoord;
+
+		void main() {
+			vec4 base;
+
+			if (uHasTexture > 0.5)
+				base = texture2D(uTexture, vTexcoord);
+			else
+				base = vec4(0.62, 0.68, 0.76, 1.0);
+
+			if (base.a < 0.05)
+				discard;
+
+			vec3 lightDirection =
+				normalize(vec3(0.4, 0.8, 0.7));
+
+			float light =
+				0.30 +
+				max(dot(normalize(vNormal), lightDirection), 0.0)
+				* 0.70;
+
+			gl_FragColor = vec4(
+				base.rgb * light,
+				base.a
+			);
+		}
+	`;
+
+	const vertexShader = createShader(
+		gl.VERTEX_SHADER,
+		vertexSource
+	);
+
+	const fragmentShader = createShader(
+		gl.FRAGMENT_SHADER,
+		fragmentSource
+	);
+
+	program = gl.createProgram();
+
+	gl.attachShader(program, vertexShader);
+	gl.attachShader(program, fragmentShader);
+	gl.linkProgram(program);
+
+	if (!gl.getProgramParameter(
+		program,
+		gl.LINK_STATUS
+	)) {
+		throw new Error(
+			gl.getProgramInfoLog(program)
+		);
+	}
+
+	attribPosition =
+		gl.getAttribLocation(program, "aPosition");
+
+	attribNormal =
+		gl.getAttribLocation(program, "aNormal");
+
+	attribTexcoord =
+		gl.getAttribLocation(program, "aTexcoord");
+
+	uniformYaw =
+		gl.getUniformLocation(program, "uYaw");
+
+	uniformPitch =
+		gl.getUniformLocation(program, "uPitch");
+
+	uniformZoom =
+		gl.getUniformLocation(program, "uZoom");
+
+	uniformAspect =
+		gl.getUniformLocation(program, "uAspect");
+
+	uniformTexture =
+		gl.getUniformLocation(program, "uTexture");
+
+	uniformHasTexture =
+		gl.getUniformLocation(program, "uHasTexture");
+
+	whiteTexture = gl.createTexture();
+
+	gl.bindTexture(gl.TEXTURE_2D, whiteTexture);
+
+	gl.texImage2D(
+		gl.TEXTURE_2D,
+		0,
+		gl.RGBA,
+		1,
+		1,
+		0,
+		gl.RGBA,
+		gl.UNSIGNED_BYTE,
+		new Uint8Array([255, 255, 255, 255])
+	);
+
+	gl.enable(gl.DEPTH_TEST);
+	gl.disable(gl.CULL_FACE);
+
+	gl.clearColor(0.055, 0.063, 0.075, 1);
+}
+
+
+function createArrayBuffer(data) {
+	const buffer = gl.createBuffer();
+
+	gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+	gl.bufferData(
+		gl.ARRAY_BUFFER,
+		data,
+		gl.STATIC_DRAW
+	);
+
+	return buffer;
+}
+
+
+function createIndexBuffer(data) {
+	const buffer = gl.createBuffer();
+
+	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
+	gl.bufferData(
+		gl.ELEMENT_ARRAY_BUFFER,
+		data,
+		gl.STATIC_DRAW
+	);
+
+	return buffer;
+}
+
+
+function buildPreviewGeometry() {
+	if (!gl || !model)
+		return;
+
+	let minX = Infinity;
+	let minY = Infinity;
+	let minZ = Infinity;
+
+	let maxX = -Infinity;
+	let maxY = -Infinity;
+	let maxZ = -Infinity;
+
+	for (const surface of model.surfaces) {
+		const p = surface.positions;
+
+		for (let i = 0; i < p.length; i += 3) {
+			minX = Math.min(minX, p[i]);
+			minY = Math.min(minY, p[i + 1]);
+			minZ = Math.min(minZ, p[i + 2]);
+
+			maxX = Math.max(maxX, p[i]);
+			maxY = Math.max(maxY, p[i + 1]);
+			maxZ = Math.max(maxZ, p[i + 2]);
+		}
+	}
+
+	const centerX = (minX + maxX) * 0.5;
+	const centerY = (minY + maxY) * 0.5;
+	const centerZ = (minZ + maxZ) * 0.5;
+
+	const extent = Math.max(
+		maxX - minX,
+		maxY - minY,
+		maxZ - minZ,
+		0.0001
+	);
+
+	const normalizationScale = 2 / extent;
+
+	for (const surface of model.surfaces) {
+		const normalized = new Float32Array(
+			surface.positions.length
+		);
+
+		for (
+			let i = 0;
+			i < surface.positions.length;
+			i += 3
+		) {
+			normalized[i] =
+				(surface.positions[i] - centerX) *
+				normalizationScale;
+
+			normalized[i + 1] =
+				(surface.positions[i + 1] - centerY) *
+				normalizationScale;
+
+			normalized[i + 2] =
+				(surface.positions[i + 2] - centerZ) *
+				normalizationScale;
+		}
+
+		surface.positionBuffer =
+			createArrayBuffer(normalized);
+
+		surface.normalBuffer =
+			createArrayBuffer(surface.normals);
+
+		surface.texcoordBuffer =
+			createArrayBuffer(surface.texcoords);
+
+		surface.indexBuffer =
+			createIndexBuffer(surface.indices);
+	}
+}
+
+
+async function loadSurfaceTexture(surface) {
+	if (!gl || !surface.imageURL)
+		return;
+
+	const image = new Image();
+
+	await new Promise((resolve, reject) => {
+		image.onload = resolve;
+		image.onerror = reject;
+		image.src = surface.imageURL;
+	});
+
+	if (surface.glTexture)
+		gl.deleteTexture(surface.glTexture);
+
+	const texture = gl.createTexture();
+
+	gl.bindTexture(gl.TEXTURE_2D, texture);
+	gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+
+	gl.texImage2D(
+		gl.TEXTURE_2D,
+		0,
+		gl.RGBA,
+		gl.RGBA,
+		gl.UNSIGNED_BYTE,
+		image
+	);
+
+	gl.texParameteri(
+		gl.TEXTURE_2D,
+		gl.TEXTURE_MIN_FILTER,
+		gl.LINEAR
+	);
+
+	gl.texParameteri(
+		gl.TEXTURE_2D,
+		gl.TEXTURE_MAG_FILTER,
+		gl.LINEAR
+	);
+
+	gl.texParameteri(
+		gl.TEXTURE_2D,
+		gl.TEXTURE_WRAP_S,
+		gl.CLAMP_TO_EDGE
+	);
+
+	gl.texParameteri(
+		gl.TEXTURE_2D,
+		gl.TEXTURE_WRAP_T,
+		gl.CLAMP_TO_EDGE
+	);
+
+	surface.glTexture = texture;
+}
+
+
+function resizeCanvas() {
+	if (!gl)
+		return;
+
+	const ratio = window.devicePixelRatio || 1;
+
+	const width = Math.max(
+		1,
+		Math.floor(canvas.clientWidth * ratio)
+	);
+
+	const height = Math.max(
+		1,
+		Math.floor(canvas.clientHeight * ratio)
+	);
+
+	if (
+		canvas.width !== width ||
+		canvas.height !== height
+	) {
+		canvas.width = width;
+		canvas.height = height;
+	}
+}
+
+
+function bindAttribute(buffer, location, size) {
+	gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+
+	gl.enableVertexAttribArray(location);
+
+	gl.vertexAttribPointer(
+		location,
+		size,
+		gl.FLOAT,
+		false,
+		0,
+		0
+	);
+}
+
+
+function render() {
+	if (!gl)
+		return;
+
+	resizeCanvas();
+
+	gl.viewport(
+		0,
+		0,
+		canvas.width,
+		canvas.height
+	);
+
+	gl.clear(
+		gl.COLOR_BUFFER_BIT |
+		gl.DEPTH_BUFFER_BIT
+	);
+
+	if (!model || !program)
+		return;
+
+	gl.useProgram(program);
+
+	gl.uniform1f(uniformYaw, yaw);
+	gl.uniform1f(uniformPitch, pitch);
+	gl.uniform1f(uniformZoom, zoom);
+
+	gl.uniform1f(
+		uniformAspect,
+		canvas.width / canvas.height
+	);
+
+	gl.uniform1i(uniformTexture, 0);
+
+	for (const surface of model.surfaces) {
+		if (!surface.visible)
+			continue;
+
+		bindAttribute(
+			surface.positionBuffer,
+			attribPosition,
+			3
+		);
+
+		bindAttribute(
+			surface.normalBuffer,
+			attribNormal,
+			3
+		);
+
+		bindAttribute(
+			surface.texcoordBuffer,
+			attribTexcoord,
+			2
+		);
+
+		gl.activeTexture(gl.TEXTURE0);
+
+		gl.bindTexture(
+			gl.TEXTURE_2D,
+			surface.glTexture || whiteTexture
+		);
+
+		gl.uniform1f(
+			uniformHasTexture,
+			surface.glTexture ? 1 : 0
+		);
+
+		gl.bindBuffer(
+			gl.ELEMENT_ARRAY_BUFFER,
+			surface.indexBuffer
+		);
+
+		gl.drawElements(
+			gl.TRIANGLES,
+			surface.indices.length,
+			gl.UNSIGNED_SHORT,
+			0
+		);
+	}
+}
+
+
+// ============================================================
+// СОБЫТИЯ
+// ============================================================
+
+modelFileInput.addEventListener("change", async () => {
+	const file = modelFileInput.files[0];
+
+	if (!file)
+		return;
+
+	try {
+		setStatus("Чтение MD3...");
+
+		sourceFileName = file.name;
+		modelFileName.textContent = file.name;
+
+		sourceBuffer = await file.arrayBuffer();
+		patchedBuffer = null;
+
+		model = parseMD3(sourceBuffer);
+
+		buildSurfaceList();
+		buildPreviewGeometry();
+
+		applyButton.disabled = false;
+		downloadButton.disabled = true;
+
+		let message =
+			"MD3 загружена.\n" +
+			"Поверхностей: " +
+			model.header.numSurfaces +
+			". Кадров: " +
+			model.header.numFrames +
+			".";
+
+		if (model.truncated) {
+			message +=
+				"\nПоказаны только первые " +
+				MAX_SURFACES +
+				" поверхностей.";
+		}
+
+		setStatus(
+			message,
+			model.truncated ? "warning" : ""
+		);
+
+		render();
+	} catch (error) {
+		console.error(error);
+
+		sourceBuffer = null;
+		patchedBuffer = null;
+		model = null;
+
+		applyButton.disabled = true;
+		downloadButton.disabled = true;
+
+		surfaceList.innerHTML =
+			"<tr><td colspan='5'>Ошибка чтения MD3.</td></tr>";
+
+		setStatus(error.message, "error");
+	}
+});
+
+
+applyButton.addEventListener(
+	"click",
+	applyTextureNames
+);
+
+downloadButton.addEventListener(
+	"click",
+	downloadPatchedMD3
+);
+
+
+canvas.addEventListener("mousedown", event => {
+	dragging = true;
+	lastMouseX = event.clientX;
+	lastMouseY = event.clientY;
+});
+
+
+window.addEventListener("mouseup", () => {
+	dragging = false;
+});
+
+
+window.addEventListener("mousemove", event => {
+	if (!dragging)
+		return;
+
+	const dx = event.clientX - lastMouseX;
+	const dy = event.clientY - lastMouseY;
+
+	lastMouseX = event.clientX;
+	lastMouseY = event.clientY;
+
+	yaw += dx * 0.01;
+	pitch += dy * 0.01;
+
+	pitch = Math.max(
+		-1.5,
+		Math.min(1.5, pitch)
+	);
+
+	render();
+});
+
+
+canvas.addEventListener(
+	"wheel",
+	event => {
+		event.preventDefault();
+
+		zoom *= event.deltaY > 0 ? 0.9 : 1.1;
+		zoom = Math.max(0.1, Math.min(3, zoom));
+
+		render();
+	},
+	{ passive: false }
+);
+
+
+window.addEventListener("resize", render);
+
+
+function setStatus(text, className = "") {
+	statusElement.textContent = text;
+	statusElement.className = className;
+}
+
+
+try {
+	initializeWebGL();
+	render();
+} catch (error) {
+	console.error(error);
+
+	setStatus(
+		"Ошибка WebGL: " + error.message +
+		"\nРедактирование MD3 всё ещё доступно.",
+		"warning"
+	);
+}
+</script>
+
+<script>
+(() => {
+	"use strict";
+
+	const actionsPanel = document.querySelector(".actions");
+
+	if (!actionsPanel)
+		return;
+
+	const importLabel = document.createElement("label");
+	const importInput = document.createElement("input");
+
+	importLabel.className = "file-button";
+	importLabel.textContent = "Импорт текстур из MD3";
+
+	importInput.type = "file";
+	importInput.accept = ".md3";
+
+	importLabel.appendChild(importInput);
+	actionsPanel.insertBefore(
+		importLabel,
+		actionsPanel.firstChild
+	);
+
+
+	importInput.addEventListener("change", async () => {
+		const file = importInput.files[0];
+
+		if (!file)
+			return;
+
+		if (!model) {
+			setStatus(
+				"Сначала откройте основную MD3-модель.",
+				"warning"
+			);
+
+			importInput.value = "";
+			return;
+		}
+
+		try {
+			const importBuffer = await file.arrayBuffer();
+			const importModel = parseMD3(importBuffer);
+
+			const surfacesByName = new Map();
+
+			// Создаём список поверхностей исходной модели
+			// для каждого имени. Это поддерживает повторяющиеся
+			// названия поверхностей.
+			for (const surface of importModel.surfaces) {
+				const normalizedName =
+					(surface.name || "")
+					.trim()
+					.toLowerCase();
+
+				if (!surfacesByName.has(normalizedName))
+					surfacesByName.set(normalizedName, []);
+
+				surfacesByName
+					.get(normalizedName)
+					.push(surface);
+			}
+
+			const usedNamePositions = new Map();
+
+			let importedByName = 0;
+			let importedByIndex = 0;
+			let skipped = 0;
+
+			for (const targetSurface of model.surfaces) {
+				if (
+					!targetSurface.shaderInput ||
+					targetSurface.shaderInput.disabled
+				) {
+					skipped++;
+					continue;
+				}
+
+				const normalizedName =
+					(targetSurface.name || "")
+					.trim()
+					.toLowerCase();
+
+				let sourceSurface = null;
+
+				// Сначала ищем поверхность с таким же именем.
+				const sameNameSurfaces =
+					surfacesByName.get(normalizedName);
+
+				if (
+					normalizedName &&
+					sameNameSurfaces &&
+					sameNameSurfaces.length
+				) {
+					const usedPosition =
+						usedNamePositions.get(
+							normalizedName
+						) || 0;
+
+					if (
+						usedPosition <
+						sameNameSurfaces.length
+					) {
+						sourceSurface =
+							sameNameSurfaces[
+								usedPosition
+							];
+
+						usedNamePositions.set(
+							normalizedName,
+							usedPosition + 1
+						);
+
+						importedByName++;
+					}
+				}
+
+				// Если имя не совпало — используем номер.
+				if (
+					!sourceSurface &&
+					targetSurface.index <
+						importModel.surfaces.length
+				) {
+					sourceSurface =
+						importModel.surfaces[
+							targetSurface.index
+						];
+
+					importedByIndex++;
+				}
+
+				if (
+					!sourceSurface ||
+					!sourceSurface.shaderName
+				) {
+					skipped++;
+					continue;
+				}
+
+				targetSurface.shaderInput.value =
+					sourceSurface.shaderName;
+			}
+
+			// После импорта нужно снова нажать «Применить».
+			patchedBuffer = null;
+			downloadButton.disabled = true;
+
+			setStatus(
+				"Данные текстур импортированы из: " +
+				file.name +
+				"\nПо имени поверхности: " +
+				importedByName +
+				"\nПо номеру поверхности: " +
+				importedByIndex +
+				"\nПропущено: " +
+				skipped +
+				"\nНажмите «Применить названия текстур»."
+			);
+		} catch (error) {
+			console.error(error);
+
+			setStatus(
+				"Ошибка импорта MD3: " +
+					error.message,
+				"error"
+			);
+		} finally {
+			// Позволяет повторно выбрать тот же файл.
+			importInput.value = "";
+		}
+	});
+})();
+</script>
+
+</body>
+</html>

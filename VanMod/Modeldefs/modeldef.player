@@ -6,8 +6,7 @@ Model VanVisualLegs
 {
 	Path "models/Van"
 	Model 0 "legs_stay.md3"
-	SKIN 0 "plash_telo.jpeg"
-
+	
 	Scale 0.9 0.9 0.9
 
 	FrameIndex VLST A 0 0
