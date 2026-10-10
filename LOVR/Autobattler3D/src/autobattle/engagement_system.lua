@@ -3,6 +3,14 @@ EngagementSystem.__index =
   EngagementSystem
 
 
+local function isUnitAlive(unit)
+  return
+    unit
+    and unit.isTargetable
+    and unit:isTargetable()
+end
+
+
 local function isSquadAlive(squad)
   return
     squad
@@ -11,19 +19,19 @@ end
 
 
 local function getLinkKey(
-  firstSquad,
-  secondSquad
+  firstUnit,
+  secondUnit
 )
   local firstId =
     assert(
-      firstSquad.id,
-      'Squad has no ID'
+      firstUnit.id,
+      'Unit has no ID'
     )
 
   local secondId =
     assert(
-      secondSquad.id,
-      'Squad has no ID'
+      secondUnit.id,
+      'Unit has no ID'
     )
 
   if firstId < secondId then
@@ -40,85 +48,96 @@ local function getLinkKey(
 end
 
 
--- Создаёт систему связывания боем.
-function EngagementSystem.new(
-  battle,
-  config
-)
-  assert(
-    battle,
-    'Engagement system has no battle'
-  )
-
+function EngagementSystem.new(config)
   local self =
     setmetatable(
       {},
       EngagementSystem
     )
 
-  self.battle = battle
-  self.config = config or {}
+  config = config or {}
 
-  -- Связь снимается не мгновенно:
-  -- между ударами проходят анимации.
   self.releaseDelay =
-    self.config.releaseDelay
-    or 2.5
+    config.releaseDelay or 2.5
 
-  self.time = 0
   self.links = {}
+  self.time = 0
 
   return self
 end
 
 
--- Подготавливает состояние отряда.
 function EngagementSystem:
-  prepareSquad(squad)
-  squad.engagements =
-    squad.engagements or {}
+  prepareUnit(unit)
+  if not unit then
+    return
+  end
 
-  squad.engaged =
-    next(squad.engagements)
+  unit.engagements =
+    unit.engagements or {}
+
+  unit.engaged =
+    next(unit.engagements)
     ~= nil
 end
 
 
--- Обновляет общий флаг отряда.
+function EngagementSystem:
+  refreshUnitState(unit)
+  if not unit then
+    return
+  end
+
+  self:prepareUnit(unit)
+
+  unit.engaged =
+    next(unit.engagements)
+    ~= nil
+end
+
+
 function EngagementSystem:
   refreshSquadState(squad)
   if not squad then
     return
   end
 
-  self:prepareSquad(squad)
+  local engaged = false
 
-  squad.engaged =
-    next(squad.engagements)
-    ~= nil
+  for _, unit in ipairs(
+    squad.units or {}
+  ) do
+    self:refreshUnitState(unit)
+
+    if unit.engaged then
+      engaged = true
+      break
+    end
+  end
+
+  squad.engaged = engaged
 end
 
 
--- Проверяет возможность связывания.
 function EngagementSystem:
-  canEngage(
-    firstSquad,
-    secondSquad
+  canEngageUnits(
+    firstUnit,
+    secondUnit
   )
   if
-    not isSquadAlive(firstSquad)
-    or not isSquadAlive(secondSquad)
+    not isUnitAlive(firstUnit)
+    or not isUnitAlive(secondUnit)
   then
     return false
   end
 
-  if firstSquad == secondSquad then
+  if firstUnit == secondUnit then
     return false
   end
 
   if
-    firstSquad.team ==
-    secondSquad.team
+    firstUnit.team ==
+    secondUnit.team
   then
     return false
   end
@@ -127,28 +146,27 @@ function EngagementSystem:
 end
 
 
--- Создаёт либо обновляет связь.
 function EngagementSystem:
-  touchSquads(
-    firstSquad,
-    secondSquad
+  touchUnits(
+    firstUnit,
+    secondUnit
   )
   if
-    not self:canEngage(
-      firstSquad,
-      secondSquad
+    not self:canEngageUnits(
+      firstUnit,
+      secondUnit
     )
   then
     return false
   end
 
-  self:prepareSquad(firstSquad)
-  self:prepareSquad(secondSquad)
+  self:prepareUnit(firstUnit)
+  self:prepareUnit(secondUnit)
 
   local key =
     getLinkKey(
-      firstSquad,
-      secondSquad
+      firstUnit,
+      secondUnit
     )
 
   local link =
@@ -161,69 +179,117 @@ function EngagementSystem:
 
   link = {
     key = key,
-    first = firstSquad,
-    second = secondSquad,
+
+    first = firstUnit,
+    second = secondUnit,
+
     startedAt = self.time,
     lastContact = self.time
   }
 
   self.links[key] = link
 
-  firstSquad.engagements[
-    secondSquad
+  firstUnit.engagements[
+    secondUnit
   ] = true
 
-  secondSquad.engagements[
-    firstSquad
+  secondUnit.engagements[
+    firstUnit
   ] = true
+
+  self:refreshUnitState(firstUnit)
+  self:refreshUnitState(secondUnit)
 
   self:refreshSquadState(
-    firstSquad
+    firstUnit.squad
   )
 
   self:refreshSquadState(
-    secondSquad
+    secondUnit.squad
   )
 
-  if firstSquad.onEngagementStarted then
-    firstSquad:
-      onEngagementStarted(
-        secondSquad
-      )
+  if firstUnit.onEngagementStarted then
+    firstUnit:onEngagementStarted(
+      secondUnit
+    )
   end
 
-  if secondSquad.onEngagementStarted then
-    secondSquad:
-      onEngagementStarted(
-        firstSquad
-      )
+  if secondUnit.onEngagementStarted then
+    secondUnit:onEngagementStarted(
+      firstUnit
+    )
   end
 
   return true
 end
 
 
--- Регистрирует melee-контакт бойцов.
+-- Совместимость со старым API групп.
 function EngagementSystem:
-  touchUnits(
-    firstUnit,
-    secondUnit
+  touchSquads(
+    firstSquad,
+    secondSquad
   )
   if
-    not firstUnit
-    or not secondUnit
+    not isSquadAlive(firstSquad)
+    or not isSquadAlive(secondSquad)
+    or firstSquad.team ==
+      secondSquad.team
   then
     return false
   end
 
-  return self:touchSquads(
-    firstUnit.squad,
-    secondUnit.squad
+  local nearestFirst = nil
+  local nearestSecond = nil
+  local nearestDistance = nil
+
+  for _, firstUnit in ipairs(
+    firstSquad.units or {}
+  ) do
+    if isUnitAlive(firstUnit) then
+      for _, secondUnit in ipairs(
+        secondSquad.units or {}
+      ) do
+        if isUnitAlive(secondUnit) then
+          local dx =
+            secondUnit.x -
+            firstUnit.x
+
+          local dz =
+            secondUnit.z -
+            firstUnit.z
+
+          local distance =
+            dx * dx + dz * dz
+
+          if
+            not nearestDistance
+            or distance <
+              nearestDistance
+          then
+            nearestFirst = firstUnit
+            nearestSecond = secondUnit
+            nearestDistance = distance
+          end
+        end
+      end
+    end
+  end
+
+  if
+    not nearestFirst
+    or not nearestSecond
+  then
+    return false
+  end
+
+  return self:touchUnits(
+    nearestFirst,
+    nearestSecond
   )
 end
 
 
--- Удаляет конкретную связь.
 function EngagementSystem:
   removeLink(
     key,
@@ -249,8 +315,20 @@ function EngagementSystem:
     second.engagements[first] = nil
   end
 
-  self:refreshSquadState(first)
-  self:refreshSquadState(second)
+  self:refreshUnitState(first)
+  self:refreshUnitState(second)
+
+  if first then
+    self:refreshSquadState(
+      first.squad
+    )
+  end
+
+  if second then
+    self:refreshSquadState(
+      second.squad
+    )
+  end
 
   if
     first
@@ -276,20 +354,61 @@ function EngagementSystem:
 end
 
 
--- Удаляет все связи отряда.
 function EngagementSystem:
-  clearSquad(
-    squad,
+  clearUnit(
+    unit,
     reason
   )
+  if not unit then
+    return
+  end
+
   local keys = {}
 
   for key, link in pairs(
     self.links
   ) do
     if
-      link.first == squad
-      or link.second == squad
+      link.first == unit
+      or link.second == unit
+    then
+      keys[#keys + 1] = key
+    end
+  end
+
+  for _, key in ipairs(keys) do
+    self:removeLink(
+      key,
+      reason or 'unit_cleared'
+    )
+  end
+
+  unit.engagements = {}
+  unit.engaged = false
+
+  self:refreshSquadState(
+    unit.squad
+  )
+end
+
+
+function EngagementSystem:
+  clearSquad(
+    squad,
+    reason
+  )
+  if not squad then
+    return
+  end
+
+  local keys = {}
+
+  for key, link in pairs(
+    self.links
+  ) do
+    if
+      link.first.squad == squad
+      or link.second.squad == squad
     then
       keys[#keys + 1] = key
     end
@@ -302,43 +421,70 @@ function EngagementSystem:
     )
   end
 
-  if squad then
-    squad.engagements = {}
-    squad.engaged = false
+  for _, unit in ipairs(
+    squad.units or {}
+  ) do
+    unit.engagements = {}
+    unit.engaged = false
   end
+
+  squad.engaged = false
 end
 
 
--- Проверяет, связан ли отряд.
 function EngagementSystem:
-  isEngaged(squad)
-  if not squad then
+  isUnitEngaged(unit)
+  if not unit then
     return false
   end
 
-  self:refreshSquadState(squad)
+  self:refreshUnitState(unit)
 
-  return squad.engaged
+  return unit.engaged
 end
 
 
--- Проверяет возможность движения.
+-- Принимает и Unit, и логическую группу.
 function EngagementSystem:
-  canMove(squad)
+  isEngaged(subject)
+  if not subject then
+    return false
+  end
+
+  if subject.units then
+    self:refreshSquadState(subject)
+    return subject.engaged
+  end
+
+  return self:isUnitEngaged(subject)
+end
+
+
+function EngagementSystem:
+  canMove(subject)
+  if not subject then
+    return false
+  end
+
+  if subject.units then
+    return
+      isSquadAlive(subject)
+      and not self:isEngaged(subject)
+  end
+
   return
-    isSquadAlive(squad)
-    and not self:isEngaged(squad)
+    isUnitAlive(subject)
+    and not self:isEngaged(subject)
 end
 
 
--- Возвращает прямых противников.
 function EngagementSystem:
-  getOpponents(squad)
+  getUnitOpponents(unit)
   local result = {}
 
   if
-    not squad
-    or not squad.engagements
+    not unit
+    or not unit.engagements
   then
     return result
   end
@@ -346,9 +492,9 @@ function EngagementSystem:
   local stale = {}
 
   for opponent in pairs(
-    squad.engagements
+    unit.engagements
   ) do
-    if isSquadAlive(opponent) then
+    if isUnitAlive(opponent) then
       result[#result + 1] =
         opponent
     else
@@ -358,40 +504,156 @@ function EngagementSystem:
   end
 
   for _, opponent in ipairs(stale) do
-    squad.engagements[opponent] = nil
+    unit.engagements[opponent] = nil
   end
 
-  self:refreshSquadState(squad)
+  self:refreshUnitState(unit)
 
   return result
 end
 
 
--- Возвращает всю связанную группу боя.
 function EngagementSystem:
-  getBattleGroup(squad)
+  getUnitBattleGroup(unit)
   local result = {}
+  local queue = { unit }
+  local visited = {
+    [unit] = true
+  }
+
+  local index = 1
+
+  while index <= #queue do
+    local current = queue[index]
+    index = index + 1
+
+    result[#result + 1] =
+      current
+
+    for _, opponent in ipairs(
+      self:getUnitOpponents(current)
+    ) do
+      if not visited[opponent] then
+        visited[opponent] = true
+        queue[#queue + 1] =
+          opponent
+      end
+    end
+  end
+
+  return result
+end
+
+
+function EngagementSystem:
+  areUnitsInSameBattle(
+    firstUnit,
+    secondUnit
+  )
+  if
+    not firstUnit
+    or not secondUnit
+  then
+    return false
+  end
+
+  if firstUnit == secondUnit then
+    return true
+  end
+
+  for _, unit in ipairs(
+    self:getUnitBattleGroup(firstUnit)
+  ) do
+    if unit == secondUnit then
+      return true
+    end
+  end
+
+  return false
+end
+
+
+function EngagementSystem:
+  canTargetUnit(
+    attacker,
+    target
+  )
+  if
+    not self:canEngageUnits(
+      attacker,
+      target
+    )
+  then
+    return false
+  end
+
+  if not self:isUnitEngaged(attacker) then
+    return true
+  end
+
+  return self:areUnitsInSameBattle(
+    attacker,
+    target
+  )
+end
+
+
+-- Возвращает группы, непосредственно
+-- связанные с данной логической группой.
+function EngagementSystem:
+  getOpponents(squad)
+  local result = {}
+  local added = {}
 
   if not squad then
     return result
   end
 
-  local queue = {
-    squad
-  }
+  for _, link in pairs(
+    self.links
+  ) do
+    local opponent = nil
 
+    if link.first.squad == squad then
+      opponent = link.second.squad
+
+    elseif link.second.squad == squad then
+      opponent = link.first.squad
+    end
+
+    if
+      opponent
+      and opponent ~= squad
+      and not added[opponent]
+      and isSquadAlive(opponent)
+    then
+      added[opponent] = true
+      result[#result + 1] =
+        opponent
+    end
+  end
+
+  return result
+end
+
+
+function EngagementSystem:
+  getBattleGroup(squad)
+  if not squad then
+    return {}
+  end
+
+  local result = {}
+  local queue = { squad }
   local visited = {
     [squad] = true
   }
 
-  local queueIndex = 1
+  local index = 1
 
-  while queueIndex <= #queue do
-    local current =
-      queue[queueIndex]
-
-    queueIndex =
-      queueIndex + 1
+  while index <= #queue do
+    local current = queue[index]
+    index = index + 1
 
     result[#result + 1] =
       current
@@ -411,7 +673,6 @@ function EngagementSystem:
 end
 
 
--- Проверяет участие в одной схватке.
 function EngagementSystem:
   areInSameBattle(
     firstSquad,
@@ -440,7 +701,20 @@ function EngagementSystem:
 end
 
 
--- Проверяет допустимость новой цели.
+function EngagementSystem:
+  canEngage(
+    firstSquad,
+    secondSquad
+  )
+  return
+    isSquadAlive(firstSquad)
+    and isSquadAlive(secondSquad)
+    and firstSquad ~= secondSquad
+    and firstSquad.team ~=
+      secondSquad.team
+end
+
+
 function EngagementSystem:
   canTargetSquad(
     attackerSquad,
@@ -463,8 +737,6 @@ function EngagementSystem:
     return true
   end
 
-  -- Связанный отряд может менять цель
-  -- только внутри текущей схватки.
   return self:areInSameBattle(
     attackerSquad,
     targetSquad
@@ -472,7 +744,6 @@ function EngagementSystem:
 end
 
 
--- Удаляет устаревшие связи.
 function EngagementSystem:update(dt)
   self.time =
     self.time + dt
@@ -485,10 +756,10 @@ function EngagementSystem:update(dt)
     local reason = nil
 
     if
-      not isSquadAlive(link.first)
-      or not isSquadAlive(link.second)
+      not isUnitAlive(link.first)
+      or not isUnitAlive(link.second)
     then
-      reason = 'squad_defeated'
+      reason = 'unit_defeated'
 
     elseif
       self.time -
