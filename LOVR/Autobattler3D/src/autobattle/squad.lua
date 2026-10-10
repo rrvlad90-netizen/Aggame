@@ -777,11 +777,25 @@ function Squad:isDisengaging()
     self.disengageUntil
 end
 
--- Вызывается при начале melee-связи.
+-- Вызывается при начале melee
 function Squad:onEngagementStarted(
   opponent
 )
   self.engaged = true
+
+  if
+    self:isDisengaging()
+    and self.currentOrder
+  then
+    if self.currentOrder:isMove() then
+      self.state = Squad.State.MOVING
+    else
+      self.state = Squad.State.ATTACKING
+    end
+
+    return
+  end
+
   self.state = Squad.State.ENGAGED
 
   if
@@ -820,11 +834,26 @@ function Squad:onEngagementStarted(
 end
 
 
--- Вызывается при окончании melee-связи.
+-- Вызывается при окончании melee
 function Squad:onEngagementEnded()
   self.engaged =
     self.battle.engagementSystem:
       isEngaged(self)
+
+  if
+    self:isDisengaging()
+    and self.currentOrder
+    and not self.currentOrder:
+      isFinished()
+  then
+    if self.currentOrder:isMove() then
+      self.state = Squad.State.MOVING
+    else
+      self.state = Squad.State.ATTACKING
+    end
+
+    return
+  end
 
   if self.engaged then
     self.state = Squad.State.ENGAGED
@@ -912,7 +941,10 @@ end
 function Squad:hasMovementOrder()
   return
     self.currentOrder ~= nil
-    and not self.engaged
+    and (
+      not self.engaged
+      or self:isDisengaging()
+    )
     and self.currentOrder:
       getPathPoint() ~= nil
 end
@@ -924,7 +956,10 @@ function Squad:updatePathProgress()
 
   if
     not order
-    or self.engaged
+    or (
+      self.engaged
+      and not self:isDisengaging()
+    )
   then
     return
   end
@@ -983,7 +1018,10 @@ function Squad:updateRepath(dt)
 
   if
     not order
-    or self.engaged
+    or (
+      self.engaged
+      and not self:isDisengaging()
+    )
     or order:isFinished()
   then
     return

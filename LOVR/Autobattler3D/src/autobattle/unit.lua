@@ -633,6 +633,10 @@ end
 function Unit:findPreferredEnemy(
   radius
 )
+  if self.squad:isDisengaging() then
+    return nil
+  end
+
   local enemy =
     self:findNearestEnemyUnit(
       radius
@@ -1391,8 +1395,7 @@ end
 -- Двигается по приказу отряда.
 function Unit:updateOrderMovement(dt)
   if
-    self.squad.engaged
-    or not self.squad:
+    not self.squad:
       hasMovementOrder()
   then
     self:waitForPath(dt)
