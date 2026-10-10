@@ -1,178 +1,426 @@
-Model VanVisualBody
+// ============================================================
+// НОГИ: СТОЙКА
+// ============================================================
+
+Model VanVisualLegs
 {
-   Path "models/Van" 
-   Model 0 "a1.md3"
-   Skin 0 "4.jpeg" 
-   Model 1 "a2.md3"
-   Skin 1 "FACE.jpg" 
-   Model 2 "a3.md3"
-   Skin 2 "5.jpeg" 
-   Model 3 "a4.md3"
-   Skin 3 "1.jpeg" 
+	Path "models/Van"
+	Model 0 "legs_stay.md3"
+	SKIN 0 "plash_telo.jpeg"
 
-   Scale 0.9 0.9 0.9
+	Scale 0.9 0.9 0.9
 
-   FrameIndex VANR A 0 0 FrameIndex VANR A 1 0 FrameIndex VANR A 2 0 FrameIndex VANR A 3 0
-   FrameIndex VANR B 0 1 FrameIndex VANR B 1 1 FrameIndex VANR B 2 1 FrameIndex VANR B 3 1
-   FrameIndex VANR C 0 2 FrameIndex VANR C 1 2 FrameIndex VANR C 2 2 FrameIndex VANR C 3 2
-   FrameIndex VANR D 0 3 FrameIndex VANR D 1 3 FrameIndex VANR D 2 3 FrameIndex VANR D 3 3
-   FrameIndex VANR E 0 4 FrameIndex VANR E 1 4 FrameIndex VANR E 2 4 FrameIndex VANR E 3 4
-   FrameIndex VANR F 0 5 FrameIndex VANR F 1 5 FrameIndex VANR F 2 5 FrameIndex VANR F 3 5
-   FrameIndex VANR G 0 6 FrameIndex VANR G 1 6 FrameIndex VANR G 2 6 FrameIndex VANR G 3 6
-   FrameIndex VANR H 0 7 FrameIndex VANR H 1 7 FrameIndex VANR H 2 7 FrameIndex VANR H 3 7
-   FrameIndex VANR I 0 8 FrameIndex VANR I 1 8 FrameIndex VANR I 2 8 FrameIndex VANR I 3 8
-   FrameIndex VANR J 0 9 FrameIndex VANR J 1 9 FrameIndex VANR J 2 9 FrameIndex VANR J 3 9
-   FrameIndex VANR K 0 10 FrameIndex VANR K 1 10 FrameIndex VANR K 2 10 FrameIndex VANR K 3 10
-   FrameIndex VANR L 0 11 FrameIndex VANR L 1 11 FrameIndex VANR L 2 11 FrameIndex VANR L 3 11
-   FrameIndex VANR M 0 12 FrameIndex VANR M 1 12 FrameIndex VANR M 2 12 FrameIndex VANR M 3 12 
-   FrameIndex VANR N 0 13 FrameIndex VANR N 1 13 FrameIndex VANR N 2 13 FrameIndex VANR N 3 13
-   FrameIndex VANR O 0 14 FrameIndex VANR O 1 14 FrameIndex VANR O 2 14 FrameIndex VANR O 3 14 
-   FrameIndex VANR P 0 15 FrameIndex VANR P 1 15 FrameIndex VANR P 2 15 FrameIndex VANR P 3 15 
-   FrameIndex VANR Q 0 16 FrameIndex VANR Q 1 16 FrameIndex VANR Q 2 16 FrameIndex VANR Q 3 16
-   FrameIndex VANR R 0 17 FrameIndex VANR R 1 17 FrameIndex VANR R 2 17 FrameIndex VANR R 3 17   
+	FrameIndex VLST A 0 0
+
+	// Во время обычной атаки ноги неподвижны.
+	FrameIndex VAT1 A 0 0
+	FrameIndex VAT1 B 0 0
+	FrameIndex VAT1 C 0 0
+	FrameIndex VAT1 D 0 0
+	FrameIndex VAT1 E 0 0
 }
 
 
-Model VanVisualBody
+// ============================================================
+// НОГИ: БЕГ ВПЕРЁД
+// ============================================================
+
+Model VanVisualLegs
 {
-   Path "models/Van" 
-   Model 0 "att1.md3"
-   Skin 0 "4.jpeg" 
-   Model 1 "att2.md3"
-   Skin 1 "FACE.jpg" 
-   Model 2 "att3.md3"
-   Skin 2 "5.jpeg" 
-   Model 3 "att4.md3"
-   Skin 3 "1.jpeg" 
+	Path "models/Van"
+	Model 0 "legs_run_forward.md3"
 
-   Scale 0.9 0.9 0.9
+	Scale 0.9 0.9 0.9
 
-   FrameIndex VAT1 A 0 0 FrameIndex VAT1 A 1 0 FrameIndex VAT1 A 2 0 FrameIndex VAT1 A 3 0
-   FrameIndex VAT1 B 0 1 FrameIndex VAT1 B 1 1 FrameIndex VAT1 B 2 1 FrameIndex VAT1 B 3 1
-   FrameIndex VAT1 C 0 2 FrameIndex VAT1 C 1 2 FrameIndex VAT1 C 2 2 FrameIndex VAT1 C 3 2
-   FrameIndex VAT1 D 0 3 FrameIndex VAT1 D 1 3 FrameIndex VAT1 D 2 3 FrameIndex VAT1 D 3 3  
-   FrameIndex VAT1 E 0 4 FrameIndex VAT1 E 1 4 FrameIndex VAT1 E 2 4 FrameIndex VAT1 E 3 4
+	FrameIndex VLFW A 0 0
+	FrameIndex VLFW B 0 1
+	FrameIndex VLFW C 0 2
+	FrameIndex VLFW D 0 3
+	FrameIndex VLFW E 0 4
+	FrameIndex VLFW F 0 5
+	FrameIndex VLFW G 0 6
+	FrameIndex VLFW H 0 7
+	FrameIndex VLFW I 0 8
+	FrameIndex VLFW J 0 9
+	FrameIndex VLFW K 0 10
+	FrameIndex VLFW L 0 11
+	FrameIndex VLFW M 0 12
+	FrameIndex VLFW N 0 13
+	FrameIndex VLFW O 0 14
+	FrameIndex VLFW P 0 15
+	FrameIndex VLFW Q 0 16
+	FrameIndex VLFW R 0 17
 }
 
 
+// ============================================================
+// НОГИ: БЕГ НАЗАД
+// ============================================================
 
-Model VanVisualBody
+Model VanVisualLegs
 {
-   Path "models/Van" 
-   Model 0 "kick1.md3"
-   Skin 0 "4.jpeg" 
-   Model 1 "kick2.md3"
-   Skin 1 "FACE.jpg" 
-   Model 2 "kick3.md3"
-   Skin 2 "5.jpeg" 
-   Model 3 "kick4.md3"
-   Skin 3 "1.jpeg" 
+	Path "models/Van"
+	Model 0 "legs_run_back.md3"
 
-   Scale 0.9 0.9 0.9
+	Scale 0.9 0.9 0.9
 
-   FrameIndex VANK A 0 0 FrameIndex VANK A 1 0 FrameIndex VANK A 2 0 FrameIndex VANK A 3 0
-   FrameIndex VANK B 0 1 FrameIndex VANK B 1 1 FrameIndex VANK B 2 1 FrameIndex VANK B 3 1
-   FrameIndex VANK C 0 2 FrameIndex VANK C 1 2 FrameIndex VANK C 2 2 FrameIndex VANK C 3 2
-   FrameIndex VANK D 0 3 FrameIndex VANK D 1 3 FrameIndex VANK D 2 3 FrameIndex VANK D 3 3
-   FrameIndex VANK E 0 4 FrameIndex VANK E 1 4 FrameIndex VANK E 2 4 FrameIndex VANK E 3 4
-   FrameIndex VANK F 0 5 FrameIndex VANK F 1 5 FrameIndex VANK F 2 5 FrameIndex VANK F 3 5
-   FrameIndex VANK G 0 6 FrameIndex VANK G 1 6 FrameIndex VANK G 2 6 FrameIndex VANK G 3 6
-   FrameIndex VANK H 0 7 FrameIndex VANK H 1 7 FrameIndex VANK H 2 7 FrameIndex VANK H 3 7
-   FrameIndex VANK I 0 8 FrameIndex VANK I 1 8 FrameIndex VANK I 2 8 FrameIndex VANK I 3 8
-   FrameIndex VANK J 0 9 FrameIndex VANK J 1 9 FrameIndex VANK J 2 9 FrameIndex VANK J 3 9
-   FrameIndex VANK K 0 10 FrameIndex VANK K 1 10 FrameIndex VANK K 2 10 FrameIndex VANK K 3 10
-   FrameIndex VANK L 0 11 FrameIndex VANK L 1 11 FrameIndex VANK L 2 11 FrameIndex VANK L 3 11   
-   FrameIndex VANK M 0 12 FrameIndex VANK M 1 12 FrameIndex VANK M 2 12 FrameIndex VANK M 3 12 
-   FrameIndex VANK N 0 13 FrameIndex VANK N 1 13 FrameIndex VANK N 2 13 FrameIndex VANK N 3 13
-   FrameIndex VANK O 0 14 FrameIndex VANK O 1 14 FrameIndex VANK O 2 14 FrameIndex VANK O 3 14
-   FrameIndex VANK P 0 15 FrameIndex VANK P 1 15 FrameIndex VANK P 2 15 FrameIndex VANK P 3 15
-   FrameIndex VANK Q 0 16 FrameIndex VANK Q 1 16 FrameIndex VANK Q 2 16 FrameIndex VANK Q 3 16  
-   FrameIndex VANK R 0 17 FrameIndex VANK R 1 17 FrameIndex VANK R 2 17 FrameIndex VANK R 3 17    
-   
-   FrameIndex VKAN A 0 18 FrameIndex VKAN A 1 18 FrameIndex VKAN A 2 18 FrameIndex VKAN A 3 18
-   FrameIndex VKAN B 0 19 FrameIndex VKAN B 1 19 FrameIndex VKAN B 2 19 FrameIndex VKAN B 3 19
-   FrameIndex VKAN C 0 20 FrameIndex VKAN C 1 20 FrameIndex VKAN C 2 20 FrameIndex VKAN C 3 20
-   FrameIndex VKAN D 0 21 FrameIndex VKAN D 1 21 FrameIndex VKAN D 2 21 FrameIndex VKAN D 3 21
-   FrameIndex VKAN E 0 22 FrameIndex VKAN E 1 22 FrameIndex VKAN E 2 22 FrameIndex VKAN E 3 22
-   FrameIndex VKAN F 0 23 FrameIndex VKAN F 1 23 FrameIndex VKAN F 2 23 FrameIndex VKAN F 3 23
-   FrameIndex VKAN G 0 24 FrameIndex VKAN G 1 24 FrameIndex VKAN G 2 24 FrameIndex VKAN G 3 24
-   FrameIndex VKAN H 0 25 FrameIndex VKAN H 1 25 FrameIndex VKAN H 2 25 FrameIndex VKAN H 3 25
-   FrameIndex VKAN I 0 26 FrameIndex VKAN I 1 26 FrameIndex VKAN I 2 26 FrameIndex VKAN I 3 26
-   FrameIndex VKAN J 0 27 FrameIndex VKAN J 1 27 FrameIndex VKAN J 2 27 FrameIndex VKAN J 3 27
+	FrameIndex VLBK A 0 0
+	FrameIndex VLBK B 0 1
+	FrameIndex VLBK C 0 2
+	FrameIndex VLBK D 0 3
+	FrameIndex VLBK E 0 4
+	FrameIndex VLBK F 0 5
+	FrameIndex VLBK G 0 6
+	FrameIndex VLBK H 0 7
+	FrameIndex VLBK I 0 8
+	FrameIndex VLBK J 0 9
+	FrameIndex VLBK K 0 10
+	FrameIndex VLBK L 0 11
+	FrameIndex VLBK M 0 12
+	FrameIndex VLBK N 0 13
+	FrameIndex VLBK O 0 14
+	FrameIndex VLBK P 0 15
+	FrameIndex VLBK Q 0 16
+	FrameIndex VLBK R 0 17
 }
 
 
-Model VanVisualBody
+// ============================================================
+// НОГИ: БЕГ ВЛЕВО
+// ============================================================
+
+Model VanVisualLegs
 {
-   Path "models/Van" 
-   Model 0 "die1.md3"
-   Skin 0 "4.jpeg" 
-   Model 1 "die2.md3"
-   Skin 1 "FACE.jpg" 
-   Model 2 "die3.md3"
-   Skin 2 "5.jpeg" 
-   Model 3 "die4.md3"
-   Skin 3 "1.jpeg" 
+	Path "models/Van"
+	Model 0 "legs_run_left.md3"
 
+	Scale 0.9 0.9 0.9
 
-   Scale 0.9 0.9 0.9
-   ZOffset -6
-
-   FrameIndex VNDD A 0 0 FrameIndex VNDD A 1 0 FrameIndex VNDD A 2 0 FrameIndex VNDD A 3 0
-   FrameIndex VNDD B 0 1 FrameIndex VNDD B 1 1 FrameIndex VNDD B 2 1 FrameIndex VNDD B 3 1
-   FrameIndex VNDD C 0 2 FrameIndex VNDD C 1 2 FrameIndex VNDD C 2 2 FrameIndex VNDD C 3 2
-   FrameIndex VNDD D 0 3 FrameIndex VNDD D 1 3 FrameIndex VNDD D 2 3 FrameIndex VNDD D 3 3
-   FrameIndex VNDD E 0 4 FrameIndex VNDD E 1 4 FrameIndex VNDD E 2 4 FrameIndex VNDD E 3 4
-   FrameIndex VNDD F 0 5 FrameIndex VNDD F 1 5 FrameIndex VNDD F 2 5 FrameIndex VNDD F 3 5
-   FrameIndex VNDD G 0 6 FrameIndex VNDD G 1 6 FrameIndex VNDD G 2 6 FrameIndex VNDD G 3 6
-   FrameIndex VNDD H 0 7 FrameIndex VNDD H 1 7 FrameIndex VNDD H 2 7 FrameIndex VNDD H 3 7
-   FrameIndex VNDD I 0 8 FrameIndex VNDD I 1 8 FrameIndex VNDD I 2 8 FrameIndex VNDD I 3 8
-   FrameIndex VNDD J 0 9 FrameIndex VNDD J 1 9 FrameIndex VNDD J 2 9 FrameIndex VNDD J 3 9
-   FrameIndex VNDD K 0 10 FrameIndex VNDD K 1 10 FrameIndex VNDD K 2 10 FrameIndex VNDD K 3 10
+	FrameIndex VLLF A 0 0
+	FrameIndex VLLF B 0 1
+	FrameIndex VLLF C 0 2
+	FrameIndex VLLF D 0 3
+	FrameIndex VLLF E 0 4
+	FrameIndex VLLF F 0 5
+	FrameIndex VLLF G 0 6
+	FrameIndex VLLF H 0 7
+	FrameIndex VLLF I 0 8
+	FrameIndex VLLF J 0 9
+	FrameIndex VLLF K 0 10
+	FrameIndex VLLF L 0 11
+	FrameIndex VLLF M 0 12
+	FrameIndex VLLF N 0 13
+	FrameIndex VLLF O 0 14
+	FrameIndex VLLF P 0 15
+	FrameIndex VLLF Q 0 16
+	FrameIndex VLLF R 0 17
 }
 
 
+// ============================================================
+// НОГИ: БЕГ ВПРАВО
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_run_right.md3"
+
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VLRT A 0 0
+	FrameIndex VLRT B 0 1
+	FrameIndex VLRT C 0 2
+	FrameIndex VLRT D 0 3
+	FrameIndex VLRT E 0 4
+	FrameIndex VLRT F 0 5
+	FrameIndex VLRT G 0 6
+	FrameIndex VLRT H 0 7
+	FrameIndex VLRT I 0 8
+	FrameIndex VLRT J 0 9
+	FrameIndex VLRT K 0 10
+	FrameIndex VLRT L 0 11
+	FrameIndex VLRT M 0 12
+	FrameIndex VLRT N 0 13
+	FrameIndex VLRT O 0 14
+	FrameIndex VLRT P 0 15
+	FrameIndex VLRT Q 0 16
+	FrameIndex VLRT R 0 17
+}
+
+
+// ============================================================
+// ТЕЛО: СТОЙКА И АТАКА
+// ============================================================
+
 Model VanVisualBody
 {
-   Path "models/Van" 
-   Model 0 "jump1.md3"
-   Skin 0 "4.jpeg" 
-   Model 1 "jump2.md3"
-   Skin 1 "FACE.jpg" 
-   Model 2 "jump3.md3"
-   Skin 2 "5.jpeg" 
-   Model 3 "jump4.md3"
-   Skin 3 "1.jpeg" 
+	Path "models/Van"
+	Model 0 "body_attack.md3"
 
-   Scale 0.9 0.9 0.9
+	Scale 0.9 0.9 0.9
 
-   FrameIndex VJNK A 0 0 FrameIndex VJNK A 1 0 FrameIndex VJNK A 2 0 FrameIndex VJNK A 3 0
-   FrameIndex VJNK B 0 1 FrameIndex VJNK B 1 1 FrameIndex VJNK B 2 1 FrameIndex VJNK B 3 1
-   FrameIndex VJNK C 0 2 FrameIndex VJNK C 1 2 FrameIndex VJNK C 2 2 FrameIndex VJNK C 3 2
-   FrameIndex VJNK D 0 3 FrameIndex VJNK D 1 3 FrameIndex VJNK D 2 3 FrameIndex VJNK D 3 3
-   FrameIndex VJNK E 0 4 FrameIndex VJNK E 1 4 FrameIndex VJNK E 2 4 FrameIndex VJNK E 3 4
-   FrameIndex VJNK F 0 5 FrameIndex VJNK F 1 5 FrameIndex VJNK F 2 5 FrameIndex VJNK F 3 5
-   FrameIndex VJNK G 0 6 FrameIndex VJNK G 1 6 FrameIndex VJNK G 2 6 FrameIndex VJNK G 3 6
-   FrameIndex VJNK H 0 7 FrameIndex VJNK H 1 7 FrameIndex VJNK H 2 7 FrameIndex VJNK H 3 7
-   FrameIndex VJNK I 0 8 FrameIndex VJNK I 1 8 FrameIndex VJNK I 2 8 FrameIndex VJNK I 3 8 //----fly
-   FrameIndex VJNK J 0 9 FrameIndex VJNK J 1 9 FrameIndex VJNK J 2 9 FrameIndex VJNK J 3 9
-   FrameIndex VJNK K 0 10 FrameIndex VJNK K 1 10 FrameIndex VJNK K 2 10 FrameIndex VJNK K 3 10
-   FrameIndex VJNK L 0 11 FrameIndex VJNK L 1 11 FrameIndex VJNK L 2 11 FrameIndex VJNK L 3 11
-   FrameIndex VJNK M 0 12 FrameIndex VJNK M 1 12 FrameIndex VJNK M 2 12 FrameIndex VJNK M 3 12
-   FrameIndex VJNK N 0 13 FrameIndex VJNK N 1 13 FrameIndex VJNK N 2 13 FrameIndex VJNK N 3 13
-   FrameIndex VJNK O 0 14 FrameIndex VJNK O 1 14 FrameIndex VJNK O 2 14 FrameIndex VJNK O 3 14
-   FrameIndex VJNK P 0 15 FrameIndex VJNK P 1 15 FrameIndex VJNK P 2 15 FrameIndex VJNK P 3 15  
-   FrameIndex VJNK Q 0 16 FrameIndex VJNK Q 1 16 FrameIndex VJNK Q 2 16 FrameIndex VJNK Q 3 16
-   FrameIndex VJNK R 0 17 FrameIndex VJNK R 1 17 FrameIndex VJNK R 2 17 FrameIndex VJNK R 3 17//fly  
-   
-   FrameIndex VAJK A 0 18 FrameIndex VAJK A 1 18 FrameIndex VAJK A 2 18 FrameIndex VAJK A 3 18
-   FrameIndex VAJK B 0 19 FrameIndex VAJK B 1 19 FrameIndex VAJK B 2 19 FrameIndex VAJK B 3 19
-   FrameIndex VAJK C 0 20 FrameIndex VAJK C 1 20 FrameIndex VAJK C 2 20 FrameIndex VAJK C 3 20
-   FrameIndex VAJK D 0 21 FrameIndex VAJK D 1 21 FrameIndex VAJK D 2 21 FrameIndex VAJK D 3 21
-   FrameIndex VAJK E 0 22 FrameIndex VAJK E 1 22 FrameIndex VAJK E 2 22 FrameIndex VAJK E 3 22
-   FrameIndex VAJK F 0 23 FrameIndex VAJK F 1 23 FrameIndex VAJK F 2 23 FrameIndex VAJK F 3 23
-   FrameIndex VAJK G 0 24 FrameIndex VAJK G 1 24 FrameIndex VAJK G 2 24 FrameIndex VAJK G 3 24
-   FrameIndex VAJK H 0 25 FrameIndex VAJK H 1 25 FrameIndex VAJK H 2 25 FrameIndex VAJK H 3 25
-   FrameIndex VAJK I 0 26 FrameIndex VAJK I 1 26 FrameIndex VAJK I 2 26 FrameIndex VAJK I 3 26
-   FrameIndex VAJK J 0 27 FrameIndex VAJK J 1 27 FrameIndex VAJK J 2 27 FrameIndex VAJK J 3 27
+	// Кадр стойки.
+	FrameIndex VBST A 0 0
+
+	// Обычная атака.
+	FrameIndex VAT1 A 0 0
+	FrameIndex VAT1 B 0 1
+	FrameIndex VAT1 C 0 2
+	FrameIndex VAT1 D 0 3
+	FrameIndex VAT1 E 0 4
+}
+
+
+// ============================================================
+// ТЕЛО: БЕГ
+// ============================================================
+
+Model VanVisualBody
+{
+	Path "models/Van"
+	Model 0 "body_run.md3"
+
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VBRN A 0 0
+	FrameIndex VBRN B 0 1
+	FrameIndex VBRN C 0 2
+	FrameIndex VBRN D 0 3
+	FrameIndex VBRN E 0 4
+	FrameIndex VBRN F 0 5
+	FrameIndex VBRN G 0 6
+	FrameIndex VBRN H 0 7
+	FrameIndex VBRN I 0 8
+	FrameIndex VBRN J 0 9
+	FrameIndex VBRN K 0 10
+	FrameIndex VBRN L 0 11
+	FrameIndex VBRN M 0 12
+	FrameIndex VBRN N 0 13
+	FrameIndex VBRN O 0 14
+	FrameIndex VBRN P 0 15
+	FrameIndex VBRN Q 0 16
+	FrameIndex VBRN R 0 17
+}
+
+
+// ============================================================
+// НОГИ: УДАР
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_kick.md3"
+
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VANK A 0 0
+	FrameIndex VANK B 0 1
+	FrameIndex VANK C 0 2
+	FrameIndex VANK D 0 3
+	FrameIndex VANK E 0 4
+	FrameIndex VANK F 0 5
+	FrameIndex VANK G 0 6
+	FrameIndex VANK H 0 7
+	FrameIndex VANK I 0 8
+	FrameIndex VANK J 0 9
+	FrameIndex VANK K 0 10
+	FrameIndex VANK L 0 11
+	FrameIndex VANK M 0 12
+	FrameIndex VANK N 0 13
+	FrameIndex VANK O 0 14
+	FrameIndex VANK P 0 15
+	FrameIndex VANK Q 0 16
+	FrameIndex VANK R 0 17
+
+	FrameIndex VKAN A 0 18
+	FrameIndex VKAN B 0 19
+	FrameIndex VKAN C 0 20
+	FrameIndex VKAN D 0 21
+	FrameIndex VKAN E 0 22
+	FrameIndex VKAN F 0 23
+	FrameIndex VKAN G 0 24
+	FrameIndex VKAN H 0 25
+	FrameIndex VKAN I 0 26
+	FrameIndex VKAN J 0 27
+}
+
+
+// ============================================================
+// ТЕЛО: УДАР
+// ============================================================
+
+Model VanVisualBody
+{
+	Path "models/Van"
+	Model 0 "body_kick.md3"
+
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VANK A 0 0
+	FrameIndex VANK B 0 1
+	FrameIndex VANK C 0 2
+	FrameIndex VANK D 0 3
+	FrameIndex VANK E 0 4
+	FrameIndex VANK F 0 5
+	FrameIndex VANK G 0 6
+	FrameIndex VANK H 0 7
+	FrameIndex VANK I 0 8
+	FrameIndex VANK J 0 9
+	FrameIndex VANK K 0 10
+	FrameIndex VANK L 0 11
+	FrameIndex VANK M 0 12
+	FrameIndex VANK N 0 13
+	FrameIndex VANK O 0 14
+	FrameIndex VANK P 0 15
+	FrameIndex VANK Q 0 16
+	FrameIndex VANK R 0 17
+
+	FrameIndex VKAN A 0 18
+	FrameIndex VKAN B 0 19
+	FrameIndex VKAN C 0 20
+	FrameIndex VKAN D 0 21
+	FrameIndex VKAN E 0 22
+	FrameIndex VKAN F 0 23
+	FrameIndex VKAN G 0 24
+	FrameIndex VKAN H 0 25
+	FrameIndex VKAN I 0 26
+	FrameIndex VKAN J 0 27
+}
+
+
+// ============================================================
+// НОГИ: ПРЫЖОК
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_jump.md3"
+
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VJNK A 0 0
+	FrameIndex VJNK B 0 1
+	FrameIndex VJNK C 0 2
+	FrameIndex VJNK D 0 3
+	FrameIndex VJNK E 0 4
+	FrameIndex VJNK F 0 5
+	FrameIndex VJNK G 0 6
+	FrameIndex VJNK H 0 7
+	FrameIndex VJNK I 0 8
+	FrameIndex VJNK J 0 9
+	FrameIndex VJNK K 0 10
+	FrameIndex VJNK L 0 11
+	FrameIndex VJNK M 0 12
+	FrameIndex VJNK N 0 13
+	FrameIndex VJNK O 0 14
+	FrameIndex VJNK P 0 15
+	FrameIndex VJNK Q 0 16
+	FrameIndex VJNK R 0 17
+
+	FrameIndex VAJK A 0 18
+	FrameIndex VAJK B 0 19
+	FrameIndex VAJK C 0 20
+	FrameIndex VAJK D 0 21
+	FrameIndex VAJK E 0 22
+	FrameIndex VAJK F 0 23
+	FrameIndex VAJK G 0 24
+	FrameIndex VAJK H 0 25
+	FrameIndex VAJK I 0 26
+	FrameIndex VAJK J 0 27
+}
+
+
+// ============================================================
+// ТЕЛО: ПРЫЖОК
+// ============================================================
+
+Model VanVisualBody
+{
+	Path "models/Van"
+	Model 0 "body_jump.md3"
+
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VJNK A 0 0
+	FrameIndex VJNK B 0 1
+	FrameIndex VJNK C 0 2
+	FrameIndex VJNK D 0 3
+	FrameIndex VJNK E 0 4
+	FrameIndex VJNK F 0 5
+	FrameIndex VJNK G 0 6
+	FrameIndex VJNK H 0 7
+	FrameIndex VJNK I 0 8
+	FrameIndex VJNK J 0 9
+	FrameIndex VJNK K 0 10
+	FrameIndex VJNK L 0 11
+	FrameIndex VJNK M 0 12
+	FrameIndex VJNK N 0 13
+	FrameIndex VJNK O 0 14
+	FrameIndex VJNK P 0 15
+	FrameIndex VJNK Q 0 16
+	FrameIndex VJNK R 0 17
+
+	FrameIndex VAJK A 0 18
+	FrameIndex VAJK B 0 19
+	FrameIndex VAJK C 0 20
+	FrameIndex VAJK D 0 21
+	FrameIndex VAJK E 0 22
+	FrameIndex VAJK F 0 23
+	FrameIndex VAJK G 0 24
+	FrameIndex VAJK H 0 25
+	FrameIndex VAJK I 0 26
+	FrameIndex VAJK J 0 27
+}
+
+
+// ============================================================
+// НОГИ: СМЕРТЬ
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_die.md3"
+
+	Scale 0.9 0.9 0.9
+	ZOffset -6
+
+	FrameIndex VNDD A 0 0
+	FrameIndex VNDD B 0 1
+	FrameIndex VNDD C 0 2
+	FrameIndex VNDD D 0 3
+	FrameIndex VNDD E 0 4
+	FrameIndex VNDD F 0 5
+	FrameIndex VNDD G 0 6
+	FrameIndex VNDD H 0 7
+	FrameIndex VNDD I 0 8
+	FrameIndex VNDD J 0 9
+}
+
+
+// ============================================================
+// ТЕЛО: СМЕРТЬ
+// ============================================================
+
+Model VanVisualBody
+{
+	Path "models/Van"
+	Model 0 "body_die.md3"
+
+	Scale 0.9 0.9 0.9
+	ZOffset -6
+
+	FrameIndex VNDD A 0 0
+	FrameIndex VNDD B 0 1
+	FrameIndex VNDD C 0 2
+	FrameIndex VNDD D 0 3
+	FrameIndex VNDD E 0 4
+	FrameIndex VNDD F 0 5
+	FrameIndex VNDD G 0 6
+	FrameIndex VNDD H 0 7
+	FrameIndex VNDD I 0 8
+	FrameIndex VNDD J 0 9
 }
