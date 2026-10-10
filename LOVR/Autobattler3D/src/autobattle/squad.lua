@@ -783,34 +783,25 @@ function Squad:onEngagementStarted(
 )
   self.engaged = true
 
-  if
-    self:isDisengaging()
-    and self.currentOrder
-  then
-    if self.currentOrder:isMove() then
-      self.state = Squad.State.MOVING
-    else
-      self.state = Squad.State.ATTACKING
-    end
-
-    return
-  end
-
-  self.state = Squad.State.ENGAGED
-
+  -- Обычный Move имеет приоритет
+  -- над автоматическим вступлением в бой.
   if
     self.currentOrder
     and self.currentOrder:isMove()
   then
-    self.currentOrder:interrupt(
-      'melee_engagement'
-    )
-
-    self.interruptedOrder =
-      self.currentOrder
-
-    self.currentOrder = nil
+    self.state = Squad.State.MOVING
+    return
   end
+
+  if
+    self:isDisengaging()
+    and self.currentOrder
+  then
+    self.state = Squad.State.ATTACKING
+    return
+  end
+
+  self.state = Squad.State.ENGAGED
 
   if
     not self.currentOrder
@@ -841,17 +832,22 @@ function Squad:onEngagementEnded()
       isEngaged(self)
 
   if
+    self.currentOrder
+    and self.currentOrder:isMove()
+    and not self.currentOrder:
+      isFinished()
+  then
+    self.state = Squad.State.MOVING
+    return
+  end
+
+  if
     self:isDisengaging()
     and self.currentOrder
     and not self.currentOrder:
       isFinished()
   then
-    if self.currentOrder:isMove() then
-      self.state = Squad.State.MOVING
-    else
-      self.state = Squad.State.ATTACKING
-    end
-
+    self.state = Squad.State.ATTACKING
     return
   end
 
@@ -939,14 +935,21 @@ end
 
 -- Проверяет наличие движения.
 function Squad:hasMovementOrder()
+  if
+    not self.currentOrder
+    or not self.currentOrder:
+      getPathPoint()
+  then
+    return false
+  end
+
+  if self.currentOrder:isMove() then
+    return true
+  end
+
   return
-    self.currentOrder ~= nil
-    and (
-      not self.engaged
-      or self:isDisengaging()
-    )
-    and self.currentOrder:
-      getPathPoint() ~= nil
+    not self.engaged
+    or self:isDisengaging()
 end
 
 
@@ -958,6 +961,7 @@ function Squad:updatePathProgress()
     not order
     or (
       self.engaged
+      and not order:isMove()
       and not self:isDisengaging()
     )
   then
@@ -1020,6 +1024,7 @@ function Squad:updateRepath(dt)
     not order
     or (
       self.engaged
+      and not order:isMove()
       and not self:isDisengaging()
     )
     or order:isFinished()

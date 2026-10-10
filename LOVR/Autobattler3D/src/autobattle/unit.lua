@@ -633,7 +633,16 @@ end
 function Unit:findPreferredEnemy(
   radius
 )
-  if self.squad:isDisengaging() then
+  local order =
+    self.squad.currentOrder
+
+  if
+    self.squad:isDisengaging()
+    or (
+      order
+      and order:isMove()
+    )
+  then
     return nil
   end
 
