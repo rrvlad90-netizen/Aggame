@@ -3,7 +3,11 @@ local Entity =
 
 local SoundPlayer =
   require('src.audio.sound_player')
-
+  
+local UnitOrderController =
+  require(
+    'src.autobattle.unit_order_controller'
+  )
 
 local Unit = {}
 Unit.__index = Unit
@@ -180,6 +184,9 @@ function Unit.new(settings)
     self.config.turnSpeed
     or math.rad(270)
 
+self.orderController =
+    UnitOrderController.new(self)
+
   SoundPlayer.preload(
     self.entity.definition.sounds
   )
@@ -236,6 +243,83 @@ function Unit:isTargetable()
     and not self.removed
 end
 
+
+-- Возвращает личный приказ бойца.
+function Unit:getCurrentOrder()
+  return
+    self.orderController:
+      getOrder()
+end
+
+
+-- Проверяет наличие личного движения.
+function Unit:hasMovementOrder()
+  return
+    self.orderController:
+      hasMovementOrder()
+end
+
+
+-- Отдаёт бойцу приказ движения.
+function Unit:issueMove(
+  x,
+  z,
+  source
+)
+  self.target = nil
+  self.attackKind = nil
+  self.attackPhase = nil
+  self.attackDefinition = nil
+
+  if self.state == 'attacking' then
+    self.state = 'idle'
+    self:setAnimation('idle')
+  end
+
+  return
+    self.orderController:
+      issueMove(
+        x,
+        z,
+        source
+      )
+end
+
+
+-- Отдаёт бойцу приказ атаки группы.
+function Unit:issueAttackSquad(
+  target,
+  source
+)
+  return
+    self.orderController:
+      issueAttackSquad(
+        target,
+        source
+      )
+end
+
+
+-- Отдаёт бойцу приказ атаки здания.
+function Unit:issueAttackBuilding(
+  building,
+  source
+)
+  return
+    self.orderController:
+      issueAttackBuilding(
+        building,
+        source
+      )
+end
+
+
+-- Отменяет личный приказ бойца.
+function Unit:cancelOrder(reason)
+  return
+    self.orderController:
+      cancel(reason)
+end
 
 -- Возвращает охраняемую точку монстра.
 function Unit:getGuardPoint()
@@ -633,48 +717,37 @@ end
 function Unit:findPreferredEnemy(
   radius
 )
-  local order =
+  local personalOrder =
+    self:getCurrentOrder()
+
+  local groupOrder =
     self.squad.currentOrder
 
+  local order =
+    personalOrder
+    or groupOrder
+
   if
-    self.squad:isDisengaging()
+    (
+      personalOrder
+      and personalOrder:isMove()
+    )
     or (
-      order
-      and order:isMove()
+      not personalOrder
+      and groupOrder
+      and groupOrder:isMove()
+    )
+    or (
+      not personalOrder
+      and self.squad:
+        isDisengaging()
     )
   then
     return nil
   end
 
-  local enemy =
-    self:findNearestEnemyUnit(
-      radius
-    )
-
-  if enemy then
-    local order =
-      self.squad.currentOrder
-
-    if
-      enemy.squad
-      and not self.squad.engaged
-      and (
-        not order
-        or order:isMove()
-      )
-    then
-      self.squad:
-        beginAutomaticAttack(
-          enemy.squad
-        )
-    end
-
-    return enemy
-  end
-
-  local order =
-    self.squad.currentOrder
-
+  -- Явный приказ атаки важнее
+  -- автоматического поиска врага.
   if
     order
     and order:isAttack()
@@ -693,6 +766,7 @@ function Unit:findPreferredEnemy(
       then
         return building
       end
+
     elseif
       order.type ==
         'attack_squad'
@@ -703,9 +777,7 @@ function Unit:findPreferredEnemy(
       for _, candidate in ipairs(
         order.target.units
       ) do
-        if
-          candidate:isTargetable()
-        then
+        if candidate:isTargetable() then
           local distance =
             self:getDistanceTo(
               candidate
@@ -722,6 +794,27 @@ function Unit:findPreferredEnemy(
         return nearest
       end
     end
+  end
+
+  local enemy =
+    self:findNearestEnemyUnit(
+      radius
+    )
+
+  if enemy then
+    if
+      not personalOrder
+      and enemy.squad
+      and not self.squad.engaged
+      and not groupOrder
+    then
+      self.squad:
+        beginAutomaticAttack(
+          enemy.squad
+        )
+    end
+
+    return enemy
   end
 
   if
@@ -758,6 +851,7 @@ function Unit:checkMapExit()
   self.combatAlive = false
   self.removed = true
   self.target = nil
+  self:cancelOrder('left_map')
 
   self.squad:onUnitRemoved(
     self,
@@ -1403,17 +1497,27 @@ end
 
 -- Двигается по приказу отряда.
 function Unit:updateOrderMovement(dt)
-  if
-    not self.squad:
+  local targetX = nil
+  local targetZ = nil
+
+  if self:hasMovementOrder() then
+    local waypoint =
+      self.orderController:
+        getWaypoint()
+
+    if waypoint then
+      targetX = waypoint.x
+      targetZ = waypoint.z
+    end
+
+  elseif
+    self.squad:
       hasMovementOrder()
   then
-    self:waitForPath(dt)
-    return
+    targetX, targetZ =
+      self.squad:
+        getUnitMovementTarget(self)
   end
-
-  local targetX, targetZ =
-    self.squad:
-      getUnitMovementTarget(self)
 
   if not targetX then
     self:waitForPath(dt)
@@ -1429,8 +1533,7 @@ function Unit:updateOrderMovement(dt)
     )
 
   local radius =
-    self.battle.config
-      .navigation
+    self.battle.config.navigation
       .waypointRadius
 
   if distance <= radius then
@@ -1623,6 +1726,7 @@ end
 -- Запускает смерть бойца.
 function Unit:startDeath(context)
   self.combatAlive = false
+  self:cancelOrder('unit_killed')
 
   -- Погибший больше не участвует
   -- в столкновениях.
@@ -1912,6 +2016,8 @@ function Unit:update(dt)
     self:updateCorpse(dt)
     return
   end
+  
+  self.orderController:update(dt)
 
   self:updateCooldowns(dt)
 

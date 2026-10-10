@@ -333,6 +333,101 @@ function Squad:rebuildFormation()
   end
 end
 
+-- Возвращает индивидуальную точку
+-- построения возле общего назначения.
+function Squad:getUnitOrderDestination(
+  unit,
+  targetX,
+  targetZ
+)
+  local centerX, centerZ =
+    self:getCenter()
+
+  local directionX =
+    targetX - centerX
+
+  local directionZ =
+    targetZ - centerZ
+
+  local length =
+    math.sqrt(
+      directionX * directionX +
+      directionZ * directionZ
+    )
+
+  if length <= .001 then
+    directionX = 0
+    directionZ = self.direction
+  else
+    directionX =
+      directionX / length
+
+    directionZ =
+      directionZ / length
+  end
+
+  local rightX = -directionZ
+  local rightZ = directionX
+
+  local offset =
+    self.formationOffsets[unit]
+    or {
+      side = 0,
+      depth = 0
+    }
+
+  local destinationX =
+    targetX +
+    rightX * offset.side -
+    directionX * offset.depth
+
+  local destinationZ =
+    targetZ +
+    rightZ * offset.side -
+    directionZ * offset.depth
+
+  local grid =
+    self.battle.navigationGrid
+
+  if
+    not grid
+    or grid:isWorldWalkable(
+      destinationX,
+      destinationZ
+    )
+  then
+    return
+      destinationX,
+      destinationZ
+  end
+
+  local column, row =
+    grid:worldToCell(
+      destinationX,
+      destinationZ
+    )
+
+  if not column then
+    return targetX, targetZ
+  end
+
+  column, row =
+    grid:findNearestWalkable(
+      column,
+      row,
+      5
+    )
+
+  if not column then
+    return targetX, targetZ
+  end
+
+  return
+    grid:cellToWorld(
+      column,
+      row
+    )
+end
 
 -- Возвращает цель приказа.
 function Squad:getOrderTargetPosition(
@@ -497,15 +592,77 @@ function Squad:setOrder(order)
 
   if order:isMove() then
     self.state = Squad.State.MOVING
+    self:rebuildFormation()
   else
     self.state = Squad.State.ATTACKING
   end
 
-  if not self:rebuildOrderPath() then
+  local accepted = 0
+  local failureReason = nil
+
+  for _, unit in ipairs(
+    self:getLivingUnits()
+  ) do
+    local success
+    local reason
+
+    if order:isMove() then
+      local destinationX, destinationZ =
+        self:getUnitOrderDestination(
+          unit,
+          order.x,
+          order.z
+        )
+
+      success, reason =
+        unit:issueMove(
+          destinationX,
+          destinationZ,
+          order.source
+        )
+
+    elseif
+      order.type ==
+        Order.Type.ATTACK_SQUAD
+    then
+      success, reason =
+        unit:issueAttackSquad(
+          order.target,
+          order.source
+        )
+
+    elseif
+      order.type ==
+        Order.Type.ATTACK_BUILDING
+    then
+      success, reason =
+        unit:issueAttackBuilding(
+          order.target,
+          order.source
+        )
+    end
+
+    if success then
+      accepted = accepted + 1
+    elseif not failureReason then
+      failureReason = reason
+    end
+  end
+
+  if accepted == 0 then
+    order:fail(
+      failureReason or
+        'no_available_units',
+      self.battle.time
+    )
+
     self.currentOrder = nil
     self.state = Squad.State.IDLE
 
-    return false, 'unreachable'
+    return
+      false,
+      failureReason or
+        'no_available_units'
   end
 
   return true
@@ -628,19 +785,16 @@ function Squad:beginAutomaticAttack(
     return false
   end
 
+  -- Автоматическая атака не перебивает
+  -- явный приказ движения.
   if
     self.currentOrder
     and self.currentOrder:isMove()
   then
-    self.currentOrder:interrupt(
-      'enemy_detected'
-    )
-
-    self.interruptedOrder =
-      self.currentOrder
+    return false
   end
 
-  local order =
+  return self:setOrder(
     Order.attackSquad(
       target,
       {
@@ -648,19 +802,7 @@ function Squad:beginAutomaticAttack(
         createdAt = self.battle.time
       }
     )
-
-  self.currentOrder = order
-
-  order:activate(
-    self.battle.time
   )
-
-  self.state =
-    self.engaged
-    and Squad.State.ENGAGED
-    or Squad.State.ATTACKING
-
-  return self:rebuildOrderPath()
 end
 
 
@@ -1281,8 +1423,50 @@ function Squad:isDefeated()
   return self.activeCount <= 0
 end
 
+-- Синхронизирует логическую группу
+-- с личными приказами бойцов.
+function Squad:updateIndividualOrders()
+  local groupOrder =
+    self.currentOrder
 
--- Обновляет отряд.
+  if not groupOrder then
+    return
+  end
+
+  local activeOrders = 0
+
+  for _, unit in ipairs(
+    self:getLivingUnits()
+  ) do
+    local unitOrder =
+      unit:getCurrentOrder()
+
+    if
+      unitOrder
+      and not unitOrder:isFinished()
+    then
+      activeOrders =
+        activeOrders + 1
+    end
+  end
+
+  if activeOrders > 0 then
+    return
+  end
+
+  if not groupOrder:isFinished() then
+    groupOrder:complete(
+      self.battle.time
+    )
+  end
+
+  self.currentOrder = nil
+
+  if not self.engaged then
+    self.state = Squad.State.IDLE
+  end
+end
+
 function Squad:update(dt)
   if self:isDefeated() then
     return
@@ -1297,11 +1481,8 @@ function Squad:update(dt)
     self:finishAttackOrder()
   end
 
-  self:updatePathProgress()
-  self:updateRepath(dt)
-  self:updateStuck(dt)
+  self:updateIndividualOrders()
   self:updateCharge(dt)
 end
-
 
 return Squad
