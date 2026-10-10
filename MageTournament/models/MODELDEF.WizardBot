@@ -1,0 +1,103 @@
+Model WizardBot
+{
+   Path "models\MD3\Wizard"
+   Model 0 "Disciple.md2"
+   Skin 0 "Disciple2.png"
+
+   Scale 2.5 2.5 2.5 
+   ZOffset 28
+
+FrameIndex POSS A 0 0  FrameIndex POSS A 1 0  FrameIndex POSS A 2 0
+FrameIndex POSS B 0 1  FrameIndex POSS B 1 1  FrameIndex POSS B 2 1
+FrameIndex POSS C 0 2  FrameIndex POSS C 1 2  FrameIndex POSS C 2 2
+FrameIndex POSS D 0 3  FrameIndex POSS D 1 3  FrameIndex POSS D 2 3
+FrameIndex POSS E 0 4  FrameIndex POSS E 1 4  FrameIndex POSS E 2 4
+FrameIndex POSS F 0 5  FrameIndex POSS F 1 5  FrameIndex POSS F 2 5
+FrameIndex POSS G 0 6  FrameIndex POSS G 1 6  FrameIndex POSS G 2 6
+FrameIndex POSS H 0 7  FrameIndex POSS H 1 7  FrameIndex POSS H 2 7
+FrameIndex POSS I 0 8  FrameIndex POSS I 1 8  FrameIndex POSS I 2 8
+FrameIndex POSS J 0 9  FrameIndex POSS J 1 9  FrameIndex POSS J 2 9
+FrameIndex POSS K 0 10  FrameIndex POSS K 1 10  FrameIndex POSS K 2 10
+FrameIndex POSS L 0 11  FrameIndex POSS L 1 11  FrameIndex POSS L 2 11
+FrameIndex POSS M 0 12  FrameIndex POSS M 1 12  FrameIndex POSS M 2 12
+FrameIndex POSS N 0 13  FrameIndex POSS N 1 13  FrameIndex POSS N 2 13
+FrameIndex POSS O 0 14  FrameIndex POSS O 1 14  FrameIndex POSS O 2 14
+FrameIndex POSS P 0 15  FrameIndex POSS P 1 15  FrameIndex POSS P 2 15
+FrameIndex POSS Q 0 16  FrameIndex POSS Q 1 16  FrameIndex POSS Q 2 16
+FrameIndex POSS R 0 17  FrameIndex POSS R 1 17  FrameIndex POSS R 2 17
+
+FrameIndex POSA A 0 39  FrameIndex POSA A 1 39  FrameIndex POSA A 2 39
+FrameIndex POSA B 0 40  FrameIndex POSA B 1 40  FrameIndex POSA B 2 40
+FrameIndex POSA C 0 41  FrameIndex POSA C 1 41  FrameIndex POSA C 2 41
+FrameIndex POSA D 0 42  FrameIndex POSA D 1 42  FrameIndex POSA D 2 42
+FrameIndex POSA E 0 43  FrameIndex POSA E 1 43  FrameIndex POSA E 2 43
+FrameIndex POSA F 0 44  FrameIndex POSA F 1 44  FrameIndex POSA F 2 44
+FrameIndex POSA G 0 45  FrameIndex POSA G 1 45  FrameIndex POSA G 2 45
+FrameIndex POSA H 0 46  FrameIndex POSA H 1 46  FrameIndex POSA H 2 46
+FrameIndex POSA I 0 47  FrameIndex POSA I 1 47  FrameIndex POSA I 2 47
+FrameIndex POSA J 0 48  FrameIndex POSA J 1 48  FrameIndex POSA J 2 48
+FrameIndex POSA K 0 49  FrameIndex POSA K 1 49  FrameIndex POSA K 2 49
+FrameIndex POSA L 0 50  FrameIndex POSA L 1 50  FrameIndex POSA L 2 50
+FrameIndex POSA M 0 51  FrameIndex POSA M 1 51  FrameIndex POSA M 2 51
+FrameIndex POSA N 0 52  FrameIndex POSA N 1 52  FrameIndex POSA N 2 52
+FrameIndex POSA O 0 53  FrameIndex POSA O 1 53  FrameIndex POSA O 2 53
+FrameIndex POSA P 0 54  FrameIndex POSA P 1 54  FrameIndex POSA P 2 54
+FrameIndex POSA Q 0 55  FrameIndex POSA Q 1 55  FrameIndex POSA Q 2 55
+FrameIndex POSA R 0 56  FrameIndex POSA R 1 56  FrameIndex POSA R 2 56
+FrameIndex POSA S 0 57  FrameIndex POSA S 1 57  FrameIndex POSA S 2 57
+FrameIndex POSA T 0 58  FrameIndex POSA T 1 58  FrameIndex POSA T 2 58
+FrameIndex POSA U 0 59  FrameIndex POSA U 1 59  FrameIndex POSA U 2 59
+}
+
+
+
+Model WizardBot2
+{
+   Path "models\MD3\Wizard"
+   Model 0 "Disciple.md2"
+   Skin 0 "Disciple2.png"
+
+   Scale 2.5 2.5 2.5 
+   ZOffset 28
+
+FrameIndex POSS A 0 0  FrameIndex POSS A 1 0  FrameIndex POSS A 2 0
+FrameIndex POSS B 0 1  FrameIndex POSS B 1 1  FrameIndex POSS B 2 1
+FrameIndex POSS C 0 2  FrameIndex POSS C 1 2  FrameIndex POSS C 2 2
+FrameIndex POSS D 0 3  FrameIndex POSS D 1 3  FrameIndex POSS D 2 3
+FrameIndex POSS E 0 4  FrameIndex POSS E 1 4  FrameIndex POSS E 2 4
+FrameIndex POSS F 0 5  FrameIndex POSS F 1 5  FrameIndex POSS F 2 5
+FrameIndex POSS G 0 6  FrameIndex POSS G 1 6  FrameIndex POSS G 2 6
+FrameIndex POSS H 0 7  FrameIndex POSS H 1 7  FrameIndex POSS H 2 7
+FrameIndex POSS I 0 8  FrameIndex POSS I 1 8  FrameIndex POSS I 2 8
+FrameIndex POSS J 0 9  FrameIndex POSS J 1 9  FrameIndex POSS J 2 9
+FrameIndex POSS K 0 10  FrameIndex POSS K 1 10  FrameIndex POSS K 2 10
+FrameIndex POSS L 0 11  FrameIndex POSS L 1 11  FrameIndex POSS L 2 11
+FrameIndex POSS M 0 12  FrameIndex POSS M 1 12  FrameIndex POSS M 2 12
+FrameIndex POSS N 0 13  FrameIndex POSS N 1 13  FrameIndex POSS N 2 13
+FrameIndex POSS O 0 14  FrameIndex POSS O 1 14  FrameIndex POSS O 2 14
+FrameIndex POSS P 0 15  FrameIndex POSS P 1 15  FrameIndex POSS P 2 15
+FrameIndex POSS Q 0 16  FrameIndex POSS Q 1 16  FrameIndex POSS Q 2 16
+FrameIndex POSS R 0 17  FrameIndex POSS R 1 17  FrameIndex POSS R 2 17
+
+FrameIndex POSA A 0 39  FrameIndex POSA A 1 39  FrameIndex POSA A 2 39
+FrameIndex POSA B 0 40  FrameIndex POSA B 1 40  FrameIndex POSA B 2 40
+FrameIndex POSA C 0 41  FrameIndex POSA C 1 41  FrameIndex POSA C 2 41
+FrameIndex POSA D 0 42  FrameIndex POSA D 1 42  FrameIndex POSA D 2 42
+FrameIndex POSA E 0 43  FrameIndex POSA E 1 43  FrameIndex POSA E 2 43
+FrameIndex POSA F 0 44  FrameIndex POSA F 1 44  FrameIndex POSA F 2 44
+FrameIndex POSA G 0 45  FrameIndex POSA G 1 45  FrameIndex POSA G 2 45
+FrameIndex POSA H 0 46  FrameIndex POSA H 1 46  FrameIndex POSA H 2 46
+FrameIndex POSA I 0 47  FrameIndex POSA I 1 47  FrameIndex POSA I 2 47
+FrameIndex POSA J 0 48  FrameIndex POSA J 1 48  FrameIndex POSA J 2 48
+FrameIndex POSA K 0 49  FrameIndex POSA K 1 49  FrameIndex POSA K 2 49
+FrameIndex POSA L 0 50  FrameIndex POSA L 1 50  FrameIndex POSA L 2 50
+FrameIndex POSA M 0 51  FrameIndex POSA M 1 51  FrameIndex POSA M 2 51
+FrameIndex POSA N 0 52  FrameIndex POSA N 1 52  FrameIndex POSA N 2 52
+FrameIndex POSA O 0 53  FrameIndex POSA O 1 53  FrameIndex POSA O 2 53
+FrameIndex POSA P 0 54  FrameIndex POSA P 1 54  FrameIndex POSA P 2 54
+FrameIndex POSA Q 0 55  FrameIndex POSA Q 1 55  FrameIndex POSA Q 2 55
+FrameIndex POSA R 0 56  FrameIndex POSA R 1 56  FrameIndex POSA R 2 56
+FrameIndex POSA S 0 57  FrameIndex POSA S 1 57  FrameIndex POSA S 2 57
+FrameIndex POSA T 0 58  FrameIndex POSA T 1 58  FrameIndex POSA T 2 58
+FrameIndex POSA U 0 59  FrameIndex POSA U 1 59  FrameIndex POSA U 2 59
+}

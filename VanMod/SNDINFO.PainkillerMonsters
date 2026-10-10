@@ -1,0 +1,4079 @@
+//=============================================================================
+//=============================================================================
+//
+//		Painkiller Monster sounds
+//
+//=============================================================================
+//=============================================================================
+//
+// Attenuation reference:
+// Apply attenuation to Sight of monsters (possibly, other sounds).
+//  1.0 -- normal enemies (like Sado/Skeleton Soldier)
+//  0.6 -- big enemies (like Executioner/Maso)
+//  0.3 -- mini-boss enemies (like Scrake)
+//  0.1 -- epic enemies (like Grim Reaper)
+//  Values in between are OK.
+//
+// To the loudest sounds, also apply $limit.
+//  $limit name how_many distance
+//
+//=============================================================================
+//=============================================================================
+
+None	"Sounds/def_0.ogg"
+$volume None 0.01
+
+
+RE4/johastu						"Sounds/johastu.ogg"
+RE5/johastu_a						"Sounds/johastu2.ogg"
+RE5/johastu_b						"Sounds/johastu3.ogg"
+RE6/johastu_a						"Sounds/johastu4.ogg"
+
+GUY_FALLING_ONGATE				"Sounds/GUY_FALLING_ONGATE.ogg"
+$random RE4/BodyClear
+{
+	RE4/johastu
+	RE5/johastu_a
+	RE5/johastu_b
+	RE4/johastu
+	RE5/johastu_a
+	RE5/johastu_b
+
+	RE6/johastu_a
+
+}
+
+PKMon_Arrow_Ding_2					"Sounds/Arrow_Ding_2.ogg"
+PKMon_Mob_Hit_Sounds_0				"Sounds/Mob_Hit_Sounds_0.ogg"
+PKMon_Mob_Hit_Sounds_1				"Sounds/Mob_Hit_Sounds_1.ogg"
+
+
+Mutilator/Souls/FadeOut_01			"Sounds/PK_Soul_FadeOut_1.ogg" // recorded from Mortal Kombat: Mythologies of Sub Zero
+Mutilator/Souls/FadeOut_02			"Sounds/PK_Soul_FadeOut_2.ogg" // recorded from Mortal Kombat: Mythologies of Sub Zero
+
+$limit Mutilator/Souls/FadeOut_01 1
+$limit Mutilator/Souls/FadeOut_02 1
+$volume Mutilator/Souls/FadeOut_01 0.7
+$volume Mutilator/Souls/FadeOut_02 0.7
+$attenuation Mutilator/Souls/FadeOut_01 0.9
+$attenuation Mutilator/Souls/FadeOut_02 0.9
+
+$attenuation PKMon_Arrow_Ding_2 0.6
+
+
+$random PKMon_Mob_Hit_Sounds
+{
+	PKMon_Mob_Hit_Sounds_0
+	PKMon_Mob_Hit_Sounds_1
+}
+
+
+SOULGOLD 		SOULGOLD
+SOULMEGA 		SOULMEGA
+SOULRED 		SOULRED
+
+SOULTAK1		SOULTAK1
+SOULTAK2		SOULTAK2
+SOULTAK3		SOULTAK3
+SOULTAK4		SOULTAK4
+SOULTAK5		SOULTAK5
+$random RandomSoulTake		{SOULTAK1 SOULTAK2 SOULTAK3 SOULTAK4 SOULTAK5}
+
+
+Duke_GibExplode1			"Sounds/Duke_GibExplode1.ogg"
+Duke_GibExplode2			"Sounds/Duke_GibExplode2.ogg"
+
+Blood_HeadKick0			"sounds/Blood_HeadKick0.ogg"
+Blood_HeadKick00			"sounds/Blood_HeadKick00.ogg"
+Blood_HeadKick1			"sounds/Blood_HeadKick1.wav"
+Blood_HeadKick2			"sounds/Blood_HeadKick2.wav"
+Blood_HeadKick3			"sounds/Blood_HeadKick3.wav"
+Blood_HeadKick4			"sounds/Blood_HeadKick4.wav"
+Blood_HeadKick5			"sounds/Blood_HeadKick5.wav"
+Blood_HeadKick6			"sounds/Blood_HeadKick6.wav"
+
+
+$pitchset Blood_HeadKick0 0.92 1.05
+$pitchset Blood_HeadKick00 0.92 1.05
+$pitchset Blood_HeadKick1 0.92 1.05
+$pitchset Blood_HeadKick2 0.92 1.05
+$pitchset Blood_HeadKick3 0.92 1.05
+$pitchset Blood_HeadKick4 0.92 1.05
+$pitchset Blood_HeadKick5 0.92 1.05
+$pitchset Blood_HeadKick6 0.92 1.05
+
+
+brain_splat_1			"Sounds/brain_splat_1.ogg"
+brain_splat_2			"Sounds/brain_splat_2.ogg"
+brain_splat_3			"Sounds/brain_splat_3.ogg"
+brain_splat_4			"Sounds/brain_splat_4.ogg"
+brain_splat_5			"Sounds/brain_splat_5.ogg"
+
+$pitchset brain_splat_1 0.92 1.05
+$pitchset brain_splat_2 0.92 1.05
+$pitchset brain_splat_3 0.92 1.05
+$pitchset brain_splat_4 0.92 1.05
+$pitchset brain_splat_5 0.92 1.05
+
+$random MH_brain_splat
+{
+	brain_splat_1
+	brain_splat_2
+	brain_splat_3
+	brain_splat_4
+	brain_splat_5
+}
+
+
+$random Blood_HeadKick
+{
+	Blood_HeadKick0
+	Blood_HeadKick0
+	Blood_HeadKick00
+
+}
+
+/*
+$random Duke_GibExplode
+{
+	Duke_GibExplode1
+	Duke_GibExplode2
+}
+*/
+
+Duke_GibExplode				"Sounds/RE4_GibMonster.ogg"
+
+$random MK_IceDeath
+{
+	MK_IceDeath_1
+	MK_IceDeath_2
+}
+
+$alias misc/freeze		MK_IceDeath
+
+RE4_HeadShot0			"sounds/head_cut.ogg"
+RE4_HeadShot1 			"sounds/hasami_cut.ogg"
+RE4_HeadShot2 			"sounds/re4_head.ogg"
+
+$random RE4_HeadShot
+{
+RE4_HeadShot0
+RE4_HeadShot1
+RE4_HeadShot2
+}
+
+
+$rolloff RE4_HeadShot0 300 1300
+$rolloff RE4_HeadShot1 300 1300
+$rolloff RE4_HeadShot2 300 1300
+$rolloff RE4_HeadShot 300 1300
+
+
+weapons/bowhit			hrnhit
+Mastermind/Chaingun MASTCGUN
+$rolloff Mastermind/Chaingun 1000 1500
+$rolloff panzer-charge 3000 7500
+Panzer_death										"Sounds/PanzerDemon/Panzer_death.wav"
+Panzer-atak3v										"Sounds/PanzerDemon/Panzer-atak3v.wav"
+panzer-charge										"Sounds/PanzerDemon/panzer-charge.wav"
+Panzer-hit										"Sounds/PanzerDemon/Panzer-hit.wav"
+Panzer-krok1										"Sounds/PanzerDemon/Panzer-krok1.wav"
+Panzer-krok1p										"Sounds/PanzerDemon/Panzer-krok1p.wav"
+Panzer-krok2										"Sounds/PanzerDemon/Panzer-krok2.wav"
+Panzer-krok2p										"Sounds/PanzerDemon/Panzer-krok2p.wav"
+Panzer-krok3										"Sounds/PanzerDemon/Panzer-krok3.wav"
+Panzer-krok4										"Sounds/PanzerDemon/Panzer-krok4.wav"
+Panzer-walkvoice1									"Sounds/PanzerDemon/Panzer-walkvoice1.wav"
+Panzer-walkvoice2									"Sounds/PanzerDemon/Panzer-walkvoice2.wav"
+Panzer-walkvoice3									"Sounds/PanzerDemon/Panzer-walkvoice3.wav"
+Panzer-walkvoice4									"Sounds/PanzerDemon/Panzer-walkvoice4.wav"
+Panzer-GasAttack									"Sounds/PanzerDemon/SpiderMMGroundElectro.ogg"
+
+
+
+PK_Mobs_BulletFly_1			"Sounds/Weapons/Distant/PK_Mobs_BulletFly_1.ogg"
+PK_Mobs_BulletFly_2			"Sounds/Weapons/Distant/PK_Mobs_BulletFly_2.ogg"
+PK_Mobs_BulletFly_3			"Sounds/Weapons/Distant/PK_Mobs_BulletFly_3.ogg"
+PK_Mobs_BulletFly_4			"Sounds/Weapons/Distant/PK_Mobs_BulletFly_4.ogg"
+
+$random PK_Mobs_BulletFly
+{
+PK_Mobs_BulletFly_1
+PK_Mobs_BulletFly_2
+PK_Mobs_BulletFly_3
+PK_Mobs_BulletFly_4
+}
+
+//$attenuation PK_Mobs_BulletFly 0.7
+$rolloff PK_Mobs_BulletFly 100 3000
+
+xbow_fly1					"sounds/xbow_fly1.ogg"
+cbar_hitbod1				"Sounds/cbar_hitbod1.ogg"
+cbar_hitbod2				"Sounds/cbar_hitbod2.ogg"
+cbar_hitbod3				"Sounds/cbar_hitbod3.ogg"
+
+$random cbar_hitbod {cbar_hitbod1 cbar_hitbod2 cbar_hitbod3}
+
+
+monster_ak47-1			"sounds/ak47-1.ogg"
+monster_ak47-2			"sounds/ak47-2.ogg"
+
+
+$pitchset monster_ak47-1 0.85 1.05
+$pitchset monster_ak47-2 0.85 1.05
+
+
+$random monster_ak47 {monster_ak47-2 monster_ak47-1}
+monster_ak47-1_new		"sounds/ak47-1_new.ogg"
+$rolloff monster_ak47-1_new 100 6000
+$rolloff monster_ak47 100 6000
+
+
+
+Mons_Galil_Shot			"sounds/hellbiker/galil-1.ogg"
+$pitchset Mons_Galil_Shot 0.85 1.05
+
+$rolloff Mons_Galil_Shot 100 6000
+
+Monster_MG42_shot			"sounds/hellbiker/MG42.ogg"
+$pitchset Monster_MG42_shot 0.85 1.05
+$rolloff Monster_MG42_shot 100 6000
+
+
+Monster_SPAS_shot			"sounds/HellAngel/t_spas12_shot.ogg"
+Monster_AutoShotgun_Fire		"sounds/HellAngel/sbarrel1.ogg"
+
+HellAngel_AutoShotgun_PCF	"sounds/HellAngel/AutoShotgun_PCF.ogg"
+
+
+Monster_xm1014_shot			"sounds/HellAngel/xm1014-1.ogg"
+
+$rolloff Monster_SPAS_shot 100 6000
+$rolloff Monster_xm1014_shot 100 6000
+$rolloff Monster_AutoShotgun_Fire 1200 6000
+$rolloff HellAngel_AutoShotgun_PCF 1200 6000
+
+
+monster_ak47-1_distant		"sounds/ak47-1-distant.ogg"
+$pitchset monster_ak47-1_distant 0.85 1.05
+$limit 	monster_ak47-1_distant 80
+$rolloff  monster_ak47-1_distant 3000 6000
+$volume monster_ak47-1_distant 0.3
+
+NAILHT0			"Sounds/NAILHT0.wav"
+NAILHT1			"Sounds/NAILHT1.wav"
+
+$random Sounds/GrimReamer/MeleeHit
+{
+	NAILHT0
+	NAILHT1
+}
+
+headshot		"sounds/headshot1.wav"
+
+monster_m249-1			"sounds/m249_1.ogg"
+monster_m249-2			"sounds/m249_2.ogg"
+monster_m249-3			"sounds/m249_3.ogg"
+$pitchset monster_m249-1 0.85 1.05
+$pitchset monster_m249-2 0.85 1.05
+$pitchset monster_m249-3 0.85 1.05
+$random monster_m249 {monster_m249-1 monster_m249-2 monster_m249-3}
+
+$rolloff monster_m249 100 6000
+
+monster_m249-1-distant			"sounds/m249-1-distant.ogg"
+$limit 	monster_m249-1-distant 80
+$rolloff  monster_m249-1-distant 325 6000
+
+$volume monster_m249-1-distant 0.3
+
+bhit_helmet			"Sounds/bhit_helmet-1.ogg"
+
+sado_mac10_01					"sounds/sado/mac10_01.wav"
+sado_mac10_02					"sounds/sado/mac10_02.wav"
+sado_mac10_03					"sounds/sado/mac10_03.wav"
+sado_mac10_distant				"sounds/sado/mac10-1-distant.ogg"
+
+BHL_heartbeat			"sounds/heartbeat.wav"
+$attenuation BHL_heartbeat 1.4
+$attenuation brutal_half_life___bleeding 1.4
+
+Face_Cut			"sounds/sado/Face_Cut.wav"
+Fatality_Painkiller_SlowDown5			"sounds/sado/Fatality_Painkiller_SlowDown5.wav"
+
+dying_wheeze_01			"Sounds/Sado/dying_wheeze_01.wav"
+dying_wheeze_00			"Sounds/Sado/dying_wheeze_00.wav"
+
+$random dying_wheeze
+{
+	dying_wheeze_00
+	dying_wheeze_01
+}
+
+
+dying_wheeze_01			"Sounds/Sado/dying_wheeze_01.wav"
+dying_wheeze_00			"Sounds/Sado/dying_wheeze_00.wav"
+
+
+sado_mac10_shot 				"sounds/sado/Sado_GunShot.ogg"
+
+
+sado_elite_shot_1 				"sounds/sado/t_l85_shot_1.ogg"
+sado_elite_shot_2 				"sounds/sado/t_l85_shot_2.ogg"
+sado_elite_shot_3 				"sounds/sado/t_l85_shot_3.ogg"
+
+$random sado_elite_shot
+{
+	sado_elite_shot_1
+	sado_elite_shot_2
+	sado_elite_shot_3
+}
+
+
+$pitchset sado_elite_shot 0.94 1.04
+$rolloff sado_elite_shot 100 2200
+
+
+
+$pitchset sado_mac10_shot 0.94 1.04
+
+$rolloff sado_mac10_shot 100 2200
+$rolloff  sado_mac10_distant 325 6000
+$volume sado_mac10_distant 0.3
+
+ShotgunDieMonster0			"Sounds/ShotgunDieMonster.wav"
+ShotgunDieMonster1			"Sounds/r452.wav"
+ShotgunDieMonster2			"Sounds/r537.wav"
+ShotgunDieMonster3			"Sounds/r668.wav"
+
+
+$pitchset ShotgunDieMonster0 0.9 1.1
+$pitchset ShotgunDieMonster1 0.9 1.1
+$pitchset ShotgunDieMonster2 0.9 1.1
+$pitchset ShotgunDieMonster3 0.9 1.1
+
+$random ShotgunDieMonster
+{
+	ShotgunDieMonster0
+	ShotgunDieMonster1
+	ShotgunDieMonster2
+	ShotgunDieMonster3
+}
+
+$attenuation ShotgunDieMonster 0.8
+
+
+// Zombies Sounds
+$random clot/sight { CLOTSE1 CLOTSE2 CLOTSE3 CLOTSE4 CLOTSE5 CLOTSE6 CLOTSE7 CLOTSE8 CLOTSE9 }
+CLOTSE1             CLOTSE1
+CLOTSE2             CLOTSE2
+CLOTSE3             CLOTSE3
+CLOTSE4             CLOTSE4
+CLOTSE5             CLOTSE5
+CLOTSE6             CLOTSE6
+CLOTSE7             CLOTSE7
+CLOTSE8             CLOTSE8
+CLOTSE9             CLOTSE9
+
+
+$random clot/death { CLOTDH1 CLOTDH2 CLOTDH3 CLOTDH4 CLOTDH5 CLOTDH6 }
+CLOTDH1             CLOTDH1
+CLOTDH2             CLOTDH2
+CLOTDH3             CLOTDH3
+CLOTDH4             CLOTDH4
+CLOTDH5             CLOTDH5
+CLOTDH6             CLOTDH6
+
+$random clot/pain {CLOTPN1 CLOTPN2 CLOTPN3 CLOTPN4 CLOTPN5 CLOTPN6 CLOTPN7 CLOTPN8 CLOTPN9 CLOTPN10  }
+CLOTPN1             CLOTPN1
+CLOTPN2             CLOTPN2
+CLOTPN3             CLOTPN3
+CLOTPN4             CLOTPN4
+CLOTPN5             CLOTPN5
+CLOTPN6             CLOTPN6
+CLOTPN7             CLOTPN7
+CLOTPN8             CLOTPN8
+CLOTPN9             CLOTPN9
+CLOTPN10            CLOTPN10
+
+$random clot/active { CLOTCH1 CLOTCH2 CLOTCH3 CLOTCH4 }
+CLOTCH1            CLOTCH1
+CLOTCH2            CLOTCH2
+CLOTCH3            CLOTCH3
+CLOTCH4            CLOTCH4
+
+
+
+
+other/gibdeath			"Sounds/udeath.ogg"
+$limit other/gibdeath 2
+
+psy_voices_1					"sounds/PSY/psy_voices_1.ogg"
+phantom_die_1					"sounds/PSY/phantom_die_1.ogg"
+phantom_die_2					"sounds/PSY/phantom_die_2.ogg"
+phantom_hit_1					"sounds/PSY/phantom_hit_1.ogg"
+phantom_hit_2					"sounds/PSY/phantom_hit_2.ogg"
+phantom_hit_3					"sounds/PSY/phantom_hit_3.ogg"
+phantom_hit_4					"sounds/PSY/phantom_hit_4.ogg"
+phantom_idle_1					"sounds/PSY/phantom_idle_1.ogg"
+phantom_idle_2					"sounds/PSY/phantom_idle_2.ogg"
+phantom_idle_3					"sounds/PSY/phantom_idle_3.ogg"
+phantom_idle_4					"sounds/PSY/phantom_idle_4.ogg"
+phantom_attack_1				"sounds/PSY/phantom_attack_1.ogg"
+phantom_attack_2				"sounds/PSY/phantom_attack_2.ogg"
+phantom_attack_3				"sounds/PSY/phantom_attack_3.ogg"
+phantom_attack_4				"sounds/PSY/phantom_attack_4.ogg"
+phantom_attack_hit_0			"sounds/PSY/phantom_attack_hit_0.ogg"
+
+$random phantom_die {phantom_die_1 phantom_die_2}
+$random phantom_hit {phantom_hit_1 phantom_hit_2 phantom_hit_3 phantom_hit_4 phantom_attack_hit_0}
+$random phantom_idle {phantom_idle_1 phantom_idle_2 phantom_idle_3 phantom_idle_4}
+$random phantom_attack {phantom_attack_1 phantom_attack_2 phantom_attack_3 phantom_attack_4}
+$random phantom_spawn {phantom_idle_1 phantom_idle_2 phantom_idle_3 phantom_idle_4 phantom_attack_1 phantom_attack_2 phantom_attack_3 phantom_attack_4}
+
+
+Bloat_Axe_Attack_00					"Sounds/Bloat/Bloat_Axe_Attack_00.wav"
+Bloat_Axe_Attack_01					"Sounds/Bloat/Bloat_Axe_Attack_01.wav"
+Bloat_Death_0						"Sounds/Bloat/Bloat_Death_0.wav"
+Bloat_Death_1						"Sounds/Bloat/Bloat_Death_1.wav"
+Bloat_Death_2						"Sounds/Bloat/Bloat_Death_2.wav"
+Bloat_Death_3						"Sounds/Bloat/Bloat_Death_3.wav"
+Bloat_Death_4						"Sounds/Bloat/Bloat_Death_4.wav"
+Bloat_Death_5						"Sounds/Bloat/Bloat_Death_5.wav"
+Bloat_Die_End_0					"Sounds/Bloat/Bloat_Die_End.wav"
+Bloat_Die_End_1					"Sounds/Bloat/Bloat_Die_End1.wav"
+Bloat_Laugh						"Sounds/Bloat/Bloat_Laugh.wav"
+
+Bloat_Pain_0						"Sounds/Bloat/Bloat_Pain_0.wav"
+Bloat_Pain_1						"Sounds/Bloat/Bloat_Pain_1.wav"
+Bloat_Pain_2						"Sounds/Bloat/Bloat_Pain_2.wav"
+Bloat_Pain_3						"Sounds/Bloat/Bloat_Pain_3.wav"
+Bloat_Pain_4						"Sounds/Bloat/Bloat_Pain_4.wav"
+Bloat_Pain_5						"Sounds/Bloat/Bloat_Pain_5.wav"
+Bloat_Pain_6						"Sounds/Bloat/Bloat_Pain_6.wav"
+Bloat_Pain_7						"Sounds/Bloat/Bloat_Pain_7.wav"
+Bloat_Pain_8						"Sounds/Bloat/Bloat_Pain_8.wav"
+Bloat_Pain_9						"Sounds/Bloat/Bloat_Pain_9.wav"
+Bloat_Prepare_Attack_00				"Sounds/Bloat/Bloat_Prepare_Attack.wav"
+Bloat_Prepare_Attack_01				"Sounds/Bloat/Bloat_Prepare_Attack_00.wav"
+Bloat_Step_00						"Sounds/Bloat/Bloat_Step_00.wav"
+Bloat_Taunt_0						"Sounds/Bloat/Bloat_Taunt_0.wav"
+Bloat_Taunt_1						"Sounds/Bloat/Bloat_Taunt_1.wav"
+Bloat_Taunt_2						"Sounds/Bloat/Bloat_Taunt_2.wav"
+Bloat_Taunt_3						"Sounds/Bloat/Bloat_Taunt_3.wav"
+Bloat_Taunt_4						"Sounds/Bloat/Bloat_Taunt_4.wav"
+Bloat_Taunt_5						"Sounds/Bloat/Bloat_Taunt_5.wav"
+Bloat_Taunt_6						"Sounds/Bloat/Bloat_Taunt_6.wav"
+Bloat_Taunt_7						"Sounds/Bloat/Bloat_Taunt_7.wav"
+Bloat_Taunt_8						"Sounds/Bloat/Bloat_Taunt_8.wav"
+Bloat_Taunt_9						"Sounds/Bloat/Bloat_Taunt_9.wav"
+Bloat_Taunt_10						"Sounds/Bloat/Bloat_Taunt_10.wav"
+Bloat_Taunt_11						"Sounds/Bloat/Bloat_Taunt_11.wav"
+Bloat_Taunt_12						"Sounds/Bloat/Bloat_Taunt_12.wav"
+Bloat_Taunt_13						"Sounds/Bloat/Bloat_Taunt_13.wav"
+Bloat_Farts_00						"Sounds/Bloat/Bloat_Farts_00.wav"
+Bloat_DeathPop1					"Sounds/Bloat/Bloat_DeathPop1.wav"
+Bloat_DeathPop2					"Sounds/Bloat/Bloat_DeathPop2.wav"
+Bloat_DeathPop3					"Sounds/Bloat/Bloat_DeathPop3.wav"
+Bloat_DeathPop4					"Sounds/Bloat/Bloat_DeathPop4.wav"
+Bloat_DeathPop5					"Sounds/Bloat/Bloat_DeathPop5.wav"
+Bloat_DeathPop6					"Sounds/Bloat/Bloat_DeathPop6.wav"
+Bloat_DeathPop7					"Sounds/Bloat/Bloat_DeathPop7.wav"
+Bloat_DeathPop8					"Sounds/Bloat/Bloat_DeathPop8.wav"
+Bloat_DeathPop9					"Sounds/Bloat/Bloat_DeathPop9.wav"
+Bloat_Idle1Loop					"Sounds/Bloat/Bloat_Idle1Loop.wav"
+
+$random Bloat_Axe_Attack {Bloat_Axe_Attack_00 Bloat_Axe_Attack_01}
+$random Bloat_Death {Bloat_Death_0 Bloat_Death_1 Bloat_Death_2 Bloat_Death_3 Bloat_Death_4 Bloat_Death_5}
+$random Bloat_Die_End {Bloat_Die_End_0 Bloat_Die_End_1}
+$random Bloat_Pain {Bloat_Pain_0 Bloat_Pain_1 Bloat_Pain_2 Bloat_Pain_3 Bloat_Pain_4 Bloat_Pain_5 Bloat_Pain_6 Bloat_Pain_7 Bloat_Pain_8 Bloat_Pain_9}
+$random Bloat_Prepare_Attack {Bloat_Prepare_Attack_00 Bloat_Prepare_Attack_01}
+$random Bloat_Taunt {Bloat_Taunt_0 Bloat_Taunt_1 Bloat_Taunt_2 Bloat_Taunt_3 Bloat_Taunt_4 Bloat_Taunt_5 Bloat_Taunt_6 Bloat_Taunt_7 Bloat_Taunt_8 Bloat_Taunt_9 Bloat_Taunt_10 Bloat_Taunt_11 Bloat_Taunt_12 Bloat_Taunt_13 Bloat_Farts_00 Bloat_Laugh}
+$random Bloat_DeathPop {Bloat_DeathPop1 Bloat_DeathPop2 Bloat_DeathPop3 Bloat_DeathPop4 Bloat_DeathPop5 Bloat_DeathPop6 Bloat_DeathPop7 Bloat_DeathPop8 Bloat_DeathPop9}
+
+
+
+
+Human_Step__1			"sounds/steps/Human_Step__1.wav"
+Human_Step__2			"sounds/steps/Human_Step__2.wav"
+Human_Step__3			"sounds/steps/Human_Step__3.wav"
+Human_Step__4			"sounds/steps/Human_Step__4.wav"
+Human_Step__5			"sounds/steps/Human_Step__5.wav"
+Human_Step__6			"sounds/steps/Human_Step__6.wav"
+
+$random CSGO_Human_Steps {Human_Step__1 Human_Step__2 Human_Step__3 Human_Step__4 Human_Step__5 Human_Step__6}
+TIMGRN TIMGRN
+ALRTGRN ALRTGRN
+$rolloff TIMGRN 320 240
+$rolloff ALRTGRN 400 320
+//$volume CSGO_Human_Steps 0.7
+$limit CSGO_Human_Steps 12 256
+
+
+$random excavator/explode { XEXPL_1 XEXPL_2 XEXPL_3 XEXPL_4 XEXPL_5 XEXPL_6 XEXPL_7 XEXPL_8 XEXPL_9 XEXPL_10 XEXPL_11 XEXPL_12 XEXPL_13}
+XEXPL_1 EXPL_1
+XEXPL_2 EXPL_2
+XEXPL_3 EXPL_3
+XEXPL_4 EXPL_4
+XEXPL_5 EXPL_5
+XEXPL_6 EXPL_6
+XEXPL_7 EXPL_7
+XEXPL_8 EXPL_8
+XEXPL_9 EXPL_9
+XEXPL_10 EXPL_10
+XEXPL_11 EXPL_11
+XEXPL_12 EXPL_12
+XEXPL_13 EXPL_13
+
+
+$rolloff excavator/explode 1300 1800
+
+famas_0			"Sounds/Weapons/famas_0.wav"
+famas_1			"Sounds/Weapons/famas_1.wav"
+famas_2			"Sounds/Weapons/famas_2.wav"
+famas_3			"Sounds/Weapons/famas_3.wav"
+$random famas_shot_from_csgo {famas_0 famas_1 famas_2 famas_3}
+
+famas_distant_01			"Sounds/Weapons/famas_distant_01.wav"
+
+$rolloff famas_shot_from_csgo 100 2200
+
+$limit 	famas_distant_01 80
+$rolloff  famas_distant_01 3000 6000
+$volume famas_distant_01 0.3
+
+galil_01			"Sounds/Weapons/galil_01.wav"
+galil_02			"Sounds/Weapons/galil_02.wav"
+galil_03			"Sounds/Weapons/galil_03.wav"
+galil_04			"Sounds/Weapons/galil_04.wav"
+
+galil-1-distant			"Sounds/Weapons/galil-1-distant.wav"
+$volume galil-1-distant 0.3
+$random galil_shot_from_csgo {galil_01 galil_02 galil_03 galil_04}
+
+
+$rolloff galil_shot_from_csgo 100 2200
+
+$limit 	galil-1-distant 80
+$rolloff  galil-1-distant 3000 6000
+
+groza_shoot1			"Sounds/Weapons/groza_shoot.wav"
+groza_shoot2			"Sounds/Weapons/groza_shoot2.wav"
+$random groza_shoot {groza_shoot1 groza_shoot2}
+$rolloff groza_shoot 100 2200
+
+deagle_01					"Sounds/Weapons/deagle_01.wav"
+deagle_02					"Sounds/Weapons/deagle_02.wav"
+deagle-1-distant			"Sounds/Weapons/deagle-1-distant.wav"
+
+$random deagle_shot_from_csgo {deagle_01 deagle_02}
+
+$rolloff deagle_shot_from_csgo 100 2200
+
+$limit 	deagle-1-distant 80
+$rolloff  deagle-1-distant 325 6000
+$volume deagle-1-distant 0.3
+
+sawedoff-1-distant			"sounds/skull/sawedoff-1-distant.wav"
+
+
+
+
+
+
+SkeletonShotScout			"Sounds/Weapons/ssg08_shot.wav"
+ssg08_distant				"Sounds/Weapons/ssg08_distant.wav"
+
+
+$rolloff SkeletonShotScout 100 2200
+
+
+
+$limit 	ssg08_distant 80
+$rolloff  ssg08_distant 3000 6000
+
+
+
+Ram_Active_0					"Sounds/Ram/Ram_Active_0.ogg"
+Ram_Active_1					"Sounds/Ram/Ram_Active_1.ogg"
+Ram_Active_2					"Sounds/Ram/Ram_Active_2.ogg"
+Ram_Active_3					"Sounds/Ram/Ram_Active_3.ogg"
+Ram_Active_4					"Sounds/Ram/Ram_Active_4.ogg"
+Ram_Active_5					"Sounds/Ram/Ram_Active_5.ogg"
+Ram_Active_6					"Sounds/Ram/Ram_Active_6.ogg"
+Ram_Active_7					"Sounds/Ram/Ram_Active_7.ogg"
+
+Ram_Death_0					"Sounds/Ram/Ram_Death_0.ogg"
+
+Ram_Pain_0					"Sounds/Ram/Ram_Pain_0.ogg"
+Ram_Pain_1					"Sounds/Ram/Ram_Pain_1.ogg"
+
+Ram_Search					"Sounds/Ram/Ram_Search.ogg"
+
+Ram_SMASH						"Sounds/Ram/Ram_SMASH.ogg"
+
+Ram_TargetAttack_1				"Sounds/Ram/Ram_TargetAttack_1.ogg"
+Ram_TargetAttack_2				"Sounds/Ram/Ram_TargetAttack_2.ogg"
+Ram_TargetAttack_3				"Sounds/Ram/Ram_TargetAttack_3.ogg"
+Ram_TargetAttack_4				"Sounds/Ram/Ram_TargetAttack_4.ogg"
+Ram_TargetAttack_5				"Sounds/Ram/Ram_TargetAttack_5.ogg"
+Ram_TargetAttack_6				"Sounds/Ram/Ram_TargetAttack_6.ogg"
+Ram_TargetAttack_7				"Sounds/Ram/Ram_TargetAttack_7.ogg"
+
+
+$rolloff  Ram_TargetAttack_1 800 6000
+$rolloff  Ram_TargetAttack_2 800 6000
+$rolloff  Ram_TargetAttack_3 800 6000
+$rolloff  Ram_TargetAttack_4 800 6000
+$rolloff  Ram_TargetAttack_5 800 6000
+$rolloff  Ram_TargetAttack_6 800 6000
+$rolloff  Ram_TargetAttack_7 800 6000
+
+$random Ram_Active
+{
+	Ram_Active_1
+	Ram_Active_2
+}
+
+$random Ram_Kick
+{
+	Ram_Active_1
+	Ram_Active_2
+	Ram_Pain_0
+}
+
+$random Ram_StartChase
+{
+	Ram_TargetAttack_1
+	Ram_TargetAttack_5
+	Ram_TargetAttack_6
+	Ram_TargetAttack_7
+}
+
+
+male_boomer_vomit_01				"Sounds/Whopper/Vomit/male_boomer_vomit_01.ogg"
+male_boomer_vomit_02				"Sounds/Whopper/Vomit/male_boomer_vomit_02.ogg"
+male_boomer_vomit_03				"Sounds/Whopper/Vomit/male_boomer_vomit_03.ogg"
+male_boomer_vomit_04				"Sounds/Whopper/Vomit/male_boomer_vomit_04.ogg"
+male_boomer_vomit_05				"Sounds/Whopper/Vomit/male_boomer_vomit_09.ogg"
+male_boomer_vomit_06				"Sounds/Whopper/Vomit/male_boomer_vomit_11.ogg"
+male_boomer_vomit_07				"Sounds/Whopper/Vomit/male_boomer_vomit_12.ogg"
+male_boomer_disruptvomit_01			"Sounds/Whopper/Vomit/male_boomer_disruptvomit_01.ogg"
+male_boomer_disruptvomit_02			"Sounds/Whopper/Vomit/male_boomer_disruptvomit_03.ogg"
+male_boomer_disruptvomit_03			"Sounds/Whopper/Vomit/male_boomer_disruptvomit_05.ogg"
+male_boomer_disruptvomit_04			"Sounds/Whopper/Vomit/male_boomer_disruptvomit_06.ogg"
+male_boomer_disruptvomit_05			"Sounds/Whopper/Vomit/male_boomer_disruptvomit_07.ogg"
+male_boomer_disruptvomit_06			"Sounds/Whopper/Vomit/male_boomer_disruptvomit_09.ogg"
+
+$random Whopper/Vomit
+{
+	male_boomer_vomit_01
+	male_boomer_vomit_02
+	male_boomer_vomit_03
+	male_boomer_vomit_04
+	male_boomer_vomit_05
+	male_boomer_vomit_06
+	male_boomer_vomit_07
+}
+
+$random Whopper/DisruptVomit
+{
+	male_boomer_disruptvomit_01
+	male_boomer_disruptvomit_02
+	male_boomer_disruptvomit_03
+	male_boomer_disruptvomit_04
+	male_boomer_disruptvomit_05
+	male_boomer_disruptvomit_06
+}
+
+
+male_boomer_spotprey_01			"Sounds/Whopper/Attack/male_boomer_spotprey_01.ogg"
+male_boomer_spotprey_02			"Sounds/Whopper/Attack/male_boomer_spotprey_02.ogg"
+male_boomer_spotprey_03			"Sounds/Whopper/Attack/male_boomer_spotprey_03.ogg"
+male_boomer_spotprey_04			"Sounds/Whopper/Attack/male_boomer_spotprey_04.ogg"
+male_boomer_spotprey_05			"Sounds/Whopper/Attack/male_boomer_spotprey_05.ogg"
+male_boomer_spotprey_06			"Sounds/Whopper/Attack/male_boomer_spotprey_06.ogg"
+
+
+$random Whopper/SpotPrey
+{
+	male_boomer_spotprey_01
+	male_boomer_spotprey_02
+	male_boomer_spotprey_03
+	male_boomer_spotprey_04
+	male_boomer_spotprey_05
+	male_boomer_spotprey_06
+}
+
+
+male_zombie10_growl_01			"Sounds/Whopper/Attack/male_zombie10_growl_01.ogg"
+male_zombie10_growl_02			"Sounds/Whopper/Attack/male_zombie10_growl_02.ogg"
+male_zombie10_growl_03			"Sounds/Whopper/Attack/male_zombie10_growl_03.ogg"
+male_zombie10_growl_04			"Sounds/Whopper/Attack/male_zombie10_growl_04.ogg"
+
+$random Whopper/growl
+{
+	male_zombie10_growl_01
+	male_zombie10_growl_02
+	male_zombie10_growl_03
+	male_zombie10_growl_04
+}
+
+
+
+male_boomer_lurk_01			"Sounds/Whopper/Idle/male_boomer_lurk_01.ogg"
+male_boomer_lurk_02			"Sounds/Whopper/Idle/male_boomer_lurk_02.ogg"
+male_boomer_lurk_03			"Sounds/Whopper/Idle/male_boomer_lurk_03.ogg"
+male_boomer_lurk_04			"Sounds/Whopper/Idle/male_boomer_lurk_04.ogg"
+male_boomer_lurk_05			"Sounds/Whopper/Idle/male_boomer_lurk_05.ogg"
+male_boomer_lurk_06			"Sounds/Whopper/Idle/male_boomer_lurk_06.ogg"
+male_boomer_lurk_07			"Sounds/Whopper/Idle/male_boomer_lurk_07.ogg"
+male_boomer_lurk_08			"Sounds/Whopper/Idle/male_boomer_lurk_08.ogg"
+male_boomer_lurk_09			"Sounds/Whopper/Idle/male_boomer_lurk_09.ogg"
+male_boomer_lurk_10			"Sounds/Whopper/Idle/male_boomer_lurk_10.ogg"
+male_boomer_lurk_11			"Sounds/Whopper/Idle/male_boomer_lurk_11.ogg"
+male_boomer_lurk_12			"Sounds/Whopper/Idle/male_boomer_lurk_12.ogg"
+male_boomer_lurk_13			"Sounds/Whopper/Idle/male_boomer_lurk_13.ogg"
+male_boomer_lurk_14			"Sounds/Whopper/Idle/male_boomer_lurk_14.ogg"
+male_boomer_lurk_15			"Sounds/Whopper/Idle/male_boomer_lurk_15.ogg"
+
+$random Whopper/Lurking
+{
+	male_boomer_lurk_01
+	male_boomer_lurk_02
+	male_boomer_lurk_03
+	male_boomer_lurk_04
+	male_boomer_lurk_05
+	male_boomer_lurk_06
+	male_boomer_lurk_07
+	male_boomer_lurk_08
+	male_boomer_lurk_09
+	male_boomer_lurk_10
+	male_boomer_lurk_11
+	male_boomer_lurk_12
+	male_boomer_lurk_13
+	male_boomer_lurk_14
+	male_boomer_lurk_15
+}
+
+
+boomer_shoved_01			"Sounds/Whopper/Pain/boomer_shoved_01.ogg"
+boomer_shoved_02			"Sounds/Whopper/Pain/boomer_shoved_02.ogg"
+boomer_shoved_03			"Sounds/Whopper/Pain/boomer_shoved_03.ogg"
+boomer_shoved_04			"Sounds/Whopper/Pain/boomer_shoved_04.ogg"
+boomer_shoved_05			"Sounds/Whopper/Pain/boomer_shoved_05.ogg"
+boomer_shoved_06			"Sounds/Whopper/Pain/boomer_shoved_06.ogg"
+boomer_shoved_07			"Sounds/Whopper/Pain/boomer_shoved_07.ogg"
+boomer_shoved_08			"Sounds/Whopper/Pain/boomer_shoved_08.ogg"
+
+$random Whopper/boomer_shoved
+{
+	boomer_shoved_01
+	boomer_shoved_02
+	boomer_shoved_03
+	boomer_shoved_04
+	boomer_shoved_05
+	boomer_shoved_06
+	boomer_shoved_07
+	boomer_shoved_08
+}
+
+
+
+male_boomer_painshort_01			"Sounds/Whopper/Pain/male_boomer_painshort_01.ogg"
+male_boomer_painshort_02			"Sounds/Whopper/Pain/male_boomer_painshort_02.ogg"
+male_boomer_painshort_03			"Sounds/Whopper/Pain/male_boomer_painshort_03.ogg"
+male_boomer_painshort_04			"Sounds/Whopper/Pain/male_boomer_painshort_04.ogg"
+male_boomer_painshort_05			"Sounds/Whopper/Pain/male_boomer_painshort_05.ogg"
+male_boomer_painshort_06			"Sounds/Whopper/Pain/male_boomer_painshort_06.ogg"
+
+
+$random Whopper/PainShort
+{
+	male_boomer_painshort_01
+	male_boomer_painshort_02
+	male_boomer_painshort_03
+	male_boomer_painshort_04
+	male_boomer_painshort_05
+	male_boomer_painshort_06
+}
+
+male_boomer_shoved_01			"Sounds/Whopper/Pain/male_boomer_shoved_01.ogg"
+male_boomer_shoved_02			"Sounds/Whopper/Pain/male_boomer_shoved_02.ogg"
+male_boomer_shoved_03			"Sounds/Whopper/Pain/male_boomer_shoved_03.ogg"
+male_boomer_shoved_04			"Sounds/Whopper/Pain/male_boomer_shoved_04.ogg"
+male_boomer_shoved_05			"Sounds/Whopper/Pain/male_boomer_shoved_05.ogg"
+
+
+$random Whopper/m_boomer_shoved
+{
+	male_boomer_shoved_01
+	male_boomer_shoved_02
+	male_boomer_shoved_03
+	male_boomer_shoved_04
+	male_boomer_shoved_05
+}
+
+
+male_boomer_warning_0			"Sounds/Whopper/Warning/male_boomer_warning_0.ogg"
+male_boomer_warning_1			"Sounds/Whopper/Warning/male_boomer_warning_1.ogg"
+male_boomer_warning_2			"Sounds/Whopper/Warning/male_boomer_warning_2.ogg"
+male_boomer_warning_3			"Sounds/Whopper/Warning/male_boomer_warning_3.ogg"
+male_boomer_warning_4			"Sounds/Whopper/Warning/male_boomer_warning_4.ogg"
+male_boomer_warning_5			"Sounds/Whopper/Warning/male_boomer_warning_5.ogg"
+male_boomer_warning_6			"Sounds/Whopper/Warning/male_boomer_warning_6.ogg"
+
+
+$random Whopper/Warning
+{
+	male_boomer_warning_0
+	male_boomer_warning_1
+	male_boomer_warning_2
+	male_boomer_warning_3
+	male_boomer_warning_4
+	male_boomer_warning_5
+	male_boomer_warning_6
+}
+
+
+
+
+
+RE6_ChainsawMan_ChainsawLoop				"Sounds/ChainsawMan/ChainsawLoop_4.ogg"
+$volume RE6_ChainsawMan_ChainsawLoop 0.5
+RE6_ChainsawMan_ChainsawEnd				"Sounds/ChainsawMan/ChainsawEnd.ogg"
+RE6_ChainsawMan_ChainsawSwing_1			"Sounds/ChainsawMan/ChainsawSwing_1.ogg"
+RE6_ChainsawMan_ChainsawSwing_2			"Sounds/ChainsawMan/ChainsawSwing_2.ogg"
+RE6_ChainsawMan_ChainsawSwing_3			"Sounds/ChainsawMan/ChainsawSwing_3.ogg"
+RE6_ChainsawMan_ChainsawSwing_4			"Sounds/ChainsawMan/ChainsawSwing_4.ogg"
+RE6_ChainsawMan_ChainsawSwing_5			"Sounds/ChainsawMan/ChainsawSwing_5.ogg"
+RE6_ChainsawMan_ChainsawSwing_6			"Sounds/ChainsawMan/ChainsawSwing_6.ogg"
+RE6_ChainsawMan_ChainsawSwing_7			"Sounds/ChainsawMan/ChainsawSwing_7.ogg"
+RE6_ChainsawMan_ChainsawSwing_8			"Sounds/ChainsawMan/ChainsawSwing_8.ogg"
+
+
+$random RE6_ChainsawMan/Swing
+{
+	RE6_ChainsawMan_ChainsawSwing_1
+	RE6_ChainsawMan_ChainsawSwing_2
+	RE6_ChainsawMan_ChainsawSwing_3
+	RE6_ChainsawMan_ChainsawSwing_4
+	RE6_ChainsawMan_ChainsawSwing_5
+	RE6_ChainsawMan_ChainsawSwing_6
+	RE6_ChainsawMan_ChainsawSwing_7
+	RE6_ChainsawMan_ChainsawSwing_8
+}
+
+
+RE6ChainsawMan_Talk_00			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_00.ogg"
+RE6ChainsawMan_Talk_01			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_01.ogg"
+RE6ChainsawMan_Talk_02			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_02.ogg"
+RE6ChainsawMan_Talk_03			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_03.ogg"
+RE6ChainsawMan_Talk_04			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_04.ogg"
+RE6ChainsawMan_Talk_05			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_05.ogg"
+RE6ChainsawMan_Talk_06			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_06.ogg"
+RE6ChainsawMan_Talk_07			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_07.ogg"
+RE6ChainsawMan_Talk_08			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_08.ogg"
+RE6ChainsawMan_Talk_09			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_09.ogg"
+RE6ChainsawMan_Talk_10			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_10.ogg"
+RE6ChainsawMan_Talk_11			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_11.ogg"
+RE6ChainsawMan_Talk_12			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_12.ogg"
+RE6ChainsawMan_Talk_13			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_13.ogg"
+RE6ChainsawMan_Talk_14			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_14.ogg"
+RE6ChainsawMan_Talk_15			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_15.ogg"
+RE6ChainsawMan_Talk_16			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_16.ogg"
+RE6ChainsawMan_Talk_17			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_17.ogg"
+RE6ChainsawMan_Talk_18			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_18.ogg"
+RE6ChainsawMan_Talk_19			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_19.ogg"
+RE6ChainsawMan_Talk_20			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_20.ogg"
+RE6ChainsawMan_Talk_21			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_21.ogg"
+RE6ChainsawMan_Talk_22			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_22.ogg"
+RE6ChainsawMan_Talk_23			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_23.ogg"
+RE6ChainsawMan_Talk_24			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_24.ogg"
+RE6ChainsawMan_Talk_25			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_25.ogg"
+RE6ChainsawMan_Talk_26			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_26.ogg"
+RE6ChainsawMan_Talk_27			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_27.ogg"
+RE6ChainsawMan_Talk_28			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_28.ogg"
+RE6ChainsawMan_Talk_29			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_29.ogg"
+RE6ChainsawMan_Talk_30			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_30.ogg"
+RE6ChainsawMan_Talk_31			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_31.ogg"
+RE6ChainsawMan_Talk_32			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_32.ogg"
+RE6ChainsawMan_Talk_33			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_33.ogg"
+RE6ChainsawMan_Talk_34			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_34.ogg"
+RE6ChainsawMan_Talk_35			"Sounds/ChainsawMan/ChainsawMan_RandomTalk_35.ogg"
+
+$random RE6_ChainsawMan/SwingVoice
+{
+	RE6ChainsawMan_Talk_05
+	RE6ChainsawMan_Talk_04
+	RE6ChainsawMan_Talk_06
+	RE6ChainsawMan_Talk_00
+	RE6ChainsawMan_Talk_18
+	RE6ChainsawMan_Talk_22
+	RE6ChainsawMan_Talk_28
+	none
+	none
+	none
+	none
+	none
+	none
+	none
+	none
+	none
+	none
+	none
+	none
+	none
+	none
+}
+
+$random RE6_ChainsawMan/Death
+{
+	RE6ChainsawMan_Talk_32
+	RE6ChainsawMan_Talk_27
+	RE6ChainsawMan_Talk_26
+	RE6ChainsawMan_Talk_24
+	RE6ChainsawMan_Talk_11
+}
+
+$random RE6_ChainsawMan/Pain
+{
+	RE6ChainsawMan_Talk_10
+	RE6ChainsawMan_Talk_11
+	RE6ChainsawMan_Talk_12
+	RE6ChainsawMan_Talk_13
+	RE6ChainsawMan_Talk_14
+	RE6ChainsawMan_Talk_15
+	RE6ChainsawMan_Talk_16
+	RE6ChainsawMan_Talk_17
+	RE6ChainsawMan_Talk_18
+	RE6ChainsawMan_Talk_19
+	RE6ChainsawMan_Talk_20
+	RE6ChainsawMan_Talk_21
+	RE6ChainsawMan_Talk_22
+	RE6ChainsawMan_Talk_23
+	RE6ChainsawMan_Talk_24
+	RE6ChainsawMan_Talk_25
+	RE6ChainsawMan_Talk_26
+	RE6ChainsawMan_Talk_27
+	RE6ChainsawMan_Talk_28
+	RE6ChainsawMan_Talk_29
+	RE6ChainsawMan_Talk_30
+	RE6ChainsawMan_Talk_31
+	RE6ChainsawMan_Talk_32
+	RE6ChainsawMan_Talk_33
+	RE6ChainsawMan_Talk_34
+	RE6ChainsawMan_Talk_35
+}
+
+
+$rolloff  RE6_ChainsawMan_ChainsawLoop 300 2100
+
+body_medium_scrape_rough_loop1			"Sounds/Valve/Body/body_medium_scrape_rough_loop1.wav"
+body_medium_scrape_smooth_loop1			"Sounds/Valve/Body/body_medium_scrape_smooth_loop1.wav"
+body_medium_break2						"Sounds/Valve/Body/body_medium_break2.wav"
+body_medium_break3						"Sounds/Valve/Body/body_medium_break3.wav"
+body_medium_break4						"Sounds/Valve/Body/body_medium_break4.wav"
+body_medium_impact_hard1					"Sounds/Valve/Body/body_medium_impact_hard1.wav"
+body_medium_impact_hard2					"Sounds/Valve/Body/body_medium_impact_hard2.wav"
+body_medium_impact_hard3					"Sounds/Valve/Body/body_medium_impact_hard3.wav"
+body_medium_impact_hard4					"Sounds/Valve/Body/body_medium_impact_hard4.wav"
+body_medium_impact_hard5					"Sounds/Valve/Body/body_medium_impact_hard5.wav"
+body_medium_impact_hard6					"Sounds/Valve/Body/body_medium_impact_hard6.wav"
+
+$random body_medium_break {body_medium_break2 body_medium_break3 body_medium_break4}
+$random body_medium_impact_hard {body_medium_impact_hard1 body_medium_impact_hard2 body_medium_impact_hard3 body_medium_impact_hard4 body_medium_impact_hard6 body_medium_impact_hard5}
+
+flesh_impact_bullet1				"Sounds/Valve/Flesh/flesh_impact_bullet1.wav"
+flesh_impact_bullet2				"Sounds/Valve/Flesh/flesh_impact_bullet2.wav"
+flesh_impact_bullet3				"Sounds/Valve/Flesh/flesh_impact_bullet3.wav"
+flesh_impact_bullet4				"Sounds/Valve/Flesh/flesh_impact_bullet4.wav"
+flesh_impact_bullet5				"Sounds/Valve/Flesh/flesh_impact_bullet5.wav"
+flesh_impact_hard1					"Sounds/Valve/Flesh/flesh_impact_hard1.wav"
+flesh_impact_hard2					"Sounds/Valve/Flesh/flesh_impact_hard2.wav"
+flesh_impact_hard3					"Sounds/Valve/Flesh/flesh_impact_hard3.wav"
+flesh_impact_hard4					"Sounds/Valve/Flesh/flesh_impact_hard4.wav"
+flesh_impact_hard5					"Sounds/Valve/Flesh/flesh_impact_hard5.wav"
+flesh_impact_hard6					"Sounds/Valve/Flesh/flesh_impact_hard6.wav"
+flesh_squishy_impact_hard1			"Sounds/Valve/Flesh/flesh_squishy_impact_hard1.wav"
+flesh_squishy_impact_hard2			"Sounds/Valve/Flesh/flesh_squishy_impact_hard2.wav"
+flesh_squishy_impact_hard3			"Sounds/Valve/Flesh/flesh_squishy_impact_hard3.wav"
+flesh_squishy_impact_hard4			"Sounds/Valve/Flesh/flesh_squishy_impact_hard4.wav"
+flesh_strider_impact_bullet1			"Sounds/Valve/Flesh/flesh_strider_impact_bullet1.wav"
+flesh_strider_impact_bullet2			"Sounds/Valve/Flesh/flesh_strider_impact_bullet1.wav"
+flesh_strider_impact_bullet3			"Sounds/Valve/Flesh/flesh_strider_impact_bullet1.wav"
+
+$random flesh_impact_bullet {flesh_impact_bullet1 flesh_impact_bullet2 flesh_impact_bullet3 flesh_impact_bullet4 flesh_impact_bullet5}
+$random flesh_impact_hard {flesh_impact_hard1 flesh_impact_hard2 flesh_impact_hard3 flesh_impact_hard4 flesh_impact_hard5 flesh_impact_hard6}
+$random flesh_squishy_impact_hard {flesh_squishy_impact_hard1 flesh_squishy_impact_hard2 flesh_squishy_impact_hard3 flesh_squishy_impact_hard4}
+$random flesh_strider_impact_bullet {flesh_strider_impact_bullet1 flesh_strider_impact_bullet2 flesh_strider_impact_bullet3}
+
+
+
+
+
+$limit 	sawedoff-1-distant 80
+$rolloff  sawedoff-1-distant 3000 6000
+
+general_bodyfalls__0			"sounds/general_bodyfalls__0.ogg"
+general_bodyfalls__1			"sounds/general_bodyfalls__1.ogg"
+general_bodyfalls__2			"sounds/general_bodyfalls__2.ogg"
+general_bodyfalls__3			"sounds/general_bodyfalls__3.ogg"
+general_bodyfalls__4			"sounds/general_bodyfalls__4.ogg"
+general_bodyfalls__5			"sounds/general_bodyfalls__5.ogg"
+general_bodyfalls__6			"sounds/general_bodyfalls__6.ogg"
+
+$random gibs/gibbed { ggibbed1 ggibbed2 ggibbed3 ggibbed4 ggibbed5 ggibbed6 ggibbed7 ggibbed8 }
+ggibbed1	DSGIB1
+ggibbed2	DSGIB2
+ggibbed3	DSGIB3
+ggibbed4	DSGIB4
+ggibbed5	DSGIB5
+ggibbed6	DSGIB6
+ggibbed7	DSGIB7
+ggibbed8	DSGIB8
+$limit gibs/gibbed 6
+
+
+meatl1	meatl1
+meatl2	meatl2
+meatl3	meatl3
+meatl4	meatl4
+meatl5	meatl5
+meatl6	meatl6
+meatl7	meatl7
+meatl8	meatl8
+meatl9	meatl9
+
+$limit gibs/meatland 10
+$random gibs/meatland { meatl1 meatl2 meatl3 meatl4 meatl5 meatl6 meatl7 meatl8 meatl9 flesh_squishy_impact_hard1 flesh_squishy_impact_hard2 flesh_squishy_impact_hard3 flesh_squishy_impact_hard4}
+
+$random general_bodyfalls {general_bodyfalls__0 general_bodyfalls__1 general_bodyfalls__2 general_bodyfalls__3 general_bodyfalls__4 general_bodyfalls__5 general_bodyfalls__6}
+
+
+$limit misc/gibbeddoom2016 2
+$random misc/gibbeddoom2016		{ misc/gib1 misc/gib2 misc/gib3 misc/gib4 misc/gib5 }
+misc/gib1						GIBSPLT1
+misc/gib2						GIBSPLT2
+misc/gib3						GIBSPLT3
+misc/gib4						GIBSPLT4
+misc/gib5						GIBSPLT5
+
+$limit misc/gibbounce 0
+$random misc/gibbounce		{ misc/gibb1 misc/gibb2 misc/gibb3 misc/gibb4 misc/gibb5 misc/gibb6 misc/gibb7 }
+misc/gibb1						GIBIMP1
+misc/gibb2						GIBIMP2
+misc/gibb3						GIBIMP3
+misc/gibb4						GIBIMP4
+misc/gibb5						GIBIMP5
+misc/gibb6						GIBIMP6
+misc/gibb7						GIBIMP7
+
+$random Panzer-krok {Panzer-krok1 Panzer-krok1p Panzer-krok2 Panzer-krok2p Panzer-krok3 Panzer-krok4}
+$random Panzer-walkvoice {Panzer-walkvoice1 Panzer-walkvoice2 Panzer-walkvoice3 Panzer-walkvoice4}
+$random FAREXPL  {dsbarex1 dsbarex2 dsbarex3 dsbarex4 dsbarex5 dsbarex6 dsbarex7}
+dsbarex1 dsbarex1
+dsbarex2 dsbarex2
+dsbarex3 dsbarex3
+dsbarex4 dsbarex4
+dsbarex5 dsbarex5
+dsbarex6 dsbarex6
+dsbarex7 dsbarex7
+$limit FAREXPL 4
+$rolloff FAREXPL 1000 7500
+
+DarkImpFireLoop BALLOOP2
+
+a_DiscHitMeat_01					"Sounds/a_DiscHitMeat_01.ogg"
+a_DiscHitMeat_02					"Sounds/a_DiscHitMeat_02.ogg"
+
+$random Sounds/DiscHitMeat
+{
+	a_DiscHitMeat_01
+	a_DiscHitMeat_02
+}
+
+plague_nemesis_pain1			"Sounds/Plague/nemesis_pain1.wav"
+plague_nemesis_pain2			"Sounds/Plague/nemesis_pain2.wav"
+plague_nemesis_pain3			"Sounds/Plague/nemesis_pain3.wav"
+plague_nemesis1				"Sounds/Plague/nemesis1.wav"
+plague_nemesis2				"Sounds/Plague/nemesis2.wav"
+plague_zombie_brains1			"Sounds/Plague/zombie_brains1.wav"
+plague_zombie_brains2			"Sounds/Plague/zombie_brains2.wav"
+plague_zombie_burn3				"Sounds/Plague/zombie_burn3.wav"
+plague_zombie_burn4				"Sounds/Plague/zombie_burn4.wav"
+plague_zombie_burn5				"Sounds/Plague/zombie_burn5.wav"
+plague_zombie_burn6				"Sounds/Plague/zombie_burn6.wav"
+plague_zombie_burn7				"Sounds/Plague/zombie_burn7.wav"
+plague_zombie_die1				"Sounds/Plague/zombie_die1.wav"
+plague_zombie_die2				"Sounds/Plague/zombie_die2.wav"
+plague_zombie_die3				"Sounds/Plague/zombie_die3.wav"
+plague_zombie_die4				"Sounds/Plague/zombie_die4.wav"
+plague_zombie_die5				"Sounds/Plague/zombie_die5.wav"
+plague_zombie_fall1				"Sounds/Plague/zombie_fall1.wav"
+plague_zombie_infec1			"Sounds/Plague/zombie_infec1.wav"
+plague_zombie_infec2			"Sounds/Plague/zombie_infec2.wav"
+plague_zombie_infec3			"Sounds/Plague/zombie_infec3.wav"
+plague_zombie_madness1			"Sounds/Plague/zombie_madness1.wav"
+plague_zombie_pain1				"Sounds/Plague/zombie_pain1.wav"
+plague_zombie_pain2				"Sounds/Plague/zombie_pain2.wav"
+plague_zombie_pain3				"Sounds/Plague/zombie_pain3.wav"
+plague_zombie_pain4				"Sounds/Plague/zombie_pain4.wav"
+plague_zombie_pain5				"Sounds/Plague/zombie_pain5.wav"
+
+plague_zombie_alert1			"Sounds/Plague/zombie_alert1.wav"
+plague_zombie_alert2			"Sounds/Plague/zombie_alert2.wav"
+plague_zombie_alert3			"Sounds/Plague/zombie_alert3.wav"
+plague_zombie_alert4			"Sounds/Plague/zombie_alert4.wav"
+
+plague_zombi_attack_1			"Sounds/Plague/zombi_attack_1.ogg"
+plague_zombi_attack_2			"Sounds/Plague/zombi_attack_2.ogg"
+plague_zombi_attack_3			"Sounds/Plague/zombi_attack_3.ogg"
+plague_zombi_death_1			"Sounds/Plague/zombi_death_1.ogg"
+plague_zombi_death_2			"Sounds/Plague/zombi_death_2.ogg"
+plague_zombi_hurt_01			"Sounds/Plague/zombi_hurt_01.ogg"
+plague_zombi_hurt_02			"Sounds/Plague/zombi_hurt_02.ogg"
+
+$random plague_zombi_attack {plague_zombi_attack_1 plague_zombi_attack_2 plague_zombi_attack_3}
+$random plague_zombi_death {plague_zombi_death_1 plague_zombi_death_2 }
+$random plague_zombi_hurt {plague_zombi_hurt_01 plague_zombi_hurt_02}
+
+$random plague_zombie_alert {plague_zombie_alert1 plague_zombie_alert2 plague_zombie_alert3 plague_zombie_alert4}
+$random plague_nemesis_pain {plague_nemesis_pain1 plague_nemesis_pain2 plague_nemesis_pain3}
+$random plague_nemesis {plague_nemesis1 plague_nemesis2}
+$random plague_zombie_brains {plague_zombie_brains1 plague_zombie_brains2}
+$random plague_zombie_burn {plague_zombie_burn3 plague_zombie_burn4 plague_zombie_burn5 plague_zombie_burn6 plague_zombie_burn7}
+$random plague_zombie_die {plague_zombie_die1 plague_zombie_die2 plague_zombie_die3 plague_zombie_die4 plague_zombie_die5}
+$random plague_zombie_infec {plague_zombie_infec1 plague_zombie_infec2 plague_zombie_infec3}
+$random plague_zombie_pain {plague_zombie_pain1 plague_zombie_pain2 plague_zombie_pain3 plague_zombie_pain4 plague_zombie_pain5}
+
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+//					Russian Soldier SOUNDS						//
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+
+s_grenade-throw-swish				"Sounds/RussianSoldier/s_grenade-throw-swish.wav"
+s_grenade-zawleczka					"Sounds/RussianSoldier/s_grenade-zawleczka.wav"
+s_russ-atak1a						"Sounds/RussianSoldier/s_russ-atak1a.wav"
+s_russ-atak1b						"Sounds/RussianSoldier/s_russ-atak1b.wav"
+s_russ-atak2a						"Sounds/RussianSoldier/s_russ-atak2a.wav"
+s_russ-atak2b						"Sounds/RussianSoldier/s_russ-atak2b.wav"
+s_russ-attackscream1				"Sounds/RussianSoldier/s_russ-attackscream1.wav"
+s_russ-attackscream2				"Sounds/RussianSoldier/s_russ-attackscream2.wav"
+s_russ-attackscream3				"Sounds/RussianSoldier/s_russ-attackscream3.wav"
+s_russ-attackscream4				"Sounds/RussianSoldier/s_russ-attackscream4.wav"
+s_russ-death1						"Sounds/RussianSoldier/s_russ-death1.wav"
+s_russ-death2						"Sounds/RussianSoldier/s_russ-death2.wav"
+s_russ-death3						"Sounds/RussianSoldier/s_russ-death3.wav"
+s_russ-halt1						"Sounds/RussianSoldier/s_russ-halt1.wav"
+s_russ-halt2						"Sounds/RussianSoldier/s_russ-halt2.wav"
+s_russ-halt3						"Sounds/RussianSoldier/s_russ-halt3.wav"
+s_russ-hit1						"Sounds/RussianSoldier/s_russ-hit1.wav"
+s_russ-hit2						"Sounds/RussianSoldier/s_russ-hit2.wav"
+s_russ-hit3						"Sounds/RussianSoldier/s_russ-hit3.wav"
+s_russ-krok1						"Sounds/RussianSoldier/s_russ-krok1.wav"
+s_russ-krok2						"Sounds/RussianSoldier/s_russ-krok2.wav"
+s_russ-pepesza-shoot-all				"Sounds/RussianSoldier/s_russ-pepesza-shoot-all.wav"
+s_russ-weapon-lost					"Sounds/RussianSoldier/s_russ-weapon-lost.wav"
+
+$random s_russ-atak12a {s_russ-atak1a s_russ-atak1b s_russ-atak2a s_russ-atak2b}
+$random s_russ-attackscream {s_russ-attackscream1 s_russ-attackscream2 s_russ-attackscream3 s_russ-attackscream4}
+$random s_russ-death {s_russ-death1 s_russ-death2 s_russ-death3}
+$random s_russ-halt {s_russ-halt1 s_russ-halt2 s_russ-halt3}
+$random s_russ-hit {s_russ-hit1 s_russ-hit2 s_russ-hit3}
+$random s_russ-krok {s_russ-krok2 s_russ-krok1}
+
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+//					BANSHEE SOUNDS								//
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+
+banshee_at1					"sounds/banshee/banshee_at1.wav"
+banshee_at2					"sounds/banshee/banshee_at2.wav"
+banshee_attackscream1			"sounds/banshee/banshee_attackscream1.wav"
+banshee_attackscream2			"sounds/banshee/banshee_attackscream2.wav"
+banshee_attackscream3			"sounds/banshee/banshee_attackscream3.wav"
+banshee_death1					"sounds/banshee/banshee_death1.wav"
+banshee_death2					"sounds/banshee/banshee_death2.wav"
+banshee_death-dissapear			"sounds/banshee/banshee_death-dissapear.wav"
+banshee_hand-hit				"sounds/banshee/banshee_hand-hit.wav"
+banshee_hit1					"sounds/banshee/banshee_hit1.wav"
+banshee_hit2					"sounds/banshee/banshee_hit2.wav"
+banshee_krok1					"sounds/banshee/banshee_krok1.wav"
+banshee_krok2					"sounds/banshee/banshee_krok2.wav"
+banshee_scream_03				"sounds/banshee/banshee_scream_03.wav"
+banshee_swish					"sounds/banshee/banshee_swish.wav"
+
+$random banshee_at {banshee_at1 banshee_at2}
+$random banshee_attackscream {banshee_attackscream1 banshee_attackscream2 banshee_attackscream3}
+$random banshee_death {banshee_death1 banshee_death2}
+$random banshee_hit {banshee_hit1 banshee_hit2}
+$random banshee_krok {banshee_krok1 banshee_krok2}
+
+
+devil_at1				"sounds/DevilMonk/devil_at1.wav"
+devil_at2				"sounds/DevilMonk/devil_at2.wav"
+devil_at3				"sounds/DevilMonk/devil_at3.wav"
+devil_at4 			"sounds/DevilMonk/devil_at4-gas.wav"
+devil_death			"sounds/DevilMonk/devil_death.wav"
+devil_explode-gas		"sounds/DevilMonk/devil_explode-gassssssss.wav"
+devil_hit1			"sounds/DevilMonk/devil_hit1.wav"
+devil_hit2			"sounds/DevilMonk/devil_hit2.wav"
+devil_swish1			"sounds/DevilMonk/devil_swish1.wav"
+devil_swish2			"sounds/DevilMonk/devil_swish2.wav"
+devilmonkweaponhit		"sounds/DevilMonk/hit.wav"
+klatwa-slowdown		"sounds/DevilMonk/klatwa-slowdown.wav"
+
+$random devil_at {devil_at1 devil_at2 devil_at3 devil_at4}
+$random devil_hit {devil_hit1 devil_hit2}
+$random devil_swish {devil_swish1 devil_swish2}
+
+
+GERM_/1		GERM_/1
+GERM_/2		GERM_/2
+GERM_/3		GERM_/3
+GERM_/4		GERM_/4
+GERM_S1		GERM_S1
+GERM_S2		GERM_S2
+GERM_S3		GERM_S3
+$random GermanSoldier_Sight		{GERM_/1 GERM_/2 GERM_/3 GERM_/4 GERM_S1 GERM_S2 GERM_S3}
+
+GERM_A1		GERM_A1
+GERM_A2		GERM_A2
+GERM_A3		GERM_A3
+GERM_A4		GERM_A4
+$random GermanSoldier_Active		{GERM_A1 GERM_A2 GERM_A3 GERM_A4}
+
+GERM_D1		GERM_D1
+GERM_D2		GERM_D2
+GERM_D3		GERM_D3
+$random GermanSoldier_Death		{GERM_D1 GERM_D2 GERM_D3}
+
+GERM_P1		GERM_P1
+GERM_P2		GERM_P2
+GERM_P3		GERM_P3
+$random GermanSoldier_Pain		{GERM_P1 GERM_P2 GERM_P3}
+
+$random bcultist/burned { bcultist/burned1 bcultist/burned2 }
+bcultist/burned1		DSCULTB1
+bcultist/burned2		DSCULTB2
+
+
+GERM_S		GERM_S
+
+$random misc/icebreak {gib_frozen1 gib_frozen2 gib_frozen3}
+gib_frozen1					"sounds/gib_frozen1.ogg"
+gib_frozen2					"sounds/gib_frozen2.ogg"
+gib_frozen3					"sounds/gib_frozen3.ogg"
+
+leper_swish1					"Sounds/Leper/leper_swish1.ogg"
+lepper-hand-swish2				"Sounds/Leper/lepper-hand-swish2.ogg"
+lepper-hand-swish1				"Sounds/Leper/lepper-hand-swish1.ogg"
+lepper_hand_hit				"Sounds/Leper/lepper_hand_hit.ogg"
+leper_throw-loop				"Sounds/Leper/throw-loop.ogg"
+Quake1/Zombie/Missed			"Sounds/Leper/z_miss.ogg"
+
+
+
+Leper/IdleLooper			"Sounds/Leper/lepper_loop.ogg"
+
+Leper/WalkVoice4			"Sounds/Leper/lepper-walk-voice4.ogg"
+Leper/WalkVoice5			"Sounds/Leper/lepper-walk-voice5.ogg"
+
+
+Leper/RandomIdle1			"Sounds/Leper/zo_idle1.ogg"
+Leper/RandomIdle3			"Sounds/Leper/zo_idle3.ogg"
+
+$random Leper/WalkVoice
+{
+	Leper/WalkVoice4
+	Leper/WalkVoice5
+}
+
+
+
+$random Leper/RandomIdle
+{
+	Leper/RandomIdle1
+	Leper/RandomIdle3
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+	None
+}
+$limit Leper/RandomIdle1 1 1024
+$limit Leper/RandomIdle3 1 1024
+$limit Leper/RandomIdle  1 1024
+
+$random lepper-hand-swish {lepper-hand-swish2 lepper-hand-swish1 leper_swish1}
+Skull_Shotgun_Fire_BM16				"sounds/Skull/tm_toz34_shot.wav"
+
+$rolloff Skull_Shotgun_Fire_BM16 100 2200
+Skull_Shotgun_Fire				"sounds/Skull/monster_skull_fire_shotgun.wav"
+
+monster_skull_fireonhead				"sounds/Skull/monster_skull_fireonhead.wav"
+monster_skull_grr1_aim				"sounds/Skull/monster_skull_grr1_aim.wav"
+monster_skull_grr2_aim				"sounds/Skull/monster_skull_grr2_aim.wav"
+monster_skull_aim					"sounds/Skull/monster_skull_aim.wav"
+monster_skull_aim-clothes			"sounds/Skull/monster_skull_aim-clothes.wav"
+
+
+monster_skull_aim1			"sounds/Skull/monster_skull_aim1.ogg"
+monster_skull_aim2			"sounds/Skull/monster_skull_aim2.ogg"
+
+$random monster_skull_aim_mix
+{
+monster_skull_aim1
+monster_skull_aim2
+}
+
+
+moan_loop1					"sounds/Zombie/moan_loop1.wav"
+moan_loop2					"Sounds/Zombie/moan_loop2.wav"
+moan_loop3					"Sounds/Zombie/moan_loop3.wav"
+moan_loop4					"Sounds/Zombie/moan_loop4.wav"
+
+$random zombie_moan_loop		{moan_loop1 moan_loop2 moan_loop3 moan_loop4}
+
+
+zombie_die1				"sounds/Zombie/zombie_die1.wav"
+zombie_die2				"sounds/Zombie/zombie_die2.wav"
+zombie_die3				"sounds/Zombie/zombie_die3.wav"
+zombie_die4				"sounds/Zombie/zombie_die4.wav"
+zombie_die5				"sounds/Zombie/zombie_die5.wav"
+zombie_die6				"sounds/Zombie/zombie_die6.wav"
+zombie_die7				"sounds/Zombie/zombie_die7.wav"
+zombie_die8				"sounds/Zombie/zombie_die8.wav"
+zombie_die9				"sounds/Zombie/zombie_die9.wav"
+
+$random zombie_die		{zombie_die1 zombie_die2 zombie_die3 zombie_die4 zombie_die5 zombie_die6 zombie_die7 zombie_die8 zombie_die9}
+
+LEPERA1			LEPERA1
+LEPERA2			LEPERA2
+LEPERA3			LEPERA3
+LEPERA4			LEPERA4
+LEPERA5			LEPERA5
+LEPERA6			LEPERA6
+LEPERA7			LEPERA7
+LEPERA8			LEPERA8
+LEPERA9			LEPERA9
+LEPERD1			LEPERD1
+LEPERD2			LEPERD2
+LEPERD3			LEPERD3
+LEPERD4			LEPERD4
+LEPERS1			LEPERS1
+LEPERS2			LEPERS2
+LEPERS3			LEPERS3
+LEPERP1			LEPERP1
+LEPERP2			LEPERP2
+LEPERP3			LEPERP3
+LEPERP4			LEPERP4
+$random LeperAttack {LEPERA1 LEPERA2 LEPERA3 LEPERA4 LEPERA5 LEPERA6 LEPERA7 LEPERA8 LEPERA9}
+$random LeperDeath {LEPERD1 LEPERD2 LEPERD3 LEPERD4}
+$random LeperSee {LEPERS1 LEPERS2 LEPERS3}
+$random LeperPain {LEPERP1 LEPERP2 LEPERP3 LEPERP4}
+
+
+ZealotRE4_SeeSound_0				"sounds/Zealot/ZealotRE4_SeeSound_0.ogg"
+ZealotRE4_SeeSound_1				"sounds/Zealot/ZealotRE4_SeeSound_1.ogg"
+ZealotRE4_SeeSound_2				"sounds/Zealot/ZealotRE4_SeeSound_2.ogg"
+ZealotRE4_SeeSound_3				"sounds/Zealot/ZealotRE4_SeeSound_3.ogg"
+ZealotRE4_SeeSound_4				"sounds/Zealot/ZealotRE4_SeeSound_4.ogg"
+ZealotRE4_SeeSound_5				"sounds/Zealot/ZealotRE4_SeeSound_5.ogg"
+
+
+$pitchset ZealotRE4_SeeSound_0 0.87 1.05
+$pitchset ZealotRE4_SeeSound_1 0.87 1.05
+$pitchset ZealotRE4_SeeSound_2 0.87 1.05
+$pitchset ZealotRE4_SeeSound_3 0.87 1.05
+$pitchset ZealotRE4_SeeSound_4 0.87 1.05
+
+
+
+ZealotRE4_DieSound_0				"sounds/Zealot/ZealotRE4_DieSound_0.ogg"
+ZealotRE4_DieSound_1				"sounds/Zealot/ZealotRE4_DieSound_1.ogg"
+ZealotRE4_DieSound_2				"sounds/Zealot/ZealotRE4_DieSound_2.ogg"
+ZealotRE4_DieSound_3				"sounds/Zealot/ZealotRE4_DieSound_3.ogg"
+
+
+ZealotRE4_ActiveSound_0				"sounds/Zealot/ZealotRE4_ActiveSound_0.ogg"
+ZealotRE4_ActiveSound_1				"sounds/Zealot/ZealotRE4_ActiveSound_1.ogg"
+ZealotRE4_ActiveSound_2				"sounds/Zealot/ZealotRE4_ActiveSound_2.ogg"
+ZealotRE4_ActiveSound_3				"sounds/Zealot/ZealotRE4_ActiveSound_3.ogg"
+ZealotRE4_ActiveSound_4				"sounds/Zealot/ZealotRE4_ActiveSound_4.ogg"
+ZealotRE4_ActiveSound_5				"sounds/Zealot/ZealotRE4_ActiveSound_5.ogg"
+ZealotRE4_ActiveSound_6				"sounds/Zealot/ZealotRE4_ActiveSound_6.ogg"
+ZealotRE4_ActiveSound_7				"sounds/Zealot/ZealotRE4_ActiveSound_7.ogg"
+ZealotRE4_ActiveSound_8				"sounds/Zealot/ZealotRE4_ActiveSound_8.ogg"
+ZealotRE4_ActiveSound_9				"sounds/Zealot/ZealotRE4_ActiveSound_9.ogg"
+ZealotRE4_ActiveSound_10				"sounds/Zealot/ZealotRE4_ActiveSound_10.ogg"
+ZealotRE4_ActiveSound_11				"sounds/Zealot/ZealotRE4_ActiveSound_11.ogg"
+ZealotRE4_ActiveSound_12				"sounds/Zealot/ZealotRE4_ActiveSound_12.ogg"
+
+$pitchset ZealotRE4_ActiveSound_0 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_1 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_2 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_3 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_4 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_5 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_6 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_7 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_8 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_9 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_10 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_11 0.87 1.05
+$pitchset ZealotRE4_ActiveSound_12 0.87 1.05
+
+ZealotRE4_BeforeAttackSound_0			"sounds/Zealot/ZealotRE4_BeforeAttackSound_0.ogg"
+ZealotRE4_BeforeAttackSound_1			"sounds/Zealot/ZealotRE4_BeforeAttackSound_1.ogg"
+ZealotRE4_BeforeAttackSound_2			"sounds/Zealot/ZealotRE4_BeforeAttackSound_2.ogg"
+
+$pitchset ZealotRE4_BeforeAttackSound_0 0.87 1.05
+$pitchset ZealotRE4_BeforeAttackSound_1 0.87 1.05
+$pitchset ZealotRE4_BeforeAttackSound_2 0.87 1.05
+
+ZealotRE4_PainSound_0				"sounds/Zealot/ZealotRE4_PainSound_0.ogg"
+ZealotRE4_PainSound_1				"sounds/Zealot/ZealotRE4_PainSound_1.ogg"
+ZealotRE4_PainSound_2				"sounds/Zealot/ZealotRE4_PainSound_2.ogg"
+ZealotRE4_PainSound_3				"sounds/Zealot/ZealotRE4_PainSound_3.ogg"
+ZealotRE4_PainSound_4				"sounds/Zealot/ZealotRE4_PainSound_4.ogg"
+ZealotRE4_PainSound_5				"sounds/Zealot/ZealotRE4_PainSound_5.ogg"
+
+$pitchset ZealotRE4_PainSound_0 0.87 1.05
+$pitchset ZealotRE4_PainSound_1 0.87 1.05
+$pitchset ZealotRE4_PainSound_2 0.87 1.05
+$pitchset ZealotRE4_PainSound_3 0.87 1.05
+$pitchset ZealotRE4_PainSound_4 0.87 1.05
+$pitchset ZealotRE4_PainSound_5 0.87 1.05
+
+zealot_bogan_set1			"sounds/Zealot/bogan_set1.ogg"
+
+$random ZealotRE4_SeeSound {ZealotRE4_SeeSound_0 ZealotRE4_SeeSound_1 ZealotRE4_SeeSound_2 ZealotRE4_SeeSound_3 ZealotRE4_SeeSound_4 ZealotRE4_SeeSound_5}
+$random ZealotRE4_DieSound {ZealotRE4_DieSound_0 ZealotRE4_DieSound_1 ZealotRE4_DieSound_2 ZealotRE4_DieSound_3}
+$random ZealotRE4_ActiveSound {ZealotRE4_ActiveSound_0 ZealotRE4_ActiveSound_1 ZealotRE4_ActiveSound_2 ZealotRE4_ActiveSound_3 ZealotRE4_ActiveSound_4 ZealotRE4_ActiveSound_5 ZealotRE4_ActiveSound_6 ZealotRE4_ActiveSound_7 ZealotRE4_ActiveSound_8 ZealotRE4_ActiveSound_9 ZealotRE4_ActiveSound_10 ZealotRE4_ActiveSound_11 ZealotRE4_ActiveSound_12}
+$random ZealotRE4_BeforeAttackSound {ZealotRE4_BeforeAttackSound_1 ZealotRE4_BeforeAttackSound_0 ZealotRE4_BeforeAttackSound_2}
+$random ZealotRE4_PainSound {ZealotRE4_PainSound_0 ZealotRE4_PainSound_1 ZealotRE4_PainSound_2 ZealotRE4_PainSound_3 ZealotRE4_PainSound_4 ZealotRE4_PainSound_5}
+
+
+$random ZealotRE4_BeforeShoot
+{
+	ZealotRE4_BeforeAttackSound_0
+	ZealotRE4_BeforeAttackSound_0
+	None
+	None
+}
+
+
+
+
+Templar_shoot				"Sounds/Templar/Templar_shoot.wav"
+
+
+SH2_Monster_Halt_1			"sounds/SH2/SH2_Monster_Halt_1.wav"
+SH2_Monster_Halt_2			"sounds/SH2/SH2_Monster_Halt_2.wav"
+SH2_Monster_Halt_3			"sounds/SH2/SH2_Monster_Halt_3.wav"
+SH2_Monster_Halt_4			"sounds/SH2/SH2_Monster_Halt_4.wav"
+SH2_Monster_Halt_5			"sounds/SH2/SH2_Monster_Halt_5.wav"
+SH2_Monster_Halt_6			"sounds/SH2/SH2_Monster_Halt_6.wav"
+SH2_Monster_Halt_9			"sounds/SH2/SH2_Monster_Halt_9.wav"
+SH2_Monster_Halt_10			"sounds/SH2/SH2_Monster_Halt_10.wav"
+SH2_Monster_Halt_11			"sounds/SH2/SH2_Monster_Halt_11.wav"
+SH2_Monster_Halt_12			"sounds/SH2/SH2_Monster_Halt_12.wav"
+SH2_Monster_Death_1			"sounds/SH2/SH2_Monster_Death_1.wav"
+SH2_Monster_Death_2			"sounds/SH2/SH2_Monster_Death_2.wav"
+SH2_Monster_Death_3			"sounds/SH2/SH2_Monster_Death_3.wav"
+SH2_Monster_Death_4			"sounds/SH2/SH2_Monster_Death_4.wav"
+SH2_Monster_Death_5			"sounds/SH2/SH2_Monster_Death_5.wav"
+SH2_Monster_Death_6			"sounds/SH2/SH2_Monster_Death_6.wav"
+SH2_Monster_Pain_1			"sounds/SH2/SH2_Monster_Pain_1.wav"
+SH2_Monster_Pain_2			"sounds/SH2/SH2_Monster_Pain_2.wav"
+SH2_Monster_Pain_3			"sounds/SH2/SH2_Monster_Pain_3.wav"
+SH2_Monster_Pain_4			"sounds/SH2/SH2_Monster_Pain_4.wav"
+SH2_Monster_Step			"sounds/SH2/SH2_Monster_Step.wav"
+SH2_Monster_Attack			"sounds/SH2/SH2_Monster_Attack.wav"
+
+SH2_claw_miss1			"sounds/zombie/claw_miss1.wav"
+SH2_claw_miss2			"sounds/zombie/claw_miss2.wav"
+SH2_claw_miss3			"sounds/zombie/claw_miss3.wav"
+SH2_claw_miss4			"sounds/zombie/claw_miss4.wav"
+SH2_claw_miss5			"sounds/zombie/claw_miss5.wav"
+
+$random SH2_claw_miss {SH2_claw_miss1 SH2_claw_miss2 SH2_claw_miss3 SH2_claw_miss4 SH2_claw_miss5}
+
+$random SH2_Monster_Halt {SH2_Monster_Halt_1 SH2_Monster_Halt_2 SH2_Monster_Halt_3 SH2_Monster_Halt_4 SH2_Monster_Halt_5 SH2_Monster_Halt_6 SH2_Monster_Halt_9 SH2_Monster_Halt_10 SH2_Monster_Halt_11 SH2_Monster_Halt_12}
+$random SH2_Monster_Death {SH2_Monster_Death_1 SH2_Monster_Death_2 SH2_Monster_Death_4 SH2_Monster_Death_5 SH2_Monster_Death_6}
+$random SH2_Monster_Pain {SH2_Monster_Pain_1 SH2_Monster_Pain_2 SH2_Monster_Pain_3 SH2_Monster_Pain_4}
+
+
+$volume SH2_Monster_Halt 0.6
+$volume SH2_Monster_Death 0.6
+$volume SH2_Monster_Pain 0.6
+$volume SH2_Monster_Step 0.6
+
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+//					NUN SOUNDS								//
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+
+
+
+nun_at1					"Sounds/Nun/nun_at1.wav"
+nun_at2					"Sounds/Nun/nun_at2.wav"
+nun_at3					"Sounds/Nun/nun_at3.wav"
+nun_death					"Sounds/Nun/nun_de1.wav"
+//nun_hit1					"Sounds/Nun/nun_hit1.wav"
+//nun_hit3					"Sounds/Nun/nun_hit3.wav"
+nun-attack-swish1			"Sounds/Nun/nun-attack-swish.wav"
+nun-attack-swish2			"Sounds/Nun/nun-attack-swish2.wav"
+nun-charm-hit				"Sounds/Nun/nun-charm-hit.wav"
+nun-charm-shoot			"Sounds/Nun/nun-charm-shoot.wav"
+nun_fireball_sight			"Sounds/Nun/nun_fireball_sight.ogg"
+
+$attenuation nun_fireball_sight 0.45
+
+nun-hit-helmet				"Sounds/Nun/nun-hit-helmet.wav"
+nun-weapon-lost1			"Sounds/Nun/nun-weapon-lost1.wav"
+nun-weapon-lost2			"Sounds/Nun/nun-weapon-lost2.wav"
+nun-weapon-lost3			"Sounds/Nun/nun-weapon-lost3.wav"
+
+Nun-death1			"Sounds/Nun/Boy-death1.ogg"
+Nun-death2			"Sounds/Nun/Boy-death2.ogg"
+Nun-death3			"Sounds/Nun/Boy-death3.ogg"
+Nun-hit1				"Sounds/Nun/Boy-hit1.ogg"
+Nun-hit2				"Sounds/Nun/Boy-hit2.ogg"
+Nun-hit3				"Sounds/Nun/Boy-hit3.ogg"
+Nun_halt1				"Sounds/Nun/aboy_halt1.ogg"
+Nun_halt2				"Sounds/Nun/aboy_halt2.ogg"
+Nun_halt3				"Sounds/Nun/aboy_halt3.ogg"
+Nun_Active1			"Sounds/Nun/aboy_halt4.ogg"
+Nun_Active2			"Sounds/Nun/aboy_halt5.ogg"
+Nun_Active3			"Sounds/Nun/aboy_halt6.ogg"
+
+
+$random Nun-death {Nun-death1 Nun-death2 Nun-death3}
+$random Nun-hit {Nun-hit1 Nun-hit2 Nun-hit3}
+$random Nun_halt {Nun_halt1 Nun_halt2 Nun_halt3}
+$random Nun_Active {Nun_Active1 Nun_Active2 Nun_Active3}
+
+
+
+$random nun_attack {nun_at1 nun_at2 nun_at3}
+
+$random nun-attack-swish {nun-attack-swish1 nun-attack-swish2}
+$random nun-weapon-lost {nun-weapon-lost1 nun-weapon-lost2 nun-weapon-lost3}
+
+
+
+
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+//					Vamp Small SOUNDS							//
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+
+svamp-at1						"Sounds/Vamp_Small/svamp-at1.ogg"
+svamp-at2						"Sounds/Vamp_Small/svamp-at2.ogg"
+svamp-death1					"Sounds/Vamp_Small/svamp-death1.ogg"
+svamp-death2					"Sounds/Vamp_Small/svamp-death2.ogg"
+svamp-death3					"Sounds/Vamp_Small/svamp-death3.ogg"
+svamp-death4					"Sounds/Vamp_Small/svamp-death4.ogg"
+svamp-death5					"Sounds/Vamp_Small/svamp-death5.ogg"
+svamp-death6					"Sounds/Vamp_Small/svamp-death6.ogg"
+svamp-halt1					"Sounds/Vamp_Small/svamp-halt1.ogg"
+svamp-halt2					"Sounds/Vamp_Small/svamp-halt2.ogg"
+svamp-halt3					"Sounds/Vamp_Small/svamp-halt3.ogg"
+svamp-halt4					"Sounds/Vamp_Small/svamp-halt4.ogg"
+svamp-hit1					"Sounds/Vamp_Small/svamp-hit1.ogg"
+svamp-hit2					"Sounds/Vamp_Small/svamp-hit2.ogg"
+svamp-hit3					"Sounds/Vamp_Small/svamp-hit3.ogg"
+svamp-knife-hit				"Sounds/Vamp_Small/svamp-knife-hit.ogg"
+svamp-krok1					"Sounds/Vamp_Small/svamp-krok1.ogg"
+svamp-krok2					"Sounds/Vamp_Small/svamp-krok2.ogg"
+svamp-morph_into_bigger			"Sounds/Vamp_Small/svamp-morph_into_bigger.ogg"
+svamp-prepare					"Sounds/Vamp_Small/svamp-prepare.ogg"
+svamp-take-knifes				"Sounds/Vamp_Small/svamp-take-knifes.ogg"
+Vamp_knifes-loop				"Sounds/Vamp_Small/knifes-rotating-loop.ogg"
+Vamp_knife_deploy				"Sounds/Vamp_Small/knife_deploy1.ogg"
+Vamp_knife_slash				"Sounds/Vamp_Small/knife_slash1.ogg"
+svamp_magic_throw				"Sounds/Vamp_Small/svamp_magic_throw.ogg"
+
+$attenuation svamp_magic_throw 0.45
+$attenuation Vamp_knife_deploy 0.9
+$attenuation Vamp_knifes-loop 0.8
+
+$random svamp-at {svamp-at1 svamp-at2}
+$random svamp-death {svamp-death1 svamp-death2 svamp-death3 svamp-death4 svamp-death5 svamp-death6}
+$random svamp-halt {svamp-halt1 svamp-halt2 svamp-halt3 svamp-halt4}
+$random svamp-hit {svamp-hit1 svamp-hit2 svamp-hit3}
+$random svamp-krok {svamp-krok1 svamp-krok2}
+
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+//					Vamp Big SOUNDS							//
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+
+
+Big_Vamp_Die_0			"Sounds/Vamp_Small/mvamp-death.ogg"
+Big_Vamp_Die_1			"Sounds/Vamp_Small/mvamp-death2.ogg"
+Big_Vamp_Die_2			"Sounds/Vamp_Small/mvamp-death3.ogg"
+Big_Vamp_Die_3			"Sounds/Vamp_Big/die_0.ogg"
+Big_Vamp_Die_4			"Sounds/Vamp_Big/die_1.ogg"
+Big_Vamp_Die_5			"Sounds/Vamp_Big/die_2.ogg"
+Big_Vamp_Die_6			"Sounds/Vamp_Big/die_3.ogg"
+Big_Vamp_Die_7			"Sounds/Vamp_Big/vamp-death.ogg"
+
+$random Big_Vamp_Die
+{
+	Big_Vamp_Die_0
+	Big_Vamp_Die_1
+	Big_Vamp_Die_2
+	Big_Vamp_Die_3
+	Big_Vamp_Die_4
+	Big_Vamp_Die_5
+	Big_Vamp_Die_6
+	Big_Vamp_Die_7
+}
+
+Big_Vamp_ActiveSnd_1		"Sounds/Vamp_Big/vamp_new_hit_1.ogg"
+Big_Vamp_ActiveSnd_2		"Sounds/Vamp_Big/vamp_new_hit_2.ogg"
+Big_Vamp_ActiveSnd_3		"Sounds/Vamp_Big/vamp_new_hit_3.ogg"
+
+$random Big_Vamp_ActiveSnd
+{
+	Big_Vamp_ActiveSnd_1
+	Big_Vamp_ActiveSnd_2
+	Big_Vamp_ActiveSnd_3
+}
+
+vamp_first_sight_1				"Sounds/Vamp_Big/vamp_distant_growl_1.ogg"
+vamp_first_sight_2				"Sounds/Vamp_Big/vamp_script_sight_0.ogg"
+vamp_first_sight_3				"Sounds/Vamp_Big/vamp_script_sight_1.ogg"
+
+$random vamp_first_sight
+{
+	vamp_first_sight_1
+	vamp_first_sight_2
+	vamp_first_sight_3
+}
+
+$attenuation vamp_first_sight 0.7
+
+
+Big_Vamp_krok1			"Sounds/Vamp_Small/mvamp-krok1.ogg"
+Big_Vamp_krok2			"Sounds/Vamp_Small/mvamp-krok2.ogg"
+
+Big_Vamp_attackscream1	 "Sounds/Vamp_Small/mvamp-attackscream1.ogg"
+Big_Vamp_attackscream2	 "Sounds/Vamp_Small/mvamp-attackscream2.ogg"
+Big_Vamp_attackscream3	 "Sounds/Vamp_Small/mvamp-attackscream3.ogg"
+
+$random Big_Vamp_attackscream
+{
+	Big_Vamp_attackscream1
+	Big_Vamp_attackscream2
+	Big_Vamp_attackscream3
+	none
+}
+
+SADOD1			SADOD1
+SADOD2			SADOD2
+SADOD3			SADOD3
+SADOD4			SADOD4
+SADOF1			SADOF1
+SADOF2			SADOF2
+SADOF3			SADOF3
+SADOS1			SADOS1
+SADOS2			SADOS2
+SADOS3			SADOS3
+SADOP1			SADOP1
+SADOP2			SADOP2
+SADOP3			SADOP3
+
+$pitchset SADOS1 0.9 1.05
+$pitchset SADOS2 0.9 1.05
+$pitchset SADOS3 0.9 1.05
+
+
+$pitchset SADOD1 0.9 1.05
+$pitchset SADOD2 0.9 1.05
+$pitchset SADOD3 0.9 1.05
+$pitchset SADOD4 0.9 1.05
+
+$pitchset SADOP1 0.9 1.05
+$pitchset SADOP2 0.9 1.05
+$pitchset SADOP3 0.9 1.05
+
+
+
+
+
+$random SadoAttack {SADOF1 SADOF2 SADOF3}
+$random SadoDeath {SADOD1 SADOD2 SADOD3 SADOD4}
+$random SadoSee {SADOS1 SADOS2 SADOS3}
+$random SadoPain {SADOP1 SADOP2 SADOP3}
+
+
+
+SKELA1			SKELA1
+SKELA2			SKELA2
+SKELA3			SKELA3
+SKELA4			SKELA4
+SKELA5			SKELA5
+SKELD1			SKELD1
+SKELD2			SKELD2
+SKELD3			SKELD3
+SKELD4			SKELD4
+SKELS1			SKELS1
+SKELS2			SKELS2
+SKELS3			SKELS3
+SKELS4			SKELS4
+SKELP1			SKELP1
+SKELP2			SKELP2
+SKELP3			SKELP3
+
+
+$pitchset SKELA1 0.9 1.05
+$pitchset SKELA2 0.9 1.05
+$pitchset SKELA3 0.9 1.05
+$pitchset SKELA4 0.9 1.05
+$pitchset SKELA5 0.9 1.05
+
+$pitchset SKELD1 0.9 1.05
+$pitchset SKELD2 0.9 1.05
+$pitchset SKELD3 0.9 1.05
+$pitchset SKELD4 0.9 1.05
+
+$pitchset SKELS1 0.9 1.05
+$pitchset SKELS2 0.9 1.05
+$pitchset SKELS3 0.9 1.05
+$pitchset SKELS4 0.9 1.05
+
+$pitchset SKELP1 0.9 1.05
+$pitchset SKELP2 0.9 1.05
+$pitchset SKELP3 0.9 1.05
+
+
+
+gib_big1			"sounds/gib_big.ogg"
+gib_big2			"sounds/gib_big2.ogg"
+gib_big3			"sounds/gib_big3.ogg"
+gib_medium		"sounds/gib_medium.ogg"
+gib_small			"sounds/gib_small.ogg"
+$random gib_big {gib_big1 gib_big2 gib_big3}
+
+
+$random SkeletonAttack {SKELA1 SKELA2 SKELA3 SKELA4 SKELA5 }
+$random SkeletonDeath {SKELD1 SKELD2 SKELD3 SKELD4}
+$random SkeletonSee {SKELS1 SKELS2 SKELS3 SKELS4}
+$random SkeletonPain {SKELP1 SKELP2 SKELP3}
+SKRL1			SKRL1
+SKRL2			SKRL2
+$random SkeletonRifle {SKRL1 SKRL2}
+
+$random imp/melee { imp/melee1 imp/melee2 imp/melee3 }
+imp/melee1	IMPCLAW1
+imp/melee2	IMPCLAW2
+imp/melee3	IMPCLAW3
+
+
+SKLDI1		SKLDI1
+SKLDI2		SKLDI2
+$pitchset SKLDI1 0.9 1.05
+$pitchset SKLDI2 0.9 1.05
+
+SKLSEE1		SKLSEE1
+SKLSEE2		SKLSEE2
+SKLSEE3		SKLSEE3
+
+$pitchset SKLSEE1 0.9 1.05
+$pitchset SKLSEE2 0.9 1.05
+$pitchset SKLSEE3 0.9 1.05
+
+SKLPAI1		SKLPAI1
+SKLPAI2		SKLPAI2
+SKLPAI3		SKLPAI3
+
+$pitchset SKLPAI1 0.9 1.05
+$pitchset SKLPAI2 0.9 1.05
+$pitchset SKLPAI3 0.9 1.05
+
+$random Skull_Die 	{SKLDI1 SKLDI2}
+$random Skull_See 	{SKLSEE1 SKLSEE2 SKLSEE3}
+$random Skull_Pain	{SKLPAI1 SKLPAI2 SKLPAI3}
+SAWNAL9		SAWNAL9
+
+
+
+
+
+
+
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+//					Nurse SOUNDS							//
+//=========================================================================//
+//=========================================================================//
+//=========================================================================//
+
+Nurse_Sight_1			"Sounds/Nurse/Nurse_Sight_1.ogg"
+Nurse_Sight_2			"Sounds/Nurse/Nurse_Sight_2.ogg"
+Nurse_Sight_3			"Sounds/Nurse/Nurse_Sight_3.ogg"
+Nurse_Sight_4			"Sounds/Nurse/Nurse_Sight_4.ogg"
+
+$random Nurse_Sight
+{
+	Nurse_Sight_1
+	Nurse_Sight_2
+	Nurse_Sight_3
+	Nurse_Sight_4
+}
+
+
+Nurse_Death_1			"Sounds/Nurse/Nurse_Death_1.ogg"
+Nurse_Death_2			"Sounds/Nurse/Nurse_Death_2.ogg"
+Nurse_Death_3			"Sounds/Nurse/Nurse_Death_3.ogg"
+Nurse_Death_4			"Sounds/Nurse/Nurse_Death_4.ogg"
+Nurse_Death_5			"Sounds/Nurse/Nurse_Death_5.ogg"
+
+$random Nurse_Death
+{
+	Nurse_Death_1
+	Nurse_Death_2
+	Nurse_Death_3
+	Nurse_Death_4
+	Nurse_Death_5
+}
+
+Nurse_Kick_1			"Sounds/Nurse/Nurse_Kick_1.ogg"
+Nurse_Kick_2			"Sounds/Nurse/Nurse_Kick_2.ogg"
+Nurse_Kick_3			"Sounds/Nurse/Nurse_Kick_3.ogg"
+Nurse_Kick_4			"Sounds/Nurse/Nurse_Kick_4.ogg"
+Nurse_Kick_5			"Sounds/Nurse/Nurse_Kick_5.ogg"
+Nurse_Kick_6			"Sounds/Nurse/Nurse_Kick_6.ogg"
+
+$random Nurse_Kick
+{
+	Nurse_Kick_1
+	Nurse_Kick_2
+	Nurse_Kick_3
+	Nurse_Kick_4
+	Nurse_Kick_5
+	Nurse_Kick_6
+}
+
+
+Nurse_Pain_1			"Sounds/Nurse/Nurse_Pain_1.ogg"
+Nurse_Pain_2			"Sounds/Nurse/Nurse_Pain_2.ogg"
+Nurse_Pain_3			"Sounds/Nurse/Nurse_Pain_3.ogg"
+Nurse_Pain_4			"Sounds/Nurse/Nurse_Pain_4.ogg"
+Nurse_Pain_5			"Sounds/Nurse/Nurse_Pain_5.ogg"
+Nurse_Pain_6			"Sounds/Nurse/Nurse_Pain_6.ogg"
+Nurse_Pain_7			"Sounds/Nurse/Nurse_Pain_7.ogg"
+Nurse_Pain_8			"Sounds/Nurse/Nurse_Pain_8.ogg"
+Nurse_Pain_9			"Sounds/Nurse/Nurse_Pain_9.ogg"
+Nurse_Pain_10			"Sounds/Nurse/Nurse_Pain_10.ogg"
+Nurse_Pain_11			"Sounds/Nurse/Nurse_Pain_11.ogg"
+Nurse_Pain_12			"Sounds/Nurse/Nurse_Pain_12.ogg"
+Nurse_Pain_13			"Sounds/Nurse/Nurse_Pain_13.ogg"
+Nurse_Pain_14			"Sounds/Nurse/Nurse_Pain_14.ogg"
+Nurse_Pain_15			"Sounds/Nurse/Nurse_Pain_15.ogg"
+Nurse_Pain_16			"Sounds/Nurse/Nurse_Pain_16.ogg"
+Nurse_Pain_17			"Sounds/Nurse/Nurse_Pain_17.ogg"
+
+$random Nurse_Pain
+{
+	Nurse_Pain_1
+	Nurse_Pain_2
+	Nurse_Pain_3
+	Nurse_Pain_4
+	Nurse_Pain_5
+	Nurse_Pain_6
+	Nurse_Pain_7
+	Nurse_Pain_8
+	Nurse_Pain_9
+	Nurse_Pain_10
+	Nurse_Pain_11
+	Nurse_Pain_12
+	Nurse_Pain_13
+	Nurse_Pain_14
+	Nurse_Pain_15
+	Nurse_Pain_16
+	Nurse_Pain_17
+}
+
+
+
+nurse_krok1			"Sounds/Nurse/nurse_krok1.ogg"
+nurse_krok2			"Sounds/Nurse/nurse_krok2.ogg"
+
+
+Nurse_HeadShot				"Sounds/Nurse/Nurse_Headshot.ogg"
+Nurse_SGun_Shot			"Sounds/Nurse/syringegun_shoot.ogg"
+
+
+
+
+
+
+
+
+skeleton_bayonet-atack-swish				"sounds/Skeleton/skeleton_bayonet-atack-swish.wav"
+skeleton_bayonet-atack-voice1				"sounds/Skeleton/skeleton_bayonet-atack-voice1.wav"
+skeleton_bayonet-atack-voice2				"sounds/Skeleton/skeleton_bayonet-atack-voice2.wav"
+skeleton_bayonet-hit					"sounds/skeleton/skeleton_bayonet-hit.wav"
+
+skeleton_svu_shot					"sounds/skeleton/n_svu_shot.ogg"
+AWP_SHOT						"Sounds/Skeleton/SniperShot.ogg"
+
+$rolloff AWP_SHOT	2000 6000
+$rolloff skeleton_svu_shot	2000 6000
+
+monster_AWP__distant		"Sounds/Skeleton/awp1-distant.ogg"
+$limit 	monster_AWP__distant 80
+$rolloff  monster_AWP__distant 3000 6000
+
+awp_boltback		"Sounds/Skeleton/awp_boltback.ogg"
+
+skeletonsoldier_gib					"sounds/skeleton/skeletonsoldier_gib.ogg"
+$random skeleton_bayonet-atack-voice {skeleton_bayonet-atack-voice1 skeleton_bayonet-atack-voice2}
+
+
+
+
+Boy-atakBB1						"sounds/BoyNextDoor/Boy-atakBB1.wav"
+Boy-atakBB2						"sounds/BoyNextDoor/Boy-atakBB2.wav"
+Boy-bodyfalls						"sounds/BoyNextDoor/Boy-bodyfalls.wav"
+Boy-death1						"sounds/BoyNextDoor/Boy-death1.wav"
+Boy-death2						"sounds/BoyNextDoor/Boy-death2.wav"
+Boy-death3						"sounds/BoyNextDoor/Boy-death3.wav"
+Boy-halt1							"sounds/BoyNextDoor/Boy-halt1.wav"
+Boy-halt2							"sounds/BoyNextDoor/Boy-halt2.wav"
+Boy-hit1							"sounds/BoyNextDoor/Boy-hit1.wav"
+Boy-hit2							"sounds/BoyNextDoor/Boy-hit2.wav"
+Boy-hit3							"sounds/BoyNextDoor/Boy-hit3.wav"
+Boy-swish							"sounds/BoyNextDoor/Boy-swish.wav"
+Boy-transform						"sounds/BoyNextDoor/Boy-transform.wav"
+
+$random Boy-atakBB {Boy-atakBB1 Boy-atakBB2}
+$random Boy-death {Boy-death1 Boy-death2 Boy-death3}
+$random Boy-halt {Boy-halt1 Boy-halt2}
+$random Boy-hit {Boy-hit1 Boy-hit2 Boy-hit3}
+
+
+
+
+grimreaper_attack_02								"Sounds/GrimReaper/grimreaper_attack_02.ogg"
+grimreaper_attack_03								"Sounds/GrimReaper/grimreaper_attack_03.ogg"
+grimreaper_attack_04								"Sounds/GrimReaper/grimreaper_attack_04.ogg"
+grimreaper_attack_05								"Sounds/GrimReaper/grimreaper_attack_05.ogg"
+grimreaper_energy_collected_01						"Sounds/GrimReaper/grimreaper_energy_collected_01.ogg"
+grimreaper_fireball_01								"Sounds/GrimReaper/grimreaper_fireball_01.ogg"
+grimreaper_fireball_02								"Sounds/GrimReaper/grimreaper_fireball_02.ogg"
+grimreaper_fireball_03								"Sounds/GrimReaper/grimreaper_fireball_03.ogg"
+grimreaper_hit_01									"Sounds/GrimReaper/grimreaper_hit_01.ogg"
+grimreaper_hit_02									"Sounds/GrimReaper/grimreaper_hit_02.ogg"
+grimreaper_ambient_voice_01							"Sounds/GrimReaper/grimreaper_ambient_voice_01.ogg"
+grimreaper_attack_01								"Sounds/GrimReaper/grimreaper_attack_01.ogg"
+alastor-chargingfigures-stereo-loop					"Sounds/GrimReaper/alastor-chargingfigures-stereo-loop.ogg"
+
+
+dimp_missile_1				"Sounds/GrimReaper/dimpmis1.ogg"
+dimp_missile_2				"Sounds/GrimReaper/dimpmis2.ogg"
+dimp_missile_3				"Sounds/GrimReaper/dimpmis3.ogg"
+
+
+Grimreaper_ShotFireball				"Sounds/GrimReaper/Grimreaper_ShotFireball.ogg"
+$attenuation Grimreaper_ShotFireball 0.2
+
+GrimReaper/Dimp/Missile
+{
+	dimp_missile_1
+	dimp_missile_2
+	dimp_missile_3
+}
+
+GrimReaper_FireBall_Loop			"Sounds/GrimReaper/BALLOOP2.ogg"
+
+
+
+$random grimreaper_attack {grimreaper_attack_03 grimreaper_attack_02 grimreaper_attack_04 grimreaper_attack_05}
+$random grimreaper_fireball {grimreaper_fireball_01 grimreaper_fireball_02 grimreaper_fireball_03}
+$random grimreaper_hit {grimreaper_hit_01 grimreaper_hit_02}
+
+
+$attenuation GrimReaper_FireBall_Loop 0.5
+$attenuation GrimReaper/Dimp/Missile 0.5
+
+$attenuation grimreaper_attack 0.2
+$attenuation grimreaper_fireball 0.2
+$attenuation grimreaper_hit 0.2
+$attenuation grimreaper_energy_collected_01 0.2
+$attenuation grimreaper_attack_01 0.2
+
+monsters/zombie/searching01 "sounds/Zombies/Searching/Monster- Searching for Player_1.ogg"
+monsters/zombie/searching02 "sounds/Zombies/Searching/Monster- Searching for Player_2.ogg"
+monsters/zombie/searching03 "sounds/Zombies/Searching/Monster- Searching for Player_3.ogg"
+monsters/zombie/searching04 "sounds/Zombies/Searching/Monster- Searching for Player_4.ogg"
+monsters/zombie/searching05 "sounds/Zombies/Searching/Monster- Searching for Player_5.ogg"
+monsters/zombie/searching06 "sounds/Zombies/Searching/Monster- Searching for Player_6.ogg"
+monsters/zombie/searching07 "sounds/Zombies/Searching/Monster- Searching for Player_7.ogg"
+monsters/zombie/searching08 "sounds/Zombies/Searching/Monster- Searching for Player_8.ogg"
+monsters/zombie/searching09 "sounds/Zombies/Searching/Monster- Searching for Player_9.ogg"
+monsters/zombie/searching10 "sounds/Zombies/Searching/Monster- Searching for Player_10.ogg"
+monsters/zombie/searching11 "sounds/Zombies/Searching/Monster- Searching for Player_11.ogg"
+monsters/zombie/searching12 "sounds/Zombies/Searching/Monster- Searching for Player_12.ogg"
+monsters/zombie/searching13 "sounds/Zombies/Searching/Monster- Searching for Player_13.ogg"
+monsters/zombie/searching14 "sounds/Zombies/Searching/Monster- Searching for Player_14.ogg"
+monsters/zombie/searching15 "sounds/Zombies/Searching/Monster- Searching for Player_15.ogg"
+monsters/zombie/searching16 "sounds/Zombies/Searching/Monster- Searching for Player_16.ogg"
+monsters/zombie/searching17 "sounds/Zombies/Searching/Monster- Searching for Player_17.ogg"
+monsters/zombie/searching18 "sounds/Zombies/Searching/Monster- Searching for Player_18.ogg"
+monsters/zombie/searching19 "sounds/Zombies/Searching/Monster- Searching for Player_19.ogg"
+monsters/zombie/searching20 "sounds/Zombies/Searching/Monster- Searching for Player_20.ogg"
+monsters/zombie/searching21 "sounds/Zombies/Searching/Monster- Searching for Player_21.ogg"
+monsters/zombie/searching22 "sounds/Zombies/Searching/Monster- Searching for Player_22.ogg"
+monsters/zombie/searching23 "sounds/Zombies/Searching/Monster- Searching for Player_23.ogg"
+monsters/zombie/searching24 "sounds/Zombies/Searching/Monster- Searching for Player_24.ogg"
+monsters/zombie/searching25 "sounds/Zombies/Searching/Monster- Searching for Player_25.ogg"
+monsters/zombie/searching26 "sounds/Zombies/Searching/Monster- Searching for Player_26.ogg"
+monsters/zombie/searching27 "sounds/Zombies/Searching/Monster- Searching for Player_27.ogg"
+monsters/zombie/searching28 "sounds/Zombies/Searching/Monster- Searching for Player_28.ogg"
+monsters/zombie/searching29 "sounds/Zombies/Searching/Monster- Searching for Player_29.ogg"
+monsters/zombie/searching30 "sounds/Zombies/Searching/Monster- Searching for Player_30.ogg"
+monsters/zombie/searching31 "sounds/Zombies/Searching/Monster- Searching for Player_31.ogg"
+monsters/zombie/searching32 "sounds/Zombies/Searching/Monster- Searching for Player_32.ogg"
+monsters/zombie/searching33 "sounds/Zombies/Searching/Monster- Searching for Player_33.ogg"
+monsters/zombie/searching34 "sounds/Zombies/Searching/Monster- Searching for Player_34.ogg"
+monsters/zombie/searching35 "sounds/Zombies/Searching/Monster- Searching for Player_35.ogg"
+monsters/zombie/searching36 "sounds/Zombies/Searching/Monster- Searching for Player_36.ogg"
+monsters/zombie/searching37 "sounds/Zombies/Searching/Monster- Searching for Player_37.ogg"
+
+$pitchset monsters/zombie/searching01 0.85 1.05
+$pitchset monsters/zombie/searching02 0.85 1.05
+$pitchset monsters/zombie/searching03 0.85 1.05
+$pitchset monsters/zombie/searching04 0.85 1.05
+$pitchset monsters/zombie/searching05 0.85 1.05
+$pitchset monsters/zombie/searching06 0.85 1.05
+$pitchset monsters/zombie/searching07 0.85 1.05
+$pitchset monsters/zombie/searching08 0.85 1.05
+$pitchset monsters/zombie/searching09 0.85 1.05
+$pitchset monsters/zombie/searching10 0.85 1.05
+$pitchset monsters/zombie/searching11 0.85 1.05
+$pitchset monsters/zombie/searching12 0.85 1.05
+$pitchset monsters/zombie/searching13 0.85 1.05
+$pitchset monsters/zombie/searching14 0.85 1.05
+$pitchset monsters/zombie/searching15 0.85 1.05
+$pitchset monsters/zombie/searching16 0.85 1.05
+$pitchset monsters/zombie/searching17 0.85 1.05
+$pitchset monsters/zombie/searching18 0.85 1.05
+$pitchset monsters/zombie/searching19 0.85 1.05
+$pitchset monsters/zombie/searching20 0.85 1.05
+$pitchset monsters/zombie/searching21 0.85 1.05
+$pitchset monsters/zombie/searching22 0.85 1.05
+$pitchset monsters/zombie/searching23 0.85 1.05
+$pitchset monsters/zombie/searching24 0.85 1.05
+$pitchset monsters/zombie/searching25 0.85 1.05
+$pitchset monsters/zombie/searching26 0.85 1.05
+$pitchset monsters/zombie/searching27 0.85 1.05
+$pitchset monsters/zombie/searching28 0.85 1.05
+$pitchset monsters/zombie/searching29 0.85 1.05
+$pitchset monsters/zombie/searching30 0.85 1.05
+$pitchset monsters/zombie/searching31 0.85 1.05
+$pitchset monsters/zombie/searching32 0.85 1.05
+$pitchset monsters/zombie/searching33 0.85 1.05
+$pitchset monsters/zombie/searching34 0.85 1.05
+$pitchset monsters/zombie/searching35 0.85 1.05
+$pitchset monsters/zombie/searching36 0.85 1.05
+$pitchset monsters/zombie/searching37 0.85 1.05
+
+
+monsters/zombie/combat01 "sounds/Zombies/Combat/Monster- In Combat_1.ogg"
+monsters/zombie/combat02 "sounds/Zombies/Combat/Monster- In Combat_2.ogg"
+monsters/zombie/combat03 "sounds/Zombies/Combat/Monster- In Combat_3.ogg"
+monsters/zombie/combat04 "sounds/Zombies/Combat/Monster- In Combat_4.ogg"
+monsters/zombie/combat05 "sounds/Zombies/Combat/Monster- In Combat_5.ogg"
+monsters/zombie/combat06 "sounds/Zombies/Combat/Monster- In Combat_6.ogg"
+monsters/zombie/combat07 "sounds/Zombies/Combat/Monster- In Combat_7.ogg"
+monsters/zombie/combat08 "sounds/Zombies/Combat/Monster- In Combat_8.ogg"
+monsters/zombie/combat09 "sounds/Zombies/Combat/Monster- In Combat_9.ogg"
+monsters/zombie/combat10 "sounds/Zombies/Combat/Monster- In Combat_10.ogg"
+monsters/zombie/combat11 "sounds/Zombies/Combat/Monster- In Combat_11.ogg"
+monsters/zombie/combat12 "sounds/Zombies/Combat/Monster- In Combat_12.ogg"
+monsters/zombie/combat13 "sounds/Zombies/Combat/Monster- In Combat_13.ogg"
+monsters/zombie/combat14 "sounds/Zombies/Combat/Monster- In Combat_14.ogg"
+monsters/zombie/combat15 "sounds/Zombies/Combat/Monster- In Combat_15.ogg"
+
+$pitchset monsters/zombie/combat01 0.85 1.05
+$pitchset monsters/zombie/combat02 0.85 1.05
+$pitchset monsters/zombie/combat03 0.85 1.05
+$pitchset monsters/zombie/combat04 0.85 1.05
+$pitchset monsters/zombie/combat05 0.85 1.05
+$pitchset monsters/zombie/combat06 0.85 1.05
+$pitchset monsters/zombie/combat07 0.85 1.05
+$pitchset monsters/zombie/combat08 0.85 1.05
+$pitchset monsters/zombie/combat09 0.85 1.05
+$pitchset monsters/zombie/combat10 0.85 1.05
+$pitchset monsters/zombie/combat11 0.85 1.05
+$pitchset monsters/zombie/combat12 0.85 1.05
+$pitchset monsters/zombie/combat13 0.85 1.05
+$pitchset monsters/zombie/combat14 0.85 1.05
+$pitchset monsters/zombie/combat15 0.85 1.05
+
+
+
+monsters/zombie/death01 "sounds/Zombies/Death/Monster- Death_1.ogg"
+monsters/zombie/death02 "sounds/Zombies/Death/Monster- Death_2.ogg"
+monsters/zombie/death03 "sounds/Zombies/Death/Monster- Death_3.ogg"
+monsters/zombie/death04 "sounds/Zombies/Death/Monster- Death_4.ogg"
+monsters/zombie/death05 "sounds/Zombies/Death/Monster- Death_5.ogg"
+monsters/zombie/death06 "sounds/Zombies/Death/Monster- Death_6.ogg"
+monsters/zombie/death07 "sounds/Zombies/Death/Monster- Death_7.ogg"
+monsters/zombie/death08 "sounds/Zombies/Death/Monster- Death_8.ogg"
+monsters/zombie/death09 "sounds/Zombies/Death/Monster- Death_9.ogg"
+monsters/zombie/death10 "sounds/Zombies/Death/Monster- Death_10.ogg"
+monsters/zombie/death11 "sounds/Zombies/Death/Monster- Death_11.ogg"
+monsters/zombie/death12 "sounds/Zombies/Death/Monster- Death_12.ogg"
+monsters/zombie/death13 "sounds/Zombies/Death/Monster- Death_13.ogg"
+monsters/zombie/death14 "sounds/Zombies/Death/Monster- Death_14.ogg"
+monsters/zombie/death15 "sounds/Zombies/Death/Monster- Death_15.ogg"
+monsters/zombie/death16 "sounds/Zombies/Death/Monster- Death_16.ogg"
+monsters/zombie/death17 "sounds/Zombies/Death/Monster- Death_17.ogg"
+monsters/zombie/death18 "sounds/Zombies/Death/Monster- Death_18.ogg"
+monsters/zombie/death19 "sounds/Zombies/Death/Monster- Death_19.ogg"
+monsters/zombie/death20 "sounds/Zombies/Death/Monster- Death_20.ogg"
+monsters/zombie/death21 "sounds/Zombies/Death/Monster- Death_21.ogg"
+monsters/zombie/death22 "sounds/Zombies/Death/Monster- Death_22.ogg"
+monsters/zombie/death23 "sounds/Zombies/Death/Monster- Death_23.ogg"
+monsters/zombie/death24 "sounds/Zombies/Death/Monster- Death_24.ogg"
+monsters/zombie/death25 "sounds/Zombies/Death/Monster- Death_25.ogg"
+
+monsters/zombie/pain01 "sounds/Zombies/Pain/Monster- Pain_1.ogg"
+monsters/zombie/pain02 "sounds/Zombies/Pain/Monster- Pain_2.ogg"
+monsters/zombie/pain03 "sounds/Zombies/Pain/Monster- Pain_3.ogg"
+monsters/zombie/pain04 "sounds/Zombies/Pain/Monster- Pain_4.ogg"
+monsters/zombie/pain05 "sounds/Zombies/Pain/Monster- Pain_5.ogg"
+monsters/zombie/pain06 "sounds/Zombies/Pain/Monster- Pain_6.ogg"
+monsters/zombie/pain07 "sounds/Zombies/Pain/Monster- Pain_7.ogg"
+monsters/zombie/pain08 "sounds/Zombies/Pain/Monster- Pain_8.ogg"
+monsters/zombie/pain09 "sounds/Zombies/Pain/Monster- Pain_9.ogg"
+monsters/zombie/pain10 "sounds/Zombies/Pain/Monster- Pain_10.ogg"
+monsters/zombie/pain11 "sounds/Zombies/Pain/Monster- Pain_11.ogg"
+monsters/zombie/pain12 "sounds/Zombies/Pain/Monster- Pain_12.ogg"
+monsters/zombie/pain13 "sounds/Zombies/Pain/Monster- Pain_13.ogg"
+monsters/zombie/pain14 "sounds/Zombies/Pain/Monster- Pain_14.ogg"
+monsters/zombie/pain15 "sounds/Zombies/Pain/Monster- Pain_15.ogg"
+monsters/zombie/pain16 "sounds/Zombies/Pain/Monster- Pain_16.ogg"
+monsters/zombie/pain17 "sounds/Zombies/Pain/Monster- Pain_17.ogg"
+monsters/zombie/pain18 "sounds/Zombies/Pain/Monster- Pain_18.ogg"
+monsters/zombie/pain19 "sounds/Zombies/Pain/Monster- Pain_19.ogg"
+monsters/zombie/pain20 "sounds/Zombies/Pain/Monster- Pain_20.ogg"
+monsters/zombie/pain21 "sounds/Zombies/Pain/Monster- Pain_21.ogg"
+monsters/zombie/pain22 "sounds/Zombies/Pain/Monster- Pain_22.ogg"
+monsters/zombie/pain23 "sounds/Zombies/Pain/Monster- Pain_23.ogg"
+monsters/zombie/pain24 "sounds/Zombies/Pain/Monster- Pain_24.ogg"
+monsters/zombie/pain25 "sounds/Zombies/Pain/Monster- Pain_25.ogg"
+monsters/zombie/pain26 "sounds/Zombies/Pain/Monster- Pain_26.ogg"
+monsters/zombie/pain27 "sounds/Zombies/Pain/Monster- Pain_27.ogg"
+monsters/zombie/pain28 "sounds/Zombies/Pain/Monster- Pain_28.ogg"
+monsters/zombie/pain29 "sounds/Zombies/Pain/Monster- Pain_29.ogg"
+monsters/zombie/pain30 "sounds/Zombies/Pain/Monster- Pain_30.ogg"
+monsters/zombie/pain31 "sounds/Zombies/Pain/Monster- Pain_31.ogg"
+monsters/zombie/pain32 "sounds/Zombies/Pain/Monster- Pain_32.ogg"
+monsters/zombie/pain33 "sounds/Zombies/Pain/Monster- Pain_33.ogg"
+
+monsters/zombie/see01 "sounds/Zombies/See/Player- Sees Player_1.ogg"
+monsters/zombie/see02 "sounds/Zombies/See/Player- Sees Player_2.ogg"
+monsters/zombie/see03 "sounds/Zombies/See/Player- Sees Player_3.ogg"
+monsters/zombie/see04 "sounds/Zombies/See/Player- Sees Player_4.ogg"
+monsters/zombie/see05 "sounds/Zombies/See/Player- Sees Player_5.ogg"
+monsters/zombie/see06 "sounds/Zombies/See/Player- Sees Player_6.ogg"
+monsters/zombie/see07 "sounds/Zombies/See/Player- Sees Player_7.ogg"
+monsters/zombie/see08 "sounds/Zombies/See/Player- Sees Player_8.ogg"
+monsters/zombie/see09 "sounds/Zombies/See/Player- Sees Player_9.ogg"
+monsters/zombie/see10 "sounds/Zombies/See/Player- Sees Player_10.ogg"
+monsters/zombie/see11 "sounds/Zombies/See/Player- Sees Player_11.ogg"
+monsters/zombie/see12 "sounds/Zombies/See/Player- Sees Player_12.ogg"
+monsters/zombie/see13 "sounds/Zombies/See/Player- Sees Player_13.ogg"
+monsters/zombie/see14 "sounds/Zombies/See/Player- Sees Player_14.ogg"
+monsters/zombie/see15 "sounds/Zombies/See/Player- Sees Player_15.ogg"
+monsters/zombie/see16 "sounds/Zombies/See/Player- Sees Player_16.ogg"
+monsters/zombie/see17 "sounds/Zombies/See/Player- Sees Player_17.ogg"
+monsters/zombie/see18 "sounds/Zombies/See/Player- Sees Player_18.ogg"
+
+monsters/zombie/special01 "sounds/Zombies/Special/Action- Special_1.ogg"
+monsters/zombie/special02 "sounds/Zombies/Special/Action- Special_2.ogg"
+monsters/zombie/special03 "sounds/Zombies/Special/Action- Special_3.ogg"
+monsters/zombie/special04 "sounds/Zombies/Special/Action- Special_4.ogg"
+monsters/zombie/special05 "sounds/Zombies/Special/Action- Special_5.ogg"
+monsters/zombie/special06 "sounds/Zombies/Special/Action- Special_6.ogg"
+monsters/zombie/special07 "sounds/Zombies/Special/Action- Special_7.ogg"
+monsters/zombie/special08 "sounds/Zombies/Special/Action- Special_8.ogg"
+
+monsters/zombie/reload01 "sounds/Zombies/Reload/Action- Reload_1.ogg"
+monsters/zombie/reload02 "sounds/Zombies/Reload/Action- Reload_2.ogg"
+monsters/zombie/reload03 "sounds/Zombies/Reload/Action- Reload_3.ogg"
+monsters/zombie/reload04 "sounds/Zombies/Reload/Action- Reload_4.ogg"
+monsters/zombie/reload05 "sounds/Zombies/Reload/Action- Reload_5.ogg"
+monsters/zombie/reload06 "sounds/Zombies/Reload/Action- Reload_6.ogg"
+monsters/zombie/reload07 "sounds/Zombies/Reload/Action- Reload_7.ogg"
+monsters/zombie/reload08 "sounds/Zombies/Reload/Action- Reload_8.ogg"
+monsters/zombie/reload09 "sounds/Zombies/Reload/Action- Reload_9.ogg"
+monsters/zombie/reload10 "sounds/Zombies/Reload/Action- Reload_10.ogg"
+monsters/zombie/reload11 "sounds/Zombies/Reload/Action- Reload_11.ogg"
+monsters/zombie/reload12 "sounds/Zombies/Reload/Action- Reload_12.ogg"
+monsters/zombie/reload13 "sounds/Zombies/Reload/Action- Reload_13.ogg"
+monsters/zombie/reload14 "sounds/Zombies/Reload/Action- Reload_14.ogg"
+
+monsters/zombie/infight01 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_1.ogg"
+monsters/zombie/infight02 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_2.ogg"
+monsters/zombie/infight03 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_3.ogg"
+monsters/zombie/infight04 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_4.ogg"
+monsters/zombie/infight05 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_5.ogg"
+monsters/zombie/infight06 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_6.ogg"
+monsters/zombie/infight07 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_7.ogg"
+monsters/zombie/infight08 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_8.ogg"
+monsters/zombie/infight09 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_9.ogg"
+monsters/zombie/infight10 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_10.ogg"
+monsters/zombie/infight11 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_11.ogg"
+monsters/zombie/infight12 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_12.ogg"
+monsters/zombie/infight13 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_13.ogg"
+monsters/zombie/infight14 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_14.ogg"
+monsters/zombie/infight15 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_15.ogg"
+monsters/zombie/infight16 "sounds/Zombies/Infight/Infighting (Zombie on Zombie (ANY)_16.ogg"
+
+monsters/zombie/player_low01 "sounds/Zombies/Player/Player- Low Health_1.ogg"
+monsters/zombie/player_low02 "sounds/Zombies/Player/Player- Low Health_2.ogg"
+monsters/zombie/player_low03 "sounds/Zombies/Player/Player- Low Health_3.ogg"
+monsters/zombie/player_low04 "sounds/Zombies/Player/Player- Low Health_4.ogg"
+monsters/zombie/player_low05 "sounds/Zombies/Player/Player- Low Health_5.ogg"
+monsters/zombie/player_low06 "sounds/Zombies/Player/Player- Low Health_6.ogg"
+monsters/zombie/player_low07 "sounds/Zombies/Player/Player- Low Health_7.ogg"
+monsters/zombie/player_low08 "sounds/Zombies/Player/Player- Low Health_8.ogg"
+monsters/zombie/player_low09 "sounds/Zombies/Player/Player- Low Health_9.ogg"
+monsters/zombie/player_low10 "sounds/Zombies/Player/Player- Low Health_10.ogg"
+monsters/zombie/player_low11 "sounds/Zombies/Player/Player- Low Health_11.ogg"
+monsters/zombie/player_low12 "sounds/Zombies/Player/Player- Low Health_12.ogg"
+monsters/zombie/player_low13 "sounds/Zombies/Player/Player- Low Health_13.ogg"
+monsters/zombie/player_low14 "sounds/Zombies/Player/Player- Low Health_14.ogg"
+monsters/zombie/player_low15 "sounds/Zombies/Player/Player- Low Health_15.ogg"
+monsters/zombie/player_low16 "sounds/Zombies/Player/Player- Low Health_16.ogg"
+monsters/zombie/player_low17 "sounds/Zombies/Player/Player- Low Health_17.ogg"
+monsters/zombie/player_low18 "sounds/Zombies/Player/Player- Low Health_18.ogg"
+monsters/zombie/player_low19 "sounds/Zombies/Player/Player- Low Health_19.ogg"
+
+monsters/zombie/player_grenade01 "sounds/Zombies/Player/Player- Throws Grenade_1.ogg"
+monsters/zombie/player_grenade02 "sounds/Zombies/Player/Player- Throws Grenade_2.ogg"
+monsters/zombie/player_grenade03 "sounds/Zombies/Player/Player- Throws Grenade_3.ogg"
+monsters/zombie/player_grenade04 "sounds/Zombies/Player/Player- Throws Grenade_4.ogg"
+monsters/zombie/player_grenade05 "sounds/Zombies/Player/Player- Throws Grenade_5.ogg"
+monsters/zombie/player_grenade06 "sounds/Zombies/Player/Player- Throws Grenade_6.ogg"
+monsters/zombie/player_grenade07 "sounds/Zombies/Player/Player- Throws Grenade_7.ogg"
+monsters/zombie/player_grenade08 "sounds/Zombies/Player/Player- Throws Grenade_8.ogg"
+
+
+monsters/zombie/suffer01 "sounds/Zombies/Suffer/Monster- Suffering_1.ogg"
+monsters/zombie/suffer02 "sounds/Zombies/Suffer/Monster- Suffering_2.ogg"
+monsters/zombie/suffer03 "sounds/Zombies/Suffer/Monster- Suffering_3.ogg"
+monsters/zombie/suffer04 "sounds/Zombies/Suffer/Monster- Suffering_4.ogg"
+monsters/zombie/suffer05 "sounds/Zombies/Suffer/Monster- Suffering_5.ogg"
+monsters/zombie/suffer06 "sounds/Zombies/Suffer/Monster- Suffering_6.ogg"
+monsters/zombie/suffer07 "sounds/Zombies/Suffer/Monster- Suffering_7.ogg"
+monsters/zombie/suffer08 "sounds/Zombies/Suffer/Monster- Suffering_8.ogg"
+monsters/zombie/suffer09 "sounds/Zombies/Suffer/Monster- Suffering_9.ogg"
+monsters/zombie/suffer10 "sounds/Zombies/Suffer/Monster- Suffering_10.ogg"
+monsters/zombie/suffer11 "sounds/Zombies/Suffer/Monster- Suffering_11.ogg"
+monsters/zombie/suffer12 "sounds/Zombies/Suffer/Monster- Suffering_12.ogg"
+monsters/zombie/suffer13 "sounds/Zombies/Suffer/Monster- Suffering_13.ogg"
+monsters/zombie/suffer14 "sounds/Zombies/Suffer/Monster- Suffering_14.ogg"
+monsters/zombie/suffer15 "sounds/Zombies/Suffer/Monster- Suffering_15.ogg"
+monsters/zombie/suffer16 "sounds/Zombies/Suffer/Monster- Suffering_16.ogg"
+monsters/zombie/suffer17 "sounds/Zombies/Suffer/Monster- Suffering_17.ogg"
+monsters/zombie/suffer18 "sounds/Zombies/Suffer/Monster- Suffering_18.ogg"
+monsters/zombie/suffer19 "sounds/Zombies/Suffer/Monster- Suffering_19.ogg"
+monsters/zombie/suffer20 "sounds/Zombies/Suffer/Monster- Suffering_20.ogg"
+monsters/zombie/suffer21 "sounds/Zombies/Suffer/Monster- Suffering_21.ogg"
+monsters/zombie/suffer22 "sounds/Zombies/Suffer/Monster- Suffering_22.ogg"
+monsters/zombie/suffer23 "sounds/Zombies/Suffer/Monster- Suffering_23.ogg"
+monsters/zombie/suffer24 "sounds/Zombies/Suffer/Monster- Suffering_24.ogg"
+monsters/zombie/suffer25 "sounds/Zombies/Suffer/Monster- Suffering_25.ogg"
+monsters/zombie/suffer26 "sounds/Zombies/Suffer/Monster- Suffering_26.ogg"
+
+
+monsters/zombie/burning01 "sounds/Zombies/Burning/Monster- Burning_1.ogg"
+monsters/zombie/burning02 "sounds/Zombies/Burning/Monster- Burning_2.ogg"
+monsters/zombie/burning03 "sounds/Zombies/Burning/Monster- Burning_3.ogg"
+monsters/zombie/burning04 "sounds/Zombies/Burning/Monster- Burning_4.ogg"
+monsters/zombie/burning05 "sounds/Zombies/Burning/Monster- Burning_5.ogg"
+monsters/zombie/burning06 "sounds/Zombies/Burning/Monster- Burning_6.ogg"
+monsters/zombie/burning07 "sounds/Zombies/Burning/Monster- Burning_7.ogg"
+monsters/zombie/burning08 "sounds/Zombies/Burning/Monster- Burning_8.ogg"
+monsters/zombie/burning09 "sounds/Zombies/Burning/Monster- Burning_9.ogg"
+monsters/zombie/burning10 "sounds/Zombies/Burning/Monster- Burning_10.ogg"
+monsters/zombie/burning11 "sounds/Zombies/Burning/Monster- Burning_11.ogg"
+
+$random monsters/zombie/burn
+{
+	monsters/zombie/burning01
+	monsters/zombie/burning02
+	monsters/zombie/burning03
+	monsters/zombie/burning04
+	monsters/zombie/burning05
+	monsters/zombie/burning06
+	monsters/zombie/burning07
+	monsters/zombie/burning08
+	monsters/zombie/burning09
+	monsters/zombie/burning10
+	monsters/zombie/burning11
+}
+
+
+$random monsters/zombie/suffer
+{
+	monsters/zombie/suffer01
+	monsters/zombie/suffer02
+	monsters/zombie/suffer03
+	monsters/zombie/suffer04
+	monsters/zombie/suffer05
+	monsters/zombie/suffer06
+	monsters/zombie/suffer07
+	monsters/zombie/suffer08
+	monsters/zombie/suffer09
+	monsters/zombie/suffer10
+	monsters/zombie/suffer11
+	monsters/zombie/suffer12
+	monsters/zombie/suffer13
+	monsters/zombie/suffer14
+	monsters/zombie/suffer15
+	monsters/zombie/suffer16
+	monsters/zombie/suffer17
+	monsters/zombie/suffer18
+	monsters/zombie/suffer19
+	monsters/zombie/suffer20
+	monsters/zombie/suffer21
+	monsters/zombie/suffer22
+	monsters/zombie/suffer23
+	monsters/zombie/suffer24
+	monsters/zombie/suffer25
+	monsters/zombie/suffer26
+}
+
+
+$random monsters/zombie/player_grenade
+{
+	monsters/zombie/player_grenade01
+	monsters/zombie/player_grenade02
+	monsters/zombie/player_grenade03
+	monsters/zombie/player_grenade04
+	monsters/zombie/player_grenade05
+	monsters/zombie/player_grenade06
+	monsters/zombie/player_grenade07
+	monsters/zombie/player_grenade08
+}
+
+$random monsters/zombie/player_low
+{
+	monsters/zombie/player_low01
+	monsters/zombie/player_low02
+	monsters/zombie/player_low03
+	monsters/zombie/player_low04
+	monsters/zombie/player_low05
+	monsters/zombie/player_low06
+	monsters/zombie/player_low07
+	monsters/zombie/player_low08
+	monsters/zombie/player_low09
+	monsters/zombie/player_low10
+	monsters/zombie/player_low11
+	monsters/zombie/player_low12
+	monsters/zombie/player_low13
+	monsters/zombie/player_low14
+	monsters/zombie/player_low15
+	monsters/zombie/player_low16
+	monsters/zombie/player_low17
+	monsters/zombie/player_low18
+	monsters/zombie/player_low19
+}
+
+$random monsters/zombie/searching
+{
+	monsters/zombie/searching01
+	monsters/zombie/searching02
+	monsters/zombie/searching03
+	monsters/zombie/searching04
+	monsters/zombie/searching05
+	monsters/zombie/searching06
+	monsters/zombie/searching07
+	monsters/zombie/searching08
+	monsters/zombie/searching09
+	monsters/zombie/searching10
+	monsters/zombie/searching11
+	monsters/zombie/searching12
+	monsters/zombie/searching13
+	monsters/zombie/searching14
+	monsters/zombie/searching15
+	monsters/zombie/searching16
+	monsters/zombie/searching17
+	monsters/zombie/searching18
+	monsters/zombie/searching19
+	monsters/zombie/searching20
+	monsters/zombie/searching21
+	monsters/zombie/searching22
+	monsters/zombie/searching23
+	monsters/zombie/searching24
+	monsters/zombie/searching25
+	monsters/zombie/searching26
+	monsters/zombie/searching27
+	monsters/zombie/searching28
+	monsters/zombie/searching29
+	monsters/zombie/searching30
+	monsters/zombie/searching31
+	monsters/zombie/searching32
+	monsters/zombie/searching33
+	monsters/zombie/searching34
+	monsters/zombie/searching35
+	monsters/zombie/searching36
+	monsters/zombie/searching37
+}
+
+$random monsters/zombie/combat
+{
+	monsters/zombie/combat01
+    monsters/zombie/combat02
+    monsters/zombie/combat03
+    monsters/zombie/combat04
+    monsters/zombie/combat05
+    monsters/zombie/combat06
+    monsters/zombie/combat07
+    monsters/zombie/combat08
+    monsters/zombie/combat09
+    monsters/zombie/combat10
+    monsters/zombie/combat11
+    monsters/zombie/combat12
+    monsters/zombie/combat13
+    monsters/zombie/combat14
+    monsters/zombie/combat15
+}
+
+$pitchset monsters/zombie/combat 0.85 1.05
+
+$random monsters/zombie/death
+{
+	monsters/zombie/death01
+	monsters/zombie/death02
+	monsters/zombie/death03
+	monsters/zombie/death04
+	monsters/zombie/death05
+	monsters/zombie/death06
+	monsters/zombie/death07
+	monsters/zombie/death08
+	monsters/zombie/death09
+	monsters/zombie/death10
+	monsters/zombie/death11
+	monsters/zombie/death12
+	monsters/zombie/death13
+	monsters/zombie/death14
+	monsters/zombie/death15
+	monsters/zombie/death16
+	monsters/zombie/death17
+	monsters/zombie/death18
+	monsters/zombie/death19
+	monsters/zombie/death20
+	monsters/zombie/death21
+	monsters/zombie/death22
+	monsters/zombie/death23
+	monsters/zombie/death24
+	monsters/zombie/death25
+}
+
+$random monsters/zombie/pain
+{
+	monsters/zombie/pain01
+    monsters/zombie/pain02
+    monsters/zombie/pain03
+    monsters/zombie/pain04
+    monsters/zombie/pain05
+    monsters/zombie/pain06
+    monsters/zombie/pain07
+    monsters/zombie/pain08
+    monsters/zombie/pain09
+    monsters/zombie/pain10
+    monsters/zombie/pain11
+    monsters/zombie/pain12
+    monsters/zombie/pain13
+    monsters/zombie/pain14
+    monsters/zombie/pain15
+    monsters/zombie/pain16
+    monsters/zombie/pain17
+    monsters/zombie/pain18
+    monsters/zombie/pain19
+    monsters/zombie/pain20
+    monsters/zombie/pain21
+    monsters/zombie/pain22
+    monsters/zombie/pain23
+    monsters/zombie/pain24
+    monsters/zombie/pain25
+    monsters/zombie/pain26
+    monsters/zombie/pain27
+    monsters/zombie/pain28
+    monsters/zombie/pain29
+    monsters/zombie/pain30
+    monsters/zombie/pain31
+    monsters/zombie/pain32
+    monsters/zombie/pain33
+}
+
+$random monsters/zombie/see
+{
+	monsters/zombie/see01
+    monsters/zombie/see02
+    monsters/zombie/see03
+    monsters/zombie/see04
+    monsters/zombie/see05
+    monsters/zombie/see06
+    monsters/zombie/see07
+    monsters/zombie/see08
+    monsters/zombie/see09
+    monsters/zombie/see10
+    monsters/zombie/see11
+	monsters/zombie/see12
+	monsters/zombie/see13
+	monsters/zombie/see14
+	monsters/zombie/see15
+	monsters/zombie/see16
+	monsters/zombie/see17
+	monsters/zombie/see18
+}
+
+$random monsters/zombie/special
+{
+	monsters/zombie/special01
+	monsters/zombie/special02
+	monsters/zombie/special03
+	monsters/zombie/special04
+	monsters/zombie/special05
+	monsters/zombie/special06
+	monsters/zombie/special07
+	monsters/zombie/special08
+}
+
+$random monsters/zombie/infight
+{
+	monsters/zombie/infight01
+	monsters/zombie/infight02
+	monsters/zombie/infight03
+	monsters/zombie/infight04
+	monsters/zombie/infight05
+	monsters/zombie/infight06
+	monsters/zombie/infight07
+	monsters/zombie/infight08
+	monsters/zombie/infight09
+	monsters/zombie/infight10
+	monsters/zombie/infight11
+	monsters/zombie/infight12
+	monsters/zombie/infight13
+	monsters/zombie/infight14
+	monsters/zombie/infight15
+	monsters/zombie/infight16
+}
+
+$random monsters/zombie/reload
+{
+	monsters/zombie/reload01
+	monsters/zombie/reload02
+	monsters/zombie/reload03
+	monsters/zombie/reload04
+	monsters/zombie/reload05
+	monsters/zombie/reload06
+	monsters/zombie/reload07
+	monsters/zombie/reload08
+	monsters/zombie/reload09
+	monsters/zombie/reload10
+	monsters/zombie/reload11
+	monsters/zombie/reload12
+	monsters/zombie/reload13
+	monsters/zombie/reload14
+}
+
+
+
+
+
+
+
+zombie_mstar-weapon-lost1			"sounds/ZombieSoldier/zombie_mstar-weapon-lost1.wav"
+zombie_mstar-weapon-lost2			"sounds/ZombieSoldier/zombie_mstar-weapon-lost2.wav"
+zombie_mstar-weapon-lost3			"sounds/ZombieSoldier/zombie_mstar-weapon-lost3.wav"
+zombs_attack1						"sounds/ZombieSoldier/zombs_attack1.wav"
+zombs_attack2						"sounds/ZombieSoldier/zombs_attack2.wav"
+zombs_attackscream1					"sounds/ZombieSoldier/zombs_attackscream1.wav"
+zombs_attackscream2					"sounds/ZombieSoldier/zombs_attackscream2.wav"
+zombs_attackscream3					"sounds/ZombieSoldier/zombs_attackscream3.wav"
+zombs_bodyfalls1					"sounds/ZombieSoldier/zombs_bodyfalls1.wav"
+zombs_bodyfalls2					"sounds/ZombieSoldier/zombs_bodyfalls2.wav"
+zombs_death1						"sounds/ZombieSoldier/zombs_death1.wav"
+zombs_death2						"sounds/ZombieSoldier/zombs_death2.wav"
+zombs_death3						"sounds/ZombieSoldier/zombs_death3.wav"
+zombs_death4						"sounds/ZombieSoldier/zombs_death4.wav"
+zombs_halt1						"sounds/ZombieSoldier/zombs_halt1.wav"
+zombs_halt2						"sounds/ZombieSoldier/zombs_halt2.wav"
+zombs_halt3						"sounds/ZombieSoldier/zombs_halt3.wav"
+zombs_hit1						"sounds/ZombieSoldier/zombs_hit1.wav"
+zombs_hit2						"sounds/ZombieSoldier/zombs_hit2.wav"
+zombs_hit3						"sounds/ZombieSoldier/zombs_hit3.wav"
+zombs_jumpoff						"sounds/ZombieSoldier/zombs_jumpoff.wav"
+zombs_jumpon1						"sounds/ZombieSoldier/zombs_jumpon1.wav"
+zombs_jumpon2						"sounds/ZombieSoldier/zombs_jumpon2.wav"
+zombs_jumpon3						"sounds/ZombieSoldier/zombs_jumpon3.wav"
+zombs_krok1						"sounds/ZombieSoldier/zombs_krok1.wav"
+zombs_krok2						"sounds/ZombieSoldier/zombs_krok2.wav"
+zombs_missing_head					"sounds/ZombieSoldier/zombs_missing_head.wav"
+zombs_swish						"sounds/ZombieSoldier/zombs_swish.wav"
+zombs_swish-prepare					"sounds/ZombieSoldier/zombs_swish-prepare.wav"
+zombs_sword_hits_hero				"sounds/ZombieSoldier/zombs_sword_hits_hero.wav"
+zombs_sword-missed1					"sounds/ZombieSoldier/zombs_sword-missed1.wav"
+zombs_sword-missed2					"sounds/ZombieSoldier/zombs_sword-missed2.wav"
+zombs-weapon-lost1					"sounds/ZombieSoldier/zombs-weapon-lost1.wav"
+zombs-weapon-lost2					"sounds/ZombieSoldier/zombs-weapon-lost2.wav"
+zombs-weapon-lost3					"sounds/ZombieSoldier/zombs-weapon-lost3.wav"
+
+
+$random    zombie_mstar-weapon-lost   {zombie_mstar-weapon-lost3 zombie_mstar-weapon-lost2 zombie_mstar-weapon-lost1}
+$random    zombs_attack   {zombs_attack1 zombs_attack2}
+$random    zombs_attackscream   {zombs_attackscream3 zombs_attackscream2 zombs_attackscream1}
+$random    zombs_bodyfalls   {zombs_bodyfalls1 zombs_bodyfalls2}
+$random    zombs_death   {zombs_death4 zombs_death3 zombs_death2 zombs_death1}
+$random    zombs_halt   {zombs_halt3 zombs_halt2 zombs_halt1}
+$random    zombs_hit   {zombs_hit3 zombs_hit2 zombs_hit1}
+$random    zombs_jumpon   {zombs_jumpon3 zombs_jumpon2 zombs_jumpon1}
+$random    zombs_krok   {zombs_krok2 zombs_krok1}
+$random    zombs_sword-missed    {zombs_sword-missed2 zombs_sword-missed1}
+$random    zombs-weapon-lost   {zombs-weapon-lost1 zombs-weapon-lost2 zombs-weapon-lost3}
+
+/////HEll Angel
+
+
+hella3_rl-shoot					"Sounds/HellAngel/rocket_shoot.ogg"
+hella3_rl-fly-loop					"Sounds/HellAngel/rl-flyingnoise-loop.ogg"
+hella3_rl-rocket-see				"Sounds/HellAngel/rocket1.ogg"
+
+hella3_ST_Rocket_BOOM				"Sounds/HellAngel/rpg7_explode.ogg"
+
+$attenuation hella3_rl-rocket-see 0.45
+$attenuation hella3_rl-shoot 0.2
+
+
+$rolloff hella3_ST_Rocket_BOOM 1000 6000
+
+hella-at1							"Sounds/HellAngel/hella-at1.wav"
+hella-at2							"Sounds/HellAngel/hella-at2.wav"
+
+
+$pitchset hella-at1 0.9 1.05
+$pitchset hella-at2 0.9 1.05
+
+hella-at-prepare					"Sounds/HellAngel/hella-at-prepare.wav"
+hella-death1						"Sounds/HellAngel/hella-death1.wav"
+hella-death2						"Sounds/HellAngel/hella-death2.wav"
+hella-death3						"Sounds/HellAngel/hella-death3.wav"
+hella-death4						"Sounds/HellAngel/HellAngel_DIE_5.ogg"
+hella-death5						"Sounds/HellAngel/HellAngel_DIE_6.ogg"
+
+
+
+$pitchset hella-death1 0.9 1.05
+$pitchset hella-death2 0.9 1.05
+$pitchset hella-death3 0.9 1.05
+
+hella-halt1						"Sounds/HellAngel/hella-halt1.wav"
+hella-halt2						"Sounds/HellAngel/hella-halt2.wav"
+hella-halt3						"Sounds/HellAngel/hella-halt3.wav"
+
+$pitchset hella-halt1 0.9 1.05
+$pitchset hella-halt2 0.9 1.05
+$pitchset hella-halt3 0.9 1.05
+
+hella-hit1						"Sounds/HellAngel/hella-hit1.wav"
+hella-hit2						"Sounds/HellAngel/hella-hit2.wav"
+hella-hit3						"Sounds/HellAngel/hella-hit3.wav"
+
+$pitchset hella-hit1 0.9 1.05
+$pitchset hella-hit2 0.9 1.05
+$pitchset hella-hit3 0.9 1.05
+
+hella-plank-hit					"Sounds/HellAngel/hella-plank-hit.wav"
+hella-swish-plank					"Sounds/HellAngel/hella-swish-plank.wav"
+hella-throw1						"Sounds/HellAngel/hella-throw1.wav"
+hella-throw2						"Sounds/HellAngel/hella-throw2.wav"
+$pitchset hella-throw1 0.9 1.05
+$pitchset hella-throw2 0.9 1.05
+
+
+hella-throw-molotov					"Sounds/HellAngel/hella-throw-molotov.wav"
+hella_electric_touch				"Sounds/HellAngel/zap.wav"
+
+HellAngel_GrenadeThrow_000				"Sounds/HellAngel/HellAngel_GrenadeThrow_000.ogg"
+HellAngel_GrenadeThrow_001				"Sounds/HellAngel/HellAngel_GrenadeThrow_001.ogg"
+HellAngel_GrenadeThrow_002				"Sounds/HellAngel/HellAngel_GrenadeThrow_003.ogg"
+HellAngel_GrenadeThrow_003				"Sounds/HellAngel/HellAngel_GrenadeThrow_004.ogg"
+HellAngel_GrenadeThrow_004				"Sounds/HellAngel/HellAngel_GrenadeThrow_005.ogg"
+
+$random HellAngel_GrenadeThrow_Voice
+{
+HellAngel_GrenadeThrow_000
+HellAngel_GrenadeThrow_001
+HellAngel_GrenadeThrow_002
+HellAngel_GrenadeThrow_003
+HellAngel_GrenadeThrow_004
+}
+
+
+$random hella-at {hella-at1 hella-at2}
+$random hella-death {hella-death1 hella-death2 hella-death3 hella-death4 hella-death5}
+$random hella-halt {hella-halt1 hella-halt2 hella-halt3}
+$random hella-hit {hella-hit1 hella-hit2 hella-hit3}
+$random hella-throw {hella-throw1 hella-throw2}
+snd1425			snd1425
+/////maso
+maso_bodyfalls									"sounds/maso/maso_bodyfalls.ogg"
+maso_death1									"sounds/maso/maso_death1.ogg"
+maso_death2									"sounds/maso/maso_death2.ogg"
+maso_death3									"sounds/maso/maso_death3.ogg"
+maso_death4									"sounds/maso/maso_death4.ogg"
+
+
+$pitchset maso_death1 0.9 1.05
+$pitchset maso_death2 0.9 1.05
+$pitchset maso_death3 0.9 1.05
+$pitchset maso_death4 0.9 1.05
+
+maso_flametrower-loop							"sounds/maso/maso_flametrower-loop.ogg"
+maso_flametrower-start							"sounds/maso/maso_flametrower-start.ogg"
+maso_flametrower-start-voice1						"sounds/maso/maso_flametrower-start-voice1.ogg"
+maso_flametrower-start-voice2						"sounds/maso/maso_flametrower-start-voice2.ogg"
+maso_flametrower-start-voice3						"sounds/maso/maso_flametrower-start-voice3.ogg"
+
+$pitchset maso_flametrower-start-voice1 0.9 1.05
+$pitchset maso_flametrower-start-voice2 0.9 1.05
+$pitchset maso_flametrower-start-voice3 0.9 1.05
+
+maso_flametrower-stop							"sounds/maso/maso_flametrower-stop.ogg"
+maso_grenade-explosion							"sounds/maso/rgd5_explode.wav"
+maso_grenade-launch-voice1						"sounds/maso/maso_grenade-launch-voice1.ogg"
+maso_grenade-launch-voice2						"sounds/maso/maso_grenade-launch-voice2.ogg"
+
+
+$pitchset maso_grenade-launch-voice1 0.9 1.05
+$pitchset maso_grenade-launch-voice2 0.9 1.05
+
+
+maso_grenade-shoot								"sounds/maso/maso_grenade-shoot.ogg"
+maso_halt1									"sounds/maso/maso_halt1.ogg"
+maso_halt2									"sounds/maso/maso_halt2.ogg"
+maso_halt3									"sounds/maso/maso_halt3.ogg"
+maso_halt4									"sounds/maso/maso_halt4.ogg"
+
+$pitchset maso_halt1 0.9 1.05
+$pitchset maso_halt2 0.9 1.05
+$pitchset maso_halt3 0.9 1.05
+$pitchset maso_halt4 0.9 1.05
+
+
+maso_hit_impact1								"sounds/maso/maso_hit_impact1.ogg"
+maso_hit_impact2								"sounds/maso/maso_hit_impact2.ogg"
+maso_hit-satisfy1								"sounds/maso/maso_hit-satisfy1.ogg"
+maso_hit-satisfy2								"sounds/maso/maso_hit-satisfy2.ogg"
+maso_hit-satisfy3								"sounds/maso/maso_hit-satisfy3.ogg"
+maso_hit-satisfy4								"sounds/maso/maso_hit-satisfy4.ogg"
+
+
+$pitchset maso_hit-satisfy1 0.9 1.05
+$pitchset maso_hit-satisfy2 0.9 1.05
+$pitchset maso_hit-satisfy3 0.9 1.05
+$pitchset maso_hit-satisfy4 0.9 1.05
+
+
+maso_krok1									"sounds/maso/maso_krok1.ogg"
+maso_krok2									"sounds/maso/maso_krok2.ogg"
+maso_run-effort1								"sounds/maso/maso_run-effort1.ogg"
+maso_run-effort2								"sounds/maso/maso_run-effort2.ogg"
+maso_run-effort3								"sounds/maso/maso_run-effort3.ogg"
+
+
+$pitchset maso_run-effort1 0.9 1.05
+$pitchset maso_run-effort2 0.9 1.05
+$pitchset maso_run-effort3 0.9 1.05
+
+maso-weapon-explode								"sounds/maso/maso-weapon-explode.ogg"
+
+$random  maso_death    {maso_death1 maso_death2 maso_death3 maso_death4}
+$random  maso_flametrower-start-voice    {maso_flametrower-start-voice1 maso_flametrower-start-voice2 maso_flametrower-start-voice3}
+$random  maso_grenade-launch-voice     {maso_grenade-launch-voice1 maso_grenade-launch-voice2}
+$random  maso_halt    {maso_halt1 maso_halt2 maso_halt3 maso_halt4}
+$random  maso_hit_impact    {maso_hit_impact1 maso_hit_impact2}
+$random  maso_hit-satisfy    {maso_hit-satisfy1 maso_hit-satisfy2 maso_hit-satisfy3 maso_hit-satisfy4}
+$random  maso_krok    {maso_krok1 maso_krok2}
+$random  maso_run-effort    {maso_run-effort1 maso_run-effort2 maso_run-effort3}
+
+
+
+$attenuation maso_death 0.6
+$attenuation maso_flametrower-start-voice 0.6
+$attenuation maso_grenade-launch-voice 0.6
+$attenuation maso_halt 0.6
+$attenuation maso_hit_impact 0.6
+$attenuation maso_hit-satisfy 0.6
+$attenuation maso_krok 0.6
+$attenuation maso_run-effort 0.6
+
+
+$attenuation maso_grenade-explosion 0.3
+
+GRNXPL	GRNXPL
+GRNBOU	GRNBOU
+
+beast_attack1_1						"Sounds/Beast/beast_attack1_1.wav"
+beast_attack1_2						"Sounds/Beast/beast_attack1_2.wav"
+beast_attack1_hit1						"Sounds/Beast/beast_attack1_hit1.wav"
+beast_attack1_hit2						"Sounds/Beast/beast_attack1_hit2.wav"
+beast_attackjump_1						"Sounds/Beast/beast_attackjump_1.wav"
+beast_attackjump_2						"Sounds/Beast/beast_attackjump_2.wav"
+beast_attackscream1						"Sounds/Beast/beast_attackscream1.wav"
+beast_attackscream2						"Sounds/Beast/beast_attackscream2.wav"
+beast_attackscream3						"Sounds/Beast/beast_attackscream3.wav"
+beast_halt1							"Sounds/Beast/beast_halt1.wav"
+beast_halt2							"Sounds/Beast/beast_halt2.wav"
+beast_halt3							"Sounds/Beast/beast_halt3.wav"
+beast_hit1							"Sounds/Beast/beast_hit1.wav"
+beast_hit2							"Sounds/Beast/beast_hit2.wav"
+beast_hit3							"Sounds/Beast/beast_hit3.wav"
+beast_idle3_1							"Sounds/Beast/beast_idle3_1.wav"
+beast_idle3_2							"Sounds/Beast/beast_idle3_2.wav"
+beast_krok1							"Sounds/Beast/beast_krok1.wav"
+beast_krok2							"Sounds/Beast/beast_krok2.wav"
+beast_roll-hit							"Sounds/Beast/beast_roll-hit.wav"
+beast_to_ball							"Sounds/Beast/beast_to_ball.wav"
+beast-death1							"Sounds/Beast/beast-death1.wav"
+beast-death2							"Sounds/Beast/beast-death2.wav"
+beast-roll-loop						"Sounds/Beast/beast-roll-loop.wav"
+
+$random  beast_attack1 {beast_attack1_1 beast_attack1_2}
+$random  beast_attack1_hit {beast_attack1_hit1 beast_attack1_hit2}
+$random  beast_attackjump {beast_attackjump_1 beast_attackjump_2}
+$random  beast_attackscream {beast_attackscream1 beast_attackscream2 beast_attackscream3}
+$random  beast_halt {beast_halt1 beast_halt2 beast_halt3}
+$random  beast_hit {beast_hit1 beast_hit2 beast_hit3}
+$random  beast_idle3 {beast_idle3_1 beast_idle3_2}
+$random  beast_krok {beast_krok1 beast_krok2}
+$random  beast-death {beast-death1 beast-death2}
+
+
+
+hellb_atakstart						"Sounds/HellBiker/hellb_atakstart.ogg"
+hellb_atakstop							"Sounds/HellBiker/hellb_atakstop.ogg"
+hellb_mgun_rotor-loop						"Sounds/HellBiker/hellb_mgun_rotor-loop.ogg"
+hellb2_halt							"Sounds/HellBiker/hellb2_halt.ogg"
+hellb2_mgun-shoot-all						"Sounds/HellBiker/hellb2_mgun-shoot-all.ogg"
+hellb2_mgun-shoot-all-end						"Sounds/HellBiker/hellb2_mgun-shoot-all-end.ogg"
+hellb2-weapon-lost						"Sounds/HellBiker/hellb2-weapon-lost.ogg"
+hellb-attack-head						"Sounds/HellBiker/hellb-attack-head.ogg"
+hellb-attack-head-hit						"Sounds/HellBiker/hellb-attack-head-hit.ogg"
+hellb-boddyfalls1						"Sounds/HellBiker/hellb-boddyfalls1.ogg"
+hellb-boddyfalls2						"Sounds/HellBiker/hellb-boddyfalls2.ogg"
+hellb-death1						"Sounds/HellBiker/hellb-death1.ogg"
+hellb-death2						"Sounds/HellBiker/hellb-death2.ogg"
+hellb-death3						"Sounds/HellBiker/hellb-death3.ogg"
+hellb-death-choked						"Sounds/HellBiker/hellb-death-choked.ogg"
+hellb-halt1						"Sounds/HellBiker/hellb-halt1.ogg"
+hellb-halt2						"Sounds/HellBiker/hellb-halt2.ogg"
+hellb-hit1						"Sounds/HellBiker/hellb-hit1.ogg"
+hellb-hit2						"Sounds/HellBiker/hellb-hit2.ogg"
+hellb-hit3						"Sounds/HellBiker/hellb-hit3.ogg"
+
+
+$pitchset hellb2_halt 0.92 1.05
+$pitchset hellb-death1 0.9 1.05
+$pitchset hellb-death2 0.9 1.05
+$pitchset hellb-death3 0.9 1.05
+
+$pitchset hellb-halt1 0.9 1.05
+$pitchset hellb-halt2 0.9 1.05
+
+$pitchset hellb-hit1 0.9 1.05
+$pitchset hellb-hit2 0.9 1.05
+$pitchset hellb-hit3 0.9 1.05
+
+
+
+
+hellb-hit5						"Sounds/HellBiker/hellb-hit5.ogg"
+hellb-hit6						"Sounds/HellBiker/hellb-hit6.ogg"
+hellb-hit7						"Sounds/HellBiker/hellb-hit7.ogg"
+hellb-krokl						"Sounds/HellBiker/hellb-krokl.ogg"
+hellb-krokp						"Sounds/HellBiker/hellb-krokp.ogg"
+hellb-run1_1						"Sounds/HellBiker/hellb-run1_1.ogg"
+hellb-run1_2						"Sounds/HellBiker/hellb-run1_2.ogg"
+hellb-run2_1						"Sounds/HellBiker/hellb-run2_1.ogg"
+hellb-run2_2						"Sounds/HellBiker/hellb-run2_2.ogg"
+
+
+hellb-shooting-laugh1						"Sounds/HellBiker/hellb-shooting-laugh1.ogg"
+hellb-shooting-laugh2						"Sounds/HellBiker/hellb-shooting-laugh2.ogg"
+
+$pitchset hellb-shooting-laugh1 0.92 1.05
+$pitchset hellb-shooting-laugh2 0.92 1.05
+
+hellb-weapon3-example						"Sounds/HellBiker/hellb-weapon3-example.ogg"
+hellb-weapon-lost						"Sounds/HellBiker/hellb-weapon-lost.ogg"
+hellb-weapon-shells1						"Sounds/HellBiker/hellb-weapon-shells1.ogg"
+hellb-weapon-shells2						"Sounds/HellBiker/hellb-weapon-shells2.ogg"
+hellb-weapon-shoot-14times						"Sounds/HellBiker/hellb-weapon-shoot-14times.ogg"
+hellb-weapon-shoot-end						"Sounds/HellBiker/hellb-weapon-shoot-end.ogg"
+
+
+
+bdemon_atak1						"Sounds/BlackDemon/bdemon_atak1.ogg"
+bdemon_atak2						"Sounds/BlackDemon/bdemon_atak2.ogg"
+bdemon_atak3						"Sounds/BlackDemon/bdemon_atak3.ogg"
+bdemon_attackscream1				"Sounds/BlackDemon/bdemon_attackscream1.ogg"
+bdemon_attackscream2				"Sounds/BlackDemon/bdemon_attackscream2.ogg"
+bdemon_attackscream3				"Sounds/BlackDemon/bdemon_attackscream3.ogg"
+bdemon_death1						"Sounds/BlackDemon/bdemon_death1.ogg"
+bdemon_death2						"Sounds/BlackDemon/bdemon_death2.ogg"
+bdemon_death3						"Sounds/BlackDemon/bdemon_death3.ogg"
+bdemon_halt1						"Sounds/BlackDemon/bdemon_halt1.ogg"
+bdemon_halt2						"Sounds/BlackDemon/bdemon_halt2.ogg"
+bdemon_hit1						"Sounds/BlackDemon/bdemon_hit1.ogg"
+bdemon_hit2						"Sounds/BlackDemon/bdemon_hit2.ogg"
+bdemon_hit3						"Sounds/BlackDemon/bdemon_hit3.ogg"
+bdemon_hit4						"Sounds/BlackDemon/bdemon_hit4.ogg"
+bdemon-angry1						"Sounds/BlackDemon/bdemon-angry1.ogg"
+bdemon-angry2						"Sounds/BlackDemon/bdemon-angry2.ogg"
+bdemon-hand-hit					"Sounds/BlackDemon/bdemon-hand-hit.ogg"
+bdemon_krokl						"Sounds/BlackDemon/bdemon_krokl.ogg"
+bdemon_krokp						"Sounds/BlackDemon/bdemon_krokp.ogg"
+
+$random bdemon_atak {bdemon_atak1 bdemon_atak2 bdemon_atak3}
+$random bdemon_attackscream {bdemon_attackscream1 bdemon_attackscream2 bdemon_attackscream3}
+$random bdemon_death {bdemon_death1 bdemon_death2 bdemon_death3}
+$random bdemon_halt {bdemon_halt1 bdemon_halt2}
+$random bdemon_hit {bdemon_hit1 bdemon_hit2 bdemon_hit3 bdemon_hit4}
+$random bdemon-angry {bdemon-angry1 bdemon-angry2}
+
+$attenuation bdemon_atak 0.3
+$attenuation bdemon_attackscream 0.3
+$attenuation bdemon_death 0.3
+$attenuation bdemon_halt 0.3
+$attenuation bdemon_hit 0.3
+$attenuation bdemon-angry 0.3
+
+$attenuation bdemon_krokl 1.2
+$attenuation bdemon_krokp 1.2
+
+$volume bdemon_krokp 0.8
+$volume bdemon_krokl 0.8
+
+
+wdemon-attackscream1						"sounds/WingedDemon/wdemon-attackscream1.wav"
+wdemon-attackscream2						"sounds/WingedDemon/wdemon-attackscream2.wav"
+wdemon-attackscream3						"sounds/WingedDemon/wdemon-attackscream3.wav"
+wdemon-attackscream4						"sounds/WingedDemon/wdemon-attackscream4.wav"
+wdemon-bodyfalls						"sounds/WingedDemon/wdemon-bodyfalls.wav"
+wdemon-damage						"sounds/WingedDemon/wdemon-damage.wav"
+wdemon-death1						"sounds/WingedDemon/wdemon-death1.wav"
+wdemon-death2						"sounds/WingedDemon/wdemon-death2.wav"
+wdemon-death3						"sounds/WingedDemon/wdemon-death3.wav"
+wdemon-fly-loop						"sounds/WingedDemon/wdemon-fly-loop.wav"
+wdemon-hit1						"sounds/WingedDemon/wdemon-hit1.wav"
+wdemon-hit2						"sounds/WingedDemon/wdemon-hit2.wav"
+wdemon-atak1						"sounds/WingedDemon/wdemon-atak1.wav"
+wdemon-atak2						"sounds/WingedDemon/wdemon-atak2.wav"
+
+$random wdemon-attackscream {wdemon-attackscream1 wdemon-attackscream2 wdemon-attackscream3 wdemon-attackscream4}
+$random wdemon-death {wdemon-death1 wdemon-death2 wdemon-death3}
+$random wdemon-hit {wdemon-hit1 wdemon-hit2}
+$random wdemon-atak {wdemon-atak1 wdemon-atak2}
+
+
+$random hellb-death {hellb-death1 hellb-death2 hellb-death3 SKLDI1}
+$random hellb-boddyfalls {hellb-boddyfalls1 hellb-boddyfalls2}
+$random hellb-halt {hellb-halt1 hellb-halt2}
+$random hellb-hit {hellb-hit1 hellb-hit2 hellb-hit3 hellb-hit5 hellb-hit6 hellb-hit7}
+$random hellb-run1 {hellb-run1_1 hellb-run1_2}
+$random hellb-run2 {hellb-run2_1 hellb-run2_2}
+$random hellb-shooting-laugh {hellb-shooting-laugh1 hellb-shooting-laugh2 none none none none none none none none none none }
+$random hellb-weapon-shells {hellb-weapon-shells1 hellb-weapon-shells2}
+//===========================================================================
+//
+// Blood Splash
+//
+//===========================================================================
+
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+//////////////////////////   EXECUTIONER ////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
+executioner__exe-atack2_1			"sounds/executioner/exe-atack2_1.wav"
+executioner__exe-atack2_2			"sounds/executioner/exe-atack2_2.wav"
+executioner__exe-atack2_3			"sounds/executioner/exe-atack2_3.wav"
+executioner__exe-atack3_1			"sounds/executioner/exe-atack3_1.wav"
+executioner__exe-atack3_2			"sounds/executioner/exe-atack3_2.wav"
+executioner__exe-atack-axe-hit			"sounds/executioner/exe-atack-axe-hit.wav"
+executioner__exe-atack-missed-ground1			"sounds/executioner/exe-atack-missed-ground1.wav"
+executioner__exe-atack-missed-ground2			"sounds/executioner/exe-atack-missed-ground2.wav"
+executioner__exe-atack-swish			"sounds/executioner/exe-atack-swish.wav"
+executioner__exe-attackscream1			"sounds/executioner/exe-attackscream1.wav"
+executioner__exe-attackscream2			"sounds/executioner/exe-attackscream2.wav"
+executioner__exe-attackscream3			"sounds/executioner/exe-attackscream3.wav"
+executioner__exe-backaxespike			"sounds/executioner/exe-backaxespike.wav"
+executioner__exe-backaxespike-voice			"sounds/executioner/exe-backaxespike-voice.wav"
+executioner__exe-boddyfalls			"sounds/executioner/exe-boddyfalls.wav"
+executioner__exe-death1			"sounds/executioner/exe-death1.wav"
+executioner__exe-death2			"sounds/executioner/exe-death2.wav"
+executioner__exe-death3			"sounds/executioner/exe-death3.wav"
+executioner__exe-electricity-hit			"sounds/executioner/exe-electricity-hit.wav"
+executioner__exe-electricity-loop			"sounds/executioner/exe-electricity-loop.wav"
+executioner__exe-halt1			"sounds/executioner/exe-halt1.wav"
+executioner__exe-halt2			"sounds/executioner/exe-halt2.wav"
+executioner__exe-halt3			"sounds/executioner/exe-halt3.wav"
+executioner__exe-hit1			"sounds/executioner/exe-hit1.wav"
+executioner__exe-hit2			"sounds/executioner/exe-hit2.wav"
+executioner__exe-hit3			"sounds/executioner/exe-hit3.wav"
+executioner__exe-hit4			"sounds/executioner/exe-hit4.wav"
+executioner__exe-idle2_1			"sounds/executioner/exe-idle2_1.wav"
+executioner__exe-idle2_2			"sounds/executioner/exe-idle2_2.wav"
+executioner__exe-idle2_3			"sounds/executioner/exe-idle2_3.wav"
+executioner__exe-idle3_1			"sounds/executioner/exe-idle3_1.wav"
+executioner__exe-idle3_2			"sounds/executioner/exe-idle3_2.wav"
+executioner__exe-krok1			"sounds/executioner/exe-krok1.wav"
+executioner__exe-krok2			"sounds/executioner/exe-krok2.wav"
+executioner__exe-shootaxespike			"sounds/executioner/exe-shootaxespike.wav"
+executioner__exe-shootaxespike-voice1			"sounds/executioner/exe-shootaxespike-voice1.wav"
+executioner__exe-shootaxespike-voice2			"sounds/executioner/exe-shootaxespike-voice2.wav"
+executioner__exe-tnietrupa1			"sounds/executioner/exe-tnietrupa1.wav"
+executioner__exe-tnietrupa2			"sounds/executioner/exe-tnietrupa2.wav"
+executioner__exe-tnietrupa-hit			"sounds/executioner/exe-tnietrupa-hit.wav"
+
+$random executioner__exe-atack2 {executioner__exe-atack2_1 executioner__exe-atack2_2 executioner__exe-atack2_3}
+$random executioner__exe-atack3 {executioner__exe-atack3_1 executioner__exe-atack3_2}
+$random executioner__exe-attackscream {executioner__exe-attackscream1 executioner__exe-attackscream2 executioner__exe-attackscream3}
+$random executioner__exe-death {executioner__exe-death1 executioner__exe-death2 executioner__exe-death3}
+$random executioner__exe-halt {executioner__exe-halt1 executioner__exe-halt2 executioner__exe-halt3}
+$random executioner__exe-hit {executioner__exe-hit1 executioner__exe-hit2 executioner__exe-hit3 executioner__exe-hit4}
+$random executioner__exe-idle2 {executioner__exe-idle2_1 executioner__exe-idle2_2 executioner__exe-idle2_3}
+$random executioner__exe-idle3 {executioner__exe-idle3_1 executioner__exe-idle3_2}
+$random executioner__exe-krok {executioner__exe-krok1 executioner__exe-krok2}
+$random executioner__exe-shootaxespike-voice {executioner__exe-shootaxespike-voice1 executioner__exe-shootaxespike-voice2}
+$random executioner__exe-tnietrupa {executioner__exe-tnietrupa1 executioner__exe-tnietrupa2}
+
+
+$attenuation executioner__exe-atack2 0.6
+$attenuation executioner__exe-atack3 0.6
+$attenuation executioner__exe-attackscream 0.6
+$attenuation executioner__exe-death 0.6
+$attenuation executioner__exe-halt 0.6
+$attenuation executioner__exe-hit 0.6
+$attenuation executioner__exe-idle2 0.6
+$attenuation executioner__exe-idle3 0.6
+$attenuation executioner__exe-krok 0.6
+$attenuation executioner__exe-shootaxespike-voice 0.6
+$attenuation executioner__exe-tnietrupa 0.6
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+////////////////////////////////   DEMON 02 ////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
+Demon02_InGame_1			"Sounds/Demon02/Demon02_InGame_1.ogg"
+Demon02_InGame_2			"Sounds/Demon02/Demon02_InGame_2.ogg"
+Demon02_InGame_3			"Sounds/Demon02/Demon02_InGame_3.ogg"
+Demon02_InGame_4			"Sounds/Demon02/Demon02_InGame_4.ogg"
+Demon02_InGame_5			"Sounds/Demon02/Demon02_InGame_5.ogg"
+Demon02_death				"Sounds/Demon02/Demon02_death.ogg"
+Demon02_farattack			"Sounds/Demon02/Demon02_farattack.ogg"
+Demon02_farattack_voice		"Sounds/Demon02/Demon02_farattack_voice.ogg"
+Demon02_fireatack			"Sounds/Demon02/Demon02_fireatack.ogg"
+Demon02_fireatack_voice		"Sounds/Demon02/Demon02_fireatack_voice.ogg"
+Demon02_hit1				"Sounds/Demon02/Demon02_hit1.ogg"
+Demon02_hit2				"Sounds/Demon02/Demon02_hit2.ogg"
+Demon02_idle1				"Sounds/Demon02/Demon02_idle1.ogg"
+Demon02_idle2				"Sounds/Demon02/Demon02_idle2.ogg"
+Demon02_look1				"Sounds/Demon02/Demon02_look1.ogg"
+Demon02_look2				"Sounds/Demon02/Demon02_look2.ogg"
+Demon02_FlamerStart			"Sounds/Demon02/Demon02_FlamerStart.ogg"
+Demon02_FlamerLoop			"Sounds/Demon02/Demon02_FlamerLoop.ogg"
+Demon02_FlamerStop			"Sounds/Demon02/Demon02_FlamerStop.ogg"
+
+$random Demon02_InGame {Demon02_InGame_1 Demon02_InGame_2}
+$random Demon02_hit {Demon02_hit1 Demon02_hit2}
+$random Demon02_idle {Demon02_idle1 Demon02_idle2}
+$random Demon02_look {Demon02_look1 Demon02_look2}
+
+$attenuation Demon02_InGame 0.6
+$attenuation Demon02_hit 0.6
+$attenuation Demon02_idle 0.6
+$attenuation Demon02_look 0.6
+$attenuation Demon02_death 0.6
+$attenuation Demon02_farattack 0.6
+$attenuation Demon02_farattack_voice 0.6
+$attenuation Demon02_fireatack 0.6
+$attenuation Demon02_fireatack_voice 0.6
+$attenuation Demon02_FlamerStart 0.6
+$attenuation Demon02_FlamerLoop 0.6
+$attenuation Demon02_FlamerStop 0.6
+$attenuation Demon02_InGame_3 0.6
+
+
+
+arab_zombs_attack1				"Sounds/ZombieSoldierV3/zombs_attack1.wav"
+arab_zombs_attack2				"Sounds/ZombieSoldierV3/zombs_attack2.wav"
+arab_zombs_attackscream1			"Sounds/ZombieSoldierV3/zombs_attackscream1.wav"
+arab_zombs_attackscream2			"Sounds/ZombieSoldierV3/zombs_attackscream2.wav"
+arab_zombs_attackscream3			"Sounds/ZombieSoldierV3/zombs_attackscream3.wav"
+arab_zombs_bodyfalls1			"Sounds/ZombieSoldierV3/zombs_bodyfalls1.wav"
+arab_zombs_bodyfalls2			"Sounds/ZombieSoldierV3/zombs_bodyfalls2.wav"
+arab_zombs_death1				"Sounds/ZombieSoldierV3/zombs_death1.wav"
+arab_zombs_death2				"Sounds/ZombieSoldierV3/zombs_death2.wav"
+arab_zombs_death3				"Sounds/ZombieSoldierV3/zombs_death3.wav"
+arab_zombs_death4				"Sounds/ZombieSoldierV3/zombs_death4.wav"
+arab_zombs_halt1				"Sounds/ZombieSoldierV3/zombs_halt1.wav"
+arab_zombs_halt2				"Sounds/ZombieSoldierV3/zombs_halt2.wav"
+arab_zombs_halt3				"Sounds/ZombieSoldierV3/zombs_halt3.wav"
+arab_zombs_hit1				"Sounds/ZombieSoldierV3/zombs_hit1.wav"
+arab_zombs_hit2				"Sounds/ZombieSoldierV3/zombs_hit2.wav"
+arab_zombs_hit3				"Sounds/ZombieSoldierV3/zombs_hit3.wav"
+
+$random arab_zombs_attack {arab_zombs_attack1 arab_zombs_attack2 arab_zombs_attackscream1 arab_zombs_attackscream2 arab_zombs_attackscream3}
+$random arab_zombs_attackscream {arab_zombs_attackscream1 arab_zombs_attackscream2 arab_zombs_attackscream3}
+$random arab_zombs_bodyfalls {arab_zombs_bodyfalls1 arab_zombs_bodyfalls2}
+$random arab_zombs_death {arab_zombs_death1 arab_zombs_death2 arab_zombs_death3 arab_zombs_death4}
+$random arab_zombs_halt {arab_zombs_halt1 arab_zombs_halt2 arab_zombs_halt3}
+$random arab_zombs_hit {arab_zombs_hit1 arab_zombs_hit2 arab_zombs_hit3}
+
+
+
+
+//////////////////////
+///////////////////   LabCommandos
+//////////////////////
+
+
+LabCommandos___sado_bodyfalls				"sounds/LabCommandos/sado_bodyfalls.wav"
+LabCommandos___sado_death1				"sounds/LabCommandos/sado_death1.wav"
+LabCommandos___sado_death2				"sounds/LabCommandos/sado_death2.wav"
+LabCommandos___sado_death3				"sounds/LabCommandos/sado_death3.wav"
+LabCommandos___sado_death4				"sounds/LabCommandos/sado_death4.wav"
+LabCommandos___sado_fire-prepare1			"sounds/LabCommandos/sado_fire-prepare.wav"
+LabCommandos___sado_fire-prepare2			"sounds/LabCommandos/sado_fire-prepare2.wav"
+LabCommandos___sado_fire-shell1			"sounds/LabCommandos/sado_fire-shell1.wav"
+LabCommandos___sado_fire-shell2			"sounds/LabCommandos/sado_fire-shell2.wav"
+LabCommandos___sado_fire-shell3			"sounds/LabCommandos/sado_fire-shell3.wav"
+LabCommandos___sado_fire-shoot1			"sounds/LabCommandos/sado_fire-shoot1.wav"
+LabCommandos___sado_fire-shoot2			"sounds/LabCommandos/sado_fire-shoot2.wav"
+LabCommandos___sado_fire-shoot3			"sounds/LabCommandos/sado_fire-shoot3.wav"
+LabCommandos___sado_fire-stop				"sounds/LabCommandos/sado_fire-stop.wav"
+LabCommandos___sado_halt1				"sounds/LabCommandos/sado_halt1.wav"
+LabCommandos___sado_halt2				"sounds/LabCommandos/sado_halt2.wav"
+LabCommandos___sado_halt3				"sounds/LabCommandos/sado_halt3.wav"
+LabCommandos___sado_hit1					"sounds/LabCommandos/sado_hit1.wav"
+LabCommandos___sado_hit2					"sounds/LabCommandos/sado_hit2.wav"
+LabCommandos___sado_hit3					"sounds/LabCommandos/sado_hit3.wav"
+LabCommandos___sado_krok1				"sounds/LabCommandos/sado_krok1.wav"
+LabCommandos___sado_krok2				"sounds/LabCommandos/sado_krok2.wav"
+LabCommandos___sado_krok3				"sounds/LabCommandos/sado_krok3.wav"
+LabCommandos___sado_krok4				"sounds/LabCommandos/sado_krok4.wav"
+LabCommandos___sado_throw-prepare			"sounds/LabCommandos/sado_throw-prepare.wav"
+LabCommandos___sado_throw-swish			"sounds/LabCommandos/sado_throw-swish.wav"
+LabCommandos___sado_throw-voice			"sounds/LabCommandos/sado_throw-voice.wav"
+LabCommandos___sado-weapon-lost			"sounds/LabCommandos/sado-weapon-lost.wav"
+
+
+$random LabCommandos___sado_death {LabCommandos___sado_death1 LabCommandos___sado_death2 LabCommandos___sado_death3 LabCommandos___sado_death4}
+$random LabCommandos___sado_fire-prepare {LabCommandos___sado_fire-prepare1 LabCommandos___sado_fire-prepare2}
+$random LabCommandos___sado_fire-shell {LabCommandos___sado_fire-shell1 LabCommandos___sado_fire-shell2 LabCommandos___sado_fire-shell3}
+$random LabCommandos___sado_fire-shoot {LabCommandos___sado_fire-shoot1 LabCommandos___sado_fire-shoot2 LabCommandos___sado_fire-shoot3}
+$random LabCommandos___sado_halt {LabCommandos___sado_halt1 LabCommandos___sado_halt2 LabCommandos___sado_halt3}
+$random LabCommandos___sado_hit {LabCommandos___sado_hit1 LabCommandos___sado_hit2 LabCommandos___sado_hit3}
+$random LabCommandos___sado_krok {LabCommandos___sado_krok1 LabCommandos___sado_krok2  LabCommandos___sado_krok3 LabCommandos___sado_krok4}
+
+$limit LabCommandos___sado_krok 12 256
+$volume LabCommandos___sado_krok 0.3
+
+
+brutal_half_life___bodysplat		"Sounds/bodysplat.ogg"
+brutal_half_life___bodysplat1		"Sounds/bodysplat1oggwav"
+brutal_half_life___amputation_heavy		"Sounds/amputation_heavy.ogg"
+brutal_half_life___amputation_light		"Sounds/amputation_light.ogg"
+brutal_half_life___bleeding		"Sounds/bleeding.ogg"
+brutal_half_life___gibsplat		"Sounds/gibsplat.ogg"
+PK_gib_medium			"Sounds/gib_medium.ogg"
+
+$random CutLegsOrHand
+{
+	brutal_half_life___amputation_light
+	PK_gib_medium
+}
+
+
+
+zealot_bolt_fly4			"sounds/zealot/bolt_fly4.wav"
+zealot_bolt_load1			"sounds/zealot/bolt_load1.wav"
+zealot_bolt_load2			"sounds/zealot/bolt_load2.wav"
+zealot_bolt_skewer1			"sounds/zealot/bolt_skewer1.wav"
+zealot_fire1			"sounds/zealot/fire1.wav"
+zealot_hit1			"sounds/zealot/hit1.wav"
+zealot_hitbod1			"sounds/zealot/hitbod1.wav"
+zealot_hitbod2			"sounds/zealot/hitbod2.wav"
+$random zealot_hitbod {zealot_hitbod1 zealot_hitbod2}
+
+
+monster_zombie_warlord_death1						"Sounds/ZombieCemetery/monster_zombie_warlord_death1.wav"
+monster_zombie_warlord_death2						"Sounds/ZombieCemetery/monster_zombie_warlord_death2.wav"
+monster_zombie_warlord_death3						"Sounds/ZombieCemetery/monster_zombie_warlord_death3.wav"
+monster_zombie_warlord_hit1							"Sounds/ZombieCemetery/monster_zombie_warlord_hit1.wav"
+monster_zombie_warlord_hit2							"Sounds/ZombieCemetery/monster_zombie_warlord_hit2.wav"
+monster_zombie_warlord_hit3							"Sounds/ZombieCemetery/monster_zombie_warlord_hit3.wav"
+zombie_at1											"Sounds/ZombieCemetery/zombie_at1.wav"
+zombie_at2											"Sounds/ZombieCemetery/zombie_at2.wav"
+zombie_at3											"Sounds/ZombieCemetery/zombie_at3.wav"
+zombie_attackscream1								"Sounds/ZombieCemetery/zombie_attackscream1.wav"
+zombie_attackscream2								"Sounds/ZombieCemetery/zombie_attackscream2.wav"
+zombie_attackscream3								"Sounds/ZombieCemetery/zombie_attackscream3.wav"
+
+$random monster_zombie_warlord_death {monster_zombie_warlord_death1 monster_zombie_warlord_death2 monster_zombie_warlord_death3}
+$random monster_zombie_warlord_hit {monster_zombie_warlord_hit1 monster_zombie_warlord_hit2 monster_zombie_warlord_hit3}
+$random zombie_at {zombie_at1 zombie_at2 zombie_at3}
+$random zombie_attackscream {zombie_attackscream1 zombie_attackscream2 zombie_attackscream3}
+
+
+evil_atack1												"sounds/EvilMonk/evil_atack1.wav"
+evil_atack12												"sounds/EvilMonk/evil_atack12.wav"
+evil_axe-hit												"sounds/EvilMonk/evil_axe-hit.wav"
+evil_bodyfalls2												"sounds/EvilMonk/evil_bodyfalls.wav"
+evil_bodyfalls1												"sounds/EvilMonk/evil_bodyfalls1.wav"
+evil_death1												"sounds/EvilMonk/evil_death1.wav"
+evil_death2												"sounds/EvilMonk/evil_death2.wav"
+evil_hit1												"sounds/EvilMonk/evil_hit1.wav"
+evil_hit2												"sounds/EvilMonk/evil_hit2.wav"
+evil_hit3												"sounds/EvilMonk/evil_hit3.wav"
+evil_swish1												"sounds/EvilMonk/evil_swish1.wav"
+evil_swish2												"sounds/EvilMonk/evil_swish2.wav"
+
+
+
+$pitchset evil_atack1 0.9 1.05
+$pitchset evil_atack12 0.9 1.05
+$pitchset evil_axe-hit 0.9 1.05
+$pitchset evil_bodyfalls2 0.9 1.05
+$pitchset evil_bodyfalls1 0.9 1.05
+$pitchset evil_death1 0.9 1.05
+$pitchset evil_death2 0.9 1.05
+$pitchset evil_hit1 0.9 1.05
+$pitchset evil_hit2 0.9 1.05
+$pitchset evil_hit3 0.9 1.05
+
+
+
+$random evil_atack {evil_atack12 evil_atack1}
+$random evil_bodyfalls_random {evil_bodyfalls1 evil_bodyfalls2}
+$random evil_death {evil_death1 evil_death2}
+$random evil_hit {evil_hit1 evil_hit2 evil_hit3}
+$random evil_swish {evil_swish1 evil_swish2}
+
+
+
+
+evil_swish1												"sounds/EvilMonk/evil_swish1.wav"
+evil_swish2												"sounds/EvilMonk/evil_swish2.wav"
+evil_throwaxe1											"sounds/EvilMonk/evil_throwaxe1.wav"
+evil_throwaxe2											"sounds/EvilMonk/evil_throwaxe2.wav"
+evil_throwaxe3											"sounds/EvilMonk/evil_throwaxe3.wav"
+evil_throwaxe-loop										"sounds/EvilMonk/evil_throwaxe-loop.wav"
+evilv3_attack1											"sounds/EvilMonk/evilv3_attack1.wav"
+evilv3_attack2											"sounds/EvilMonk/evilv3_attack2.wav"
+evilv3_attack3											"sounds/EvilMonk/evilv3_attack3.wav"
+evilv3_attack4											"sounds/EvilMonk/evilv3_attack4.wav"
+evilv3_death1											"sounds/EvilMonk/evilv3_death1.wav"
+evilv3_death2											"sounds/EvilMonk/evilv3_death2.wav"
+evilv3_death3											"sounds/EvilMonk/evilv3_death3.wav"
+evilv3_halt1											"sounds/EvilMonk/evilv3_halt1.wav"
+evilv3_halt2											"sounds/EvilMonk/evilv3_halt2.wav"
+evilv3_halt3											"sounds/EvilMonk/evilv3_halt3.wav"
+evilv3_halt4											"sounds/EvilMonk/evilv3_halt4.wav"
+evilv3_hit1												"sounds/EvilMonk/evilv3_hit1.wav"
+evilv3_hit2												"sounds/EvilMonk/evilv3_hit2.wav"
+evilv3_hit3				            					"sounds/EvilMonk/evilv3_hit3.wav"
+evilv3-cluster-bomb-throw-voice1						"sounds/EvilMonk/evilv3-cluster-bomb-throw-voice1.wav"
+evilv3-cluster-bomb-throw-voice2						"sounds/EvilMonk/evilv3-cluster-bomb-throw-voice2.wav"
+evilv3-cluster-bomb-throw-voice3						"sounds/EvilMonk/evilv3-cluster-bomb-throw-voice3.wav"
+
+
+$pitchset evil_throwaxe1 0.9 1.05
+$pitchset evil_throwaxe2 0.9 1.05
+$pitchset evil_throwaxe3 0.9 1.05
+
+$pitchset evilv3_attack1 0.9 1.05
+$pitchset evilv3_attack2 0.9 1.05
+$pitchset evilv3_attack3 0.9 1.05
+$pitchset evilv3_attack4 0.9 1.05
+
+$pitchset evilv3_death1 0.9 1.05
+$pitchset evilv3_death2 0.9 1.05
+$pitchset evilv3_death3 0.9 1.05
+
+$pitchset evilv3_halt1 0.9 1.05
+$pitchset evilv3_halt2 0.9 1.05
+$pitchset evilv3_halt3 0.9 1.05
+$pitchset evilv3_halt4 0.9 1.05
+
+$pitchset evilv3_hit1 0.9 1.05
+$pitchset evilv3_hit2 0.9 1.05
+$pitchset evilv3_hit3 0.9 1.05
+
+$pitchset evilv3-cluster-bomb-throw-voice1 0.9 1.05
+$pitchset evilv3-cluster-bomb-throw-voice2 0.9 1.05
+$pitchset evilv3-cluster-bomb-throw-voice3 0.9 1.05
+
+
+
+evilv3-axe_magic_throw				"sounds/EvilMonk/gravity_entrance.ogg"
+evilv3-axe_magic_end				"sounds/EvilMonk/electra_blast.ogg"
+$attenuation evilv3-axe_magic_throw 0.6
+$attenuation evilv3-axe_magic_end 0.6
+
+$random evil_swish {evil_swish1 evil_swish2}
+$random evil_throwaxe {evil_throwaxe1 evil_throwaxe2 evil_throwaxe3}
+$random evilv3_attack {evilv3_attack1 evilv3_attack2 evilv3_attack3}
+$random evilv3_death {evilv3_death1 evilv3_death2 evilv3_death3}
+$random evilv3_halt {evilv3_halt1 evilv3_halt2 evilv3_halt3 evilv3_halt4}
+$random evilv3_hit {evilv3_hit1 evilv3_hit2 evilv3_hit3}
+$random evilv3-cluster-bomb-throw-voice {evilv3-cluster-bomb-throw-voice1 evilv3-cluster-bomb-throw-voice2 evilv3-cluster-bomb-throw-voice3}
+
+
+
+ninja_at1										"sounds/Ninja/ninja_at1.wav"
+ninja_at2										"sounds/Ninja/ninja_at2-shurican.wav"
+ninja_at3										"sounds/Ninja/ninja_at3-shurican.wav"
+ninja_at4										"sounds/Ninja/ninja_at4.wav"
+ninja_at5										"sounds/Ninja/ninja_at5.wav"
+ninja_at6										"sounds/Ninja/ninja_at6.wav"
+ninja_at7										"sounds/Ninja/ninja_at7.wav"
+ninja_death1									"sounds/Ninja/ninja_death1.wav"
+ninja_death2									"sounds/Ninja/ninja_death2.wav"
+ninja_death3									"sounds/Ninja/ninja_death3.wav"
+ninja_halt1									"sounds/Ninja/ninja_halt1.wav"
+ninja_halt2									"sounds/Ninja/ninja_halt2.wav"
+ninja_halt3									"sounds/Ninja/ninja_halt3.wav"
+ninja_hit1									"sounds/Ninja/ninja_hit1.wav"
+ninja_hit2									"sounds/Ninja/ninja_hit2.wav"
+ninja_hit3									"sounds/Ninja/ninja_hit3.wav"
+ninja_shuricane_hit								"sounds/Ninja/ninja_shuricane_hit.wav"
+ninja_shuricane_onfly-loop						"sounds/Ninja/ninja_shuricane_onfly-loop.wav"
+ninja_shuricane_throw-swish						"sounds/Ninja/ninja_shuricane_throw-swish.wav"
+ninja_shurican-stone							"sounds/Ninja/ninja_shurican-stone.wav"
+ninja_sprint									"sounds/Ninja/ninja_sprint.wav"
+ninja_swish									"sounds/Ninja/ninja_swish.wav"
+ninja_sword_hit								"sounds/Ninja/ninja_sword_hit.wav"
+ninja_sword_jumpattack1							"sounds/Ninja/ninja_sword_jumpattack.wav"
+ninja_sword_jumpattack2							"sounds/Ninja/ninja_sword_jumpattack2.wav"
+ninja_sword_jump-start-swish						"sounds/Ninja/ninja_sword_jump-start-swish.wav"
+ninja_sword_roll_on_floor						"sounds/Ninja/ninja_sword_roll_on_floor.wav"
+ninja_sword-missed1								"sounds/Ninja/ninja_sword-missed1.wav"
+ninja_sword-missed2								"sounds/Ninja/ninja_sword-missed2.wav"
+ninja_sword-swish								"sounds/Ninja/ninja_sword-swish.wav"
+
+$random ninja_at {ninja_at1 ninja_at2 ninja_at3 ninja_at4 ninja_at5 ninja_at6 ninja_at7 }
+$random ninja_death {ninja_death1 ninja_death2 ninja_death3}
+$random ninja_halt {ninja_halt1 ninja_halt2 ninja_halt3}
+$random ninja_hit {ninja_hit1 ninja_hit2 ninja_hit3}
+$random ninja_sword_jumpattack {ninja_sword_jumpattack1 ninja_sword_jumpattack2}
+
+
+
+
+
+krusty-atak1						"sounds/krusty/krusty-atak1.wav"
+krusty-atak2						"sounds/krusty/krusty-atak2.wav"
+evil_blowfire-loop					"sounds/krusty/evil_blowfire-loop.wav"
+evil_blowfire-start					"sounds/krusty/evil_blowfire-start.wav"
+evil_blowfire-stop					"sounds/krusty/evil_blowfire-stop.wav"
+krusty-death1						"sounds/krusty/krusty-death1.wav"
+krusty-death2						"sounds/krusty/krusty-death2.wav"
+krusty-death3						"sounds/krusty/krusty-death3.wav"
+krusty-halt1						"sounds/krusty/krusty-halt1.wav"
+krusty-halt2						"sounds/krusty/krusty-halt2.wav"
+krusty-halt3						"sounds/krusty/krusty-halt3.wav"
+krusty-hit1						"sounds/krusty/krusty-hit1.wav"
+krusty-hit2						"sounds/krusty/krusty-hit2.wav"
+krusty-hit3						"sounds/krusty/krusty-hit3.wav"
+
+$random krusty-atak {krusty-atak1 krusty-atak2}
+$random krusty-death {krusty-death1 krusty-death2 krusty-death3}
+$random krusty-halt {krusty-halt1 krusty-halt2 krusty-halt3}
+$random krusty-hit {krusty-hit1 krusty-hit2 krusty-hit3}
+
+
+
+lepper-charm-loop							"Sounds/LeperMonk/lepper-charm-loop.wav"
+lepperm-barriermagic1						"Sounds/LeperMonk/lepperm-barriermagic1.wav"
+lepperm-barriermagic2						"Sounds/LeperMonk/lepperm-barriermagic2.wav"
+lepperm-barriermagic3						"Sounds/LeperMonk/lepperm-barriermagic3.wav"
+lepperm-corpsemagic1                              "Sounds/LeperMonk/lepperm-corpsemagic1.wav"
+lepperm-corpsemagic2                              "Sounds/LeperMonk/lepperm-corpsemagic2.wav"
+lepperm-corpsemagic3                              "Sounds/LeperMonk/lepperm-corpsemagic3.wav"
+lepperm-death1                              "Sounds/LeperMonk/lepperm-death1.wav"
+lepperm-death2                              "Sounds/LeperMonk/lepperm-death2.wav"
+lepperm-death3                              "Sounds/LeperMonk/lepperm-death3.wav"
+lepperm-halt1                              "Sounds/LeperMonk/lepperm-halt1.wav"
+lepperm-halt2                              "Sounds/LeperMonk/lepperm-halt2.wav"
+lepperm-halt3                              "Sounds/LeperMonk/lepperm-halt3.wav"
+lepperm-hit1                              "Sounds/LeperMonk/lepperm-hit1.wav"
+lepperm-hit2                              "Sounds/LeperMonk/lepperm-hit2.wav"
+lepperm-hit3                              "Sounds/LeperMonk/lepperm-hit3.wav"
+lepperm-hit4                              "Sounds/LeperMonk/lepperm-hit4.wav"
+lepperm-stick-hit                              "Sounds/LeperMonk/lepperm-stick-hit.wav"
+lepperm-stick-hits-ground                              "Sounds/LeperMonk/lepperm-stick-hits-ground.wav"
+lepperm-stick-throw-prepare-voice                              "Sounds/LeperMonk/lepperm-stick-throw-prepare-voice.wav"
+lepperm-stick-throw-voice                              "Sounds/LeperMonk/lepperm-stick-throw-voice.wav"
+lepperm-throw-swish                              "Sounds/LeperMonk/lepperm-throw-swish.wav"
+lepper-odrzut                          			    "Sounds/LeperMonk/lepper-odrzut.wav"
+leper-bet_laugh							"Sounds/LeperMonk/bet_laugh1.ogg"
+leper-tube_prepare							"Sounds/LeperMonk/controller_tube_prepare.ogg"
+leper_monk_FuckYou							"Sounds/LeperMonk/FUCK1.ogg"
+
+$singular leper-tube_prepare
+$singular leper-bet_laugh
+
+$attenuation leper_monk_FuckYou 0.65
+$attenuation leper-tube_prepare 0
+$attenuation leper-bet_laugh 0
+
+
+$random lepperm-barriermagic {lepperm-barriermagic1 lepperm-barriermagic2 lepperm-barriermagic3}
+$random lepperm-corpsemagic {lepperm-corpsemagic1 lepperm-corpsemagic2 lepperm-corpsemagic3}
+$random lepperm-death {lepperm-death1 lepperm-death2 lepperm-death3}
+$random lepperm-halt {lepperm-halt1 lepperm-halt2 lepperm-halt3}
+$random lepperm-hit {lepperm-hit1 lepperm-hit2 lepperm-hit3 lepperm-hit4}
+
+
+
+
+Gatman_Minigun_Laugh1			"Sounds/HeavyBiker/gatman_att1.ogg"
+Gatman_Minigun_Laugh2			"Sounds/HeavyBiker/gatman_haigo.ogg"
+
+$pitchset Gatman_Minigun_Laugh1 0.9 1.0
+$pitchset Gatman_Minigun_Laugh2 0.9 1.0
+
+$random Gatman_Minigun_Laugh
+{
+Gatman_Minigun_Laugh1
+Gatman_Minigun_Laugh2
+}
+
+Gatman_Minigun_Start_A			"Sounds/HeavyBiker/minigun_wind_up.ogg"
+Gatman_Minigun_Start_B			"Sounds/HeavyBiker/minigun_wind_up_b.ogg"
+
+$random Gatman_Minigun_Start {Gatman_Minigun_Start_A Gatman_Minigun_Start_B}
+Gatman_Minigun_Stop				"Sounds/HeavyBiker/minigun_wind_down.ogg"
+Gatman_Minigun_RotatorLoop		"Sounds/HeavyBiker/minigun_spin.wav"
+Gatman_Minigun_ShootLoop			"Sounds/HeavyBiker/minigun_shoot.wav"
+
+
+Gatman_Minigun_PrepareShot1			"Sounds/HeavyBiker/cr_wepat1.ogg"
+Gatman_Minigun_PrepareShot2			"Sounds/HeavyBiker/cr_wepat2.ogg"
+
+$pitchset Gatman_Minigun_PrepareShot1 0.9 1.0
+$pitchset Gatman_Minigun_PrepareShot2 0.9 1.0
+
+
+gatman_hanyou			"Sounds/HeavyBiker/gatman_hanyou.ogg"
+gatman_hakken			"Sounds/HeavyBiker/gatman_hakken.ogg"
+
+$pitchset gatman_hanyou 0.9 1.0
+$pitchset gatman_hakken 0.9 1.0
+
+$random gatman_sight
+{
+	gatman_hanyou
+	gatman_hakken
+}
+
+
+Garrador_Pain			"Sounds/HeavyBiker/cr_head.ogg"
+
+$pitchset Garrador_Pain 0.9 1.0
+
+
+
+Garrador_death1				"Sounds/HeavyBiker/cr_die.ogg"
+Gatman_death1					"Sounds/HeavyBiker/gatman_die_0.ogg"
+Gatman_death2					"Sounds/HeavyBiker/gatman_die_1.ogg"
+
+$pitchset Garrador_death1 0.9 1.0
+$pitchset Gatman_death1 0.9 1.0
+$pitchset Gatman_death2 0.9 1.0
+
+
+$random Gatman_death
+{
+Garrador_death1
+Gatman_death1
+Gatman_death2
+}
+
+
+
+$random Gatman_Minigun_PrepareShot
+{
+Gatman_Minigun_PrepareShot2
+Gatman_Minigun_PrepareShot1
+}
+
+$attenuation Gatman_Minigun_PrepareShot 0.7
+
+
+Gatman_ChainWalk1			"Sounds/HeavyBiker/chain_1.ogg"
+Gatman_ChainWalk2			"Sounds/HeavyBiker/chain_2.ogg"
+Gatman_ChainWalk3			"Sounds/HeavyBiker/chain_3.ogg"
+Gatman_ChainWalk4			"Sounds/HeavyBiker/chain_4.ogg"
+
+$random Gatman_ChainWalk
+{
+	Gatman_ChainWalk1
+	Gatman_ChainWalk2
+	Gatman_ChainWalk3
+	Gatman_ChainWalk4
+}
+
+
+$rolloff Gatman_Minigun_ShootLoop 200 2500
+
+$rolloff Gatman_Minigun_Start 200 2500
+$rolloff Gatman_Minigun_Start_A 200 2500
+$rolloff Gatman_Minigun_Start_B 200 2500
+
+
+
+
+GatlingManRE5_Death_A				"Sounds/MajiniGatling/GatlingManRE5_Death.ogg"
+GatlingManRE5_Death_B				"Sounds/MajiniGatling/GatlingManRE5_Death_B.ogg"
+GatlingManRE5_Laugh_0				"Sounds/MajiniGatling/GatlingManRE5_Laugh_0.ogg"
+GatlingManRE5_Laugh_1				"Sounds/MajiniGatling/GatlingManRE5_Laugh_1.ogg"
+GatlingManRE5_Pain_1				"Sounds/MajiniGatling/GatlingManRE5_Pain_1.ogg"
+GatlingManRE5_Pain_2				"Sounds/MajiniGatling/GatlingManRE5_Pain_2.ogg"
+GatlingManRE5_Pain_3				"Sounds/MajiniGatling/GatlingManRE5_Pain_3.ogg"
+GatlingManRE5_Pain_4				"Sounds/MajiniGatling/GatlingManRE5_Pain_4.ogg"
+GatlingManRE5_Pain_5				"Sounds/MajiniGatling/GatlingManRE5_Pain_5.ogg"
+GatlingManRE5_Pain_6				"Sounds/MajiniGatling/GatlingManRE5_Pain_6.ogg"
+GatlingManRE5_PrepareAttack_0			"Sounds/MajiniGatling/GatlingManRE5_PrepareAttack_0.ogg"
+GatlingManRE5_PrepareAttack_1			"Sounds/MajiniGatling/GatlingManRE5_PrepareAttack_1.ogg"
+GatlingManRE5_PrepareAttack_2			"Sounds/MajiniGatling/GatlingManRE5_PrepareAttack_2.ogg"
+GatlingManRE5_Sight_0				"Sounds/MajiniGatling/GatlingManRE5_Sight_0.ogg"
+GatlingManRE5_Sight_1				"Sounds/MajiniGatling/GatlingManRE5_Sight_1.ogg"
+GatlingManRE5_StartWalk_0			"Sounds/MajiniGatling/GatlingManRE5_StartWalk_0.ogg"
+GatlingManRE5_StartWalk_1			"Sounds/MajiniGatling/GatlingManRE5_StartWalk_1.ogg"
+
+$pitchset GatlingManRE5_Death_A 0.9 1.05
+$pitchset GatlingManRE5_Death_B 0.9 1.05
+$pitchset GatlingManRE5_Laugh_0 0.9 1.05
+$pitchset GatlingManRE5_Laugh_1 0.9 1.05
+$pitchset GatlingManRE5_Pain_1 0.9 1.05
+$pitchset GatlingManRE5_Pain_2 0.9 1.05
+$pitchset GatlingManRE5_Pain_3 0.9 1.05
+$pitchset GatlingManRE5_Pain_4 0.9 1.05
+$pitchset GatlingManRE5_Pain_5 0.9 1.05
+$pitchset GatlingManRE5_Pain_6 0.9 1.05
+$pitchset GatlingManRE5_PrepareAttack_0 0.9 1.05
+$pitchset GatlingManRE5_PrepareAttack_1 0.9 1.05
+$pitchset GatlingManRE5_PrepareAttack_2 0.9 1.05
+$pitchset GatlingManRE5_Sight_0 0.9 1.05
+$pitchset GatlingManRE5_Sight_1 0.9 1.05
+$pitchset GatlingManRE5_StartWalk_0 0.9 1.05
+$pitchset GatlingManRE5_StartWalk_1 0.9 1.05
+
+
+$random GatlingManRE5_Death
+{
+	GatlingManRE5_Death_A
+	GatlingManRE5_Death_B
+}
+
+$random GatlingManRE5_Laugh
+{
+	GatlingManRE5_Laugh_0
+	GatlingManRE5_Laugh_1
+	None
+	NoNe
+	None
+}
+
+$random GatlingManRE5_Pain
+{
+	GatlingManRE5_Pain_1
+	GatlingManRE5_Pain_2
+	GatlingManRE5_Pain_3
+	GatlingManRE5_Pain_4
+	GatlingManRE5_Pain_5
+	GatlingManRE5_Pain_6
+}
+
+$random GatlingManRE5_PrepareAttack
+{
+	GatlingManRE5_PrepareAttack_0
+	GatlingManRE5_PrepareAttack_1
+	GatlingManRE5_PrepareAttack_2
+}
+
+$random GatlingManRE5_Sight
+{
+	GatlingManRE5_Sight_0
+	GatlingManRE5_Sight_1
+}
+
+$random GatlingManRE5_StartWalk
+{
+	GatlingManRE5_StartWalk_0
+	GatlingManRE5_StartWalk_1
+}
+
+RE5_MajiniMinigunShoot				"Sounds/MajiniGatling/groza_shoot.ogg"
+$rolloff RE5_MajiniMinigunShoot 200 4500
+
+
+Scrake_Random_1						"Sounds/Scrake/0016.ogg"
+Scrake_Random_2						"Sounds/Scrake/0017.ogg"
+Scrake_Random_3						"Sounds/Scrake/0018.ogg"
+Scrake_Random_4						"Sounds/Scrake/0143.ogg"
+Scrake_Random_5						"Sounds/Scrake/0148.ogg"
+Scrake_Random_6						"Sounds/Scrake/0198.ogg"
+Scrake_chainsaw_end					"Sounds/Scrake/chainsaw_end.ogg"
+Scrake_chainsaw_idle						"Sounds/Scrake/chainsaw_idle.ogg"
+Scrake_chainsaw_loop1						"Sounds/Scrake/chainsaw_loop1.ogg"
+Scrake_chainsaw_loop2						"Sounds/Scrake/chainsaw_loop2.ogg"
+Scrake_Spawn						"Sounds/Scrake/spawn.ogg"
+Scrake_chain_aori				"Sounds/Scrake/chain_aori.ogg"
+Scrake_chain_Cut				"Sounds/Scrake/chain_cut.ogg"
+
+$pitchset Scrake_chain_Cut 0.96 1.0
+
+Scrake_chain_fukashi				"Sounds/Scrake/chain_fukashi.ogg"
+Scrake_chain_strat				"Sounds/Scrake/chain_strat.ogg"
+
+Scrake_chain_voice1_s				"Sounds/Scrake/chain_voice1_s.ogg"
+Scrake_chain_voice2_s				"Sounds/Scrake/chain_voice2_s.ogg"
+Scrake_chain_voice4_s				"Sounds/HeavyBiker/cr_att1.ogg"
+
+
+$pitchset Scrake_chain_voice1_s 0.93 1.0
+$pitchset Scrake_chain_voice2_s 0.93 1.0
+$pitchset Scrake_chain_voice4_s 0.93 1.0
+
+
+Scrake_chainsaw4_loop			"Sounds/Scrake/chain_lo.ogg"
+
+MRX_Step_1		"Sounds/Scrake/MRX_Step_1.ogg"
+MRX_Step_2		"Sounds/Scrake/MRX_Step_2.ogg"
+MRX_Step_3		"Sounds/Scrake/MRX_Step_3.ogg"
+MRX_Step_4		"Sounds/Scrake/MRX_Step_4.ogg"
+MRX_Step_5		"Sounds/Scrake/MRX_Step_5.ogg"
+MRX_Step_6		"Sounds/Scrake/MRX_Step_6.ogg"
+
+$random MRX_Step
+{
+	MRX_Step_1
+	MRX_Step_2
+	MRX_Step_3
+	MRX_Step_4
+	MRX_Step_5
+	MRX_Step_6
+}
+
+
+$attenuation Scrake_chain_aori 0.75
+$attenuation Scrake_chain_Cut 0.75
+$attenuation Scrake_chain_fukashi 0.75
+$attenuation Scrake_chain_strat 0.75
+$attenuation Scrake_chain_voice1_s 0.75
+$attenuation Scrake_chain_voice2_s 0.75
+$attenuation Scrake_chain_voice3_s 0.75
+$attenuation Scrake_chain_voice 0.75
+$attenuation Scrake_Chainsaw_Taunt 0.75
+
+Scrake_chain_voice3_s				"Sounds/HeavyBiker/crow_special.ogg"
+
+$pitchset Scrake_chain_voice3_s 0.93 1.0
+
+$random Scrake_chain_voice1
+{
+	Scrake_chain_voice1_s
+	Scrake_chain_voice1_s
+	Scrake_chain_voice2_s
+	none
+	none
+	none
+}
+
+
+$random Scrake_chain_voice
+{
+	Scrake_chain_voice3_s
+	Scrake_chain_voice4_s
+	Scrake_chain_voice3_s
+	none
+	none
+	none
+}
+
+$random Scrake_Chainsaw_Taunt
+{
+Scrake_chain_aori
+Scrake_chain_fukashi
+Scrake_chain_strat
+}
+
+
+$rolloff Scrake_Spawn 1500 9000
+$random Scrake_Random {Scrake_Random_1 Scrake_Random_2 Scrake_Random_3 Scrake_Random_4 Scrake_Random_5 Scrake_Random_6}
+$random Scrake_chainsaw_loop {Scrake_chainsaw_loop1 Scrake_chainsaw_loop2}
+
+$attenuation Scrake_Random 0.75
+$attenuation Scrake_chainsaw_loop 0.75
+$attenuation Scrake_chainsaw_end 0.75
+$attenuation Scrake_chainsaw_idle 0.75
+
+$random Machete/Yum { Machete/Yum1 Machete/Yum2 Machete/Yum3 Machete/Yum4 Machete/Yum5 Machete/Yum6 }
+Machete/Yum1	MCHYUM1
+Machete/Yum2	MCHYUM2
+Machete/Yum3	MCHYUM3
+Machete/Yum4	MCHYUM4
+Machete/Yum5	MCHYUM5
+Machete/Yum6	MCHYUM6
+
+
+weapons/chainsaw/hitwall1	DSSAWAL1
+weapons/chainsaw/hitwall2	DSSAWAL2
+weapons/chainsaw/hitwall3	DSSAWAL3
+weapons/chainsaw/hitwall4	DSSAWAL4
+
+$random weapons/chainsaw/hitwall { weapons/chainsaw/hitwall1 weapons/chainsaw/hitwall2 weapons/chainsaw/hitwall3 weapons/chainsaw/hitwall4 }
+
+
+
+nashgore/bloodsplash1 "sounds/blood splash 01.ogg"
+nashgore/bloodsplash2 "sounds/blood splash 02.ogg"
+nashgore/bloodsplash3 "sounds/blood splash 03.ogg"
+
+$random nashgore/bloodsplash
+{
+	nashgore/bloodsplash1
+	nashgore/bloodsplash2
+	nashgore/bloodsplash3
+}
+
+$limit nashgore/bloodsplash 2
+
+$limit brutal_half_life___bleeding 2
+$volume nashgore/bloodsplash 0.3
+
+//===========================================================================
+//
+// Blood Drop
+//
+//===========================================================================
+
+nashgore/blooddrop01 "sounds/blood drop 01.ogg"
+nashgore/blooddrop02 "sounds/blood drop 02.ogg"
+
+$random nashgore/blooddrop
+{
+	nashgore/blooddrop01
+	nashgore/blooddrop02
+}
+
+$volume nashgore/blooddrop 0.25
+$limit nashgore/blooddrop 2
+
+//===========================================================================
+//
+// Small Gib
+//
+//===========================================================================
+
+nashgore/gibsmall01 "sounds/gib small 01.ogg"
+nashgore/gibsmall02 "sounds/gib small 02.ogg"
+
+$random nashgore/gibsmall
+{
+	nashgore/gibsmall01
+	nashgore/gibsmall02
+}
+
+$volume nashgore/gibsmall 0.44;
+
+//===========================================================================
+//
+// Big Gib
+//
+//===========================================================================
+
+nashgore/giblarge01 "sounds/gib large 01.ogg"
+nashgore/giblarge02 "sounds/gib large 02.ogg"
+nashgore/giblarge03 "sounds/gib large 03.ogg"
+
+// replace the stock gibbed sound
+
+//===========================================================================
+//
+// Bouncing Gib
+//
+//===========================================================================
+
+nashgore/gibbounce01 "sounds/gib bounce 01.ogg"
+nashgore/gibbounce02 "sounds/gib bounce 02.ogg"
+nashgore/gibbounce03 "sounds/gib bounce 03.ogg"
+
+$random nashgore/gibbounce
+{
+	nashgore/gibbounce01
+	nashgore/gibbounce02
+	nashgore/gibbounce03
+}
+
+$volume nashgore/gibbounce 0.225
+$limit nashgore/gibbounce 4
+
+//===========================================================================
+//
+// Body Drop
+//
+//===========================================================================
+
+nashgore/bodydrop "sounds/body drop 01.ogg"
+
+//===========================================================================
+//
+// Bullet Hit Flesh
+//
+//===========================================================================
+
+nashgore/bullethitflesh "sounds/bullet hit flesh.ogg"
+$volume nashgore/bullethitflesh 0.23
+
+
+
+KICK			"Sounds/Kick.ogg"
+
+FromCZ____body_scream1				"Sounds/FromCZ/body_scream1.wav"
+FromCZ____body_scream2				"Sounds/FromCZ/body_scream2.wav"
+FromCZ____body_scream3				"Sounds/FromCZ/body_scream3.wav"
+FromCZ____body_scream4				"Sounds/FromCZ/body_scream4.wav"
+FromCZ____g_bounce1					"Sounds/FromCZ/g_bounce1.wav"
+FromCZ____g_bounce2					"Sounds/FromCZ/g_bounce2.wav"
+FromCZ____g_bounce3					"Sounds/FromCZ/g_bounce3.wav"
+FromCZ____g_bounce4					"Sounds/FromCZ/g_bounce4.wav"
+FromCZ____g_bounce5					"Sounds/FromCZ/g_bounce5.wav"
+FromCZ____pinpull					"Sounds/FromCZ/pinpull_2.ogg"  /// grenade prepare
+FromCZ____g_pinpull1				"Sounds/FromCZ/g_pinpull1.wav"  // grenade throw
+FromCZ____gg_explode				"Sounds/FromCZ/gg_explode.wav"
+FromCZ____gg_hiss					"Sounds/FromCZ/gg_hiss.wav"
+FromCZ____grenade_hit1				"Sounds/FromCZ/grenade_hit1.wav"
+FromCZ____he_bounce1				"Sounds/FromCZ/he_bounce-1.wav"
+FromCZ____headshot2					"Sounds/FromCZ/headshot2.wav"
+FromCZ____hegrenade1				"Sounds/FromCZ/hegrenade-1.wav"
+FromCZ____holster					"Sounds/FromCZ/holster-1.wav"
+FromCZ____knife_slash1				"Sounds/FromCZ/knife_slash1.wav"
+FromCZ____knife_slash2				"Sounds/FromCZ/knife_slash2.wav"
+FromCZ____machete_deploy1			"Sounds/FromCZ/machete_deploy1.wav"
+FromCZ____machete_hit1				"Sounds/FromCZ/machete_hit1.wav"
+FromCZ____machete_hit2				"Sounds/FromCZ/machete_hit2.wav"
+FromCZ____machete_hit3				"Sounds/FromCZ/machete_hit3.wav"
+FromCZ____machete_hit4				"Sounds/FromCZ/machete_hit4.wav"
+FromCZ____machete_hitwall1			"Sounds/FromCZ/machete_hitwall1.wav"
+FromCZ____machete_hitwall2			"Sounds/FromCZ/machete_hitwall2.wav"
+FromCZ____machete_slash1				"Sounds/FromCZ/machete_slash1.wav"
+FromCZ____machete_slash2				"Sounds/FromCZ/machete_slash2.wav"
+FromCZ____melee_whoosh1				"Sounds/FromCZ/melee_whoosh1.wav"
+FromCZ____melee_whoosh2				"Sounds/FromCZ/melee_whoosh2.wav"
+
+
+$random FromCZ____body_scream {FromCZ____body_scream1 FromCZ____body_scream2 FromCZ____body_scream3 FromCZ____body_scream4}
+$random FromCZ____g_bounce {FromCZ____g_bounce1 FromCZ____g_bounce2 FromCZ____g_bounce3 FromCZ____g_bounce4 FromCZ____g_bounce5}
+$random FromCZ____knife_slash {FromCZ____knife_slash1 FromCZ____knife_slash2}
+$random FromCZ____machete_hit {FromCZ____machete_hit1 FromCZ____machete_hit2 FromCZ____machete_hit3 FromCZ____machete_hit4}
+$random FromCZ____machete_hitwall {FromCZ____machete_hitwall1 FromCZ____machete_hitwall2}
+$random FromCZ____machete_slash {FromCZ____machete_slash1 FromCZ____machete_slash2}
+$random FromCZ____melee_whoosh {FromCZ____melee_whoosh1 FromCZ____melee_whoosh2}
+
+
+GBOUNCE					GBOUNCE
+GBOUNCE1					GBOUNCE1
+GBOUNCE2					GBOUNCE2
+GBOUNCE3					GBOUNCE3
+GBOUNCE4					GBOUNCE4
+GBOUNCE5					GBOUNCE5
+
+$random CoD_Bounce_Grenade
+{
+	GBOUNCE
+	GBOUNCE1
+	GBOUNCE2
+	GBOUNCE3
+	GBOUNCE4
+	GBOUNCE5
+}
+
+Manhunt_BaseBall_Hit_0				"Sounds/Weapons/bat_hit1.ogg"
+Manhunt_BaseBall_Hit_1				"Sounds/Weapons/bat_hit2.ogg"
+
+$Random Manhunt_BaseBall_Hit
+{
+	Manhunt_BaseBall_Hit_0
+	Manhunt_BaseBall_Hit_1
+}
+
+
+PK_NailGun_01				"Sounds/Weapons/NailGun_01.ogg"
+PK_NailGun_02				"Sounds/Weapons/NailGun_02.ogg"
+
+$random PKM_Nailgun_Shot
+{
+	PK_NailGun_01
+	PK_NailGun_02
+}
+
+
+nail_onfly-loop			"Sounds/Weapons/nail_onfly-loop.wav"
+
+$rolloff nail_onfly-loop 500 800
+
+
+
+$random SLOP		{ SLOP1 SLOP2 SLOP3 }
+SLOP1 SLOP1
+SLOP2 SLOP2
+SLOP3 SLOP3
+
+$random HEDBON { HEDBON1 HEDBON2 HEDBON3 }
+HEDBON1 HEDBON1
+HEDBON2 HEDBON2
+HEDBON3 HEDBON3
+// Gore
+$random misc/xdeath		{ misc/xdeath1a misc/xdeath1b misc/xdeath1c misc/xdeath1d misc/xdeath1e misc/xdeath1f misc/xdeath2a misc/xdeath2b misc/xdeath2c misc/xdeath2d misc/xdeath2e misc/xdeath2f misc/xdeath3a misc/xdeath3b misc/xdeath3c misc/xdeath4a misc/xdeath4b misc/xdeath4c }
+misc/xdeath1a			dsxdth1a
+misc/xdeath1b			dsxdth1b
+misc/xdeath1c			dsxdth1c
+misc/xdeath1d			dsxdth1d
+misc/xdeath1e			dsxdth1e
+misc/xdeath1f			dsxdth1f
+$random misc/xdeath1		{ misc/xdeath1a misc/xdeath1b misc/xdeath1c misc/xdeath1d misc/xdeath1e misc/xdeath1f }
+misc/xdeath2a			dsxdth2a
+misc/xdeath2b			dsxdth2b
+misc/xdeath2c			dsxdth2c
+misc/xdeath2d			dsxdth2d
+misc/xdeath2e			dsxdth2e
+misc/xdeath2f			dsxdth2f
+$random misc/xdeath2		{ misc/xdeath2a misc/xdeath2b misc/xdeath2c misc/xdeath2d misc/xdeath2e misc/xdeath2f }
+misc/xdeath3a			dsxdth3a
+misc/xdeath3b			dsxdth3b
+misc/xdeath3c			dsxdth3c
+$random misc/xdeath3		{ misc/xdeath3a misc/xdeath3b misc/xdeath3c }
+misc/xdeath4a			dsxdth4a
+misc/xdeath4b			dsxdth4b
+misc/xdeath4c			dsxdth4c
+$random misc/xdeath4		{ misc/xdeath4a misc/xdeath4b misc/xdeath4c }
+
+
+$random misc/xdeath5		{ misc/xdeath4a misc/xdeath4b misc/xdeath2a misc/xdeath2b misc/xdeath2e}
+
+$volume misc/xdeath 0.3
+$volume misc/xdeath1 0.5 //blop glop
+$volume misc/xdeath2 0.3 //gibs falling1
+$volume misc/xdeath3 0.3 //gibs falling2
+$volume misc/xdeath4 0.3 //bones crushing
+$volume misc/xdeath5 0.4 //bullet hit
+$limit misc/xdeath5 4
+$rolloff blooddrop 200 1000
+
+LQDRIP1 LQDRIP1
+LQDRIP2 LQDRIP2
+LQDRIP3 LQDRIP3
+LQDRIP4 LQDRIP4
+LQDRIP5 LQDRIP5
+LQDRIP6 LQDRIP6
+LQDRIP7 LQDRIP7
+LQDRIP8 LQDRIP8
+LQDRIP9 LQDRIP9
+LQDRIP10 LQDRIP10
+LQDRIP11 LQDRIP11
+LQDRIP12 LQDRIP12
+LQDRIP13 LQDRIP13
+LQDRIP14 LQDRIP14
+
+$random blooddrop  { LQDRIP1 LQDRIP2 LQDRIP3 }
+$rolloff blooddrop 10 400
+$random blooddrop2  { LQDRIP4 LQDRIP5 LQDRIP6 LQDRIP7 }
+$rolloff blooddrop2 10 400
+$random blooddrop3  { LQDRIP8 LQDRIP9 LQDRIP10 LQDRIP11 LQDRIP12 LQDRIP13 LQDRIP14 LQDRIP14 }
+$rolloff blooddrop3 10 400

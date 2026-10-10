@@ -1,0 +1,166 @@
+actor Cursedskeleton replaces Zombieman
+{
+    Health 35
+	PainChance 255
+	Speed 6
+	Radius 25
+	Height 48
+	Mass 400
+	MaxStepHeight 24
+	MaxDropOffHeight 64
+	MONSTER
+	+SLIDESONWALLS
+	+FLOORCLIP
+	+NOBLOOD
+	+NOTARGET
+	+FORCERADIUSDMG
+  //SeeSound "demonsight"
+  //ActiveSound "demonactive"
+  //PainSound "demonpain"
+  DeathSound "SKD2"
+  HitObituary "Destroyed by cursed skeleton"
+  //Painchance "Kickb", 255
+  
+  Reactiontime 1  
+  
+  //Scale 0.80
+  states
+  {
+  Spawn:
+    VSKL A 4 A_Look//Ex(0,0,0,0,120,"See")
+    loop
+  See:
+    VSKL ABCDEFGHIJKLMNOPQRSTUVWX 5 A_Chase
+    loop
+  Pain:
+    PPKL ABC 3
+  	PPKL DD 3 A_Pain
+	PPKL CBA 3
+  GoBack:
+    PPKL A 1 A_FaceTarget
+	VSKA D 1 A_FaceTarget
+	VSKL XWVUTSRQPONMLKJIHGFEDCBA 3 Fast 
+	{
+	A_FaceTarget;
+	A_Recoil(0.65);
+	}
+    goto Melee
+  Melee:
+    TNT1 A 0 A_Jump(100,"Melee2")
+    VSKA ABCDEFGHIJLM 2 Fast A_FaceTarget
+	VSKA M 3 Fast A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
+	VSKA NNOP 2 Fast
+	VKKA ABCDEFGHIJLMN 2 Fast
+	Goto See
+	
+  Melee2:
+    VAKL ABCDEFGHIJK 1 Fast A_FaceTarget
+	VAKL K 3 Fast A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
+    VAKL LMNOPQRSTUV 1 Fast A_FaceTarget
+	VAKL V 3 Fast A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
+	VAKL WXYZ 1 Fast 
+	goto See  
+
+  Death:
+     TNT1 A 0 A_Stop
+    TNT1 A 0 A_Jump(80,"Death1")
+	VSKD A 2 A_Scream
+	VSKD B 2 A_Fall
+	VSKD CDEFGHIJKLNMNOPQRSTUVWX 2
+	VSKD X 230
+	VSKD XXXXXXXXXXXXXXX 5 A_FadeOut(0.2)
+	stop
+  Death1:
+	VSDD A 2 A_Scream
+	VSDD B 2 A_Fall
+	VSDD CDEFGHIJKLNMNOPQ 2
+	VSDD Q 230
+	VSDD QQQQQQQQQQQQQQQ 5 A_FadeOut(0.2)
+	stop
+  }
+}
+
+actor Cursedskeleton2 replaces DoomImp
+{
+Health 45
+	PainChance 255
+	Speed 6
+	Radius 25
+	Height 48
+	Mass 400
+	MaxStepHeight 24
+	MaxDropOffHeight 64
+	MONSTER
+	+SLIDESONWALLS
+	+FLOORCLIP
+	+NOBLOOD
+	+NOTARGET
+	+FORCERADIUSDMG
+  //SeeSound "demonsight"
+  //ActiveSound "demonactive"
+  //PainSound "demonpain"
+  DeathSound "SKD2"
+  HitObituary "Destroyed by cursed skeleton"
+  //Scale 0.80
+    Reactiontime 1  
+  states
+  {
+  Spawn:
+    VSKL A 4 A_Look
+    loop
+  See:
+    VSKL ABCDEFGHIJKLMNOPQRSTUVWX 5 A_Chase
+    loop
+  Pain:
+    PPKL ABC 3
+  	PPKL DD 3 A_Pain
+	PPKL CBA 3
+  GoBack:
+    PPKL A 1 A_FaceTarget
+	VSKA D 1 A_FaceTarget
+	VSKL XWVUTSRQPONMLKJIHGFEDCBA 3 Fast 
+	{
+	A_FaceTarget;
+	A_Recoil(0.65);
+	}
+    goto Melee
+	
+  Missile:
+    VSKA ABCDEFGHIJLM 2 Fast A_FaceTarget
+	VSKA M 3 Fast A_CustomMissile("FrozenBall",48,0)
+	VSKA NNOP 2 Fast
+	VKKA ABCDEFGHIJLMN 2 Fast
+	Goto See	
+
+  Melee:
+    VAKL ABCDEFGHIJK 1 Fast A_FaceTarget
+	VAKL K 3 Fast A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
+    VAKL LMNOPQRSTUV 1 Fast A_FaceTarget
+	VAKL V 3 Fast A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
+	VAKL WXYZ 1 Fast 
+	goto See 
+  Death:
+    TNT1 A 0 A_Stop
+    TNT1 A 0 A_Jump(80,"Death1")
+	VSKD A 2 A_Scream
+	VSKD B 2 A_Fall
+	VSKD CDEFGHIJKLNMNOPQRSTUVWX 2
+	VSKD X 230
+	VSKD XXXXXXXXXXXXXXX 5 A_FadeOut(0.2)
+	stop
+  Death1:
+	VSDD A 2 A_Scream
+	VSDD B 2 A_Fall
+	VSDD CDEFGHIJKLNMNOPQ 2
+	VSDD Q 230
+	VSDD QQQQQQQQQQQQQQQ 5 A_FadeOut(0.2)
+	stop
+  }
+}
+
+
+
+Actor Cursedskeleton3: RandomSpawner replaces ShotGunGuy
+{
+DropItem "Cursedskeleton2", 255, 255
+}

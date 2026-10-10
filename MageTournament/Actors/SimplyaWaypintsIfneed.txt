@@ -1,0 +1,14 @@
+ACTOR SimplyWaypoint1 6101
+{
+  Health 0
+  Radius 0
+  Height 0 
+  States
+  {
+  Spawn:
+	POSS A 0
+	POSS A 0 Thing_ChangeTID(0, 9)
+	POSS A 1
+	Stop
+  }
+}

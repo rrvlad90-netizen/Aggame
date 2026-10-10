@@ -1,0 +1,133 @@
+Actor None1 replaces SuperShotgun
+{
+  Radius 1   //16
+  Height 1   //34
+  -SOLID
+States
+ {
+  Spawn:
+    TNT1 A 1
+  Stop
+ }
+}
+
+
+ACTOR CrossbowW : Weapon replaces Shotgun
+{
+   +INVENTORY.UNDROPPABLE
+   +WEAPON.NOAUTOAIM
+  Inventory.PickupMessage "Pick Up Crossbow"
+   Weapon.SelectionOrder 1900  //3
+   Weapon.AmmoType "Clip"
+   Weapon.AmmoGive 100
+   Weapon.AmmoUse 0
+  Tag "Crossbow"
+  States
+  {
+  Spawn:
+    TNT1 A -1
+    Stop
+  Ready:
+    CRBW A 1 A_WeaponReady
+    Loop
+  Deselect:
+    CRBW A 1 A_Lower
+    Loop
+  Select:
+    CRBW A 1 A_Raise
+    Loop
+  Fire:
+  	CRBW A 3 A_AlertMonsters
+	CRBW B 1 A_PlaySound("FFire")
+	CRBW BC 2
+    CRBW D 1 A_FireCustomMissile("CrosbowFire",0,true,0,7,0)
+    CRBW DEFGH 2
+	CRBW H 7
+	CRBW H 5 A_ReFire
+    Goto Ready
+  }
+}
+
+Actor W01:  RandomSpawner replaces Chaingun 
+{
+//DropItem "CrossbowW", 255, 255
+DropItem "None1", 255, 255
+}
+
+Actor W02:  RandomSpawner replaces Chainsaw 
+{
+DropItem "None1", 255, 255
+}
+
+Actor W03:  RandomSpawner replaces Pistol 
+{
+DropItem "None1", 255, 255
+}
+
+Actor W04:  RandomSpawner replaces Berserk
+{
+DropItem "None1", 255, 255
+}
+
+Actor W05:  RandomSpawner replaces PlasmaRifle
+{
+DropItem "None1", 255, 255
+}
+
+Actor W06:  RandomSpawner replaces BFG9000 
+{
+DropItem "None1", 255, 255
+}
+
+Actor W07:  RandomSpawner replaces RocketLauncher 
+{
+DropItem "None1", 255, 255
+}
+
+
+
+
+Actor I01:  RandomSpawner replaces Backpack 
+{
+DropItem "None1", 255, 255
+}
+
+Actor I02:  RandomSpawner replaces Cell 
+{
+DropItem "None1", 255, 255
+}
+
+Actor I03:  RandomSpawner replaces Cellpack 
+{
+DropItem "None1", 255, 255
+}
+
+Actor I04:  RandomSpawner replaces Clip
+{
+DropItem "None1", 255, 255
+}
+
+Actor I05:  RandomSpawner replaces ClipBox
+{
+DropItem "None1", 255, 255
+}
+
+Actor I06:  RandomSpawner replaces RocketAmmo 
+{
+DropItem "None1", 255, 255
+}
+
+Actor I07:  RandomSpawner replaces RocketBox 
+{
+DropItem "None1", 255, 255
+}
+
+Actor I08:  RandomSpawner replaces Shell 
+{
+DropItem "None1", 255, 255
+}
+
+Actor I09:  RandomSpawner replaces ShellBox 
+{
+DropItem "None1", 255, 255
+}

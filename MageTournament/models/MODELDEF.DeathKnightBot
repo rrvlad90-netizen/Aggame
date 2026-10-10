@@ -1,0 +1,287 @@
+Model DeathKnightBot
+{
+   Path "models\MD3\DeathKnight"
+   Model 0 "DeathKnight.md3"
+   Skin 0 "knight.tga"
+   Model 1 "CrossbowInHandDK.md3" 
+   Skin 1  "Crossbow.png"
+   
+   //Scale 2.5 2.5 2.5 
+   ZOffset 24
+
+FrameIndex POSS A 0 86  FrameIndex POSS A 1 86  FrameIndex POSS A 2 86
+FrameIndex POSS B 0 87  FrameIndex POSS B 1 87  FrameIndex POSS B 2 87
+FrameIndex POSS C 0 88  FrameIndex POSS C 1 88  FrameIndex POSS C 2 88
+FrameIndex POSS D 0 89  FrameIndex POSS D 1 89  FrameIndex POSS D 2 89
+FrameIndex POSS E 0 90  FrameIndex POSS E 1 90  FrameIndex POSS E 2 90
+FrameIndex POSS F 0 91  FrameIndex POSS F 1 91  FrameIndex POSS F 2 91
+FrameIndex POSS G 0 92  FrameIndex POSS G 1 92  FrameIndex POSS G 2 92
+FrameIndex POSS H 0 93  FrameIndex POSS H 1 93  FrameIndex POSS H 2 93
+FrameIndex POSS I 0 94  FrameIndex POSS I 1 94  FrameIndex POSS I 2 94
+FrameIndex POSS J 0 95  FrameIndex POSS J 1 95  FrameIndex POSS J 2 95
+FrameIndex POSS K 0 96  FrameIndex POSS K 1 96  FrameIndex POSS K 2 96
+FrameIndex POSS L 0 97  FrameIndex POSS L 1 97  FrameIndex POSS L 2 97
+FrameIndex POSS M 0 98  FrameIndex POSS M 1 98  FrameIndex POSS M 2 98
+FrameIndex POSS N 0 99  FrameIndex POSS N 1 99  FrameIndex POSS N 2 99
+FrameIndex POSS O 0 100  FrameIndex POSS O 1 100  FrameIndex POSS O 2 100
+FrameIndex POSS P 0 101  FrameIndex POSS P 1 101  FrameIndex POSS P 2 101
+FrameIndex POSS Q 0 102  FrameIndex POSS Q 1 102  FrameIndex POSS Q 2 102
+FrameIndex POSS R 0 103  FrameIndex POSS R 1 103  FrameIndex POSS R 2 103
+}
+
+Model DeathKnightBot
+{
+   Path "models\MD3\DeathKnight"
+   Model 0 "DeathKnightLeft.md3"
+   Skin 0 "knight.tga"
+   Model 1 "CrossbowInHandDK.md3" 
+   Skin 1  "Crossbow.png"
+   
+   //Scale 2.5 2.5 2.5 
+   ZOffset 24
+
+FrameIndex POSL A 0 86  FrameIndex POSL A 1 86  FrameIndex POSL A 2 86
+FrameIndex POSL B 0 87  FrameIndex POSL B 1 87  FrameIndex POSL B 2 87
+FrameIndex POSL C 0 88  FrameIndex POSL C 1 88  FrameIndex POSL C 2 88
+FrameIndex POSL D 0 89  FrameIndex POSL D 1 89  FrameIndex POSL D 2 89
+FrameIndex POSL E 0 90  FrameIndex POSL E 1 90  FrameIndex POSL E 2 90
+FrameIndex POSL F 0 91  FrameIndex POSL F 1 91  FrameIndex POSL F 2 91
+FrameIndex POSL G 0 92  FrameIndex POSL G 1 92  FrameIndex POSL G 2 92
+FrameIndex POSL H 0 93  FrameIndex POSL H 1 93  FrameIndex POSL H 2 93
+FrameIndex POSL I 0 94  FrameIndex POSL I 1 94  FrameIndex POSL I 2 94
+FrameIndex POSL J 0 95  FrameIndex POSL J 1 95  FrameIndex POSL J 2 95
+FrameIndex POSL K 0 96  FrameIndex POSL K 1 96  FrameIndex POSL K 2 96
+FrameIndex POSL L 0 97  FrameIndex POSL L 1 97  FrameIndex POSL L 2 97
+FrameIndex POSL M 0 98  FrameIndex POSL M 1 98  FrameIndex POSL M 2 98
+FrameIndex POSL N 0 99  FrameIndex POSL N 1 99  FrameIndex POSL N 2 99
+FrameIndex POSL O 0 100  FrameIndex POSL O 1 100  FrameIndex POSL O 2 100
+FrameIndex POSL P 0 101  FrameIndex POSL P 1 101  FrameIndex POSL P 2 101
+FrameIndex POSL Q 0 102  FrameIndex POSL Q 1 102  FrameIndex POSL Q 2 102
+FrameIndex POSL R 0 103  FrameIndex POSL R 1 103  FrameIndex POSL R 2 103
+}
+
+
+Model DeathKnightBot
+{
+   Path "models\MD3\DeathKnight"
+   Model 0 "DeathKnightRight.md3"
+   Skin 0 "knight.tga"
+   Model 1 "CrossbowInHandDK.md3" 
+   Skin 1  "Crossbow.png"
+   
+   //Scale 2.5 2.5 2.5 
+   ZOffset 24
+
+FrameIndex POSR A 0 86  FrameIndex POSR A 1 86  FrameIndex POSR A 2 86
+FrameIndex POSR B 0 87  FrameIndex POSR B 1 87  FrameIndex POSR B 2 87
+FrameIndex POSR C 0 88  FrameIndex POSR C 1 88  FrameIndex POSR C 2 88
+FrameIndex POSR D 0 89  FrameIndex POSR D 1 89  FrameIndex POSR D 2 89
+FrameIndex POSR E 0 90  FrameIndex POSR E 1 90  FrameIndex POSR E 2 90
+FrameIndex POSR F 0 91  FrameIndex POSR F 1 91  FrameIndex POSR F 2 91
+FrameIndex POSR G 0 92  FrameIndex POSR G 1 92  FrameIndex POSR G 2 92
+FrameIndex POSR H 0 93  FrameIndex POSR H 1 93  FrameIndex POSR H 2 93
+FrameIndex POSR I 0 94  FrameIndex POSR I 1 94  FrameIndex POSR I 2 94
+FrameIndex POSR J 0 95  FrameIndex POSR J 1 95  FrameIndex POSR J 2 95
+FrameIndex POSR K 0 96  FrameIndex POSR K 1 96  FrameIndex POSR K 2 96
+FrameIndex POSR L 0 97  FrameIndex POSR L 1 97  FrameIndex POSR L 2 97
+FrameIndex POSR M 0 98  FrameIndex POSR M 1 98  FrameIndex POSR M 2 98
+FrameIndex POSR N 0 99  FrameIndex POSR N 1 99  FrameIndex POSR N 2 99
+FrameIndex POSR O 0 100  FrameIndex POSR O 1 100  FrameIndex POSR O 2 100
+FrameIndex POSR P 0 101  FrameIndex POSR P 1 101  FrameIndex POSR P 2 101
+FrameIndex POSR Q 0 102  FrameIndex POSR Q 1 102  FrameIndex POSR Q 2 102
+FrameIndex POSR R 0 103  FrameIndex POSR R 1 103  FrameIndex POSR R 2 103
+}
+
+Model DeathKnightBot
+{
+   Path "models\MD3\DeathKnight"
+   Model 0 "DeathKnight.md3"
+   Skin 0 "knight.tga"
+   
+   //Scale 2.5 2.5 2.5 
+   ZOffset 22
+   
+   //death
+FrameIndex POSD A 0 0  FrameIndex POSD A 1 0  FrameIndex POSD A 2 0
+FrameIndex POSD B 0 1  FrameIndex POSD B 1 1  FrameIndex POSD B 2 1
+FrameIndex POSD C 0 2  FrameIndex POSD C 1 2  FrameIndex POSD C 2 2
+FrameIndex POSD D 0 3  FrameIndex POSD D 1 3  FrameIndex POSD D 2 3
+FrameIndex POSD E 0 4  FrameIndex POSD E 1 4  FrameIndex POSD E 2 4
+FrameIndex POSD F 0 5  FrameIndex POSD F 1 5  FrameIndex POSD F 2 5
+FrameIndex POSD G 0 6  FrameIndex POSD G 1 6  FrameIndex POSD G 2 6
+FrameIndex POSD H 0 7  FrameIndex POSD H 1 7  FrameIndex POSD H 2 7
+FrameIndex POSD I 0 8  FrameIndex POSD I 1 8  FrameIndex POSD I 2 8
+FrameIndex POSD J 0 9  FrameIndex POSD J 1 9  FrameIndex POSD J 2 9
+FrameIndex POSD K 0 10  FrameIndex POSD K 1 10  FrameIndex POSD K 2 10
+FrameIndex POSD L 0 11  FrameIndex POSD L 1 11  FrameIndex POSD L 2 11
+FrameIndex POSD M 0 12  FrameIndex POSD M 1 12  FrameIndex POSD M 2 12
+FrameIndex POSD N 0 13  FrameIndex POSD N 1 13  FrameIndex POSD N 2 13
+FrameIndex POSD O 0 14  FrameIndex POSD O 1 14  FrameIndex POSD O 2 14
+FrameIndex POSD P 0 15  FrameIndex POSD P 1 15  FrameIndex POSD P 2 15
+FrameIndex POSD Q 0 16  FrameIndex POSD Q 1 16  FrameIndex POSD Q 2 16
+FrameIndex POSD R 0 17  FrameIndex POSD R 1 17  FrameIndex POSD R 2 17
+FrameIndex POSD S 0 18  FrameIndex POSD S 1 18  FrameIndex POSD S 2 18
+FrameIndex POSD T 0 19  FrameIndex POSD T 1 19  FrameIndex POSD T 2 19
+FrameIndex POSD U 0 20  FrameIndex POSD U 1 20  FrameIndex POSD U 2 20
+FrameIndex POSD V 0 21  FrameIndex POSD V 1 21  FrameIndex POSD V 2 21
+FrameIndex POSD W 0 22  FrameIndex POSD W 1 22  FrameIndex POSD W 2 22
+FrameIndex POSD X 0 23  FrameIndex POSD X 1 23  FrameIndex POSD X 2 23
+FrameIndex POSD Y 0 24  FrameIndex POSD Y 1 24  FrameIndex POSD Y 2 24
+FrameIndex POSD Z 0 25  FrameIndex POSD Z 1 25  FrameIndex POSD Z 2 25
+
+FrameIndex PODD A 0 26  FrameIndex PODD A 1 26  FrameIndex PODD A 2 26
+FrameIndex PODD B 0 27  FrameIndex PODD B 1 27  FrameIndex PODD B 2 27
+FrameIndex PODD C 0 28  FrameIndex PODD C 1 28  FrameIndex PODD C 2 28
+FrameIndex PODD D 0 29  FrameIndex PODD D 1 29  FrameIndex PODD D 2 29
+FrameIndex PODD E 0 30  FrameIndex PODD E 1 30  FrameIndex PODD E 2 30
+FrameIndex PODD F 0 31  FrameIndex PODD F 1 31  FrameIndex PODD F 2 31
+FrameIndex PODD G 0 32  FrameIndex PODD G 1 32  FrameIndex PODD G 2 32
+FrameIndex PODD H 0 33  FrameIndex PODD H 1 33  FrameIndex PODD H 2 33
+FrameIndex PODD I 0 34  FrameIndex PODD I 1 34  FrameIndex PODD I 2 34
+FrameIndex PODD J 0 35  FrameIndex PODD J 1 35  FrameIndex PODD J 2 35
+}
+
+////////
+
+Model DeathKnightBotEasy
+{
+   Path "models\MD3\DeathKnight"
+   Model 0 "DeathKnight.md3"
+   Skin 0 "knight.tga"
+   Model 1 "CrossbowInHandDK.md3" 
+   Skin 1  "Crossbow.png"
+   
+   //Scale 2.5 2.5 2.5 
+   ZOffset 24
+
+FrameIndex POSS A 0 86  FrameIndex POSS A 1 86  FrameIndex POSS A 2 86
+FrameIndex POSS B 0 87  FrameIndex POSS B 1 87  FrameIndex POSS B 2 87
+FrameIndex POSS C 0 88  FrameIndex POSS C 1 88  FrameIndex POSS C 2 88
+FrameIndex POSS D 0 89  FrameIndex POSS D 1 89  FrameIndex POSS D 2 89
+FrameIndex POSS E 0 90  FrameIndex POSS E 1 90  FrameIndex POSS E 2 90
+FrameIndex POSS F 0 91  FrameIndex POSS F 1 91  FrameIndex POSS F 2 91
+FrameIndex POSS G 0 92  FrameIndex POSS G 1 92  FrameIndex POSS G 2 92
+FrameIndex POSS H 0 93  FrameIndex POSS H 1 93  FrameIndex POSS H 2 93
+FrameIndex POSS I 0 94  FrameIndex POSS I 1 94  FrameIndex POSS I 2 94
+FrameIndex POSS J 0 95  FrameIndex POSS J 1 95  FrameIndex POSS J 2 95
+FrameIndex POSS K 0 96  FrameIndex POSS K 1 96  FrameIndex POSS K 2 96
+FrameIndex POSS L 0 97  FrameIndex POSS L 1 97  FrameIndex POSS L 2 97
+FrameIndex POSS M 0 98  FrameIndex POSS M 1 98  FrameIndex POSS M 2 98
+FrameIndex POSS N 0 99  FrameIndex POSS N 1 99  FrameIndex POSS N 2 99
+FrameIndex POSS O 0 100  FrameIndex POSS O 1 100  FrameIndex POSS O 2 100
+FrameIndex POSS P 0 101  FrameIndex POSS P 1 101  FrameIndex POSS P 2 101
+FrameIndex POSS Q 0 102  FrameIndex POSS Q 1 102  FrameIndex POSS Q 2 102
+FrameIndex POSS R 0 103  FrameIndex POSS R 1 103  FrameIndex POSS R 2 103
+}
+
+Model DeathKnightBotEasy
+{
+   Path "models\MD3\DeathKnight"
+   Model 0 "DeathKnightLeft.md3"
+   Skin 0 "knight.tga"
+   Model 1 "CrossbowInHandDK.md3" 
+   Skin 1  "Crossbow.png"
+   
+   //Scale 2.5 2.5 2.5 
+   ZOffset 24
+
+FrameIndex POSL A 0 86  FrameIndex POSL A 1 86  FrameIndex POSL A 2 86
+FrameIndex POSL B 0 87  FrameIndex POSL B 1 87  FrameIndex POSL B 2 87
+FrameIndex POSL C 0 88  FrameIndex POSL C 1 88  FrameIndex POSL C 2 88
+FrameIndex POSL D 0 89  FrameIndex POSL D 1 89  FrameIndex POSL D 2 89
+FrameIndex POSL E 0 90  FrameIndex POSL E 1 90  FrameIndex POSL E 2 90
+FrameIndex POSL F 0 91  FrameIndex POSL F 1 91  FrameIndex POSL F 2 91
+FrameIndex POSL G 0 92  FrameIndex POSL G 1 92  FrameIndex POSL G 2 92
+FrameIndex POSL H 0 93  FrameIndex POSL H 1 93  FrameIndex POSL H 2 93
+FrameIndex POSL I 0 94  FrameIndex POSL I 1 94  FrameIndex POSL I 2 94
+FrameIndex POSL J 0 95  FrameIndex POSL J 1 95  FrameIndex POSL J 2 95
+FrameIndex POSL K 0 96  FrameIndex POSL K 1 96  FrameIndex POSL K 2 96
+FrameIndex POSL L 0 97  FrameIndex POSL L 1 97  FrameIndex POSL L 2 97
+FrameIndex POSL M 0 98  FrameIndex POSL M 1 98  FrameIndex POSL M 2 98
+FrameIndex POSL N 0 99  FrameIndex POSL N 1 99  FrameIndex POSL N 2 99
+FrameIndex POSL O 0 100  FrameIndex POSL O 1 100  FrameIndex POSL O 2 100
+FrameIndex POSL P 0 101  FrameIndex POSL P 1 101  FrameIndex POSL P 2 101
+FrameIndex POSL Q 0 102  FrameIndex POSL Q 1 102  FrameIndex POSL Q 2 102
+FrameIndex POSL R 0 103  FrameIndex POSL R 1 103  FrameIndex POSL R 2 103
+}
+
+
+Model DeathKnightBotEasy
+{
+   Path "models\MD3\DeathKnight"
+   Model 0 "DeathKnightRight.md3"
+   Skin 0 "knight.tga"
+   Model 1 "CrossbowInHandDK.md3" 
+   Skin 1  "Crossbow.png"
+   
+   //Scale 2.5 2.5 2.5 
+   ZOffset 24
+
+FrameIndex POSR A 0 86  FrameIndex POSR A 1 86  FrameIndex POSR A 2 86
+FrameIndex POSR B 0 87  FrameIndex POSR B 1 87  FrameIndex POSR B 2 87
+FrameIndex POSR C 0 88  FrameIndex POSR C 1 88  FrameIndex POSR C 2 88
+FrameIndex POSR D 0 89  FrameIndex POSR D 1 89  FrameIndex POSR D 2 89
+FrameIndex POSR E 0 90  FrameIndex POSR E 1 90  FrameIndex POSR E 2 90
+FrameIndex POSR F 0 91  FrameIndex POSR F 1 91  FrameIndex POSR F 2 91
+FrameIndex POSR G 0 92  FrameIndex POSR G 1 92  FrameIndex POSR G 2 92
+FrameIndex POSR H 0 93  FrameIndex POSR H 1 93  FrameIndex POSR H 2 93
+FrameIndex POSR I 0 94  FrameIndex POSR I 1 94  FrameIndex POSR I 2 94
+FrameIndex POSR J 0 95  FrameIndex POSR J 1 95  FrameIndex POSR J 2 95
+FrameIndex POSR K 0 96  FrameIndex POSR K 1 96  FrameIndex POSR K 2 96
+FrameIndex POSR L 0 97  FrameIndex POSR L 1 97  FrameIndex POSR L 2 97
+FrameIndex POSR M 0 98  FrameIndex POSR M 1 98  FrameIndex POSR M 2 98
+FrameIndex POSR N 0 99  FrameIndex POSR N 1 99  FrameIndex POSR N 2 99
+FrameIndex POSR O 0 100  FrameIndex POSR O 1 100  FrameIndex POSR O 2 100
+FrameIndex POSR P 0 101  FrameIndex POSR P 1 101  FrameIndex POSR P 2 101
+FrameIndex POSR Q 0 102  FrameIndex POSR Q 1 102  FrameIndex POSR Q 2 102
+FrameIndex POSR R 0 103  FrameIndex POSR R 1 103  FrameIndex POSR R 2 103
+}
+
+Model DeathKnightBotEasy
+{
+   Path "models\MD3\DeathKnight"
+   Model 0 "DeathKnight.md3"
+   Skin 0 "knight.tga"
+   
+   //Scale 2.5 2.5 2.5 
+   ZOffset 22
+   
+   //death
+FrameIndex POSD A 0 0  FrameIndex POSD A 1 0  FrameIndex POSD A 2 0
+FrameIndex POSD B 0 1  FrameIndex POSD B 1 1  FrameIndex POSD B 2 1
+FrameIndex POSD C 0 2  FrameIndex POSD C 1 2  FrameIndex POSD C 2 2
+FrameIndex POSD D 0 3  FrameIndex POSD D 1 3  FrameIndex POSD D 2 3
+FrameIndex POSD E 0 4  FrameIndex POSD E 1 4  FrameIndex POSD E 2 4
+FrameIndex POSD F 0 5  FrameIndex POSD F 1 5  FrameIndex POSD F 2 5
+FrameIndex POSD G 0 6  FrameIndex POSD G 1 6  FrameIndex POSD G 2 6
+FrameIndex POSD H 0 7  FrameIndex POSD H 1 7  FrameIndex POSD H 2 7
+FrameIndex POSD I 0 8  FrameIndex POSD I 1 8  FrameIndex POSD I 2 8
+FrameIndex POSD J 0 9  FrameIndex POSD J 1 9  FrameIndex POSD J 2 9
+FrameIndex POSD K 0 10  FrameIndex POSD K 1 10  FrameIndex POSD K 2 10
+FrameIndex POSD L 0 11  FrameIndex POSD L 1 11  FrameIndex POSD L 2 11
+FrameIndex POSD M 0 12  FrameIndex POSD M 1 12  FrameIndex POSD M 2 12
+FrameIndex POSD N 0 13  FrameIndex POSD N 1 13  FrameIndex POSD N 2 13
+FrameIndex POSD O 0 14  FrameIndex POSD O 1 14  FrameIndex POSD O 2 14
+FrameIndex POSD P 0 15  FrameIndex POSD P 1 15  FrameIndex POSD P 2 15
+FrameIndex POSD Q 0 16  FrameIndex POSD Q 1 16  FrameIndex POSD Q 2 16
+FrameIndex POSD R 0 17  FrameIndex POSD R 1 17  FrameIndex POSD R 2 17
+FrameIndex POSD S 0 18  FrameIndex POSD S 1 18  FrameIndex POSD S 2 18
+FrameIndex POSD T 0 19  FrameIndex POSD T 1 19  FrameIndex POSD T 2 19
+FrameIndex POSD U 0 20  FrameIndex POSD U 1 20  FrameIndex POSD U 2 20
+FrameIndex POSD V 0 21  FrameIndex POSD V 1 21  FrameIndex POSD V 2 21
+FrameIndex POSD W 0 22  FrameIndex POSD W 1 22  FrameIndex POSD W 2 22
+FrameIndex POSD X 0 23  FrameIndex POSD X 1 23  FrameIndex POSD X 2 23
+FrameIndex POSD Y 0 24  FrameIndex POSD Y 1 24  FrameIndex POSD Y 2 24
+FrameIndex POSD Z 0 25  FrameIndex POSD Z 1 25  FrameIndex POSD Z 2 25
+
+FrameIndex PODD A 0 26  FrameIndex PODD A 1 26  FrameIndex PODD A 2 26
+FrameIndex PODD B 0 27  FrameIndex PODD B 1 27  FrameIndex PODD B 2 27
+FrameIndex PODD C 0 28  FrameIndex PODD C 1 28  FrameIndex PODD C 2 28
+FrameIndex PODD D 0 29  FrameIndex PODD D 1 29  FrameIndex PODD D 2 29
+FrameIndex PODD E 0 30  FrameIndex PODD E 1 30  FrameIndex PODD E 2 30
+FrameIndex PODD F 0 31  FrameIndex PODD F 1 31  FrameIndex PODD F 2 31
+FrameIndex PODD G 0 32  FrameIndex PODD G 1 32  FrameIndex PODD G 2 32
+FrameIndex PODD H 0 33  FrameIndex PODD H 1 33  FrameIndex PODD H 2 33
+FrameIndex PODD I 0 34  FrameIndex PODD I 1 34  FrameIndex PODD I 2 34
+FrameIndex PODD J 0 35  FrameIndex PODD J 1 35  FrameIndex PODD J 2 35
+}

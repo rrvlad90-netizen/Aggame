@@ -1,0 +1,500 @@
+
+Model Executioner // Name of actor in DECORATE
+{
+   Path "Models/executioner" // Path to model in PK3
+   MODEL 0 "executioner.md3" // Model index, texture (can be in any format supported by GZDoom)
+
+   Scale 1.2 1.2 1.2 // Scale values
+
+// idle 0 - 40
+// attack#1   41 - 94
+// Attack#2   95 - 140
+// Attack#3   141 - 187
+// GET OVER HERE 188 - 211
+// Shoot 213 - 241
+// RUN {264 - 294}
+// PAIN {242 - 263}
+FrameIndex IDL0 A 0 0
+FrameIndex IDL0 B 0 1
+FrameIndex IDL0 C 0 2
+FrameIndex IDL0 D 0 3
+FrameIndex IDL0 E 0 4
+FrameIndex IDL0 F 0 5
+FrameIndex IDL0 G 0 6
+FrameIndex IDL0 H 0 7
+FrameIndex IDL0 I 0 8
+FrameIndex IDL0 J 0 9
+FrameIndex IDL0 K 0 10
+FrameIndex IDL0 L 0 11
+FrameIndex IDL0 M 0 12
+FrameIndex IDL0 N 0 13
+FrameIndex IDL0 O 0 14
+FrameIndex IDL0 P 0 15
+FrameIndex IDL0 Q 0 16
+FrameIndex IDL0 R 0 17
+FrameIndex IDL0 S 0 18
+FrameIndex IDL0 T 0 19
+FrameIndex IDL0 U 0 20
+FrameIndex IDL0 V 0 21
+FrameIndex IDL0 W 0 22
+FrameIndex IDL0 X 0 23
+FrameIndex IDL0 Y 0 24
+FrameIndex IDL0 Z 0 25
+FrameIndex IDL1 A 0 26
+FrameIndex IDL1 B 0 27
+FrameIndex IDL1 C 0 28
+FrameIndex IDL1 D 0 29
+FrameIndex IDL1 E 0 30
+FrameIndex IDL1 F 0 31
+FrameIndex IDL1 G 0 32
+FrameIndex IDL1 H 0 33
+FrameIndex IDL1 I 0 34
+FrameIndex IDL1 J 0 35
+FrameIndex IDL1 K 0 36
+FrameIndex IDL1 L 0 37
+FrameIndex IDL1 M 0 38
+FrameIndex IDL1 N 0 39
+FrameIndex IDL1 O 0 40
+
+// ATTACK 1
+
+FrameIndex MEL0 A 0 41
+FrameIndex MEL0 B 0 42
+FrameIndex MEL0 C 0 43
+FrameIndex MEL0 D 0 44
+FrameIndex MEL0 E 0 45
+FrameIndex MEL0 F 0 46
+FrameIndex MEL0 G 0 47
+FrameIndex MEL0 H 0 48
+FrameIndex MEL0 I 0 49
+FrameIndex MEL0 J 0 50
+FrameIndex MEL0 K 0 51
+FrameIndex MEL0 L 0 52
+FrameIndex MEL0 M 0 53
+FrameIndex MEL0 N 0 54
+FrameIndex MEL0 O 0 55
+FrameIndex MEL0 P 0 56
+FrameIndex MEL0 Q 0 57
+FrameIndex MEL0 R 0 58
+FrameIndex MEL0 S 0 59
+FrameIndex MEL0 T 0 60
+FrameIndex MEL0 U 0 61
+FrameIndex MEL0 V 0 62
+FrameIndex MEL0 W 0 63
+FrameIndex MEL0 X 0 64
+FrameIndex MEL0 Y 0 65
+FrameIndex MEL0 Z 0 66
+FrameIndex MEL1 A 0 67
+FrameIndex MEL1 B 0 68
+FrameIndex MEL1 C 0 69
+FrameIndex MEL1 D 0 70
+FrameIndex MEL1 E 0 71
+FrameIndex MEL1 F 0 72
+FrameIndex MEL1 G 0 73
+FrameIndex MEL1 H 0 74
+FrameIndex MEL1 I 0 75
+FrameIndex MEL1 J 0 76
+FrameIndex MEL1 K 0 77
+FrameIndex MEL1 L 0 78
+FrameIndex MEL1 M 0 79
+FrameIndex MEL1 N 0 80
+FrameIndex MEL1 O 0 81
+FrameIndex MEL1 P 0 82
+FrameIndex MEL1 Q 0 83
+FrameIndex MEL1 R 0 84
+FrameIndex MEL1 S 0 85
+FrameIndex MEL1 T 0 86
+FrameIndex MEL1 U 0 87
+FrameIndex MEL1 V 0 88
+FrameIndex MEL1 W 0 89
+FrameIndex MEL1 X 0 90
+FrameIndex MEL1 Y 0 91
+FrameIndex MEL1 Z 0 92
+FrameIndex MEL2 A 0 93
+FrameIndex MEL2 B 0 94
+
+
+// ATTACK 2
+
+FrameIndex MEL3 A 0 95
+FrameIndex MEL3 B 0 96
+FrameIndex MEL3 C 0 97
+FrameIndex MEL3 D 0 98
+FrameIndex MEL3 E 0 99
+FrameIndex MEL3 F 0 100
+FrameIndex MEL3 G 0 101
+FrameIndex MEL3 H 0 102
+FrameIndex MEL3 I 0 103
+FrameIndex MEL3 J 0 104
+FrameIndex MEL3 K 0 105
+FrameIndex MEL3 L 0 106
+FrameIndex MEL3 M 0 107
+FrameIndex MEL3 N 0 108
+FrameIndex MEL3 O 0 109
+FrameIndex MEL3 P 0 110
+FrameIndex MEL3 Q 0 111
+FrameIndex MEL3 R 0 112
+FrameIndex MEL3 S 0 113
+FrameIndex MEL3 T 0 114
+FrameIndex MEL3 U 0 115
+FrameIndex MEL3 V 0 116
+FrameIndex MEL3 W 0 117
+FrameIndex MEL3 X 0 118
+FrameIndex MEL3 Y 0 119
+FrameIndex MEL3 Z 0 120
+FrameIndex MEL4 A 0 121
+FrameIndex MEL4 B 0 122
+FrameIndex MEL4 C 0 123
+FrameIndex MEL4 D 0 124
+FrameIndex MEL4 E 0 125
+FrameIndex MEL4 F 0 126
+FrameIndex MEL4 G 0 127
+FrameIndex MEL4 H 0 128
+FrameIndex MEL4 I 0 129
+FrameIndex MEL4 J 0 130
+FrameIndex MEL4 K 0 131
+FrameIndex MEL4 L 0 132
+FrameIndex MEL4 M 0 133
+FrameIndex MEL4 N 0 134
+FrameIndex MEL4 O 0 135
+FrameIndex MEL4 P 0 136
+FrameIndex MEL4 Q 0 137
+FrameIndex MEL4 R 0 138
+FrameIndex MEL4 S 0 139
+FrameIndex MEL4 T 0 140
+
+// attack 3
+
+FrameIndex MEL5 A 0 141
+FrameIndex MEL5 B 0 142
+FrameIndex MEL5 C 0 143
+FrameIndex MEL5 D 0 144
+FrameIndex MEL5 E 0 145
+FrameIndex MEL5 F 0 146
+FrameIndex MEL5 G 0 147
+FrameIndex MEL5 H 0 148
+FrameIndex MEL5 I 0 149
+FrameIndex MEL5 J 0 150
+FrameIndex MEL5 K 0 151
+FrameIndex MEL5 L 0 152
+FrameIndex MEL5 M 0 153
+FrameIndex MEL5 N 0 154
+FrameIndex MEL5 O 0 155
+FrameIndex MEL5 P 0 156
+FrameIndex MEL5 Q 0 157
+FrameIndex MEL5 R 0 158
+FrameIndex MEL5 S 0 159
+FrameIndex MEL5 T 0 160
+FrameIndex MEL5 U 0 161
+FrameIndex MEL5 V 0 162
+FrameIndex MEL5 W 0 163
+FrameIndex MEL5 X 0 164
+FrameIndex MEL5 Y 0 165
+FrameIndex MEL5 Z 0 166
+FrameIndex MEL6 A 0 167
+FrameIndex MEL6 B 0 168
+FrameIndex MEL6 C 0 169
+FrameIndex MEL6 D 0 170
+FrameIndex MEL6 E 0 171
+FrameIndex MEL6 F 0 172
+FrameIndex MEL6 G 0 173
+FrameIndex MEL6 H 0 174
+FrameIndex MEL6 I 0 175
+FrameIndex MEL6 J 0 176
+FrameIndex MEL6 K 0 177
+FrameIndex MEL6 L 0 178
+FrameIndex MEL6 M 0 179
+FrameIndex MEL6 N 0 180
+FrameIndex MEL6 O 0 181
+FrameIndex MEL6 P 0 182
+FrameIndex MEL6 Q 0 183
+FrameIndex MEL6 R 0 184
+FrameIndex MEL6 S 0 185
+FrameIndex MEL6 T 0 186
+FrameIndex MEL6 U 0 187
+
+// GET OVER HERE
+/*
+FrameIndex GOH0 A 0 188
+FrameIndex GOH0 B 0 189
+FrameIndex GOH0 C 0 190
+FrameIndex GOH0 D 0 191
+FrameIndex GOH0 E 0 192
+FrameIndex GOH0 F 0 193
+FrameIndex GOH0 G 0 194
+FrameIndex GOH0 H 0 195
+FrameIndex GOH0 I 0 196
+FrameIndex GOH0 J 0 197
+FrameIndex GOH0 K 0 198
+FrameIndex GOH0 L 0 199
+FrameIndex GOH0 M 0 200
+FrameIndex GOH0 N 0 201
+FrameIndex GOH0 O 0 202
+FrameIndex GOH0 P 0 203
+FrameIndex GOH0 Q 0 204
+FrameIndex GOH0 R 0 205
+FrameIndex GOH0 S 0 206
+FrameIndex GOH0 T 0 207
+FrameIndex GOH0 U 0 208
+FrameIndex GOH0 V 0 209
+FrameIndex GOH0 W 0 210
+FrameIndex GOH0 X 0 211
+
+// Shoot 213 - 241
+
+FrameIndex GOH1 A 0 213
+FrameIndex GOH1 B 0 214
+FrameIndex GOH1 C 0 215
+FrameIndex GOH1 D 0 216
+FrameIndex GOH1 E 0 217
+FrameIndex GOH1 F 0 218
+FrameIndex GOH1 G 0 219
+FrameIndex GOH1 H 0 220
+FrameIndex GOH1 I 0 221
+FrameIndex GOH1 J 0 222
+FrameIndex GOH1 K 0 223
+FrameIndex GOH1 L 0 224
+FrameIndex GOH1 M 0 225
+FrameIndex GOH1 N 0 226
+FrameIndex GOH1 O 0 227
+FrameIndex GOH1 P 0 228
+FrameIndex GOH1 Q 0 229
+FrameIndex GOH1 R 0 230
+FrameIndex GOH1 S 0 231
+FrameIndex GOH1 T 0 232
+FrameIndex GOH1 U 0 233
+FrameIndex GOH1 V 0 234
+FrameIndex GOH1 W 0 235
+FrameIndex GOH1 X 0 236
+FrameIndex GOH1 Y 0 237
+FrameIndex GOH1 Z 0 238
+FrameIndex GOH2 A 0 239
+FrameIndex GOH2 B 0 240
+FrameIndex GOH2 C 0 241
+*/
+// PAIN {242 - 263}
+
+
+FrameIndex PAIN A 0 242
+FrameIndex PAIN B 0 243
+FrameIndex PAIN C 0 244
+FrameIndex PAIN D 0 245
+FrameIndex PAIN E 0 246
+FrameIndex PAIN F 0 247
+FrameIndex PAIN G 0 248
+FrameIndex PAIN H 0 249
+FrameIndex PAIN I 0 250
+FrameIndex PAIN J 0 251
+FrameIndex PAIN K 0 252
+FrameIndex PAIN L 0 253
+FrameIndex PAIN M 0 254
+FrameIndex PAIN N 0 255
+FrameIndex PAIN O 0 256
+FrameIndex PAIN P 0 257
+FrameIndex PAIN Q 0 258
+FrameIndex PAIN R 0 259
+FrameIndex PAIN S 0 260
+FrameIndex PAIN T 0 261
+FrameIndex PAIN U 0 262
+FrameIndex PAIN V 0 263
+
+
+// RUN {264 - 294}
+
+
+FrameIndex RUN0 A 0 264
+FrameIndex RUN0 B 0 265
+FrameIndex RUN0 C 0 266
+FrameIndex RUN0 D 0 267
+FrameIndex RUN0 E 0 268
+FrameIndex RUN0 F 0 269
+FrameIndex RUN0 G 0 270
+FrameIndex RUN0 H 0 271
+FrameIndex RUN0 I 0 272
+FrameIndex RUN0 J 0 273
+FrameIndex RUN0 K 0 274
+FrameIndex RUN0 L 0 275
+FrameIndex RUN0 M 0 276
+FrameIndex RUN0 N 0 277
+FrameIndex RUN0 O 0 278
+FrameIndex RUN0 P 0 279
+FrameIndex RUN0 Q 0 280
+FrameIndex RUN0 R 0 281
+FrameIndex RUN0 S 0 282
+FrameIndex RUN0 T 0 283
+FrameIndex RUN0 U 0 284
+FrameIndex RUN0 V 0 285
+FrameIndex RUN0 W 0 286
+FrameIndex RUN0 X 0 287
+FrameIndex RUN0 Y 0 288
+FrameIndex RUN0 Z 0 289
+FrameIndex RUN1 A 0 290
+FrameIndex RUN1 B 0 291
+FrameIndex RUN1 C 0 292
+FrameIndex RUN1 D 0 293
+FrameIndex RUN1 E 0 294
+}
+
+
+Model Executioner // Name of actor in DECORATE
+{
+   Path "Models/executioner" // Path to model in PK3
+   MODEL 0 "executioner_death.md3" // Model index, texture (can be in any format supported by GZDoom)
+
+   Scale 1.2 1.2 1.2 // Scale values
+/*
+// Shotgun Death 0 -53
+FrameIndex SSG0 A 0 0
+FrameIndex SSG0 B 0 1
+FrameIndex SSG0 C 0 2
+FrameIndex SSG0 D 0 3
+FrameIndex SSG0 E 0 4
+FrameIndex SSG0 F 0 5
+FrameIndex SSG0 G 0 6
+FrameIndex SSG0 H 0 7
+FrameIndex SSG0 I 0 8
+FrameIndex SSG0 J 0 9
+FrameIndex SSG0 K 0 10
+FrameIndex SSG0 L 0 11
+FrameIndex SSG0 M 0 12
+FrameIndex SSG0 N 0 13
+FrameIndex SSG0 O 0 14
+FrameIndex SSG0 P 0 15
+FrameIndex SSG0 Q 0 16
+FrameIndex SSG0 R 0 17
+FrameIndex SSG0 S 0 18
+FrameIndex SSG0 T 0 19
+FrameIndex SSG0 U 0 20
+FrameIndex SSG0 V 0 21
+FrameIndex SSG0 W 0 22
+FrameIndex SSG0 X 0 23
+FrameIndex SSG0 Y 0 24
+FrameIndex SSG0 Z 0 25
+FrameIndex SSG1 A 0 26
+FrameIndex SSG1 B 0 27
+FrameIndex SSG1 C 0 28
+FrameIndex SSG1 D 0 29
+FrameIndex SSG1 E 0 30
+FrameIndex SSG1 F 0 31
+FrameIndex SSG1 G 0 32
+FrameIndex SSG1 H 0 33
+FrameIndex SSG1 I 0 34
+FrameIndex SSG1 J 0 35
+FrameIndex SSG1 K 0 36
+FrameIndex SSG1 L 0 37
+FrameIndex SSG1 M 0 38
+FrameIndex SSG1 N 0 39
+FrameIndex SSG1 O 0 40
+FrameIndex SSG1 P 0 41
+FrameIndex SSG1 Q 0 42
+FrameIndex SSG1 R 0 43
+FrameIndex SSG1 S 0 44
+FrameIndex SSG1 T 0 45
+FrameIndex SSG1 U 0 46
+FrameIndex SSG1 V 0 47
+FrameIndex SSG1 W 0 48
+FrameIndex SSG1 X 0 49
+FrameIndex SSG1 Y 0 50
+FrameIndex SSG1 Z 0 51
+FrameIndex SSG2 A 0 52
+FrameIndex SSG2 B 0 53
+*/
+// ordinary death
+
+FrameIndex DTH0 A 0 54
+FrameIndex DTH0 B 0 55
+FrameIndex DTH0 C 0 56
+FrameIndex DTH0 D 0 57
+FrameIndex DTH0 E 0 58
+FrameIndex DTH0 F 0 59
+FrameIndex DTH0 G 0 60
+FrameIndex DTH0 H 0 61
+FrameIndex DTH0 I 0 62
+FrameIndex DTH0 J 0 63
+FrameIndex DTH0 K 0 64
+FrameIndex DTH0 L 0 65
+FrameIndex DTH0 M 0 66
+FrameIndex DTH0 N 0 67
+FrameIndex DTH0 O 0 68
+FrameIndex DTH0 P 0 69
+FrameIndex DTH0 Q 0 70
+FrameIndex DTH0 R 0 71
+FrameIndex DTH0 S 0 72
+FrameIndex DTH0 T 0 73
+FrameIndex DTH0 U 0 74
+FrameIndex DTH0 V 0 75
+FrameIndex DTH0 W 0 76
+FrameIndex DTH0 X 0 77
+FrameIndex DTH0 Y 0 78
+FrameIndex DTH0 Z 0 79
+FrameIndex DTH1 A 0 80
+FrameIndex DTH1 B 0 81
+FrameIndex DTH1 C 0 82
+FrameIndex DTH1 D 0 83
+FrameIndex DTH1 E 0 84
+FrameIndex DTH1 F 0 85
+FrameIndex DTH1 G 0 86
+FrameIndex DTH1 H 0 87
+FrameIndex DTH1 I 0 88
+FrameIndex DTH1 J 0 89
+FrameIndex DTH1 K 0 90
+FrameIndex DTH1 L 0 91
+FrameIndex DTH1 M 0 92
+FrameIndex DTH1 N 0 93
+FrameIndex DTH1 O 0 94
+FrameIndex DTH1 P 0 95
+FrameIndex DTH1 Q 0 96
+FrameIndex DTH1 R 0 97
+FrameIndex DTH1 S 0 98
+
+// ordinary death 2
+
+FrameIndex DIE0 A 0 99
+FrameIndex DIE0 B 0 100
+FrameIndex DIE0 C 0 101
+FrameIndex DIE0 D 0 102
+FrameIndex DIE0 E 0 103
+FrameIndex DIE0 F 0 104
+FrameIndex DIE0 G 0 105
+FrameIndex DIE0 H 0 106
+FrameIndex DIE0 I 0 107
+FrameIndex DIE0 J 0 108
+FrameIndex DIE0 K 0 109
+FrameIndex DIE0 L 0 110
+FrameIndex DIE0 M 0 111
+FrameIndex DIE0 N 0 112
+FrameIndex DIE0 O 0 113
+FrameIndex DIE0 P 0 114
+FrameIndex DIE0 Q 0 115
+FrameIndex DIE0 R 0 116
+FrameIndex DIE0 S 0 117
+FrameIndex DIE0 T 0 118
+FrameIndex DIE0 U 0 119
+FrameIndex DIE0 V 0 120
+FrameIndex DIE0 W 0 121
+FrameIndex DIE0 X 0 122
+FrameIndex DIE0 Y 0 123
+FrameIndex DIE0 Z 0 124
+FrameIndex DIE1 A 0 125
+FrameIndex DIE1 B 0 126
+FrameIndex DIE1 C 0 127
+FrameIndex DIE1 D 0 128
+FrameIndex DIE1 E 0 129
+FrameIndex DIE1 F 0 130
+FrameIndex DIE1 G 0 131
+FrameIndex DIE1 H 0 132
+FrameIndex DIE1 I 0 133
+FrameIndex DIE1 J 0 134
+FrameIndex DIE1 K 0 135
+FrameIndex DIE1 L 0 136
+FrameIndex DIE1 M 0 137
+FrameIndex DIE1 N 0 138
+FrameIndex DIE1 O 0 139
+FrameIndex DIE1 P 0 140
+FrameIndex DIE1 Q 0 141
+FrameIndex DIE1 R 0 142
+FrameIndex DIE1 S 0 143
+FrameIndex DIE1 T 0 144
+FrameIndex DIE1 U 0 145
+
+}

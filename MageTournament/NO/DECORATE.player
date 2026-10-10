@@ -1,0 +1,309 @@
+ACTOR ElfWarrior : PlayerPawn
+{
+  Speed 1
+  Health 100
+  Radius 16
+  Height 56
+  Mass 100
+  PainChance 255
+  +NOBLOOD
+  Player.DisplayName "ElfWarrior"
+  Player.CrouchSprite "ELFC"
+  Player.StartItem "CrossbowW"
+  Player.StartItem "Clip", 100
+  Player.WeaponSlot 1, CrossbowW
+//  Player.WeaponSlot 2, Q3Shotgun
+//  Player.WeaponSlot 3, Q3RocketLauncher
+  Player.ColorRange 112, 127
+  Player.ColorSet 0, "Green",         0x70, 0x7F,  0x72
+  Player.ColorSet 1, "Gray",          0x60, 0x6F,  0x62 // Called "Indigo" originally so as to have a unique initial
+  Player.ColorSet 2, "Brown",         0x40, 0x4F,  0x42
+  Player.ColorSet 3, "Red",           0x20, 0x2F,  0x22
+  // Doom Legacy additions
+  Player.ColorSet 4, "Light Gray",    0x58, 0x67,  0x5A
+  Player.ColorSet 5, "Light Brown",   0x38, 0x47,  0x3A
+  Player.ColorSet 6, "Light Red",     0xB0, 0xBF,  0xB2
+  Player.ColorSet 7, "Light Blue",    0xC0, 0xCF,  0xC2
+
+  //Damagefactor "MyBolt", 0
+  States
+  {
+  Spawn:
+  	ELFW A 1
+  Spn:
+	TNT1 A 0 A_Stop
+    ELFS ABCDEFGHIJKL 2
+	TNT1 A 0
+    Loop
+  See:
+  	TNT1 A 0
+	ELFW A 1
+    ELFW BCDEFGH 2
+    Goto Spawn
+  Missile:
+    ELFS EFG 1
+    Goto Spawn
+  Melee:
+      TNT1 A 0
+//    ELAA F 6 BRIGHT
+    Goto Missile
+//  Pain:
+//    PLAY G 4 
+//    PLAY G 4 A_Pain
+//    Goto Spawn
+  Death:
+    TNT1 A 0 ACS_Execute(2, 0, 0)
+    ELFD A 0 A_PlayerSkinCheck("AltSkinDeath")
+  Death1:
+    ELFD A 1 ClearInventory()
+    ELFD B 1 A_PlayerScream
+    ELFD C 1 A_NoBlocking
+    ELFD DEFGHIJKLMNOPQRSTUVXWYZ 1
+	ELDD ABCDE 1
+    ELDD E 100
+	ELDD E 1 A_FadeOut
+	//PLAY N -1
+    Stop
+  XDeath:
+    TNT1 A 0 ACS_Execute(2, 0, 0)
+    ELFD A 0 A_PlayerSkinCheck("AltSkinXDeath")
+  XDeath1:
+    ELFD A 1 ClearInventory()
+    ELFD B 1 A_XScream
+    ELFD C 1 A_NoBlocking
+    ELFD DEFGHIJKLMNOPQRSTUVXWYZ 1
+	ELDD ABCDE 1
+    ELDD E 100
+	ELDD E 1 A_FadeOut
+    Stop
+  AltSkinDeath:
+    ELFD A 1 ClearInventory()
+    ELFD B 1 A_PlayerScream
+    ELFD C 1 A_NoBlocking
+    ELFD DEFGHIJKLMNOPQRSTUVXWYZ 1
+	ELDD ABCDE 1
+    ELDD E 100
+	ELDD E 1 A_FadeOut
+    Stop
+  AltSkinXDeath:
+    ELFD A 1 ClearInventory()
+    ELFD B 1 A_PlayerScream
+    ELFD C 1 A_NoBlocking
+    ELFD DEFGHIJKLMNOPQRSTUVXWYZ 1
+	ELDD ABCDE 1
+    ELDD E 100
+	ELDD E 1 A_FadeOut
+    Stop
+  }
+}
+
+/////DeathKnight
+
+ACTOR DeathKnightt : PlayerPawn
+{
+  Speed 1
+  Health 100
+  Radius 16
+  Height 56
+  Mass 100
+  PainChance 255
+  +NOBLOOD
+  Player.DisplayName "DeathKnight"
+  Player.CrouchSprite "POSS"
+  Player.StartItem "CrossbowW"
+  Player.StartItem "Clip", 100
+  Player.WeaponSlot 1, CrossbowW
+//  Player.WeaponSlot 2, Q3Shotgun
+//  Player.WeaponSlot 3, Q3RocketLauncher
+  Player.ColorRange 112, 127
+  Player.ColorSet 0, "Green",         0x70, 0x7F,  0x72
+  Player.ColorSet 1, "Gray",          0x60, 0x6F,  0x62 // Called "Indigo" originally so as to have a unique initial
+  Player.ColorSet 2, "Brown",         0x40, 0x4F,  0x42
+  Player.ColorSet 3, "Red",           0x20, 0x2F,  0x22
+  // Doom Legacy additions
+  Player.ColorSet 4, "Light Gray",    0x58, 0x67,  0x5A
+  Player.ColorSet 5, "Light Brown",   0x38, 0x47,  0x3A
+  Player.ColorSet 6, "Light Red",     0xB0, 0xBF,  0xB2
+  Player.ColorSet 7, "Light Blue",    0xC0, 0xCF,  0xC2
+
+  //Damagefactor "MyBolt", 0
+  States
+  {
+  Spawn:
+  	POSS A 1
+  Spn:
+	TNT1 A 0 A_Stop
+	POSS A 1
+	TNT1 A 0
+    Loop
+  See:
+  	TNT1 A 0
+	POSS A 1
+    POSS BCDEFGHIJKLMNOPQR 1
+    Goto Spawn
+  Missile:
+    POSS GHIJ 1
+    Goto Spawn
+  Melee:
+      TNT1 A 0
+    Goto Missile
+//  Pain:
+//    PLAY G 4 
+//    PLAY G 4 A_Pain
+//    Goto Spawn
+  Death:
+    TNT1 A 0 ACS_Execute(1, 0, 0)
+    POSD A 0 A_PlayerSkinCheck("AltSkinDeath")
+  Death1:
+	POSD A 1 ClearInventory()
+    POSD B 1 A_PlayerScream
+    POSD C 1 A_NoBlocking
+    POSD DEFGHIJKLMNOPQRSTUVWXYZ 1
+	PODD ABCDEFGHIJ 1
+	PODD J 140
+	PODD J 1 A_FadeOut
+	//PLAY N -1
+    Stop
+  XDeath:
+    TNT1 A 0 ACS_Execute(1, 0, 0)
+    POSD A 0 A_PlayerSkinCheck("AltSkinXDeath")
+  XDeath1:
+	POSD A 1 ClearInventory()
+    POSD B 1 A_PlayerScream
+    POSD C 1 A_NoBlocking
+    POSD DEFGHIJKLMNOPQRSTUVWXYZ 1
+	PODD ABCDEFGHIJ 1
+	PODD J 140
+	PODD J 1 A_FadeOut
+    Stop
+  AltSkinDeath:
+	POSD A 1 ClearInventory()
+    POSD B 1 A_PlayerScream
+    POSD C 1 A_NoBlocking
+    POSD DEFGHIJKLMNOPQRSTUVWXYZ 1
+	PODD ABCDEFGHIJ 1
+	PODD J 140
+	PODD J 1 A_FadeOut
+    Stop
+  AltSkinXDeath:
+	POSD A 1 ClearInventory()
+    POSD B 1 A_PlayerScream
+    POSD C 1 A_NoBlocking
+    POSD DEFGHIJKLMNOPQRSTUVWXYZ 1
+	PODD ABCDEFGHIJ 1
+	PODD J 140
+	PODD J 1 A_FadeOut
+    Stop
+  }
+}
+
+//Wizard
+
+ACTOR Wizardd : PlayerPawn
+{
+  Speed 1
+  Health 100
+  Radius 16
+  Height 56
+  Mass 100
+  PainChance 255
+  +NOBLOOD
+  Player.DisplayName "Wizard"
+  Player.CrouchSprite "POSS"
+  Player.StartItem "CrossbowW"
+  Player.StartItem "Clip", 100
+  Player.WeaponSlot 1, CrossbowW
+//  Player.WeaponSlot 2, Q3Shotgun
+//  Player.WeaponSlot 3, Q3RocketLauncher
+  Player.ColorRange 112, 127
+  Player.ColorSet 0, "Green",         0x70, 0x7F,  0x72
+  Player.ColorSet 1, "Gray",          0x60, 0x6F,  0x62 // Called "Indigo" originally so as to have a unique initial
+  Player.ColorSet 2, "Brown",         0x40, 0x4F,  0x42
+  Player.ColorSet 3, "Red",           0x20, 0x2F,  0x22
+  // Doom Legacy additions
+  Player.ColorSet 4, "Light Gray",    0x58, 0x67,  0x5A
+  Player.ColorSet 5, "Light Brown",   0x38, 0x47,  0x3A
+  Player.ColorSet 6, "Light Red",     0xB0, 0xBF,  0xB2
+  Player.ColorSet 7, "Light Blue",    0xC0, 0xCF,  0xC2
+
+  //Damagefactor "MyBolt", 0
+  States
+  {
+  Spawn:
+  	POSS A 1
+  Spn:
+	TNT1 A 0 A_Stop
+	POSS A 1
+	TNT1 A 0
+    Loop
+  See:
+  	TNT1 A 0
+	POSS A 1
+    POSS BCDEFGHIJKLMNOPQR 1
+    Goto Spawn
+  Missile:
+    POSA FGHIJ 1
+    Goto Spawn
+  Melee:
+      TNT1 A 0
+    Goto Missile
+//  Pain:
+//    PLAY G 4 
+//    PLAY G 4 A_Pain
+//    Goto Spawn
+  Death:
+    TNT1 A 0 ACS_Execute(1, 0, 0)
+    POSS A 0 A_PlayerSkinCheck("AltSkinDeath")
+  Death1:
+	POSS A 1 ClearInventory()
+    POSS A 1 A_PlayerScream
+    POSS A 1 A_NoBlocking
+    TNT1 AAAAAAAAAAAAAAAAAAAAAA 1
+	TNT1 A 140
+	TNT1 A 1 A_FadeOut
+	//PLAY N -1
+    Stop
+  XDeath:
+    TNT1 A 0 ACS_Execute(1, 0, 0)
+    POSS A 0 A_PlayerSkinCheck("AltSkinXDeath")
+  XDeath1:
+	POSS A 1 ClearInventory()
+    POSS A 1 A_PlayerScream
+    POSS A 1 A_NoBlocking
+    TNT1 AAAAAAAAAAAAAAAAAAAAAA 1
+	TNT1 A 140
+	TNT1 A 1 A_FadeOut
+    Stop
+  AltSkinDeath:
+	POSS A 1 ClearInventory()
+    POSS A 1 A_PlayerScream
+    POSS A 1 A_NoBlocking
+    TNT1 AAAAAAAAAAAAAAAAAAAAAA 1
+	TNT1 A 140
+	TNT1 A 1 A_FadeOut
+    Stop
+  AltSkinXDeath:
+	POSS A 1 ClearInventory()
+    POSS A 1 A_PlayerScream
+    POSS A 1 A_NoBlocking
+    TNT1 AAAAAAAAAAAAAAAAAAAAAA 1
+	TNT1 A 140
+	TNT1 A 1 A_FadeOut
+    Stop
+  }
+}
+
+
+
+
+ACTOR MTRule : PlayerPawn
+{
+  Speed 1
+  Health 100000
+  Radius 0
+  Height 0
+  +NOPAIN
+  +NOBLOOD
+  Player.DisplayName "MTRule"
+  Player.WeaponSlot 1, none
+}

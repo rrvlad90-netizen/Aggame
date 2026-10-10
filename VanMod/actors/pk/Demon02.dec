@@ -1,0 +1,98 @@
+//================================================================================================================
+//================================================================================================================
+//
+//	Demon02 from NecroVision [Farm 51]
+//	Code by me [Kill.Murphy]
+//
+//================================================================================================================
+//================================================================================================================
+
+ACTOR PKPawn_Demon02  replaces PainElemental  //: PKM_Monster
+{
+	//$Angled
+	//$Category "MUTILATOR Monsters"
+	//$Color 12
+	//$Title "Demon02"
+//	Game Doom
+	Health 150
+	Radius 24
+	Height 64
+	Speed 5
+//	PKM_Monster.PostSpeed 8
+//	PKM_Monster.TurnSpeed 15.0
+
+	Mass 2000
+//	FloatSpeed 32
+//	RipLevelMin 999 // for stakegun death
+//	meleethreshold 96
+	PainChance 70
+	Monster
+	SeeSound "Demon02_InGame"
+//	ActiveSound ""
+	PainSound "Demon02_InGame_3"
+	DeathSound "Demon02_death"
+	DamageFactor "WitchScreamDMG", 0
+//	scale 1.0
+//	Species "Monsters"
+	damagefactor "Ice", 0
+	+INTERPOLATEANGLES
+	+Float
+	+NoGravity
+	+MissileMore
+	+MissileEvenMore
+//	+JumpDown
+	+NoIceDeath
+//	+DontHarmSpecies
+//	+DontHarmClass
+
+	Obituary "%o was spooked by flyin Demon."
+
+	States
+	{
+
+	Spawn:
+		IDLE AABBCCDDEEFFGG 3 A_Look  //Ex(0,0,maxSeeDist,0,fov,"See")
+		Loop
+
+	See:
+		IDLE AABBCCDDEEFFG 1  A_Chase
+		Loop
+
+	Missile:
+	    IDLE AABBCCDDEEFFG 1
+		SHOT ABCD 2 A_FaceTarget
+		"####" "#" 0 {
+			A_PlaySound("Demon02_fireatack_voice",1);
+			A_PlaySound("Demon02_FlamerLoop",6,1.0,1);
+			}
+		"####" "#" 0 A_PlaySound("Demon02_FlamerStart",5)
+		FIRE A 2 A_FaceTarget
+		"####" "#" 0 A_HeadAttack //A_CustomMissile("PKM_MasoFlamethrower",48,12,0)
+		FIRE A 2 A_FaceTarget
+		"####" "#" 0 A_HeadAttack //A_CustomMissile("PKM_MasoFlamethrower",48,12,0)
+		"####" "#" 0 A_MonsterRefire(130, "FireStop")
+		SHOT DE 4
+		IDLE AABBCCDDEEFFG 1
+		"####" "#" 0 A_PlaySound("Demon02_FlamerStop",6)
+		Goto See
+/*
+	DistanceCheck:
+		"####" "#" 0 A_JumpIfCloser(240, "FireLoop")
+		Goto Missile
+
+	FireStop:
+		SHOT DE 4
+		"####" "#" 0 A_PlaySound("Demon02_FlamerStop",6)
+		"####" "#" 0 BRIGHT A_SpidRefire
+		Goto See
+		*/
+
+	Pain:
+		"####" "#" 0 A_Pain
+		PAIN ABCDEFGHIJ 4
+		Goto See
+
+	Death:
+		DEAD AAAABBBBBCCCCCCCC 3 A_FadeOut(0.2)
+	}
+}

@@ -1,0 +1,82 @@
+ACTOR Tree2  //22564
+{
+ 	//$Category SOFII
+	Radius 25
+	Height 400
+	//Health 300
+	+SOLID
+	//+SHOOTABLE
+	//+NOBLOOD
+	+DONTGIB
+	+NOICEDEATH
+	+FORCEPAIN 
+	Mass 9999
+States
+  {
+  Spawn:
+	PLAY K -1
+	stop
+  }
+}
+
+
+ACTOR Tree2_Burnt : Tree2  //22564
+{
+}
+
+ACTOR Tree3 : Tree2  //22564
+{
+}
+
+
+ACTOR Tree3_Burnt : Tree2  //22564
+{
+}
+
+
+ACTOR Tree4 : Tree2  //22564
+{
+}
+
+ACTOR Tree4_Burnt : Tree2  //22564
+{
+}
+
+ACTOR SmallTree1 : Tree2  //22564
+{
+}
+
+ACTOR SmallTree1_Burnt : Tree2  //22564
+{
+}
+
+ACTOR SmallTree2 : Tree2  //22564
+{
+}
+
+
+Actor Tr8: RandomSpawner replaces BigTree
+{
+DropItem "Tree2", 255, 255
+DropItem "Tree2_Burnt", 255, 255
+DropItem "Tree3", 255, 255
+DropItem "Tree3_Burnt", 255, 255
+DropItem "Tree4", 255, 255
+DropItem "Tree4_Burnt", 255, 255
+DropItem "SmallTree1", 255, 255
+DropItem "SmallTree1_Burnt", 255, 255
+DropItem "SmallTree2", 255, 255
+}
+
+Actor Tr9: RandomSpawner replaces TorchTree
+{
+DropItem "Tree2", 255, 255
+DropItem "Tree2_Burnt", 255, 255
+DropItem "Tree3", 255, 255
+DropItem "Tree3_Burnt", 255, 255
+DropItem "Tree4", 255, 255
+DropItem "Tree4_Burnt", 255, 255
+DropItem "SmallTree1", 255, 255
+DropItem "SmallTree1_Burnt", 255, 255
+DropItem "SmallTree2", 255, 255
+}

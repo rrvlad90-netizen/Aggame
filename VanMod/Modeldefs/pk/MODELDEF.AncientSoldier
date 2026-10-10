@@ -1,0 +1,99 @@
+Model AncientSoldier
+{
+	Path "Models/AncientSoldier" // Path to model in PK3
+	MODEL 0 "AncientSoldier.md3"
+	Scale  0.27 0.27 0.27 // Scale values
+	InterpolateDoubledFrames
+
+// Idle animation | need to slow down by +100500
+FrameIndex IDLE A 0 0
+FrameIndex IDLE B 0 1
+FrameIndex IDLE C 0 2
+FrameIndex IDLE D 0 1
+FrameIndex IDLE E 0 0
+
+
+// Attack animation | need to slow down by 2x
+FrameIndex 0000 A 0 3
+FrameIndex 0000 B 0 4
+FrameIndex 0000 C 0 5
+FrameIndex 0000 D 0 6
+FrameIndex 0000 E 0 7
+FrameIndex 0000 F 0 8
+FrameIndex 0000 G 0 9
+FrameIndex 0000 H 0 10
+FrameIndex 0000 I 0 11
+FrameIndex 0000 J 0 12
+FrameIndex 0000 K 0 13
+FrameIndex 0000 L 0 14
+FrameIndex 0000 M 0 15
+FrameIndex 0000 N 0 16
+FrameIndex 0000 O 0 17
+FrameIndex 0000 P 0 18
+FrameIndex 0000 Q 0 19
+FrameIndex 0000 R 0 20
+FrameIndex 0000 S 0 21
+FrameIndex 0000 T 0 22
+FrameIndex 0000 U 0 23
+FrameIndex 0000 V 0 24
+FrameIndex 0000 W 0 25
+FrameIndex 0000 X 0 26
+FrameIndex 0000 Y 0 27
+FrameIndex 0000 Z 0 28
+FrameIndex 0001 A 0 29
+FrameIndex 0001 B 0 30
+FrameIndex 0001 C 0 31
+FrameIndex 0001 D 0 32
+FrameIndex 0001 E 0 33
+FrameIndex 0001 F 0 34
+
+
+// Pain animation | need to slow down by 4x
+FrameIndex PAIN A 0 35
+FrameIndex PAIN B 0 36
+FrameIndex PAIN C 0 37
+FrameIndex PAIN D 0 38
+FrameIndex PAIN E 0 39
+FrameIndex PAIN F 0 40
+FrameIndex PAIN G 0 41
+FrameIndex PAIN H 0 42
+FrameIndex PAIN I 0 43
+FrameIndex PAIN J 0 44
+FrameIndex PAIN K 0 45
+FrameIndex PAIN L 0 46
+
+// Walk animation | need to slow down by 2x
+FrameIndex WALK A 0 47
+FrameIndex WALK B 0 48
+FrameIndex WALK C 0 49
+FrameIndex WALK D 0 50
+FrameIndex WALK E 0 51
+FrameIndex WALK F 0 52
+FrameIndex WALK G 0 53
+FrameIndex WALK H 0 54
+FrameIndex WALK I 0 55
+FrameIndex WALK J 0 56
+FrameIndex WALK K 0 47
+// Death animation | need to slow down by 3x
+FrameIndex DEAD A 0 57
+FrameIndex DEAD B 0 58
+FrameIndex DEAD C 0 59
+FrameIndex DEAD D 0 60
+FrameIndex DEAD E 0 61
+FrameIndex DEAD F 0 62
+FrameIndex DEAD G 0 63
+FrameIndex DEAD H 0 64
+FrameIndex DEAD I 0 65
+FrameIndex DEAD J 0 66
+FrameIndex DEAD K 0 67
+FrameIndex DEAD L 0 68
+FrameIndex DEAD M 0 69
+FrameIndex DEAD N 0 70
+FrameIndex DEAD O 0 71
+FrameIndex DEAD P 0 72
+FrameIndex DEAD Q 0 73
+FrameIndex DEAD R 0 74
+}
+
+
+

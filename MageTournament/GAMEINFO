@@ -1,0 +1,8 @@
+//=========================
+// Startup Title & Colours
+//=========================
+
+STARTUPTYPE = "Mage Tournament"
+STARTUPTITLE = "Mage Tournament"
+STARTUPCOLORS = "750075", "000000"
+STARTUPSONG = "Sounds/Katana/LOCKON"

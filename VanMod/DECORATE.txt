@@ -1,0 +1,22 @@
+#include "Actors/DECORATE.DarkOwl"
+#include "Actors/DECORATE.FrostGhost"
+#include "Actors/Decorate.CursedSkeleton"
+#include "Actors/Decorate.Gargole"
+
+#include "Actors/pk/BlackDemon.dec"  //Here Grladiator too
+#include "Actors/pk/Beast.dec"
+#include "Actors/pk/Executioner.dec"
+#include "Actors/pk/AncientSoldier.dec"
+#include "Actors/pk/Demon02.dec"
+#include "Actors/pk/LeperMonk.dec"
+#include "Actors/pk/EvilMonk.dec"
+#include "Actors/DECORATE.Playerdata"
+
+#include "Actors/CHASECAM.dec"
+#include "Actors/DECORATE.treee"
+
+#include "Actors/DECORATE.eff"
+//#include "Actors/Zangetsu.dec"
+
+#include "Actors/ADDONITEMS.dec"
+#include "Actors/DECORATE.REPLACES"

@@ -1,0 +1,146 @@
+
+Model LeperMonk // Name of actor in DECORATE
+{
+	Path "Models/LeperMonk"
+	MODEL 0 "LeperMonk_Body.md3"
+	MODEL 1 "LeperMonk_Weapon.md3"
+	Scale 0.5 0.5 0.5
+	INTERPOLATEDOUBLEDFRAMES
+
+	FrameIndex IDLE A 0 0 FrameIndex IDLE A 1 0
+
+	FrameIndex SHOT A 0 0 FrameIndex SHOT A 1 0
+	FrameIndex SHOT B 0 1 FrameIndex SHOT B 1 1
+	FrameIndex SHOT C 0 2 FrameIndex SHOT C 1 2
+	FrameIndex SHOT D 0 3 FrameIndex SHOT D 1 3
+	FrameIndex SHOT E 0 4 FrameIndex SHOT E 1 4
+	FrameIndex SHOT F 0 0 FrameIndex SHOT F 1 0
+
+	FrameIndex PAIN A 0 5 FrameIndex PAIN A 1 5
+	FrameIndex PAIN B 0 6 FrameIndex PAIN B 1 6
+	FrameIndex PAIN C 0 7 FrameIndex PAIN C 1 7
+	FrameIndex PAIN D 0 8 FrameIndex PAIN D 1 8
+	FrameIndex PAIN E 0 0 FrameIndex PAIN E 1 0
+
+	FrameIndex WALK A 0 9 FrameIndex WALK A 1 9
+	FrameIndex WALK B 0 10 FrameIndex WALK B 1 10
+	FrameIndex WALK C 0 11 FrameIndex WALK C 1 11
+	FrameIndex WALK D 0 12 FrameIndex WALK D 1 12
+	FrameIndex WALK E 0 13 FrameIndex WALK E 1 13
+	FrameIndex WALK F 0 14 FrameIndex WALK F 1 14
+	FrameIndex WALK G 0 15 FrameIndex WALK G 1 15
+	FrameIndex WALK H 0 16 FrameIndex WALK H 1 16
+	FrameIndex WALK I 0 17 FrameIndex WALK I 1 17
+	FrameIndex WALK J 0 18 FrameIndex WALK J 1 18
+	FrameIndex WALK K 0 19 FrameIndex WALK K 1 19
+
+/*
+	FrameIndex HEAL A 0 20 FrameIndex HEAL A 1 20
+	FrameIndex HEAL B 0 21 FrameIndex HEAL B 1 21
+	FrameIndex HEAL C 0 22 FrameIndex HEAL C 1 22
+	FrameIndex HEAL D 0 23 FrameIndex HEAL D 1 23
+	FrameIndex HEAL E 0 24 FrameIndex HEAL E 1 24
+	FrameIndex HEAL F 0 0 FrameIndex HEAL F 1 0
+	*/
+
+	FrameIndex THRW A 0 6 FrameIndex THRW A 1 6
+	FrameIndex THRW B 0 25 FrameIndex THRW B 1 25
+	FrameIndex THRW C 0 26 FrameIndex THRW C 1 26
+	FrameIndex THRW D 0 27 FrameIndex THRW D 1 27
+	FrameIndex THRW E 0 28 FrameIndex THRW E 1 28
+	FrameIndex THRW F 0 29 FrameIndex THRW F 1 29
+	FrameIndex THRW G 0 30 FrameIndex THRW G 1 30
+	FrameIndex THRW H 0 31 FrameIndex THRW H 1 31
+	FrameIndex THRW I 0 32 FrameIndex THRW I 1 32
+	FrameIndex THRW J 0 33 FrameIndex THRW J 1 33
+	FrameIndex THRW K 0 34 FrameIndex THRW K 1 34
+
+	MODEL 1 ""	// Disable weapon mesh for leper monk
+
+	FrameIndex THRW L 0 35 FrameIndex THRW L 1 35
+
+	MODEL 0 "LeperMonk_Dead.md3"
+
+	FrameIndex DEAD A 0 0
+	FrameIndex DEAD B 0 1
+	FrameIndex DEAD C 0 2
+	FrameIndex DEAD D 0 3
+	FrameIndex DEAD E 0 4
+	FrameIndex DEAD F 0 5
+	FrameIndex DEAD G 0 6
+	FrameIndex DEAD H 0 7
+	FrameIndex DEAD I 0 8
+	FrameIndex DEAD J 0 9
+	FrameIndex DEAD K 0 10
+	FrameIndex DEAD L 0 11
+	FrameIndex DEAD M 0 12
+	FrameIndex DEAD N 0 13
+	FrameIndex DEAD O 0 14
+
+
+
+}
+/*
+Model LeperMonk // Name of actor in DECORATE
+{
+	Path "Models/LeperMonk" // Path to model in PK3
+	MODEL 0 "LeperMonk_Pinned.md3" // Model index, texture (can be in any format supported by GZDoom)
+	SurfaceSkin 0 0 "t_ch_DevilMonkPoor_01_01_d.jpg"
+	SurfaceSkin 0 1 "t_ch_LeperMonk_01_01_d.jpg"
+	INTERPOLATEDOUBLEDFRAMES
+	Scale 0.5 0.5 0.5
+	FrameIndex PINN A 0 0
+
+}
+
+
+Model DeadLeperMonk_Pinned // Name of actor in DECORATE
+{
+	Path "Models/LeperMonk" // Path to model in PK3
+	MODEL 0 "LeperMonk_Pinned.md3" // Model index, texture (can be in any format supported by GZDoom)
+	SurfaceSkin 0 0 "t_ch_DevilMonkPoor_01_01_d.jpg"
+	SurfaceSkin 0 1 "t_ch_LeperMonk_01_01_d.jpg"
+	INTERPOLATEDOUBLEDFRAMES
+	Scale 0.5 0.5 0.5
+	FrameIndex PINN A 0 0
+
+}
+
+Model LeperMonkDeadBody // Name of actor in DECORATE
+{
+	Path "Models/LeperMonk" // Path to model in PK3
+	MODEL 0 "LeperMonk_dead.md3" // Model index, texture (can be in any format supported by GZDoom)
+	INTERPOLATEDOUBLEDFRAMES
+	Scale 0.5 0.5 0.5
+
+	FrameIndex DEAD A 0 0
+	FrameIndex DEAD B 0 1
+	FrameIndex DEAD C 0 2
+	FrameIndex DEAD D 0 3
+	FrameIndex DEAD E 0 4
+	FrameIndex DEAD F 0 5
+	FrameIndex DEAD G 0 6
+	FrameIndex DEAD H 0 7
+	FrameIndex DEAD I 0 8
+	FrameIndex DEAD J 0 9
+	FrameIndex DEAD K 0 10
+	FrameIndex DEAD L 0 11
+	FrameIndex DEAD M 0 12
+	FrameIndex DEAD N 0 13
+	FrameIndex DEAD O 0 14
+
+}
+
+
+Model LeperMonkStaffThrowAfterDeath // Name of actor in DECORATE
+{
+	Path "Models/LeperMonk" // Path to model in PK3
+	MODEL 0 "LeperMonk_StaffCustomMissile.md3" // Model index, texture (can be in any format supported by GZDoom)
+	Skin 0 "t_ch_LeperMonk_02_01_d.png"
+	Scale 0.6 0.6 0.6 // Scale values
+	PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles
+
+	FrameIndex FATB A 0 0 // The sprite lump, sprite frame, model index, frame number
+}
+*/
+

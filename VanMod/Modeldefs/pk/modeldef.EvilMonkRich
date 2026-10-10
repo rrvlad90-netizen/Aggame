@@ -1,0 +1,132 @@
+Model EvilMonkRich // Name of actor in DECORATE
+{
+	Path "Models/EvilMonk" // Path to model in PK3
+	MODEL 0 "EvilMonkRich.md3" // Model index, texture (can be in any format supported by GZDoom)
+
+	AngleOffset 90
+	Scale 0.55 0.55 0.55 // Scale values
+	InterpolateDoubledFrames
+
+	FrameIndex IDLE A 0 0
+	FrameIndex IDLE B 0 1
+	FrameIndex IDLE C 0 0
+
+
+	FrameIndex WALK A 0 2
+	FrameIndex WALK B 0 3
+	FrameIndex WALK C 0 4
+	FrameIndex WALK D 0 5
+	FrameIndex WALK E 0 6
+	FrameIndex WALK F 0 7
+	FrameIndex WALK G 0 8
+	FrameIndex WALK H 0 9
+	FrameIndex WALK I 0 2
+
+	FrameIndex PAIN A 0 10
+	FrameIndex PAIN B 0 11
+
+	FrameIndex THRW A 0 11
+	FrameIndex THRW B 0 12
+	FrameIndex THRW C 0 13
+	FrameIndex THRW D 0 14
+	FrameIndex THRW E 0 15
+	FrameIndex THRW F 0 16
+	FrameIndex THRW G 0 17
+	FrameIndex THRW H 0 18
+	FrameIndex THRW I 0 19
+	FrameIndex THRW J 0 20
+	FrameIndex THRW K 0 21
+	FrameIndex THRW L 0 22
+	FrameIndex THRW M 0 23
+	FrameIndex THRW N 0 24
+	FrameIndex THRW O 0 25
+	FrameIndex THRW P 0 26
+	FrameIndex THRW Q 0 27
+
+	MODEL 0 "EvilMonkRich_DeathBody.md3"
+	MODEL 1 "EvilMonkRich_DeathHead.md3"
+
+	FrameIndex DEAD A 0 0 FrameIndex DEAD A 1 0
+	FrameIndex DEAD B 0 1 FrameIndex DEAD B 1 1
+	FrameIndex DEAD C 0 2 FrameIndex DEAD C 1 2
+	FrameIndex DEAD D 0 3 FrameIndex DEAD D 1 3
+	FrameIndex DEAD E 0 4 FrameIndex DEAD E 1 4
+	FrameIndex DEAD F 0 5 FrameIndex DEAD F 1 5
+	FrameIndex DEAD G 0 6 FrameIndex DEAD G 1 6
+	FrameIndex DEAD H 0 7 FrameIndex DEAD H 1 7
+	FrameIndex DEAD I 0 8 FrameIndex DEAD I 1 8
+
+	//FrameIndex PIND A 0 9 FrameIndex PIND A 1 9
+
+	MODEL 1 "EvilMonkRich_DeathMeat.md3"
+
+	FrameIndex HEAD A 0 0 FrameIndex HEAD A 1 0
+	FrameIndex HEAD B 0 1 FrameIndex HEAD B 1 1
+	FrameIndex HEAD C 0 2 FrameIndex HEAD C 1 2
+	FrameIndex HEAD D 0 3 FrameIndex HEAD D 1 3
+	FrameIndex HEAD E 0 4 FrameIndex HEAD E 1 4
+	FrameIndex HEAD F 0 5 FrameIndex HEAD F 1 5
+	FrameIndex HEAD G 0 6 FrameIndex HEAD G 1 6
+	FrameIndex HEAD H 0 7 FrameIndex HEAD H 1 7
+	FrameIndex HEAD I 0 8 FrameIndex HEAD I 1 8
+}
+
+
+
+/*
+Model EvilMonkRich_Corpse_A // Name of actor in DECORATE
+{
+	Path "Models/EvilMonk" // Path to model in PK3
+	MODEL 0 "EvilMonkRich_DeathBody.md3"
+	MODEL 1 "EvilMonkRich_DeathHead.md3"
+	AngleOffset 90
+
+	Scale 0.55 0.55 0.55 // Scale values
+
+	FrameIndex DTH2 H 0 8 FrameIndex DTH2 H 1 8
+
+}
+
+Model EvilMonkRich_Corpse_B // Name of actor in DECORATE
+{
+	Path "Models/EvilMonk" // Path to model in PK3
+	MODEL 0 "EvilMonkRich_DeathBody.md3"
+	MODEL 1 "EvilMonkRich_DeathMeat.md3"
+	AngleOffset 90
+
+	Scale 0.55 0.55 0.55 // Scale values
+
+	FrameIndex DTH2 H 0 8 FrameIndex DTH2 H 1 8
+
+}
+
+
+Model EvilMonkRich_Corpse_Staked // Name of actor in DECORATE
+{
+	Path "Models/EvilMonk" // Path to model in PK3
+	MODEL 0 "EvilMonkRich_DeathBody.md3"
+	MODEL 1 "EvilMonkRich_DeathHead.md3"
+	AngleOffset 90
+
+	Scale 0.55 0.55 0.55 // Scale values
+
+	FrameIndex STAK A 0 9 FrameIndex STAK A 1 9
+	FrameIndex STAK B 0 10 FrameIndex STAK B 1 10
+	FrameIndex STAK C 0 11 FrameIndex STAK C 1 11
+	FrameIndex STAK D 0 12 FrameIndex STAK D 1 12
+}
+
+
+Model EvilMonkAxeThrow // Name of actor in DECORATE
+{
+	Path "Models/EvilMonk" // Path to model in PK3
+	MODEL 0 "AxeProjectile.MD3" // Model index, texture (can be in any format supported by GZDoom)
+	Scale 0.55 0.55 0.55 // Scale values
+	PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles
+	ROTATING
+	Rotation-Speed 10
+	Rotation-Vector 0 0 -1
+
+	FrameIndex LEYS A 0 0 // The sprite lump, sprite frame, model index, frame number
+}
+*/

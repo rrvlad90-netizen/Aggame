@@ -1,0 +1,108 @@
+//================================================================================================================
+//================================================================================================================
+//
+//	Ancient Soldier from Painkiller: Hell & Damnation [Farm 51]
+//	Code by me [Kill.Murphy]
+//
+//================================================================================================================
+//================================================================================================================
+
+ACTOR AncientSoldier replaces WolfensteinSS  //: PKM_Monster
+{
+	//$Angled
+	//$Category "MUTILATOR Monsters"
+	//$Color 12
+	//$Title "Ancient Soldier"
+	//Game Doom
+	Health 250
+	Radius 13
+	Height 44
+	Speed 5
+
+//	PKM_Monster.PostSpeed 4
+//	PKM_Monster.TurnSpeed 15.0
+
+	Mass 800
+	PainChance 70 //256 maximum. Accordingly, 256/70 = 3 to 1
+	scale 1.0
+	damagetype "Melee"
+//	DeathHeight 4
+//	BurnHeight 4
+	Monster
+	MeleeRange 60
+
+//	Species "Monsters"
+//	Tag "Zombie Lord"
+
+	SeeSound "monsters/zombie/combat"
+	ActiveSound "zombie_at"
+	PainSound "plague_zombi_hurt"
+	DeathSound "monster_zombie_warlord_death"
+
+	Obituary "%o has been gunned down by ancient soldier."
+	//+INTERPOLATEANGLES
+	+FLOORCLIP
+	//+SLIDESONWALLS
+	//+MISSILEMORE
+	+CANPASS
+	+RANDOMIZE
+	//+THRUGHOST
+	//+DONTCORPSE
+	//+DontHarmSpecies
+	//+DontHarmClass
+	States
+	{
+	Spawn:
+		IDLE AABBCCDDEE 5 A_Look //A_LookEx(0,0,maxSeeDist,0,fov,"See")
+		Loop
+
+	See:
+		WALK AABBCCDDEEFFGGHHIIJK 1 A_Chase
+		Loop
+
+	Pain:
+		"####" "#" 0 A_Pain
+		PAIN ABCDEFGHIJ 4
+		Goto See
+
+	Melee:
+		"####" "#" 0 A_FaceTarget
+		"####" "#" 0 A_PlaySound("zombs_swish-prepare",5)
+		0000 AABBCCDDEEFFGGHHIIJJKKL 1 {
+			A_FaceTarget;
+			A_Recoil(-0.1);}
+		"####" "#" 0 {
+			A_PlaySound("executioner__exe-atack-swish",1);
+			A_CustomMeleeAttack(random(16,34),"plague_zombi_attack");}
+		0000 LMMNNOOPPQQR 1 {
+			A_FaceTarget;
+			A_Recoil(-0.1);}
+		"####" "#" 0 {
+			A_PlaySound("executioner__exe-atack-swish",1);
+			A_CustomMeleeAttack(random(16,34),"plague_zombi_attack");}
+		0000 RSSTTUUVVWWXXYYZZ 1 {
+			A_FaceTarget;
+			A_Recoil(-0.1);}
+		0001 AABBCCDDEEFF 1 A_FaceTarget
+		Goto See
+
+
+	Death:
+		"####" "#" 0 A_Scream
+			TMT1 A 0 A_Jump(256, "DeathAnimation1")
+			TNT1 A 1
+		Goto DeathAnimation1
+
+		DeathAnimation1:
+			DEAD ABCDEFGHIJKLMNOPQR 3
+			//"####" "#" 0 A_SpawnItem ("GrowingBloodPool")
+			"####" "#" 0 A_Stop
+			DEAD R 700
+			DEAD RRRRRRRRRRRRRRR 2 A_FadeOut(0.2)
+			Stop
+	}
+}
+
+
+
+

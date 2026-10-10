@@ -1,0 +1,68 @@
+Model PKPawn_Demon02
+{
+	Path "Models/Demon02"
+	Model 0 "Demon02.md3"
+	Scale 0.4 0.4 0.4
+	InterpolateDoubledFrames
+
+//	Idle state
+	FrameIndex IDLE A 0 0
+	FrameIndex IDLE B 0 1
+	FrameIndex IDLE C 0 2
+	FrameIndex IDLE D 0 3
+	FrameIndex IDLE E 0 2
+	FrameIndex IDLE F 0 1
+	FrameIndex IDLE G 0 0
+/*
+//	Strafe Left
+	FrameIndex STRF A 0 4
+	FrameIndex STRF B 0 6
+	FrameIndex STRF C 0 0
+
+//	Strafe Right
+	FrameIndex STRF E 0 5
+	FrameIndex STRF F 0 6
+	FrameIndex STRF G 0 0
+*/
+//	Pain Animation
+	FrameIndex PAIN A 0 7
+	FrameIndex PAIN B 0 8
+	FrameIndex PAIN C 0 9
+	FrameIndex PAIN D 0 10
+	FrameIndex PAIN E 0 11
+	FrameIndex PAIN F 0 12
+	FrameIndex PAIN G 0 13
+	FrameIndex PAIN H 0 14
+	FrameIndex PAIN I 0 15
+	FrameIndex PAIN J 0 0
+
+//	FireBall Shot animation
+	FrameIndex SHOT A 0 16
+	FrameIndex SHOT B 0 17
+	FrameIndex SHOT C 0 18
+	FrameIndex SHOT D 0 19
+	FrameIndex SHOT E 0 0
+
+	FrameIndex FIRE A 0 19
+
+
+// 	Dead Animation
+	FrameIndex DEAD A 0 20
+	FrameIndex DEAD B 0 21
+	FrameIndex DEAD C 0 22
+}
+
+/*
+Model Demon02_DeadBody // Name of actor in DECORATE
+{
+	Path "Models/Demon02"
+	Model 0 "Demon02.md3"
+	Scale 0.4 0.4 0.4
+	INTERPOLATEDOUBLEDFRAMES
+
+	FrameIndex DEAD A 0 22
+
+}
+*/
+
+

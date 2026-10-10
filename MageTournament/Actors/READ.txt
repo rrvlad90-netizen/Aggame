@@ -1,0 +1,10 @@
+hater: the TID of the hater (monster that will hate and attack)
+hatee: the TID of the hatee (monster that is to be hated by the hater)
+type: the type of hate that this will be:
+0 — Just hate one specific actor
+1 — Hate actors with given TID and attack players when shot
+2 — Same as 1, but will go after enemies without seeing them first
+3 — Hunt actors with given TID and also players
+4 — Same as 3, but will go after monsters without seeing them first
+5 — Hate actors with given TID and ignore player attacks
+6 — Same as 5, but will go after enemies without seeing them first

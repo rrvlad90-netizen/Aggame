@@ -1,0 +1,17 @@
+Model CrossbowW
+{
+   Path "models\MD3\Weapon"
+   Model 0 "Crossbow.md2"
+   Skin 0 "Crossbow.png"
+   scale 2.3 2.3 2.3
+   Offset 0 0 2
+//stay
+FrameIndex CRBW A 0 0
+FrameIndex CRBW B 0 1
+FrameIndex CRBW C 0 2
+FrameIndex CRBW D 0 3
+FrameIndex CRBW E 0 4
+FrameIndex CRBW F 0 5
+FrameIndex CRBW G 0 6
+FrameIndex CRBW H 0 7
+}

@@ -1,0 +1,188 @@
+Actor None112 //replaces LostSoul
+{
+  Radius 1   //16
+  Height 1   //34
+  -SOLID
+States
+ {
+  Spawn:
+    TNT1 A 1
+  Stop
+ }
+}
+
+
+Actor D1: RandomSpawner replaces BigTree
+{
+DropItem "None112", 255, 255
+}
+
+
+Actor D2: RandomSpawner replaces BlueTorch
+{
+DropItem "Column", 255, 255
+}
+
+Actor D3: RandomSpawner replaces Candelabra
+{
+DropItem "Column", 255, 255
+}
+
+Actor D4: RandomSpawner replaces Candlestick
+{
+DropItem "Column", 255, 255
+}
+
+Actor D5: RandomSpawner replaces EvilEye
+{
+DropItem "Column", 255, 255
+}
+
+Actor D6: RandomSpawner replaces FloatingSkull
+{
+DropItem "Column", 255, 255
+}
+
+Actor D7: RandomSpawner replaces GreenTorch
+{
+DropItem "Column", 255, 255
+}
+
+Actor D8: RandomSpawner replaces HeartColumn
+{
+DropItem "Column", 255, 255
+}
+
+
+Actor D9: RandomSpawner replaces RedTorch
+{
+DropItem "Column", 255, 255
+}
+
+
+Actor D10: RandomSpawner replaces RedTorch
+{
+DropItem "Column", 255, 255
+}
+
+Actor D11: RandomSpawner replaces ShortBlueTorch
+{
+DropItem "Column", 255, 255
+}
+
+Actor D12: RandomSpawner replaces ShortBlueTorch
+{
+DropItem "Column", 255, 255
+}
+
+Actor D13: RandomSpawner replaces ShortGreenTorch
+{
+DropItem "Column", 255, 255
+}
+
+Actor D14: RandomSpawner replaces ShortRedColumn
+{
+DropItem "Column", 255, 255
+}
+
+Actor D15: RandomSpawner replaces ShortRedColumn
+{
+DropItem "Column", 255, 255
+}
+
+Actor D16: RandomSpawner replaces ShortRedTorch
+{
+DropItem "Column", 255, 255
+}
+
+Actor D17: RandomSpawner replaces SkullColumn
+{
+DropItem "Column", 255, 255
+}
+
+Actor D18: RandomSpawner replaces Stalagtite
+{
+DropItem "Column", 255, 255
+}
+
+
+Actor D19: RandomSpawner replaces TallGreenColumn
+{
+DropItem "Column", 255, 255
+}
+
+Actor D20: RandomSpawner replaces TallRedColumn
+{
+DropItem "Column", 255, 255
+}
+
+Actor D21: RandomSpawner replaces TorchTree
+{
+DropItem "None112", 255, 255
+}
+
+//weap and items
+Actor W1: RandomSpawner replaces BFG9000
+{
+DropItem "Shell", 255, 255
+}
+
+Actor W2: RandomSpawner replaces Chaingun
+{
+DropItem "Shell", 255, 255
+}
+
+Actor W3: RandomSpawner replaces Chainsaw
+{
+DropItem "Shell", 255, 255
+}
+
+Actor W4: RandomSpawner replaces PlasmaRifle
+{
+DropItem "Shell", 255, 255
+}
+
+Actor W5: RandomSpawner replaces RocketLauncher
+{
+DropItem "Shell", 255, 255
+}
+
+Actor W6: RandomSpawner replaces Shotgun
+{
+DropItem "Shell", 255, 255
+}
+
+Actor W7: RandomSpawner replaces SuperShotgun
+{
+DropItem "Shell", 255, 255
+}
+
+Actor I1: RandomSpawner replaces Cell
+{
+DropItem "Shell", 255, 255
+}
+
+Actor I2: RandomSpawner replaces CellBox
+{
+DropItem "ShellBox", 255, 255
+}
+
+Actor I3: RandomSpawner replaces Clip
+{
+DropItem "Shell", 255, 255
+}
+
+Actor I4: RandomSpawner replaces ClipBox
+{
+DropItem "ShellBox", 255, 255
+}
+
+Actor I5: RandomSpawner replaces RocketAmmo
+{
+DropItem "Shell", 255, 255
+}
+
+Actor I6: RandomSpawner replaces RocketBox
+{
+DropItem "ShellBox", 255, 255
+}

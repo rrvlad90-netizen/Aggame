@@ -1,0 +1,147 @@
+Model ElfBot
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   Model 1 "CrossbowInHand.md2" 
+   Skin 1  "Crossbow.png"
+   ZOffset 15
+//stay
+FrameIndex POSS A 0 247 FrameIndex POSS A 1 0
+FrameIndex POSS B 0 248 FrameIndex POSS A 1 0
+FrameIndex POSS C 0 249 FrameIndex POSS C 1 0
+FrameIndex POSS D 0 250 FrameIndex POSS D 1 0
+FrameIndex POSS E 0 251 FrameIndex POSS E 1 0
+FrameIndex POSS F 0 252 FrameIndex POSS F 1 0
+FrameIndex POSS G 0 253 FrameIndex POSS G 1 0
+FrameIndex POSS H 0 254 FrameIndex POSS H 1 0
+FrameIndex POSS I 0 255 FrameIndex POSS I 1 0
+FrameIndex POSS J 0 256 FrameIndex POSS J 1 0
+FrameIndex POSS K 0 257 FrameIndex POSS K 1 0
+FrameIndex POSS L 0 258 FrameIndex POSS L 1 0
+FrameIndex POSS M 0 259 FrameIndex POSS M 1 0
+//run
+FrameIndex POSW A 0 181 FrameIndex POSW A 1 0
+FrameIndex POSW B 0 182 FrameIndex POSW B 1 0
+FrameIndex POSW C 0 183 FrameIndex POSW C 1 0
+FrameIndex POSW D 0 184 FrameIndex POSW D 1 0
+FrameIndex POSW E 0 185 FrameIndex POSW E 1 0
+FrameIndex POSW F 0 186 FrameIndex POSW F 1 0
+FrameIndex POSW G 0 187 FrameIndex POSW G 1 0
+FrameIndex POSW H 0 188 FrameIndex POSW H 1 0
+}
+
+Model ElfBot
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarriorleft.md3"
+   Model 1 "CrossbowInHand.md2" 
+   Skin 1  "Crossbow.png"
+   ZOffset 15
+//runleft
+FrameIndex POSL A 0 181 FrameIndex POSL A 1 0
+FrameIndex POSL B 0 182 FrameIndex POSL B 1 0
+FrameIndex POSL C 0 183 FrameIndex POSL C 1 0
+FrameIndex POSL D 0 184 FrameIndex POSL D 1 0
+FrameIndex POSL E 0 185 FrameIndex POSL E 1 0
+FrameIndex POSL F 0 186 FrameIndex POSL F 1 0
+FrameIndex POSL G 0 187 FrameIndex POSL G 1 0
+FrameIndex POSL H 0 188 FrameIndex POSL H 1 0
+}
+
+Model ElfBot
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarriorright.md3"
+   Model 1 "CrossbowInHand.md2" 
+   Skin 1  "Crossbow.png"
+   ZOffset 15
+//runright
+FrameIndex POSR A 0 181 FrameIndex POSR A 1 0
+FrameIndex POSR B 0 182 FrameIndex POSR B 1 0
+FrameIndex POSR C 0 183 FrameIndex POSR C 1 0
+FrameIndex POSR D 0 184 FrameIndex POSR D 1 0
+FrameIndex POSR E 0 185 FrameIndex POSR E 1 0
+FrameIndex POSR F 0 186 FrameIndex POSR F 1 0
+FrameIndex POSR G 0 187 FrameIndex POSR G 1 0
+FrameIndex POSR H 0 188 FrameIndex POSR H 1 0
+}
+
+
+Model ElfBot
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   Model 1 "CrossbowInHand.md2" 
+   Skin 1  "Crossbow.png"
+   ZOffset 15
+
+//attack
+/*
+FrameIndex ELFA A 0 209
+FrameIndex ELFA B 0 210
+FrameIndex ELFA C 0 211
+FrameIndex ELFA D 0 212
+FrameIndex ELFA E 0 213
+FrameIndex ELFA F 0 214
+FrameIndex ELFA G 0 215
+FrameIndex ELFA H 0 216
+FrameIndex ELFA I 0 217
+FrameIndex ELFA J 0 218
+FrameIndex ELFA K 0 219
+FrameIndex ELFA L 0 220
+FrameIndex ELFA M 0 221
+FrameIndex ELFA N 0 222
+FrameIndex ELFA O 0 223
+*/
+}
+
+Model ElfBot
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   ZOffset 15
+//death
+FrameIndex ELFD A 0 31
+FrameIndex ELFD B 0 32
+FrameIndex ELFD C 0 33
+FrameIndex ELFD D 0 34
+FrameIndex ELFD E 0 35
+FrameIndex ELFD F 0 36
+FrameIndex ELFD G 0 37
+FrameIndex ELFD H 0 38
+FrameIndex ELFD I 0 39
+FrameIndex ELFD J 0 40
+FrameIndex ELFD K 0 41
+FrameIndex ELFD L 0 42
+FrameIndex ELFD M 0 43
+FrameIndex ELFD N 0 44
+FrameIndex ELFD O 0 45
+FrameIndex ELFD P 0 46
+FrameIndex ELFD Q 0 47
+FrameIndex ELFD R 0 48
+FrameIndex ELFD S 0 49
+FrameIndex ELFD T 0 50
+FrameIndex ELFD U 0 51
+FrameIndex ELFD V 0 52
+FrameIndex ELFD W 0 53
+FrameIndex ELFD X 0 54
+FrameIndex ELFD Y 0 55
+FrameIndex ELFD Z 0 56
+
+FrameIndex ELDD A 0 57
+FrameIndex ELDD B 0 58
+FrameIndex ELDD C 0 59
+FrameIndex ELDD D 0 60
+FrameIndex ELDD E 0 61
+/*
+//crouch
+FrameIndex ELFC A 0 156
+FrameIndex ELFC B 0 157
+FrameIndex ELFC C 0 158
+FrameIndex ELFC D 0 159
+FrameIndex ELFC E 0 160
+FrameIndex ELFC F 0 161
+FrameIndex ELFC G 0 162
+FrameIndex ELFC H 0 163
+*/
+}

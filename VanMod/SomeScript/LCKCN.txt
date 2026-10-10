@@ -1,0 +1,11 @@
+#include "zcommon.acs"
+
+script "LockPlayer" (void)
+{
+    SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
+}
+
+script "UnlockPlayer" (void)
+{
+    SetPlayerProperty(0, 0, PROP_TOTALLYFROZEN);
+}

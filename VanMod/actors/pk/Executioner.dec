@@ -1,0 +1,158 @@
+//================================================================================================================
+//================================================================================================================
+//
+//	Executioner from Painkiller: Heavens got a Hitman [People Can Fly]
+//	Code by me [Kill.Murphy]
+//
+//================================================================================================================
+//================================================================================================================
+
+ACTOR Executioner replaces Demon
+{
+	//$Angled
+	//$Category "MUTILATOR Monsters"
+	//$Color 12
+	//$Title "Executioner"
+//	Game Doom
+	Health 120
+	Radius 24
+	Height 64
+	Speed 6
+//	TurnSpeed 15
+
+//	PKM_Monster.PostSpeed 8
+//	PKM_Monster.TurnSpeed 15.0
+
+//	PainThreshold 50
+	Mass 800
+//	GibHealth -15
+	PainChance 98
+//	MeleeThreshold 260
+	damagetype "Melee"
+//	DeathHeight 4
+//	BurnHeight 4
+	Monster
+//	Species "Monsters"
+
+//	Tag "Executioner"
+
+	SeeSound "executioner__exe-halt"
+	ActiveSound "executioner__exe-halt"
+	PainSound "executioner__exe-hit"
+	DeathSound "executioner__exe-death"
+
+	+INTERPOLATEANGLES
+	+FLOORCLIP
+	//-LOOKALLAROUND
+	//+JUMPDOWN
+	//+DropOff
+	//+DontHarmSpecies
+	//+DontHarmClass
+	States
+	{
+
+	Spawn:
+		IDL0 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_Look
+		IDL1 ABCDEFGHIJKLMNO 1 A_Look   //A_LookEx(0,0,maxSeeDist,0,fov,"See")
+		Loop
+
+	See:
+		RUN0 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_Chase
+		RUN1 ABCDE 1 A_Chase
+		Loop
+
+/*	
+		Missile:
+			GOH1 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_FaceTarget
+			GOH2 ABC 1 A_FaceTarget	"####" "#" 0 {
+				A_PlaySound("executioner__exe-shootaxespike",6);
+				A_PlaySound("executioner__exe-shootaxespike-voice",5);
+				A_CustomMissile("NinjaShuriken",30, -5);}
+			GOH0 ABCDEFGHIJKLMNOPQRSTUVWX 1 A_FaceTarget
+			Goto See
+*/
+
+	Pain:
+		TNT1 A 0 A_Pain
+		PAIN ABCDEFGHIJKLMNOPQRSTUV 1
+		Goto See
+
+
+///////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	Melee:
+		TNT1 A 0 A_Jump(256,"Melee1", "Melee2", "Melee3")
+		Goto Melee1
+
+		Melee1:
+			TNT1 A 0 A_PlaySound("executioner__exe-atack3",5)
+			MEL0 ABCDEFGHIJKLMNOPQRSTUV 1 A_FaceTarget
+			TNT1 a 0 A_CustomMeleeAttack(random(10,20),"zombs_sword_hits_hero","zombs_sword-missed")
+			MEL0 WXYZ 1
+			MEL1 ABCDEFGHIJKLMN 1
+			TNT1 a 0 A_CustomMeleeAttack(random(10,20),"zombs_sword_hits_hero","zombs_sword-missed")
+			MEL1 OPQRSTUVWXYZ 1
+			MEL2 AB 1
+			Goto See
+
+		Melee2:
+			TNT1 A 0 A_PlaySound("executioner__exe-atack2",5)
+			MEL3 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 A_FaceTarget
+			MEL4 ABCDE 1
+			TNT1 AAA 0 A_CustomMeleeAttack(random(10,20),"zombs_sword_hits_hero","zombs_sword-missed")
+			MEL4 FGHIJKLMNOPQRST 1
+			Goto See
+
+		Melee3:
+			TNT1 A 0 A_PlaySound("executioner__exe-atack3",5)
+			MEL5 ABCDEFGHIJKLMNO 1 A_FaceTarget
+			TNT1 a 0 A_CustomMeleeAttack(random(10,20),"zombs_sword_hits_hero","zombs_sword-missed")
+			MEL5 PQRSTUVWXYZ 1
+			TNT1 a 0 A_CustomMeleeAttack(random(10,20),"zombs_sword_hits_hero","zombs_sword-missed")
+			MEL6 ABCDEFGHIJKLMNOPQRSTU 1
+			Goto See
+
+///////////////////////////////////////////////////
+///////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+	Death:
+		TNT1 A 0 A_Jump(256,"Death1", "Death2")
+		TNT1 A 1
+		Goto Death1
+
+
+		Death1:
+			//"####" "#" 0 //A_UnsetSolid
+			TNT1 A 0 A_Scream
+			TNT1 A 0 A_Fall
+			DTH0 ABCDEFGHIJKLMNOPQRSTUVWXYZ 1
+			TNT1 A 0 A_PlaySound("executioner__exe-boddyfalls")
+			DTH1 ABCDEFGHIJKLMNOPQRS 1
+			"####" "#" 0 A_ChangeFlag("CORPSE",1)
+			DTH1 S 700
+			DTH1 SSSSSSSSSSSSSSSSS 1 A_FadeOut(0.2)
+			Stop
+		Death2:
+			//"####" "#" 0 A_UnsetSolid
+			TNT1 A 0 A_Scream
+			TNT1 A 0 A_Fall
+			DIE0 ABCDEFGHIJKLMNOPQRSTUV 1
+			TNT1 A 0 A_PlaySound("executioner__exe-boddyfalls")
+			DIE0 WXYZ 1
+			DIE1 ABCDEFGHIJKLMNOPQRSTU 1
+			"####" "#" 0 A_ChangeFlag("CORPSE",1)
+			DIE1 U 600
+			DIE1 UUUUUUUUUUUUUUUUUU 1 A_FadeOut(0.2)
+			Stop
+	}
+}
+

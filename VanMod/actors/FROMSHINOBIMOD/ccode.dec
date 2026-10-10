@@ -1,0 +1,878 @@
+
+#include "Zangetsu.dec"
+#include "Kubikiribocho.dec"
+#include "BloodDec.dec"
+#include "GibDec.dec"
+#include "REPLACES.dec"
+#include "SFX.dec"
+#include "NinjaFX.dec"
+#include "OniStage.dec"
+#include "DOJO.dec"
+#include "CHASECAM.dec"
+
+#include "Actors/NewZombieman.dec"
+#include "Actors/NewShotgunGuy.dec"
+#include "Actors/NewImp.dec"
+#include "Actors/NewDemon.dec"
+#include "Actors/NewBaronOfHell.dec"
+#include "Actors/NewLostSoul.dec"
+#include "Actors/NewCacodemon.dec"
+#include "Actors/NewCyberdemon.dec"
+#include "Actors/NewSpiderMastermind.dec"
+#include "Actors/NewChaingunGuy.dec"
+#include "Actors/NewRevenant.dec"
+#include "Actors/NewHellKnight.dec"
+#include "Actors/NewArchvile.dec"
+#include "Actors/NewArachnotron.dec"
+#include "Actors/NewMancubus.dec"
+#include "Actors/NewPainElemental.dec"
+#include "Actors/NewWolfensteinSS.dec"
+#include "Actors/NewExplosiveBarrel.dec"
+#include "Actors/BlueOni.dec"
+#include "Actors/Dummy.dec"
+
+ACTOR NinjaPlayer : PlayerPawn replaces DoomPlayer {
+	Scale 0.85
+	Radius 16
+	Height 56
+	Health 200
+	GibHealth 50
+	Speed 0
+	Mass 100
+	Player.JumpZ 0
+	Species "Player"
+	DamageFactor 1
+	PainChance "BulletHit", 256
+	PainChance "SpiderMastermindBulletHit", 256
+	PainChance "MonsterMelee", 256
+	PainChance "LightAttack", 256
+	PainChance "HardAttack", 256
+	PainChance "LaunchAttackJump", 256
+	PainChance "CorkScrew", 256
+	Player.ColorRange 112, 127
+	Player.SoundClass "Ninja"
+	Player.DisplayName "Shinobi"
+	Player.StartItem "isPlayer"
+	Player.StartItem "Zangetsu"
+	Player.StartItem "Kubikiribocho"
+	Player.StartItem "ZangetsuEquipped"
+	Player.StartItem "FireBreathJutsuEquipped"
+	Player.StartItem "BlastAttackEquipped"
+	Player.StartItem "ShurikensEquipped"
+	Player.StartItem "SpellOrb" 10
+	Player.StartItem "ShurikenAmmo" 99
+	Player.StartItem "KunaiAmmo" 99
+	Player.StartItem "SourceLightSpawner"
+	+NOSKIN
+	+NOPAIN
+	States {
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIfInventory("ZangetsuEquipped",1,"ZangetsuSpawn")
+		TNT1 A 0 A_JumpIfInventory("KubikiribochoEquipped",1,"KubikiribochoSpawn")
+		Loop
+	ZangetsuSpawn:
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+	    NJKA ABC 10
+	    NJKA D 20
+	    NJKA A 1
+		Loop
+	ZangetsuRunning:
+	    NJKA EFGH 2
+	    NJKA H 1
+	    NJKA IJKL 2
+	    NJKA L 1
+		Loop
+	ZangetsuJump1:
+	    NJKA MNOPQRSTUV 2
+		Goto ZangetsuFalling
+	ZangetsuJump2:
+	    NJKB ABCDEFG 1
+	    NJKB HIJKLMNO 2
+		Goto ZangetsuFalling
+	ZangetsuFalling:
+	    NJKB PQRST 4
+		Loop
+	ZangetsuLand:
+	    NJKB UVWXYZ 1
+	    NJKB [ 1
+	    NJKB ] 1
+		Goto ZangetsuSpawn
+	ZangetsuGuarding:
+	    NJKC ABCD 10
+	    NJKC E 35
+		Loop
+//************************************************************
+	ZangetsuLightAttack1:
+		NJKE ABCDEFGHIJKLMN 1 
+		Goto ZangetsuSpawn
+	ZangetsuLightAttack2:
+		NJKF ABCDEFGHIJKLMNO 1
+		Goto ZangetsuSpawn
+	ZangetsuLightAttack3:
+		NJKG ABCDEFGHIJKLMNOPQRSTU 1
+		Goto ZangetsuSpawn
+	ZangetsuLightAttack4:
+		NJKH ABCDEFGHIJKLMNOPQRST 1
+		Goto ZangetsuSpawn
+	ZangetsuLightAttack5:
+		NJKI ABCDEFGHHIJKLMNOPQRSTU 1
+		Goto ZangetsuSpawn
+	ZangetsuHardAttack1:
+		NJKJ ABCDEFGHIJKLMNOPQRS 1
+		Goto ZangetsuSpawn
+	ZangetsuHardAttack2:
+		NJKK ABCDEFGHIJKLMNOPQRS 1
+		Goto ZangetsuSpawn
+	ZangetsuHardAttack3:
+		NJKL ABCD 2 
+		NJKL EFGH 1 
+		NJKL LMNOPQRSTUVWXYZ 1 
+		Goto ZangetsuSpawn
+	ZangetsuHardAttack4:
+		NJKM ABCD 2
+		NJKM EFGHIJKLMNOPQRS 1
+		Goto ZangetsuSpawn
+	ZangetsuHardAttack5:
+		NJKN ABCDEFGHIJK 2
+		NJKN LMNOPQRSTUVWXY 1
+		Goto ZangetsuSpawn
+	ZangetsuHardAttack6:
+		NJKO ABCDEFGHIJKLMNOP 1
+		Goto ZangetsuSpawn
+	ZangetsuHardAttack7:
+		NJKP ABCDEFGHIJKLMNOP 1
+		Goto ZangetsuSpawn
+	ZangetsuHardAttack8:
+		NJKQ ABCD 2
+		NJKQ EFGHIJKLMNOP 1
+		Goto ZangetsuSpawn
+	ZangetsuHardAttack9:
+		NJKR ABCDEFGHIJKLMNOPQRSTUVWXY 1
+		Goto ZangetsuSpawn
+	ZangetsuRoundKick:
+		NJKS CDEFGHIJKLMNOPQRSTUVW 1
+		Goto ZangetsuSpawn
+	ZangetsuApproachAttack:
+		NJK0 ABCD 2
+		NJK0 EFGHIJKLMNOP 1
+		Goto ZangetsuSpawn
+	ZangetsuJuggleAttack1:
+		NJKT ABCDEFGHI 2
+		NJKT QRSTUVWXY 1
+		Goto ZangetsuSpawn
+	ZangetsuJuggleAttack2:
+		NJKT ABCDEFGHIJK 2
+		Goto ZangetsuFalling		
+	ZangetsuShurikens1:
+		NJKU BCDEFGHIJKLMNOPQRST 1
+		Loop
+	ZangetsuShurikens2:
+		NJKV BCDEFGHIJKLMNOPQRST 1
+		Loop
+//************************************************************
+	ZangetsuAerialAttack1:
+		NJKW ACDF 1
+		NJKW GIJ 2
+		NJKW LMNOPQRST 1
+		Goto ZangetsuFalling
+	ZangetsuAerialAttack2:
+		NJKX ACDFG 1
+		NJKX IJL 2
+		NJKX MNOPQRST 1
+		Goto ZangetsuFalling
+	ZangetsuAerialAttack3:
+		NJKY ACDFG 1
+		NJKY IJL 2
+		NJKY MNOPQR 1
+		Goto ZangetsuFalling
+	ZangetsuAerialApproachAttack:
+		NJA1 LMNO 2
+		NJA1 OPQRSTUVWXYZ 1
+		Goto ZangetsuFalling
+	ZangetsuAerialKick:
+		NJKB CDEFJKL 1
+		NJKZ ABCD 1
+	ZangetsuAerialKickFalling:
+		NJKZ E 1 A_CheckFloor(1)
+		Loop
+	ZangetsuAerialKickLand:
+		NJKB UVWXYZ 1
+		NJKB [ 1
+		NJKB ] 1
+		Goto ZangetsuSpawn
+	ZangetsuAerialHardAttack:
+		NJKB CDEFJKL 1
+		NJKZ IJ 1
+	ZangetsuAerialHardAttackFalling:
+		NJKZ K 1 A_CheckFloor(1)
+		Loop
+	ZangetsuAerialHardAttackLand:
+		NJKZ LMNOPQRST 1
+		Goto ZangetsuSpawn
+	ZangetsuAerialShurikens:
+		NJK1 ABCD 1
+		NJK1 EFG 1
+		NJK1 HIJK 1
+		NJK1 LMN 1
+		Loop
+	ZangetsuAerialShurikensEnd:
+		NJKB CDEFJKL 1
+		Goto ZangetsuFalling
+//************************************************************
+	ZangetsuFireBreathJutsu:
+		NJK2 ABCDEFGHIJK 2
+		NJK2 K 12
+		NJK2 KLMNOPQROPQROPQROPQROPQRST 2
+		Goto ZangetsuSpawn
+	ZangetsuAerialFireBreathJutsu:
+		NJA3 ABCDEFGHIJK 2
+		NJA3 K 12
+		NJA3 KLMNOPQROPQROPQROPQROPQRSTU 2
+		Goto ZangetsuFalling
+	ZangetsuChargeSlash:	
+		NJK2 ABCDEFGHIJK 2
+		NJK3 GHIJKLM 2
+		NJK3 M 12
+		NJK3 NOPQRSTUV 2
+		NJK3 WX 3
+		Goto ZangetsuSpawn
+	ZangetsuAerialChargeSlash:	
+		NJA4 ABCDEFGHIJKLM 2
+		NJA4 M 10
+		NJA4 MNPQRSTUV 2
+		NJA4 WX 3
+		Goto ZangetsuFalling
+	ZangetsuChargeAttack:
+		NJK2 ABCDEFGHIJK 2
+		NJK4 ABCDE 2
+		NJK4 E 12
+		NJK4 EFGHI 2
+		NJK4 JKLMNOPQRSTUVWXYZ 1
+		Goto ZangetsuSpawn
+	ZangetsuAerialChargeAttack:
+		NJA1 ABCDEFGHIJKLMN 2
+		NJA1 N 12
+		NJA1 NO 2
+		NJA1 P 1
+		NJA1 QRSTUVWXYZ 2
+		Goto ZangetsuFalling
+	ZangetsuThunderblow:
+		NJK2 ABCDEFGHIJKL 2
+		NJK2 L 20
+		NJK2 LL 1
+		NJKT EFG 2
+		TNT1 A 16
+		NJK5 ABCDEFGHIJKL 1
+		Goto ZangetsuThunderBlowFalling
+	ZangetsuAerialThunderblow:
+		NJA5 ABCDEFGHIJK 2
+		NJA5 L 12
+		NJA5 MNO 3
+		TNT1 A 16
+		NJK5 ABCDEFGHIJKL 1
+	ZangetsuThunderBlowFalling:
+		NJK5 M 1 A_CheckFloor(1)
+		Loop
+		NJK5 M 35
+		NJK5 NOPQRSTUVWNOPQRSTUVWXYZ 1
+		Goto ZangetsuSpawn
+//************************************************************
+	ZangetsuEvadeBack:
+		NJA0 A 3 
+		NJA0 BCDEFGH 2 
+		Goto ZangetsuGuarding
+	ZangetsuEvadeLeft:
+		NJA0 IIJ 1
+		NJA0 KLM 3
+		NJA0 NOP 1
+		Goto ZangetsuGuarding
+	ZangetsuEvadeRight:
+		NJA0 QQR 1
+		NJA0 STU 3
+		NJA0 VWX 1
+		Goto ZangetsuGuarding
+//************************************************************
+	ZangetsuWallRunLeft:
+		NJA2 ABCDEFGH 2 
+		Loop
+	ZangetsuWallRunRight:
+		NJA2 IJKLMNOP 2 
+		Loop
+//************************************************************
+	ZangetsuReflectBulletHit:
+		TNT1 A 0 A_JumpIfInventory("BasicArmor",1,2)
+		TNT1 A 0 A_GiveInventory("GuardBreak",1)
+		Goto ZangetsuGuardBreak
+		TNT1 A 0 A_GiveInventory("ReflectedBullet",1)
+		TNT1 A 0 A_Jump(256,"ZangetsuReflectAttack1","ZangetsuReflectAttack2")
+	ZangetsuReflectSMMBulletHit:
+		TNT1 A 0 A_JumpIfInventory("BasicArmor",1,2)
+		TNT1 A 0 A_GiveInventory("GuardBreak",1)
+		Goto ZangetsuGuardBreak
+		TNT1 A 0 A_GiveInventory("ReflectedBullet",1)
+		TNT1 A 0 A_Jump(256,"ZangetsuReflectAttack1","ZangetsuReflectAttack2")
+	ZangetsuReflectAttack1:
+	    NJKC KLMNOPQR 1 
+		Goto ZangetsuSpawn
+	ZangetsuReflectAttack2:
+	    NJKC TUVWXYZ 1 
+	    NJKC [ 1 
+		Goto ZangetsuSpawn
+	ZangetsuBlockAttack:
+		TNT1 A 0 A_JumpIfInventory("BasicArmor",1,2)
+		TNT1 A 0 A_GiveInventory("GuardBreak",1)
+		Goto ZangetsuGuardBreak
+		TNT1 A 0 A_GiveInventory("BlockAttack",1)
+	    NJKC FGHIJ 1
+		Goto ZangetsuGuarding
+	ZangetsuGuardBreak:
+		TNT1 A 0 A_TakeInventory("BasicArmor",100)
+		TNT1 A 0 A_GiveInventory("GuardBreak",1)
+	    NJKD ABBBBCDEF 2
+		TNT1 A 0 A_TakeInventory("GuardBreak",1)
+	    NJKD GHIJKLMNO 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto ZangetsuSpawn	
+//************************************************************
+	ZangetsuHurt1:
+		NJK6 ABCDEF 2
+		TNT1 A 0 A_TakeInventory("Hurt",1)
+		TNT1 A 0 A_JumpIfInventory("ZangetsuEquipped",1,"ZangetsuSpawn")
+		TNT1 A 0 A_JumpIfInventory("KubikiribochoEquipped",1,"KubikiribochoSpawn")
+		Goto ZangetsuSpawn
+	ZangetsuHurt2:
+		NJK6 GHIJKL 2
+		TNT1 A 0 A_TakeInventory("Hurt",1)
+		TNT1 A 0 A_JumpIfInventory("ZangetsuEquipped",1,"ZangetsuSpawn")
+		TNT1 A 0 A_JumpIfInventory("KubikiribochoEquipped",1,"KubikiribochoSpawn")
+		Goto ZangetsuSpawn
+	ZangetsuHurt3:
+		NJK6 MNOPQR 2
+		TNT1 A 0 A_TakeInventory("Hurt",1)
+		TNT1 A 0 A_JumpIfInventory("ZangetsuEquipped",1,"ZangetsuSpawn")
+		TNT1 A 0 A_JumpIfInventory("KubikiribochoEquipped",1,"KubikiribochoSpawn")
+		Goto ZangetsuSpawn
+	ZangetsuHurt4:
+		NJK6 STUVWX 2
+		TNT1 A 0 A_TakeInventory("Hurt",1)
+		TNT1 A 0 A_JumpIfInventory("ZangetsuEquipped",1,"ZangetsuSpawn")
+		TNT1 A 0 A_JumpIfInventory("KubikiribochoEquipped",1,"KubikiribochoSpawn")
+		Goto ZangetsuSpawn
+	ZangetsuKnockdown:
+		NJK7 ABCDEFGHIJKLMN 1
+	ZangetsuKnockdownFalling:
+		NJK7 O 1
+		Loop
+	ZangetsuKikup:
+		NJK8 ABCDEFGHIJKLMNO 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		TNT1 A 0 A_TakeInventory("KnockDown",1)
+		Goto ZangetsuSpawn
+//**************************** KUBIKIRIBOCHO *********************************
+	KubikiribochoSpawn:
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+	    NJBA ABC 10
+	    NJBA D 20
+		Loop
+	KubikiribochoRunning:
+	    NJBA EFGH 2
+	    NJBA H 2
+	    NJBA IJKL 2
+	    NJBA L 2
+		Loop
+	KubikiribochoJump1:
+	    NJBA MNOPQRSTU 2
+		Goto KubikiribochoFalling
+	KubikiribochoJump2:
+	    NJBB ABCDEFG 1
+	    NJBB HIJKLMNO 2
+		Goto KubikiribochoFalling
+	KubikiribochoFalling:
+	    NJBB PQRST 4
+		Loop
+	KubikiribochoLand:
+	    NJBB UVWXYZ 1
+	    NJBB [ 1
+		Goto KubikiribochoSpawn
+	KubikiribochoGuarding:
+	    NJBC ABCD 10
+	    NJBC E 35
+		Loop
+//************************************************************
+	KubikiribochoLightAttack1:
+		NJBD A 1
+		NJBD B 4
+		NJBD CDEFGH 1
+		NJBD IJKLMNOPQ 2
+		Goto KubikiribochoSpawn
+	KubikiribochoLightAttack2:
+		NJBE A 1
+		NJBE B 4
+		NJBE CDEFGH 1
+		NJBE IJKLMNOPQRS 2
+		Goto KubikiribochoSpawn
+	KubikiribochoLightAttack3:
+		NJBF A 1
+		NJBF B 4
+		NJBF CDEFG 1
+		NJBF HIJKLMNOPQR 2
+		Goto KubikiribochoSpawn
+	KubikiribochoLightAttack4:
+		NJBG ABCD 1
+		NJBG E 4
+		NJBG FG 1
+		NJBG HIJKLMNOPQRSTUVWXY 2
+		Goto KubikiribochoSpawn
+	KubikiribochoHardAttack1:
+		NJBH ABCD 1
+		NJBH E 4
+		NJBH FGHI 1
+		NJBH JKLMNOPQ 2
+		Goto KubikiribochoSpawn
+	KubikiribochoHardAttack2:
+		NJBI ABC 1
+		NJBI D 4
+		NJBI EFGH 1
+		NJBI IJKLMNOPQ 2
+		Goto KubikiribochoSpawn
+	KubikiribochoHardAttack3:
+		NJBO ABCDE 1
+		NJBO FGH 1
+		NJBO IJKLMNO 1
+		NJBO PQRSTUVW 2
+		Goto KubikiribochoSpawn
+	KubikiribochoHardAttack4:
+		NJBK ABC 1
+		NJBK D 4
+		NJBK EFGHIJKL 1
+		NJBK MNOPQRSTUVW 2
+		Goto KubikiribochoSpawn
+	KubikiribochoHardAttack5:
+		NJBL ABCD 1
+		NJBL EF 4
+		NJBL GHIJ 1
+		NJBL KLMNOPQR 2
+		Goto KubikiribochoSpawn
+	KubikiribochoHardAttack6:
+		NJBM ABCD 1
+		NJBM EF 4
+		NJBM GHIJK 1
+		NJBM LMNOPQR 2
+		Goto KubikiribochoSpawn
+	KubikiribochoHardAttack7:
+		NJBN ABCDEFG 1
+		NJBN H 8
+		NJBN IJKLMNOPQRSTUVWXY 2
+		Goto KubikiribochoSpawn
+	KubikiribochoHardAttack8:
+		NJBJ ABC 1
+		NJBJ D 4
+		NJBJ EFG 2 
+		NJBJ H 4
+		NJBJ IJKLMNOPQR 1
+		NJBJ STUVWX 2
+		Goto KubikiribochoSpawn
+	KubikiribochoHardAttack9:
+		NJBP ABCDEFGHIJKL 1
+		NJBP MNOPQRSTUVWXY 2
+		Goto KubikiribochoSpawn
+	KubikiribochoHardAttack10:
+		NJBQ ABC 2
+		NJBQ DEFGH 1
+		NJBQ IJKLMNO 1
+		NJBQ PQRSTUVWXY 1
+		Goto KubikiribochoSpawn
+	KubikiribochoApproachAttack:
+		NJBS LMN 1
+	KubikiribochoApproachAttackFalling:
+		NJBS P 1
+		Loop
+	KubikiribochoJuggleAttack1:
+		NJBR ABCDEFGHIJKLMN 2
+		Goto KubikiribochoSpawn
+	KubikiribochoJuggleAttack2:
+		NJBS ABCDE 2
+		NJBS FGHI 1
+		NJBS JKL 2
+		Goto KubikiribochoFalling		
+	KubikiribochoShurikens1:
+		NJBT ABCDEFGHIJKLMNOPQRSTT 1
+		Loop
+	KubikiribochoShurikens2:
+		NJBU ABCDEFGHIJKLMNOPQRSTT 1
+		Loop
+//************************************************************
+	KubikiribochoAerialAttack1:
+		NJB8 ABCDE 1
+		NJB8 FGHIJKLM 2
+		Goto KubikiribochoFalling
+	KubikiribochoAerialAttack2:
+		NJB8 NOPQR 1
+		NJB8 STUVWXYZ 2
+		Goto KubikiribochoFalling
+	KubikiribochoAerialAttack3:
+		NJB9 ABCDE 1
+		NJB9 FGHIJKLM 2
+		Goto KubikiribochoFalling
+	KubikiribochoAerialHardAttack:
+		NJBS MNOP 2
+	KubikiribochoAerialHardAttackFalling:
+		NJBS Q 1 A_CheckFloor(1)
+		Loop
+	KubikiribochoAerialHardAttackLand:
+		NJBS RSTUVWXYZ 2
+		NJBS [ 2
+		Goto KubikiribochoSpawn
+	KubikiribochoAerialShurikens:
+		NJBY ABCD 1
+		NJBY EFG 1
+		NJBY HIJK 1
+		NJBY LMN 1
+		Loop
+	KubikiribochoAerialShurikensEnd:
+		NJBB CDEFJKL 1
+		Goto KubikiribochoFalling
+//************************************************************
+	KubikiribochoBlastAttack:
+		NJBV ABCDEFGHIJK 2
+		NJBV K 18
+		NJBV LMNOPQRSTUV 2
+		NJBV WXYZ 3
+		Goto KubikiribochoSpawn
+	KubikiribochoSpinningAttack:	
+		NJBW ABCDEFGHIJKL 2
+		NJBW L 12 
+		NJBW MNOPQRSTQRSTQRSTUVWXYZ 2
+		NJBX ABCDEFGH 2
+		Goto KubikiribochoSpawn
+	KubikiribochoAerialBlastAttack:
+		NJBZ ABCDEFGHIJ 2
+		NJBZ J 18
+		NJBZ KLMNOPQRSTUV 2
+		NJBZ WX 3
+		Goto KubikiribochoFalling
+	KubikiribochoAerialSpinningAttack:
+		NJB1 ABCDEFGHIJ 2
+		NJB1 J 15
+		NJB1 KLM 2
+	KubikiribochoAerialSpinningAttackFalling:	
+		NJB1 NOPQ 2 
+		Loop
+	KubikiribochoAerialSpinningAttackLand:	
+		NJB1 VWXYZ 1
+		NJBS STUVWXYZ 2
+		NJBS [ 2
+		Goto KubikiribochoFalling
+//************************************************************
+	KubikiribochoEvadeBack:
+		NJB6 A 3 
+		NJB6 BCDEFGH 2 
+		Goto KubikiribochoGuarding
+	KubikiribochoEvadeLeft:
+		NJB6 IIJ 1
+		NJB6 KLM 3
+		NJB6 NOP 1
+		Goto KubikiribochoGuarding
+	KubikiribochoEvadeRight:
+		NJB6 QQR 1
+		NJB6 STU 3
+		NJB6 VWX 1
+		Goto KubikiribochoGuarding
+//************************************************************
+	KubikiribochoWallRunLeft:
+		NJB7 ABCDEFGH 2 
+		Loop
+	KubikiribochoWallRunRight:
+		NJB7 IJKLMNOP 2 
+		Loop
+//************************************************************
+	KubikiribochoReflectBulletHit:
+		TNT1 A 0 A_JumpIfInventory("BasicArmor",1,2)
+		TNT1 A 0 A_GiveInventory("GuardBreak",1)
+		Goto KubikiribochoGuardBreak
+		TNT1 A 0 A_GiveInventory("ReflectedBullet",1)
+		TNT1 A 0 A_Jump(256,"KubikiribochoReflectAttack1","KubikiribochoReflectAttack2")
+	KubikiribochoReflectSMMBulletHit:
+		TNT1 A 0 A_JumpIfInventory("BasicArmor",1,2)
+		TNT1 A 0 A_GiveInventory("GuardBreak",1)
+		Goto KubikiribochoGuardBreak
+		TNT1 A 0 A_GiveInventory("ReflectedBullet",1)
+		TNT1 A 0 A_Jump(256,"KubikiribochoReflectAttack1","KubikiribochoReflectAttack2")
+	KubikiribochoReflectAttack1:
+	    NJBC KLMNOPQR 1 
+		Goto KubikiribochoSpawn
+	KubikiribochoReflectAttack2:
+	    NJBC TUVWXYZ 1 
+	    NJBC [ 1 
+		Goto KubikiribochoSpawn
+	KubikiribochoBlockAttack:
+		TNT1 A 0 A_JumpIfInventory("BasicArmor",1,2)
+		TNT1 A 0 A_GiveInventory("GuardBreak",1)
+		Goto KubikiribochoGuardBreak
+		TNT1 A 0 A_GiveInventory("BlockAttack",1)
+	    NJBC FGHIJ 1
+		Goto KubikiribochoGuarding
+	KubikiribochoGuardBreak:
+		TNT1 A 0 A_GiveInventory("GuardBreak",1)
+		TNT1 A 0 A_TakeInventory("BasicArmor",100)
+	    NJBC KLLLLMNOP 2
+		TNT1 A 0 A_TakeInventory("GuardBreak",1)
+	    NJBC QRSTUVWXY 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto KubikiribochoSpawn	
+//************************************************************
+	KubikiribochoHurt1:
+		NJB3 ABCDEF 2
+		TNT1 A 0 A_JumpIfInventory("ZangetsuEquipped",1,"ZangetsuSpawn")
+		TNT1 A 0 A_JumpIfInventory("KubikiribochoEquipped",1,"KubikiribochoSpawn")
+		Goto KubikiribochoSpawn
+	KubikiribochoHurt2:
+		NJB3 GHIJKL 2
+		TNT1 A 0 A_JumpIfInventory("ZangetsuEquipped",1,"ZangetsuSpawn")
+		TNT1 A 0 A_JumpIfInventory("KubikiribochoEquipped",1,"KubikiribochoSpawn")
+		Goto KubikiribochoSpawn
+	KubikiribochoHurt3:
+		NJB3 MNOPQR 2
+		TNT1 A 0 A_JumpIfInventory("ZangetsuEquipped",1,"ZangetsuSpawn")
+		TNT1 A 0 A_JumpIfInventory("KubikiribochoEquipped",1,"KubikiribochoSpawn")
+		Goto KubikiribochoSpawn
+	KubikiribochoHurt4:
+		NJB3 STUVWX 2
+		TNT1 A 0 A_JumpIfInventory("ZangetsuEquipped",1,"ZangetsuSpawn")
+		TNT1 A 0 A_JumpIfInventory("KubikiribochoEquipped",1,"KubikiribochoSpawn")
+		Goto KubikiribochoSpawn
+	KubikiribochoKnockdown:
+		NJB4 ABCDEFGHIJKLMN 1
+	KubikiribochoKnockdownFalling:
+		NJB4 O 1
+		Loop
+	KubikiribochoKikup:
+		NJB5 ABCDEFGHIJKLMNO 1
+		Goto KubikiribochoSpawn
+//******************************** PAIN **************************************
+	Pain.BulletHit:
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 1,"ZangetsuReflectBulletHit")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 2,"KubikiribochoBlockAttack")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 1,2)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 2,2)
+		TNT1 A 0 A_Jump(256,"ZangetsuHurt1","ZangetsuHurt1","ZangetsuHurt1","ZangetsuHurt4")
+		TNT1 A 0 A_Jump(256,"KubikiribochoHurt1","KubikiribochoHurt1","KubikiribochoHurt1","KubikiribochoHurt4")
+	Pain.ShurikenHit:
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 1,"ZangetsuReflectShurikenHit")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 2,"KubikiribochoBlockAttack")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 1,2)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 2,2)
+		TNT1 A 0 A_Jump(256,"ZangetsuHurt1","ZangetsuHurt1","ZangetsuHurt1","ZangetsuHurt4")
+		TNT1 A 0 A_Jump(256,"KubikiribochoHurt1","KubikiribochoHurt1","KubikiribochoHurt1","KubikiribochoHurt4")
+	Pain.SpiderMastermindBulletHit:
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 1,"ZangetsuReflectSMMBulletHit")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 2,"KubikiribochoBlockAttack")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 1,2)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 2,2)
+		TNT1 A 0 A_Jump(256,"ZangetsuHurt1","ZangetsuHurt1","ZangetsuHurt1","ZangetsuHurt4")
+		TNT1 A 0 A_Jump(256,"KubikiribochoHurt1","KubikiribochoHurt1","KubikiribochoHurt1","KubikiribochoHurt4")
+	Pain.MonsterMelee:
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 1,"ZangetsuBlockAttack")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 2,"KubikiribochoBlockAttack")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 1,2)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 2,2)
+		TNT1 A 0 A_Jump(256,"ZangetsuHurt1","ZangetsuHurt1","ZangetsuHurt1","ZangetsuHurt4")
+		TNT1 A 0 A_Jump(256,"KubikiribochoHurt1","KubikiribochoHurt1","KubikiribochoHurt1","KubikiribochoHurt4")
+	Pain.LightAttack:
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 1,"ZangetsuBlockAttack")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 2,"KubikiribochoBlockAttack")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 1,2)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 2,2)
+		TNT1 A 0 A_Jump(256,"ZangetsuHurt1","ZangetsuHurt1","ZangetsuHurt1","ZangetsuHurt4")
+		TNT1 A 0 A_Jump(256,"KubikiribochoHurt1","KubikiribochoHurt1","KubikiribochoHurt1","KubikiribochoHurt4")
+	Pain.HardAttack:
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 1,"ZangetsuGuardBreak")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquipped",0,0,0) == 2,"KubikiribochoGuardBreak")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 1,2)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckWeaponEquippedDamage",0,0,0) == 2,2)
+		TNT1 A 0 A_Jump(256,"ZangetsuKnockDown")
+		TNT1 A 0 A_Jump(256,"KubikiribochoKnockDown")
+		Goto ZangetsuKnockDown
+//******************************* DEATH **************************************
+	Death:
+	XDeath:
+		TNT1 A 0 A_PlaySound("ninja/Death")
+		TNT1 A 0 A_SpawnItemEx("BloodCut",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_NoBLocking
+		TNT1 A 0 A_SpawnItemEx("BigBloodSpot",Random(-8,8),Random(-8,8),4,0,0,0,Random(0,359),128,0)
+		NJK9 ABCDEFGHIJK 2 A_SpawnItemEx("BloodSpray",Random(-8,8),Random(-8,8),Random(16,32),0,0,Random(10,20)*0.1,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("BigBloodSpot",Random(-8,8),Random(-8,8),4,0,0,0,Random(0,359),128,0)
+		NJK9 LMN 6 A_SpawnItemEx("BloodSpray",Random(8,24),Random(-8,8),Random(16,32),0,0,0,Random(10,20)*0.1,128,0)
+		NJK9 OPQRSTUVWX 2 A_SpawnItemEx("BigBloodSpot",Random(-24,24),Random(-24,24),4,0,0,0,Random(0,359),128,0)
+		NJK9 Y -1
+		Stop
+	Death.Fire:
+		TNT1 A 0 A_PlaySound("ninja/Death")
+		TNT1 AAA 0 A_SpawnItemEx("BurnParticles",Random(-5,5),Random(-15,15),Random(12,24),0,0,0,0,128,0)
+		TNT1 A 0 A_NoBLocking
+		TNT1 A 0 A_SetRenderStyle(1,STYLE_Stencil)
+		TNT1 A 0 A_SpawnItemEx("BigBloodSpot",Random(-8,8),Random(-8,8),4,0,0,0,Random(0,359),128,0)
+		NJK9 ABCDEFGHIJK 2 A_SpawnItemEx("BurnParticles",Random(-5,5),Random(-15,15),Random(12,24),0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("BigBloodSpot",Random(-8,8),Random(-8,8),4,0,0,0,Random(0,359),128,0)
+		NJK9 LMN 6 A_SpawnItemEx("BurnParticles",Random(-5,5),Random(-15,15),Random(12,24),0,0,0,0,128,0)
+		NJK9 OPQRSTUVWX 2 A_SpawnItemEx("BurnParticles",Random(-5,5),Random(-15,15),Random(12,24),0,0,0,0,128,0)
+		NJK9 Y 1
+		NJK9 Y 1 A_SpawnItemEx("SmokeFX6",Random(-25,25),Random(-15,15),Random(2,4),0,0,Random(10,20)*0.1,0,128,0)
+		Goto Death.Fire+32
+	Death.HardAttack:
+		TNT1 A 0 ThrustThingZ(0,40,0,0)
+		NJK7 A 1 A_Recoil(10)
+		TNT1 A 0 A_PlaySound("ninja/Death")
+		TNT1 A 0 A_SpawnItemEx("BloodCut",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_NoBLocking
+		TNT1 A 0 A_SpawnItemEx("BigBloodSpot",Random(-8,8),Random(-8,8),4,0,0,0,Random(0,359),128,0)
+		NJK7 BCDEFGHIJKLMN 1 A_SpawnItemEx("BloodSpray",Random(8,24),Random(-8,8),Random(16,32),0,0,0,Random(10,20)*0.1,128,0)
+	Death.KnockdownFalling:
+		NJK7 O 1 A_SpawnItemEx("BloodSpray",Random(8,24),Random(-8,8),Random(16,32),0,0,0,Random(10,20)*0.1,128,0)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,1)
+		Loop
+	Death.ZangetsuKikup:
+		TNT1 A 0 A_PlaySound("sfx/hardLand",8)
+		TNT1 A 0 A_CustomMissile("SmokeCircleGenerator", 24, 0, 30, 2, 0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave2",0,0,0,0,0,0,0,128,0)
+		NJK7 O -1 A_SpawnItemEx("BigBloodSpot",Random(-24,24),Random(-24,24),4,0,0,0,Random(0,359),128,0)
+		Stop
+	}
+}
+ACTOR InventoryMaxAmount1 : Inventory {
+    Inventory.MaxAmount 1
+	+INVENTORY.UNDROPPABLE
+}
+ACTOR KnockDown : InventoryMaxAmount1 {}
+ACTOR Hurt : InventoryMaxAmount1 {}
+ACTOR isPlayer : InventoryMaxAmount1 {}
+ACTOR ZangetsuEquipped : InventoryMaxAmount1 {}
+ACTOR KubikiribochoEquipped : InventoryMaxAmount1 {}
+ACTOR SpearEquipped : InventoryMaxAmount1 {}
+ACTOR FireBreathJutsuEquipped : InventoryMaxAmount1 {}
+ACTOR ChargeSlashEquipped : InventoryMaxAmount1 {}
+ACTOR ChargeAttackEquipped : InventoryMaxAmount1 {}
+ACTOR ThunderblowEquipped : InventoryMaxAmount1 {}
+ACTOR BlastAttackEquipped : InventoryMaxAmount1 {}
+ACTOR SpinningAttackEquipped : InventoryMaxAmount1 {}
+ACTOR ShurikensEquipped : InventoryMaxAmount1 {}
+ACTOR KunaisEquipped : InventoryMaxAmount1 {}
+ACTOR PlayerRunning : InventoryMaxAmount1 {}
+ACTOR PlayerJump : InventoryMaxAmount1 {}
+ACTOR DoubleJump : InventoryMaxAmount1 {}
+ACTOR isAttacking : InventoryMaxAmount1 {}
+ACTOR isJumping : Inventory {
+    Inventory.MaxAmount 2
+}
+ACTOR isFalling : InventoryMaxAmount1 {}
+ACTOR SkillInUse : InventoryMaxAmount1 {}
+ACTOR PlayerUser1 : InventoryMaxAmount1 {}
+ACTOR PlayerUser2 : InventoryMaxAmount1 {}
+ACTOR PlayerUser3 : InventoryMaxAmount1 {}
+ACTOR PlayerGuarding : InventoryMaxAmount1 {}
+ACTOR BlockAttack : InventoryMaxAmount1 {}
+ACTOR GuardBreak : InventoryMaxAmount1 {}
+ACTOR EvadeCheck : InventoryMaxAmount1 {}
+ACTOR EvadeForward : InventoryMaxAmount1 {}
+ACTOR EvadeBack : InventoryMaxAmount1 {}
+ACTOR EvadeLeft : InventoryMaxAmount1 {}
+ACTOR EvadeRight : InventoryMaxAmount1 {}
+ACTOR WallRunLeftAction : InventoryMaxAmount1 {}
+ACTOR WallRunRightAction : InventoryMaxAmount1 {}
+ACTOR JumpSkillNoUse : InventoryMaxAmount1 {}
+ACTOR JumpShurikenNoUse : InventoryMaxAmount1 {}
+ACTOR ReflectedBullet : InventoryMaxAmount1 {}
+ACTOR ReflectedShuriken : InventoryMaxAmount1 {}
+ACTOR LightAttack1 : InventoryMaxAmount1 {}
+ACTOR LightAttack2 : InventoryMaxAmount1 {}
+ACTOR LightAttack3 : InventoryMaxAmount1 {}
+ACTOR LightAttack4 : InventoryMaxAmount1 {}
+ACTOR LightAttack5 : InventoryMaxAmount1 {}
+ACTOR HardAttack1 : InventoryMaxAmount1 {}
+ACTOR HardAttack2 : InventoryMaxAmount1 {}
+ACTOR HardAttack3 : InventoryMaxAmount1 {}
+ACTOR HardAttack4 : InventoryMaxAmount1 {}
+ACTOR HardAttack5 : InventoryMaxAmount1 {}
+ACTOR HardAttack6 : InventoryMaxAmount1 {}
+ACTOR HardAttack7 : InventoryMaxAmount1 {}
+ACTOR HardAttack8 : InventoryMaxAmount1 {}
+ACTOR HardAttack9 : InventoryMaxAmount1 {}
+ACTOR HardAttack10 : InventoryMaxAmount1 {}
+ACTOR RoundKick : InventoryMaxAmount1 {}
+ACTOR ApproachAttack : InventoryMaxAmount1 {}
+ACTOR AerialApproachAttack : InventoryMaxAmount1 {}
+ACTOR AerialAttack : InventoryMaxAmount1 {}
+ACTOR AerialAttack1 : InventoryMaxAmount1 {}
+ACTOR AerialAttack2 : InventoryMaxAmount1 {}
+ACTOR AerialAttack3 : InventoryMaxAmount1 {}
+ACTOR AerialKick : InventoryMaxAmount1 {}
+ACTOR AerialHardAttack : InventoryMaxAmount1 {}
+ACTOR AerialKickBounce : InventoryMaxAmount1 {}
+ACTOR AerialHardAttackBounce : InventoryMaxAmount1 {}
+ACTOR AutoYaw : InventoryMaxAmount1 {}
+
+
+ACTOR TargetIsBlueOni : InventoryMaxAmount1 {}
+ACTOR BlueOniHealth : Ammo {
+    Inventory.MaxAmount 2000
+	+INVENTORY.IGNORESKILL
+}
+ACTOR ChargingAttack : Inventory {
+    Inventory.MaxAmount 100
+}
+ACTOR BigHitCombos : Inventory {
+    Inventory.MaxAmount 999
+}
+ACTOR HitCombos : Inventory {
+    Inventory.MaxAmount 999
+}
+ACTOR SpellOrb : Ammo {
+    Inventory.MaxAmount 10
+}
+ACTOR GuardArmor : BasicArmorPickup {
+	Inventory.PickupMessage "$GOTMEGA" // "Picked up the MegaArmor!"
+	Inventory.Icon "ARM2A0"
+	Inventory.Amount 1
+	Armor.SavePercent 100
+	Armor.SaveAmount 1
+}
+ACTOR NoArmor : BasicArmorPickup {
+	Radius 20
+	Height 16
+	Inventory.PickupMessage "$GOTMEGA" // "Picked up the MegaArmor!"
+	Inventory.Icon "ARM2A0"
+	Inventory.Amount 1
+	Armor.SavePercent 0
+	Armor.SaveAmount 1
+	States {
+		Spawn:
+		ARM2 A 6
+		ARM2 B 6 Bright
+		Loop
+	}
+}
+ACTOR Zangetsu3D {
+	Radius 12
+	Height 12
+	Scale 1
+	+NOGRAVITY
+	+NOBLOCKMAP
+	+NOCLIP
+	+THRUACTORS
+	States{
+	Spawn:
+		KT3D A 16
+		Stop
+	}
+}
+ACTOR FreezeTimeGiver : PowerupGiver {
+	-COUNTITEM
+	Inventory.MaxAmount 0
+	Powerup.Type "PowerTimeFreezerSound"
+	Powerup.Duration 0x7FFFFFFD
+	+INVENTORY.AUTOACTIVATE
+	+INVENTORY.ALWAYSPICKUP
+}

@@ -1,0 +1,69 @@
+
+Actor Cell3: RandomSpawner replaces Cell
+{
+DropItem "Shell", 255, 255
+}
+
+Actor CellPack3: RandomSpawner replaces CellPack
+{
+DropItem "ShellBox", 255, 255
+}
+
+Actor Clip3: RandomSpawner replaces Clip
+{
+DropItem "Shell", 255, 255
+}
+
+Actor ClipBox3: RandomSpawner replaces ClipBox
+{
+DropItem "ShellBox", 255, 255
+}
+
+
+Actor RocketAmmo3: RandomSpawner replaces RocketAmmo
+{
+DropItem "Shell", 255, 255
+}
+
+Actor RocketBox3: RandomSpawner replaces RocketBox
+{
+DropItem "ShellBox", 255, 255
+}
+//////
+
+
+Actor BFG90003: RandomSpawner replaces BFG9000
+{
+DropItem "ShellBox", 255, 255
+}
+
+Actor Chaingun3: RandomSpawner replaces Chaingun
+{
+DropItem "ShellBox", 255, 255
+}
+
+Actor Chainsaw3: RandomSpawner replaces Chainsaw
+{
+DropItem "Shell", 255, 255
+}
+
+Actor ClipBox3: RandomSpawner replaces ClipBox
+{
+DropItem "ShellBox", 255, 255
+}
+
+
+Actor PlasmaRifle3: RandomSpawner replaces PlasmaRifle
+{
+DropItem "ShellBox", 255, 255
+}
+
+Actor RocketLauncher3: RandomSpawner replaces RocketLauncher
+{
+DropItem "ShellBox", 255, 255
+}
+
+Actor SuperShotgun3: RandomSpawner replaces SuperShotgun
+{
+DropItem "ShellBox", 255, 255
+}

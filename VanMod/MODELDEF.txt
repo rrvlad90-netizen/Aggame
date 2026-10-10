@@ -1,0 +1,15 @@
+#include "Modeldefs/pk/MODELDEF.AncientSoldier"
+#include "Modeldefs/pk/modeldef.beast"
+#include "Modeldefs/pk/modeldef.blackdemon"
+#include "Modeldefs/pk/modeldef.EvilMonkRich"
+#include "Modeldefs/pk/modeldef.executioner"
+#include "Modeldefs/pk/modeldef.gladiator"
+#include "Modeldefs/pk/ModelDef.LeperMonk"
+#include "Modeldefs/pk/modeldef.PKDemon02"
+
+#include "Modeldefs/Modeldef.Helsing"
+#include "Modeldefs/MODELDEF.tree"
+#include "Modeldefs/modeldef.player"
+#include "Modeldefs/MODELDEF.tracer"
+
+

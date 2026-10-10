@@ -1,0 +1,4 @@
+// CVar Info
+user int potatomode = 0;
+user int autoLockon = 1;
+user noArchive float chase_yaw =  0.575; //0.575;

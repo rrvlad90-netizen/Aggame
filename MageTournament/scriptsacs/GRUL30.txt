@@ -1,0 +1,60 @@
+#include "zcommon.acs"
+
+global int 10:team1_frags;  // TEAM 1
+global int 11:team2_frags;  // TEAM 2
+
+script 999 OPEN {
+    team1_frags = 0;
+    team2_frags = 0;
+    
+    while (1) {
+        UpdateScore();
+		CheckVictory();
+        Delay(35);  // 1 секунда
+    }
+}
+
+script 1 (void) {
+    team1_frags++;
+}
+
+script 2 (void) {
+    team2_frags++;
+}
+
+function void UpdateScore(void) {
+    SetFont("BIGFONT");
+    
+    HudMessage(s:"TEAM 1: ", i:team1_frags;
+               HUDMSG_PLAIN, 100, CR_CYAN, 0.45, 0.05, 2.0);
+    
+    HudMessage(s:"TEAM 2: ", i:team2_frags;
+               HUDMSG_PLAIN, 101, CR_RED,  0.55, 0.05, 2.0);
+}
+
+function void CheckVictory(void) {
+    if (team1_frags >= 30)
+        ACS_ExecuteAlways(501, 0, 0, 0, 0);
+    else if (team2_frags >= 30)
+        ACS_ExecuteAlways(502, 0, 0, 0, 0);
+}
+
+script 501 (void) {
+    SetFont("BIGFONT");
+    HudMessage(s:"TEAM 1 WINS!";
+               HUDMSG_FADEOUT, 1, CR_CYAN, 0.5, 0.3, 5.0, 1.0);
+    team1_frags=0;
+    team2_frags=0;
+    Delay(35*6);
+    Exit_Normal(0);
+}
+
+script 502 (void) {
+    SetFont("BIGFONT");
+    HudMessage(s:"TEAM 2 WINS!";
+               HUDMSG_FADEOUT, 1, CR_RED, 0.5, 0.3, 5.0, 1.0);
+    team1_frags=0;
+    team2_frags=0;
+    Delay(35*6);
+    Exit_Normal(0);
+}

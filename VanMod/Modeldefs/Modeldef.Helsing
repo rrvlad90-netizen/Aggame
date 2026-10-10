@@ -1,0 +1,561 @@
+Model CursedGargole
+{ 
+   Path "models/garg"
+   MODEL 0 "a.md3"
+   MODEL 1 "b.md3"
+   SKIN 0 "sc.png"
+   SKIN 1 "imp.png"
+   Scale 1.16 1.16 1.16
+   
+   Offset 0.0 0.0 9.0
+//See   
+   FrameIndex GRFL A 0 0
+   FrameIndex GRFL B 0 1
+   FrameIndex GRFL C 0 2
+   FrameIndex GRFL D 0 3
+}
+
+
+Model CursedGargole
+{ 
+   Path "models/garg"
+   MODEL 0 "aa.md3"
+   MODEL 1 "b.md3"
+   SKIN 0 "sc.png"
+   SKIN 1 "imp.png"
+   Scale 1.16 1.16 1.16
+   
+   Offset 0.0 0.0 9.0
+//Attack   
+   FrameIndex GRFL E 0 0
+   FrameIndex GRFL F 0 1
+   FrameIndex GRFL G 0 2
+   FrameIndex GRFL H 0 3
+}
+
+
+Model DarkOwl
+{ 
+   Path "models/owl"
+   MODEL 0 "owl.md3"
+   SKIN 0 "darkowl1.png"
+   Scale 0.46 0.46 0.46
+   
+   Offset 0.0 0.0 9.0
+//See   
+   FrameIndex OWLD A 0 0
+   FrameIndex OWLD B 0 1
+   FrameIndex OWLD C 0 2
+//Attack
+   FrameIndex OWLD D 0 3
+}
+
+
+Model FrostGhost
+{ 
+   Path "models/frostghost"
+   MODEL 0 "fl1.md3"
+   SKIN 0 "aaa.png"
+   Scale 0.66 0.66 0.66
+   
+   Offset 0.0 0.0 9.0
+//See   
+   FrameIndex FGHO A 0 0
+}
+   
+Model FrostGhost
+{ 
+   Path "models/frostghost"
+   MODEL 0 "fl2.md3"
+   SKIN 0 "aaa.png"
+   Scale 0.66 0.66 0.66
+   
+   Offset 0.0 0.0 9.0 
+//Attack
+   FrameIndex FGHO B 0 0
+   FrameIndex FGHO C 0 1
+}
+
+Model FrostGhost
+{ 
+   Path "models/frostghost"
+   MODEL 0 "fl2.md3"
+   SKIN 0 "aaa.png"
+   Scale 0.66 0.66 0.66
+   
+   Offset 0.0 0.0 9.0 
+//pain
+   FrameIndex FGHO D 0 2
+}
+
+
+////////////////////////////////
+Model Cursedskeleton
+{ 
+   Path "models/skeleton"
+   MODEL 0 "bwalk.md3"
+   MODEL 1 "hwalk.md3"
+   MODEL 2 "lwalk.md3"
+   SKIN 0 "skeleton.png"
+   SKIN 1 "skeleton.png"
+   SKIN 2 "skeleton.png"
+   
+   Scale 2.45 2.45 1.9
+   //ZOffset -6
+   
+//See   
+   FrameIndex VSKL A 0 0 FrameIndex VSKL A 1 0 FrameIndex VSKL A 2 0
+   FrameIndex VSKL B 0 1 FrameIndex VSKL B 1 1 FrameIndex VSKL B 2 1
+   FrameIndex VSKL C 0 2 FrameIndex VSKL C 1 2 FrameIndex VSKL C 2 2
+   FrameIndex VSKL D 0 3 FrameIndex VSKL D 1 3 FrameIndex VSKL D 2 3
+   FrameIndex VSKL E 0 4 FrameIndex VSKL E 1 4 FrameIndex VSKL E 2 4
+   FrameIndex VSKL F 0 5 FrameIndex VSKL F 1 5 FrameIndex VSKL F 2 5
+   FrameIndex VSKL G 0 6 FrameIndex VSKL G 1 6 FrameIndex VSKL G 2 6
+   FrameIndex VSKL H 0 7 FrameIndex VSKL H 1 7 FrameIndex VSKL H 2 7
+   FrameIndex VSKL I 0 8 FrameIndex VSKL I 1 8 FrameIndex VSKL I 2 8
+   FrameIndex VSKL J 0 9 FrameIndex VSKL J 1 9 FrameIndex VSKL J 2 9
+   FrameIndex VSKL K 0 10 FrameIndex VSKL K 1 10 FrameIndex VSKL K 2 10
+
+   FrameIndex VSKL L 0 11 FrameIndex VSKL L 1 11  FrameIndex VSKL L 2 11
+   FrameIndex VSKL M 0 12 FrameIndex VSKL M 1 12  FrameIndex VSKL M 2 12
+   FrameIndex VSKL N 0 13 FrameIndex VSKL N 1 13  FrameIndex VSKL N 2 13
+   FrameIndex VSKL O 0 14 FrameIndex VSKL O 1 14  FrameIndex VSKL O 2 14
+   FrameIndex VSKL P 0 15 FrameIndex VSKL P 1 15  FrameIndex VSKL P 2 15
+   FrameIndex VSKL Q 0 16 FrameIndex VSKL Q 1 16  FrameIndex VSKL Q 2 16
+   FrameIndex VSKL R 0 17 FrameIndex VSKL R 1 17  FrameIndex VSKL R 2 17
+   FrameIndex VSKL S 0 18 FrameIndex VSKL S 1 18  FrameIndex VSKL S 2 18
+   FrameIndex VSKL T 0 19 FrameIndex VSKL T 1 19  FrameIndex VSKL T 2 19
+   FrameIndex VSKL U 0 20 FrameIndex VSKL U 1 20  FrameIndex VSKL U 2 20
+   FrameIndex VSKL V 0 21 FrameIndex VSKL V 1 21  FrameIndex VSKL V 2 21
+   FrameIndex VSKL W 0 22 FrameIndex VSKL W 1 22  FrameIndex VSKL W 2 22
+   FrameIndex VSKL X 0 23 FrameIndex VSKL X 1 23  FrameIndex VSKL X 2 23
+
+}
+
+
+Model Cursedskeleton
+{ 
+   Path "models/skeleton"
+   MODEL 0 "batt2.md3"
+   MODEL 1 "latt2.md3"
+   MODEL 2 "hatt2.md3"
+   SKIN 0 "skeleton.png"
+   SKIN 1 "skeleton.png"
+   SKIN 2 "skeleton.png"
+   
+   Scale 2.45 2.45 1.9
+   //ZOffset -6
+   
+//Attack melee-missile
+   FrameIndex VSKA A 0 0 FrameIndex VSKA A 1 0 FrameIndex VSKA A 2 0
+   FrameIndex VSKA B 0 1 FrameIndex VSKA B 1 1 FrameIndex VSKA B 2 1
+   FrameIndex VSKA C 0 2 FrameIndex VSKA C 1 2 FrameIndex VSKA C 2 2
+   FrameIndex VSKA D 0 3 FrameIndex VSKA D 1 3 FrameIndex VSKA D 2 3
+   FrameIndex VSKA E 0 4 FrameIndex VSKA E 1 4 FrameIndex VSKA E 2 4
+   FrameIndex VSKA F 0 5 FrameIndex VSKA F 1 5 FrameIndex VSKA F 2 5
+   FrameIndex VSKA G 0 6 FrameIndex VSKA G 1 6 FrameIndex VSKA G 2 6
+   FrameIndex VSKA H 0 7 FrameIndex VSKA H 1 7 FrameIndex VSKA H 2 7
+   FrameIndex VSKA I 0 8 FrameIndex VSKA I 1 8 FrameIndex VSKA I 2 8
+   FrameIndex VSKA J 0 9 FrameIndex VSKA J 1 9 FrameIndex VSKA J 2 9
+   FrameIndex VSKA K 0 10 FrameIndex VSKA K 1 10 FrameIndex VSKA K 2 10
+   FrameIndex VSKA L 0 11 FrameIndex VSKA L 1 11 FrameIndex VSKA L 2 11
+   FrameIndex VSKA M 0 12 FrameIndex VSKA M 1 12 FrameIndex VSKA M 2 12  //bah
+   FrameIndex VSKA N 0 13 FrameIndex VSKA N 1 13 FrameIndex VSKA N 2 13
+   FrameIndex VSKA O 0 14 FrameIndex VSKA O 1 14 FrameIndex VSKA O 2 14
+   FrameIndex VSKA P 0 15 FrameIndex VSKA P 1 15 FrameIndex VSKA P 2 15
+
+   FrameIndex VKKA A 0 16 FrameIndex VKKA A 1 16 FrameIndex VKKA A 2 16
+   FrameIndex VKKA B 0 17 FrameIndex VKKA B 1 17 FrameIndex VKKA B 2 17
+   FrameIndex VKKA C 0 18 FrameIndex VKKA C 1 18 FrameIndex VKKA C 2 18
+   FrameIndex VKKA D 0 19 FrameIndex VKKA D 1 19 FrameIndex VKKA D 2 19
+   FrameIndex VKKA E 0 20 FrameIndex VKKA E 1 20 FrameIndex VKKA E 2 20
+   FrameIndex VKKA F 0 21 FrameIndex VKKA F 1 21 FrameIndex VKKA F 2 21
+   FrameIndex VKKA G 0 22 FrameIndex VKKA G 1 22 FrameIndex VKKA G 2 22
+   FrameIndex VKKA H 0 23 FrameIndex VKKA H 1 23 FrameIndex VKKA H 2 23
+   FrameIndex VKKA I 0 24 FrameIndex VKKA I 1 24 FrameIndex VKKA I 2 24
+   FrameIndex VKKA J 0 25 FrameIndex VKKA J 1 25 FrameIndex VKKA J 2 25
+   FrameIndex VKKA K 0 26 FrameIndex VKKA K 1 26 FrameIndex VKKA K 2 26
+   FrameIndex VKKA L 0 27 FrameIndex VKKA L 1 27 FrameIndex VKKA L 2 27
+   FrameIndex VKKA M 0 28 FrameIndex VKKA M 1 28 FrameIndex VKKA M 2 28
+   FrameIndex VKKA N 0 29 FrameIndex VKKA N 1 29 FrameIndex VKKA N 2 29
+}
+
+
+Model Cursedskeleton
+{ 
+   Path "models/skeleton"
+   MODEL 0 "batt1.md3"
+   MODEL 1 "latt1.md3"
+   MODEL 2 "hatt1.md3"
+   SKIN 0 "skeleton.png"
+   SKIN 1 "skeleton.png"
+   SKIN 2 "skeleton.png"
+   
+   Scale 2.45 2.45 1.9
+  // ZOffset -6
+   
+//attack2   
+   FrameIndex VAKL A 0 0 FrameIndex VAKL A 1 0 FrameIndex VAKL A 2 0
+   FrameIndex VAKL B 0 1 FrameIndex VAKL B 1 1 FrameIndex VAKL B 2 1
+   FrameIndex VAKL C 0 2 FrameIndex VAKL C 1 2 FrameIndex VAKL C 2 2
+   FrameIndex VAKL D 0 3 FrameIndex VAKL D 1 3 FrameIndex VAKL D 2 3
+   FrameIndex VAKL E 0 4 FrameIndex VAKL E 1 4 FrameIndex VAKL E 2 4
+   FrameIndex VAKL F 0 5 FrameIndex VAKL F 1 5 FrameIndex VAKL F 2 5
+   FrameIndex VAKL G 0 6 FrameIndex VAKL G 1 6 FrameIndex VAKL G 2 6
+   FrameIndex VAKL H 0 7 FrameIndex VAKL H 1 7 FrameIndex VAKL H 2 7
+   FrameIndex VAKL I 0 8 FrameIndex VAKL I 1 8 FrameIndex VAKL I 2 8 
+   FrameIndex VAKL J 0 9 FrameIndex VAKL J 1 9 FrameIndex VAKL J 2 9
+   FrameIndex VAKL K 0 10 FrameIndex VAKL K 1 10 FrameIndex VAKL K 2 10  //bah
+   
+   FrameIndex VAKL L 0 11 FrameIndex VAKL L 1 11 FrameIndex VAKL L 2 11
+   FrameIndex VAKL M 0 12 FrameIndex VAKL M 1 12 FrameIndex VAKL M 2 12
+   FrameIndex VAKL N 0 13 FrameIndex VAKL N 1 13 FrameIndex VAKL N 2 13
+   FrameIndex VAKL O 0 14 FrameIndex VAKL O 1 14 FrameIndex VAKL O 2 14
+   FrameIndex VAKL P 0 15 FrameIndex VAKL P 1 15 FrameIndex VAKL P 2 15
+   FrameIndex VAKL Q 0 16 FrameIndex VAKL Q 1 16 FrameIndex VAKL Q 2 16
+   FrameIndex VAKL R 0 17 FrameIndex VAKL R 1 17 FrameIndex VAKL R 2 17
+   FrameIndex VAKL S 0 18 FrameIndex VAKL S 1 18 FrameIndex VAKL S 2 18
+   FrameIndex VAKL T 0 19 FrameIndex VAKL T 1 19 FrameIndex VAKL T 2 19
+   
+   FrameIndex VAKL U 0 20 FrameIndex VAKL U 1 20 FrameIndex VAKL U 2 20 
+   FrameIndex VAKL V 0 21 FrameIndex VAKL V 1 21 FrameIndex VAKL V 2 21 //bah
+   FrameIndex VAKL W 0 23 FrameIndex VAKL W 1 23 FrameIndex VAKL W 2 23
+   FrameIndex VAKL X 0 24 FrameIndex VAKL X 1 24 FrameIndex VAKL X 2 24
+   FrameIndex VAKL Y 0 26 FrameIndex VAKL Y 1 26 FrameIndex VAKL Y 2 26
+   FrameIndex VAKL Z 0 28 FrameIndex VAKL Z 1 28 FrameIndex VAKL Z 2 28
+}
+
+
+Model Cursedskeleton
+{ 
+   Path "models/skeleton"
+   MODEL 0 "bpain.md3"
+   MODEL 1 "lpain.md3"
+   MODEL 2 "hpain.md3"
+   SKIN 0 "skeleton.png"
+   SKIN 1 "skeleton.png"
+   SKIN 2 "skeleton.png"
+   
+   Scale 2.05 2.05 1.5
+   ZOffset -10
+   
+//pain
+   FrameIndex PPKL A 0 0 FrameIndex PPKL A 1 0 FrameIndex PPKL A 2 0
+   FrameIndex PPKL B 0 1 FrameIndex PPKL B 1 1 FrameIndex PPKL B 2 1
+   FrameIndex PPKL C 0 2 FrameIndex PPKL C 1 2 FrameIndex PPKL C 2 2
+   FrameIndex PPKL D 0 3 FrameIndex PPKL D 1 3 FrameIndex PPKL D 2 3
+   FrameIndex PPKL E 0 4 FrameIndex PPKL E 1 4 FrameIndex PPKL E 2 4
+   FrameIndex PPKL F 0 5 FrameIndex PPKL F 1 5 FrameIndex PPKL F 2 5
+   FrameIndex PPKL G 0 6 FrameIndex PPKL G 1 6 FrameIndex PPKL G 2 6
+}
+
+
+Model Cursedskeleton
+{ 
+   Path "models/skeleton"
+   MODEL 0 "bdie1.md3"
+   MODEL 1 "ldie1.md3"
+   MODEL 2 "hdie1.md3"
+   SKIN 0 "skeleton.png"
+   SKIN 1 "skeleton.png"
+   SKIN 2 "skeleton.png"
+   
+   Scale 2.05 2.05 1.5
+
+//death
+   FrameIndex VSKD A 0 0 FrameIndex VSKD A 1 0 FrameIndex VSKD A 2 0
+   FrameIndex VSKD B 0 1 FrameIndex VSKD B 1 1 FrameIndex VSKD B 2 1
+   FrameIndex VSKD C 0 2 FrameIndex VSKD C 1 2 FrameIndex VSKD C 2 2
+   FrameIndex VSKD D 0 3 FrameIndex VSKD D 1 3 FrameIndex VSKD D 2 3
+   FrameIndex VSKD E 0 4 FrameIndex VSKD E 1 4 FrameIndex VSKD E 2 4
+   FrameIndex VSKD F 0 5 FrameIndex VSKD F 1 5 FrameIndex VSKD F 2 5
+   FrameIndex VSKD G 0 6 FrameIndex VSKD G 1 6 FrameIndex VSKD G 2 6
+   FrameIndex VSKD H 0 7 FrameIndex VSKD H 1 7 FrameIndex VSKD H 2 7
+   FrameIndex VSKD I 0 8 FrameIndex VSKD I 1 8 FrameIndex VSKD I 2 8
+   FrameIndex VSKD J 0 9 FrameIndex VSKD J 1 9 FrameIndex VSKD J 2 9
+   FrameIndex VSKD K 0 10 FrameIndex VSKD K 1 10 FrameIndex VSKD K 2 10
+   FrameIndex VSKD L 0 11 FrameIndex VSKD L 1 11 FrameIndex VSKD L 2 11
+   FrameIndex VSKD M 0 12 FrameIndex VSKD M 1 12 FrameIndex VSKD M 2 12
+   FrameIndex VSKD N 0 13 FrameIndex VSKD N 1 13 FrameIndex VSKD N 2 13
+   FrameIndex VSKD O 0 14 FrameIndex VSKD O 1 14 FrameIndex VSKD O 2 14
+   
+   FrameIndex VSKD P 0 15 FrameIndex VSKD P 1 15 FrameIndex VSKD P 2 15
+   FrameIndex VSKD Q 0 16 FrameIndex VSKD Q 1 16 FrameIndex VSKD Q 2 16
+   FrameIndex VSKD R 0 17 FrameIndex VSKD R 1 17 FrameIndex VSKD R 2 17
+   FrameIndex VSKD S 0 18 FrameIndex VSKD S 1 18 FrameIndex VSKD S 2 18
+   FrameIndex VSKD T 0 19 FrameIndex VSKD T 1 19 FrameIndex VSKD T 2 19
+   FrameIndex VSKD U 0 20 FrameIndex VSKD U 1 20 FrameIndex VSKD U 2 20
+   FrameIndex VSKD V 0 21 FrameIndex VSKD V 1 21 FrameIndex VSKD V 2 21
+   FrameIndex VSKD W 0 22 FrameIndex VSKD W 1 22 FrameIndex VSKD W 2 22
+   FrameIndex VSKD X 0 23 FrameIndex VSKD X 1 23 FrameIndex VSKD X 2 23
+}
+
+
+Model Cursedskeleton
+{ 
+   Path "models/skeleton"
+   MODEL 0 "bdie2.md3"
+   MODEL 1 "ldie2.md3"
+   MODEL 2 "hdie1.md3"
+   SKIN 0 "skeleton.png"
+   SKIN 1 "skeleton.png"
+   SKIN 2 "skeleton.png"
+   
+   Scale 2.05 2.05 1.5
+
+//death2
+   FrameIndex VSDD A 0 0 FrameIndex VSDD A 1 0 FrameIndex VSDD A 2 0
+   FrameIndex VSDD B 0 1 FrameIndex VSDD B 1 1 FrameIndex VSDD B 2 1
+   FrameIndex VSDD C 0 2 FrameIndex VSDD C 1 2 FrameIndex VSDD C 2 2
+   FrameIndex VSDD D 0 3 FrameIndex VSDD D 1 3 FrameIndex VSDD D 2 3
+   FrameIndex VSDD E 0 4 FrameIndex VSDD E 1 4 FrameIndex VSDD E 2 4
+   FrameIndex VSDD F 0 5 FrameIndex VSDD F 1 5 FrameIndex VSDD F 2 5
+   FrameIndex VSDD G 0 6 FrameIndex VSDD G 1 6 FrameIndex VSDD G 2 6
+   FrameIndex VSDD H 0 7 FrameIndex VSDD H 1 7 FrameIndex VSDD H 2 7
+   FrameIndex VSDD I 0 8 FrameIndex VSDD I 1 8 FrameIndex VSDD I 2 8
+   FrameIndex VSDD J 0 9 FrameIndex VSDD J 1 9 FrameIndex VSDD J 2 9
+   FrameIndex VSDD K 0 10 FrameIndex VSDD K 1 10 FrameIndex VSDD K 2 10
+   FrameIndex VSDD L 0 11 FrameIndex VSDD L 1 11 FrameIndex VSDD L 2 11
+   FrameIndex VSDD M 0 12 FrameIndex VSDD M 1 12 FrameIndex VSDD M 2 12
+   FrameIndex VSDD N 0 13 FrameIndex VSDD N 1 13 FrameIndex VSDD N 2 13
+   FrameIndex VSDD O 0 14 FrameIndex VSDD O 1 14 FrameIndex VSDD O 2 14 
+   FrameIndex VSDD P 0 15 FrameIndex VSDD P 1 15 FrameIndex VSDD P 2 15
+   FrameIndex VSDD Q 0 16 FrameIndex VSDD Q 1 16 FrameIndex VSDD Q 2 16
+}
+
+////////////////////////////////
+//////////     2      //////////
+////////////////////////////////
+
+Model Cursedskeleton2
+{ 
+   Path "models/skeleton"
+   MODEL 0 "bwalk.md3"
+   MODEL 1 "hwalk.md3"
+   MODEL 2 "lwalk.md3"
+   SKIN 0 "skeleton2.png"
+   SKIN 1 "skeleton2.png"
+   SKIN 2 "skeleton2.png"
+   
+   Scale 2.45 2.45 1.9
+   //ZOffset -6
+   
+//See   
+   FrameIndex VSKL A 0 0 FrameIndex VSKL A 1 0 FrameIndex VSKL A 2 0
+   FrameIndex VSKL B 0 1 FrameIndex VSKL B 1 1 FrameIndex VSKL B 2 1
+   FrameIndex VSKL C 0 2 FrameIndex VSKL C 1 2 FrameIndex VSKL C 2 2
+   FrameIndex VSKL D 0 3 FrameIndex VSKL D 1 3 FrameIndex VSKL D 2 3
+   FrameIndex VSKL E 0 4 FrameIndex VSKL E 1 4 FrameIndex VSKL E 2 4
+   FrameIndex VSKL F 0 5 FrameIndex VSKL F 1 5 FrameIndex VSKL F 2 5
+   FrameIndex VSKL G 0 6 FrameIndex VSKL G 1 6 FrameIndex VSKL G 2 6
+   FrameIndex VSKL H 0 7 FrameIndex VSKL H 1 7 FrameIndex VSKL H 2 7
+   FrameIndex VSKL I 0 8 FrameIndex VSKL I 1 8 FrameIndex VSKL I 2 8
+   FrameIndex VSKL J 0 9 FrameIndex VSKL J 1 9 FrameIndex VSKL J 2 9
+   FrameIndex VSKL K 0 10 FrameIndex VSKL K 1 10 FrameIndex VSKL K 2 10
+
+   FrameIndex VSKL L 0 11 FrameIndex VSKL L 1 11  FrameIndex VSKL L 2 11
+   FrameIndex VSKL M 0 12 FrameIndex VSKL M 1 12  FrameIndex VSKL M 2 12
+   FrameIndex VSKL N 0 13 FrameIndex VSKL N 1 13  FrameIndex VSKL N 2 13
+   FrameIndex VSKL O 0 14 FrameIndex VSKL O 1 14  FrameIndex VSKL O 2 14
+   FrameIndex VSKL P 0 15 FrameIndex VSKL P 1 15  FrameIndex VSKL P 2 15
+   FrameIndex VSKL Q 0 16 FrameIndex VSKL Q 1 16  FrameIndex VSKL Q 2 16
+   FrameIndex VSKL R 0 17 FrameIndex VSKL R 1 17  FrameIndex VSKL R 2 17
+   FrameIndex VSKL S 0 18 FrameIndex VSKL S 1 18  FrameIndex VSKL S 2 18
+   FrameIndex VSKL T 0 19 FrameIndex VSKL T 1 19  FrameIndex VSKL T 2 19
+   FrameIndex VSKL U 0 20 FrameIndex VSKL U 1 20  FrameIndex VSKL U 2 20
+   FrameIndex VSKL V 0 21 FrameIndex VSKL V 1 21  FrameIndex VSKL V 2 21
+   FrameIndex VSKL W 0 22 FrameIndex VSKL W 1 22  FrameIndex VSKL W 2 22
+   FrameIndex VSKL X 0 23 FrameIndex VSKL X 1 23  FrameIndex VSKL X 2 23
+
+}
+
+
+Model Cursedskeleton2
+{ 
+   Path "models/skeleton"
+   MODEL 0 "batt2.md3"
+   MODEL 1 "latt2.md3"
+   MODEL 2 "hatt2.md3"
+   SKIN 0 "skeleton2.png"
+   SKIN 1 "skeleton2.png"
+   SKIN 2 "skeleton2.png"
+   
+   Scale 2.45 2.45 1.9
+   //ZOffset -6
+   
+//Attack melee-missile
+   FrameIndex VSKA A 0 0 FrameIndex VSKA A 1 0 FrameIndex VSKA A 2 0
+   FrameIndex VSKA B 0 1 FrameIndex VSKA B 1 1 FrameIndex VSKA B 2 1
+   FrameIndex VSKA C 0 2 FrameIndex VSKA C 1 2 FrameIndex VSKA C 2 2
+   FrameIndex VSKA D 0 3 FrameIndex VSKA D 1 3 FrameIndex VSKA D 2 3
+   FrameIndex VSKA E 0 4 FrameIndex VSKA E 1 4 FrameIndex VSKA E 2 4
+   FrameIndex VSKA F 0 5 FrameIndex VSKA F 1 5 FrameIndex VSKA F 2 5
+   FrameIndex VSKA G 0 6 FrameIndex VSKA G 1 6 FrameIndex VSKA G 2 6
+   FrameIndex VSKA H 0 7 FrameIndex VSKA H 1 7 FrameIndex VSKA H 2 7
+   FrameIndex VSKA I 0 8 FrameIndex VSKA I 1 8 FrameIndex VSKA I 2 8
+   FrameIndex VSKA J 0 9 FrameIndex VSKA J 1 9 FrameIndex VSKA J 2 9
+   FrameIndex VSKA K 0 10 FrameIndex VSKA K 1 10 FrameIndex VSKA K 2 10
+   FrameIndex VSKA L 0 11 FrameIndex VSKA L 1 11 FrameIndex VSKA L 2 11
+   FrameIndex VSKA M 0 12 FrameIndex VSKA M 1 12 FrameIndex VSKA M 2 12  //bah
+   FrameIndex VSKA N 0 13 FrameIndex VSKA N 1 13 FrameIndex VSKA N 2 13
+   FrameIndex VSKA O 0 14 FrameIndex VSKA O 1 14 FrameIndex VSKA O 2 14
+   FrameIndex VSKA P 0 15 FrameIndex VSKA P 1 15 FrameIndex VSKA P 2 15
+
+   FrameIndex VKKA A 0 16 FrameIndex VKKA A 1 16 FrameIndex VKKA A 2 16
+   FrameIndex VKKA B 0 17 FrameIndex VKKA B 1 17 FrameIndex VKKA B 2 17
+   FrameIndex VKKA C 0 18 FrameIndex VKKA C 1 18 FrameIndex VKKA C 2 18
+   FrameIndex VKKA D 0 19 FrameIndex VKKA D 1 19 FrameIndex VKKA D 2 19
+   FrameIndex VKKA E 0 20 FrameIndex VKKA E 1 20 FrameIndex VKKA E 2 20
+   FrameIndex VKKA F 0 21 FrameIndex VKKA F 1 21 FrameIndex VKKA F 2 21
+   FrameIndex VKKA G 0 22 FrameIndex VKKA G 1 22 FrameIndex VKKA G 2 22
+   FrameIndex VKKA H 0 23 FrameIndex VKKA H 1 23 FrameIndex VKKA H 2 23
+   FrameIndex VKKA I 0 24 FrameIndex VKKA I 1 24 FrameIndex VKKA I 2 24
+   FrameIndex VKKA J 0 25 FrameIndex VKKA J 1 25 FrameIndex VKKA J 2 25
+   FrameIndex VKKA K 0 26 FrameIndex VKKA K 1 26 FrameIndex VKKA K 2 26
+   FrameIndex VKKA L 0 27 FrameIndex VKKA L 1 27 FrameIndex VKKA L 2 27
+   FrameIndex VKKA M 0 28 FrameIndex VKKA M 1 28 FrameIndex VKKA M 2 28
+   FrameIndex VKKA N 0 29 FrameIndex VKKA N 1 29 FrameIndex VKKA N 2 29
+}
+
+
+Model Cursedskeleton2
+{ 
+   Path "models/skeleton"
+   MODEL 0 "batt1.md3"
+   MODEL 1 "latt1.md3"
+   MODEL 2 "hatt1.md3"
+   SKIN 0 "skeleton2.png"
+   SKIN 1 "skeleton2.png"
+   SKIN 2 "skeleton2.png"
+   
+   Scale 2.45 2.45 1.9
+  // ZOffset -6
+   
+//attack2   
+   FrameIndex VAKL A 0 0 FrameIndex VAKL A 1 0 FrameIndex VAKL A 2 0
+   FrameIndex VAKL B 0 1 FrameIndex VAKL B 1 1 FrameIndex VAKL B 2 1
+   FrameIndex VAKL C 0 2 FrameIndex VAKL C 1 2 FrameIndex VAKL C 2 2
+   FrameIndex VAKL D 0 3 FrameIndex VAKL D 1 3 FrameIndex VAKL D 2 3
+   FrameIndex VAKL E 0 4 FrameIndex VAKL E 1 4 FrameIndex VAKL E 2 4
+   FrameIndex VAKL F 0 5 FrameIndex VAKL F 1 5 FrameIndex VAKL F 2 5
+   FrameIndex VAKL G 0 6 FrameIndex VAKL G 1 6 FrameIndex VAKL G 2 6
+   FrameIndex VAKL H 0 7 FrameIndex VAKL H 1 7 FrameIndex VAKL H 2 7
+   FrameIndex VAKL I 0 8 FrameIndex VAKL I 1 8 FrameIndex VAKL I 2 8 
+   FrameIndex VAKL J 0 9 FrameIndex VAKL J 1 9 FrameIndex VAKL J 2 9
+   FrameIndex VAKL K 0 10 FrameIndex VAKL K 1 10 FrameIndex VAKL K 2 10  //bah
+   
+   FrameIndex VAKL L 0 11 FrameIndex VAKL L 1 11 FrameIndex VAKL L 2 11
+   FrameIndex VAKL M 0 12 FrameIndex VAKL M 1 12 FrameIndex VAKL M 2 12
+   FrameIndex VAKL N 0 13 FrameIndex VAKL N 1 13 FrameIndex VAKL N 2 13
+   FrameIndex VAKL O 0 14 FrameIndex VAKL O 1 14 FrameIndex VAKL O 2 14
+   FrameIndex VAKL P 0 15 FrameIndex VAKL P 1 15 FrameIndex VAKL P 2 15
+   FrameIndex VAKL Q 0 16 FrameIndex VAKL Q 1 16 FrameIndex VAKL Q 2 16
+   FrameIndex VAKL R 0 17 FrameIndex VAKL R 1 17 FrameIndex VAKL R 2 17
+   FrameIndex VAKL S 0 18 FrameIndex VAKL S 1 18 FrameIndex VAKL S 2 18
+   FrameIndex VAKL T 0 19 FrameIndex VAKL T 1 19 FrameIndex VAKL T 2 19
+   
+   FrameIndex VAKL U 0 20 FrameIndex VAKL U 1 20 FrameIndex VAKL U 2 20 
+   FrameIndex VAKL V 0 21 FrameIndex VAKL V 1 21 FrameIndex VAKL V 2 21 //bah
+   FrameIndex VAKL W 0 23 FrameIndex VAKL W 1 23 FrameIndex VAKL W 2 23
+   FrameIndex VAKL X 0 24 FrameIndex VAKL X 1 24 FrameIndex VAKL X 2 24
+   FrameIndex VAKL Y 0 26 FrameIndex VAKL Y 1 26 FrameIndex VAKL Y 2 26
+   FrameIndex VAKL Z 0 28 FrameIndex VAKL Z 1 28 FrameIndex VAKL Z 2 28
+}
+
+
+Model Cursedskeleton2
+{ 
+   Path "models/skeleton"
+   MODEL 0 "bpain.md3"
+   MODEL 1 "lpain.md3"
+   MODEL 2 "hpain.md3"
+   SKIN 0 "skeleton2.png"
+   SKIN 1 "skeleton2.png"
+   SKIN 2 "skeleton2.png"
+   
+   Scale 2.15 2.15 1.6
+   ZOffset -10
+   
+//pain
+   FrameIndex PPKL A 0 0 FrameIndex PPKL A 1 0 FrameIndex PPKL A 2 0
+   FrameIndex PPKL B 0 1 FrameIndex PPKL B 1 1 FrameIndex PPKL B 2 1
+   FrameIndex PPKL C 0 2 FrameIndex PPKL C 1 2 FrameIndex PPKL C 2 2
+   FrameIndex PPKL D 0 3 FrameIndex PPKL D 1 3 FrameIndex PPKL D 2 3
+   FrameIndex PPKL E 0 4 FrameIndex PPKL E 1 4 FrameIndex PPKL E 2 4
+   FrameIndex PPKL F 0 5 FrameIndex PPKL F 1 5 FrameIndex PPKL F 2 5
+   FrameIndex PPKL G 0 6 FrameIndex PPKL G 1 6 FrameIndex PPKL G 2 6
+}
+
+
+Model Cursedskeleton2
+{ 
+   Path "models/skeleton"
+   MODEL 0 "bdie1.md3"
+   MODEL 1 "ldie1.md3"
+   MODEL 2 "hdie1.md3"
+   SKIN 0 "skeleton2.png"
+   SKIN 1 "skeleton2.png"
+   SKIN 2 "skeleton2.png"
+   
+   Scale 2.15 2.15 1.6
+
+//death
+   FrameIndex VSKD A 0 0 FrameIndex VSKD A 1 0 FrameIndex VSKD A 2 0
+   FrameIndex VSKD B 0 1 FrameIndex VSKD B 1 1 FrameIndex VSKD B 2 1
+   FrameIndex VSKD C 0 2 FrameIndex VSKD C 1 2 FrameIndex VSKD C 2 2
+   FrameIndex VSKD D 0 3 FrameIndex VSKD D 1 3 FrameIndex VSKD D 2 3
+   FrameIndex VSKD E 0 4 FrameIndex VSKD E 1 4 FrameIndex VSKD E 2 4
+   FrameIndex VSKD F 0 5 FrameIndex VSKD F 1 5 FrameIndex VSKD F 2 5
+   FrameIndex VSKD G 0 6 FrameIndex VSKD G 1 6 FrameIndex VSKD G 2 6
+   FrameIndex VSKD H 0 7 FrameIndex VSKD H 1 7 FrameIndex VSKD H 2 7
+   FrameIndex VSKD I 0 8 FrameIndex VSKD I 1 8 FrameIndex VSKD I 2 8
+   FrameIndex VSKD J 0 9 FrameIndex VSKD J 1 9 FrameIndex VSKD J 2 9
+   FrameIndex VSKD K 0 10 FrameIndex VSKD K 1 10 FrameIndex VSKD K 2 10
+   FrameIndex VSKD L 0 11 FrameIndex VSKD L 1 11 FrameIndex VSKD L 2 11
+   FrameIndex VSKD M 0 12 FrameIndex VSKD M 1 12 FrameIndex VSKD M 2 12
+   FrameIndex VSKD N 0 13 FrameIndex VSKD N 1 13 FrameIndex VSKD N 2 13
+   FrameIndex VSKD O 0 14 FrameIndex VSKD O 1 14 FrameIndex VSKD O 2 14
+   
+   FrameIndex VSKD P 0 15 FrameIndex VSKD P 1 15 FrameIndex VSKD P 2 15
+   FrameIndex VSKD Q 0 16 FrameIndex VSKD Q 1 16 FrameIndex VSKD Q 2 16
+   FrameIndex VSKD R 0 17 FrameIndex VSKD R 1 17 FrameIndex VSKD R 2 17
+   FrameIndex VSKD S 0 18 FrameIndex VSKD S 1 18 FrameIndex VSKD S 2 18
+   FrameIndex VSKD T 0 19 FrameIndex VSKD T 1 19 FrameIndex VSKD T 2 19
+   FrameIndex VSKD U 0 20 FrameIndex VSKD U 1 20 FrameIndex VSKD U 2 20
+   FrameIndex VSKD V 0 21 FrameIndex VSKD V 1 21 FrameIndex VSKD V 2 21
+   FrameIndex VSKD W 0 22 FrameIndex VSKD W 1 22 FrameIndex VSKD W 2 22
+   FrameIndex VSKD X 0 23 FrameIndex VSKD X 1 23 FrameIndex VSKD X 2 23
+}
+
+
+Model Cursedskeleton2
+{ 
+   Path "models/skeleton"
+   MODEL 0 "bdie2.md3"
+   MODEL 1 "ldie2.md3"
+   MODEL 2 "hdie1.md3"
+   SKIN 0 "skeleton2.png"
+   SKIN 1 "skeleton2.png"
+   SKIN 2 "skeleton2.png"
+   
+   Scale 2.15 2.15 1.6
+
+//death2
+   FrameIndex VSDD A 0 0 FrameIndex VSDD A 1 0 FrameIndex VSDD A 2 0
+   FrameIndex VSDD B 0 1 FrameIndex VSDD B 1 1 FrameIndex VSDD B 2 1
+   FrameIndex VSDD C 0 2 FrameIndex VSDD C 1 2 FrameIndex VSDD C 2 2
+   FrameIndex VSDD D 0 3 FrameIndex VSDD D 1 3 FrameIndex VSDD D 2 3
+   FrameIndex VSDD E 0 4 FrameIndex VSDD E 1 4 FrameIndex VSDD E 2 4
+   FrameIndex VSDD F 0 5 FrameIndex VSDD F 1 5 FrameIndex VSDD F 2 5
+   FrameIndex VSDD G 0 6 FrameIndex VSDD G 1 6 FrameIndex VSDD G 2 6
+   FrameIndex VSDD H 0 7 FrameIndex VSDD H 1 7 FrameIndex VSDD H 2 7
+   FrameIndex VSDD I 0 8 FrameIndex VSDD I 1 8 FrameIndex VSDD I 2 8
+   FrameIndex VSDD J 0 9 FrameIndex VSDD J 1 9 FrameIndex VSDD J 2 9
+   FrameIndex VSDD K 0 10 FrameIndex VSDD K 1 10 FrameIndex VSDD K 2 10
+   FrameIndex VSDD L 0 11 FrameIndex VSDD L 1 11 FrameIndex VSDD L 2 11
+   FrameIndex VSDD M 0 12 FrameIndex VSDD M 1 12 FrameIndex VSDD M 2 12
+   FrameIndex VSDD N 0 13 FrameIndex VSDD N 1 13 FrameIndex VSDD N 2 13
+   FrameIndex VSDD O 0 14 FrameIndex VSDD O 1 14 FrameIndex VSDD O 2 14 
+   FrameIndex VSDD P 0 15 FrameIndex VSDD P 1 15 FrameIndex VSDD P 2 15
+   FrameIndex VSDD Q 0 16 FrameIndex VSDD Q 1 16 FrameIndex VSDD Q 2 16
+}

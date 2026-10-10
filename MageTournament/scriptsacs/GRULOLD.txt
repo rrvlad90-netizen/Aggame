@@ -1,0 +1,61 @@
+#include "zcommon.acs"
+
+// Фраги КОМАНД (сколько каждый навалял)
+global int 10:team1_frags;  // TEAM 1 (красные) фрагов
+global int 11:team2_frags;  // TEAM 2 (синие) фрагов
+
+script 999 OPEN {
+    team1_frags = 0;
+    team2_frags = 0;
+    UpdateScore();
+}
+
+script 1 (void) {  // УБИЛ ИГРОК КОМАНДЫ 1 (синий счёт)
+    team1_frags++;
+    UpdateScore();
+    CheckVictory();
+}
+
+script 2 (void) {  // УБИЛ ИГРОК КОМАНДЫ 2 (красный счёт)  
+    team2_frags++;
+    UpdateScore();
+    CheckVictory();
+}
+
+function void UpdateScore(void) {
+    SetFont("BIGFONT");
+    // ДВА ОТДЕЛЬНЫХ HudMessage — разными цветами!
+    HudMessage(s:"TEAM 1: ", i:team1_frags;
+               HUDMSG_PLAIN, 100, CR_CYAN,     0.3, 0.05, 99999);  // СИНИЙ!
+    HudMessage(s:"TEAM 2: ", i:team2_frags;
+               HUDMSG_PLAIN, 101, CR_RED,      0.3, 0.12, 99999);  // КРАСНЫЙ!
+}
+
+function void CheckVictory(void) {
+    if (team1_frags >= 250)
+        ACS_ExecuteAlways(501, 0, 0, 0, 0);  // TEAM 1 WIN
+    else if (team2_frags >= 250)
+        ACS_ExecuteAlways(502, 0, 0, 0, 0);  // TEAM 2 WIN
+}
+
+// ─────── ПОБЕДА TEAM 1 (СИНИЕ) ───────
+script 501 (void) {
+    SetFont("BIGFONT");
+    HudMessage(s:"TEAM 1 WINS!";
+               HUDMSG_FADEOUT, 1, CR_CYAN, 0.5, 0.3, 5.0, 1.0);
+    HudMessage(s:"TEAM 1 WINS!";
+               HUDMSG_FADEOUT, 2, CR_CYAN, 0.5, 0.5, 5.0, 1.0);
+    Delay(35*6);
+    Exit_Normal(0);
+}
+
+// ─────── ПОБЕДА TEAM 2 (КРАСНЫЕ) ───────
+script 502 (void) {
+    SetFont("BIGFONT");
+    HudMessage(s:"TEAM 2 WINS!";
+               HUDMSG_FADEOUT, 1, CR_RED, 0.5, 0.3, 5.0, 1.0);
+    HudMessage(s:"TEAM 2 WINS!";
+               HUDMSG_FADEOUT, 2, CR_RED, 0.5, 0.5, 5.0, 1.0);
+    Delay(35*6);
+    Exit_Normal(0);
+}

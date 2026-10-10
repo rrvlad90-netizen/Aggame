@@ -1,0 +1,276 @@
+Model Beast666 // Name of actor in DECORATE
+{
+   Path "Models/Beast" // Path to model in PK3
+   MODEL 0 "Beast.MD3" // Model index, texture (can be in any format supported by GZDoom)
+   Scale 3.5 3.5 3.5 // Scale values
+
+
+   SurfaceSkin 0 0 "wszystkie.png"
+   INTERPOLATEDOUBLEDFRAMES
+
+
+//beast_roll
+
+// FrameIndex 0000 A 0 0
+
+// 1 - 32 melee attack (eating)
+
+FrameIndex 0000 B 0 1
+FrameIndex 0000 C 0 2
+FrameIndex 0000 D 0 3
+FrameIndex 0000 E 0 4
+FrameIndex 0000 F 0 5
+FrameIndex 0000 G 0 6
+FrameIndex 0000 H 0 7
+FrameIndex 0000 I 0 8
+FrameIndex 0000 J 0 9
+FrameIndex 0000 K 0 10
+FrameIndex 0000 L 0 11
+FrameIndex 0000 M 0 12
+FrameIndex 0000 N 0 13
+FrameIndex 0000 O 0 14
+FrameIndex 0000 P 0 15
+FrameIndex 0000 Q 0 16
+FrameIndex 0000 R 0 17
+FrameIndex 0000 S 0 18
+FrameIndex 0000 T 0 19
+FrameIndex 0000 U 0 20
+FrameIndex 0000 V 0 21
+FrameIndex 0000 W 0 22
+FrameIndex 0000 X 0 23
+FrameIndex 0000 Y 0 24
+FrameIndex 0000 Z 0 25
+FrameIndex 0001 A 0 26
+FrameIndex 0001 B 0 27
+FrameIndex 0001 C 0 28
+FrameIndex 0001 D 0 29
+FrameIndex 0001 E 0 30
+FrameIndex 0001 F 0 31
+FrameIndex 0001 G 0 32
+
+// 33 - 63 run
+
+FrameIndex 0001 H 0 33
+FrameIndex 0001 I 0 34
+FrameIndex 0001 J 0 35
+FrameIndex 0001 K 0 36
+FrameIndex 0001 L 0 37
+FrameIndex 0001 M 0 38
+FrameIndex 0001 N 0 39
+FrameIndex 0001 O 0 40
+FrameIndex 0001 P 0 41
+FrameIndex 0001 Q 0 42
+FrameIndex 0001 R 0 43
+FrameIndex 0001 S 0 44
+FrameIndex 0001 T 0 45
+FrameIndex 0001 U 0 46
+FrameIndex 0001 V 0 47
+FrameIndex 0001 W 0 48
+FrameIndex 0001 X 0 49
+FrameIndex 0001 Y 0 50
+FrameIndex 0001 Z 0 51
+FrameIndex 0002 A 0 52
+FrameIndex 0002 B 0 53
+FrameIndex 0002 C 0 54
+FrameIndex 0002 D 0 55
+FrameIndex 0002 E 0 56
+FrameIndex 0002 F 0 57
+FrameIndex 0002 G 0 58
+FrameIndex 0002 H 0 59
+FrameIndex 0002 I 0 60
+FrameIndex 0002 J 0 61
+FrameIndex 0002 K 0 62
+FrameIndex 0002 L 0 63
+
+
+
+
+// 64 - 114 IDLE
+
+
+
+FrameIndex 0002 M 0 64
+FrameIndex 0002 N 0 65
+FrameIndex 0002 O 0 66
+FrameIndex 0002 P 0 67
+FrameIndex 0002 Q 0 68
+FrameIndex 0002 R 0 69
+FrameIndex 0002 S 0 70
+FrameIndex 0002 T 0 71
+FrameIndex 0002 U 0 72
+FrameIndex 0002 V 0 73
+FrameIndex 0002 W 0 74
+FrameIndex 0002 X 0 75
+FrameIndex 0002 Y 0 76
+FrameIndex 0002 Z 0 77
+FrameIndex 0003 A 0 78
+FrameIndex 0003 B 0 79
+FrameIndex 0003 C 0 80
+FrameIndex 0003 D 0 81
+FrameIndex 0003 E 0 82
+FrameIndex 0003 F 0 83
+FrameIndex 0003 G 0 84
+FrameIndex 0003 H 0 85
+FrameIndex 0003 I 0 86
+FrameIndex 0003 J 0 87
+FrameIndex 0003 K 0 88
+FrameIndex 0003 L 0 89
+FrameIndex 0003 M 0 90
+FrameIndex 0003 N 0 91
+FrameIndex 0003 O 0 92
+FrameIndex 0003 P 0 93
+FrameIndex 0003 Q 0 94
+FrameIndex 0003 R 0 95
+FrameIndex 0003 S 0 96
+FrameIndex 0003 T 0 97
+FrameIndex 0003 U 0 98
+FrameIndex 0003 V 0 99
+FrameIndex 0003 W 0 100
+FrameIndex 0003 X 0 101
+FrameIndex 0003 Y 0 102
+FrameIndex 0003 Z 0 103
+FrameIndex 0004 A 0 104
+FrameIndex 0004 B 0 105
+FrameIndex 0004 C 0 106
+FrameIndex 0004 D 0 107
+FrameIndex 0004 E 0 108
+FrameIndex 0004 F 0 109
+FrameIndex 0004 G 0 110
+FrameIndex 0004 H 0 111
+FrameIndex 0004 I 0 112
+FrameIndex 0004 J 0 113
+FrameIndex 0004 K 0 114
+
+// 115 - 136 hit
+
+
+FrameIndex 0004 L 0 115
+FrameIndex 0004 M 0 116
+FrameIndex 0004 N 0 117
+FrameIndex 0004 O 0 118
+FrameIndex 0004 P 0 119
+FrameIndex 0004 Q 0 120
+FrameIndex 0004 R 0 121
+FrameIndex 0004 S 0 122
+FrameIndex 0004 T 0 123
+FrameIndex 0004 U 0 124
+FrameIndex 0004 V 0 125
+FrameIndex 0004 W 0 126
+FrameIndex 0004 X 0 127
+FrameIndex 0004 Y 0 128
+FrameIndex 0004 Z 0 129
+FrameIndex 0005 A 0 130
+FrameIndex 0005 B 0 131
+FrameIndex 0005 C 0 132
+FrameIndex 0005 D 0 133
+FrameIndex 0005 E 0 134
+FrameIndex 0005 F 0 135
+FrameIndex 0005 G 0 136
+
+
+// 137 - 210  DEATH
+
+FrameIndex 0005 H 0 137
+FrameIndex 0005 I 0 138
+FrameIndex 0005 J 0 139
+FrameIndex 0005 K 0 140
+FrameIndex 0005 L 0 141
+FrameIndex 0005 M 0 142
+FrameIndex 0005 N 0 143
+FrameIndex 0005 O 0 144
+FrameIndex 0005 P 0 145
+FrameIndex 0005 Q 0 146
+FrameIndex 0005 R 0 147
+FrameIndex 0005 S 0 148
+FrameIndex 0005 T 0 149
+FrameIndex 0005 U 0 150
+FrameIndex 0005 V 0 151
+FrameIndex 0005 W 0 152
+FrameIndex 0005 X 0 153
+FrameIndex 0005 Y 0 154
+FrameIndex 0005 Z 0 155
+FrameIndex 0006 A 0 156
+FrameIndex 0006 B 0 157
+FrameIndex 0006 C 0 158
+FrameIndex 0006 D 0 159
+FrameIndex 0006 E 0 160
+FrameIndex 0006 F 0 161
+FrameIndex 0006 G 0 162
+FrameIndex 0006 H 0 163
+FrameIndex 0006 I 0 164
+FrameIndex 0006 J 0 165
+FrameIndex 0006 K 0 166
+FrameIndex 0006 L 0 167
+FrameIndex 0006 M 0 168
+FrameIndex 0006 N 0 169
+FrameIndex 0006 O 0 170
+FrameIndex 0006 P 0 171
+FrameIndex 0006 Q 0 172
+FrameIndex 0006 R 0 173
+FrameIndex 0006 S 0 174
+FrameIndex 0006 T 0 175
+FrameIndex 0006 U 0 176
+FrameIndex 0006 V 0 177
+FrameIndex 0006 W 0 178
+FrameIndex 0006 X 0 179
+FrameIndex 0006 Y 0 180
+FrameIndex 0006 Z 0 181
+FrameIndex 0007 A 0 182
+FrameIndex 0007 B 0 183
+FrameIndex 0007 C 0 184
+FrameIndex 0007 D 0 185
+FrameIndex 0007 E 0 186
+FrameIndex 0007 F 0 187
+FrameIndex 0007 G 0 188
+FrameIndex 0007 H 0 189
+FrameIndex 0007 I 0 190
+FrameIndex 0007 J 0 191
+FrameIndex 0007 K 0 192
+FrameIndex 0007 L 0 193
+FrameIndex 0007 M 0 194
+FrameIndex 0007 N 0 195
+FrameIndex 0007 O 0 196
+FrameIndex 0007 P 0 197
+FrameIndex 0007 Q 0 198
+FrameIndex 0007 R 0 199
+FrameIndex 0007 S 0 200
+FrameIndex 0007 T 0 201
+FrameIndex 0007 U 0 202
+FrameIndex 0007 V 0 203
+FrameIndex 0007 W 0 204
+FrameIndex 0007 X 0 205
+FrameIndex 0007 Y 0 206
+FrameIndex 0007 Z 0 207
+FrameIndex 0008 A 0 208
+FrameIndex 0008 B 0 209
+FrameIndex 0008 C 0 210
+
+}
+
+
+
+Model Beast666 // Name of actor in DECORATE
+{
+   Path "Models/Beast" // Path to model in PK3
+   MODEL 0 "BeastRoll.MD3" // Model index, texture (can be in any format supported by GZDoom)
+   Scale 3.5 3.5 3.5 // Scale values
+
+   SurfaceSkin 0 0 "wszystkie.png"
+   INTERPOLATEDOUBLEDFRAMES
+
+
+
+//beast_roll
+
+FrameIndex 0009 A 0 0
+FrameIndex 0009 B 0 1
+FrameIndex 0009 C 0 2
+FrameIndex 0009 D 0 3
+FrameIndex 0009 E 0 4
+FrameIndex 0009 F 0 5
+FrameIndex 0009 G 0 6
+FrameIndex 0009 H 0 7
+FrameIndex 0009 I 0 8
+FrameIndex 0009 J 0 9
+FrameIndex 0009 K 0 10
+}

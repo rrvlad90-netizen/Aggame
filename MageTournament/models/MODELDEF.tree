@@ -1,0 +1,225 @@
+//"Regular" trees
+Model Tree2
+{
+	Path "models/trees"
+	Model 0 "tree2.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+
+	FrameIndex PLAY K 0 0
+}
+
+Model Tree2_Burnt
+{
+	USEACTORPITCH
+	USEACTORROLL
+
+	Path "models/trees"
+	Model 0 "tree2_burnt.md3"
+	Model 1 "roots_large.md3"
+	ZOffset -16
+
+	FrameIndex PLAY K 0 0
+//	FrameIndex MDLA A 1 0
+}
+
+Model Tree3
+{
+	Path "models/trees"
+	Model 0 "tree3.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+
+	FrameIndex PLAY K 0 0
+}
+
+Model Tree3_Burnt
+{
+	USEACTORPITCH
+	USEACTORROLL
+
+	Path "models/trees"
+	Model 0 "tree3_burnt.md3"
+	Model 1 "roots.md3"
+	ZOffset -16
+
+	FrameIndex PLAY K 0 0
+//	FrameIndex MDLA A 1 0
+}
+
+Model Tree4
+{
+	Path "models/trees"
+	Model 0 "tree4.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+
+	FrameIndex PLAY K 0 0
+}
+
+Model Tree4_Burnt
+{
+	USEACTORPITCH
+	USEACTORROLL
+
+	Path "models/trees"
+	Model 0 "tree4_burnt.md3"
+	Model 1 "roots.md3"
+	ZOffset -16
+
+	FrameIndex PLAY K 0 0
+//	FrameIndex MDLA A 1 0
+}
+
+Model SmallTree1
+{
+	Path "models/trees"
+	Model 0 "smalltree1.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+
+	FrameIndex PLAY K 0 0
+}
+
+Model SmallTree1_Burnt
+{
+	USEACTORPITCH
+	USEACTORROLL
+
+	Path "models/trees"
+	Model 0 "smalltree1_burnt.md3"
+	Model 1 "roots.md3"
+	ZOffset -16
+
+	FrameIndex PLAY K 0 0
+//	FrameIndex MDLA A 1 0
+}
+
+Model SmallTree2
+{
+	Path "models/trees"
+	Model 0 "smalltree2.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+
+	FrameIndex PLAY K 0 0
+}
+
+
+/*
+
+// Winter trees
+Model WinterA1
+{
+	Path "models/trees"
+	Model 0 "Wintera.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+    Scale 0.75 0.75 0.75
+	
+	FrameIndex PLAY K 0 0
+}
+
+Model WinterB1
+{
+	Path "models/trees"
+	Model 0 "Winterb.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+    Scale 0.75 0.75 0.75
+	
+	FrameIndex PLAY K 0 0
+}
+
+Model WinterC1
+{
+	Path "models/trees"
+	Model 0 "Winterc.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+    Scale 0.75 0.75 0.75
+	
+	FrameIndex PLAY K 0 0
+}
+
+Model WinterD1
+{
+	Path "models/trees"
+	Model 0 "Winterd.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+    Scale 0.75 0.75 0.75
+	
+	FrameIndex PLAY K 0 0
+}
+
+Model WinterE1
+{
+	Path "models/trees"
+	Model 0 "Wintere.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+    Scale 0.75 0.75 0.75
+	
+	FrameIndex PLAY K 0 0
+}
+
+Model WinterF1
+{
+	Path "models/trees"
+	Model 0 "Winterf.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+    Scale 0.75 0.75 0.75
+	
+	FrameIndex PLAY K 0 0
+}
+
+Model WinterG1
+{
+	Path "models/trees"
+	Model 0 "Winterg.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+    Scale 0.75 0.75 0.75
+	
+	FrameIndex PLAY K 0 0
+}
+
+Model WinterH1
+{
+	Path "models/trees"
+	Model 0 "Winterh.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+    Scale 0.75 0.75 0.75
+	
+	FrameIndex PLAY K 0 0
+}
+
+Model WinterI1
+{
+	Path "models/trees"
+	Model 0 "Winteri.md3"
+	ZOffset -16
+	USEACTORPITCH
+	USEACTORROLL
+	Scale 0.75 0.75 0.75
+
+	FrameIndex PLAY K 0 0
+}
+
+*/

@@ -1,0 +1,35 @@
+map 51 "MAP51"
+next 52
+sky1 SKY51
+music D_RUNNIN
+AllowRespawn
+ResetHealth
+//doublesky
+//fadetable "ff 00 00"
+fadetable fogmap
+ResetInventory
+ResetItems
+nocrouch
+
+map 52 "MAP52"
+next 53
+sky1 SKY2 //0
+music D_STALKS
+AllowRespawn
+ResetHealth
+ResetInventory
+ResetItems
+nocrouch
+
+map 53 "MAP51"
+next "EndGame"
+sky1 SKY51
+music D_RUNNIN
+AllowRespawn
+ResetHealth
+//doublesky
+//fadetable "ff 00 00"
+fadetable fogmap
+ResetInventory
+ResetItems
+nocrouch

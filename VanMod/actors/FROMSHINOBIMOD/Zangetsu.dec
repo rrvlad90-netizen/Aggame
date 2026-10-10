@@ -1,0 +1,2606 @@
+ACTOR Zangetsu : Weapon replaces Fist {
+	Tag "NinjaPlayer"
+	+INVENTORY.UNDROPPABLE
+	States {
+	Deselect:
+		TNT1 A 0 A_TakeInventory("ZangetsuEquipped",1)
+		TNT1 AAAAAAAAAAAAAA 0 A_Lower
+		Wait
+	Select:
+		TNT1 A 0 A_PlaySound("weaponChange",4)
+		TNT1 A 0 A_SpawnItemEx("ShockWave3",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave4",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_GiveInventory("ZangetsuEquipped",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		TNT1 A 0 A_JumpIfInventory("PlayerJump",1,"Falling")
+		TNT1 AAAAAAAAAAAAAA 0 A_Raise
+		Wait
+	Ready:
+		TNT1 A 0 ACS_NamedExecuteAlways("ZangetsuStates",0,1,0)
+	    TNT1 A 0 ACS_NamedExecuteAlways("CameraYawCheck",0,0,0)
+		TNT1 A 0 A_Gravity
+		TNT1 A 0 A_ChangeFlag(NOPAIN,TRUE)
+		TNT1 A 0 A_ChangeFlag(NOBLOOD,FALSE)
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		TNT1 A 0 A_TakeInventory("PlayerGuarding",1)
+		TNT1 A 0 A_TakeInventory("isAttacking",1)
+		NJKA A 1 A_WeaponReady
+		TNT1 A 0 A_TakeInventory("LightAttack1",1)
+		TNT1 A 0 A_TakeInventory("LightAttack2",1)
+		TNT1 A 0 A_TakeInventory("LightAttack3",1)
+		TNT1 A 0 A_TakeInventory("LightAttack4",1)
+		TNT1 A 0 A_TakeInventory("LightAttack5",1)
+		TNT1 A 0 A_TakeInventory("HardAttack1",1)
+		TNT1 A 0 A_TakeInventory("HardAttack2",1)
+		TNT1 A 0 A_TakeInventory("HardAttack3",1)
+		TNT1 A 0 A_TakeInventory("HardAttack4",1)
+		TNT1 A 0 A_TakeInventory("HardAttack5",1)
+		TNT1 A 0 A_TakeInventory("HardAttack6",1)
+		TNT1 A 0 A_TakeInventory("HardAttack7",1)
+		TNT1 A 0 A_TakeInventory("HardAttack8",1)
+		TNT1 A 0 A_TakeInventory("HardAttack9",1)
+		TNT1 A 0 A_TakeInventory("RoundKick",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack1",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack2",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack3",1)
+		TNT1 A 0 A_TakeInventory("AerialKick",1)
+		TNT1 A 0 A_TakeInventory("AerialHardAttack",1)
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("PlayerJump",1,"Jump1")
+		TNT1 A 0 A_JumpIfInventory("PlayerRunning",1,"Running")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"Guard")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("ThrowablesCheck",0,0,0) == 1,"ThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		Goto Ready+1
+	Running:
+	    TNT1 A 0 ACS_NamedExecuteAlways("ZangetsuStates",0,2,0)
+	    TNT1 A 0 ACS_NamedExecuteAlways("CameraYawCheck",0,0,0)
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		TNT1 A 0 A_TakeInventory("isAttacking",1)
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("PlayerJump",1,"Jump1")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"Guard")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser2",1,"CheckShurikens")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("PlayerRunning",1,1)
+		Goto Ready
+		NJKA E 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKA E 1 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,1)
+		Goto Falling
+		TNT1 A 0 A_JumpIfInventory("PlayerJump",1,"Jump1")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"Guard")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser2",1,"CheckShurikens")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("PlayerRunning",1,1)
+		Goto Ready
+		NJKA F 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKA F 1 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,1)
+		Goto Falling
+		TNT1 A 0 A_JumpIfInventory("PlayerJump",1,"Jump1")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"Guard")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser2",1,"CheckShurikens")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("PlayerRunning",1,1)
+		Goto Ready
+		NJKA G 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKA G 1 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,1)
+		Goto Falling
+		TNT1 A 0 A_JumpIfInventory("PlayerJump",1,"Jump1")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"Guard")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser2",1,"CheckShurikens")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("PlayerRunning",1,1)
+		Goto Ready
+		NJKA H 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKA H 1 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,1)
+		Goto Falling
+		TNT1 A 0 A_JumpIfInventory("PlayerJump",1,"Jump1")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"Guard")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser2",1,"CheckShurikens")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("PlayerRunning",1,1)
+		Goto Ready
+		NJKA I 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKA I 1 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,1)
+		Goto Falling
+		TNT1 A 0 A_JumpIfInventory("PlayerJump",1,"Jump1")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"Guard")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser2",1,"CheckShurikens")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("PlayerRunning",1,1)
+		Goto Ready
+		TNT1 A 0 A_SpawnItemEx("Footstep",0,0,0,0,0,0,0,128,0)
+		NJKA J 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKA J 1 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,1)
+		Goto Falling
+		TNT1 A 0 A_JumpIfInventory("PlayerJump",1,"Jump1")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"Guard")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser2",1,"CheckShurikens")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("PlayerRunning",1,1)
+		Goto Ready
+		NJKA K 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKA K 1 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,1)
+		Goto Falling
+		TNT1 A 0 A_JumpIfInventory("PlayerJump",1,"Jump1")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"Guard")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser2",1,"CheckShurikens")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("PlayerRunning",1,1)
+		Goto Ready
+		NJKA L 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKA L 1 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,1)
+		Goto Falling
+		TNT1 A 0 A_JumpIfInventory("PlayerJump",1,"Jump1")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"Guard")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser2",1,"CheckShurikens")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("PlayerRunning",1,1)
+		Goto Ready
+		TNT1 A 0
+		Goto Running+1
+	Jump1:
+		TNT1 A 0 A_ChangeFlag(NOPAIN,TRUE)
+	    NJKA M 1 ACS_NamedExecuteAlways("ZangetsuStates",0,3,0)
+	    NJKA M 1 ACS_NamedExecuteAlways("ZangetsuStates",0,3,0)
+		TNT1 A 0 A_PlaySound("ninja/jump",8)
+		TNT1 A 0 A_Recoil(-3)
+		TNT1 A 0 ThrustThingZ(0,32,0,0)
+		NJKA N 1 A_FireBullets(90,0,-1,0,"WallRunLeftCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,-64)
+		NJKA N 1 A_FireBullets(-90,0,-1,0,"WallRunRightCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,64)
+		TNT1 A 0 ThrustThingZ(0,24,0,0)
+		NJKA O 2
+		TNT1 A 0 ThrustThingZ(0,16,0,0)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 1,"WallRunLeft")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 2,"WallRunRight")
+		NJKA PQ 2
+		TNT1 A 0 A_GiveInventory("isJumping",1)
+		NJKA R 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("DoubleJump",1,"Jump2")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_FireBullets(90,0,-1,0,"WallRunLeftCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,-64)
+		TNT1 A 0 A_FireBullets(-90,0,-1,0,"WallRunRightCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,64)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 1,"WallRunLeft")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 2,"WallRunRight")
+		NJKA S 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("DoubleJump",1,"Jump2")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_FireBullets(90,0,-1,0,"WallRunLeftCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,-64)
+		TNT1 A 0 A_FireBullets(-90,0,-1,0,"WallRunRightCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,64)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 1,"WallRunLeft")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 2,"WallRunRight")
+		NJKA T 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("DoubleJump",1,"Jump2")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_FireBullets(90,0,-1,0,"WallRunLeftCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,-64)
+		TNT1 A 0 A_FireBullets(-90,0,-1,0,"WallRunRightCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,64)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 1,"WallRunLeft")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 2,"WallRunRight")
+		NJKA U 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("DoubleJump",1,"Jump2")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_FireBullets(90,0,-1,0,"WallRunLeftCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,-64)
+		TNT1 A 0 A_FireBullets(-90,0,-1,0,"WallRunRightCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,64)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 1,"WallRunLeft")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 2,"WallRunRight")
+		NJKA V 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("DoubleJump",1,"Jump2")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_FireBullets(90,0,-1,0,"WallRunLeftCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,-64)
+		TNT1 A 0 A_FireBullets(-90,0,-1,0,"WallRunRightCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,64)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 1,"WallRunLeft")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 2,"WallRunRight")
+		Goto Falling
+	Jump2:
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		TNT1 A 0 A_CustomMissile("SmokeCircleGenerator", 24, 0, 30, 2, 0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave2",0,0,0,0,0,0,0,128,0)
+	    NJKB A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,4,0)
+	    NJKB A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,4,0)
+		TNT1 A 0 A_PlaySound("ninja/jump",8)
+		TNT1 A 0 A_GiveInventory("isJumping",1)
+		TNT1 A 0 A_GiveInventory("AerialApproachAttack",1)
+		TNT1 A 0 A_TakeInventory("DoubleJump",1)
+		TNT1 A 0 A_Recoil(-3)
+		TNT1 A 0 ThrustThingZ(0,32,0,0)
+		NJKB B 1 
+		NJKB C 1 ThrustThingZ(0,16,0,0)
+		NJKB D 1
+		NJKB E 1 ThrustThingZ(0,8,0,0)
+		NJKB F 1
+		NJKB G 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJKB H 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJKB I 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJKB J 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB K 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB L 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB K 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB J 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB O 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		Goto Falling
+	WallRunLeft:
+	    NJA2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,55,0)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+	    TNT1 A 0 ACS_NamedExecuteAlways("CameraYawCheck",0,0,0)
+		TNT1 A 0 A_TakeInventory("isJumping",1)
+	    NJA2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,55,0)
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		TNT1 A 0 A_SpawnItemEx("Footstep",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_GiveInventory("AerialApproachAttack",1)
+		TNT1 A 0 A_GiveInventory("isJumping",1)
+		TNT1 A 0 A_Recoil(-3)
+		TNT1 A 0 ThrustThingZ(0,50,0,0)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 B 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_FireBullets(90,0,-1,0,"WallRunLeftCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,-64)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 C 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 1,2)
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		Goto Jump2
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 D 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_FireBullets(90,0,-1,0,"WallRunLeftCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,-64)
+		TNT1 A 0 A_SpawnItemEx("Footstep",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 E 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 1,2)
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		Goto Jump2
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 F 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_FireBullets(90,0,-1,0,"WallRunLeftCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,-64)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 H 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 1,2)
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		Goto Jump2
+	WallRunLeftLoop:
+		NJA2 A 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_SpawnItemEx("Footstep",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 B 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_FireBullets(90,0,-1,0,"WallRunLeftCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,-64)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 C 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 1,2)
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		Goto Jump2
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 D 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_SpawnItemEx("Footstep",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 E 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 F 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_FireBullets(90,0,-1,0,"WallRunLeftCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,-64)
+		NJA2 H 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 1,"WallRunLeftLoop")
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		Goto Jump2
+	WallRunRight: 
+	    NJA2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,56,0)
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+	    TNT1 A 0 ACS_NamedExecuteAlways("CameraYawCheck",0,0,0)
+		TNT1 A 0 A_TakeInventory("isJumping",1)
+	    NJA2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,56,0)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		TNT1 A 0 A_SpawnItemEx("Footstep",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_GiveInventory("AerialApproachAttack",1)
+		TNT1 A 0 A_GiveInventory("isJumping",1)
+		TNT1 A 0 A_Recoil(-3)
+		TNT1 A 0 ThrustThingZ(0,50,0,0)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 B 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_FireBullets(-90,0,-1,0,"WallRunRightCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,64)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 C 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 2,2)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		Goto Jump2
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 D 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_FireBullets(-90,0,-1,0,"WallRunRightCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,64)
+		TNT1 A 0 A_SpawnItemEx("Footstep",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 E 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 2,2)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		Goto Jump2
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 F 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_FireBullets(-90,0,-1,0,"WallRunRightCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,64)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 H 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 2,2)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		Goto Jump2
+	WallRunRightLoop:
+		NJA2 A 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_SpawnItemEx("Footstep",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 B 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_FireBullets(-90,0,-1,0,"WallRunRightCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,64)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 C 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 2,2)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		Goto Jump2
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 D 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_SpawnItemEx("Footstep",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 E 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		NJA2 F 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_FireBullets(-90,0,-1,0,"WallRunRightCheckSpawner",FBF_EXPLICITANGLE|FBF_NOPITCH,32,"NullPuff",0,64)
+		NJA2 H 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_CheckFloor("Running")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("WallRunCheck",0,0,0) == 2,"WallRunRightLoop")
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		Goto Jump2
+	Falling:
+		TNT1 A 0 A_GiveInventory("isJumping",1)
+		TNT1 A 0 A_GiveInventory("isFalling",1)
+		TNT1 A 0 A_TakeInventory("AerialApproachAttack",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack1",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack2",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack3",1)
+		TNT1 A 0 A_TakeInventory("AerialKick",1)
+		TNT1 A 0 A_Gravity
+		TNT1 A 0 A_SetGravity(1)
+	    TNT1 A 0 ACS_NamedExecuteAlways("ZangetsuStates",0,5,0)
+		NJKB P 2 A_WeaponReady	
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("DoubleJump",1,"Jump2")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB Q 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("DoubleJump",1,"Jump2")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB R 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("DoubleJump",1,"Jump2")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB S 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("DoubleJump",1,"Jump2")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB T 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("DoubleJump",1,"Jump2")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		Goto Falling+3
+	Land:
+		NJKB U 1 ACS_NamedExecuteAlways("ZangetsuStates",0,6,0)
+	    TNT1 A 0 ACS_NamedExecuteAlways("CameraYawCheck",0,0,0)
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"Guard")
+		TNT1 A 0 A_JumpIfInventory("PlayerRunning",1,"Running")
+	    TNT1 A 0 A_TakeInventory("isFalling",1)
+		TNT1 A 0 A_PlaySound("sfx/hardLand",8)
+		TNT1 A 0 A_SetGravity(1)
+		NJKB VWXYZ 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		NJKB [ 1 A_WeaponReady
+		NJKB ] 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	Guard:
+	    NJKC A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,7,0)
+		TNT1 A 0 A_ChangeFlag(NOPAIN,FALSE)
+		TNT1 A 0 A_ChangeFlag(NOBLOOD,TRUE)
+		TNT1 A 0 A_TakeInventory("AerialHardAttack",1)
+		NJKC A 1 A_WeaponReady
+		TNT1 A 0 A_GiveInventory("PlayerGuarding",1)
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeCheck",1,"EvadeCheck")
+		TNT1 A 0 A_JumpIfInventory("GuardBreak",1,"GuardBreak")
+		TNT1 A 0 A_JumpIfInventory("ReflectedBullet",1,"ReflectedBullet")
+		TNT1 A 0 A_JumpIfInventory("ReflectedShuriken",1,"ReflectedShuriken")
+		TNT1 A 0 A_JumpIfInventory("BlockAttack",1,"BlockAttack")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,1)
+		Goto Ready
+		TNT1 A 0
+		Goto Guard+1
+	BlockAttack:
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 0 A_SpawnItemEx("RicochetSparkSpawner",8,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWaveImpact",24,0,40,0,0,0,Random(-15,15),SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_ChangeFlag(NOPAIN,TRUE)
+	    NJKC F 1 ACS_NamedExecuteAlways("ZangetsuStates",0,8,0)
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_TakeInventory("BlockAttack",1)
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		NJKC GHIJ 1 
+		TNT1 A 0 A_ChangeFlag(NOPAIN,FALSE)
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		Goto Guard
+	ReflectedBullet:
+		TNT1 A 0 A_FireCustomMissile("ReflectedBulletProjectile",Random(-4,4),0,Random(-4,4),Random(-4,4),0,Random(-4,4))
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 0 A_SpawnItemEx("RicochetSparkSpawner",8,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWaveImpact",24,0,40,0,0,0,Random(-15,15),SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_TakeInventory("ReflectedBullet",1)
+		TNT1 A 0 A_ChangeFlag(NOPAIN,TRUE)
+	    NJKC K 1 ACS_NamedExecuteAlways("ZangetsuStates",0,Random(9,10),0)
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		NJKC LMNO 1
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		NJKC PQRS 1
+		Goto Guard		
+	ReflectedShuriken:
+		TNT1 A 0 A_FireCustomMissile("ReflectedShurikenProjectile",Random(-4,4),0,Random(-4,4),Random(-4,4),0,Random(-4,4))
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 0 A_SpawnItemEx("RicochetSparkSpawner",8,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWaveImpact",24,0,40,0,0,0,Random(-15,15),SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_TakeInventory("ReflectedShuriken",1)
+		TNT1 A 0 A_ChangeFlag(NOPAIN,TRUE)
+	    NJKC K 1 ACS_NamedExecuteAlways("ZangetsuStates",0,Random(9,10),0)
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		NJKC LMNO 1
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		NJKC PQRS 1
+		Goto Guard		
+	GuardBreak:
+	    NJKD A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,11,0)
+		TNT1 A 0 A_PlaySound("ninja/hurt",6)
+		TNT1 A 0 A_PlayWeaponSound("guardBreak")
+		TNT1 A 0 A_SpawnItemEx("RicochetSparkSpawner",8,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		TNT1 A 0 A_SpawnItemEx("ShockWave3",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave4",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_Recoil(15)
+		TNT1 A 0 Radius_Quake(2,4,0,32,0)
+		NJKD BBBBCDEF 2
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_TakeInventory("GuardBreak",1)
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		NJKD GHIJKLMNO 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		Goto Ready		
+	Fire:
+		TNT1 A 0 A_ChangeFlag(NOPAIN,TRUE)
+		TNT1 A 0 A_GiveInventory("isAttacking",1)
+		TNT1 A 0 A_PlayWeaponSound("katana/swings")//,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("isJumping",1,"JumpFire")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"JuggleAttack1")
+		TNT1 A 0 A_JumpIfInventory("LightAttack5",1,"LightAttack5")
+		TNT1 A 0 A_JumpIfInventory("LightAttack4",1,"LightAttack4")
+		TNT1 A 0 A_JumpIfInventory("LightAttack3",1,"LightAttack3")
+		TNT1 A 0 A_JumpIfInventory("LightAttack2",1,"LightAttack2")
+		TNT1 A 0 A_JumpIfInventory("ApproachAttack",1,"ApproachAttack")
+		Goto LightAttack1
+	AltFire:
+		TNT1 A 0 A_ChangeFlag(NOPAIN,TRUE)
+		TNT1 A 0 A_GiveInventory("isAttacking",1)
+		TNT1 A 0 A_PlayWeaponSound("katana/swings")//,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("isJumping",1,"AerialHardAttack")
+		TNT1 A 0 A_JumpIfInventory("PlayerUser1",1,"JuggleAttack2")
+		TNT1 A 0 A_JumpIfInventory("RoundKick",1,"RoundKick")
+		TNT1 A 0 A_JumpIfInventory("HardAttack9",1,"HardAttack9")
+		TNT1 A 0 A_JumpIfInventory("HardAttack8",1,"HardAttack8")
+		TNT1 A 0 A_JumpIfInventory("HardAttack7",1,"HardAttack7")
+		TNT1 A 0 A_JumpIfInventory("HardAttack6",1,"HardAttack6")
+		TNT1 A 0 A_JumpIfInventory("HardAttack5",1,"HardAttack5")
+		TNT1 A 0 A_JumpIfInventory("HardAttack4",1,"HardAttack4")
+		TNT1 A 0 A_JumpIfInventory("HardAttack3",1,"HardAttack3")
+		TNT1 A 0 A_JumpIfInventory("HardAttack2",1,"HardAttack2")
+		TNT1 A 0 A_JumpIfInventory("ApproachAttack",1,"HardAttack3")
+		Goto HardAttack1
+	LightAttack1:
+		NJKE A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,12,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKE A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,12,0)
+		TNT1 A 0 A_TakeInventory("LightAttack1",1)
+		TNT1 A 0 A_TakeInventory("ApproachAttack",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		TNT1 A 0 A_SpawnItemEx("LightSlash1FX",32,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKE BCDE 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"LightAttack1Screech",64)
+		TNT1 A 0 A_FireCustomMissile("LightAttackHitBox1",0,0,0,0,FPF_NOAUTOAIM )
+		NJKE FGH 1
+		TNT1 A 0 A_GiveInventory("LightAttack2",1)
+		TNT1 A 0 A_GiveInventory("HardAttack4",1)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKE IJKLMN 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	LightAttack2:
+		NJKF A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,13,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKF A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,13,0)
+		TNT1 A 0 A_TakeInventory("LightAttack2",1)
+		TNT1 A 0 A_TakeInventory("HardAttack4",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		TNT1 A 0 A_SpawnItemEx("LightSlash2FX",16,16,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKF BCDE 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"LightAttack2Screech",64)
+		TNT1 A 0 A_FireCustomMissile("LightAttackHitBox2",90,0,-64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("LightAttackHitBox2",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("LightAttackHitBox2",-90,0,64,0,FPF_NOAUTOAIM)
+		NJKF FGH 1
+		TNT1 A 0 A_GiveInventory("LightAttack3",1)
+		TNT1 A 0 A_GiveInventory("HardAttack6",1)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKF IJKLMNO 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	LightAttack3:
+		NJKG A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,14,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKG A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,14,0)
+		TNT1 A 0 A_TakeInventory("LightAttack3",1)
+		TNT1 A 0 A_TakeInventory("HardAttack6",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		NJKG BCDE 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"LightAttack3Screech",64)
+		TNT1 A 0 A_SpawnItemEx("LightSlash3FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKG FGHIJK 1
+		TNT1 A 0 A_FireCustomMissile("LightAttackHitBox3",0,0,0,0,FPF_NOAUTOAIM)
+		NJKG L 1
+		TNT1 A 0 A_GiveInventory("LightAttack4",1)
+		TNT1 A 0 A_GiveInventory("HardAttack9",1)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKG MNOPQRSTU 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	LightAttack4:
+		NJKH A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,15,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKH A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,15,0)
+		TNT1 A 0 A_TakeInventory("LightAttack4",1)
+		TNT1 A 0 A_TakeInventory("HardAttack9",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		NJKH BCDE 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"LightAttack4Screech",64)
+		TNT1 A 0 A_SpawnItemEx("LightSlash4FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKH FG 1
+		TNT1 A 0 A_FireCustomMissile("LightAttackHitBox4",90,0,-64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("LightAttackHitBox4",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("LightAttackHitBox4",-90,0,64,0,FPF_NOAUTOAIM)
+		NJKH HIJKL 1
+		TNT1 A 0 A_GiveInventory("LightAttack5",1)
+		TNT1 A 0 A_GiveInventory("HardAttack3",1)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKH MNOPQRST 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	LightAttack5:
+		NJKI A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,16,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKI A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,16,0)
+		TNT1 A 0 A_TakeInventory("LightAttack5",1)
+		TNT1 A 0 A_TakeInventory("HardAttack3",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		NJKI BCDE 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"LightAttack5Screech",64)
+		TNT1 A 0 A_SpawnItemEx("LightSlash5FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKI FGH 1
+		TNT1 A 0 A_FireCustomMissile("LightAttackHitBox5",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKI HIJKLMNOPQRSTU 1 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	HardAttack1:
+		NJKJ A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,17,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKJ A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,17,0)
+		TNT1 A 0 A_TakeInventory("HardAttack1",1)
+		TNT1 A 0 A_TakeInventory("ApproachAttack",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		NJKJ B 1
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack1Screech",64)
+		TNT1 A 0 A_SpawnItemEx("HardSlash1FX",32,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKJ CDEF 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox1",90,0,-64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox1",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox1",-90,0,64,0,FPF_NOAUTOAIM)
+		NJKJ GHIJK 1
+		TNT1 A 0 A_GiveInventory("LightAttack2",1)
+		TNT1 A 0 A_GiveInventory("HardAttack2",1)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKJ LMNOPQRS 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	HardAttack2:
+		NJKK A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,18,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKK A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,18,0)
+		TNT1 A 0 A_TakeInventory("LightAttack2",1)
+		TNT1 A 0 A_TakeInventory("HardAttack2",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		NJKK BCD 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack2Screech",64)
+		TNT1 A 0 A_SpawnItemEx("HardSlash2FX",32,16,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKK EFGH 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox2",90,0,-64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox2",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox2",-90,0,64,0,FPF_NOAUTOAIM)
+		NJKK IJKLM 1
+		TNT1 A 0 A_GiveInventory("LightAttack3",1)
+		TNT1 A 0 A_GiveInventory("HardAttack8",1)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKK NOPQRS 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	HardAttack3:
+		NJKL A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,19,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKL A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,19,0)
+		TNT1 A 0 A_TakeInventory("LightAttack4",1)
+		TNT1 A 0 A_TakeInventory("ApproachAttack",1)
+		TNT1 A 0 A_TakeInventory("HardAttack3",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		NJKL BCD 2
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack3Screech",64)
+		TNT1 A 0 A_SpawnItemEx("HardSlash3FX",16,16,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_Recoil(-15)
+		NJKL EFGH 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack3Screech",64)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox3",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_Recoil(-15)
+		TNT1 A 0 A_SpawnItemEx("HardSlash3FX",16,16,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKL IJK 1
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack3Screech",64)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox3",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_Recoil(-15)
+		TNT1 A 0 A_SpawnItemEx("HardSlash3FX",16,16,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKL LMNOP 1
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox3",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKL QRSTUVWXYZ 1 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	HardAttack4:
+		NJKM A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,20,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKM A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,20,0)
+		TNT1 A 0 A_TakeInventory("LightAttack2",1)
+		TNT1 A 0 A_TakeInventory("HardAttack4",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 ThrustThingZ(0,10,0,0)
+		TNT1 A 0 A_Recoil(-15)
+		NJKM BCD 2
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack4Screech",64)
+		TNT1 A 0 A_SpawnItemEx("GroundSlashFX2",48,8,0,-4,2,0,0,128)
+		TNT1 A 0 A_SpawnItemEx("HardSlash4FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox4",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_Recoil(-10)
+		NJKM EFGHIJ 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack4Screech",64)
+		TNT1 A 0 A_SpawnItemEx("GroundSlashFX2",48,8,0,-4,2,0,0,128)
+		TNT1 A 0 A_SpawnItemEx("HardSlash4FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox4",0,0,0,0,FPF_NOAUTOAIM)
+		NJKM KLM 1
+		TNT1 A 0 A_GiveInventory("LightAttack3",1)
+		TNT1 A 0 A_GiveInventory("HardAttack5",1)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKM NOPQRS 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	HardAttack5:
+		NJKN A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,21,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKN A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,21,0)
+		TNT1 A 0 A_TakeInventory("HardAttack5",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack5Screech",64)
+		TNT1 A 0 A_SpawnItemEx("HardSlash5FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKN BCDE 2
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_Recoil(-15)
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack5Screech",64)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox5",90,0,-64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox5",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox5",-90,0,64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_SpawnItemEx("HardSlash5FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKN FGH 2
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_Recoil(-15)
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack5Screech",64)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox5",90,0,-64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox5",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox5",-90,0,64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_SpawnItemEx("HardSlash5FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKN IJK 2
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox5",90,0,-64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox5",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox5",-90,0,64,0,FPF_NOAUTOAIM)
+		NJKN LMNOPQR 1 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		NJKN STUVWXY 1 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	HardAttack6:
+		NJKO A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,22,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKO A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,22,0)
+		TNT1 A 0 A_TakeInventory("LightAttack2",1)
+		TNT1 A 0 A_TakeInventory("HardAttack5",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		NJKO BCDE 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox6",90,0,-64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox6",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox6",-90,0,64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack6Screech",64)
+		TNT1 A 0 A_SpawnItemEx("HardSlash6FX",32,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKO FGHI 1 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_GiveInventory("LightAttack4",1)
+		TNT1 A 0 A_GiveInventory("HardAttack7",1)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKO JKLMNOP 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	HardAttack7:
+		NJKP A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,23,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKP A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,23,0)
+		TNT1 A 0 A_TakeInventory("HardAttack7",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		NJKP BCDE 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox7",90,0,-64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox7",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox7",-90,0,64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack7Screech",64)
+		TNT1 A 0 A_SpawnItemEx("HardSlash7FX",32,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKP FGHI 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_GiveInventory("LightAttack5",1)
+		TNT1 A 0 A_GiveInventory("RoundKick",1)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKP JKLMNOP 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	HardAttack8:
+		NJKQ A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,24,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKQ A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,24,0)
+		TNT1 A 0 A_TakeInventory("LightAttack3",1)
+		TNT1 A 0 A_TakeInventory("HardAttack8",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-15)
+		NJKQ BCD 2
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack8Screech",64)
+		TNT1 A 0 A_SpawnItemEx("HardSlash8FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKQ EFGH 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox8",0,0,0,0,FPF_NOAUTOAIM)
+		NJKQ IJK 1
+		TNT1 A 0 A_GiveInventory("LightAttack5",1)
+		TNT1 A 0 A_GiveInventory("HardAttack9",1)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKQ LMNOP 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	HardAttack9:
+		NJKR A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,25,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKR A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,25,0)
+		TNT1 A 0 A_TakeInventory("LightAttack4",1)
+		TNT1 A 0 A_TakeInventory("HardAttack9",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		NJKR BCDE 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_Recoil(-15)
+		NJKR FGHI 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"HardAttack9Screech",64)
+		TNT1 A 0 A_SpawnItemEx("HardSlash9FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKR JKLM 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_FireCustomMissile("HardAttackHitBox9",0,0,0,0,FPF_NOAUTOAIM)
+		NJKR NOPQRS 1
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		NJKR TUVWXY 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	RoundKick:
+		NJKS C 1 ACS_NamedExecuteAlways("ZangetsuStates",0,26,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKS C 1 ACS_NamedExecuteAlways("ZangetsuStates",0,26,0)
+		TNT1 A 0 A_TakeInventory("LightAttack2",1)
+		TNT1 A 0 A_TakeInventory("HardAttack6",1)
+		TNT1 A 0 A_TakeInventory("HardAttack7",1)
+		TNT1 A 0 A_TakeInventory("RoundKick",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-10)
+		TNT1 A 0 A_SpawnItemEx("RoundKickSlashFX",24,24,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKS DEFGH 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_FireCustomMissile("KickHitBox",90,0,-64,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("KickHitBox",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_FireCustomMissile("KickHitBox",-90,0,64,0,FPF_NOAUTOAIM)
+		NJKS IJKLMNO 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		NJKS PQRSTUVW 1 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	ApproachAttack:
+		NJK0 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,50,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJK0 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,50,0)
+		TNT1 A 0 A_TakeInventory("ApproachAttack",1)
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_2")
+		TNT1 A 0 A_Recoil(-20)
+		NJK0 BCD 2
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"ApproachAttackScreech",64)
+		TNT1 A 0 A_SpawnItemEx("ApproachSlashFX",16,16,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_Recoil(-20)
+		NJK0 EF 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_FireCustomMissile("ApproachAttackHitBox",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_Recoil(-20)
+		NJK0 GHIJK 1
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJK0 LMNOP 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	JuggleAttack1:
+		NJKT A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,27,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKT A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,27,0)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-7.5)
+		NJKT BCDEF 2
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 ThrustThingZ(0,20,0,0)
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"JuggleAttackScreech",64)
+		TNT1 A 0 A_FireCustomMissile("JuggleAttackHitBox1",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_SpawnItemEx("GroundSlashFX",32,8,0,2,0,0,0,128)
+		TNT1 A 0 A_SpawnItemEx("JuggleSlash1FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKT GHI 2
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 ThrustThingZ(0,-10,0,0)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKT QRSTU 1 A_JumpIf(ACS_NamedExecuteWithResult("ThrowablesCheck",0,0,0) == 1,"ThrowablesCheck")
+		NJKT V 1 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("ThrowablesCheck",0,0,0) == 1,"ThrowablesCheck")
+		NJKT W 1 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("ThrowablesCheck",0,0,0) == 1,"ThrowablesCheck")
+		NJKT X 1 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("ThrowablesCheck",0,0,0) == 1,"ThrowablesCheck")
+		NJKT Y 1 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("SkillUseCheck",0,0,0) == 1,"SkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("ThrowablesCheck",0,0,0) == 1,"ThrowablesCheck")
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	JuggleAttack2:
+		NJKT A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,28,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKT A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,28,0)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-7.5)
+		TNT1 A 0 A_GiveInventory("isJumping",1)
+		NJKT BCDE 2 
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_LowGravity
+		TNT1 A 0 ThrustThingZ(0,40,0,0)
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"JuggleAttackScreech",64)
+		TNT1 A 0 A_FireCustomMissile("JuggleAttackHitBox2",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_SpawnItemEx("GroundSlashFX",32,8,0,2,0,0,0,128)
+		TNT1 A 0 A_SpawnItemEx("JuggleSlash2FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKT FGHI 2 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 ThrustThingZ(0,40,0,0)
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"JuggleAttackScreech",64)
+		TNT1 A 0 A_FireCustomMissile("JuggleAttackHitBox2",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_SpawnItemEx("JuggleSlash2FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKT JK 2 A_Gravity
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 ThrustThingZ(0,-10,0,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Falling
+	ThrowablesCheck:
+		NJKU A 1 A_JumpIfInventory("isJumping",1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIfInventory("ShurikensEquipped",1,"Shurikens1")
+		TNT1 A 0 A_JumpIfInventory("KunaisEquipped",1,"Kunais1")
+		Goto Ready
+	Shurikens1:
+		NJKU B 1 ACS_NamedExecuteAlways("ZangetsuStates",0,29,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKU CDEFG 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_TakeInventory("ShurikenAmmo",1)
+		TNT1 A 0 A_FireCustomMissile("ShurikenProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJKU HIJK 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_TakeInventory("ShurikenAmmo",1)
+		TNT1 A 0 A_FireCustomMissile("ShurikenProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJKU LM 1
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("ThrowablesCheck",0,0,0) == 1,"ShurikensCheck2")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		NJKU NOPQ 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		NJKU RST 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	ShurikensCheck2:
+		NJKU A 1 A_JumpIfInventory("isJumping",1,"AerialThrowablesCheck2")
+		NJKU A 1 A_JumpIfInventory("ShurikenAmmo",1,"Shurikens2")
+		Goto Shurikens1+18
+	Shurikens2:
+		NJKV B 1 ACS_NamedExecuteAlways("ZangetsuStates",0,30,0)
+		NJKV CDEFG 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_TakeInventory("ShurikenAmmo",1)
+		TNT1 A 0 A_FireCustomMissile("ShurikenProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJKV HIJK 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_TakeInventory("ShurikenAmmo",1)
+		TNT1 A 0 A_FireCustomMissile("ShurikenProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJKV LM 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("ThrowablesCheck",0,0,0) == 1,"Shurikens1")
+		NJKV NOPQ 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		NJKV RST 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	Kunais1:
+		NJKU B 1 ACS_NamedExecuteAlways("ZangetsuStates",0,29,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKU CDEFG 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_TakeInventory("KunaiAmmo",1)
+		TNT1 A 0 A_PlaySound("sfx/Kunai")//,4)
+		TNT1 A 0 A_FireCustomMissile("KunaiProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJKU HIJK 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_TakeInventory("KunaiAmmo",1)
+		TNT1 A 0 A_PlaySound("sfx/Kunai")//,4)
+		TNT1 A 0 A_FireCustomMissile("KunaiProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJKU LM 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("ThrowablesCheck",0,0,0) == 1,"KunaisCheck2")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		NJKU NOPQ 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		NJKU RST 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	KunaisCheck2:
+		NJKU A 1 A_JumpIfInventory("isJumping",1,"AerialKunaisCheck2")
+		NJKU A 1 A_JumpIfInventory("KunaiAmmo",1,"Kunais2")
+		Goto Kunais1+18
+	Kunais2:
+		NJKV B 1 ACS_NamedExecuteAlways("ZangetsuStates",0,30,0)
+		NJKV CDEFG 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_TakeInventory("KunaiAmmo",1)
+		TNT1 A 0 A_PlaySound("sfx/Kunai")//,4)
+		TNT1 A 0 A_FireCustomMissile("KunaiProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJKV HIJK 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		TNT1 A 0 A_TakeInventory("KunaiAmmo",1)
+		TNT1 A 0 A_PlaySound("sfx/Kunai")//,4)
+		TNT1 A 0 A_FireCustomMissile("KunaiProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJKV LM 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("ThrowablesCheck",0,0,0) == 1,"KunaisCheck")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		NJKV NOPQ 1
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		NJKV RST 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	JumpFire:
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("AerialKick",1,"AerialKick")
+		TNT1 A 0 A_JumpIfInventory("AerialHardAttack",1,"AerialHardAttack")
+		TNT1 A 0 A_JumpIfInventory("AerialAttack3",1,"AerialAttack3")
+		TNT1 A 0 A_JumpIfInventory("AerialAttack2",1,"AerialAttack2")
+		TNT1 A 0 A_JumpIfInventory("AerialApproachAttack",1,"PreAerialAttack2")
+		Goto AerialAttack1
+	AerialAttack1:
+		NJKW A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,31,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_ChangeVelocity (Cos(Pitch)*50, 0, Sin(Pitch) * -50, CVF_Relative)
+		NJKW A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,31,0)
+		TNT1 A 0 A_TakeInventory("AerialAttack1",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Stop
+		TNT1 A 0 A_LowGravity
+		TNT1 A 0 A_Recoil(-1)
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"AerialAttack1Screech",64)
+		TNT1 A 0 A_SpawnItemEx("AerialSlash1FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKW CDF 1
+		TNT1 A 0 A_FireCustomMissile("AerialAttackHitBox1",0,0,0,0,FPF_NOAUTOAIM)
+		NJKW GIJ 2 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		TNT1 A 0 A_GiveInventory("AerialAttack2",1)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		NJKW LMNOPQRST 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Falling
+	PreAerialAttack2:
+		TNT1 A 0 A_ChangeVelocity (Cos(Pitch)*100, 0, Sin(Pitch) * -100, CVF_Relative)
+		TNT1 A 0 A_LowGravity
+		TNT1 A 0 A_TakeInventory("AerialApproachAttack",1)
+	AerialAttack2:
+		NJKX A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,32,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_ChangeVelocity (Cos(Pitch)*50, 0, Sin(Pitch) * -50, CVF_Relative)
+		NJKX A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,32,0)
+		TNT1 A 0 A_Stop
+		TNT1 A 0 A_TakeInventory("AerialAttack2",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-1)
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"AerialAttack2Screech",64)
+		TNT1 A 0 A_SpawnItemEx("AerialSlash2FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJKX CDFG 1
+		TNT1 A 0 A_FireCustomMissile("AerialAttackHitBox2",0,0,0,0,FPF_NOAUTOAIM)
+		NJKX IJL 2 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		TNT1 A 0 A_GiveInventory("AerialAttack3",1)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		NJKX MNOPQR 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Falling
+	AerialAttack3:
+		NJKY A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,33,0)
+		TNT1 A 0 A_Stop
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_ChangeVelocity (Cos(Pitch)*50, 0, Sin(Pitch) * -50, CVF_Relative)
+		NJKY A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,33,0)
+		TNT1 A 0 A_TakeInventory("AerialAttack3",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_Recoil(-1)
+		NJKY CDFG 1
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"AerialAttack3Screech",64)
+		TNT1 A 0 A_SpawnItemEx("AerialSlash3FX",16,16,0,8,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_FireCustomMissile("AerialAttackHitBox3",0,0,0,0,FPF_NOAUTOAIM)
+		NJKY IJL 2 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		TNT1 A 0 A_GiveInventory("AerialKick",1)	
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		NJKY MNOPQRST 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Falling
+	AerialKick:
+		NJKB C 1 ACS_NamedExecuteAlways("ZangetsuStates",0,34,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKB C 1 ACS_NamedExecuteAlways("ZangetsuStates",0,34,0)
+		TNT1 A 0 A_TakeInventory("AerialKick",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 ThrustThingZ(0,35,0,0)
+		NJKB DEFJKL 1 
+		TNT1 A 0 A_Recoil(-5)
+		TNT1 A 0 ThrustThingZ(0,-30,0,0)
+		NJKZ ABCD 1
+	AerialKickFalling:
+		NJKZ E 1 A_Gravity
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		TNT1 A 0 A_FireCustomMissile("AerialKickHitBox",0,0,0,0,0,-65)
+		TNT1 A 0 A_SpawnItemEx("AerialKickFX",16,4,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_JumpIfInventory("AerialKickBounce",1,"AerialKickBounce")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"AerialKickLand")
+		Loop
+	AerialKickBounce:
+	    NJKB A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,4,0)
+	    NJKB A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,4,0)
+		TNT1 A 0 A_PlaySound("ninja/jump")//,8)
+		TNT1 A 0 A_GiveInventory("isJumping",1)
+		TNT1 A 0 A_GiveInventory("AerialHardAttack",1)
+		TNT1 A 0 A_TakeInventory("AerialKickBounce",1)
+		TNT1 A 0 A_TakeInventory("DoubleJump",1)
+		TNT1 A 0 A_Recoil(2)
+		TNT1 A 0 ThrustThingZ(0,32,0,0)
+		NJKB B 1 
+		NJKB C 1 ThrustThingZ(0,16,0,0)
+		NJKB D 1
+		NJKB E 1 ThrustThingZ(0,8,0,0)
+		NJKB F 1
+		NJKB G 1 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		NJKB H 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		NJKB I 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		NJKB J 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB K 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB L 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB K 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB J 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB O 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		Goto Falling
+	AerialKickLand:
+		TNT1 A 0 A_PlaySound("sfx/hardLand")//,8)
+		TNT1 A 0 A_TakeInventory("AerialKick",1)	
+		TNT1 A 0 A_TakeInventory("isJumping",2)
+	    TNT1 A 0 ACS_NamedExecuteAlways("CameraYawCheck",0,0,0)
+		TNT1 A 0 A_CustomMissile("SmokeCircleGenerator", 24, 0, 30, 2, 0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave2",0,0,0,0,0,0,0,128,0)
+		NJKB U 1 ACS_NamedExecuteAlways("ZangetsuStates",0,6,0)
+		NJKB VWXYZ 1
+		NJKB [ 1
+		NJKB ] 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	AerialApproachAttack:
+		NJA1 L 1 ACS_NamedExecuteAlways("ZangetsuStates",0,57,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_SetGravity(0)
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		TNT1 A 0 A_TakeInventory("AerialApproachAttack",1)
+		NJA1 L 1 ACS_NamedExecuteAlways("ZangetsuStates",0,57,0)
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack")
+		NJA1 M 2
+		TNT1 A 0 A_SpawnItemEx("ShockWave3",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave4",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJA1 N 2 A_ChangeVelocity (Cos(Pitch)*50, 0, Sin(Pitch) * -50, CVF_Relative)
+		NJA1 O 2 A_ChangeVelocity (Cos(Pitch)*50, 0, Sin(Pitch) * -50, CVF_Relative)
+		NJA1 P 1 A_Stop
+		TNT1 A 0 A_FireCustomMissile("AerialAttackHitBox1",0,0,0,0,FPF_NOAUTOAIM)
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"AerialAttack2Screech",64)
+		TNT1 A 0 A_SpawnItemEx("AerialSlash2FX",16,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJA1 QRSTUV 1 A_Recoil(-0.3)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJA1 WX 1 A_Recoil(-0.3)
+		NJA1 Y 1 A_Recoil(-0.3)
+		TNT1 A 0 A_SetGravity(1)
+		NJA1 Z 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Falling
+	AerialHardAttack:
+		NJKB C 1 ACS_NamedExecuteAlways("ZangetsuStates",0,35,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKB C 1 ACS_NamedExecuteAlways("ZangetsuStates",0,35,0)
+		TNT1 A 0 A_TakeInventory("AerialKick",1)
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 ThrustThingZ(0,30,0,0)
+		NJKB DEFJKL 1
+		TNT1 A 0 ThrustThingZ(0,-50,0,0)
+		NJKZ IJ 1 
+	AerialHardAttackFalling:
+		NJKZ K 1 A_Gravity
+		TNT1 A 0 A_CustomPunch(0,TRUE,0 ,"AerialHardAttackScreech",64)
+		TNT1 A 0 A_SpawnItemEx("AerialHardAttackFX",32,-8,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_FireCustomMissile("AerialHardAttackHitBox",0,0,0,0,0,-65)
+		TNT1 A 0 A_JumpIfInventory("AerialHardAttackBounce",1,"AerialHardAttackBounce")
+		TNT1 A 0 A_CheckFloor("AerialHardAttackLand")
+		Loop
+	AerialHardAttackBounce:
+	    NJKB A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,4,0)
+	    NJKB A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,4,0)
+		TNT1 A 0 A_PlaySound("ninja/jump")//,8)
+		TNT1 A 0 A_GiveInventory("isJumping",1)
+		TNT1 A 0 A_GiveInventory("AerialHardAttack",1)
+		TNT1 A 0 A_TakeInventory("AerialHardAttackBounce",1)
+		TNT1 A 0 A_TakeInventory("DoubleJump",1)
+		TNT1 A 0 A_Recoil(10)
+		TNT1 A 0 ThrustThingZ(0,32,0,0)
+		NJKB B 1 
+		NJKB C 1 ThrustThingZ(0,16,0,0)
+		NJKB D 1
+		NJKB E 1 ThrustThingZ(0,8,0,0)
+		NJKB F 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		NJKB G 1 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		NJKB H 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		NJKB I 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		NJKB J 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB K 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB L 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB K 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB J 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		NJKB O 2 A_WeaponReady
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialSkillUseCheck",0,0,0) == 1,"AerialSkillUseCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialThrowablesCheck")
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,"Land")
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Falling
+	AerialHardAttackLand:
+		NJKZ L 1 ACS_NamedExecuteAlways("ZangetsuStates",0,36,0)
+		TNT1 A 0 A_TakeInventory("isJumping",2)
+		TNT1 A 0 A_TakeInventory("AerialHardAttack",1)
+	    TNT1 A 0 ACS_NamedExecuteAlways("CameraYawCheck",0,0,0)
+		TNT1 A 0 A_PlaySound("sfx/hardLand")//,8)
+		TNT1 A 0 A_CustomMissile("SmokeCircleGenerator", 24, 0, 30, 2, 0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave2",0,0,0,0,0,0,0,128,0)
+		NJKZ MNOPQRST 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	AerialThrowablesCheck:
+		TNT1 A 0 A_JumpIfInventory("ShurikensEquipped",1,"AerialShurikensStart")
+		TNT1 A 0 A_JumpIfInventory("KunaisEquipped",1,"AerialKunaisStart")
+		Goto AerialShurikensEnd
+	AerialShurikensStart:
+		NJKB C 1 ACS_NamedExecuteAlways("ZangetsuStates",0,38,0)
+		TNT1 A 0 ThrustThingZ(0,30,0,0)
+		NJKB DEFJKL 1 A_SetGravity(0.6)
+		Goto AerialShurikens
+	AerialShurikens:
+		NJK1 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,37,0)
+		NJK1 BC 1 
+		TNT1 A 0 A_TakeInventory("ShurikenAmmo",1)
+		TNT1 A 0 A_FireCustomMissile("AerialShurikenProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJK1 DE 1 A_CheckFloor("AerialShurikensEnd")
+		TNT1 A 0 A_TakeInventory("ShurikenAmmo",1)
+		TNT1 A 0 A_FireCustomMissile("AerialShurikenProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJK1 FG 1 A_CheckFloor("AerialShurikensEnd")
+		NJK1 HIJ 1 
+		TNT1 A 0 A_TakeInventory("ShurikenAmmo",1)
+		TNT1 A 0 A_FireCustomMissile("AerialShurikenProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJK1 K 1 A_CheckFloor("AerialShurikensEnd")
+		TNT1 A 0 A_TakeInventory("ShurikenAmmo",1)
+		TNT1 A 0 A_FireCustomMissile("AerialShurikenProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialShurikensCheck2")
+		NJK1 O 1 ACS_NamedExecuteAlways("ZangetsuStates",0,38,0)
+		Goto AerialShurikensEnd
+	AerialShurikensCheck2:
+		NJK1 OP 2 A_CheckFloor("AerialShurikensEnd")
+		NJK1 A 1 A_JumpIfInventory("ShurikenAmmo",1,"AerialShurikens")
+		Goto AerialShurikensEnd
+		
+	AerialKunaisStart:
+		NJKB C 1 ACS_NamedExecuteAlways("ZangetsuStates",0,38,0)
+		TNT1 A 0 ThrustThingZ(0,30,0,0)
+		NJKB DEFJKL 1 A_SetGravity(0.6)
+		Goto AerialKunais
+	AerialKunais:
+		NJK1 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,37,0)
+		NJK1 BC 1 
+		TNT1 A 0 A_TakeInventory("KunaiAmmo",1)
+		TNT1 A 0 A_PlaySound("sfx/Kunai",6)
+		TNT1 A 0 A_FireCustomMissile("AerialKunaiProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJK1 DE 1 A_CheckFloor("AerialShurikensEnd")
+		TNT1 A 0 A_TakeInventory("KunaiAmmo",1)
+		TNT1 A 0 A_PlaySound("sfx/Kunai",4)
+		TNT1 A 0 A_FireCustomMissile("AerialKunaiProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJK1 FG 1 A_CheckFloor("AerialShurikensEnd")
+		NJK1 HIJ 1 
+		TNT1 A 0 A_TakeInventory("KunaiAmmo",1)
+		TNT1 A 0 A_PlaySound("sfx/Kunai",6)
+		TNT1 A 0 A_FireCustomMissile("AerialKunaiProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		NJK1 K 1 A_CheckFloor("AerialShurikensEnd")
+		TNT1 A 0 A_TakeInventory("KunaiAmmo",1)
+		TNT1 A 0 A_PlaySound("sfx/Kunai",6)
+		TNT1 A 0 A_FireCustomMissile("AerialKunaiProjectile",Random(-5,5)*0.1,0,10,8,0,Random(-5,5)*0.1)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("AerialThrowablesCheck",0,0,0) == 1,"AerialKunaisCheck2")
+		NJK1 O 1 ACS_NamedExecuteAlways("ZangetsuStates",0,38,0)
+		Goto AerialShurikensEnd
+	AerialKunaisCheck2:
+		NJK1 OP 2 A_CheckFloor("AerialShurikensEnd")
+		NJK1 A 1 A_JumpIfInventory("KunaiAmmo",1,"AerialKunais")
+		Goto AerialShurikensEnd
+		
+	AerialShurikensEnd:
+		TNT1 A 0 A_TakeInventory("isJumping",2)
+		NJKB DFK 1 A_SetGravity(1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		TNT1 A 0 A_CheckFloor("Land")
+		Goto Falling
+	SkillUseCheck:
+		TNT1 A 0 A_JumpIfInventory("SpellOrb",1,1)
+		Goto Ready
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)	
+		TNT1 A 0 A_GiveInventory("SkillinUse",1)
+		TNT1 A 0 A_JumpIfInventory("FireBreathJutsuEquipped",1,"FireBreathJutsu")		
+		TNT1 A 0 A_JumpIfInventory("ChargeSlashEquipped",1,"ChargeSlash")		
+		TNT1 A 0 A_JumpIfInventory("ChargeAttackEquipped",1,"ChargeAttack")
+		TNT1 A 0 A_JumpIfInventory("ThunderblowEquipped",1,"Thunderblow")
+	AerialSkillUseCheck:
+		TNT1 A 0 A_JumpIfInventory("SpellOrb",1,1)
+		Goto Falling
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)		
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		TNT1 A 0 A_GiveInventory("SkillinUse",1)
+		TNT1 A 0 A_JumpIfInventory("FireBreathJutsuEquipped",1,"AerialFireBreathJutsu")		
+		TNT1 A 0 A_JumpIfInventory("ChargeSlashEquipped",1,"AerialChargeSlash")		
+		TNT1 A 0 A_JumpIfInventory("ChargeAttackEquipped",1,"AerialChargeAttack")
+		TNT1 A 0 A_JumpIfInventory("ThunderblowEquipped",1,"AerialThunderblow")
+	FireBreathJutsu:
+		NJK2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,39,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJK2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,39,0)
+		TNT1 A 0 A_PlaySound("ninja/FireBreathJutsu")
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		NJK2 BCDEFGHIJKL 2
+		TNT1 A 0 A_TakeInventory("SpellOrb",1)
+		TNT1 A 0 A_SpawnItemEx("SpecialFX",0,0,32,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave3",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave4",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK2 M 14
+		TNT1 A 0 A_PlayWeaponSound("ninja/FireBreath")
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		NJK2 N 2
+		TNT1 A 0 A_SpawnItemEx("FlameCircleFX",32,0,32,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK2 OOPPQQRR 1 A_FireCustomMissile("FireBreathJutsu",Random(-15,15),0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("FlameCircleFX",32,0,32,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK2 OOPPQQRR 1 A_FireCustomMissile("FireBreathJutsu",Random(-15,15),0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("FlameCircleFX",32,0,32,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK2 OOPPQQRR 1 A_FireCustomMissile("FireBreathJutsu",Random(-15,15),0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("FlameCircleFX",32,0,32,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK2 OOPPQQRR 1 A_FireCustomMissile("FireBreathJutsu",Random(-15,15),0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("FlameCircleFX",32,0,32,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK2 OOPPQQRR 1 A_FireCustomMissile("FireBreathJutsu",Random(-15,15),0,0,0,0)
+		NJK2 ST 2
+		TNT1 A 0 A_TakeInventory("SkillinUse",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	AerialFireBreathJutsu:
+		NJA3 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,58,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_SetGravity(0)
+		NJA3 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,58,0)
+		TNT1 A 0 A_PlaySound("ninja/FireBreathJutsu")
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		NJA3 BCDEFGHIJKL 2
+		TNT1 A 0 A_TakeInventory("SpellOrb",1)
+		TNT1 A 0 A_SpawnItemEx("SpecialFX",0,0,32,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave3",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave4",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJA3 M 14
+		TNT1 A 0 A_SetGravity(0.1)
+		TNT1 A 0 ThrustThingZ(0,4,0,0)
+		TNT1 A 0 A_PlayWeaponSound("ninja/FireBreath")
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		NJA3 N 2
+		TNT1 A 0 A_SpawnItemEx("FlameCircleFX",32,0,32,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK2 OOPPQQRR 1 A_FireCustomMissile("FireBreathJutsu",Random(-15,15),0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("FlameCircleFX",32,0,32,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK2 OOPPQQRR 1 A_FireCustomMissile("FireBreathJutsu",Random(-15,15),0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("FlameCircleFX",32,0,32,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK2 OOPPQQRR 1 A_FireCustomMissile("FireBreathJutsu",Random(-15,15),0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("FlameCircleFX",32,0,32,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK2 OOPPQQRR 1 A_FireCustomMissile("FireBreathJutsu",Random(-15,15),0,0,0,0)
+		TNT1 A 0 A_SpawnItemEx("FlameCircleFX",32,0,32,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK2 OOPPQQRR 1 A_FireCustomMissile("FireBreathJutsu",Random(-15,15),0,0,0,0)
+		NJA3 ST 2
+		TNT1 A 0 A_SetGravity(1)
+		TNT1 A 0 A_TakeInventory("SkillinUse",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Falling
+	ChargeSlash:	
+		NJK2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,40,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJK2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,40,0)
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_4")
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		NJK2 BC 2
+		TNT1 A 0 A_PlaySound("ninja/UseJutsu",6)
+		NJK2 DEFGHIJK 2
+		NJK3 GHIJKLMN 2
+		TNT1 A 0 A_TakeInventory("SpellOrb",1)
+		TNT1 A 0 A_SpawnItemEx("SpecialFX",0,0,32,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave3",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave4",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK3 O 14
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_5")
+		TNT1 A 0 A_PlaySound("ninja/KatanaChargeSlash")
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		NJK3 PQ 2
+		TNT1 A 0 A_FireCustomMissile("ChargeSlashProjectile",0,0,0,8,0,0)
+		NJK3 RSTUV 2
+		NJK3 WXYZ 3
+		TNT1 A 0 A_TakeInventory("SkillinUse",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	AerialChargeSlash:	
+		TNT1 A 0 A_PlaySound("ninja/UseJutsu",6)
+		NJA4 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,59,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_SetGravity(0)
+		NJA4 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,59,0)
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_4")
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		NJA4 BCDEFGHIJKLMN 2
+		TNT1 A 0 A_TakeInventory("SpellOrb",1)
+		TNT1 A 0 A_SpawnItemEx("SpecialFX",0,0,32,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave3",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave4",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJA4 O 14
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_5")
+		TNT1 A 0 A_PlaySound("ninja/KatanaChargeSlash")
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		NJA4 PQ 2
+		TNT1 A 0 A_FireCustomMissile("ChargeSlashProjectile",0,0,0,8,0,0)
+		NJA4 RSTUV 2
+		NJA4 WXYZ 3
+		TNT1 A 0 A_SetGravity(1)
+		TNT1 A 0 A_TakeInventory("SkillinUse",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	ChargeAttack:
+		NJK2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,41,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJK2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,41,0)
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_4")
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		NJK2 BC 2
+		TNT1 A 0 A_PlaySound("ninja/UseJutsu",6)
+		NJK2 DEFGHIJK 2
+		NJK4 ABCDEFG 2
+		TNT1 A 0 A_TakeInventory("SpellOrb",1)
+		TNT1 A 0 A_SpawnItemEx("SpecialFX",0,0,32,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave3",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave4",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJK4 H 14
+		TNT1 A 0 A_ChangeFlag(THRUACTORS,TRUE)
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		TNT1 A 0 A_Recoil(-100)
+		TNT1 A 0 A_FireCustomMissile("ChargeAttackProjectile",0,0,0,8,FPF_AIMATANGLE,0)
+		NJK4 JJJJ 1 A_Explode(40,128,0,true,256,0,0,"NullPuff","ChargedAttack")
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_5")
+		NJK4 JKLMNOPQ 1
+		NJK4 RSTUVWXYZ 1
+		TNT1 A 0 A_TakeInventory("SkillinUse",1)
+		TNT1 A 0 A_ChangeFlag(THRUACTORS,FALSE)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	AerialChargeAttack:
+		TNT1 A 0 A_PlaySound("ninja/UseJutsu",6)
+		NJA1 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,54,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_SetGravity(0)
+		NJA1 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,54,0)
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_4")
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		NJA1 BCDEFGHIJKLM 2
+		TNT1 A 0 A_TakeInventory("SpellOrb",1)
+		TNT1 A 0 A_SpawnItemEx("SpecialFX",0,0,32,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave3",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave4",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		NJA1 N 14
+		TNT1 A 0 A_ChangeFlag(THRUACTORS,TRUE)
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		TNT1 A 0 A_ChangeVelocity (Cos(Pitch)*50, 0, Sin(Pitch) * -50, CVF_Relative)
+		TNT1 A 0 A_FireCustomMissile("ChargeAttackProjectile",0,0,0,8,FPF_AIMATANGLE,0)
+		NJA1 OOOO 1 A_Explode(40,128,0,true,256,0,0,"NullPuff","ChargedAttack")
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_5")
+		NJA1 P 1 A_Stop
+		NJA1 QRSTUVWXYZ 2 A_Recoil(-0.3)
+		TNT1 A 0 A_SetGravity(1)
+		TNT1 A 0 A_ChangeFlag(THRUACTORS,FALSE)
+		TNT1 A 0 A_TakeInventory("SkillinUse",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Falling
+	Thunderblow:
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_4")
+		NJK2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,42,0)
+		TNT1 A 0 A_TakeInventory("SkillinUse",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJK2 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,42,0)
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		NJK2 BC 2
+		TNT1 A 0 A_PlaySound("ninja/UseJutsu",6)
+		NJK2 DEFGHIJK 2
+		TNT1 A 0 A_TakeInventory("SpellOrb",1)
+		TNT1 A 0 A_SpawnItemEx("SpecialFX",0,0,32,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave3",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave4",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_ChangeFlag(THRUACTORS,TRUE)
+		NJK2 L 20
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_5")
+		TNT1 A 0 A_PlaySound("ninja/KatanaChargeSlash")
+		NJKT EFG 2
+		TNT1 A 0 A_SpawnItemEx("ShockWave2",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_CustomMissile("SmokeCircleGenerator", 24, 0, 30, 2, 0)
+		TNT1 A 0 A_PlaySound("ninja/jump",8)
+		TNT1 A 16
+		TNT1 A 0 ThrustThingZ(0,600,0,0)
+		NJK5 ABCDEFGHIJKL 1
+		TNT1 A 0 ThrustThingZ(0,-600,0,0)
+		Goto ThunderBlowFalling
+	AerialThunderblow:
+		NJA5 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,60,0)
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_4")
+		TNT1 A 0 A_PlaySound("ninja/UseJutsu",6)
+		TNT1 A 0 A_SetGravity(0)
+		TNT1 A 0 A_TakeInventory("SkillinUse",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJA5 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,60,0)
+		TNT1 A 0 A_PlaySound("ninja/UseJutsu",6)
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		NJA5 BCDEFGHIJK 2
+		TNT1 A 0 A_TakeInventory("SpellOrb",1)
+		TNT1 A 0 A_SpawnItemEx("SpecialFX",0,0,32,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave3",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("ShockWave4",0,0,24,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_ChangeFlag(THRUACTORS,TRUE)
+		NJA5 L 14
+		TNT1 A 0 A_PlayWeaponSound("ninja/attack_5")
+		TNT1 A 0 A_PlaySound("ninja/KatanaChargeSlash")
+		NJA5 MNO 2
+		TNT1 A 0 A_SpawnItemEx("ShockWave2",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_CustomMissile("SmokeCircleGenerator", 24, 0, 30, 2, 0)
+		TNT1 A 0 A_PlaySound("ninja/jump",8)
+		TNT1 A 16
+		TNT1 A 0 ThrustThingZ(0,600,0,0)
+		NJK5 ABCDEFGHIJKL 1
+		TNT1 A 0 A_SetGravity(1)
+		TNT1 A 0 ThrustThingZ(0,-600,0,0)
+	ThunderBlowFalling:
+		NJK5 M 1 A_CheckFloor(1)
+		Goto ThunderBlowFalling
+		TNT1 A 0 A_PlaySound("skill/Thunder1")
+		TNT1 A 0 A_Explode(1,256,XF_EXPLICITDAMAGETYPE,true,256,0,0,"NullPuff","ThunderBlow1")
+		TNT1 A 0 A_SpawnItemEx("Lightning1",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave2",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_CustomMissile("SmokeCircleGenerator", 24, 0, 30, 2, 0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 Radius_Quake(2,4,0,32,0)
+		NJK5 M 35
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		TNT1 A 0 Radius_Quake(8,10,0,32,0)
+		TNT1 A 0 A_Explode(128,256,XF_EXPLICITDAMAGETYPE,true,256,0,0,"NullPuff","ThunderBlow2")
+		TNT1 A 0 A_SpawnItemEx("Lightning2",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("BigElectric",0,0,0,0,0,0,0,128,0)
+		TNT1 AAAAAAAAAA 0 A_SpawnItemEx("SmallLightning",Random(-64,64),Random(-64,64),0,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave",0,0,0,0,0,0,0,128,0)
+		TNT1 A 0 A_PlaySound("skill/Thunder2")
+		NJK5 NOPQR 1
+		TNT1 AAAAAAAAAA 0 A_SpawnItemEx("SmallLightning",Random(-64,64),Random(-64,64),0,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave",0,0,0,0,0,0,0,128,0)
+		NJK5 STUVW 1
+		TNT1 AAAAAAAAAA 0 A_SpawnItemEx("SmallLightning",Random(-64,64),Random(-64,64),0,0,0,0,0,128,0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave",0,0,0,0,0,0,0,128,0)
+		NJK5 NOPQRSTUVWXYZ 1
+		TNT1 A 0 A_ChangeFlag(THRUACTORS,FALSE)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	EvadeCheck:
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		TNT1 A 0 A_ChangeFlag(NOPAIN,TRUE)
+		TNT1 A 0 A_ChangeFlag(GHOST,TRUE)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_JumpIfInventory("EvadeForward",1,"EvadeForward")
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_JumpIfInventory("EvadeLeft",1,"EvadeLeft")
+		TNT1 A 0 A_JumpIfInventory("EvadeRight",1,"EvadeRight")
+		Goto Ready
+	EvadeForward:
+	    NJKB A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,4,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_GiveInventory("ApproachAttack",1)
+	    NJKB A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,4,0)
+		TNT1 A 0 A_PlaySound("ninja/jump",8)
+		TNT1 A 0 A_Recoil(-6)
+		TNT1 A 0 ThrustThingZ(0,24,0,0)
+		NJKB B 1 A_Recoil(-6)
+		NJKB C 1 ThrustThingZ(0,16,0,0)
+		NJKB D 1 A_Recoil(-6)
+		NJKB E 1 ThrustThingZ(0,8,0,0)
+		NJKB FGHIJ 1 A_TakeInventory("EvadeForward",1)
+		TNT1 A 0 A_ChangeFlag(GHOST,FALSE)
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKB KL 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 A_TakeInventory("ApproachAttack",1)
+		NJKB MNO 1 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Guard
+	EvadeBack:
+		TNT1 A 0 A_TakeInventory("LightAttack1",1)
+		TNT1 A 0 A_TakeInventory("LightAttack2",1)
+		TNT1 A 0 A_TakeInventory("LightAttack3",1)
+		TNT1 A 0 A_TakeInventory("LightAttack4",1)
+		TNT1 A 0 A_TakeInventory("LightAttack5",1)
+		TNT1 A 0 A_TakeInventory("HardAttack1",1)
+		TNT1 A 0 A_TakeInventory("HardAttack2",1)
+		TNT1 A 0 A_TakeInventory("HardAttack3",1)
+		TNT1 A 0 A_TakeInventory("HardAttack4",1)
+		TNT1 A 0 A_TakeInventory("HardAttack5",1)
+		TNT1 A 0 A_TakeInventory("HardAttack6",1)
+		TNT1 A 0 A_TakeInventory("HardAttack7",1)
+		TNT1 A 0 A_TakeInventory("HardAttack8",1)
+		TNT1 A 0 A_TakeInventory("HardAttack9",1)
+		TNT1 A 0 A_TakeInventory("RoundKick",1)
+		NJA0 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,51,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("Evading",0,1,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJA0 AA 1 ACS_NamedExecuteAlways("ZangetsuStates",0,51,0)
+		NJA0 BCD 2 A_TakeInventory("EvadeBack",1)
+		TNT1 A 0 A_GiveInventory("ApproachAttack",1)
+		TNT1 A 0 A_ChangeFlag(GHOST,FALSE)
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJA0 EFGH 2 A_WeaponReady
+		TNT1 A 0 A_JumpIfInventory("EvadeBack",1,"EvadeBack")
+		TNT1 A 0 A_TakeInventory("ApproachAttack",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Guard
+	EvadeLeft:
+		NJKB I 1 ACS_NamedExecuteAlways("ZangetsuStates",0,52,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("Evading",0,2,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKB IJ 1 ACS_NamedExecuteAlways("ZangetsuStates",0,52,0)
+		NJKB KLM 3 A_TakeInventory("EvadeLeft",1)
+		TNT1 A 0 A_ChangeFlag(GHOST,FALSE)
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKB NOP 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Guard
+	EvadeRight:
+		NJKB Q 1 ACS_NamedExecuteAlways("ZangetsuStates",0,53,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("Evading",0,3,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		NJKB QR 1 ACS_NamedExecuteAlways("ZangetsuStates",0,53,0)
+		NJKB STU 3 A_TakeInventory("EvadeRight",1)
+		TNT1 A 0 A_ChangeFlag(GHOST,FALSE)
+		TNT1 A 0 A_JumpIfInventory("KnockDown",1,"KnockDown")
+		TNT1 A 0 A_JumpIfInventory("Hurt",1,"Hurt")
+		NJKB VWX 1 A_WeaponReady
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Guard
+	Hurt:
+	    NJK6 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,Random(43,46),0)
+		TNT1 A 0 A_GiveInventory("FreezeTimeGiver",1)
+		TNT1 A 0 Radius_Quake(2,2,0,32,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_Gravity
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		TNT1 A 0 A_TakeInventory("PlayerGuarding",1)
+		TNT1 A 0 A_TakeInventory("isAttacking",1)
+		NJKA A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		TNT1 A 0 A_TakeInventory("LightAttack1",1)
+		TNT1 A 0 A_TakeInventory("LightAttack2",1)
+		TNT1 A 0 A_TakeInventory("LightAttack3",1)
+		TNT1 A 0 A_TakeInventory("LightAttack4",1)
+		TNT1 A 0 A_TakeInventory("LightAttack5",1)
+		TNT1 A 0 A_TakeInventory("HardAttack1",1)
+		TNT1 A 0 A_TakeInventory("HardAttack2",1)
+		TNT1 A 0 A_TakeInventory("HardAttack3",1)
+		TNT1 A 0 A_TakeInventory("HardAttack4",1)
+		TNT1 A 0 A_TakeInventory("HardAttack5",1)
+		TNT1 A 0 A_TakeInventory("HardAttack6",1)
+		TNT1 A 0 A_TakeInventory("HardAttack7",1)
+		TNT1 A 0 A_TakeInventory("HardAttack8",1)
+		TNT1 A 0 A_TakeInventory("HardAttack9",1)
+		TNT1 A 0 A_TakeInventory("RoundKick",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack1",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack2",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack3",1)
+		TNT1 A 0 A_TakeInventory("AerialKick",1)
+		TNT1 A 0 A_TakeInventory("AerialHardAttack",1)
+	    NJK6 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,Random(43,46),0)
+		NJK6 BCD 2
+		TNT1 A 0 A_TakeInventory("PowerTimeFreezerSound",1)
+		NJK6 EF 2
+		TNT1 A 0 A_TakeInventory("Hurt",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		Goto Ready
+	KnockDown:
+		NJK7 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,47,0)
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,0,0)
+		TNT1 A 0 A_Gravity
+		TNT1 A 0 A_ChangeFlag(NOPAIN,TRUE)
+		TNT1 A 0 A_ChangeFlag(NOBLOOD,FALSE)
+		TNT1 A 0 A_ChangeFlag(GHOST,TRUE)
+		TNT1 A 0 A_TakeInventory("WallRunLeftAction",1)
+		TNT1 A 0 A_TakeInventory("WallRunRightAction",1)
+		TNT1 A 0 A_TakeInventory("PlayerGuarding",1)
+		TNT1 A 0 A_TakeInventory("isAttacking",1)
+		NJKA A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		TNT1 A 0 A_TakeInventory("LightAttack1",1)
+		TNT1 A 0 A_TakeInventory("LightAttack2",1)
+		TNT1 A 0 A_TakeInventory("LightAttack3",1)
+		TNT1 A 0 A_TakeInventory("LightAttack4",1)
+		TNT1 A 0 A_TakeInventory("LightAttack5",1)
+		TNT1 A 0 A_TakeInventory("HardAttack1",1)
+		TNT1 A 0 A_TakeInventory("HardAttack2",1)
+		TNT1 A 0 A_TakeInventory("HardAttack3",1)
+		TNT1 A 0 A_TakeInventory("HardAttack4",1)
+		TNT1 A 0 A_TakeInventory("HardAttack5",1)
+		TNT1 A 0 A_TakeInventory("HardAttack6",1)
+		TNT1 A 0 A_TakeInventory("HardAttack7",1)
+		TNT1 A 0 A_TakeInventory("HardAttack8",1)
+		TNT1 A 0 A_TakeInventory("HardAttack9",1)
+		TNT1 A 0 A_TakeInventory("RoundKick",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack1",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack2",1)
+		TNT1 A 0 A_TakeInventory("AerialAttack3",1)
+		TNT1 A 0 A_TakeInventory("AerialKick",1)
+		TNT1 A 0 A_TakeInventory("AerialHardAttack",1)
+		NJK7 B 1 ACS_NamedExecuteAlways("ZangetsuStates",0,47,0)
+		TNT1 A 0 ThrustThingZ(0,40,0,0)
+		NJK7 C 1 A_FaceTarget
+		TNT1 A 0 A_Recoil(10)
+		NJK7 DEFGHIJKLMN 2
+	ZangetsuKnockdownFalling:
+		NJK7 O 1
+		TNT1 A 0 A_CheckFloor(2)
+		TNT1 A 0 A_JumpIf(ACS_NamedExecuteWithResult("CheckFeetCollision",0,1,0) == 1,1)
+		Loop
+		TNT1 A 0 A_PlaySound("sfx/hardLand",8)
+		TNT1 A 0 A_CustomMissile("SmokeCircleGenerator", 24, 0, 30, 2, 0)
+		TNT1 A 0 A_SpawnItemEx("ShockWave2",0,0,0,0,0,0,0,128,0)
+		NJK7 P 2 A_SetInvulnerable
+		NJK7 P 35 
+	ZangetsuKikup:
+		TNT1 A 0 A_PlaySound("ninja/attack")
+		NJK7 A 1 ACS_NamedExecuteAlways("ZangetsuStates",0,48,0)
+		NJK7 B 1 ACS_NamedExecuteAlways("ZangetsuStates",0,48,0)
+		NJK8 CD 1
+		TNT1 A 0 A_PlaySound("ninja/jump",5)
+		NJK8 EFGHIJ 1
+		TNT1 A 0 A_ChangeFlag(GHOST,FALSE)
+		TNT1 A 0 A_ChangeFlag(NOPAIN,FALSE)
+		TNT1 A 0 A_ChangeFlag(NOBLOOD,TRUE)
+		TNT1 A 0 A_TakeInventory("KnockDown",1)
+		TNT1 A 0 A_JumpIfInventory("EvadeCheck",1,"EvadeCheck")
+		NJK8 KLMNO 1
+		TNT1 A 0 ACS_NamedExecuteAlways("PlayerMoving",0,1,0)
+		TNT1 A 0 A_UnSetInvulnerable
+		Goto Ready
+	Spawn:
+		KTNA A 3 A_SpawnItemEx("WhiteStar",Random(-50,50)*.1,Random(-50,50)*.1,0,0,0,Random(3,5)*.1)
+		Loop
+	}
+}
+
+ACTOR LightAttackHitBox1 : FastProjectile {
+	Scale 0.1
+	DamageType "SlashAttack"
+	Radius 16
+	Height 32
+	Speed 50
+	FastSpeed 50
+	ProjectileKickBack 0
+	Damage (3)
+	Projectile
+	RenderStyle Translucent
+	+NOGRAVITY
+	+NOBLOCKMAP
+	+NOTIMEFREEZE
+	+HITTARGET
+	-CANNOTPUSH
+	Alpha 1
+	States {
+	Spawn:
+		TNT1 A 1
+		Stop
+	XDeath:
+		TNT1 A 1 A_GiveToTarget("HitLag",1)
+		Stop
+	}
+}
+ACTOR LightAttackHitBox2 : LightAttackHitBox1 {
+	Damage (5)
+}
+ACTOR LightAttackHitBox3 : LightAttackHitBox1 {
+	Damage (7)
+}
+ACTOR LightAttackHitBox4 : LightAttackHitBox1 {
+	Damage (9)
+}
+ACTOR LightAttackHitBox5 : LightAttackHitBox1 {
+	Damage (12)
+}
+ACTOR HardAttackHitBox1 : LightAttackHitBox1 {
+	Damage (5)
+}
+ACTOR HardAttackHitBox2 : LightAttackHitBox1 {
+	Damage (7)
+}
+ACTOR HardAttackHitBox3 : LightAttackHitBox1 {
+	Damage (10)
+}
+ACTOR HardAttackHitBox4 : LightAttackHitBox1 {
+	Damage (5)
+}
+ACTOR HardAttackHitBox5 : LightAttackHitBox1 {
+	Damage (10)
+}
+ACTOR HardAttackHitBox6 : LightAttackHitBox1 {
+	Damage (7)
+}
+ACTOR HardAttackHitBox7 : LightAttackHitBox1 {
+	Damage (7)
+}
+ACTOR HardAttackHitBox8 : LightAttackHitBox1 {
+	Damage (15)
+}
+ACTOR HardAttackHitBox9 : LightAttackHitBox1 {
+	Damage (20)
+}
+ACTOR KickHitBox : LightAttackHitBox1 {
+	Damage (20)
+	DamageType "RoundKick"
+	-BLOODSPLATTER
+	-BLOODLESSIMPACT
+}
+ACTOR ApproachAttackHitBox : LightAttackHitBox1 {
+	Damage (5)
+}
+ACTOR JuggleAttackHitBox1 : LightAttackHitBox1 {
+	Damage (5)
+	DamageType "JuggleAttack1"
+	ProjectileKickBack 1000
+}
+ACTOR JuggleAttackHitBox2 : LightAttackHitBox1 {
+	Damage (5)
+	DamageType "JuggleAttack2"
+	ProjectileKickBack -50
+}
+ACTOR AerialAttackHitBox1 : LightAttackHitBox1 {
+	Damage (5)
+	DamageType "AerialAttack"
+	ProjectileKickBack -50
+}
+ACTOR AerialAttackHitBox2 : AerialAttackHitBox1 {
+	Damage (5)
+}
+ACTOR AerialAttackHitBox3 : AerialAttackHitBox1 {
+	Damage (5)
+}
+ACTOR AerialKickHitBox : LightAttackHitBox1 {
+	Height 24
+	Radius 24
+	Speed 30
+	Damage (10)
+	DamageType "AerialKick"
+	-RIPPER
+	States {
+	Spawn:
+		TNT1 A 4 Bright
+		Stop
+	}
+}
+ACTOR AerialHardAttackHitBox : LightAttackHitBox1 {
+	Height 32
+	Radius 24
+	Speed 30
+	Scale 1
+	Damage (10)
+	DamageType "AerialHardAttack"
+}
+ACTOR FireBreathJutsu { 
+	RenderStyle Add
+	Radius 10
+	Height 10
+	Scale 0.35
+	Speed 14
+	Decal Scorch
+	Species "Player"
+	DamageType "FireJutsu"
+	Damage (3)
+	PROJECTILE
+	+RIPPER
+	+BLOODLESSIMPACT
+	+DONTSPLASH
+	+NOGRAVITY
+	+NOTELEPORT
+	+FORCEXYBILLBOARD
+	+DONTHARMSPECIES
+	+THRUGHOST
+	States { 
+	Spawn: 
+		TNT1 A 3
+		FIR1 ABCDEFGHIJBKLMNOPQ 1 Bright
+		Stop
+	Death:
+		TNT1 A 0
+		Stop
+	} 
+}
+
+Actor ShurikenProjectile : FastProjectile {
+	Radius 1
+	Height 1
+	Speed 200
+	Scale 0.1
+	RenderStyle Add
+	Alpha 0.85
+	+NOEXTREMEDEATH
+	+BLOODSPLATTER
+	Decal BulletChip
+	DamageType "Shuriken"
+	Damage (Random(5,8))
+	Decal BulletHole
+	States {
+	Spawn:
+		STRC A 1 A_Weave(1,1,0,0)
+		Loop
+	Death:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 1 A_SpawnItemEx("RicochetSparkSpawner",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 1 A_Jump(64,"SpawnShurikenItem")
+		TNT1 A 1 A_Jump(256,"SpawnShuriken1","SpawnShuriken2","SpawnShuriken3")
+	SpawnShuriken1:
+		TNT1 A 0 A_SpawnItemEx("ShurikenSpawn1",0,0,0,0,0,0,0)
+		Stop
+	SpawnShuriken2:
+		TNT1 A 0 A_SpawnItemEx("ShurikenSpawn2",0,0,0,0,0,0,0)
+		Stop
+	SpawnShuriken3:
+		TNT1 A 0 A_SpawnItemEx("ShurikenSpawn3",0,0,0,0,0,0,0)
+		Stop
+	SpawnShurikenItem:
+		TNT1 A 0 A_SpawnItemEx("ShurikenAmmo",0,0,12,Random(-4,0),Random(-4,4),Random(4,6))
+		Stop
+	XDeath:
+		TNT1 A 0
+		Stop
+	}
+}
+Actor AerialShurikenProjectile : ShurikenProjectile {
+	DamageType "AerialShuriken"
+}
+Actor KunaiProjectile : FastProjectile {
+	Radius 1
+	Height 1
+	Speed 200
+	Scale 0.1
+	RenderStyle Add
+	Alpha 0.85
+	+NOEXTREMEDEATH
+	+BLOODSPLATTER
+	Decal BulletChip
+	DamageType "Shuriken"
+	Damage (Random(1,3))
+	Decal BulletHole
+	States {
+	Spawn:
+		KUNA A 1 A_Weave(1,1,0,0)
+		Loop
+	Death:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 0 A_SpawnItemEx("KunaiProp",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH )
+		TNT1 A 35 A_SpawnItemEx("RicochetSparkSpawner",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_Explode(10,64,0,true)
+		TNT1 A 0 A_PlaySound("sfx/explode2")
+		TNT1 A 0 A_SpawnItemEx("OrangeParticleSpawner", 0, 0, 0, 0, 0, 0, 0, 128) 
+		TNT1 AAA 0 A_SpawnItemEx("Kaboom4",0,0,0,Random(5,10)*0.1,Random(-10,10)*0.1,Random(-10,10)*0.1,180,SXF_NOCHECKPOSITION)
+		TNT1 AAA 0 A_SpawnItemEx("SmokeFX5",0,0,0,Random(5,10)*0.1,Random(-10,10)*0.1,Random(-10,10)*0.1,180,SXF_NOCHECKPOSITION)
+		Stop
+	XDeath:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 0 A_SpawnItemEx("RicochetSparkSpawner",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_Explode(10,64,0,true)
+		TNT1 A 0 A_PlaySound("sfx/explode2")
+		TNT1 A 0 A_SpawnItemEx("OrangeParticleSpawner", 0, 0, 0, 0, 0, 0, 0, 128) 
+		TNT1 AAA 0 A_SpawnItemEx("Kaboom4",0,0,0,Random(5,10)*0.1,Random(-10,10)*0.1,Random(-10,10)*0.1,180,SXF_NOCHECKPOSITION)
+		TNT1 AAA 0 A_SpawnItemEx("SmokeFX5",0,0,0,Random(5,10)*0.1,Random(-10,10)*0.1,Random(-10,10)*0.1,180,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+Actor AerialKunaiProjectile : KunaiProjectile {
+	DamageType "AerialShuriken"
+}
+ACTOR ShurikenSpawn1 {
+	Height 8
+	Radius 6
+	Speed 4
+	Health 1
+	Mass 1
+	Scale 1
+	PROJECTILE
+    +CLIENTSIDEONLY
+	+NOTELEPORT	
+	+DOOMBOUNCE
+	+NOBLOCKMAP
+	+MOVEWITHSECTOR
+	+NOGRAVITY
+	BounceFactor 0.6
+	Seesound "weapons/casing1"
+	States {
+	Spawn:
+		SHRK A 700 
+		SHRK A 5 A_FadeOut(0.10)
+		Goto Spawn+1
+	}
+}
+ACTOR ShurikenSpawn2 : ShurikenSpawn1 {
+}
+ACTOR ShurikenSpawn3 : ShurikenSpawn1 {
+}
+Actor ChargeSlashProjectile : FastProjectile {
+	Radius 16
+	Height 16
+	Speed 100
+	FastSpeed 100
+	Scale 1.25
+	DamageType "ChargeSlash"
+	Damage (20)
+	Decal HardAttack1
+	Projectile
+	+RIPPER
+	+NOGRAVITY
+	+NOBLOCKMAP
+	+NOEXTREMEDEATH
+	+BLOODSPLATTER
+	States {
+	Spawn:
+		TNT1 A 0 A_FadeOut(0.1)
+		TNT1 AAAAA 0 A_SpawnItemEx("KatanaParticleSpawner2",0,Random(-16,16),0,Random(-16,16),Random(-16,16),Random(-16,16),0,0,128)
+		SLFX E 1 A_SpawnItemEx("ChargeSlashTrail",-64,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Loop
+	Death:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 1 A_SpawnItemEx("RicochetSparkSpawner",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	XDeath:
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 1 A_SpawnItemEx("RicochetSparkSpawner",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+Actor ChargeAttackProjectile : ChargeSlashProjectile {
+	Damage (0)
+	+THRUACTORS
+	States {
+	Spawn:
+		TNT1 A 0 A_FadeOut(0.1)
+		TNT1 A 0 A_SpawnItemEx("KatanaParticleSpawner2",0,Random(-16,16),0,Random(-16,16),Random(-16,16),Random(-16,16),0,0,128)
+		TNT1 AAA 1 A_SpawnItemEx("ChargedAttackHitBoxTrail",-64,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KatanaParticleSpawner2",0,Random(-16,16),0,Random(-16,16),Random(-16,16),Random(-16,16),0,0,128)
+		Stop
+	Death:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 1 A_SpawnItemEx("RicochetSparkSpawner",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	XDeath:
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 1 A_SpawnItemEx("RicochetSparkSpawner",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR ChargeSlashTrail : ChargeSlashProjectile {
+	Scale 1
+	Alpha 1
+	Damage (0)
+	RenderStyle Add
+	+NOBLOCKMAP
+	+NOGRAVITY
+	+CLIENTSIDEONLY
+	+DONTSPLASH
+	+NOINTERACTION
+	+NOCLIP
+	States {
+	Spawn:
+		SLFX E 1 A_FadeOut(0.1)
+		Loop
+	}
+}
+
+ACTOR ChargedAttackHitBox : ChargeSlashProjectile {
+	Radius 32
+	Height 16
+	Speed 75
+	FastSpeed 75
+	Damage (1)
+	DamageType "ChargedAttack"
+	+NOBLOCKMAP
+	+BLOODLESSIMPACT
+	States {
+	Spawn:
+		TNT1 A 0 A_FadeOut(0.1)
+		TNT1 A 0 A_SpawnItemEx("KatanaParticleSpawner2",0,Random(-16,16),0,Random(-16,16),Random(-16,16),Random(-16,16),0,0,128)
+		SLFX CCC 1 A_SpawnItemEx("ChargedAttackHitBoxTrail",-64,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KatanaParticleSpawner2",0,Random(-16,16),0,Random(-16,16),Random(-16,16),Random(-16,16),0,0,128)
+		Stop
+	Death:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 1 A_SpawnItemEx("RicochetSparkSpawner",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	XDeath:
+		TNT1 A 0 A_PlaySound("katana/Screech")
+		TNT1 A 1 A_SpawnItemEx("RicochetSparkSpawner",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+ACTOR ChargedAttackHitBox2 : ChargedAttackHitBox {
+	Speed 50
+	FastSpeed 50
+	Decal "None"
+	States {
+	Spawn:
+		TNT1 A 0 A_FadeOut(0.1)
+		TNT1 A 0 A_SpawnItemEx("KatanaParticleSpawner2",0,Random(-16,16),0,Random(-16,16),Random(-16,16),Random(-16,16),0,0,128)
+		TNT1 AA 1 A_SpawnItemEx("ChargedAttackHitBoxTrail2",-64,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KatanaParticleSpawner2",0,Random(-16,16),0,Random(-16,16),Random(-16,16),Random(-16,16),0,0,128)
+		Stop
+	Death:
+		TNT1 A 1
+		Stop
+	XDeath:
+		TNT1 A 1 
+		Stop
+	}
+}
+ACTOR ChargedAttackHitBoxTrail : ChargeSlashProjectile {
+	Scale 1
+	Alpha 1
+	Damage (0)
+	RenderStyle Add
+	+NOBLOCKMAP
+	+NOGRAVITY
+	+CLIENTSIDEONLY
+	+DONTSPLASH
+	+NOINTERACTION
+	+NOCLIP
+	States {
+	Spawn:
+		SLFX E 1 A_FadeOut(0.1)
+		Loop
+	}
+}
+ACTOR ChargedAttackHitBoxTrail2 : ChargedAttackHitBoxTrail {
+	States {
+	Spawn:
+		TNT1 A 1 A_FadeOut(0.1)
+		Loop
+	}
+}
+
+ACTOR ThunderBlow1 : LightAttackHitBox1 {
+	Speed 64
+	FastSpeed 64
+	Radius 32
+	Height 32
+	+FLOORHUGGER
+	+NOTIMEFREEZE
+	-BLOODSPLATTER
+	-BLOODLESSIMPACT
+	+RIPPER
+	Damage (1)
+	DamageType "ThunderBlow1"
+	States {
+	Spawn:
+		HBOX A 5 Bright
+		Stop
+	}
+}
+ACTOR ThunderBlow2 : ThunderBlow1 {
+	DamageType "ThunderBlow2"
+	Damage (20)
+}
+
+ACTOR ReflectedBulletProjectile : FastProjectile {
+	Radius 1
+	Height 1
+	Speed 100
+	Scale 0.1
+	RenderStyle Add
+	Alpha 0.85
+	+RANDOMIZE
+	+FORCEXYBILLBOARD
+	+NOEXTREMEDEATH
+	+BLOODSPLATTER
+	RenderStyle Add
+	DamageType "ReflectedBulletHit"
+	Damage (Random(1,3)*5)
+	Decal BulletHole
+	States {
+	Spawn:
+		TRAC A 1
+		Loop
+	Death:
+		TNT1 A 0
+		TNT1 A 1 A_SpawnItemEx("RicochetSparkSpawner",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+	XDeath:
+		TNT1 A 1
+		Stop
+	}
+}
+ACTOR ReflectedShurikenProjectile : ShurikenProjectile {
+	Damage (Random(1,3)*5)
+}

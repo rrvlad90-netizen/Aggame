@@ -1,0 +1,892 @@
+/* =========================================================
+   СЛУЖЕБНЫЕ INVENTORY-МАРКЕРЫ
+   ========================================================= */
+
+class Kinv : Inventory
+{
+	Default
+	{
+		Inventory.MaxAmount 1;
+		+INVENTORY.UNDROPPABLE;
+	}
+}
+
+class Jmp : Inventory
+{
+	Default
+	{
+		Inventory.MaxAmount 1;
+		+INVENTORY.UNDROPPABLE;
+	}
+}
+
+class Jmp2 : Inventory
+{
+	Default
+	{
+		Inventory.MaxAmount 1;
+		+INVENTORY.UNDROPPABLE;
+	}
+}
+
+// Блокирует движение на всё время работы оружия.
+class VanFireLock : Inventory
+{
+	Default
+	{
+		Inventory.MaxAmount 1;
+		+INVENTORY.UNDROPPABLE;
+	}
+}
+
+
+/* =========================================================
+   ВИДИМАЯ МОДЕЛЬ ИГРОКА
+   ========================================================= */
+
+class VanVisualBody : Actor
+{
+	Default
+	{
+		Radius 1;
+		Height 1;
+
+		RenderStyle "Normal";
+		Alpha 1.0;
+
+		+NOBLOCKMAP;
+		+NOGRAVITY;
+		+NOCLIP;
+	}
+
+	States
+	{
+	Spawn:
+		VAT1 A -1;
+		Stop;
+	}
+}
+
+
+/* =========================================================
+   КАМЕРА
+   ========================================================= */
+
+class VanThirdPersonCamera : Actor
+{
+	Default
+	{
+		Radius 1;
+		Height 1;
+
+		+NOBLOCKMAP;
+		+NOGRAVITY;
+		+NOCLIP;
+		+INVISIBLE;
+	}
+
+	override void Tick()
+	{
+		Super.Tick();
+
+		if (Master == null)
+			Destroy();
+	}
+
+	States
+	{
+	Spawn:
+		TNT1 A -1;
+		Stop;
+	}
+}
+
+
+/* =========================================================
+   ИГРОК VAN
+   ========================================================= */
+
+class Van : PlayerPawn
+{
+	const MODE_FREE   = 0;
+	const MODE_FIRE   = 1;
+	const MODE_MELEE  = 2;
+	const MODE_JUMP   = 3;
+	const MODE_DEATH  = 4;
+	const MODE_LAND   = 5;
+
+	int VanMode;
+
+	Actor ThirdPersonCamera;
+	Actor VisualBody;
+
+	bool CameraInitialized;
+	bool JumpWasPressed;
+
+	double CameraYaw;
+	double BodyYaw;
+	double LastBodyYaw;
+
+	// Настройки камеры.
+	double CameraDistance;
+	double CameraHeight;
+	double CameraSide;
+	double CameraWallGap;
+
+	Default
+	{
+		Health 100;
+		Radius 16;
+		Height 56;
+		Mass 300;
+		PainChance 255;
+
+		Speed 0.55;
+
+		+NOBLOOD;
+		+NOSKIN;
+		+NOICEDEATH;
+
+		/*
+		 * Настоящий PlayerPawn скрывается.
+		 * MODELDEF должен быть привязан
+		 * к VanVisualBody.
+		 */
+		RenderStyle "None";
+
+		Player.ForwardMove 0.49, 0.49;
+		Player.SideMove 0.49, 0.49;
+
+		Player.JumpZ 8.0;
+		Player.ViewHeight 48;
+		Player.MaxHealth 100;
+
+		Player.DisplayName "VanH";
+
+		Player.StartItem "Shell", 48;
+		Player.StartItem "Shotgun2";
+
+		Player.WeaponSlot 1, "Shotgun2";
+
+		Player.ColorRange 225, 240;
+
+		Player.ColorSet 0, "Green",
+			225, 240, 238;
+
+		Player.ColorSet 1, "Yellow",
+			114, 129, 127;
+
+		Player.ColorSet 2, "Red",
+			145, 160, 158;
+
+		Player.ColorSet 3, "Blue",
+			190, 205, 203;
+	}
+
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+
+		/*
+		 * НАСТРОЙКИ КАМЕРЫ
+		 */
+		CameraDistance = 106.0;
+		CameraHeight = 68.0;
+		CameraSide = 0.0;
+		CameraWallGap = 4.0;
+
+		ThirdPersonCamera = Spawn(
+			"VanThirdPersonCamera",
+			Pos
+		);
+
+		if (ThirdPersonCamera != null)
+			ThirdPersonCamera.Master = self;
+
+		VisualBody = Spawn(
+			"VanVisualBody",
+			Pos
+		);
+
+		if (VisualBody != null)
+			VisualBody.Master = self;
+
+		CameraYaw = Angle;
+		BodyYaw = Angle;
+		LastBodyYaw = Angle;
+
+		CameraInitialized = true;
+	}
+
+	/*
+	 * W/A/S/D блокируются только при атаке
+	 * и во время приземления.
+	 *
+	 * MODE_JUMP здесь специально отсутствует.
+	 */
+	bool IsVanInputLocked()
+	{
+		return VanMode == MODE_FIRE ||
+			VanMode == MODE_MELEE ||
+			VanMode == MODE_LAND ||
+			FindInventory("VanFireLock") != null ||
+			FindInventory("Kinv") != null;
+	}
+
+	/*
+	 * Полная остановка горизонтальной скорости.
+	 *
+	 * Прыжка здесь нет: в воздухе игрок сохраняет
+	 * импульс, но не может менять направление.
+	 */
+	bool ShouldStopVanVelocity()
+	{
+		return VanMode == MODE_FIRE ||
+			VanMode == MODE_MELEE ||
+			VanMode == MODE_LAND ||
+			FindInventory("VanFireLock") != null ||
+			FindInventory("Kinv") != null;
+	}
+
+	/*
+	 * Синхронизация видимой модели.
+	 */
+	void UpdateVisualBody()
+	{
+		if (VisualBody == null)
+			return;
+
+		VisualBody.SetOrigin(Pos, true);
+
+		VisualBody.Sprite = Sprite;
+		VisualBody.Frame = Frame;
+		VisualBody.Scale = Scale;
+		VisualBody.FloorClip = FloorClip;
+
+		/*
+		 * Нулевая трансляция сохраняет оригинальную
+		 * текстуру модели.
+		 *
+		 * Для цветов Player.ColorSet замените на:
+		 * VisualBody.Translation = Translation;
+		 */
+		VisualBody.Translation = 0;
+		VisualBody.Alpha = 1.0;
+
+		VisualBody.Angle = BodyYaw;
+		VisualBody.Pitch = 0;
+		VisualBody.Roll = 0;
+	}
+
+	/*
+	 * Направление модели относительно движения.
+	 */
+	void UpdateBodyDirection()
+	{
+		if (player == null)
+			return;
+
+		if (VanMode == MODE_FIRE ||
+			VanMode == MODE_MELEE ||
+			FindInventory("VanFireLock") != null ||
+			FindInventory("Kinv") != null)
+		{
+			BodyYaw = CameraYaw;
+			return;
+		}
+
+		if (VanMode == MODE_DEATH ||
+			VanMode == MODE_LAND)
+		{
+			return;
+		}
+
+		double forward =
+			player.cmd.forwardmove;
+
+		double side =
+			player.cmd.sidemove;
+
+		if (forward == 0 && side == 0)
+			return;
+
+		double movementOffset =
+			atan2(-side, forward);
+
+		BodyYaw =
+			CameraYaw + movementOffset;
+	}
+
+	/*
+	 * Обновление камеры и защита от стен.
+	 */
+	void UpdateVanCamera()
+	{
+		if (player == null ||
+			ThirdPersonCamera == null)
+		{
+			return;
+		}
+
+		player.camera = ThirdPersonCamera;
+
+		double backX =
+			-cos(CameraYaw) * CameraDistance;
+
+		double backY =
+			-sin(CameraYaw) * CameraDistance;
+
+		double sideX =
+			cos(CameraYaw - 90) * CameraSide;
+
+		double sideY =
+			sin(CameraYaw - 90) * CameraSide;
+
+		double offsetX = backX + sideX;
+		double offsetY = backY + sideY;
+
+		double wantedDistance = sqrt(
+			offsetX * offsetX +
+			offsetY * offsetY
+		);
+
+		double cameraDirection =
+			atan2(offsetY, offsetX);
+
+		double realDistance =
+			wantedDistance;
+
+		if (wantedDistance > 0)
+		{
+			FLineTraceData trace;
+
+			bool cameraBlocked = LineTrace(
+				cameraDirection,
+				wantedDistance,
+				0,
+				TRF_THRUACTORS,
+				CameraHeight,
+				0,
+				0,
+				trace
+			);
+
+			if (cameraBlocked &&
+				trace.Distance < realDistance)
+			{
+				realDistance = max(
+					8.0,
+					trace.Distance -
+						CameraWallGap
+				);
+			}
+		}
+
+		Vector3 cameraPosition = Pos;
+
+		cameraPosition.X +=
+			cos(cameraDirection) *
+			realDistance;
+
+		cameraPosition.Y +=
+			sin(cameraDirection) *
+			realDistance;
+
+		cameraPosition.Z +=
+			CameraHeight;
+
+		ThirdPersonCamera.SetOrigin(
+			cameraPosition,
+			true
+		);
+
+		ThirdPersonCamera.Angle =
+			CameraYaw;
+
+		ThirdPersonCamera.Pitch = Pitch;
+		ThirdPersonCamera.Roll = Roll;
+	}
+
+	/*
+	 * Удлинение прыжка при любой зажатой
+	 * клавише движения.
+	 */
+	action void A_VanJumpBoost()
+	{
+		if (invoker.player == null)
+			return;
+
+		double forward =
+			invoker.player.cmd.forwardmove;
+
+		double side =
+			invoker.player.cmd.sidemove;
+
+		if (forward == 0 && side == 0)
+			return;
+
+		double movementAngle =
+			invoker.CameraYaw +
+			atan2(-side, forward);
+
+		double boost = 1.0;
+
+		invoker.Vel.X +=
+			cos(movementAngle) * boost;
+
+		invoker.Vel.Y +=
+			sin(movementAngle) * boost;
+	}
+	
+	action State A_WaitForVanFireEnd()
+	{
+		if (invoker.FindInventory("VanFireLock") != null)
+		{
+			invoker.VanMode = MODE_FIRE;
+			invoker.BodyYaw = invoker.CameraYaw;
+			return null;
+		}
+
+		invoker.VanMode = MODE_FREE;
+
+		return invoker.ResolveState("Spawn");
+	}
+	
+	action State A_WaitForVanMeleeEnd()
+	{
+		if (invoker.FindInventory("Kinv") != null)
+		{
+			invoker.VanMode = MODE_MELEE;
+			invoker.BodyYaw = invoker.CameraYaw;
+			return null;
+		}
+
+		invoker.VanMode = MODE_FREE;
+
+		return invoker.ResolveState("Spawn");
+	}
+
+	override void Tick()
+	{
+		bool startJump = false;
+		bool attackLocked = false;
+
+		if (player != null)
+		{
+			if (FindInventory("Kinv") != null)
+			{
+				VanMode = MODE_MELEE;
+			}
+			else if (
+				FindInventory("VanFireLock") != null)
+			{
+				VanMode = MODE_FIRE;
+			}
+
+			attackLocked =
+				VanMode == MODE_FIRE ||
+				VanMode == MODE_MELEE ||
+				FindInventory("VanFireLock") != null ||
+				FindInventory("Kinv") != null;
+
+			/*
+			 * Физически запрещаем прыжок во время атаки.
+			 * Значение сохраняется для следующего PlayerThink.
+			 */
+			if (attackLocked ||
+				VanMode == MODE_LAND)
+			{
+				JumpZ = 0;
+			}
+			else
+			{
+				JumpZ = 8.0;
+			}
+
+			bool jumpPressed =
+				(player.cmd.buttons & BT_JUMP) != 0;
+
+			bool attackPressed =
+				(player.cmd.buttons &
+					(BT_ATTACK | BT_ALTATTACK)) != 0;
+
+			startJump =
+				jumpPressed &&
+				!JumpWasPressed &&
+				!attackPressed &&
+				player.onground &&
+				Health > 0 &&
+				VanMode == MODE_FREE &&
+				!attackLocked;
+
+			JumpWasPressed = jumpPressed;
+
+			// Приседание запрещено.
+			player.cmd.buttons &= ~BT_CROUCH;
+
+			/*
+			 * Стрельба и Kick блокируют прыжок.
+			 */
+			if (attackLocked ||
+				VanMode == MODE_LAND)
+			{
+				player.cmd.buttons &= ~BT_JUMP;
+			}
+
+			/*
+			 * Прыжок блокирует стрельбу и Kick.
+			 */
+			if (VanMode == MODE_JUMP ||
+				VanMode == MODE_LAND ||
+				FindInventory("Jmp2") != null)
+			{
+				player.cmd.buttons &=
+					~(BT_ATTACK | BT_ALTATTACK);
+			}
+
+			if (!CameraInitialized)
+			{
+				CameraYaw = Angle;
+				BodyYaw = Angle;
+				LastBodyYaw = Angle;
+
+				CameraInitialized = true;
+			}
+			else
+			{
+				CameraYaw += Angle - LastBodyYaw;
+			}
+
+			Angle = CameraYaw;
+
+			/*
+			 * При атаке и приземлении блокируем W/A/S/D.
+			 * В прыжке управление движением сохраняется.
+			 */
+			if (IsVanInputLocked())
+			{
+				player.cmd.forwardmove = 0;
+				player.cmd.sidemove = 0;
+			}
+
+			if (ShouldStopVanVelocity())
+			{
+				Vel.X = 0;
+				Vel.Y = 0;
+			}
+		}
+
+		Super.Tick();
+
+		if (player != null)
+		{
+			/*
+			 * Повторно проверяем маркеры после Super.Tick:
+			 * оружие могло начать атаку в этом же тике.
+			 */
+			attackLocked =
+				VanMode == MODE_FIRE ||
+				VanMode == MODE_MELEE ||
+				FindInventory("VanFireLock") != null ||
+				FindInventory("Kinv") != null;
+
+			if (attackLocked)
+			{
+				JumpZ = 0;
+
+				/*
+				 * Отменяем прыжок, если движок уже успел
+				 * добавить вертикальную скорость.
+				 */
+				if (Vel.Z > 0)
+				{
+					Vel.Z = 0;
+
+					/*
+					 * Убираем небольшой отрыв от пола,
+					 * возникший в текущем тике.
+					 */
+					if (Pos.Z > FloorZ &&
+						Pos.Z <= FloorZ + 4.0)
+					{
+						Vector3 correctedPosition = Pos;
+						correctedPosition.Z = FloorZ;
+
+						SetOrigin(
+							correctedPosition,
+							true
+						);
+					}
+				}
+
+				startJump = false;
+			}
+			else if (VanMode != MODE_LAND)
+			{
+				JumpZ = 8.0;
+			}
+
+			if (startJump)
+			{
+				if (Vel.Z <= 0)
+					Vel.Z = 8.0;
+
+				VanMode = MODE_JUMP;
+
+				GiveInventory("Jmp", 1);
+				GiveInventory("Jmp2", 1);
+
+				SetStateLabel("Jump");
+			}
+
+			if (ShouldStopVanVelocity())
+			{
+				Vel.X = 0;
+				Vel.Y = 0;
+			}
+
+			UpdateBodyDirection();
+
+			Angle = CameraYaw;
+			LastBodyYaw = CameraYaw;
+
+			UpdateVisualBody();
+			UpdateVanCamera();
+		}
+	}
+
+	action void A_SetVanMode(int mode)
+	{
+		invoker.VanMode = mode;
+	}
+
+	action void A_SetVanFreeIfUnlocked()
+	{
+		if (invoker.VanMode == MODE_DEATH ||
+			invoker.VanMode == MODE_JUMP ||
+			invoker.VanMode == MODE_LAND)
+		{
+			return;
+		}
+
+		if (invoker.FindInventory(
+				"VanFireLock") != null)
+		{
+			invoker.VanMode = MODE_FIRE;
+			return;
+		}
+
+		if (invoker.FindInventory("Kinv") != null)
+		{
+			invoker.VanMode = MODE_MELEE;
+			return;
+		}
+
+		invoker.VanMode = MODE_FREE;
+	}
+
+	action State A_SelectVanAttack()
+	{
+		/*
+		 * Атаки не могут перебить прыжок.
+		 */
+		if (invoker.VanMode == MODE_JUMP ||
+			invoker.FindInventory("Jmp2") != null)
+		{
+			if (invoker.player != null &&
+				invoker.player.onground)
+			{
+				return invoker.ResolveState(
+					"SpawnLand"
+				);
+			}
+
+			return invoker.ResolveState("JumpAir");
+		}
+
+		/*
+		 * Проверяем не только Kinv, но и саму
+		 * кнопку дополнительной атаки.
+		 *
+		 * Это позволяет выбрать Kick ещё до того,
+		 * как оружие успеет выдать Kinv.
+		 */
+		bool wantsMelee =
+			invoker.FindInventory("Kinv") != null;
+
+		if (invoker.player != null &&
+			(invoker.player.cmd.buttons &
+				BT_ALTATTACK) != 0)
+		{
+			wantsMelee = true;
+		}
+
+		if (wantsMelee)
+		{
+			invoker.VanMode = MODE_MELEE;
+			invoker.BodyYaw = invoker.CameraYaw;
+
+			return invoker.ResolveState("Kick");
+		}
+
+		invoker.VanMode = MODE_FIRE;
+		invoker.BodyYaw = invoker.CameraYaw;
+
+		return null;
+	}
+
+	action void A_StartVanJump()
+	{
+		invoker.VanMode = MODE_JUMP;
+
+		invoker.GiveInventory("Jmp", 1);
+		invoker.GiveInventory("Jmp2", 1);
+	}
+
+	action State A_CheckVanLanding()
+	{
+		if (invoker.player != null &&
+			invoker.player.onground)
+		{
+			return invoker.ResolveState(
+				"SpawnLand"
+			);
+		}
+
+		return null;
+	}
+
+	action void A_FinishVanJump()
+	{
+		invoker.TakeInventory("Jmp", 1);
+		invoker.TakeInventory("Jmp2", 1);
+
+		invoker.VanMode = MODE_FREE;
+	}
+
+	action void A_FinishVanAttack()
+	{
+		if (invoker.FindInventory(
+				"VanFireLock") != null)
+		{
+			invoker.VanMode = MODE_FIRE;
+			return;
+		}
+
+		if (invoker.FindInventory("Kinv") != null)
+		{
+			invoker.VanMode = MODE_MELEE;
+			return;
+		}
+
+		invoker.VanMode = MODE_FREE;
+	}
+
+	action void A_StartVanDeath()
+	{
+		invoker.VanMode = MODE_DEATH;
+
+		invoker.TakeInventory("Jmp", 1);
+		invoker.TakeInventory("Jmp2", 1);
+		invoker.TakeInventory("Kinv", 1);
+		invoker.TakeInventory("VanFireLock", 1);
+	}
+
+	States
+	{
+	Spawn:
+		VAT1 A 1 A_SetVanFreeIfUnlocked;
+		Loop;
+
+	See:
+		VANR ABCDEFGHIJKLMNOPQA 1
+			A_SetVanFreeIfUnlocked;
+		Loop;
+
+	Melee:
+	Missile:
+		TNT1 A 0 A_SelectVanAttack;
+
+		/*
+		 * Полная длительность: 32 тика.
+		 *
+		 * 1 + 3 + 20 + 8 = 32.
+		 * Это соответствует циклу Shotgun2.
+		 */
+		VAT1 A 1;
+		VAT1 A 3;
+		VAT1 ABCDEEDCBA 2 Fast;
+		VAT1 A 8;
+
+	FireWait:
+		/*
+		 * Если оружие ещё не закончило работу,
+		 * остаёмся на последнем кадре стрельбы.
+		 */
+		VAT1 A 1 A_WaitForVanFireEnd;
+		Loop;
+
+	Kick:
+		TNT1 A 0 A_SetVanMode(MODE_MELEE);
+
+		VANK ABCDEFGHIJKLMNOPQR 1 Fast;
+		VKAN ABCDEFGHIJ 1 Fast;
+
+	MeleeWait:
+		/*
+		 * Не переходим к бегу, пока оружие
+		 * не удалило Kinv.
+		 */
+		VKAN J 1 A_WaitForVanMeleeEnd;
+		Loop;
+
+	Pain:
+		/*
+		 * MODE_LAND используется как режим
+		 * временной полной блокировки.
+		 */
+		TNT1 A 0 A_SetVanMode(MODE_LAND);
+
+		VKAN J 1 A_Pain;
+		VKAN JIG 3;
+
+		TNT1 A 0 A_SetVanMode(MODE_FREE);
+		Goto Spawn;
+
+	Jump:
+		TNT1 A 0 A_StartVanJump;
+		VJNK A 1 Fast A_VanJumpBoost;
+		VJNK BCDEFGHIJKLMNOPQ 1 Fast;
+
+	JumpAir:
+		VJNK R 1 A_CheckVanLanding;
+		Wait;
+
+	SpawnLand:
+		TNT1 A 0 A_SetVanMode(MODE_LAND);
+		VAJK BCDE 1 Fast;
+		VAJK FGHIJ 1 Fast;
+		TNT1 A 0 A_FinishVanJump;
+		Goto Spawn;
+
+	Death:
+		TNT1 A 0 A_StartVanDeath;
+		TNT1 A 0 A_Stop;
+
+		VNDD A 3;
+		VNDD B 3 A_PlayerScream;
+		VNDD C 3 A_NoBlocking;
+		VNDD DEFGHIJ 3;
+		VNDD J -1;
+		Stop;
+
+	XDeath:
+		Goto Death;
+
+	AltSkinDeath:
+		Goto Death;
+
+	AltSkinXDeath:
+		Goto Death;
+	}
+}

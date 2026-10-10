@@ -1,0 +1,45 @@
+clearskills
+
+skill nightmare
+{
+   AmmoFactor = 2
+   FastMonsters
+//   DisableCheats
+   RespawnTime = 10
+   SpawnFilter = Nightmare
+   PicName = "M_NMARE"
+   Key = "n"
+}
+
+
+GameInfo
+{
+   PlayerClasses = "ElfWarrior"
+}
+/*
+//EXAMPLE - IF YOU HAVE THIS PLAYER CLASSES
+//YOU CAN WRITE THIS 
+//AND BEFORE START GAME YOU CAN CHOOSE YOUR PLAYER CLASSES
+GameInfo
+{
+   PlayerClasses = "ElfWarrior", "ElfWarrior2", "ElfWarrior3"
+}
+*/
+
+
+episode MAP51
+{
+   name = "Mage tournament"
+//   picname = "MYGRPHIC"    //its a name of picture with text if need
+   key = "m"
+}
+
+/*
+f you don't want a graphic just remove the picname line. Name will instead be used and it will construct it out of BIGFONT for the menu. If you don't want the normal episodes to appear in the list, you should first do "clearepisodes" before your episode definitions.
+*/
+
+episode MAP01
+{
+   name = "Your maps"
+   key = "y"
+}

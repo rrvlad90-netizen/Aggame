@@ -1,0 +1,18 @@
+gameinfo 
+{
+	AddEventHandlers = 
+		//"BillboarderHandler",
+		"DarkDoomZ_Handler"
+		//"LightTextureHandler",
+		//"DPWipeHandler"
+	DrawReadThis = false
+	SwapMenu = true
+	ForceTextInMenus = true
+	TitleTime = 12
+	DefaultDropStyle = 2
+	BlurAmount = 0.2
+	dimamount = 0.50
+	dimcolor = "50 50 75"
+	NormForwardMove = 20, 40
+	NormSideMove = 15, 25
+}

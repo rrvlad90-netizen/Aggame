@@ -1,0 +1,233 @@
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   Model 1 "CrossbowInHand.md2" 
+   Skin 1  "Crossbow.png"
+   ZOffset 15
+//stay
+FrameIndex ELFS A 0 247 FrameIndex ELFS A 1 0
+FrameIndex ELFS B 0 248 FrameIndex ELFS A 1 0
+FrameIndex ELFS C 0 249 FrameIndex ELFS C 1 0
+FrameIndex ELFS D 0 250 FrameIndex ELFS D 1 0
+FrameIndex ELFS E 0 251 FrameIndex ELFS E 1 0
+FrameIndex ELFS F 0 252 FrameIndex ELFS F 1 0
+FrameIndex ELFS G 0 253 FrameIndex ELFS G 1 0
+FrameIndex ELFS H 0 254 FrameIndex ELFS H 1 0
+FrameIndex ELFS I 0 255 FrameIndex ELFS I 1 0
+FrameIndex ELFS J 0 256 FrameIndex ELFS J 1 0
+FrameIndex ELFS K 0 257 FrameIndex ELFS K 1 0
+FrameIndex ELFS L 0 258 FrameIndex ELFS L 1 0
+FrameIndex ELFS M 0 259 FrameIndex ELFS M 1 0
+//run
+FrameIndex ELFW A 0 181 FrameIndex ELFW A 1 0
+FrameIndex ELFW B 0 182 FrameIndex ELFW B 1 0
+FrameIndex ELFW C 0 183 FrameIndex ELFW C 1 0
+FrameIndex ELFW D 0 184 FrameIndex ELFW D 1 0
+FrameIndex ELFW E 0 185 FrameIndex ELFW E 1 0
+FrameIndex ELFW F 0 186 FrameIndex ELFW F 1 0
+FrameIndex ELFW G 0 187 FrameIndex ELFW G 1 0
+FrameIndex ELFW H 0 188 FrameIndex ELFW H 1 0
+//attack
+/*
+FrameIndex ELFA A 0 209
+FrameIndex ELFA B 0 210
+FrameIndex ELFA C 0 211
+FrameIndex ELFA D 0 212
+FrameIndex ELFA E 0 213
+FrameIndex ELFA F 0 214
+FrameIndex ELFA G 0 215
+FrameIndex ELFA H 0 216
+FrameIndex ELFA I 0 217
+FrameIndex ELFA J 0 218
+FrameIndex ELFA K 0 219
+FrameIndex ELFA L 0 220
+FrameIndex ELFA M 0 221
+FrameIndex ELFA N 0 222
+FrameIndex ELFA O 0 223
+*/
+}
+
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   ZOffset 15
+//death
+FrameIndex ELFD A 0 31
+FrameIndex ELFD B 0 32
+FrameIndex ELFD C 0 33
+FrameIndex ELFD D 0 34
+FrameIndex ELFD E 0 35
+FrameIndex ELFD F 0 36
+FrameIndex ELFD G 0 37
+FrameIndex ELFD H 0 38
+FrameIndex ELFD I 0 39
+FrameIndex ELFD J 0 40
+FrameIndex ELFD K 0 41
+FrameIndex ELFD L 0 42
+FrameIndex ELFD M 0 43
+FrameIndex ELFD N 0 44
+FrameIndex ELFD O 0 45
+FrameIndex ELFD P 0 46
+FrameIndex ELFD Q 0 47
+FrameIndex ELFD R 0 48
+FrameIndex ELFD S 0 49
+FrameIndex ELFD T 0 50
+FrameIndex ELFD U 0 51
+FrameIndex ELFD V 0 52
+FrameIndex ELFD W 0 53
+FrameIndex ELFD X 0 54
+FrameIndex ELFD Y 0 55
+FrameIndex ELFD Z 0 56
+
+FrameIndex ELDD A 0 57
+FrameIndex ELDD B 0 58
+FrameIndex ELDD C 0 59
+FrameIndex ELDD D 0 60
+FrameIndex ELDD E 0 61
+/*
+//crouch
+FrameIndex ELFC A 0 156
+FrameIndex ELFC B 0 157
+FrameIndex ELFC C 0 158
+FrameIndex ELFC D 0 159
+FrameIndex ELFC E 0 160
+FrameIndex ELFC F 0 161
+FrameIndex ELFC G 0 162
+FrameIndex ELFC H 0 163
+*/
+}
+
+
+Model Wizardd
+{
+   Path "models\MD3\Wizard"
+   Model 0 "Disciple.md2"
+   Skin 0 "Disciple2.png"
+
+   Scale 2.5 2.5 2.5 
+   ZOffset 28
+
+FrameIndex POSS A 0 0  FrameIndex POSS A 1 0  FrameIndex POSS A 2 0
+FrameIndex POSS B 0 1  FrameIndex POSS B 1 1  FrameIndex POSS B 2 1
+FrameIndex POSS C 0 2  FrameIndex POSS C 1 2  FrameIndex POSS C 2 2
+FrameIndex POSS D 0 3  FrameIndex POSS D 1 3  FrameIndex POSS D 2 3
+FrameIndex POSS E 0 4  FrameIndex POSS E 1 4  FrameIndex POSS E 2 4
+FrameIndex POSS F 0 5  FrameIndex POSS F 1 5  FrameIndex POSS F 2 5
+FrameIndex POSS G 0 6  FrameIndex POSS G 1 6  FrameIndex POSS G 2 6
+FrameIndex POSS H 0 7  FrameIndex POSS H 1 7  FrameIndex POSS H 2 7
+FrameIndex POSS I 0 8  FrameIndex POSS I 1 8  FrameIndex POSS I 2 8
+FrameIndex POSS J 0 9  FrameIndex POSS J 1 9  FrameIndex POSS J 2 9
+FrameIndex POSS K 0 10  FrameIndex POSS K 1 10  FrameIndex POSS K 2 10
+FrameIndex POSS L 0 11  FrameIndex POSS L 1 11  FrameIndex POSS L 2 11
+FrameIndex POSS M 0 12  FrameIndex POSS M 1 12  FrameIndex POSS M 2 12
+FrameIndex POSS N 0 13  FrameIndex POSS N 1 13  FrameIndex POSS N 2 13
+FrameIndex POSS O 0 14  FrameIndex POSS O 1 14  FrameIndex POSS O 2 14
+FrameIndex POSS P 0 15  FrameIndex POSS P 1 15  FrameIndex POSS P 2 15
+FrameIndex POSS Q 0 16  FrameIndex POSS Q 1 16  FrameIndex POSS Q 2 16
+FrameIndex POSS R 0 17  FrameIndex POSS R 1 17  FrameIndex POSS R 2 17
+
+FrameIndex POSA A 0 39  FrameIndex POSA A 1 39  FrameIndex POSA A 2 39
+FrameIndex POSA B 0 40  FrameIndex POSA B 1 40  FrameIndex POSA B 2 40
+FrameIndex POSA C 0 41  FrameIndex POSA C 1 41  FrameIndex POSA C 2 41
+FrameIndex POSA D 0 42  FrameIndex POSA D 1 42  FrameIndex POSA D 2 42
+FrameIndex POSA E 0 43  FrameIndex POSA E 1 43  FrameIndex POSA E 2 43
+FrameIndex POSA F 0 44  FrameIndex POSA F 1 44  FrameIndex POSA F 2 44
+FrameIndex POSA G 0 45  FrameIndex POSA G 1 45  FrameIndex POSA G 2 45
+FrameIndex POSA H 0 46  FrameIndex POSA H 1 46  FrameIndex POSA H 2 46
+FrameIndex POSA I 0 47  FrameIndex POSA I 1 47  FrameIndex POSA I 2 47
+FrameIndex POSA J 0 48  FrameIndex POSA J 1 48  FrameIndex POSA J 2 48
+FrameIndex POSA K 0 49  FrameIndex POSA K 1 49  FrameIndex POSA K 2 49
+FrameIndex POSA L 0 50  FrameIndex POSA L 1 50  FrameIndex POSA L 2 50
+FrameIndex POSA M 0 51  FrameIndex POSA M 1 51  FrameIndex POSA M 2 51
+FrameIndex POSA N 0 52  FrameIndex POSA N 1 52  FrameIndex POSA N 2 52
+FrameIndex POSA O 0 53  FrameIndex POSA O 1 53  FrameIndex POSA O 2 53
+FrameIndex POSA P 0 54  FrameIndex POSA P 1 54  FrameIndex POSA P 2 54
+FrameIndex POSA Q 0 55  FrameIndex POSA Q 1 55  FrameIndex POSA Q 2 55
+FrameIndex POSA R 0 56  FrameIndex POSA R 1 56  FrameIndex POSA R 2 56
+FrameIndex POSA S 0 57  FrameIndex POSA S 1 57  FrameIndex POSA S 2 57
+FrameIndex POSA T 0 58  FrameIndex POSA T 1 58  FrameIndex POSA T 2 58
+FrameIndex POSA U 0 59  FrameIndex POSA U 1 59  FrameIndex POSA U 2 59
+}
+
+///////
+Model DeathKnightt
+{
+   Path "models\MD3\DeathKnight"
+   Model 0 "DeathKnight.md3"
+   Skin 0 "knight.tga"
+   Model 1 "CrossbowInHandDK.md3" 
+   Skin 1  "Crossbow.png"
+   
+   //Scale 2.5 2.5 2.5 
+   ZOffset 24
+
+FrameIndex POSS A 0 86  FrameIndex POSS A 1 86  FrameIndex POSS A 2 86
+FrameIndex POSS B 0 87  FrameIndex POSS B 1 87  FrameIndex POSS B 2 87
+FrameIndex POSS C 0 88  FrameIndex POSS C 1 88  FrameIndex POSS C 2 88
+FrameIndex POSS D 0 89  FrameIndex POSS D 1 89  FrameIndex POSS D 2 89
+FrameIndex POSS E 0 90  FrameIndex POSS E 1 90  FrameIndex POSS E 2 90
+FrameIndex POSS F 0 91  FrameIndex POSS F 1 91  FrameIndex POSS F 2 91
+FrameIndex POSS G 0 92  FrameIndex POSS G 1 92  FrameIndex POSS G 2 92
+FrameIndex POSS H 0 93  FrameIndex POSS H 1 93  FrameIndex POSS H 2 93
+FrameIndex POSS I 0 94  FrameIndex POSS I 1 94  FrameIndex POSS I 2 94
+FrameIndex POSS J 0 95  FrameIndex POSS J 1 95  FrameIndex POSS J 2 95
+FrameIndex POSS K 0 96  FrameIndex POSS K 1 96  FrameIndex POSS K 2 96
+FrameIndex POSS L 0 97  FrameIndex POSS L 1 97  FrameIndex POSS L 2 97
+FrameIndex POSS M 0 98  FrameIndex POSS M 1 98  FrameIndex POSS M 2 98
+FrameIndex POSS N 0 99  FrameIndex POSS N 1 99  FrameIndex POSS N 2 99
+FrameIndex POSS O 0 100  FrameIndex POSS O 1 100  FrameIndex POSS O 2 100
+FrameIndex POSS P 0 101  FrameIndex POSS P 1 101  FrameIndex POSS P 2 101
+FrameIndex POSS Q 0 102  FrameIndex POSS Q 1 102  FrameIndex POSS Q 2 102
+FrameIndex POSS R 0 103  FrameIndex POSS R 1 103  FrameIndex POSS R 2 103
+}
+
+Model DeathKnightBot
+{
+   Path "models\MD3\DeathKnight"
+   Model 0 "DeathKnight.md3"
+   Skin 0 "knight.tga"
+   
+   //Scale 2.5 2.5 2.5 
+   ZOffset 22
+   
+   //death
+FrameIndex POSD A 0 0  FrameIndex POSD A 1 0  FrameIndex POSD A 2 0
+FrameIndex POSD B 0 1  FrameIndex POSD B 1 1  FrameIndex POSD B 2 1
+FrameIndex POSD C 0 2  FrameIndex POSD C 1 2  FrameIndex POSD C 2 2
+FrameIndex POSD D 0 3  FrameIndex POSD D 1 3  FrameIndex POSD D 2 3
+FrameIndex POSD E 0 4  FrameIndex POSD E 1 4  FrameIndex POSD E 2 4
+FrameIndex POSD F 0 5  FrameIndex POSD F 1 5  FrameIndex POSD F 2 5
+FrameIndex POSD G 0 6  FrameIndex POSD G 1 6  FrameIndex POSD G 2 6
+FrameIndex POSD H 0 7  FrameIndex POSD H 1 7  FrameIndex POSD H 2 7
+FrameIndex POSD I 0 8  FrameIndex POSD I 1 8  FrameIndex POSD I 2 8
+FrameIndex POSD J 0 9  FrameIndex POSD J 1 9  FrameIndex POSD J 2 9
+FrameIndex POSD K 0 10  FrameIndex POSD K 1 10  FrameIndex POSD K 2 10
+FrameIndex POSD L 0 11  FrameIndex POSD L 1 11  FrameIndex POSD L 2 11
+FrameIndex POSD M 0 12  FrameIndex POSD M 1 12  FrameIndex POSD M 2 12
+FrameIndex POSD N 0 13  FrameIndex POSD N 1 13  FrameIndex POSD N 2 13
+FrameIndex POSD O 0 14  FrameIndex POSD O 1 14  FrameIndex POSD O 2 14
+FrameIndex POSD P 0 15  FrameIndex POSD P 1 15  FrameIndex POSD P 2 15
+FrameIndex POSD Q 0 16  FrameIndex POSD Q 1 16  FrameIndex POSD Q 2 16
+FrameIndex POSD R 0 17  FrameIndex POSD R 1 17  FrameIndex POSD R 2 17
+FrameIndex POSD S 0 18  FrameIndex POSD S 1 18  FrameIndex POSD S 2 18
+FrameIndex POSD T 0 19  FrameIndex POSD T 1 19  FrameIndex POSD T 2 19
+FrameIndex POSD U 0 20  FrameIndex POSD U 1 20  FrameIndex POSD U 2 20
+FrameIndex POSD V 0 21  FrameIndex POSD V 1 21  FrameIndex POSD V 2 21
+FrameIndex POSD W 0 22  FrameIndex POSD W 1 22  FrameIndex POSD W 2 22
+FrameIndex POSD X 0 23  FrameIndex POSD X 1 23  FrameIndex POSD X 2 23
+FrameIndex POSD Y 0 24  FrameIndex POSD Y 1 24  FrameIndex POSD Y 2 24
+FrameIndex POSD Z 0 25  FrameIndex POSD Z 1 25  FrameIndex POSD Z 2 25
+
+FrameIndex PODD A 0 26  FrameIndex PODD A 1 26  FrameIndex PODD A 2 26
+FrameIndex PODD B 0 27  FrameIndex PODD B 1 27  FrameIndex PODD B 2 27
+FrameIndex PODD C 0 28  FrameIndex PODD C 1 28  FrameIndex PODD C 2 28
+FrameIndex PODD D 0 29  FrameIndex PODD D 1 29  FrameIndex PODD D 2 29
+FrameIndex PODD E 0 30  FrameIndex PODD E 1 30  FrameIndex PODD E 2 30
+FrameIndex PODD F 0 31  FrameIndex PODD F 1 31  FrameIndex PODD F 2 31
+FrameIndex PODD G 0 32  FrameIndex PODD G 1 32  FrameIndex PODD G 2 32
+FrameIndex PODD H 0 33  FrameIndex PODD H 1 33  FrameIndex PODD H 2 33
+FrameIndex PODD I 0 34  FrameIndex PODD I 1 34  FrameIndex PODD I 2 34
+FrameIndex PODD J 0 35  FrameIndex PODD J 1 35  FrameIndex PODD J 2 35
+}

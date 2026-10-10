@@ -1,0 +1,7 @@
+#include "models/MODELDEF.player"
+#include "models/MODELDEF.tree"
+#include "models/MODELDEF.Projectiles"
+#include "models/MODELDEF.WEAPON"
+#include "models/MODELDEF.WizardBot"
+#include "models/MODELDEF.ElfBot"
+#include "models/MODELDEF.DeathKnightBot"

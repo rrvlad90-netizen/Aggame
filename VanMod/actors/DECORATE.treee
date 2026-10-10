@@ -1,0 +1,169 @@
+ACTOR TreeWinter  //22564
+{
+ 	//$Category SOFII
+	Radius 25
+	Height 400
+	//Health 300
+	+SOLID
+	//+SHOOTABLE
+	//+NOBLOOD
+	+DONTGIB
+	+NOICEDEATH
+	+FORCEPAIN 
+	Mass 9999
+States
+  {
+  Spawn:
+	PLAY K -1
+	stop
+  }
+}
+
+
+ACTOR WinterA1 : TreeWinter  //22564
+{
+}
+
+ACTOR WinterB1 : TreeWinter  //22564
+{
+}
+
+
+ACTOR WinterC1 : TreeWinter  //22564
+{
+}
+
+
+ACTOR WinterD1 : TreeWinter  //22564
+{
+}
+
+ACTOR WinterE1 : TreeWinter  //22564
+{
+}
+
+ACTOR WinterF1 : TreeWinter  //22564
+{
+}
+
+ACTOR WinterG1 : TreeWinter  //22564
+{
+}
+
+ACTOR WinterH1 : TreeWinter  //22564
+{
+}
+
+ACTOR WinterI1 : TreeWinter  //22564
+{
+}
+
+
+
+Actor Tr1: RandomSpawner replaces winterA
+{
+DropItem "WinterA1", 255, 255
+DropItem "WinterB1", 255, 255
+DropItem "WinterC1", 255, 255
+DropItem "WinterD1", 255, 255
+DropItem "WinterE1", 255, 255
+DropItem "WinterF1", 255, 255
+DropItem "WinterH1", 255, 255
+DropItem "WinterI1", 255, 255
+}
+
+Actor Tr2: RandomSpawner replaces winterB
+{
+DropItem "WinterA1", 255, 255
+DropItem "WinterB1", 255, 255
+DropItem "WinterC1", 255, 255
+DropItem "WinterD1", 255, 255
+DropItem "WinterE1", 255, 255
+DropItem "WinterF1", 255, 255
+DropItem "WinterH1", 255, 255
+DropItem "WinterI1", 255, 255
+}
+
+Actor Tr3: RandomSpawner replaces winterC
+{
+DropItem "WinterA1", 255, 255
+DropItem "WinterB1", 255, 255
+DropItem "WinterC1", 255, 255
+DropItem "WinterD1", 255, 255
+DropItem "WinterE1", 255, 255
+DropItem "WinterF1", 255, 255
+DropItem "WinterH1", 255, 255
+DropItem "WinterI1", 255, 255
+}
+
+Actor Tr4: RandomSpawner replaces winterD
+{
+DropItem "WinterA1", 255, 255
+DropItem "WinterB1", 255, 255
+DropItem "WinterC1", 255, 255
+DropItem "WinterD1", 255, 255
+DropItem "WinterE1", 255, 255
+DropItem "WinterF1", 255, 255
+DropItem "WinterH1", 255, 255
+DropItem "WinterI1", 255, 255
+}
+
+Actor Tr5: RandomSpawner replaces winterE
+{
+DropItem "WinterA1", 255, 255
+DropItem "WinterB1", 255, 255
+DropItem "WinterC1", 255, 255
+DropItem "WinterD1", 255, 255
+DropItem "WinterE1", 255, 255
+DropItem "WinterF1", 255, 255
+DropItem "WinterH1", 255, 255
+DropItem "WinterI1", 255, 255
+}
+
+Actor Tr6: RandomSpawner replaces winterF
+{
+DropItem "WinterA1", 255, 255
+DropItem "WinterB1", 255, 255
+DropItem "WinterC1", 255, 255
+DropItem "WinterD1", 255, 255
+DropItem "WinterE1", 255, 255
+DropItem "WinterF1", 255, 255
+DropItem "WinterH1", 255, 255
+DropItem "WinterI1", 255, 255
+}
+
+Actor Tr7: RandomSpawner replaces winterG
+{
+DropItem "WinterA1", 255, 255
+DropItem "WinterB1", 255, 255
+DropItem "WinterC1", 255, 255
+DropItem "WinterD1", 255, 255
+DropItem "WinterE1", 255, 255
+DropItem "WinterF1", 255, 255
+DropItem "WinterH1", 255, 255
+DropItem "WinterI1", 255, 255
+}
+
+Actor Tr8: RandomSpawner replaces BigTree
+{
+DropItem "WinterA1", 255, 255
+DropItem "WinterB1", 255, 255
+DropItem "WinterC1", 255, 255
+DropItem "WinterD1", 255, 255
+DropItem "WinterE1", 255, 255
+DropItem "WinterF1", 255, 255
+DropItem "WinterH1", 255, 255
+DropItem "WinterI1", 255, 255
+}
+
+Actor Tr9: RandomSpawner replaces TorchTree
+{
+DropItem "WinterA1", 255, 255
+DropItem "WinterB1", 255, 255
+DropItem "WinterC1", 255, 255
+DropItem "WinterD1", 255, 255
+DropItem "WinterE1", 255, 255
+DropItem "WinterF1", 255, 255
+DropItem "WinterH1", 255, 255
+DropItem "WinterI1", 255, 255
+}

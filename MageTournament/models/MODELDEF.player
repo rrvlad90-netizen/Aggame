@@ -1,0 +1,293 @@
+Model ElfCrossbowFollower
+{
+    Path "models\MD3\ElfWarrior"
+
+    Model 0 "CrossbowInHand.md2"
+    Skin 0 "Crossbow.png"
+
+    ZOffset 15
+
+    FrameIndex ECBW A 0 0
+}
+/////
+
+//А это арбалет для игрока который два раза может прыгать
+Model ElfDoubleCrossbowFollower
+{
+    Path "models\MD3\ElfWarrior"
+
+    Model 0 "CrossbowInHand.md2"
+    Skin 0 "Crossbow.png"
+
+    ZOffset 15
+
+    FrameIndex ECDW A 0 0
+}
+///////
+
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   ZOffset 15
+//stay
+FrameIndex ELFS A 0 247
+FrameIndex ELFS B 0 248
+FrameIndex ELFS C 0 249
+FrameIndex ELFS D 0 250
+FrameIndex ELFS E 0 251
+FrameIndex ELFS F 0 252
+FrameIndex ELFS G 0 253
+FrameIndex ELFS H 0 254
+FrameIndex ELFS I 0 255
+FrameIndex ELFS J 0 256
+FrameIndex ELFS K 0 257
+FrameIndex ELFS L 0 258
+FrameIndex ELFS M 0 259
+//run
+FrameIndex ELFW A 0 181
+FrameIndex ELFW B 0 182
+FrameIndex ELFW C 0 183
+FrameIndex ELFW D 0 184
+FrameIndex ELFW E 0 185
+FrameIndex ELFW F 0 186
+FrameIndex ELFW G 0 187
+FrameIndex ELFW H 0 188
+//attack
+/*
+FrameIndex ELFA A 0 209
+FrameIndex ELFA B 0 210
+FrameIndex ELFA C 0 211
+FrameIndex ELFA D 0 212
+FrameIndex ELFA E 0 213
+FrameIndex ELFA F 0 214
+FrameIndex ELFA G 0 215
+FrameIndex ELFA H 0 216
+FrameIndex ELFA I 0 217
+FrameIndex ELFA J 0 218
+FrameIndex ELFA K 0 219
+FrameIndex ELFA L 0 220
+FrameIndex ELFA M 0 221
+FrameIndex ELFA N 0 222
+FrameIndex ELFA O 0 223
+*/
+}
+
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   ZOffset 15
+//death
+FrameIndex ELFD A 0 31
+FrameIndex ELFD B 0 32
+FrameIndex ELFD C 0 33
+FrameIndex ELFD D 0 34
+FrameIndex ELFD E 0 35
+FrameIndex ELFD F 0 36
+FrameIndex ELFD G 0 37
+FrameIndex ELFD H 0 38
+FrameIndex ELFD I 0 39
+FrameIndex ELFD J 0 40
+FrameIndex ELFD K 0 41
+FrameIndex ELFD L 0 42
+FrameIndex ELFD M 0 43
+FrameIndex ELFD N 0 44
+FrameIndex ELFD O 0 45
+FrameIndex ELFD P 0 46
+FrameIndex ELFD Q 0 47
+FrameIndex ELFD R 0 48
+FrameIndex ELFD S 0 49
+FrameIndex ELFD T 0 50
+FrameIndex ELFD U 0 51
+FrameIndex ELFD V 0 52
+FrameIndex ELFD W 0 53
+FrameIndex ELFD X 0 54
+FrameIndex ELFD Y 0 55
+FrameIndex ELFD Z 0 56
+
+FrameIndex ELDD A 0 57
+FrameIndex ELDD B 0 58
+FrameIndex ELDD C 0 59
+FrameIndex ELDD D 0 60
+FrameIndex ELDD E 0 61
+/*
+//crouch
+FrameIndex ELFC A 0 156
+FrameIndex ELFC B 0 157
+FrameIndex ELFC C 0 158
+FrameIndex ELFC D 0 159
+FrameIndex ELFC E 0 160
+FrameIndex ELFC F 0 161
+FrameIndex ELFC G 0 162
+FrameIndex ELFC H 0 163
+*/
+}
+
+//move back
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   ZOffset 15
+//stay
+FrameIndex ELBB A 0 189
+FrameIndex ELBB B 0 190
+FrameIndex ELBB C 0 191
+FrameIndex ELBB D 0 192
+FrameIndex ELBB E 0 193
+FrameIndex ELBB F 0 194
+FrameIndex ELBB G 0 195
+FrameIndex ELBB H 0 196
+FrameIndex ELBB I 0 197
+}
+
+//Back jump
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   ZOffset 15
+
+FrameIndex ELJB A 0 231
+FrameIndex ELJB B 0 232
+FrameIndex ELJB C 0 233
+FrameIndex ELJB D 0 234
+FrameIndex ELJB E 0 235
+FrameIndex ELJB F 0 236
+FrameIndex ELJB G 0 237
+FrameIndex ELJB H 0 238
+FrameIndex ELJB I 0 239
+FrameIndex ELJB J 0 240
+FrameIndex ELJB K 0 241//fly loop
+FrameIndex ELJB L 0 242//start land
+FrameIndex ELJB M 0 243//finale
+}
+
+//Jump up, forward, left, right
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   ZOffset 15
+
+FrameIndex ELJU A 0 209
+}
+
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   ZOffset 15
+   
+FrameIndex ELJU B 0 210
+FrameIndex ELJU C 0 211
+FrameIndex ELJU D 0 212
+FrameIndex ELJU E 0 213
+
+}
+
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   ZOffset 15
+   
+FrameIndex ELJU F 0 214
+FrameIndex ELJU G 0 215  
+FrameIndex ELJU H 0 216//fly loop
+FrameIndex ELJU I 0 217//start land
+FrameIndex ELJU J 0 218
+}
+
+
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   ZOffset 15
+FrameIndex ELJU K 0 219
+FrameIndex ELJU L 0 220
+FrameIndex ELJU M 0 221
+FrameIndex ELJU N 0 222
+}
+
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarrior.md3"
+   ZOffset 15
+FrameIndex ELJU O 0 223//finale
+}
+
+//move left right
+
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarriorright.md3"
+   ZOffset 15
+//stay
+FrameIndex ELRM A 0 181
+FrameIndex ELRM B 0 182
+FrameIndex ELRM C 0 183
+FrameIndex ELRM D 0 184
+FrameIndex ELRM E 0 185
+FrameIndex ELRM F 0 186
+FrameIndex ELRM G 0 187
+FrameIndex ELRM H 0 188
+}
+
+
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarriorleft.md3"
+   ZOffset 15
+//stay
+FrameIndex ELLM A 0 181
+FrameIndex ELLM B 0 182
+FrameIndex ELLM C 0 183
+FrameIndex ELLM D 0 184
+FrameIndex ELLM E 0 185
+FrameIndex ELLM F 0 186
+FrameIndex ELLM G 0 187
+FrameIndex ELLM H 0 188
+}
+
+
+
+//move back right left
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarriorright.md3"
+   ZOffset 15
+
+FrameIndex ELMR A 0 189
+FrameIndex ELMR B 0 190
+FrameIndex ELMR C 0 191
+FrameIndex ELMR D 0 192
+FrameIndex ELMR E 0 193
+FrameIndex ELMR F 0 194
+FrameIndex ELMR G 0 195
+FrameIndex ELMR H 0 196
+FrameIndex ELMR I 0 197
+}
+
+Model ElfWarrior
+{
+   Path "models\MD3\ElfWarrior"
+   Model 0 "elfwarriorleft.md3"
+   ZOffset 15
+
+FrameIndex ELML A 0 189
+FrameIndex ELML B 0 190
+FrameIndex ELML C 0 191
+FrameIndex ELML D 0 192
+FrameIndex ELML E 0 193
+FrameIndex ELML F 0 194
+FrameIndex ELML G 0 195
+FrameIndex ELML H 0 196
+FrameIndex ELML I 0 197
+}

@@ -1,0 +1,46 @@
+ACTOR DarkOwl replaces Lostsoul 
+{
+	Health 40
+	Radius 16
+	Height 36
+	Mass 50
+	Speed 6
+	Damage 3
+	PainChance 100
+	ReactionTime 64
+	MinMissileChance 128
+	MONSTER
+	+FLOAT
+	+FLOATBOB
+	+NOGRAVITY
+	+DONTFALL
+	+NOICEDEATH
+	//+NOBLOOD
+	AttackSound "forgmelee"
+	PainSound "forgpain"
+	DeathSound "forgdeath"
+	ActiveSound "forgactive"
+	Obituary "Dark owl"
+	HitObituary "Beware Dark Owl!"
+	States
+	{
+	Spawn:
+		OWLD ABCBABCB 3 A_Look
+		Loop
+	See:
+		OWLD ABCBABCB 3 A_Chase
+		Loop
+	Missile:
+		OWLD ABCBABCB 3 A_FaceTarget
+		OWLD D 4 A_FaceTarget
+		OWLD D 12 A_SkullAttack
+	    OWLD ABCBABCB 3 A_FaceTarget
+		Goto See
+	Pain:
+		OWLD D 1 A_Pain
+		Goto See
+	Death:
+		OWLD D 2 A_Scream
+		Stop
+	}
+}

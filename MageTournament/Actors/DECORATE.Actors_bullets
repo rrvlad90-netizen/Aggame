@@ -1,0 +1,72 @@
+ACTOR ASpan : Inventory {
+    Inventory.MaxAmount 1
+	+INVENTORY.UNDROPPABLE
+}
+
+ACTOR ASpan2 : Inventory {
+    Inventory.MaxAmount 1
+	+INVENTORY.UNDROPPABLE
+}
+
+
+////items
+ACTOR Medikit2 : Medikit replaces Medikit
+{
+	+INVENTORY.ALWAYSRESPAWN
+	Inventory.RespawnTics 600
+}
+
+
+//////PROJECTILES///////
+
+Actor StandartBolt : FastProjectile
+{
+	Radius 5
+	Height 5
+	Speed 165
+	Projectile
+	+NOGRAVITY
+	+BLOODSPLATTER
+	//+FORCEPAIN 
+	renderstyle add
+	scale 0.05
+	//Decal "Bullet"
+	DeathSound "BoltExplode"
+	States
+	{
+	Spawn:
+		PRBT A 1 Bright 
+		Loop
+	Death:
+	    IPF2 BDF 2
+	    Stop
+	}
+}
+
+//projectiles
+
+
+Actor MyBolt1 : StandartBolt 
+{ 
+DamageType "MyBolt" 
+Damage (5) 
+}
+
+
+Actor MyBolt : StandartBolt 
+{
+DamageType "MyBolt" 
+Damage (5) 
+}
+
+Actor EnemyBolt : StandartBolt 
+{ 
+DamageType "EnemyBolt" 
+Damage (7)
+}
+
+Actor EnemyBolt2 : StandartBolt 
+{ 
+DamageType "EnemyBolt" 
+Damage (5)
+}

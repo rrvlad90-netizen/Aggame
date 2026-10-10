@@ -1,0 +1,9 @@
+#include "Actors/DECORATE.Actors_bullets"
+#include "Actors/DECORATE.player"
+#include "Actors/decorate.CrossbowArrow"
+#include "Actors/DECORATE.wizardbot"
+#include "Actors/DECORATE.DeathKnightBot"
+#include "Actors/DECORATE.ElfBot"
+#include "Actors/DECORATE.Weapons"
+
+//#include "Actors/Decorate.EXPLOEFFECTS"

@@ -1,0 +1,158 @@
+//================================================================================================================
+//================================================================================================================
+//
+//	Evil Monk from Painkiller: Hell & Damnation [Farm 51]
+//	Code by me [Kill.Murphy]
+
+//================================================================================================================
+//================================================================================================================
+
+
+ACTOR EvilMonkRich replaces Revenant
+{
+	//$Angled
+	//$Category "MUTILATOR Monsters"
+	//$Color 12
+	//$Title "Evil Monk Rich"
+	//Scale 1.0
+	Health 160
+	Radius 20
+	Height 55
+	Mass 1000
+	Speed 5
+//	FastSpeed 7
+
+//	PKM_Monster.PostSpeed 7
+//	PKM_Monster.TurnSpeed 15.0
+
+//	DamageFactor "Stakegun", 255
+	PainChance 100
+//	GibHealth -69
+	Monster
+//	RipLevelMin 999 // for stakegun and soulreaper death
+//	damagefactor "Ice", 255
+//	DamageFactor "WitchScreamDMG", 0
+//	MeleeThreshold 196
+
+	+MissileMore
+//	+JumpDown
+	+FloorClip
+
+	+INTERPOLATEANGLES
+//	+DontHarmSpecies
+//	+DontHarmClass
+	SeeSound "evilv3_halt"
+	PainSound "evilv3_hit"
+	DeathSound "evilv3_death"
+	ActiveSound "evilv3_halt"
+	MeleeSound "evilv3_attack"
+	Obituary "%o couldn't evade a monk's axe."
+//	DropItem "PKM_Soul_Default"
+//	Tag "Evil Monk"
+//	Species "Monsters"
+
+//	DamageFactor "Headshot", 15
+	States
+	{
+	Spawn:
+		IDLE AABBCC 20 A_Look //Ex(0,0,maxSeeDist,0,fov,"See")
+		Loop
+	See:
+		WALK AABBCCDDEEFFGGHHI 1 A_Chase
+		Loop
+
+
+
+	Missile:
+		"####" "#" 0 A_FaceTarget
+		THRW AABBCCDDEEFFGGHHIIJJK 1 A_FaceTarget
+		"####" "#" 0 {
+			A_CustomMissile("EvilMonkAxeThrow",50,10,0,0);
+			A_PlaySound("evilv3-cluster-bomb-throw-voice", 1);
+			}
+		THRW KLLMMNNOOPPQQ 1 A_FaceTarget
+		Goto See
+
+
+	Pain:
+		TNT1 A 0 A_Pain
+		PAIN AB 9
+		Goto See
+
+
+	Death:
+		DEAD A 1 A_Scream
+		DEAD ABCDEFGHI 4
+		DEAD I 400
+		DEAD IIIIIIIIIIIIIIII 2 A_FadeOut(0.2)
+		Stop
+	}
+}
+
+ACTOR EvilMonkAxeThrow
+{
+	Game Doom
+	SpawnID 53
+	Radius 10
+	Height 4
+	Speed 20
+//	FastSpeed 30
+	Damage (random(5,10)) //(random(18,24))
+	PROJECTILE
+	RenderStyle add
+	Alpha 0.8
+	+THRUGHOST
+	+SEEKERMISSILE
+	+Shootable
+	Scale 0.8
+//	DamageType "Explosives"
+	SeeSound "evilv3-axe_magic_throw"
+	DeathSound "weapons/bowhit"
+//	DeathSound "skeleton/tracex"
+	States
+	{
+	Spawn:
+		CORN BBBB 15 //A_PlaySound("evil_throwaxe-loop",5,1,1)
+		TNT1 A 0 A_SeekerMissile (4,8, SMF_LOOK)
+		Loop
+		
+		See:
+		CORN B 1 bright
+		Loop
+
+	Xdeath:
+	Death:
+		TNT1 A 0
+		TNT1 A 0
+		TNT1 A 0 A_Scream
+		TNT1 A 0 A_PlaySound("evilv3-axe_magic_end",5)
+		TNT1 A 0 //A_SpawnItemEx("AxePuffGlowDMG",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
+		BFE1 A 0 Bright A_Explode(7, 40, 1)
+		Goto Explodez
+	Explodez:
+		EXPL A 0 Radius_Quake (6, 54, 0, 15, 0)
+		TNT1 A 0 A_ChangeFlag("SHOOTABLE", 0)
+		TNT1 A 0
+		Stop
+	}
+}
+
+
+Actor MeleeMonk: RandomSpawner replaces Arachnotron
+{
+DropItem "EvilMonkRich", 255, 255
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

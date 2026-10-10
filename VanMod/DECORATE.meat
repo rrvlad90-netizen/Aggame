@@ -1,0 +1,188 @@
+Actor None111 //replaces LostSoul
+{
+  Radius 1   //16
+  Height 1   //34
+  -SOLID
+States
+ {
+  Spawn:
+    TNT1 A 1
+  Stop
+ }
+}
+
+
+Actor Mea1: RandomSpawner replaces Meat2
+{
+DropItem "None111", 255, 255
+}
+
+Actor Mea2: RandomSpawner replaces Meat3
+{
+DropItem "None111", 255, 255
+}
+
+
+Actor Mea3: RandomSpawner replaces Meat4
+{
+DropItem "None111", 255, 255
+}
+
+Actor Mea4: RandomSpawner replaces Meat5
+{
+DropItem "None111", 255, 255
+}
+
+
+Actor Nooon10:  RandomSpawner replaces BloodyTwitch 
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon12:  RandomSpawner replaces BrainStem 
+{
+DropItem "None111", 255, 255
+}
+
+
+Actor Nooon14:  RandomSpawner replaces DeadStick
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon15:  RandomSpawner replaces HangBNoBrain 
+{
+DropItem "None111", 255, 255
+}
+ 
+
+Actor Nooon16:  RandomSpawner replaces HangNoGuts 
+{
+DropItem "None111", 255, 255
+}
+
+
+Actor Nooon17:  RandomSpawner replaces ColonGibs  
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon18:  RandomSpawner replaces HangTLookingDown  
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon19:  RandomSpawner replaces HangTLookingUp 
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon20:  RandomSpawner replaces HangTNoBrain  
+{
+DropItem "None111", 255, 255
+}
+
+
+Actor Nooon21 : RandomSpawner replaces HangTSkull 
+{
+DropItem "None111", 255, 255
+}
+
+
+Actor Nooon22 : RandomSpawner replaces LiveStick 
+{
+DropItem "None111", 255, 255
+}
+
+
+Actor Nooon23 : RandomSpawner replaces HeadOnAStick 
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon223 : RandomSpawner replaces HeadCandles
+{
+DropItem "None111", 255, 255
+}
+
+
+
+
+Actor Nooon24 : RandomSpawner replaces HeadsOnAStick 
+{
+DropItem "None111", 255, 255
+}
+
+
+
+Actor Nooon101:  RandomSpawner replaces NonsolidMeat2 
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon111: RandomSpawner replaces NonsolidMeat3
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon112: RandomSpawner replaces NonsolidMeat4
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon113: RandomSpawner replaces NonsolidMeat5
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon114: RandomSpawner replaces NonsolidTwitch
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon115: RandomSpawner replaces SmallBloodPool
+{
+DropItem "None111", 255, 255
+}
+
+
+//////
+Actor Nooon116: RandomSpawner replaces DeadMarine
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon117: RandomSpawner replaces DeadCacodemon
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon118: RandomSpawner replaces DeadDemon
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon119: RandomSpawner replaces DeadDoomImp
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon120: RandomSpawner replaces DeadLostSoul
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon121: RandomSpawner replaces DeadShotgunGuy
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon122: RandomSpawner replaces DeadZombieMan
+{
+DropItem "None111", 255, 255
+}
+
+Actor Nooon123: RandomSpawner replaces GibbedMarineExtra
+{
+DropItem "None111", 255, 255
+}

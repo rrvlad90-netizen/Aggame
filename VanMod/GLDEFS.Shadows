@@ -1,0 +1,108 @@
+pointlight 24SHADOW
+{
+    color 0.5 0.5 0.5
+    size 17
+    subtractive 1
+    dontlightself 1
+
+}
+
+pointlight 32SHADOW
+{
+    color 0.5 0.5 0.5
+    size 21
+    subtractive 1
+    dontlightself 1
+
+}
+
+pointlight 64SHADOW
+{
+    color 0.5 0.5 0.5
+    size 49
+    subtractive 1
+    dontlightself 1
+
+}
+
+
+object Van
+{
+    frame VAT1 { light 24SHADOW  }
+	frame VANR { light 24SHADOW  }
+    frame VANK { light 24SHADOW  }
+	frame VKAN { light 24SHADOW  }
+	frame VJNK { light 24SHADOW  }
+	frame VAJK { light 24SHADOW  }	
+}
+
+object Cursedskeleton
+{
+    frame VSKL { light 32SHADOW  }
+	frame PPKL { light 32SHADOW  }
+    frame VSKA { light 32SHADOW  }
+	frame VAKL { light 32SHADOW  }	
+	frame VSKD { light 32SHADOW  }
+	frame VSDD { light 32SHADOW  }	
+}
+
+object Cursedskeleton2
+{
+    frame VSKL { light 32SHADOW  }
+	frame PPKL { light 32SHADOW  }
+    frame VSKA { light 32SHADOW  }
+	frame VAKL { light 32SHADOW  }	
+	frame VSKD { light 32SHADOW  }
+	frame VSDD { light 32SHADOW  }	
+}
+
+
+/*
+object WinterA1
+{
+    frame PLAY { light 64SHADOW  }	
+}
+
+object WinterB1
+{
+    frame PLAY { light 64SHADOW  }	
+}
+
+
+object WinterC1
+{
+    frame PLAY { light 64SHADOW  }	
+}
+
+
+object WinterD1
+{
+    frame PLAY { light 64SHADOW  }	
+}
+
+
+object WinterE1
+{
+    frame PLAY { light 64SHADOW  }	
+}
+
+object WinterF1
+{
+    frame PLAY { light 64SHADOW  }	
+}
+
+object WinterG1
+{
+    frame PLAY { light 64SHADOW  }	
+}
+
+object WinterH1
+{
+    frame PLAY { light 64SHADOW  }	
+}
+
+object WinterI1
+{
+    frame PLAY { light 64SHADOW  }	
+}
+*/

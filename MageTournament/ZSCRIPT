@@ -1,0 +1,924 @@
+class StrictRouteFinished : Inventory
+{
+    Default
+    {
+        Inventory.MaxAmount 1;
+    }
+}
+
+class StrictWaypoint : Actor
+{
+    Default
+    {
+        Radius 8;
+        Height 8;
+
+        +NOBLOCKMAP
+        +NOINTERACTION
+        +NOGRAVITY
+        +INVISIBLE
+    }
+
+    States
+    {
+    Spawn:
+        TNT1 A -1;
+        Stop;
+    }
+}
+
+class StrictRoutePawn : PlayerPawn
+{
+    Actor CurrentWaypoint;
+
+    bool RouteActive;
+    bool RoutePaused;
+    bool RestartRouteAfterDeath;
+
+    int FirstWaypointTID;
+
+    virtual bool PauseRouteForEnemy()
+    {
+        return true;
+    }
+
+    Actor FindStrictWaypoint(int pointTID)
+    {
+        if (pointTID == 0)
+            return null;
+
+        ActorIterator iterator =
+            ActorIterator.Create(pointTID);
+
+        return iterator.Next();
+    }
+
+    void FinishStrictRoute()
+    {
+        RouteActive = false;
+        RoutePaused = false;
+        CurrentWaypoint = null;
+
+        Vel.X = 0;
+        Vel.Y = 0;
+
+        A_GiveInventory(
+            "StrictRouteFinished",
+            1
+        );
+    }
+
+    void RestartStrictRoute()
+    {
+        A_TakeInventory(
+            "StrictRouteFinished",
+            1
+        );
+
+        CurrentWaypoint =
+            FindStrictWaypoint(FirstWaypointTID);
+
+        RoutePaused = false;
+
+        Vel.X = 0;
+        Vel.Y = 0;
+
+        // На карте отсутствует начальная точка.
+        if (CurrentWaypoint == null)
+        {
+            FinishStrictRoute();
+            return;
+        }
+
+        RouteActive = true;
+    }
+
+    void StartStrictRoute(int firstPointTID)
+    {
+        FirstWaypointTID = firstPointTID;
+        RestartStrictRoute();
+    }
+
+    void SelectNextWaypoint()
+    {
+        if (CurrentWaypoint == null)
+        {
+            FinishStrictRoute();
+            return;
+        }
+
+        int nextTID =
+            CurrentWaypoint.args[0];
+
+        if (nextTID == 0)
+        {
+            FinishStrictRoute();
+            return;
+        }
+
+        CurrentWaypoint =
+            FindStrictWaypoint(nextTID);
+
+        if (CurrentWaypoint == null)
+            FinishStrictRoute();
+    }
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        // Запоминаем смерть самого бота.
+        if (Health <= 0)
+        {
+            RestartRouteAfterDeath = true;
+            return;
+        }
+
+        // После возрождения начинаем маршрут заново.
+        if (RestartRouteAfterDeath)
+        {
+            RestartRouteAfterDeath = false;
+            RestartStrictRoute();
+        }
+
+        if (!RouteActive ||
+            CurrentWaypoint == null)
+        {
+            return;
+        }
+
+        // Обычный бот приостанавливает маршрут
+        // во время боя.
+        if (PauseRouteForEnemy() &&
+            Target != null &&
+            Target.Health > 0)
+        {
+            if (!RoutePaused)
+            {
+                Vel.X = 0;
+                Vel.Y = 0;
+                RoutePaused = true;
+            }
+
+            return;
+        }
+
+        RoutePaused = false;
+
+        // Достижение текущей точки.
+        if (Distance2D(CurrentWaypoint) <= 24)
+        {
+            SelectNextWaypoint();
+
+            if (!RouteActive)
+                return;
+        }
+
+        double direction =
+            AngleTo(CurrentWaypoint);
+
+        Angle = direction;
+
+        Vel.X = Cos(direction) * Speed;
+        Vel.Y = Sin(direction) * Speed;
+    }
+}
+
+// Корпуса и ноги не останавливаются из-за врагов.
+class StrictRouteChassis : StrictRoutePawn
+{
+    override bool PauseRouteForEnemy()
+    {
+        return false;
+    }
+}
+
+// Ноги дополнительно страйфятся на маршруте.
+class StrictRouteStrafingChassis
+    : StrictRouteChassis
+{
+    int StrafeTimer;
+    int StrafeDirection;
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        if (!RouteActive ||
+            CurrentWaypoint == null ||
+            Health <= 0)
+        {
+            StrafeTimer = 0;
+            return;
+        }
+
+        StrafeTimer--;
+
+        if (StrafeTimer <= 0)
+        {
+            // Новое направление через 15–40 тиков.
+            StrafeTimer = Random(15, 40);
+
+            if (Random(0, 1) == 0)
+                StrafeDirection = -1;
+            else
+                StrafeDirection = 1;
+        }
+
+        double sideAngle = Angle + 90;
+
+        // Сила страйфа.
+        double strafeSpeed = 6.0;
+
+        Vel.X += Cos(sideAngle) *
+                 strafeSpeed *
+                 StrafeDirection;
+
+        Vel.Y += Sin(sideAngle) *
+                 strafeSpeed *
+                 StrafeDirection;
+    }
+}
+
+
+//Player
+class WarriorElf : PlayerPawn
+{
+    // Тип прыжка:
+    // 0 — нет;
+    // 1 — прыжок назад;
+    // 2 — обычный прыжок.
+    int ElfJumpType;
+
+    // Фаза прыжка:
+    // 0 — нет;
+    // 1 — начало;
+    // 2 — полёт;
+    // 3 — приземление.
+    int ElfJumpPhase;
+
+    int QueuedJumpType;
+    bool JumpWasPressed;
+	
+	
+	int BotJumpCooldown;
+
+	virtual bool UseBotAutoJump()
+	{
+		return true;
+	}
+
+	virtual int GetBotJumpChance()
+	{
+		return 64; // Частота: 2 редко, 6 чаще, 12 часто, 64 очень часто.
+	}
+
+	virtual double GetBotJumpStrength()
+	{
+		return 8.0; // Высота прыжка.
+	}
+
+	override void Tick()
+	{
+		bool stopOnFloor = false;
+
+		if (player != null)
+		{
+			bool jumpPressed =
+				(player.cmd.buttons & BT_JUMP) != 0;
+
+			if (jumpPressed && !JumpWasPressed)
+			{
+				if (player.cmd.forwardmove < 0 &&
+					player.cmd.sidemove == 0)
+				{
+					QueuedJumpType = 1;
+				}
+				else
+				{
+					QueuedJumpType = 2;
+				}
+			}
+
+			JumpWasPressed = jumpPressed;
+
+			stopOnFloor =
+				player.onground &&
+				player.cmd.forwardmove == 0 &&
+				player.cmd.sidemove == 0;
+
+			if (stopOnFloor)
+			{
+				Vel.X = 0;
+				Vel.Y = 0;
+			}
+		}
+
+		Super.Tick();
+
+		// Принудительно запускаем прыжковую анимацию.
+		if (player != null &&
+			Health > 0 &&
+			QueuedJumpType != 0 &&
+			ElfJumpPhase == 0)
+		{
+			// Прыжок действительно начался.
+			if (player.onground || Vel.Z > 0)
+			{
+				ElfJumpType = QueuedJumpType;
+				QueuedJumpType = 0;
+				ElfJumpPhase = 1;
+
+				if (ElfJumpType == 1)
+					SetStateLabel("BackJumpStart");
+				else
+					SetStateLabel("NormalJumpStart");
+			}
+			else
+			{
+				// Нажатие в воздухе не запускает анимацию.
+				QueuedJumpType = 0;
+			}
+		}
+
+		if (stopOnFloor &&
+			player != null &&
+			player.onground)
+		{
+			Vel.X = 0;
+			Vel.Y = 0;
+		}
+//ЕСЛИ УПРАВЛЯЕТ БОТ ТО ПРЫГУЧЕСТЬ ПОВЫШЕНА		
+		if (player != null &&
+			player.Bot != null &&
+			Health > 0 &&
+			UseBotAutoJump())
+		{
+			if (BotJumpCooldown > 0)
+				BotJumpCooldown--;
+
+			if (player.onground &&
+				BotJumpCooldown <= 0 &&
+				Random(0, 255) < GetBotJumpChance())
+			{
+				Vel.Z = GetBotJumpStrength();
+
+				QueuedJumpType = 0;
+				ElfJumpType = 2;
+				ElfJumpPhase = 1;
+
+				SetStateLabel("NormalJumpStart");
+
+				// Не позволяет боту прыгать слишком часто.
+				//BotJumpCooldown = 35; 
+				
+				//прыгает часто
+				BotJumpCooldown = 15;
+			}
+		}
+	}
+	
+	
+	
+	
+///
+    action State A_SelectElfAnimation()
+    {
+        // Стрельба не прерывает активный прыжок.
+        if (invoker.ElfJumpPhase == 1)
+        {
+            if (invoker.ElfJumpType == 1)
+                return invoker.ResolveState(
+                    "BackJumpStart"
+                );
+
+            return invoker.ResolveState(
+                "NormalJumpStart"
+            );
+        }
+
+        if (invoker.ElfJumpPhase == 2)
+        {
+            if (invoker.ElfJumpType == 1)
+                return invoker.ResolveState(
+                    "BackJumpAir"
+                );
+
+            return invoker.ResolveState(
+                "NormalJumpAir"
+            );
+        }
+
+        if (invoker.ElfJumpPhase == 3)
+        {
+            if (invoker.ElfJumpType == 1)
+                return invoker.ResolveState(
+                    "BackJumpLand"
+                );
+
+            return invoker.ResolveState(
+                "NormalJumpLand"
+            );
+        }
+
+        // Запускаем ожидающий прыжок.
+        if (invoker.QueuedJumpType != 0)
+        {
+            invoker.ElfJumpType =
+                invoker.QueuedJumpType;
+
+            invoker.QueuedJumpType = 0;
+            invoker.ElfJumpPhase = 1;
+
+            if (invoker.ElfJumpType == 1)
+                return invoker.ResolveState(
+                    "BackJumpStart"
+                );
+
+            return invoker.ResolveState(
+                "NormalJumpStart"
+            );
+        }
+
+        if (invoker.player == null)
+            return null;
+
+        // Движение назад и по диагонали назад.
+        if (invoker.player.cmd.forwardmove < 0)
+        {
+            if (invoker.player.cmd.sidemove < 0)
+                return invoker.ResolveState(
+                    "MoveBackLeft"
+                );
+
+            if (invoker.player.cmd.sidemove > 0)
+                return invoker.ResolveState(
+                    "MoveBackRight"
+                );
+
+            return invoker.ResolveState(
+                "Backpedal"
+            );
+        }
+
+        // Боковое движение вперёд или без forwardmove.
+        if (invoker.player.cmd.sidemove < 0)
+            return invoker.ResolveState("MoveLeft");
+
+        if (invoker.player.cmd.sidemove > 0)
+            return invoker.ResolveState("MoveRight");
+
+        return null;
+    }
+
+    action State A_UpdateElfMovement(
+        int currentMovement
+    )
+    {
+        // Прыжок во время любой анимации движения.
+        if (invoker.QueuedJumpType != 0)
+        {
+            invoker.ElfJumpType =
+                invoker.QueuedJumpType;
+
+            invoker.QueuedJumpType = 0;
+            invoker.ElfJumpPhase = 1;
+
+            if (invoker.ElfJumpType == 1)
+                return invoker.ResolveState(
+                    "BackJumpStart"
+                );
+
+            return invoker.ResolveState(
+                "NormalJumpStart"
+            );
+        }
+
+        if (invoker.player == null)
+            return invoker.ResolveState("Spawn");
+
+        // Типы движения:
+        // 0 — вперёд/покой;
+        // 1 — назад;
+        // 2 — влево;
+        // 3 — вправо;
+        // 4 — назад-влево;
+        // 5 — назад-вправо.
+        int wantedMovement;
+
+        if (invoker.player.cmd.forwardmove < 0)
+        {
+            if (invoker.player.cmd.sidemove < 0)
+                wantedMovement = 4;
+            else if (invoker.player.cmd.sidemove > 0)
+                wantedMovement = 5;
+            else
+                wantedMovement = 1;
+        }
+        else if (invoker.player.cmd.sidemove < 0)
+        {
+            wantedMovement = 2;
+        }
+        else if (invoker.player.cmd.sidemove > 0)
+        {
+            wantedMovement = 3;
+        }
+        else
+        {
+            wantedMovement = 0;
+        }
+
+        if (wantedMovement == currentMovement)
+            return null;
+
+        if (wantedMovement == 1)
+            return invoker.ResolveState(
+                "Backpedal"
+            );
+
+        if (wantedMovement == 2)
+            return invoker.ResolveState(
+                "MoveLeft"
+            );
+
+        if (wantedMovement == 3)
+            return invoker.ResolveState(
+                "MoveRight"
+            );
+
+        if (wantedMovement == 4)
+            return invoker.ResolveState(
+                "MoveBackLeft"
+            );
+
+        if (wantedMovement == 5)
+            return invoker.ResolveState(
+                "MoveBackRight"
+            );
+
+        return invoker.ResolveState("Spawn");
+    }
+
+    action void A_SetElfJumpPhase(int phase)
+    {
+        invoker.ElfJumpPhase = phase;
+    }
+
+    action State A_CheckElfLanding()
+    {
+        if (invoker.player != null &&
+            invoker.player.onground)
+        {
+            invoker.ElfJumpPhase = 3;
+
+            if (invoker.ElfJumpType == 1)
+                return invoker.ResolveState(
+                    "BackJumpLand"
+                );
+
+            return invoker.ResolveState(
+                "NormalJumpLand"
+            );
+        }
+
+        return null;
+    }
+
+    action void A_FinishElfJump()
+    {
+        invoker.ElfJumpPhase = 0;
+        invoker.ElfJumpType = 0;
+    }
+
+
+
+/*	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+
+		Actor crossbow =
+			Spawn("ElfCrossbowFollower", Pos);
+
+		if (crossbow != null)
+			crossbow.Master = self;
+	}
+*/
+
+	virtual Class<Actor> GetCrossbowFollowerClass()
+	{
+		return "ElfCrossbowFollower";
+	}
+
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+
+		Class<Actor> followerClass =
+			GetCrossbowFollowerClass();
+
+		Actor crossbow =
+			Spawn(followerClass, Pos);
+
+		if (crossbow != null)
+			crossbow.Master = self;
+	}	
+}
+
+
+class ElfCrossbowFollower : Actor
+{
+    double JumpOffset;
+
+    Default
+    {
+        Radius 0;
+        Height 0;
+
+        +NOBLOCKMAP
+        +NOINTERACTION
+        +NOGRAVITY
+    }
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        WarriorElf pawn =
+            WarriorElf(Master);
+
+        if (pawn == null ||
+            pawn.player == null ||
+            pawn.Health <= 0)
+        {
+            Destroy();
+            return;
+        }
+
+        // Отображаем только при chase-камере.
+        //bool showCrossbow =
+        //    (pawn.player.cheats & CF_CHASECAM) != 0;
+		
+        // Отображаем только при chase-камере и если не прыжок назад!!!!	
+		bool backwardJump =
+			pawn.ElfJumpType == 1 &&
+			pawn.ElfJumpPhase != 0;
+
+		bool showCrossbow =
+			(pawn.player.cheats & CF_CHASECAM) != 0 &&
+			!backwardJump;
+		//
+		
+        bInvisible = !showCrossbow;
+
+        double wantedOffset = 0;
+
+        // Только обычный прыжок.
+        if (pawn.ElfJumpType == 2 &&
+            (pawn.ElfJumpPhase == 1 ||
+             pawn.ElfJumpPhase == 2))
+        {
+            wantedOffset = 12;   //максимальная высота подьема арбалета
+        }
+
+        if (JumpOffset < wantedOffset)
+        {
+            JumpOffset += 6;  //скорость поднятия абралета при прыжке 
+
+            if (JumpOffset > wantedOffset)
+                JumpOffset = wantedOffset;
+        }
+        else if (JumpOffset > wantedOffset)
+        {
+            JumpOffset -= 6; //скорость опускания абралета при прыжке 
+
+            if (JumpOffset < wantedOffset)
+                JumpOffset = wantedOffset;
+        }
+
+        A_Warp(
+            AAPTR_MASTER,
+            0, 0, JumpOffset,
+            0,
+            WARPF_NOCHECKPOSITION |
+            WARPF_INTERPOLATE
+        );
+
+        Angle = pawn.Angle;
+    }
+
+    States
+    {
+    Spawn:
+        ECBW A -1;
+        Stop;
+    }
+}
+
+
+class DoubleJumpWarriorElf : WarriorElf
+{
+    int JumpCount;
+    bool DoubleJumpButtonWasPressed;
+    bool DoubleJumpActive;
+
+//Это отключит одиночную систему родителя у двойного эльфа, поскольку у него уже есть 
+	override bool UseBotAutoJump()
+	{
+		return false;
+	}
+
+    override void Tick()
+    {
+        bool requestDoubleJump = false;
+        bool jumpPressed = false;
+
+        if (player != null)
+        {
+            jumpPressed =
+                (player.cmd.buttons & BT_JUMP) != 0;
+
+            bool newJumpPress =
+                jumpPressed &&
+                !DoubleJumpButtonWasPressed;
+
+            // Прыжки человека.
+            if (newJumpPress)
+            {
+                if (player.onground)
+                {
+                    JumpCount = 1;
+                    DoubleJumpActive = false;
+                }
+                else if (JumpCount == 1)
+                {
+                    requestDoubleJump = true;
+                }
+            }
+
+            DoubleJumpButtonWasPressed =
+                jumpPressed;
+        }
+
+        Super.Tick();
+
+        if (player == null || Health <= 0)
+            return;
+
+        // Сбрасываем прыжки после приземления.
+        if (player.onground && !jumpPressed)
+        {
+            JumpCount = 0;
+            DoubleJumpActive = false;
+        }
+
+        // Автоматические прыжки только для бота.
+        if (player.Bot != null)
+        {
+            // Первый случайный прыжок с земли.
+            if (player.onground && JumpCount == 0)
+            {
+                // 2 — примерно один прыжок
+                // за несколько секунд.
+                if (Random(0, 255) < 64)
+                {
+                    JumpCount = 1;
+                    DoubleJumpActive = false;
+
+                    // Сила первого прыжка.
+                    Vel.Z = 8.0;
+
+                    QueuedJumpType = 0;
+                    ElfJumpType = 2;
+                    ElfJumpPhase = 1;
+
+                    SetStateLabel(
+                        "NormalJumpStart"
+                    );
+                }
+            }
+            // Случайный второй прыжок в воздухе.
+            else if (!player.onground &&
+                     JumpCount == 1 &&
+                     !DoubleJumpActive)
+            {
+                if (Random(0, 255) < 128)
+                    requestDoubleJump = true;
+            }
+        }
+
+        if (requestDoubleJump)
+        {
+            // Именно номер прыжка, не частота.
+            JumpCount = 2;
+            DoubleJumpActive = true;
+
+            // Сила второго прыжка.
+            Vel.Z = 11.0;
+
+            QueuedJumpType = 0;
+            ElfJumpPhase = 2;
+
+            if (ElfJumpType == 1)
+                SetStateLabel("BackJumpAir");
+            else
+                SetStateLabel("NormalJumpAir");
+        }
+    }
+
+    override Class<Actor> GetCrossbowFollowerClass()
+    {
+        return "ElfDoubleCrossbowFollower";
+    }
+}
+
+///Арбалет для персонажа который прыгает дважды 
+class ElfDoubleCrossbowFollower : Actor
+{
+    double JumpOffset;
+
+    Default
+    {
+        Radius 0;
+        Height 0;
+
+        +NOBLOCKMAP
+        +NOINTERACTION
+        +NOGRAVITY
+    }
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        DoubleJumpWarriorElf pawn =
+            DoubleJumpWarriorElf(Master);
+
+        if (pawn == null ||
+            pawn.player == null ||
+            pawn.Health <= 0)
+        {
+            Destroy();
+            return;
+        }
+
+        bool backwardJump =
+            pawn.ElfJumpType == 1 &&
+            pawn.ElfJumpPhase != 0;
+
+        bool showCrossbow =
+            (pawn.player.cheats & CF_CHASECAM) != 0 &&
+            !backwardJump;
+
+        bInvisible = !showCrossbow;
+
+        double wantedOffset = 0;
+
+        // Обычный прыжок.
+        if (pawn.ElfJumpType == 2 &&
+            (pawn.ElfJumpPhase == 1 ||
+             pawn.ElfJumpPhase == 2))
+        {
+            wantedOffset = 12;
+
+            // Второй прыжок добавляет ещё 6.
+            if (pawn.DoubleJumpActive &&
+                pawn.ElfJumpPhase == 2)
+            {
+                wantedOffset = 13;
+            }
+        }
+
+        // Скорость подъёма — 6 единиц за тик.
+        if (JumpOffset < wantedOffset)
+        {
+            JumpOffset += 6;
+
+            if (JumpOffset > wantedOffset)
+                JumpOffset = wantedOffset;
+        }
+        else if (JumpOffset > wantedOffset)
+        {
+            JumpOffset -= 6;
+
+            if (JumpOffset < wantedOffset)
+                JumpOffset = wantedOffset;
+        }
+
+        A_Warp(
+            AAPTR_MASTER,
+            0, 0, JumpOffset,
+            0,
+            WARPF_NOCHECKPOSITION |
+            WARPF_INTERPOLATE
+        );
+
+        Angle = pawn.Angle;
+    }
+
+    States
+    {
+    Spawn:
+        ECDW A -1;
+        Stop;
+    }
+}
