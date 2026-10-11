@@ -1,0 +1,826 @@
+class UpdateBotRouteFinished : Inventory
+{
+	Default
+	{
+		Inventory.MaxAmount 1;
+		+INVENTORY.UNDROPPABLE;
+	}
+}
+
+
+class UpdateBot : PlayerPawn
+{
+	// --------------------------------------------------------
+	// ПРЫЖОК
+	// --------------------------------------------------------
+
+	// 0 — нет прыжка.
+	// 1 — прыжок назад.
+	// 2 — обычный прыжок.
+	int JumpType;
+
+	// 0 — нет.
+	// 1 — начало.
+	// 2 — полёт.
+	// 3 — приземление.
+	int JumpPhase;
+
+	int QueuedJumpType;
+
+	bool JumpWasPressed;
+	bool JumpHasLeftFloor;
+	bool AttackAnimationActive;
+
+	int BotJumpCooldown;
+
+
+	int BotRouteNumber;
+	int BotRouteTIDOffset;
+
+
+	virtual int GetBotRouteTIDStep()
+	{
+		return 40;
+	}
+
+
+	int CalculateBotRouteNumber()
+	{
+		if (player == null ||
+			player.Bot == null)
+		{
+			return 0;
+		}
+
+		int myPlayerNumber = PlayerNumber();
+		int botNumber = 0;
+
+		for (int i = 0;
+			i <= myPlayerNumber;
+			i++)
+		{
+			if (playeringame[i] &&
+				players[i].Bot != null)
+			{
+				botNumber++;
+			}
+		}
+
+		return botNumber;
+	}
+
+
+	void PrepareBotRouteOffset()
+	{
+		if (BotRouteNumber != 0)
+			return;
+
+		BotRouteNumber =
+			CalculateBotRouteNumber();
+
+		BotRouteTIDOffset =
+			BotRouteNumber *
+			GetBotRouteTIDStep();
+	}
+
+	// --------------------------------------------------------
+	// ПАТРУЛЬ
+	// --------------------------------------------------------
+
+	Actor CurrentPatrolPoint;
+
+	bool PatrolActive;
+	bool PatrolPaused;
+	bool PatrolSearchDone;
+	bool RestartPatrolAfterDeath;
+
+	int FirstPatrolTID;
+	int PatrolSearchDelay;
+
+
+	Default
+	{
+		Health 100;
+		Radius 16;
+		Height 56;
+		Mass 100;
+
+		Speed 1.0;
+
+		Player.JumpZ 8.0;
+		Player.ViewHeight 41;
+		Player.MaxHealth 100;
+
+		Player.DisplayName "UpdateBot";
+
+		// Урон наносится, но Pain никогда не запускается.
+		+NOPAIN;
+	}
+
+
+	// ========================================================
+	// НАСТРОЙКИ ПРЫЖКА БОТА
+	// ========================================================
+
+	virtual bool UseBotAutoJump()
+	{
+		return true;
+	}
+
+
+	// Проверяется каждый тик, когда бот стоит на земле
+	// и закончилась задержка.
+	virtual int GetBotJumpChance()
+	{
+		return 16;
+	}
+
+
+	virtual int GetBotJumpCooldown()
+	{
+		return 35;
+	}
+
+
+	virtual double GetBotJumpStrength()
+	{
+		return 8.0;
+	}
+
+
+	virtual bool BotCanJumpDuringCombat()
+	{
+		return true;
+	}
+
+
+	// ========================================================
+	// НАСТРОЙКИ ПАТРУЛЯ
+	// ========================================================
+
+	virtual bool UsePatrolPoints()
+	{
+		return true;
+	}
+
+
+	// 0 — автоматически выбрать ближайший Patrol Point.
+	// Иное значение — TID первой точки.
+	override int GetFirstPatrolTID()
+	{
+		return 1000;
+	}
+
+	virtual double GetPatrolSpeed()
+	{
+		return 6.0;
+	}
+
+
+	virtual double GetPatrolReachDistance()
+	{
+		return 24.0;
+	}
+
+
+	// При стрельбе или наличии Target маршрут временно
+	// уступает управление стандартному AI бота.
+	virtual bool PausePatrolForCombat()
+	{
+		return true;
+	}
+
+
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+
+		BotJumpCooldown = GetBotJumpCooldown();
+
+		FirstPatrolTID = GetFirstPatrolTID();
+
+		// Даём карте закончить создание акторов.
+		PatrolSearchDelay = 2;
+	}
+
+
+	// ========================================================
+	// ПОИСК PATROL POINT
+	// ========================================================
+
+	Actor FindPatrolPointByTID(int pointTID)
+	{
+		if (pointTID == 0)
+			return null;
+
+		ActorIterator iterator =
+			ActorIterator.Create(
+				pointTID,
+				"PatrolPoint"
+			);
+
+		return iterator.Next();
+	}
+
+
+	Actor FindNearestPatrolPoint()
+	{
+		ThinkerIterator iterator =
+			ThinkerIterator.Create("PatrolPoint");
+
+		Actor nearestPoint = null;
+		double nearestDistance = 0;
+
+		Thinker thinker;
+
+		while ((thinker = iterator.Next()) != null)
+		{
+			Actor point = Actor(thinker);
+
+			if (point == null)
+				continue;
+
+			double distance = Distance2D(point);
+
+			if (nearestPoint == null ||
+				distance < nearestDistance)
+			{
+				nearestPoint = point;
+				nearestDistance = distance;
+			}
+		}
+
+		return nearestPoint;
+	}
+
+
+	void StartPatrol()
+	{
+		TakeInventory(
+			"UpdateBotRouteFinished",
+			1
+		);
+
+		PrepareBotRouteOffset();
+
+		if (FirstPatrolTID != 0)
+		{
+			int startingTID =
+				FirstPatrolTID +
+				BotRouteTIDOffset;
+
+			CurrentPatrolPoint =
+				FindPatrolPointByTID(
+					startingTID
+				);
+		}
+		else
+		{
+			CurrentPatrolPoint =
+				FindNearestPatrolPoint();
+		}
+
+		PatrolPaused = false;
+
+		if (CurrentPatrolPoint == null)
+		{
+			PatrolActive = false;
+			return;
+		}
+
+		PatrolActive = true;
+	}
+
+
+	void FinishPatrol()
+	{
+		PatrolActive = false;
+		PatrolPaused = false;
+		CurrentPatrolPoint = null;
+
+		if (player != null &&
+			player.onground)
+		{
+			Vel.X = 0;
+			Vel.Y = 0;
+		}
+
+		GiveInventory(
+			"UpdateBotRouteFinished",
+			1
+		);
+	}
+
+
+	void SelectNextPatrolPoint()
+	{
+		if (CurrentPatrolPoint == null)
+		{
+			FinishPatrol();
+			return;
+		}
+
+		// В Arg0 записывается базовый TID без смещения.
+		int baseNextTID =
+			CurrentPatrolPoint.args[0];
+
+		if (baseNextTID == 0)
+		{
+			FinishPatrol();
+			return;
+		}
+
+		int nextTID =
+			baseNextTID +
+			BotRouteTIDOffset;
+
+		CurrentPatrolPoint =
+			FindPatrolPointByTID(nextTID);
+
+		if (CurrentPatrolPoint == null)
+			FinishPatrol();
+	}
+
+
+	bool BotHasCombatIntent()
+	{
+		if (Target != null &&
+			Target.Health > 0)
+		{
+			return true;
+		}
+
+		if (player != null &&
+			(player.cmd.buttons &
+				(BT_ATTACK | BT_ALTATTACK)) != 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+
+	void UpdatePatrol()
+	{
+		if (player == null ||
+			player.Bot == null ||
+			!PatrolActive ||
+			CurrentPatrolPoint == null ||
+			Health <= 0)
+		{
+			return;
+		}
+
+		if (PausePatrolForCombat() &&
+			BotHasCombatIntent())
+		{
+			PatrolPaused = true;
+			return;
+		}
+
+		PatrolPaused = false;
+
+		if (Distance2D(CurrentPatrolPoint) <=
+			GetPatrolReachDistance())
+		{
+			SelectNextPatrolPoint();
+
+			if (!PatrolActive ||
+				CurrentPatrolPoint == null)
+			{
+				return;
+			}
+		}
+
+		double direction =
+			AngleTo(CurrentPatrolPoint);
+
+		Angle = direction;
+
+		double patrolSpeed =
+			GetPatrolSpeed();
+
+		Vel.X =
+			cos(direction) * patrolSpeed;
+
+		Vel.Y =
+			sin(direction) * patrolSpeed;
+	}
+
+
+	// ========================================================
+	// ПРЫЖОК
+	// ========================================================
+
+	void BeginJump(int requestedType)
+	{
+		if (requestedType != 1)
+			requestedType = 2;
+
+		JumpType = requestedType;
+		QueuedJumpType = 0;
+
+		JumpPhase = 1;
+		JumpHasLeftFloor = false;
+
+		if (JumpType == 1)
+			SetStateLabel("BackJumpStart");
+		else
+			SetStateLabel("NormalJumpStart");
+	}
+
+
+	void UpdateHumanJumpRequest()
+	{
+		if (player == null ||
+			player.Bot != null)
+		{
+			return;
+		}
+
+		bool jumpPressed =
+			(player.cmd.buttons & BT_JUMP) != 0;
+
+		bool newJumpPress =
+			jumpPressed && !JumpWasPressed;
+
+		JumpWasPressed = jumpPressed;
+
+		if (newJumpPress &&
+			player.onground &&
+			JumpPhase == 0)
+		{
+			if (player.cmd.forwardmove < 0 &&
+				player.cmd.sidemove == 0)
+			{
+				QueuedJumpType = 1;
+			}
+			else
+			{
+				QueuedJumpType = 2;
+			}
+		}
+	}
+
+
+	void StartQueuedHumanJump()
+	{
+		if (player == null ||
+			player.Bot != null ||
+			Health <= 0 ||
+			QueuedJumpType == 0 ||
+			JumpPhase != 0)
+		{
+			return;
+		}
+
+		// Super.Tick уже обработал физический прыжок.
+		if (!player.onground || Vel.Z > 0)
+		{
+			BeginJump(QueuedJumpType);
+		}
+		else if (!JumpWasPressed)
+		{
+			QueuedJumpType = 0;
+		}
+	}
+
+
+	void UpdateBotJump()
+	{
+		if (player == null ||
+			player.Bot == null ||
+			Health <= 0 ||
+			!UseBotAutoJump())
+		{
+			return;
+		}
+
+		if (BotJumpCooldown > 0)
+			BotJumpCooldown--;
+
+		if (!player.onground ||
+			JumpPhase != 0 ||
+			BotJumpCooldown > 0)
+		{
+			return;
+		}
+
+		if (!BotCanJumpDuringCombat() &&
+			BotHasCombatIntent())
+		{
+			return;
+		}
+
+		if (Random(0, 255) >=
+			GetBotJumpChance())
+		{
+			return;
+		}
+
+		int selectedType = 2;
+
+		if (player.cmd.forwardmove < 0 &&
+			player.cmd.sidemove == 0)
+		{
+			selectedType = 1;
+		}
+
+		Vel.Z = GetBotJumpStrength();
+
+		BeginJump(selectedType);
+
+		BotJumpCooldown =
+			GetBotJumpCooldown();
+	}
+
+
+	void UpdateJumpPhysics()
+	{
+		if (player == null ||
+			JumpPhase == 0)
+		{
+			return;
+		}
+
+		if (!player.onground)
+			JumpHasLeftFloor = true;
+
+		if (JumpHasLeftFloor &&
+			!player.onground &&
+			JumpPhase == 1 &&
+			Vel.Z <= 0)
+		{
+			JumpPhase = 2;
+
+			if (!AttackAnimationActive)
+			{
+				if (JumpType == 1)
+					SetStateLabel("BackJumpAir");
+				else
+					SetStateLabel("NormalJumpAir");
+			}
+		}
+
+		if (JumpHasLeftFloor &&
+			player.onground &&
+			JumpPhase != 3)
+		{
+			JumpPhase = 3;
+
+			if (!AttackAnimationActive)
+			{
+				if (JumpType == 1)
+					SetStateLabel("BackJumpLand");
+				else
+					SetStateLabel("NormalJumpLand");
+			}
+		}
+	}
+
+
+	override void Tick()
+	{
+		UpdateHumanJumpRequest();
+
+		Super.Tick();
+
+		if (player == null)
+			return;
+
+		if (Health <= 0)
+		{
+			RestartPatrolAfterDeath = true;
+			return;
+		}
+
+		StartQueuedHumanJump();
+		UpdateBotJump();
+		UpdateJumpPhysics();
+
+
+		// Автоматически ищем Patrol Point только для бота.
+		if (player.Bot != null &&
+			UsePatrolPoints() &&
+			!PatrolSearchDone)
+		{
+			if (PatrolSearchDelay > 0)
+			{
+				PatrolSearchDelay--;
+			}
+			else
+			{
+				PatrolSearchDone = true;
+				StartPatrol();
+			}
+		}
+
+		UpdatePatrol();
+	}
+
+
+	// ========================================================
+	// ACTION-ФУНКЦИИ ПРЫЖКА
+	// ========================================================
+
+	action void A_SetUpdateBotJumpPhase(
+		int phase
+	)
+	{
+		invoker.JumpPhase = phase;
+	}
+
+
+	action State A_EnterUpdateBotAir()
+	{
+		if (invoker.player != null &&
+			invoker.JumpHasLeftFloor &&
+			invoker.player.onground)
+		{
+			invoker.JumpPhase = 3;
+
+			if (invoker.JumpType == 1)
+			{
+				return invoker.ResolveState(
+					"BackJumpLand"
+				);
+			}
+
+			return invoker.ResolveState(
+				"NormalJumpLand"
+			);
+		}
+
+		invoker.JumpPhase = 2;
+
+		if (invoker.JumpType == 1)
+			return invoker.ResolveState("BackJumpAir");
+
+		return invoker.ResolveState("NormalJumpAir");
+	}
+
+
+	action State A_CheckUpdateBotLanding()
+	{
+		if (invoker.player != null &&
+			invoker.JumpHasLeftFloor &&
+			invoker.player.onground)
+		{
+			invoker.JumpPhase = 3;
+
+			if (invoker.JumpType == 1)
+			{
+				return invoker.ResolveState(
+					"BackJumpLand"
+				);
+			}
+
+			return invoker.ResolveState(
+				"NormalJumpLand"
+			);
+		}
+
+		return null;
+	}
+
+
+	action void A_FinishUpdateBotJump()
+	{
+		invoker.JumpType = 0;
+		invoker.JumpPhase = 0;
+		invoker.QueuedJumpType = 0;
+		invoker.JumpHasLeftFloor = false;
+	}
+
+
+	// ========================================================
+	// СТРЕЛЬБА В ВОЗДУХЕ
+	// ========================================================
+
+	action void A_BeginUpdateBotAttack()
+	{
+		invoker.AttackAnimationActive = true;
+	}
+
+
+	action State A_FinishUpdateBotAttack()
+	{
+		invoker.AttackAnimationActive = false;
+
+		if (invoker.JumpPhase == 3)
+		{
+			if (invoker.JumpType == 1)
+			{
+				return invoker.ResolveState(
+					"BackJumpLand"
+				);
+			}
+
+			return invoker.ResolveState(
+				"NormalJumpLand"
+			);
+		}
+
+		if (invoker.JumpPhase == 1)
+		{
+			if (invoker.JumpType == 1)
+			{
+				return invoker.ResolveState(
+					"BackJumpStart"
+				);
+			}
+
+			return invoker.ResolveState(
+				"NormalJumpStart"
+			);
+		}
+
+		if (invoker.JumpPhase == 2)
+		{
+			if (invoker.JumpType == 1)
+				return invoker.ResolveState("BackJumpAir");
+
+			return invoker.ResolveState("NormalJumpAir");
+		}
+
+		return invoker.ResolveState("Spawn");
+	}
+
+
+	// ========================================================
+	// СОСТОЯНИЯ-ЗАГОТОВКИ
+	// Замени TNT1 на будущие спрайты или MODELDEF-кадры.
+	// ========================================================
+
+	States
+	{
+	Spawn:
+	See:
+		TNT1 A 1;
+		Loop;
+
+
+	// Стрельба разрешена и на земле, и в воздухе.
+	Missile:
+	Melee:
+		TNT1 A 0 A_BeginUpdateBotAttack;
+
+		// Будущая анимация атаки.
+		TNT1 A 4;
+
+		TNT1 A 0 A_FinishUpdateBotAttack;
+		Wait;
+
+
+	NormalJumpStart:
+		TNT1 A 0 A_SetUpdateBotJumpPhase(1);
+
+		// Будущая анимация начала прыжка.
+		TNT1 A 4;
+
+		TNT1 A 0 A_EnterUpdateBotAir;
+		Wait;
+
+
+	NormalJumpAir:
+		TNT1 A 1 A_CheckUpdateBotLanding;
+		Loop;
+
+
+	NormalJumpLand:
+		TNT1 A 4;
+		TNT1 A 0 A_FinishUpdateBotJump;
+		Goto Spawn;
+
+
+	BackJumpStart:
+		TNT1 A 0 A_SetUpdateBotJumpPhase(1);
+
+		// Будущая анимация прыжка назад.
+		TNT1 A 4;
+
+		TNT1 A 0 A_EnterUpdateBotAir;
+		Wait;
+
+
+	BackJumpAir:
+		TNT1 A 1 A_CheckUpdateBotLanding;
+		Loop;
+
+
+	BackJumpLand:
+		TNT1 A 4;
+		TNT1 A 0 A_FinishUpdateBotJump;
+		Goto Spawn;
+
+
+	Death:
+		TNT1 A 1 A_NoBlocking;
+		TNT1 A -1;
+		Stop;
+
+	XDeath:
+		Goto Death;
+	}
+}

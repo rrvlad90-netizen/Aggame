@@ -48,6 +48,12 @@ ACTOR Shotgun2 : Shotgun replaces Shotgun
 		)
 
 		TNT1 A 0 A_JumpIfInventory(
+			"Kinv",
+			1,
+			"CancelFire"
+		)
+
+		TNT1 A 0 A_JumpIfInventory(
 			"Shell",
 			2,
 			"RealFire"
@@ -65,6 +71,12 @@ ACTOR Shotgun2 : Shotgun replaces Shotgun
 
 		TNT1 A 0 A_JumpIfInventory(
 			"Jmp2",
+			1,
+			"CancelFire"
+		)
+
+		TNT1 A 0 A_JumpIfInventory(
+			"Kinv",
 			1,
 			"CancelFire"
 		)
@@ -122,7 +134,13 @@ ACTOR Shotgun2 : Shotgun replaces Shotgun
 		TNT1 A 0 A_JumpIfInventory(
 			"Jmp2",
 			1,
-			"CancelMelee"
+			"CancelKick"
+		)
+
+		TNT1 A 0 A_JumpIfInventory(
+			"VanFireLock",
+			1,
+			"CancelKick"
 		)
 
 		TNT1 A 0 A_GiveInventory(
@@ -142,8 +160,7 @@ ACTOR Shotgun2 : Shotgun replaces Shotgun
 
 		SHTG AAAAAAAAAAAAAAAA 1 Fast
 
-		TNT1 A 0 A_ReFire
-
+		// Удар выполняется один раз за цикл.
 		TNT1 A 0 A_TakeInventory(
 			"Kinv",
 			1
@@ -151,7 +168,7 @@ ACTOR Shotgun2 : Shotgun replaces Shotgun
 
 		Goto Ready
 
-	CancelMelee:
+	CancelKick:
 		TNT1 A 0 A_TakeInventory(
 			"Kinv",
 			1

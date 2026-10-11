@@ -18,6 +18,7 @@ actor Cursedskeleton replaces Zombieman
   //ActiveSound "demonactive"
   //PainSound "demonpain"
   DeathSound "SKD2"
+  DamageFactor "Enemy", 0
   HitObituary "Destroyed by cursed skeleton"
   //Painchance "Kickb", 255
   
@@ -48,16 +49,16 @@ actor Cursedskeleton replaces Zombieman
   Melee:
     TNT1 A 0 A_Jump(100,"Melee2")
     VSKA ABCDEFGHIJLM 2 Fast A_FaceTarget
-	VSKA M 3 Fast A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
+	VSKA M 3 Fast A_CustomMissile("Slash1",18, -13)//A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
 	VSKA NNOP 2 Fast
 	VKKA ABCDEFGHIJLMN 2 Fast
 	Goto See
 	
   Melee2:
     VAKL ABCDEFGHIJK 1 Fast A_FaceTarget
-	VAKL K 3 Fast A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
+	VAKL K 3 Fast A_CustomMissile("Slash1",18, -13) //A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
     VAKL LMNOPQRSTUV 1 Fast A_FaceTarget
-	VAKL V 3 Fast A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
+	VAKL V 3 Fast A_CustomMissile("Slash1",18, -13) //A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
 	VAKL WXYZ 1 Fast 
 	goto See  
 
@@ -100,6 +101,7 @@ Health 45
   //ActiveSound "demonactive"
   //PainSound "demonpain"
   DeathSound "SKD2"
+  DamageFactor "Enemy", 0
   HitObituary "Destroyed by cursed skeleton"
   //Scale 0.80
     Reactiontime 1  
@@ -134,9 +136,9 @@ Health 45
 
   Melee:
     VAKL ABCDEFGHIJK 1 Fast A_FaceTarget
-	VAKL K 3 Fast A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
+	VAKL K 3 Fast A_CustomMissile("Slash1",18, -13)//A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
     VAKL LMNOPQRSTUV 1 Fast A_FaceTarget
-	VAKL V 3 Fast A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
+	VAKL V 3 Fast A_CustomMissile("Slash1",18, -13)//A_CustomMeleeAttack(random(10,25),"HKMelee","weapons/fistswing",melee,1)
 	VAKL WXYZ 1 Fast 
 	goto See 
   Death:
@@ -163,4 +165,28 @@ Health 45
 Actor Cursedskeleton3: RandomSpawner replaces ShotGunGuy
 {
 DropItem "Cursedskeleton2", 255, 255
+}
+
+Actor Slash1
+{
+Speed 30
+radius 5
+Height 5
+PROJECTILE
+RenderStyle add
+scale 0.5
+Damage 2
+DamageType "Enemy"
+States
+{
+Spawn:
+TNT1 A 1
+Goto Death2
+
+Death:
+TNT1 A 1 A_PlaySound("sworbam")
+Death2:
+TNT1 A 1
+Stop
+}
 }

@@ -162,7 +162,7 @@ Actor I1: RandomSpawner replaces Cell
 DropItem "Shell", 255, 255
 }
 
-Actor I2: RandomSpawner replaces CellBox
+Actor I2: RandomSpawner replaces CellPack
 {
 DropItem "ShellBox", 255, 255
 }

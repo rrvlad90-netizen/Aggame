@@ -7,6 +7,16 @@ pointlight 24SHADOW
 
 }
 
+pointlight PlayerSHADOW
+{
+	color 0.5 0.5 0.5
+	size 17
+	subtractive 1
+
+	dontlightself 1
+	dontlightactors 1
+}
+
 pointlight 32SHADOW
 {
     color 0.5 0.5 0.5
@@ -26,14 +36,39 @@ pointlight 64SHADOW
 }
 
 
-object Van
+object VanVisualLegs
 {
-    frame VAT1 { light 24SHADOW  }
-	frame VANR { light 24SHADOW  }
-    frame VANK { light 24SHADOW  }
-	frame VKAN { light 24SHADOW  }
-	frame VJNK { light 24SHADOW  }
-	frame VAJK { light 24SHADOW  }	
+	// Обычное движение
+	frame VLST { light PlayerSHADOW }
+	frame VLFW { light PlayerSHADOW }
+	frame VLBK { light PlayerSHADOW }
+	frame VLLF { light PlayerSHADOW }
+	frame VLRT { light PlayerSHADOW }
+	frame VLLB { light PlayerSHADOW }
+	frame VLRB { light PlayerSHADOW }
+
+	// Присед
+	frame VCST { light PlayerSHADOW }
+	frame VCFW { light PlayerSHADOW }
+	frame VCBK { light PlayerSHADOW }
+	frame VCLF { light PlayerSHADOW }
+	frame VCRT { light PlayerSHADOW }
+	frame VCLB { light PlayerSHADOW }
+	frame VCRB { light PlayerSHADOW }
+
+	// Удар
+	frame VANK { light PlayerSHADOW }
+	frame VKAN { light PlayerSHADOW }
+
+	// Прыжки и приземления
+	frame VJNK { light PlayerSHADOW }
+	frame VAJK { light PlayerSHADOW }
+	frame VJBK { light PlayerSHADOW }
+	frame VBJL { light PlayerSHADOW }
+
+	// Воздушный Pain и смерть
+	frame VAPN { light PlayerSHADOW }
+	frame VNDD { light PlayerSHADOW }
 }
 
 object Cursedskeleton

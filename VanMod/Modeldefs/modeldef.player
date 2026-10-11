@@ -6,22 +6,16 @@ Model VanVisualLegs
 {
 	Path "models/Van"
 	Model 0 "legs_stay.md3"
-	
+
+	AngleOffset 0
 	Scale 0.9 0.9 0.9
 
 	FrameIndex VLST A 0 0
-
-	// Во время обычной атаки ноги неподвижны.
-	FrameIndex VAT1 A 0 0
-	FrameIndex VAT1 B 0 0
-	FrameIndex VAT1 C 0 0
-	FrameIndex VAT1 D 0 0
-	FrameIndex VAT1 E 0 0
 }
 
 
 // ============================================================
-// НОГИ: БЕГ ВПЕРЁД
+// НОГИ: ВПЕРЁД
 // ============================================================
 
 Model VanVisualLegs
@@ -29,6 +23,7 @@ Model VanVisualLegs
 	Path "models/Van"
 	Model 0 "legs_run_forward.md3"
 
+	AngleOffset 0
 	Scale 0.9 0.9 0.9
 
 	FrameIndex VLFW A 0 0
@@ -53,7 +48,7 @@ Model VanVisualLegs
 
 
 // ============================================================
-// НОГИ: БЕГ НАЗАД
+// НОГИ: НАЗАД
 // ============================================================
 
 Model VanVisualLegs
@@ -61,31 +56,32 @@ Model VanVisualLegs
 	Path "models/Van"
 	Model 0 "legs_run_back.md3"
 
+	AngleOffset 0
 	Scale 0.9 0.9 0.9
 
-	FrameIndex VLBK A 0 0
-	FrameIndex VLBK B 0 1
-	FrameIndex VLBK C 0 2
-	FrameIndex VLBK D 0 3
-	FrameIndex VLBK E 0 4
-	FrameIndex VLBK F 0 5
-	FrameIndex VLBK G 0 6
-	FrameIndex VLBK H 0 7
-	FrameIndex VLBK I 0 8
-	FrameIndex VLBK J 0 9
-	FrameIndex VLBK K 0 10
-	FrameIndex VLBK L 0 11
-	FrameIndex VLBK M 0 12
-	FrameIndex VLBK N 0 13
-	FrameIndex VLBK O 0 14
-	FrameIndex VLBK P 0 15
-	FrameIndex VLBK Q 0 16
-	FrameIndex VLBK R 0 17
+	FrameIndex VLBK A 0 17
+	FrameIndex VLBK B 0 16
+	FrameIndex VLBK C 0 15
+	FrameIndex VLBK D 0 14
+	FrameIndex VLBK E 0 13
+	FrameIndex VLBK F 0 12
+	FrameIndex VLBK G 0 11
+	FrameIndex VLBK H 0 10
+	FrameIndex VLBK I 0 9
+	FrameIndex VLBK J 0 8
+	FrameIndex VLBK K 0 7
+	FrameIndex VLBK L 0 6
+	FrameIndex VLBK M 0 5
+	FrameIndex VLBK N 0 4
+	FrameIndex VLBK O 0 3
+	FrameIndex VLBK P 0 2
+	FrameIndex VLBK Q 0 1
+	FrameIndex VLBK R 0 0
 }
 
 
 // ============================================================
-// НОГИ: БЕГ ВЛЕВО
+// НОГИ: ВЛЕВО
 // ============================================================
 
 Model VanVisualLegs
@@ -93,6 +89,7 @@ Model VanVisualLegs
 	Path "models/Van"
 	Model 0 "legs_run_left.md3"
 
+	AngleOffset 25
 	Scale 0.9 0.9 0.9
 
 	FrameIndex VLLF A 0 0
@@ -117,7 +114,7 @@ Model VanVisualLegs
 
 
 // ============================================================
-// НОГИ: БЕГ ВПРАВО
+// НОГИ: ВПРАВО
 // ============================================================
 
 Model VanVisualLegs
@@ -125,6 +122,7 @@ Model VanVisualLegs
 	Path "models/Van"
 	Model 0 "legs_run_right.md3"
 
+	AngleOffset -25
 	Scale 0.9 0.9 0.9
 
 	FrameIndex VLRT A 0 0
@@ -149,7 +147,75 @@ Model VanVisualLegs
 
 
 // ============================================================
-// ТЕЛО: СТОЙКА И АТАКА
+// НОГИ: НАЗАД-ВЛЕВО
+// Временно используется legs_run_left.md3.
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_run_left.md3"
+
+	AngleOffset -25
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VLLB A 0 17
+	FrameIndex VLLB B 0 16
+	FrameIndex VLLB C 0 15
+	FrameIndex VLLB D 0 14
+	FrameIndex VLLB E 0 13
+	FrameIndex VLLB F 0 12
+	FrameIndex VLLB G 0 11
+	FrameIndex VLLB H 0 10
+	FrameIndex VLLB I 0 9
+	FrameIndex VLLB J 0 8
+	FrameIndex VLLB K 0 7
+	FrameIndex VLLB L 0 6
+	FrameIndex VLLB M 0 5
+	FrameIndex VLLB N 0 4
+	FrameIndex VLLB O 0 3
+	FrameIndex VLLB P 0 2
+	FrameIndex VLLB Q 0 1
+	FrameIndex VLLB R 0 0
+}
+
+
+// ============================================================
+// НОГИ: НАЗАД-ВПРАВО
+// Временно используется legs_run_right.md3.
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_run_right.md3"
+
+	AngleOffset 25
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VLRB A 0 17
+	FrameIndex VLRB B 0 16
+	FrameIndex VLRB C 0 15
+	FrameIndex VLRB D 0 14
+	FrameIndex VLRB E 0 13
+	FrameIndex VLRB F 0 12
+	FrameIndex VLRB G 0 11
+	FrameIndex VLRB H 0 10
+	FrameIndex VLRB I 0 9
+	FrameIndex VLRB J 0 8
+	FrameIndex VLRB K 0 7
+	FrameIndex VLRB L 0 6
+	FrameIndex VLRB M 0 5
+	FrameIndex VLRB N 0 4
+	FrameIndex VLRB O 0 3
+	FrameIndex VLRB P 0 2
+	FrameIndex VLRB Q 0 1
+	FrameIndex VLRB R 0 0
+}
+
+
+// ============================================================
+// ТЕЛО: СТОЙКА И СТРЕЛЬБА
 // ============================================================
 
 Model VanVisualBody
@@ -157,12 +223,11 @@ Model VanVisualBody
 	Path "models/Van"
 	Model 0 "body_attack.md3"
 
+	AngleOffset 0
 	Scale 0.9 0.9 0.9
 
-	// Кадр стойки.
 	FrameIndex VBST A 0 0
 
-	// Обычная атака.
 	FrameIndex VAT1 A 0 0
 	FrameIndex VAT1 B 0 1
 	FrameIndex VAT1 C 0 2
@@ -180,6 +245,7 @@ Model VanVisualBody
 	Path "models/Van"
 	Model 0 "body_run.md3"
 
+	AngleOffset 0
 	Scale 0.9 0.9 0.9
 
 	FrameIndex VBRN A 0 0
@@ -204,7 +270,25 @@ Model VanVisualBody
 
 
 // ============================================================
-// НОГИ: УДАР
+// BODY PAIN
+// Временно используются первые два кадра body_kick.md3.
+// ============================================================
+
+Model VanVisualBody
+{
+	Path "models/Van"
+	Model 0 "body_kick.md3"
+
+	AngleOffset 0
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VBPN A 0 0
+	FrameIndex VBPN B 0 1
+}
+
+
+// ============================================================
+// НОГИ: KICK
 // ============================================================
 
 Model VanVisualLegs
@@ -212,6 +296,7 @@ Model VanVisualLegs
 	Path "models/Van"
 	Model 0 "legs_kick.md3"
 
+	AngleOffset 0
 	Scale 0.9 0.9 0.9
 
 	FrameIndex VANK A 0 0
@@ -247,7 +332,7 @@ Model VanVisualLegs
 
 
 // ============================================================
-// ТЕЛО: УДАР
+// ТЕЛО: KICK
 // ============================================================
 
 Model VanVisualBody
@@ -255,6 +340,7 @@ Model VanVisualBody
 	Path "models/Van"
 	Model 0 "body_kick.md3"
 
+	AngleOffset 0
 	Scale 0.9 0.9 0.9
 
 	FrameIndex VANK A 0 0
@@ -298,6 +384,7 @@ Model VanVisualLegs
 	Path "models/Van"
 	Model 0 "legs_jump.md3"
 
+	AngleOffset 0
 	Scale 0.9 0.9 0.9
 
 	FrameIndex VJNK A 0 0
@@ -341,6 +428,7 @@ Model VanVisualBody
 	Path "models/Van"
 	Model 0 "body_jump.md3"
 
+	AngleOffset 0
 	Scale 0.9 0.9 0.9
 
 	FrameIndex VJNK A 0 0
@@ -384,6 +472,7 @@ Model VanVisualLegs
 	Path "models/Van"
 	Model 0 "legs_die.md3"
 
+	AngleOffset 0
 	Scale 0.9 0.9 0.9
 	ZOffset -6
 
@@ -409,6 +498,7 @@ Model VanVisualBody
 	Path "models/Van"
 	Model 0 "body_die.md3"
 
+	AngleOffset 0
 	Scale 0.9 0.9 0.9
 	ZOffset -6
 
@@ -422,4 +512,352 @@ Model VanVisualBody
 	FrameIndex VNDD H 0 7
 	FrameIndex VNDD I 0 8
 	FrameIndex VNDD J 0 9
+}
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_jump.md3"
+
+	AngleOffset 0
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VAPN A 0 3
+	FrameIndex VAPN B 0 4
+}
+
+Model VanVisualBody
+{
+	Path "models/Van"
+	Model 0 "body_jump.md3"
+
+	AngleOffset 0
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VAPN A 0 3
+	FrameIndex VAPN B 0 4
+}
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_jump.md3"
+
+	AngleOffset 0
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VJBK A 0 0
+	FrameIndex VJBK B 0 1
+	FrameIndex VJBK C 0 2
+	FrameIndex VJBK D 0 3
+	FrameIndex VJBK E 0 4
+	FrameIndex VJBK F 0 5
+	FrameIndex VJBK G 0 6
+	FrameIndex VJBK H 0 7
+	FrameIndex VJBK I 0 8
+	FrameIndex VJBK J 0 9
+	FrameIndex VJBK K 0 10
+	FrameIndex VJBK L 0 11
+	FrameIndex VJBK M 0 12
+	FrameIndex VJBK N 0 13
+	FrameIndex VJBK O 0 14
+	FrameIndex VJBK P 0 15
+	FrameIndex VJBK Q 0 16
+	FrameIndex VJBK R 0 17
+
+	FrameIndex VBJL A 0 18
+	FrameIndex VBJL B 0 19
+	FrameIndex VBJL C 0 20
+	FrameIndex VBJL D 0 21
+	FrameIndex VBJL E 0 22
+	FrameIndex VBJL F 0 23
+	FrameIndex VBJL G 0 24
+	FrameIndex VBJL H 0 25
+	FrameIndex VBJL I 0 26
+	FrameIndex VBJL J 0 27
+}
+
+Model VanVisualBody
+{
+	Path "models/Van"
+	Model 0 "body_jump.md3"
+
+	AngleOffset 0
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VJBK A 0 0
+	FrameIndex VJBK B 0 1
+	FrameIndex VJBK C 0 2
+	FrameIndex VJBK D 0 3
+	FrameIndex VJBK E 0 4
+	FrameIndex VJBK F 0 5
+	FrameIndex VJBK G 0 6
+	FrameIndex VJBK H 0 7
+	FrameIndex VJBK I 0 8
+	FrameIndex VJBK J 0 9
+	FrameIndex VJBK K 0 10
+	FrameIndex VJBK L 0 11
+	FrameIndex VJBK M 0 12
+	FrameIndex VJBK N 0 13
+	FrameIndex VJBK O 0 14
+	FrameIndex VJBK P 0 15
+	FrameIndex VJBK Q 0 16
+	FrameIndex VJBK R 0 17
+
+	FrameIndex VBJL A 0 18
+	FrameIndex VBJL B 0 19
+	FrameIndex VBJL C 0 20
+	FrameIndex VBJL D 0 21
+	FrameIndex VBJL E 0 22
+	FrameIndex VBJL F 0 23
+	FrameIndex VBJL G 0 24
+	FrameIndex VBJL H 0 25
+	FrameIndex VBJL I 0 26
+	FrameIndex VBJL J 0 27
+}
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_stay.md3"
+	AngleOffset 0
+	Scale 0.9 0.9 0.9
+	FrameIndex VCST A 0 0
+}
+
+Model VanVisualBody
+{
+	Path "models/Van"
+	Model 0 "body_attack.md3"
+	AngleOffset 0
+	Scale 0.9 0.9 0.9
+	FrameIndex VCBS A 0 0
+}
+
+Model VanVisualBody
+{
+	Path "models/Van"
+	Model 0 "body_run.md3"
+	AngleOffset 0
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VCBR A 0 0
+	FrameIndex VCBR B 0 1
+	FrameIndex VCBR C 0 2
+	FrameIndex VCBR D 0 3
+	FrameIndex VCBR E 0 4
+	FrameIndex VCBR F 0 5
+	FrameIndex VCBR G 0 6
+	FrameIndex VCBR H 0 7
+	FrameIndex VCBR I 0 8
+	FrameIndex VCBR J 0 9
+	FrameIndex VCBR K 0 10
+	FrameIndex VCBR L 0 11
+	FrameIndex VCBR M 0 12
+	FrameIndex VCBR N 0 13
+	FrameIndex VCBR O 0 14
+	FrameIndex VCBR P 0 15
+	FrameIndex VCBR Q 0 16
+	FrameIndex VCBR R 0 17
+}
+
+///////ПРИСЕД ВРЕМЕННО ИСПОЛЬЗУЮ ТО ЧТО СТОЯ
+
+// ============================================================
+// НОГИ: ВПЕРЁД ПРИСЕД ВРЕМЕННО ИСПОЛЬЗУЮ ТО ЧТО СТОЯ
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_run_forward.md3"
+
+	AngleOffset 0
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VLFW A 0 0
+	FrameIndex VLFW B 0 1
+	FrameIndex VLFW C 0 2
+	FrameIndex VLFW D 0 3
+	FrameIndex VLFW E 0 4
+	FrameIndex VLFW F 0 5
+	FrameIndex VLFW G 0 6
+	FrameIndex VLFW H 0 7
+	FrameIndex VLFW I 0 8
+	FrameIndex VLFW J 0 9
+	FrameIndex VLFW K 0 10
+	FrameIndex VLFW L 0 11
+	FrameIndex VLFW M 0 12
+	FrameIndex VLFW N 0 13
+	FrameIndex VLFW O 0 14
+	FrameIndex VLFW P 0 15
+	FrameIndex VLFW Q 0 16
+	FrameIndex VLFW R 0 17
+}
+
+
+// ============================================================
+// НОГИ: НАЗАД ПРИСЕД ВРЕМЕННО ИСПОЛЬЗУЮ ТО ЧТО СТОЯ
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_run_back.md3"
+
+	AngleOffset 0
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VLBK A 0 17
+	FrameIndex VLBK B 0 16
+	FrameIndex VLBK C 0 15
+	FrameIndex VLBK D 0 14
+	FrameIndex VLBK E 0 13
+	FrameIndex VLBK F 0 12
+	FrameIndex VLBK G 0 11
+	FrameIndex VLBK H 0 10
+	FrameIndex VLBK I 0 9
+	FrameIndex VLBK J 0 8
+	FrameIndex VLBK K 0 7
+	FrameIndex VLBK L 0 6
+	FrameIndex VLBK M 0 5
+	FrameIndex VLBK N 0 4
+	FrameIndex VLBK O 0 3
+	FrameIndex VLBK P 0 2
+	FrameIndex VLBK Q 0 1
+	FrameIndex VLBK R 0 0
+}
+
+
+// ============================================================
+// НОГИ: ВЛЕВО ПРИСЕД ВРЕМЕННО ИСПОЛЬЗУЮ ТО ЧТО СТОЯ
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_run_left.md3"
+
+	AngleOffset 25
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VLLF A 0 0
+	FrameIndex VLLF B 0 1
+	FrameIndex VLLF C 0 2
+	FrameIndex VLLF D 0 3
+	FrameIndex VLLF E 0 4
+	FrameIndex VLLF F 0 5
+	FrameIndex VLLF G 0 6
+	FrameIndex VLLF H 0 7
+	FrameIndex VLLF I 0 8
+	FrameIndex VLLF J 0 9
+	FrameIndex VLLF K 0 10
+	FrameIndex VLLF L 0 11
+	FrameIndex VLLF M 0 12
+	FrameIndex VLLF N 0 13
+	FrameIndex VLLF O 0 14
+	FrameIndex VLLF P 0 15
+	FrameIndex VLLF Q 0 16
+	FrameIndex VLLF R 0 17
+}
+
+
+// ============================================================
+// НОГИ: ВПРАВО ПРИСЕД ВРЕМЕННО ИСПОЛЬЗУЮ ТО ЧТО СТОЯ
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_run_right.md3"
+
+	AngleOffset -25
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VLRT A 0 0
+	FrameIndex VLRT B 0 1
+	FrameIndex VLRT C 0 2
+	FrameIndex VLRT D 0 3
+	FrameIndex VLRT E 0 4
+	FrameIndex VLRT F 0 5
+	FrameIndex VLRT G 0 6
+	FrameIndex VLRT H 0 7
+	FrameIndex VLRT I 0 8
+	FrameIndex VLRT J 0 9
+	FrameIndex VLRT K 0 10
+	FrameIndex VLRT L 0 11
+	FrameIndex VLRT M 0 12
+	FrameIndex VLRT N 0 13
+	FrameIndex VLRT O 0 14
+	FrameIndex VLRT P 0 15
+	FrameIndex VLRT Q 0 16
+	FrameIndex VLRT R 0 17
+}
+
+
+// ============================================================
+// НОГИ: НАЗАД-ВЛЕВО ПРИСЕД ВРЕМЕННО ИСПОЛЬЗУЮ ТО ЧТО СТОЯ
+// Временно используется legs_run_left.md3.
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_run_left.md3"
+
+	AngleOffset -25
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VLLB A 0 17
+	FrameIndex VLLB B 0 16
+	FrameIndex VLLB C 0 15
+	FrameIndex VLLB D 0 14
+	FrameIndex VLLB E 0 13
+	FrameIndex VLLB F 0 12
+	FrameIndex VLLB G 0 11
+	FrameIndex VLLB H 0 10
+	FrameIndex VLLB I 0 9
+	FrameIndex VLLB J 0 8
+	FrameIndex VLLB K 0 7
+	FrameIndex VLLB L 0 6
+	FrameIndex VLLB M 0 5
+	FrameIndex VLLB N 0 4
+	FrameIndex VLLB O 0 3
+	FrameIndex VLLB P 0 2
+	FrameIndex VLLB Q 0 1
+	FrameIndex VLLB R 0 0
+}
+
+
+// ============================================================
+// НОГИ: НАЗАД-ВПРАВО ПРИСЕД ВРЕМЕННО ИСПОЛЬЗУЮ ТО ЧТО СТОЯ
+// Временно используется legs_run_right.md3.
+// ============================================================
+
+Model VanVisualLegs
+{
+	Path "models/Van"
+	Model 0 "legs_run_right.md3"
+
+	AngleOffset 25
+	Scale 0.9 0.9 0.9
+
+	FrameIndex VLRB A 0 17
+	FrameIndex VLRB B 0 16
+	FrameIndex VLRB C 0 15
+	FrameIndex VLRB D 0 14
+	FrameIndex VLRB E 0 13
+	FrameIndex VLRB F 0 12
+	FrameIndex VLRB G 0 11
+	FrameIndex VLRB H 0 10
+	FrameIndex VLRB I 0 9
+	FrameIndex VLRB J 0 8
+	FrameIndex VLRB K 0 7
+	FrameIndex VLRB L 0 6
+	FrameIndex VLRB M 0 5
+	FrameIndex VLRB N 0 4
+	FrameIndex VLRB O 0 3
+	FrameIndex VLRB P 0 2
+	FrameIndex VLRB Q 0 1
+	FrameIndex VLRB R 0 0
 }

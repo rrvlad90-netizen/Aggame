@@ -59,7 +59,7 @@ ACTOR WinterI1 : TreeWinter  //22564
 }
 
 
-
+/*
 Actor Tr1: RandomSpawner replaces winterA
 {
 DropItem "WinterA1", 255, 255
@@ -143,6 +143,7 @@ DropItem "WinterF1", 255, 255
 DropItem "WinterH1", 255, 255
 DropItem "WinterI1", 255, 255
 }
+*/
 
 Actor Tr8: RandomSpawner replaces BigTree
 {
