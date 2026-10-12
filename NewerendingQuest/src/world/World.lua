@@ -5,11 +5,11 @@ local PlayerData = require("data.entities.player")
 local Ground = require("src.rendering.Ground")
 local ArrowBundle = require("src.items.ArrowBundle")
 local Portal = require("src.entities.Portal")
+local ForestRivers = require("src.world.ForestRivers")
 
 local World = {}
 World.__index = World
 
--- Создаёт процедурный лес.
 function World.new(projection, assets, level)
     local self = setmetatable({}, World)
 
@@ -31,10 +31,11 @@ function World.new(projection, assets, level)
         generator = {}
     }
 
-    local size = self.level.size or {
-        width = 50,
-        length = 80
-    }
+    local size =
+        self.level.size or {
+            width = 50,
+            length = 80
+        }
 
     self.width =
         size.width *
@@ -50,7 +51,23 @@ function World.new(projection, assets, level)
     self.minZ = 0
     self.maxZ = self.length
 
-    -- Декоративный лес продолжается за границей.
+    local rendering =
+        self.level.rendering or {}
+
+    self.renderDistance =
+        (
+            rendering.distance or
+            34
+        ) *
+        Config.worldUnitsPerMeter
+
+    self.renderBehindDistance =
+        (
+            rendering.behindDistance or
+            8
+        ) *
+        Config.worldUnitsPerMeter
+
     self.decorationMaxZ =
         self.maxZ +
         Config.projection.visibleDepth
@@ -59,14 +76,26 @@ function World.new(projection, assets, level)
         self.level.seed or
         Config.world.seed
 
+    self.rivers =
+        ForestRivers.new(
+            self.projection,
+            self.level,
+            self.minX,
+            self.maxX,
+            self.minZ,
+            self.maxZ,
+            self.seed
+        )
+
     self.chunkLength =
         Config.world.chunkLength
 
-    self.chunksAhead =
-        Config.world.chunksAhead
-
     local generator =
         self.level.generator or {}
+
+    self.chunksAhead =
+        generator.chunksAhead or
+        Config.world.chunksAhead
 
     self.objectsPerChunk =
         generator.objectsPerChunk or
@@ -96,14 +125,16 @@ function World.new(projection, assets, level)
 
     self.safeCorridorHalfWidth =
         (
-            generator.safeCorridorWidth or 0
+            generator.safeCorridorWidth or
+            0
         ) *
         Config.worldUnitsPerMeter /
         2
 
     self.startSafeRadius =
         (
-            generator.startSafeRadius or 0
+            generator.startSafeRadius or
+            0
         ) *
         Config.worldUnitsPerMeter
 
@@ -127,11 +158,12 @@ function World.new(projection, assets, level)
     self.cameraX = 0
     self.cameraZ = 0
 
-    self.ground = Ground.new(
-        projection,
-        assets,
-        Forest
-    )
+    self.ground =
+        Ground.new(
+            projection,
+            assets,
+            Forest
+        )
 
     self:generateArrowBundles()
     self:ensureChunks(0)
@@ -142,17 +174,32 @@ function World.new(projection, assets, level)
     return self
 end
 
--- Объединяет настройки биома и уровня.
+function World:isWithinRenderDistance(
+    z,
+    margin
+)
+    margin = margin or 0
+
+    return
+        z + margin >=
+        self.cameraZ -
+        self.renderBehindDistance and
+
+        z - margin <=
+        self.cameraZ +
+        self.renderDistance
+end
+
 function World:resolveVisual(objectType)
     local defaults =
-        (Forest.visuals or {})[
-            objectType
-        ] or {}
+        (
+            Forest.visuals or {}
+        )[objectType] or {}
 
     local override =
-        (self.level.visuals or {})[
-            objectType
-        ] or {}
+        (
+            self.level.visuals or {}
+        )[objectType] or {}
 
     local defaultOffset =
         defaults.offset or {}
@@ -195,12 +242,13 @@ function World:resolveVisual(objectType)
     }
 end
 
--- Возвращает группу изображений.
 function World:getObjectGroup(objectType)
     if objectType == "tree" then
         return Forest.treeGroup
+
     elseif objectType == "bush" then
         return Forest.bushGroup
+
     elseif objectType == "rock" then
         return Forest.rockGroup
     end
@@ -208,7 +256,6 @@ function World:getObjectGroup(objectType)
     return Forest.mushroomGroup
 end
 
--- Выбирает тип лесного объекта.
 function World:chooseObjectType(random)
     local total =
         self.treeChance +
@@ -224,13 +271,17 @@ function World:chooseObjectType(random)
         return "tree"
     end
 
-    value = value - self.treeChance
+    value =
+        value -
+        self.treeChance
 
     if value < self.bushChance then
         return "bush"
     end
 
-    value = value - self.bushChance
+    value =
+        value -
+        self.bushChance
 
     if value < self.rockChance then
         return "rock"
@@ -239,8 +290,10 @@ function World:chooseObjectType(random)
     return "mushroom"
 end
 
--- Выбирает вариант PNG.
-function World:chooseVariant(random, groupName)
+function World:chooseVariant(
+    random,
+    groupName
+)
     local count =
         self.assets:getVariantCount(
             groupName
@@ -250,10 +303,12 @@ function World:chooseVariant(random, groupName)
         return 1
     end
 
-    return random:random(1, count)
+    return random:random(
+        1,
+        count
+    )
 end
 
--- Создаёт портал у конца леса.
 function World:createPortal()
     local definition =
         self.level.exit
@@ -272,7 +327,8 @@ function World:createPortal()
     local z =
         self.maxZ -
         (
-            definition.distanceFromEnd or 4
+            definition.distanceFromEnd or
+            4
         ) *
         Config.worldUnitsPerMeter
 
@@ -284,7 +340,6 @@ function World:createPortal()
     )
 end
 
--- Генерирует связки стрел.
 function World:generateArrowBundles()
     local random =
         love.math.newRandomGenerator(
@@ -316,22 +371,34 @@ function World:generateArrowBundles()
     for _ = 1,
         self.arrowBundleCount
     do
-        local x =
-            self.minX +
-            sideMargin +
-            random:random() *
-            usableWidth
+        for _ = 1, 40 do
+            local x =
+                self.minX +
+                sideMargin +
+                random:random() *
+                usableWidth
 
-        local z =
-            depthMargin +
-            random:random() *
-            usableLength
+            local z =
+                depthMargin +
+                random:random() *
+                usableLength
 
-        self:addArrowBundle(x, z)
+            if not self.rivers:isReserved(
+                x,
+                z,
+                0
+            ) then
+                self:addArrowBundle(
+                    x,
+                    z
+                )
+
+                break
+            end
+        end
     end
 end
 
--- Добавляет связку стрел.
 function World:addArrowBundle(
     x,
     z,
@@ -339,15 +406,15 @@ function World:addArrowBundle(
 )
     self.arrowBundles[
         #self.arrowBundles + 1
-    ] = ArrowBundle.new(
-        self.assets,
-        x,
-        z,
-        amount
-    )
+    ] =
+        ArrowBundle.new(
+            self.assets,
+            x,
+            z,
+            amount
+        )
 end
 
--- Обновляет связки стрел.
 function World:updateArrowBundles(
     dt,
     player
@@ -355,17 +422,18 @@ function World:updateArrowBundles(
     for _, bundle in ipairs(
         self.arrowBundles
     ) do
-        bundle:update(dt, player)
+        bundle:update(
+            dt,
+            player
+        )
     end
 end
 
--- Принимает положение камеры.
 function World:setCameraPosition(x, z)
     self.cameraX = x
     self.cameraZ = z
 end
 
--- Возвращает границы камеры.
 function World:getCameraBounds()
     return {
         minX = self.minX,
@@ -373,20 +441,25 @@ function World:getCameraBounds()
     }
 end
 
--- Ограничивает позицию уровнем.
 function World:clampPosition(x, z)
     return
         math.max(
             self.minX,
-            math.min(self.maxX, x)
+            math.min(
+                self.maxX,
+                x
+            )
         ),
+
         math.max(
             self.minZ,
-            math.min(self.maxZ, z)
+            math.min(
+                self.maxZ,
+                z
+            )
         )
 end
 
--- Обновляет лес.
 function World:update(dt, player)
     self:ensureChunks(player.z)
 
@@ -403,7 +476,6 @@ function World:update(dt, player)
     end
 end
 
--- Загружает ближайшие секции леса.
 function World:ensureChunks(playerZ)
     local currentIndex =
         math.floor(
@@ -438,11 +510,15 @@ function World:ensureChunks(playerZ)
     do
         if not self.chunks[index] then
             self.chunks[index] =
-                self:generateChunk(index)
+                self:generateChunk(
+                    index
+                )
         end
     end
 
-    for index in pairs(self.chunks) do
+    for index in pairs(
+        self.chunks
+    ) do
         if
             index < firstIndex or
             index > lastIndex
@@ -452,7 +528,6 @@ function World:ensureChunks(playerZ)
     end
 end
 
--- Генерирует секцию леса.
 function World:generateChunk(index)
     local random =
         love.math.newRandomGenerator(
@@ -547,39 +622,53 @@ function World:generateChunk(index)
             outsideSafeCorridor and
             outsideStartArea
 
-        objects[#objects + 1] = {
-            type = objectType,
-            imageGroup = groupName,
+        local collisionRadius =
+            (
+                visual.collisionRadius or
+                0
+            ) *
+            Config.worldUnitsPerMeter *
+            size *
+            (visual.scale or 1)
 
-            variant =
-                self:chooseVariant(
-                    random,
-                    groupName
-                ),
+        local reservedByRiver =
+            self.rivers:isReserved(
+                x,
+                z,
+                collisionRadius
+            )
 
-            x = x,
-            z = z,
+        if not reservedByRiver then
+            objects[#objects + 1] = {
+                type = objectType,
 
-            size = size,
-            visual = visual,
+                imageGroup =
+                    groupName,
 
-            collidable = collidable,
+                variant =
+                    self:chooseVariant(
+                        random,
+                        groupName
+                    ),
 
-            collisionRadius =
-                (
-                    visual.collisionRadius or
-                    0
-                ) *
-                Config.worldUnitsPerMeter *
-                size *
-                (visual.scale or 1)
-        }
+                x = x,
+                z = z,
+
+                size = size,
+                visual = visual,
+
+                collidable =
+                    collidable,
+
+                collisionRadius =
+                    collisionRadius
+            }
+        end
     end
 
     return objects
 end
 
--- Проверяет столкновение с объектами.
 function World:collidesWithObjects(
     x,
     z,
@@ -600,15 +689,19 @@ function World:collidesWithObjects(
                 )
 
             if shouldCheck then
-                local dx = x - object.x
-                local dz = z - object.z
+                local dx =
+                    x - object.x
+
+                local dz =
+                    z - object.z
 
                 local radius =
                     playerRadius +
                     object.collisionRadius
 
                 if
-                    dx * dx + dz * dz <
+                    dx * dx +
+                    dz * dz <
                     radius * radius
                 then
                     return true
@@ -620,7 +713,27 @@ function World:collidesWithObjects(
     return false
 end
 
--- Разрешает движение вдоль препятствий.
+function World:collidesAt(
+    x,
+    z,
+    collisionRadius
+)
+    if self.rivers:isBlocked(
+        x,
+        z,
+        collisionRadius
+    ) then
+        return true
+    end
+
+    return self:collidesWithObjects(
+        x,
+        z,
+        collisionRadius,
+        false
+    )
+end
+
 function World:resolveMovement(
     currentX,
     currentZ,
@@ -628,11 +741,10 @@ function World:resolveMovement(
     candidateZ,
     playerRadius
 )
-    if not self:collidesWithObjects(
+    if not self:collidesAt(
         candidateX,
         candidateZ,
-        playerRadius,
-        false
+        playerRadius
     ) then
         return candidateX, candidateZ
     end
@@ -640,20 +752,18 @@ function World:resolveMovement(
     local resolvedX = currentX
     local resolvedZ = currentZ
 
-    if not self:collidesWithObjects(
+    if not self:collidesAt(
         candidateX,
         currentZ,
-        playerRadius,
-        false
+        playerRadius
     ) then
         resolvedX = candidateX
     end
 
-    if not self:collidesWithObjects(
+    if not self:collidesAt(
         resolvedX,
         candidateZ,
-        playerRadius,
-        false
+        playerRadius
     ) then
         resolvedZ = candidateZ
     end
@@ -661,12 +771,10 @@ function World:resolveMovement(
     return resolvedX, resolvedZ
 end
 
--- В лесу доступны свободные прыжки.
 function World:usesForwardOnlyJumps()
     return false
 end
 
--- Рассчитывает прыжок через камни.
 function World:getJumpTarget(
     player,
     jumpType,
@@ -698,12 +806,13 @@ function World:getJumpTarget(
             targetZ
         )
 
-    if self:collidesWithObjects(
-        targetX,
-        targetZ,
-        player.collisionRadius,
-        false
-    ) then
+    if
+        self:collidesAt(
+            targetX,
+            targetZ,
+            player.collisionRadius
+        )
+    then
         return player.x, player.z
     end
 
@@ -731,6 +840,14 @@ function World:getJumpTarget(
             ) *
             progress
 
+        if self.rivers:isBlocked(
+            sampleX,
+            sampleZ,
+            player.collisionRadius
+        ) then
+            return lastX, lastZ
+        end
+
         if self:collidesWithObjects(
             sampleX,
             sampleZ,
@@ -747,16 +864,19 @@ function World:getJumpTarget(
     return targetX, targetZ
 end
 
--- Лесная поверхность безопасна.
 function World:isSafePosition(
     x,
     z,
     collisionRadius
 )
-    return true
+    return
+        not self.rivers:isBlocked(
+            x,
+            z,
+            collisionRadius
+        )
 end
 
--- Проверяет активацию портала.
 function World:isLevelComplete(player)
     return
         self.portal and
@@ -764,7 +884,6 @@ function World:isLevelComplete(player)
         false
 end
 
--- Возвращает назначение портала.
 function World:getExitDestination()
     if not self.portal then
         return nil
@@ -775,8 +894,14 @@ function World:getExitDestination()
         getDestination()
 end
 
--- Проверяет горизонтальную видимость.
 function World:isObjectOnScreen(object)
+    if not self:isWithinRenderDistance(
+        object.z,
+        object.renderMargin or 0
+    ) then
+        return false
+    end
+
     local x, _, scale =
         self.projection:project(
             object.x,
@@ -787,7 +912,10 @@ function World:isObjectOnScreen(object)
 
     local margin =
         200 *
-        math.max(scale, 0.2)
+        math.max(
+            scale,
+            0.2
+        )
 
     return
         x >= -margin and
@@ -796,7 +924,6 @@ function World:isObjectOnScreen(object)
         margin
 end
 
--- Собирает объекты, предметы, стрелы, врагов, портал и игрока.
 function World:collectVisibleObjects(
     player,
     projectiles,
@@ -812,11 +939,14 @@ function World:collectVisibleObjects(
             chunk
         ) do
             if
-                self.projection:isDepthVisible(
+                self.projection:
+                isDepthVisible(
                     object.z,
                     self.cameraZ
                 ) and
-                self:isObjectOnScreen(object)
+                self:isObjectOnScreen(
+                    object
+                )
             then
                 queue[#queue + 1] =
                     object
@@ -831,11 +961,14 @@ function World:collectVisibleObjects(
             bundle.active ~= false and
             bundle.visible ~= false and
             not bundle.collected and
-            self.projection:isDepthVisible(
+            self.projection:
+            isDepthVisible(
                 bundle.z,
                 self.cameraZ
             ) and
-            self:isObjectOnScreen(bundle)
+            self:isObjectOnScreen(
+                bundle
+            )
         then
             queue[#queue + 1] = {
                 type = "arrow_bundle",
@@ -846,22 +979,25 @@ function World:collectVisibleObjects(
         end
     end
 
-    for _, arrow in ipairs(
+    for _, projectile in ipairs(
         projectiles or {}
     ) do
         if
-            arrow.active and
-            self.projection:isDepthVisible(
-                arrow.z,
+            projectile.active and
+            self.projection:
+            isDepthVisible(
+                projectile.z,
                 self.cameraZ
             ) and
-            self:isObjectOnScreen(arrow)
+            self:isObjectOnScreen(
+                projectile
+            )
         then
             queue[#queue + 1] = {
-                type = "player_arrow",
-                x = arrow.x,
-                z = arrow.z,
-                reference = arrow
+                type = "projectile",
+                x = projectile.x,
+                z = projectile.z,
+                reference = projectile
             }
         end
     end
@@ -871,11 +1007,14 @@ function World:collectVisibleObjects(
     ) do
         if
             enemy.active and
-            self.projection:isDepthVisible(
+            self.projection:
+            isDepthVisible(
                 enemy.z,
                 self.cameraZ
             ) and
-            self:isObjectOnScreen(enemy)
+            self:isObjectOnScreen(
+                enemy
+            )
         then
             queue[#queue + 1] = {
                 type = "enemy",
@@ -893,11 +1032,14 @@ function World:collectVisibleObjects(
             pickup.active ~= false and
             pickup.visible ~= false and
             not pickup.collected and
-            self.projection:isDepthVisible(
+            self.projection:
+            isDepthVisible(
                 pickup.z,
                 self.cameraZ
             ) and
-            self:isObjectOnScreen(pickup)
+            self:isObjectOnScreen(
+                pickup
+            )
         then
             queue[#queue + 1] = {
                 type = "pickup",
@@ -910,7 +1052,8 @@ function World:collectVisibleObjects(
 
     if
         self.portal and
-        self.projection:isDepthVisible(
+        self.projection:
+        isDepthVisible(
             self.portal.z,
             self.cameraZ
         ) and
@@ -933,22 +1076,27 @@ function World:collectVisibleObjects(
         reference = player
     }
 
+    self.rivers:addRailingsToQueue(
+        queue,
+        self.cameraZ
+    )
+
     table.sort(
         queue,
-        function(a, b)
-            return a.z > b.z
+        function(first, second)
+            return
+                first.z >
+                second.z
         end
     )
 
     return queue
 end
 
--- В лесу разрешена ходьба.
 function World:allowsWalking()
     return true
 end
 
--- Лес не требует подготовки возрождения.
 function World:prepareRespawn(
     x,
     z,
@@ -956,7 +1104,6 @@ function World:prepareRespawn(
 )
 end
 
--- Рисует лес.
 function World:draw(
     player,
     projectiles,
@@ -964,6 +1111,11 @@ function World:draw(
     pickups
 )
     self.ground:draw(
+        self.cameraX,
+        self.cameraZ
+    )
+
+    self.rivers:drawSurface(
         self.cameraX,
         self.cameraZ
     )
@@ -980,11 +1132,24 @@ function World:draw(
             pickups
         )
 
-    for _, object in ipairs(queue) do
+    for _, object in ipairs(
+        queue
+    ) do
         if
+            object.type ==
+            "river_railing"
+        then
+            self.rivers:
+            drawRailingSegment(
+                object,
+                self.cameraX,
+                self.cameraZ
+            )
+
+        elseif
             object.type == "player" or
             object.type == "arrow_bundle" or
-            object.type == "player_arrow" or
+            object.type == "projectile" or
             object.type == "enemy" or
             object.type == "pickup" or
             object.type == "portal"
@@ -994,6 +1159,7 @@ function World:draw(
                 self.cameraX,
                 self.cameraZ
             )
+
         else
             self:drawWorldObject(
                 object
@@ -1002,14 +1168,14 @@ function World:draw(
     end
 end
 
--- Рисует отладочные линии.
 function World:drawDepthLines()
     local step =
         Config.projection.depthLineSize
 
     local firstLine =
         math.floor(
-            self.cameraZ / step
+            self.cameraZ /
+            step
         ) * step
 
     love.graphics.setColor(
@@ -1019,9 +1185,15 @@ function World:drawDepthLines()
         0.12
     )
 
+    local lastLine =
+        math.min(
+            self.cameraZ +
+            self.renderDistance,
+            self.maxZ
+        )
+
     for z = firstLine,
-        self.cameraZ +
-        Config.projection.visibleDepth,
+        lastLine,
         step
     do
         local _, y =
@@ -1043,15 +1215,16 @@ function World:drawDepthLines()
     love.graphics.setColor(1, 1, 1, 1)
 end
 
--- Рисует объект леса.
 function World:drawWorldObject(object)
-    local x, y, perspectiveScale =
-        self.projection:project(
-            object.x,
-            object.z,
-            self.cameraX,
-            self.cameraZ
-        )
+    local x,
+        y,
+        perspectiveScale =
+            self.projection:project(
+                object.x,
+                object.z,
+                self.cameraX,
+                self.cameraZ
+            )
 
     local alpha =
         self.projection:
@@ -1086,7 +1259,6 @@ function World:drawWorldObject(object)
     end
 end
 
--- Рисует PNG объекта.
 function World:drawImageObject(
     image,
     object,
@@ -1121,9 +1293,11 @@ function World:drawImageObject(
         x +
         (offset.x or 0) *
         spriteScale,
+
         y +
         (offset.y or 0) *
         spriteScale,
+
         0,
         spriteScale,
         spriteScale,
@@ -1134,7 +1308,6 @@ function World:drawImageObject(
     love.graphics.setColor(1, 1, 1, 1)
 end
 
--- Рисует объект без PNG.
 function World:drawPlaceholderObject(
     object,
     x,
@@ -1196,6 +1369,7 @@ function World:drawPlaceholderObject(
             y - 92 * scale,
             42 * scale
         )
+
     elseif object.type == "rock" then
         love.graphics.setColor(
             0.34,
@@ -1211,6 +1385,7 @@ function World:drawPlaceholderObject(
             34 * scale,
             20 * scale
         )
+
     elseif object.type == "mushroom" then
         love.graphics.setColor(
             0.72,
@@ -1225,6 +1400,7 @@ function World:drawPlaceholderObject(
             y - 12 * scale,
             10 * scale
         )
+
     else
         love.graphics.setColor(
             0.12,

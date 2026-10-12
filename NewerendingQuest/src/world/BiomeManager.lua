@@ -1,3 +1,6 @@
+local SkeletonData =
+    require("data.entities.enemies.skeleton")
+
 local Config = require("src.config")
 
 local DungeonWorld =
@@ -227,7 +230,8 @@ end
 -- Возвращает случайную позицию внутри мира.
 function BiomeManager:getRandomWorldPosition(
     player,
-    minimumDistance
+    minimumDistance,
+    collisionRadius
 )
     local minimum =
         minimumDistance or
@@ -253,7 +257,7 @@ function BiomeManager:getRandomWorldPosition(
             1500
         )
 
-    for _ = 1, 40 do
+    for _ = 1, 80 do
         local x =
             minX +
             self.random:random() *
@@ -270,17 +274,35 @@ function BiomeManager:getRandomWorldPosition(
         local dz =
             z - player.z
 
-        if
+        local farEnough =
             dx * dx + dz * dz >=
             minimum * minimum
+
+        local safePosition = true
+
+        -- Only ground enemies request this check.
+        if
+            collisionRadius and
+            self.world.isSafePosition
+        then
+            safePosition =
+                self.world:isSafePosition(
+                    x,
+                    z,
+                    collisionRadius
+                )
+        end
+
+        if
+            farEnough and
+            safePosition
         then
             return x, z
         end
     end
 
-    return
-        player.x,
-        player.z + minimum
+    -- The player position should always be reachable.
+    return player.x, player.z
 end
 
 -- Создаёт врагов текущего уровня.
@@ -317,7 +339,8 @@ function BiomeManager:generateEnemies(player)
             self:getRandomWorldPosition(
                 player,
                 10 *
-                Config.worldUnitsPerMeter
+                Config.worldUnitsPerMeter,
+                SkeletonData.collisionRadius
             )
 
         local skeleton =
@@ -344,7 +367,6 @@ function BiomeManager:generateEnemies(player)
     local wyvernCount =
         settings.wyvernCount
 
-    -- По умолчанию виверна появляется только в лесу.
     if wyvernCount == nil then
         if self.level.biome == "forest" then
             wyvernCount = 2
@@ -361,16 +383,17 @@ function BiomeManager:generateEnemies(player)
                 Config.worldUnitsPerMeter
             )
 
-		local wyvern =
-			Wyvern.new(
-				self.assets,
-				x,
-				z,
-				{
-					rangedOnly =
-						settings.wyvernRangedOnly
-				}
-			)
+        local wyvern =
+            Wyvern.new(
+                self.assets,
+                x,
+                z,
+                {
+                    rangedOnly =
+                        settings.
+                        wyvernRangedOnly
+                }
+            )
 
         self.enemies[
             #self.enemies + 1

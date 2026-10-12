@@ -281,8 +281,10 @@ function Input:readKeyboard()
     self:setAction("jumpMedium", love.keyboard.isDown("x"))
     self:setAction("jumpFar", love.keyboard.isDown("c"))
 
-    self:setAction("melee", love.keyboard.isDown("lctrl"))
-    self:setAction("ranged", love.keyboard.isDown("lalt"))
+    self:setAction("melee", love.keyboard.isDown("lctrl") or
+    love.mouse.isDown(1))
+    self:setAction("ranged", love.keyboard.isDown("lalt") or
+    love.mouse.isDown(2))
 
     self:setAction(
         "shield",

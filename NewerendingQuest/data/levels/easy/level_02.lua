@@ -104,9 +104,60 @@ return {
         length = 180
     },
 
+	rivers = {
+		count = 3,
+
+		startMargin = 18,
+		finishMargin = 18,
+		minimumSpacing = 24,
+
+		-- Продолжение за боковые края карты.
+		renderExtension = 70,
+
+		renderDistance = 50,
+
+		bridgeReveal = {
+			startDistance = 52,
+			fullDistance = 50
+		},
+
+		width = {
+			minimum = 4,
+			maximum = 7
+		},
+
+		bend = {
+			enabled = true,
+			minimumStrength = 2,
+			maximumStrength = 6
+		},
+
+		bank = {
+			width = 1.5,
+			depth = 0.8,
+			vegetationClearance = 1.5
+		},
+
+		bridge = {
+			width = 4.5,
+			lengthPadding = 1,
+			sideMargin = 4,
+			railingHeight = 0.9,
+
+			-- Свободное пространство перед мостом.
+			approachClearance = 6
+		}
+	},
+	
+	rendering = {
+		distance = 34,
+		behindDistance = 8
+	},
+
 	generator = {
 		objectsPerChunk = 160,
-
+		chunksAhead = 1,
+		
 		treeChance = 0.55,
 		bushChance = 0.32,
 		rockChance = 0.09,
