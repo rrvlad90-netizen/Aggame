@@ -113,6 +113,12 @@ function World.new(projection, assets, level)
 
     self.mushroomChance =
         generator.mushroomChance or 0.04
+		
+	self.treeMinimumDistance =
+    (
+        generator.treeMinimumDistance or 0
+    ) *
+    Config.worldUnitsPerMeter	
 
     self.arrowBundleCount =
         generator.arrowBundleCount or 8
@@ -599,6 +605,59 @@ function World:ensureChunks(playerZ)
     end
 end
 
+-- Проверяет дистанцию до других деревьев.
+function World:canPlaceTree(
+    x,
+    z,
+    currentObjects
+)
+    local minimumDistance =
+        self.treeMinimumDistance or 0
+
+    if minimumDistance <= 0 then
+        return true
+    end
+
+    local minimumSquared =
+        minimumDistance *
+        minimumDistance
+
+    local function isTooClose(object)
+        if object.type ~= "tree" then
+            return false
+        end
+
+        local dx = x - object.x
+        local dz = z - object.z
+
+        return
+            dx * dx + dz * dz <
+            minimumSquared
+    end
+
+    -- Уже созданные деревья текущего чанка.
+    for _, object in ipairs(
+        currentObjects
+    ) do
+        if isTooClose(object) then
+            return false
+        end
+    end
+
+    -- Деревья соседних загруженных чанков.
+    for _, chunk in pairs(
+        self.chunks
+    ) do
+        for _, object in ipairs(chunk) do
+            if isTooClose(object) then
+                return false
+            end
+        end
+    end
+
+    return true
+end
+
 function World:generateChunk(index)
     local random =
         love.math.newRandomGenerator(
@@ -709,8 +768,23 @@ function World:generateChunk(index)
                 collisionRadius
             )
 
-        if not reservedByRiver then
-            objects[#objects + 1] = {
+		local placementAllowed =
+			not reservedByRiver
+
+		if
+			placementAllowed and
+			objectType == "tree"
+		then
+			placementAllowed =
+				self:canPlaceTree(
+					x,
+					z,
+					objects
+				)
+		end
+
+		if placementAllowed then
+			objects[#objects + 1] = {
                 type = objectType,
 
                 imageGroup =

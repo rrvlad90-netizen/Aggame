@@ -162,6 +162,7 @@ return {
 		bushChance = 0.32,
 		rockChance = 0.09,
 		mushroomChance = 0.04,
+		treeMinimumDistance = 5,
 
 		decorationWidth = 180,
 		safeCorridorWidth = 6,
