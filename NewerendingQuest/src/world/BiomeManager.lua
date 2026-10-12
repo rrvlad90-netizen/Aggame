@@ -401,6 +401,48 @@ function BiomeManager:generateEnemies(player)
     end
 end
 
+function BiomeManager:hasClearPath(
+    startX,
+    startZ,
+    targetX,
+    targetZ,
+    collisionRadius
+)
+    if not self.world.hasClearPath then
+        return true
+    end
+
+    return self.world:hasClearPath(
+        startX,
+        startZ,
+        targetX,
+        targetZ,
+        collisionRadius
+    )
+end
+
+function BiomeManager:findPath(
+    startX,
+    startZ,
+    targetX,
+    targetZ,
+    collisionRadius,
+    options
+)
+    if not self.world.findPath then
+        return nil
+    end
+
+    return self.world:findPath(
+        startX,
+        startZ,
+        targetX,
+        targetZ,
+        collisionRadius,
+        options
+    )
+end
+
 -- Создаёт предметы уровня.
 function BiomeManager:generatePickups(player)
     local settings =

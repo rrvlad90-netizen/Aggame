@@ -108,6 +108,22 @@ return {
 	retreatSpeed = 70,
 	retreatRange = 9,
 	
+	navigation = {
+		enabled = true,
+
+		-- Размер клетки в метрах.
+		cellSize = 2,
+
+		-- Частота пересчёта пути.
+		repathInterval = 0.7,
+
+		waypointRadius = 0.65,
+		maximumIterations = 5000,
+
+		-- Область поиска вперёд и назад.
+		zMargin = 12
+	},	
+	
 	shadow = {
 		enabled = true,
 		radius = 1.15,

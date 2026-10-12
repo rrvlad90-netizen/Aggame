@@ -1,3 +1,4 @@
+local Pathfinder = require("src.world.Pathfinder")
 local Config = require("src.config")
 local Forest = require("data.biomes.forest")
 local PlayerData = require("data.entities.player")
@@ -458,6 +459,76 @@ function World:clampPosition(x, z)
                 z
             )
         )
+end
+
+function World:hasClearPath(
+    startX,
+    startZ,
+    targetX,
+    targetZ,
+    collisionRadius
+)
+    local dx = targetX - startX
+    local dz = targetZ - startZ
+
+    local distance =
+        math.sqrt(dx * dx + dz * dz)
+
+    if distance <= 0.001 then
+        return true
+    end
+
+    local sampleStep =
+        Config.worldUnitsPerMeter
+
+    local steps =
+        math.max(
+            1,
+            math.ceil(
+                distance / sampleStep
+            )
+        )
+
+    for step = 1, steps do
+        local progress =
+            step / steps
+
+        local x =
+            startX + dx * progress
+
+        local z =
+            startZ + dz * progress
+
+        if self:collidesAt(
+            x,
+            z,
+            collisionRadius
+        ) then
+            return false
+        end
+    end
+
+    return true
+end
+
+-- Ищет путь вокруг деревьев, камней и рек.
+function World:findPath(
+    startX,
+    startZ,
+    targetX,
+    targetZ,
+    collisionRadius,
+    options
+)
+    return Pathfinder.find(
+        self,
+        startX,
+        startZ,
+        targetX,
+        targetZ,
+        collisionRadius,
+        options
+    )
 end
 
 function World:update(dt, player)

@@ -1,30 +1,14 @@
-local EnemyShadow =
-    require("src.rendering.EnemyShadow")
-	
-local SoundCache =
-    require("src.audio.SoundCache")
-
-local Config =
-    require("src.config")
-
-local SkeletonData =
-    require("data.entities.enemies.skeleton")
-
-local Animator =
-    require("src.animation.Animator")
+local SoundCache = require("src.audio.SoundCache")
+local Config = require("src.config")
+local SkeletonData = require("data.entities.enemies.skeleton")
+local Animator = require("src.animation.Animator")
 
 local Skeleton = {}
 Skeleton.__index = Skeleton
 
 -- Создаёт обычного скелета или вариант со щитом.
-function Skeleton.new(
-    assets,
-    x,
-    z,
-    options
-)
-    local self =
-        setmetatable({}, Skeleton)
+function Skeleton.new(assets, x, z, options)
+    local self = setmetatable({}, Skeleton)
 
     options = options or {}
 
@@ -47,11 +31,8 @@ function Skeleton.new(
     self.z = z
     self.height = 0
 
-    self.health =
-        SkeletonData.health
-
-    self.maximumHealth =
-        SkeletonData.health
+    self.health = SkeletonData.health
+    self.maximumHealth = SkeletonData.health
 
     self.collisionRadius =
         SkeletonData.collisionRadius
@@ -74,25 +55,28 @@ function Skeleton.new(
     self.attackHitDone = false
 
     self.active = true
-	self.shadow = options.shadow
-
-	if self.shadow == nil then
-		self.shadow = SkeletonData.shadow
-	end
 
     self.currentAction = "idle"
     self.animationFacing = self.facing
-	
-	self.dropRolled = false
-	self.pendingDrops = {}
 
-	if options.dropsVisible == nil then
-		self.dropsVisible =
-			SkeletonData.drops.visible
-	else
-		self.dropsVisible =
-			options.dropsVisible
-	end
+    self.dropRolled = false
+    self.pendingDrops = {}
+
+    if options.dropsVisible == nil then
+        self.dropsVisible =
+            SkeletonData.drops.visible
+    else
+        self.dropsVisible =
+            options.dropsVisible
+    end
+
+    -- Навигация.
+    self.path = {}
+    self.pathIndex = 1
+    self.pathTargetX = nil
+    self.pathTargetZ = nil
+    self.repathTimer = 0
+    self.stuckTimer = 0
 
     self.animator =
         Animator.new(
@@ -105,20 +89,13 @@ function Skeleton.new(
 end
 
 -- Запускает направленную анимацию.
-function Skeleton:setAnimation(
-    action,
-    restart
-)
+function Skeleton:setAnimation(action, restart)
     local animationName =
-        action ..
-        "_" ..
-        self.facing
+        action .. "_" .. self.facing
 
-    if
-        not SkeletonData.animations[
-            animationName
-        ]
-    then
+    if not SkeletonData.animations[
+        animationName
+    ] then
         return
     end
 
@@ -126,16 +103,12 @@ function Skeleton:setAnimation(
         self.currentAction ~= action or
         self.animationFacing ~= self.facing
 
-    if
-        not changed and
-        not restart
-    then
+    if not changed and not restart then
         return
     end
 
     self.currentAction = action
-    self.animationFacing =
-        self.facing
+    self.animationFacing = self.facing
 
     self.animator:play(
         animationName,
@@ -151,7 +124,6 @@ function Skeleton:updateFacing(dx, dz)
 
     local horizontal = 0
     local vertical = 0
-
     local threshold = 0.38
 
     if dx < -threshold then
@@ -189,6 +161,15 @@ function Skeleton:updateFacing(dx, dz)
     end
 end
 
+-- Проверяет, погиб ли скелет.
+function Skeleton:isDead()
+    return
+        not self.active or
+        self.health <= 0 or
+        self.state == "death" or
+        self.state == "corpse"
+end
+
 -- Проверяет возможность получить урон.
 function Skeleton:isDamageable()
     return
@@ -197,33 +178,21 @@ function Skeleton:isDamageable()
         self.state ~= "corpse"
 end
 
--- Checks whether the skeleton is dead.
-function Skeleton:isDead()
-    return
-        self.health <= 0 or
-        self.state == "death" or
-        self.state == "corpse"
-end
-
 -- Проверяет попадание снаряда.
 function Skeleton:isHitBy(projectile)
     if not self:isDamageable() then
         return false
     end
 
-    local dx =
-        projectile.x - self.x
-
-    local dz =
-        projectile.z - self.z
+    local dx = projectile.x - self.x
+    local dz = projectile.z - self.z
 
     local radius =
         self.collisionRadius +
         projectile.collisionRadius
 
     return
-        dx * dx +
-        dz * dz <=
+        dx * dx + dz * dz <=
         radius * radius
 end
 
@@ -257,9 +226,7 @@ function Skeleton:receiveAttackHit(
     end
 
     local damaged =
-        self:takeDamage(
-            damage
-        )
+        self:takeDamage(damage)
 
     if damaged then
         SoundCache:play(
@@ -270,7 +237,7 @@ function Skeleton:receiveAttackHit(
     return damaged
 end
 
--- Оставляет совместимость со стрелами.
+-- Совместимость со стрелами.
 function Skeleton:receiveArrowHit(damage)
     return self:receiveAttackHit(
         damage,
@@ -287,11 +254,11 @@ function Skeleton:takeDamage(amount)
     self.health =
         math.max(
             0,
-            self.health -
-            (amount or 1)
+            self.health - (amount or 1)
         )
 
     self.stateTime = 0
+    self:clearPath()
 
     if self.health <= 0 then
         self.state = "death"
@@ -312,7 +279,7 @@ function Skeleton:takeDamage(amount)
     return true
 end
 
--- Определяет все предметы после смерти.
+-- Определяет предметы после смерти.
 function Skeleton:rollDeathDrop()
     if self.dropRolled then
         return
@@ -320,8 +287,7 @@ function Skeleton:rollDeathDrop()
 
     self.dropRolled = true
 
-    local drops =
-        SkeletonData.drops
+    local drops = SkeletonData.drops
 
     local forwardOffset =
         drops.forwardOffset *
@@ -332,10 +298,8 @@ function Skeleton:rollDeathDrop()
         Config.worldUnitsPerMeter
 
     local dropZ =
-        self.z -
-        forwardOffset
+        self.z - forwardOffset
 
-    -- Стрелы и пузырёк проверяются независимо.
     if
         self.random:random() <
         drops.arrowBundleChance
@@ -344,15 +308,9 @@ function Skeleton:rollDeathDrop()
             #self.pendingDrops + 1
         ] = {
             type = "arrow_bundle",
-
-            x =
-                self.x -
-                sideOffset,
-
+            x = self.x - sideOffset,
             z = dropZ,
-
-            visible =
-                self.dropsVisible
+            visible = self.dropsVisible
         }
     end
 
@@ -373,30 +331,21 @@ function Skeleton:rollDeathDrop()
             #self.pendingDrops + 1
         ] = {
             type = "health_potion",
-
-            x =
-                self.x +
-                sideOffset,
-
+            x = self.x + sideOffset,
             z = dropZ,
-
             variant = variant,
-
-            visible =
-                self.dropsVisible
+            visible = self.dropsVisible
         }
     end
 end
 
--- Забирает все ожидающие предметы.
+-- Забирает ожидающие предметы.
 function Skeleton:takePendingDrops()
     if #self.pendingDrops == 0 then
         return nil
     end
 
-    local drops =
-        self.pendingDrops
-
+    local drops = self.pendingDrops
     self.pendingDrops = {}
 
     return drops
@@ -406,7 +355,6 @@ end
 function Skeleton:startAttack()
     self.state = "attack"
     self.stateTime = 0
-
     self.attackHitDone = false
 
     self:setAnimation(
@@ -415,11 +363,8 @@ function Skeleton:startAttack()
     )
 end
 
--- Обновляет ближнюю атаку скелета.
-function Skeleton:updateAttack(
-    dt,
-    player
-)
+-- Обновляет ближнюю атаку.
+function Skeleton:updateAttack(dt, player)
     self.stateTime =
         self.stateTime + dt
 
@@ -430,11 +375,8 @@ function Skeleton:updateAttack(
     then
         self.attackHitDone = true
 
-        local dx =
-            player.x - self.x
-
-        local dz =
-            player.z - self.z
+        local dx = player.x - self.x
+        local dz = player.z - self.z
 
         local distanceSquared =
             dx * dx + dz * dz
@@ -449,8 +391,6 @@ function Skeleton:updateAttack(
         then
             player:takeDamage(
                 SkeletonData.attackDamage,
-
-                -- Координаты нужны для проверки щита.
                 self.x,
                 self.z
             )
@@ -476,6 +416,176 @@ function Skeleton:updateAttack(
     )
 end
 
+-- Очищает текущий путь.
+function Skeleton:clearPath()
+    self.path = {}
+    self.pathIndex = 1
+    self.pathTargetX = nil
+    self.pathTargetZ = nil
+end
+
+-- Строит путь к игроку.
+function Skeleton:createPath(player, world)
+    local navigation =
+        SkeletonData.navigation or {}
+
+    if not world.findPath then
+        self:clearPath()
+        return
+    end
+
+    local units =
+        Config.worldUnitsPerMeter
+
+    self.path =
+        world:findPath(
+            self.x,
+            self.z,
+            player.x,
+            player.z,
+            self.collisionRadius,
+            {
+                cellSize =
+                    (navigation.cellSize or 2) *
+                    units,
+
+                zMargin =
+                    (navigation.zMargin or 12) *
+                    units,
+
+                maximumIterations =
+                    navigation.maximumIterations or
+                    5000
+            }
+        ) or {}
+
+    self.pathIndex = 1
+    self.pathTargetX = player.x
+    self.pathTargetZ = player.z
+
+    local interval =
+        navigation.repathInterval or 0.7
+
+    -- Небольшой разброс, чтобы все скелеты
+    -- не пересчитывали путь одновременно.
+    self.repathTimer =
+        interval *
+        (
+            0.85 +
+            self.random:random() * 0.3
+        )
+end
+
+-- Возвращает следующую точку движения.
+function Skeleton:getNavigationTarget(
+    dt,
+    player,
+    world
+)
+    local navigation =
+        SkeletonData.navigation or {}
+
+    if
+        navigation.enabled == false or
+        not world.findPath or
+        not world.hasClearPath
+    then
+        return player.x, player.z
+    end
+
+    self.repathTimer =
+        math.max(
+            0,
+            self.repathTimer - dt
+        )
+
+    -- Если прямой путь свободен, A* не нужен.
+    if world:hasClearPath(
+        self.x,
+        self.z,
+        player.x,
+        player.z,
+        self.collisionRadius
+    ) then
+        self:clearPath()
+
+        return player.x, player.z
+    end
+
+    local units =
+        Config.worldUnitsPerMeter
+
+    local targetChangeDistance =
+        (navigation.targetChangeDistance or 2) *
+        units
+
+    local targetMoved = false
+
+    if
+        self.pathTargetX and
+        self.pathTargetZ
+    then
+        local dx =
+            player.x - self.pathTargetX
+
+        local dz =
+            player.z - self.pathTargetZ
+
+        targetMoved =
+            dx * dx + dz * dz >
+            targetChangeDistance *
+            targetChangeDistance
+    else
+        targetMoved = true
+    end
+
+    if
+        self.repathTimer <= 0 or
+        targetMoved
+    then
+        self:createPath(
+            player,
+            world
+        )
+    end
+
+    local waypointRadius =
+        (navigation.waypointRadius or 0.65) *
+        units
+
+    while
+        self.pathIndex <= #self.path
+    do
+        local waypoint =
+            self.path[self.pathIndex]
+
+        local dx =
+            waypoint.x - self.x
+
+        local dz =
+            waypoint.z - self.z
+
+        if
+            dx * dx + dz * dz <=
+            waypointRadius *
+            waypointRadius
+        then
+            self.pathIndex =
+                self.pathIndex + 1
+        else
+            return waypoint.x, waypoint.z
+        end
+    end
+
+    -- Путь закончился: разрешаем новый расчёт.
+    if #self.path > 0 then
+        self:clearPath()
+        self.repathTimer = 0
+    end
+
+    return player.x, player.z
+end
+
 -- Перемещает скелета к игроку.
 function Skeleton:moveTowardsPlayer(
     dt,
@@ -485,20 +595,37 @@ function Skeleton:moveTowardsPlayer(
     dz,
     distance
 )
-    if distance <= 0 then
+    local targetX, targetZ =
+        self:getNavigationTarget(
+            dt,
+            player,
+            world
+        )
+
+    dx = targetX - self.x
+    dz = targetZ - self.z
+
+    distance =
+        math.sqrt(dx * dx + dz * dz)
+
+    if distance <= 0.001 then
+        self.state = "idle"
+
+        self:setAnimation("idle")
+
         return
     end
 
-    local directionX =
-        dx / distance
-
-    local directionZ =
-        dz / distance
+    local directionX = dx / distance
+    local directionZ = dz / distance
 
     self:updateFacing(
         directionX,
         directionZ
     )
+
+    local previousX = self.x
+    local previousZ = self.z
 
     local candidateX =
         self.x +
@@ -534,9 +661,32 @@ function Skeleton:moveTowardsPlayer(
     self.x = candidateX
     self.z = candidateZ
 
-    self:setAnimation(
-        "walk"
-    )
+    local movedX =
+        self.x - previousX
+
+    local movedZ =
+        self.z - previousZ
+
+    local movedSquared =
+        movedX * movedX +
+        movedZ * movedZ
+
+    if movedSquared < 0.01 then
+        self.stuckTimer =
+            self.stuckTimer + dt
+
+        if self.stuckTimer >= 0.35 then
+            self:clearPath()
+            self.repathTimer = 0
+            self.stuckTimer = 0
+        end
+    else
+        self.stuckTimer = 0
+    end
+
+    self.state = "walking"
+
+    self:setAnimation("walk")
 end
 
 -- Проверяет, должен ли враг прекратить атаку.
@@ -548,17 +698,16 @@ function Skeleton:playerIsUnavailable(player)
         player.state == "dead"
 end
 
--- Отходит от погибшего или возрождающегося игрока.
+-- Отходит от погибшего игрока.
 function Skeleton:moveAwayFromPlayer(
     dt,
     player,
     world
 )
-    local dx =
-        self.x - player.x
+    self:clearPath()
 
-    local dz =
-        self.z - player.z
+    local dx = self.x - player.x
+    local dz = self.z - player.z
 
     local distanceSquared =
         dx * dx + dz * dz
@@ -573,22 +722,15 @@ function Skeleton:moveAwayFromPlayer(
         retreatRange * retreatRange
     then
         self.state = "idle"
-
-        self:setAnimation(
-            "idle"
-        )
-
+        self:setAnimation("idle")
         return
     end
 
     local distance =
         math.sqrt(distanceSquared)
 
-    local directionX =
-        dx / distance
-
-    local directionZ =
-        dz / distance
+    local directionX = dx / distance
+    local directionZ = dz / distance
 
     self:updateFacing(
         directionX,
@@ -630,10 +772,7 @@ function Skeleton:moveAwayFromPlayer(
     self.z = candidateZ
 
     self.state = "walking"
-
-    self:setAnimation(
-        "walk"
-    )
+    self:setAnimation("walk")
 end
 
 -- Применяет волну возрождения игрока.
@@ -646,16 +785,14 @@ function Skeleton:applySpawnShockwave(
         return false
     end
 
-    local dx =
-        self.x - player.x
+    self:clearPath()
+    self.repathTimer = 0
 
-    local dz =
-        self.z - player.z
+    local dx = self.x - player.x
+    local dz = self.z - player.z
 
     local distance =
-        math.sqrt(
-            dx * dx + dz * dz
-        )
+        math.sqrt(dx * dx + dz * dz)
 
     local radius =
         settings.radius *
@@ -762,7 +899,7 @@ function Skeleton:update(
 
     self.animator:update(dt)
 
-	if self.state == "death" then
+    if self.state == "death" then
         self.stateTime =
             self.stateTime + dt
 
@@ -772,7 +909,6 @@ function Skeleton:update(
         then
             self.state = "corpse"
             self.stateTime = 0
-
             self:rollDeathDrop()
         end
 
@@ -798,8 +934,8 @@ function Skeleton:update(
 
         return
     end
-		
-	if self.state == "block" then
+
+    if self.state == "block" then
         self.stateTime =
             self.stateTime + dt
 
@@ -819,32 +955,27 @@ function Skeleton:update(
         return
     end
 
-	if self:playerIsUnavailable(player) then
-			self.attackHitDone = true
+    if self:playerIsUnavailable(player) then
+        self.attackHitDone = true
 
-			self:moveAwayFromPlayer(
-				dt,
-				player,
-				world
-			)
-
-			return
-		end	
-
-    if self.state == "attack" then
-        self:updateAttack(
+        self:moveAwayFromPlayer(
             dt,
-            player
+            player,
+            world
         )
 
+        return
+    end
+
+    if self.state == "attack" then
+        self:updateAttack(dt, player)
         return
     end
 
     self.attackCooldown =
         math.max(
             0,
-            self.attackCooldown -
-            dt
+            self.attackCooldown - dt
         )
 
     -- Живой враг позади экрана остаётся на месте.
@@ -854,23 +985,15 @@ function Skeleton:update(
         Config.projection.visibleBehindDepth
     then
         self.state = "idle"
-
-        self:setAnimation(
-            "idle"
-        )
-
+        self:setAnimation("idle")
         return
     end
 
-    local dx =
-        player.x - self.x
-
-    local dz =
-        player.z - self.z
+    local dx = player.x - self.x
+    local dz = player.z - self.z
 
     local distanceSquared =
-        dx * dx +
-        dz * dz
+        dx * dx + dz * dz
 
     if
         distanceSquared >
@@ -878,18 +1001,12 @@ function Skeleton:update(
         self.detectionRange
     then
         self.state = "idle"
-
-        self:setAnimation(
-            "idle"
-        )
-
+        self:setAnimation("idle")
         return
     end
 
     local distance =
-        math.sqrt(
-            distanceSquared
-        )
+        math.sqrt(distanceSquared)
 
     local attackDistance =
         self.attackRange +
@@ -921,10 +1038,7 @@ function Skeleton:update(
         )
     else
         self.state = "idle"
-
-        self:setAnimation(
-            "idle"
-        )
+        self:setAnimation("idle")
     end
 end
 
@@ -938,38 +1052,22 @@ function Skeleton:draw(
         return
     end
 
-	local x,
-		y,
-		perspectiveScale,
-		relativeZ,
-		horizontalScale =
-			projection:project(
-				self.x,
-				self.z,
-				cameraX,
-				cameraZ
-			)
+    local x, y, perspectiveScale =
+        projection:project(
+            self.x,
+            self.z,
+            cameraX,
+            cameraZ
+        )
 
     local alpha =
         projection:getVisibilityAlpha(
             self.z,
             cameraZ
         )
-		
-	if self.state ~= "corpse" then
-		EnemyShadow.draw(
-			x,
-			y,
-			perspectiveScale,
-			horizontalScale,
-			alpha,
-			self.shadow
-		)
-	end	
 
     local image =
-        self.animator:
-        getCurrentImage()
+        self.animator:getCurrentImage()
 
     if image then
         local spriteScale =
@@ -1058,7 +1156,7 @@ function Skeleton:drawPlaceholder(
     )
 end
 
--- Рисует опциональное здоровье.
+-- Рисует полоску здоровья.
 function Skeleton:drawHealthBar(
     x,
     y,
@@ -1072,8 +1170,7 @@ function Skeleton:drawHealthBar(
         return
     end
 
-    local width =
-        52 * scale
+    local width = 52 * scale
 
     local height =
         math.max(
