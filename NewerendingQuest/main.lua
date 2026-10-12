@@ -1,41 +1,56 @@
-local Game = require("src.core.Game")
+local App = require("src.core.App")
 
-local game
+local app
 
--- Загружает игру и создаёт основные системы.
 function love.load()
-    love.graphics.setDefaultFilter("nearest", "nearest")
-    game = Game.new()
+    love.graphics.setDefaultFilter(
+        "nearest",
+        "nearest"
+    )
+
+    app = App.new()
 end
 
--- Обновляет состояние игры.
 function love.update(dt)
-    game:update(dt)
+    app:update(dt)
 end
 
--- Рисует текущий кадр.
 function love.draw()
-    game:draw()
+    app:draw()
 end
 
--- Передаёт нажатие сенсорного экрана системе управления.
-function love.touchpressed(id, x, y, dx, dy, pressure)
-    game:touchpressed(id, x, y, pressure)
-end
-
--- Обрабатывает системные клавиши.
 function love.keypressed(key)
-    if key == "escape" then
-        love.event.quit()
-    end
+    app:keypressed(key)
 end
 
--- Ставит игру на паузу при потере фокуса.
+function love.mousemoved(x, y)
+    app:mousemoved(x, y)
+end
+
+function love.mousepressed(x, y, button)
+    app:mousepressed(x, y, button)
+end
+
+function love.touchpressed(
+    id,
+    x,
+    y,
+    dx,
+    dy,
+    pressure
+)
+    app:touchpressed(
+        id,
+        x,
+        y,
+        pressure
+    )
+end
+
 function love.focus(focused)
-    game:setPaused(not focused)
+    app:focus(focused)
 end
 
--- Обновляет масштаб при изменении окна.
 function love.resize(width, height)
-    game:resize(width, height)
+    app:resize(width, height)
 end

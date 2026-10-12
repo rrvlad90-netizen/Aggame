@@ -1,6 +1,6 @@
 return {
     id = "easy_swamp_01",
-    name = "Первое болото",
+    name = "First Swamp",
 
     biome = "swamp",
     seed = 1001,

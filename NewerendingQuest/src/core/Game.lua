@@ -1,3 +1,4 @@
+local Hud = require("src.ui.Hud")
 local Config = require("src.config")
 
 local Assets = require("src.assets.Assets")
@@ -26,6 +27,7 @@ function Game.new()
     self.assets:load()
 
     self.input = Input.new()
+	self.hud = Hud.new()
 
     self.projection = Projection.new(
         Config.projection
@@ -173,68 +175,10 @@ end
 
 -- Рисует игровой интерфейс.
 function Game:drawHud()
-    love.graphics.setColor(
-        1,
-        1,
-        1,
-        1
+    self.hud:draw(
+        self.player,
+        self.world
     )
-
-    love.graphics.print(
-        "HEALTH: " ..
-        self.player.health,
-        20,
-        20
-    )
-
-    love.graphics.print(
-        "CONTINUE: " ..
-        self.player.continues,
-        20,
-        42
-    )
-
-    love.graphics.print(
-        "ARROWS: " ..
-        self.player.arrows ..
-        " / " ..
-        self.player.maximumArrows,
-        20,
-        64
-    )
-
-    local shieldText =
-        "SHIELD: --"
-
-    if self.player.hasShield then
-        shieldText =
-            "SHIELD: " ..
-            self.player.shieldDurability ..
-            " / " ..
-            self.player.maximumShieldDurability
-    end
-
-    love.graphics.print(
-        shieldText,
-        20,
-        86
-    )
-
-    love.graphics.print(
-        "LEVEL: " ..
-        self.world:getLevelNumber() ..
-        "  " ..
-        self.world:getLevelName(),
-        20,
-        110
-    )
-
-    if self.world:isCompleted() then
-        self:drawCenteredText(
-            "CAMPAIGN COMPLETE",
-            Config.virtualHeight / 2
-        )
-    end
 end
 
 -- Рисует текст по центру экрана.

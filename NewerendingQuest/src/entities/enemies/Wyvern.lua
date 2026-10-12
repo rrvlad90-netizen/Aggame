@@ -14,13 +14,13 @@ Wyvern.__index = Wyvern
 function Wyvern.new(
     assets,
     x,
-    z
+    z,
+    options
 )
     local self =
-        setmetatable(
-            {},
-            Wyvern
-        )
+        setmetatable({}, Wyvern)
+
+    options = options or {}
 
     self.assets = assets
 
@@ -38,13 +38,11 @@ function Wyvern.new(
     self.maximumHealth =
         WyvernData.health
 
-    self.speed =
-        WyvernData.speed *
-        Config.worldUnitsPerMeter
+	self.speed =
+		WyvernData.speed
 
-    self.retreatSpeed =
-        WyvernData.retreatSpeed *
-        Config.worldUnitsPerMeter
+	self.retreatSpeed =
+		WyvernData.retreatSpeed	
 
     self.detectionRange =
         WyvernData.detectionRange *
@@ -73,6 +71,15 @@ function Wyvern.new(
 
     self.active = true
     self.dead = false
+	
+	self.rangedOnly =
+    options.rangedOnly
+	--только стрелами уничтожить можно летающего
+	if self.rangedOnly == nil then
+		self.rangedOnly =
+			WyvernData.rangedOnly == true
+	end
+	
     self.removeRequested = false
 
     self.animator =
@@ -533,6 +540,14 @@ function Wyvern:receiveAttackHit(
     if self.dead then
         return false
     end
+
+	if
+		self.rangedOnly and
+		attackType ~= "ranged" and
+		attackType ~= "arrow"
+	then
+		return false
+	end
 
     self.health =
         math.max(

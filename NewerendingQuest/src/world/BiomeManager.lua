@@ -361,12 +361,16 @@ function BiomeManager:generateEnemies(player)
                 Config.worldUnitsPerMeter
             )
 
-        local wyvern =
-            Wyvern.new(
-                self.assets,
-                x,
-                z
-            )
+		local wyvern =
+			Wyvern.new(
+				self.assets,
+				x,
+				z,
+				{
+					rangedOnly =
+						settings.wyvernRangedOnly
+				}
+			)
 
         self.enemies[
             #self.enemies + 1
@@ -550,10 +554,25 @@ function BiomeManager:updateEnemyProjectiles(
         local projectile =
             self.enemyProjectiles[index]
 
-        projectile:update(
-            dt,
-            player
-        )
+        projectile:update(dt)
+
+        if
+            projectile.canDamage and
+            projectile:canDamage() and
+            projectile.isHitPlayer and
+            projectile:isHitPlayer(player)
+        then
+            player:takeDamage(
+                projectile.damage or 1,
+                projectile.sourceX,
+                projectile.sourceZ
+            )
+
+            projectile:hit(
+                player.x,
+                player.z
+            )
+        end
 
         if not projectile.active then
             table.remove(
@@ -775,9 +794,7 @@ function BiomeManager:performSpawnShockwave(
         spawnData.radius *
         Config.worldUnitsPerMeter
 
-    for _, enemy in ipairs(
-        self.enemies
-    ) do
+    for _, enemy in ipairs(self.enemies) do
         if
             enemy.active and
             not enemy:isDead()
@@ -792,12 +809,21 @@ function BiomeManager:performSpawnShockwave(
                 dx * dx + dz * dz <=
                 radius * radius
             then
-                enemy:applyShockwave(
-                    player.x,
-                    player.z,
-                    spawnData.force,
-                    spawnData.damage
-                )
+                if enemy.applySpawnShockwave then
+                    enemy:applySpawnShockwave(
+                        player,
+                        spawnData,
+                        self
+                    )
+
+                elseif enemy.applyShockwave then
+                    enemy:applyShockwave(
+                        player.x,
+                        player.z,
+                        spawnData.force,
+                        spawnData.damage
+                    )
+                end
             end
         end
     end
@@ -867,15 +893,21 @@ end
 -- Проверяет активацию портала.
 function BiomeManager:checkPortal(player)
     if
-        not self.world.
-        takePortalDestination
+        not self.world.getExitDestination or
+        not self.world.isLevelComplete
+    then
+        return false
+    end
+
+    if
+        player.state ~= "grounded" or
+        not self.world:isLevelComplete(player)
     then
         return false
     end
 
     local destination =
-        self.world:
-        takePortalDestination()
+        self.world:getExitDestination()
 
     if not destination then
         return false
@@ -939,16 +971,15 @@ function BiomeManager:update(
     end
 
     -- Поддержка старых уровней без портала.
-    if
-        not self.world.
-        takePortalDestination and
-        player.state == "grounded" and
-        self.world:isLevelComplete(
-            player
-        )
-    then
-        self:beginNextLevel(player)
-    end
+	if
+		not self.world.getExitDestination and
+		player.state == "grounded" and
+		self.world:isLevelComplete(
+			player
+		)
+	then
+		self:beginNextLevel(player)
+	end
 end
 
 -- Рисует фон уровня.

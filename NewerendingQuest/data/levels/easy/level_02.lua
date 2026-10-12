@@ -1,13 +1,16 @@
 return {
     id = "easy_forest_01",
-    name = "Первая поляна",
+    name = "Forest Clearing",
 
     biome = "forest",
 	
 	enemies = {
         skeletonCount = 3,
         shieldSkeletonCount = 1,
-        wyvernCount = 15
+        wyvernCount = 15,
+		
+		wyvernRangedOnly = false  --на легком уровне их можно бить мечом
+		--wyvernRangedOnly = true --только стрелами можно одолжеть
     },
 	
     seed = 2001,

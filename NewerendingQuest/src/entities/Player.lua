@@ -1214,16 +1214,14 @@ function Player:updateSpawn(
         self.spawnShockwaveReleased =
             true
 
-        if
-            world.
-            applyPlayerSpawnShockwave
-        then
-            world:
-            applyPlayerSpawnShockwave(
-                self,
-                shockwave
-            )
-        end
+		if
+			world.performSpawnShockwave
+		then
+			world:performSpawnShockwave(
+				self,
+				shockwave
+			)
+		end
     end
 
     if

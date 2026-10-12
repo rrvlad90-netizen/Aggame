@@ -23,6 +23,12 @@ function SoundCache:get(path)
         return nil
     end
 
+	local SoundCache = {
+		sources = {},
+		missing = {},
+		volume = 1
+	}
+
     local source =
         love.audio.newSource(
             path,
@@ -42,7 +48,17 @@ function SoundCache:play(path)
         return
     end
 
-    source:clone():play()
+	local instance = source:clone()
+	instance:setVolume(self.volume)
+	instance:play()
+end
+
+function SoundCache:setVolume(value)
+    self.volume =
+        math.max(
+            0,
+            math.min(1, value or 1)
+        )
 end
 
 return SoundCache

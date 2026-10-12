@@ -1,6 +1,6 @@
 return {
     id = "easy_dungeon_01",
-    name = "Заброшенное подземелье",
+    name = "Abandoned Dungeon",
 
     biome = "dungeon",
     seed = 3001,

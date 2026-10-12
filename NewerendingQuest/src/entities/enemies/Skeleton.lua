@@ -189,6 +189,14 @@ function Skeleton:isDamageable()
         self.state ~= "corpse"
 end
 
+-- Checks whether the skeleton is dead.
+function Skeleton:isDead()
+    return
+        self.health <= 0 or
+        self.state == "death" or
+        self.state == "corpse"
+end
+
 -- Проверяет попадание снаряда.
 function Skeleton:isHitBy(projectile)
     if not self:isDamageable() then

@@ -118,8 +118,10 @@ return {
     -- Значения указываются в игровых метрах.
     detectionRange = 32,
 
-    preferredMinimumRange = 7,
-    preferredMaximumRange = 12,
+	rangedOnly = false,
+
+	preferredMinimumRange = 2.5,
+	preferredMaximumRange = 7,
 
     attackCooldown = 1.8,
     attackFireTime = 0.2,
