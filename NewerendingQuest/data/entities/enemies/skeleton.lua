@@ -108,6 +108,14 @@ return {
 	retreatSpeed = 70,
 	retreatRange = 9,
 	
+	shadow = {
+		enabled = true,
+		radius = 1.15,
+		aspect = 0.34,
+		alpha = 0.3,
+		offsetY = 2
+	},	
+	
 	drops = {
 		-- true: предмет виден сразу.
 		-- false: появляется после приближения к телу.

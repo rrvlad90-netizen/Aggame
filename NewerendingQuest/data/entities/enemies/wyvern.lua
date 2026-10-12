@@ -115,6 +115,14 @@ return {
 
     flyingHeight = 75,
 
+	shadow = {
+		enabled = true,
+		radius = 1.6,
+		aspect = 0.34,
+		alpha = 0.24,
+		offsetY = 2
+	},
+
     -- Значения указываются в игровых метрах.
     detectionRange = 32,
 

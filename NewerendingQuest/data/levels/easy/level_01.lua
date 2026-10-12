@@ -15,6 +15,24 @@ return {
 		fadeInDuration = 0.5
 	},
 	
+	controls = {
+		movement = "direction_only",
+
+		jumps = {
+			"near",
+			"medium",
+			"far"
+		},
+
+		melee = false,
+		ranged = false,
+		shield = false,
+
+		hint =
+			"CHOOSE LEFT OR RIGHT\n" ..
+			"SELECT NEAR, MEDIUM OR FAR JUMP"
+	},
+
 	background = {
 		clearColor = {
 			0.42,

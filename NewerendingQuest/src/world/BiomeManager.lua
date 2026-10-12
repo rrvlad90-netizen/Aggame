@@ -1134,6 +1134,30 @@ function BiomeManager:getLevelNumber()
     return self.loader:getIndex()
 end
 
+function BiomeManager:getControlProfile()
+    return
+        self.level and
+        self.level.controls or
+        nil
+end
+
+function BiomeManager:getControlHint()
+    local controls =
+        self:getControlProfile()
+
+    return
+        controls and
+        controls.hint or
+        nil
+end
+
+function BiomeManager:getLevelId()
+    return
+        self.level and
+        self.level.id or
+        nil
+end
+
 -- Проверяет завершение кампании.
 function BiomeManager:isCompleted()
     return self.completed

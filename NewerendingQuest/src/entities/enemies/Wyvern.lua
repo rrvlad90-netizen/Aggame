@@ -1,3 +1,6 @@
+local EnemyShadow =
+    require("src.rendering.EnemyShadow")
+
 local Config =
     require("src.config")
 
@@ -72,12 +75,17 @@ function Wyvern.new(
     self.active = true
     self.dead = false
 	
-	self.rangedOnly =
-    options.rangedOnly
+	self.rangedOnly =options.rangedOnly
 	--только стрелами уничтожить можно летающего
 	if self.rangedOnly == nil then
 		self.rangedOnly =
 			WyvernData.rangedOnly == true
+	end
+	
+	self.shadow = options.shadow
+
+	if self.shadow == nil then
+		self.shadow = WyvernData.shadow
 	end
 	
     self.removeRequested = false
@@ -755,18 +763,17 @@ function Wyvern:draw(
     cameraX,
     cameraZ
 )
-    local x, y, perspectiveScale =
-        projection:project(
-            self.x,
-            self.z,
-            cameraX,
-            cameraZ
-        )
-
-    y =
-        y -
-        self.height *
-        perspectiveScale
+	local x,
+		y,
+		perspectiveScale,
+		relativeZ,
+		horizontalScale =
+			projection:project(
+				self.x,
+				self.z,
+				cameraX,
+				cameraZ
+			)
 
     local image =
         self.animator:
@@ -795,6 +802,17 @@ function Wyvern:draw(
         1,
         alpha
     )
+
+	if self.state ~= "corpse" then
+		EnemyShadow.draw(
+			x,
+			y,
+			perspectiveScale,
+			horizontalScale,
+			alpha,
+			self.shadow
+		)
+	end
 
     love.graphics.draw(
         image,

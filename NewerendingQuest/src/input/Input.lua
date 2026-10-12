@@ -72,7 +72,163 @@ function Input.new()
         }
     }
 
+	self.controlProfile = nil
+
+	self:setControlProfile({
+		movement = "free",
+
+		jumps = {
+			"medium"
+		},
+
+		melee = true,
+		ranged = true,
+		shield = true
+	})
+
     return self
+end
+
+function Input:setControlProfile(profile)
+    if not profile then
+        return
+    end
+
+    if self.controlProfile == profile then
+        return
+    end
+
+    self.controlProfile = profile
+    self:applyControlLayout()
+end
+
+function Input:hasJump(jumpType)
+    local profile =
+        self.controlProfile
+
+    if not profile then
+        return true
+    end
+
+    for _, configuredType in ipairs(
+        profile.jumps or {}
+    ) do
+        if configuredType == jumpType then
+            return true
+        end
+    end
+
+    return false
+end
+
+function Input:isActionEnabled(action)
+    local profile =
+        self.controlProfile
+
+    if not profile then
+        return true
+    end
+
+    if action == "left" or action == "right" then
+        return
+            profile.movement == "free" or
+            profile.movement == "direction_only"
+    end
+
+    if action == "up" or action == "down" then
+        return profile.movement == "free"
+    end
+
+    if action == "jumpNear" then
+        return self:hasJump("near")
+    end
+
+    if action == "jumpMedium" then
+        return self:hasJump("medium")
+    end
+
+    if action == "jumpFar" then
+        return self:hasJump("far")
+    end
+
+    if action == "melee" then
+        return profile.melee == true
+    end
+
+    if action == "ranged" then
+        return profile.ranged == true
+    end
+
+    if action == "shield" then
+        return profile.shield == true
+    end
+
+    return true
+end
+
+function Input:applyControlLayout()
+    local profile =
+        self.controlProfile
+
+    if
+        profile and
+        profile.movement ==
+        "direction_only"
+    then
+        self.buttons.left.x = 90
+        self.buttons.left.y = 625
+        self.buttons.left.label = "LEFT"
+
+        self.buttons.right.x = 210
+        self.buttons.right.y = 625
+        self.buttons.right.label = "RIGHT"
+
+        self.buttons.jumpNear.x = 920
+        self.buttons.jumpNear.y = 625
+        self.buttons.jumpNear.label = "NEAR"
+
+        self.buttons.jumpMedium.x = 1040
+        self.buttons.jumpMedium.y = 625
+        self.buttons.jumpMedium.label = "MID"
+
+        self.buttons.jumpFar.x = 1160
+        self.buttons.jumpFar.y = 625
+        self.buttons.jumpFar.label = "FAR"
+
+        return
+    end
+
+    self.buttons.left.x = 60
+    self.buttons.left.y = 610
+    self.buttons.left.label = "A"
+
+    self.buttons.right.x = 190
+    self.buttons.right.y = 610
+    self.buttons.right.label = "D"
+
+    self.buttons.up.x = 125
+    self.buttons.up.y = 545
+    self.buttons.up.label = "W"
+
+    self.buttons.down.x = 125
+    self.buttons.down.y = 675
+    self.buttons.down.label = "S"
+
+    self.buttons.shield.x = 275
+    self.buttons.shield.y = 625
+    self.buttons.shield.label = "BLK"
+
+    self.buttons.jumpMedium.x = 970
+    self.buttons.jumpMedium.y = 625
+    self.buttons.jumpMedium.label = "JUMP"
+
+    self.buttons.ranged.x = 1080
+    self.buttons.ranged.y = 540
+    self.buttons.ranged.label = "BOW"
+
+    self.buttons.melee.x = 1180
+    self.buttons.melee.y = 625
+    self.buttons.melee.label = "ATK"
 end
 
 -- Обновляет преобразование координат экрана.
@@ -104,7 +260,10 @@ end
 
 -- Устанавливает действие как активное.
 function Input:setAction(action, active)
-    if active then
+    if
+        active and
+        self:isActionEnabled(action)
+    then
         self.currentActions[action] = true
     end
 end
@@ -116,12 +275,14 @@ function Input:readKeyboard()
     self:setAction("up", love.keyboard.isDown("w", "up"))
     self:setAction("down", love.keyboard.isDown("s", "down"))
 
+	self:setAction( "jumpMedium",love.keyboard.isDown("x", "space"))
+
     self:setAction("jumpNear", love.keyboard.isDown("z"))
     self:setAction("jumpMedium", love.keyboard.isDown("x"))
     self:setAction("jumpFar", love.keyboard.isDown("c"))
 
-    self:setAction("melee", love.keyboard.isDown("f"))
-    self:setAction("ranged", love.keyboard.isDown("g"))
+    self:setAction("melee", love.keyboard.isDown("lctrl"))
+    self:setAction("ranged", love.keyboard.isDown("lalt"))
 
     self:setAction(
         "shield",
@@ -354,7 +515,7 @@ function Input:keyboardIsActive()
             "w", "a", "s", "d",
             "up", "down", "left", "right",
             "z", "x", "c",
-            "f", "g",
+            "lctrl", "lalt",
             "lshift", "rshift"
         )
 end
@@ -373,40 +534,65 @@ function Input:draw()
         return
     end
 
-    for action, button in pairs(self.buttons) do
-        if self:isDown(action) then
-            love.graphics.setColor(0.3, 0.55, 0.8, 0.65)
-        else
-            love.graphics.setColor(0.05, 0.05, 0.05, 0.42)
+    for action, button in pairs(
+        self.buttons
+    ) do
+        if self:isActionEnabled(action) then
+            if self:isDown(action) then
+                love.graphics.setColor(
+                    0.3,
+                    0.55,
+                    0.8,
+                    0.65
+                )
+            else
+                love.graphics.setColor(
+                    0.05,
+                    0.05,
+                    0.05,
+                    0.42
+                )
+            end
+
+            love.graphics.circle(
+                "fill",
+                button.x,
+                button.y,
+                button.radius
+            )
+
+            love.graphics.setColor(
+                1,
+                1,
+                1,
+                0.82
+            )
+
+            love.graphics.circle(
+                "line",
+                button.x,
+                button.y,
+                button.radius
+            )
+
+            local font =
+                love.graphics.getFont()
+
+            local textWidth =
+                font:getWidth(button.label)
+
+            local textHeight =
+                font:getHeight()
+
+            love.graphics.print(
+                button.label,
+                button.x - textWidth / 2,
+                button.y - textHeight / 2
+            )
         end
-
-        love.graphics.circle(
-            "fill",
-            button.x,
-            button.y,
-            button.radius
-        )
-
-        love.graphics.setColor(1, 1, 1, 0.82)
-        love.graphics.circle(
-            "line",
-            button.x,
-            button.y,
-            button.radius
-        )
-
-        local font = love.graphics.getFont()
-        local textWidth = font:getWidth(button.label)
-        local textHeight = font:getHeight()
-
-        love.graphics.print(
-            button.label,
-            button.x - textWidth / 2,
-            button.y - textHeight / 2
-        )
     end
 
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.setColor(1, 1, 1, 1)
 end
 
 return Input

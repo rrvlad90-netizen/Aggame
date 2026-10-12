@@ -43,6 +43,15 @@ function Game.new()
         self.player,
         "easy"
     )
+	
+	self.input:setControlProfile(
+		self.world:getControlProfile()
+	)
+
+	self.controlHintLevelId =
+		self.world:getLevelId()
+
+	self.controlHintTimer = 3
 
     self.paused = false
 
@@ -57,6 +66,10 @@ end
 
 -- Обновляет игру и переходы.
 function Game:update(dt)
+	self.input:setControlProfile(
+		self.world:getControlProfile()
+	)
+	
     self.input:update()
 
     if self.paused then
@@ -75,6 +88,28 @@ function Game:update(dt)
         dt,
         self.player
     )
+	
+	local currentLevelId =
+		self.world:getLevelId()
+
+	if
+		currentLevelId ~=
+		self.controlHintLevelId
+	then
+		self.controlHintLevelId =
+			currentLevelId
+
+		self.controlHintTimer = 3
+
+	elseif
+		not self.world:isInputLocked()
+	then
+		self.controlHintTimer =
+			math.max(
+				0,
+				self.controlHintTimer - dt
+			)
+	end
 	
 	if self.player.gameOver then
 		self.gameOverFade =
@@ -108,6 +143,7 @@ function Game:draw()
     )
 
     self:drawHud()
+	self:drawControlHint()
     self.input:draw()
 	-- Переход рисуется поверх мира, HUD и кнопок.
 	self.world:drawTransition()
@@ -136,6 +172,90 @@ function Game:draw()
         self.scale,
         self.scale
     )
+end
+
+function Game:drawControlHint()
+	if self.world:isInputLocked() then
+		return
+	end
+    if self.controlHintTimer <= 0 then
+        return
+    end
+
+    local text =
+        self.world:getControlHint()
+
+    if not text then
+        return
+    end
+
+    local alpha =
+        math.min(
+            1,
+            self.controlHintTimer
+        )
+
+    local width = 520
+    local height = 82
+
+    local x =
+        (
+            Config.virtualWidth -
+            width
+        ) / 2
+
+    local y = 150
+
+    love.graphics.setColor(
+        0.02,
+        0.03,
+        0.04,
+        0.78 * alpha
+    )
+
+    love.graphics.rectangle(
+        "fill",
+        x,
+        y,
+        width,
+        height,
+        8,
+        8
+    )
+
+    love.graphics.setColor(
+        0.9,
+        0.84,
+        0.62,
+        alpha
+    )
+
+    love.graphics.rectangle(
+        "line",
+        x,
+        y,
+        width,
+        height,
+        8,
+        8
+    )
+
+    love.graphics.setColor(
+        0.94,
+        0.94,
+        0.9,
+        alpha
+    )
+
+    love.graphics.printf(
+        text,
+        x + 20,
+        y + 20,
+        width - 40,
+        "center"
+    )
+
+    love.graphics.setColor(1, 1, 1, 1)
 end
 
 -- Затемняет экран и показывает Game Over.

@@ -4,6 +4,22 @@ return {
 
     biome = "forest",
 	
+	controls = {
+		movement = "free",
+
+		jumps = {
+			"medium"
+		},
+
+		melee = true,
+		ranged = true,
+		shield = true,
+
+		hint =
+			"MOVE FREELY\n" ..
+			"JUMP, ATTACK, SHOOT AND BLOCK"
+	},	
+	
 	enemies = {
         skeletonCount = 3,
         shieldSkeletonCount = 1,

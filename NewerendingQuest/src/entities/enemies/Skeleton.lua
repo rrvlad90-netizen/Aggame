@@ -1,3 +1,6 @@
+local EnemyShadow =
+    require("src.rendering.EnemyShadow")
+	
 local SoundCache =
     require("src.audio.SoundCache")
 
@@ -71,6 +74,11 @@ function Skeleton.new(
     self.attackHitDone = false
 
     self.active = true
+	self.shadow = options.shadow
+
+	if self.shadow == nil then
+		self.shadow = SkeletonData.shadow
+	end
 
     self.currentAction = "idle"
     self.animationFacing = self.facing
@@ -930,19 +938,34 @@ function Skeleton:draw(
         return
     end
 
-    local x, y, perspectiveScale =
-        projection:project(
-            self.x,
-            self.z,
-            cameraX,
-            cameraZ
-        )
+	local x,
+		y,
+		perspectiveScale,
+		relativeZ,
+		horizontalScale =
+			projection:project(
+				self.x,
+				self.z,
+				cameraX,
+				cameraZ
+			)
 
     local alpha =
         projection:getVisibilityAlpha(
             self.z,
             cameraZ
         )
+		
+	if self.state ~= "corpse" then
+		EnemyShadow.draw(
+			x,
+			y,
+			perspectiveScale,
+			horizontalScale,
+			alpha,
+			self.shadow
+		)
+	end	
 
     local image =
         self.animator:
