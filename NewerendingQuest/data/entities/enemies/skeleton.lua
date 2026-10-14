@@ -95,6 +95,15 @@ return {
     collisionRadius = 22,
 
     spriteHeight = 105,
+	
+	shadow = {
+		enabled = true,
+		radius = 22,
+		verticalScale = 0.35,
+		alpha = 0.28,
+		offsetY = 2
+	},
+	
     scale = 1,
 
     showHealthBar = false,
@@ -122,14 +131,6 @@ return {
 
 		-- Область поиска вперёд и назад.
 		zMargin = 12
-	},	
-	
-	shadow = {
-		enabled = true,
-		radius = 1.15,
-		aspect = 0.34,
-		alpha = 0.3,
-		offsetY = 2
 	},	
 	
 	drops = {

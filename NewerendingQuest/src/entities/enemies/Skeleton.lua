@@ -1042,6 +1042,49 @@ function Skeleton:update(
     end
 end
 
+-- Рисует тень скелета.
+function Skeleton:drawShadow(
+    x,
+    y,
+    perspectiveScale,
+    alpha
+)
+    local shadow =
+        SkeletonData.shadow or {}
+
+    if
+        shadow.enabled == false or
+        self.state == "corpse"
+    then
+        return
+    end
+
+    local radius =
+        (shadow.radius or 22) *
+        perspectiveScale
+
+    love.graphics.setColor(
+        0,
+        0,
+        0,
+        (shadow.alpha or 0.28) *
+        alpha
+    )
+
+    love.graphics.ellipse(
+        "fill",
+        x,
+        y +
+        (shadow.offsetY or 0) *
+        perspectiveScale,
+        radius,
+        radius *
+        (shadow.verticalScale or 0.35)
+    )
+
+    love.graphics.setColor(1, 1, 1, 1)
+end
+
 -- Рисует скелета или тело.
 function Skeleton:draw(
     projection,
@@ -1065,6 +1108,13 @@ function Skeleton:draw(
             self.z,
             cameraZ
         )
+
+	self:drawShadow(
+		x,
+		y,
+		perspectiveScale,
+		alpha
+	)
 
     local image =
         self.animator:getCurrentImage()

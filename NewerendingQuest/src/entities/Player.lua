@@ -1395,13 +1395,86 @@ function Player:loseHealth(amount)
     self:startDeath()
 end
 
+-- Рисует тень игрока на земле.
+function Player:drawShadow(
+    x,
+    groundY,
+    perspectiveScale
+)
+    local shadow =
+        PlayerData.shadow or {}
+
+    if
+        shadow.enabled == false or
+        self.state == "dead"
+    then
+        return
+    end
+
+    local jumpHeight =
+        math.max(
+            1,
+            PlayerData.jumpHeight or 1
+        )
+
+    local airProgress =
+        math.max(
+            0,
+            math.min(
+                1,
+                self.height / jumpHeight
+            )
+        )
+
+    local shrink =
+        1 -
+        airProgress *
+        (shadow.airShrink or 0.35)
+
+    local radius =
+        (shadow.radius or 24) *
+        perspectiveScale *
+        shrink
+
+    local radiusY =
+        radius *
+        (shadow.verticalScale or 0.35)
+
+    local alpha =
+        (shadow.alpha or 0.3) *
+        (
+            1 -
+            airProgress * 0.45
+        )
+
+    love.graphics.setColor(
+        0,
+        0,
+        0,
+        alpha
+    )
+
+    love.graphics.ellipse(
+        "fill",
+        x,
+        groundY +
+        (shadow.offsetY or 0) *
+        perspectiveScale,
+        radius,
+        radiusY
+    )
+
+    love.graphics.setColor(1, 1, 1, 1)
+end
+
+-- Рисует игрока.
 -- Рисует игрока.
 function Player:draw(
     projection,
     cameraX,
     cameraZ
 )
-    local x, y, perspectiveScale =
+    local x, groundY, perspectiveScale =
         projection:project(
             self.x,
             self.z,
@@ -1409,8 +1482,14 @@ function Player:draw(
             cameraZ
         )
 
-    y =
-        y -
+    self:drawShadow(
+        x,
+        groundY,
+        perspectiveScale
+    )
+
+    local spriteY =
+        groundY -
         self.height *
         perspectiveScale
 
@@ -1426,16 +1505,12 @@ function Player:draw(
             image:getHeight() *
             PlayerData.scale
 
-        love.graphics.setColor(
-            1,
-            1,
-            1
-        )
+        love.graphics.setColor(1, 1, 1, 1)
 
         love.graphics.draw(
             image,
             x,
-            y,
+            spriteY,
             0,
             spriteScale,
             spriteScale,
@@ -1443,12 +1518,13 @@ function Player:draw(
             image:getHeight()
         )
 
+        love.graphics.setColor(1, 1, 1, 1)
         return
     end
 
     self:drawPlaceholder(
         x,
-        y,
+        spriteY,
         perspectiveScale
     )
 end

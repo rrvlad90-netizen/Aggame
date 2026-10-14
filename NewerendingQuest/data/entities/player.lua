@@ -279,6 +279,19 @@ return {
 
     scale = 1,
     spriteHeight = 100,
+	
+	shadow = {
+		enabled = true,
+
+		radius = 24,
+		verticalScale = 0.35,
+
+		alpha = 0.3,
+		offsetY = 2,
+
+		-- Насколько тень уменьшается в воздухе.
+		airShrink = 0.35
+	},
 
     maxHealth = 5,
     continues = 3,
