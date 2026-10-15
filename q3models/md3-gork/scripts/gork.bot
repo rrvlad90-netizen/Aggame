@@ -1,0 +1,6 @@
+{
+name  GORK
+funname  ^2GORK
+model  gork/gork
+aifile bots/gork_c.c
+}
