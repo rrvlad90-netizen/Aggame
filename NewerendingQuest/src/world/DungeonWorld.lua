@@ -1,3 +1,7 @@
+local DungeonTraps = require("src.world.DungeonTraps")
+local DungeonEncounters = require("src.world.DungeonEncounters")
+local Pathfinder = require("src.world.Pathfinder")
+local DungeonRooms = require("src.world.DungeonRooms")
 local Config = require("src.config")
 local Dungeon = require("data.biomes.dungeon")
 local PlayerData = require("data.entities.player")
@@ -27,6 +31,29 @@ function DungeonWorld.new(
 
     self.cameraX = 0
     self.cameraZ = 0
+
+	self.lightingTime = 0
+
+	self.lighting =
+		level.lighting or {}
+
+	self.lightingEnabled =
+		self.lighting.enabled ~= false
+
+	self.lightCanvas = nil
+
+	if self.lightingEnabled then
+		self.lightCanvas =
+			love.graphics.newCanvas(
+				Config.virtualWidth,
+				Config.virtualHeight
+			)
+
+		self.lightCanvas:setFilter(
+			"linear",
+			"linear"
+		)
+	end
 
     self.random =
         love.math.newRandomGenerator(
@@ -107,9 +134,63 @@ function DungeonWorld.new(
         mushroom =
             self:resolveVisual("mushroom")
     }
+	
+	self.objects = {}
+	self.arrowBundles = {}
 
-    self.objects = {}
-    self.arrowBundles = {}
+	self.layout =
+		DungeonRooms.new(
+			self.assets,
+			self.level,
+			self.minX,
+			self.maxX,
+			self.minZ,
+			self.maxZ,
+			level.seed or 3001
+		)
+
+	for _, wall in ipairs(
+		self.layout:getWalls()
+	) do
+		self.objects[#self.objects + 1] = wall
+	end
+	
+	self.encounters =
+    DungeonEncounters.new(
+        self.assets,
+        self.level,
+        self.layout,
+        self.minZ,
+        self.maxZ
+    )
+
+	for _, door in ipairs(
+		self.encounters:getDoors()
+	) do
+		self.objects[
+			#self.objects + 1
+		] = door
+	end
+	
+	self.traps =
+    DungeonTraps.new(
+        self.assets,
+        self.level,
+        self.layout,
+        self.minX,
+        self.maxX,
+        self.minZ,
+        self.maxZ,
+        level.seed or 3001
+    )
+
+	for _, trap in ipairs(
+		self.traps:getTraps()
+	) do
+		self.objects[
+			#self.objects + 1
+		] = trap
+	end
 
     self.ground =
         Ground.new(
@@ -259,7 +340,7 @@ function DungeonWorld:getRandomSize(
         0.45
 end
 
--- Генерирует объекты.
+-- Генерирует объекты подземелья.
 function DungeonWorld:generateObjects()
     local halfDecorationWidth =
         self.decorationWidth / 2
@@ -319,39 +400,58 @@ function DungeonWorld:generateObjects()
             outsideStart and
             outsideFinish
 
-        local groupName =
-            self:getObjectGroup(
-                objectType
-            )
+        local collisionRadius =
+            (
+                visual.collisionRadius or 0
+            ) *
+            Config.worldUnitsPerMeter *
+            size *
+            (visual.scale or 1)
 
-        self.objects[
-            #self.objects + 1
-        ] = {
-            type = objectType,
-            imageGroup = groupName,
+		local reserved =
+			self.layout:isReserved(
+				x,
+				z,
+				collisionRadius
+			) or
+			self.traps:isReserved(
+				x,
+				z,
+				collisionRadius
+			)
 
-            variant =
-                self:chooseVariant(
-                    groupName
-                ),
+        if not reserved then
+            local groupName =
+                self:getObjectGroup(
+                    objectType
+                )
 
-            x = x,
-            z = z,
+            self.objects[
+                #self.objects + 1
+            ] = {
+                type = objectType,
 
-            size = size,
-            visual = visual,
+                imageGroup =
+                    groupName,
 
-            collidable = collidable,
+                variant =
+                    self:chooseVariant(
+                        groupName
+                    ),
 
-            collisionRadius =
-                (
-                    visual.collisionRadius or
-                    0
-                ) *
-                Config.worldUnitsPerMeter *
-                size *
-                (visual.scale or 1)
-        }
+                x = x,
+                z = z,
+
+                size = size,
+                visual = visual,
+
+                collidable =
+                    collidable,
+
+                collisionRadius =
+                    collisionRadius
+            }
+        end
     end
 end
 
@@ -480,6 +580,86 @@ function DungeonWorld:clampPosition(
         )
 end
 
+function DungeonWorld:collidesAt(
+    x,
+    z,
+    collisionRadius
+)
+    return self:collidesWithObjects(
+        x,
+        z,
+        collisionRadius,
+        false
+    )
+end
+
+function DungeonWorld:hasClearPath(
+    startX,
+    startZ,
+    targetX,
+    targetZ,
+    collisionRadius
+)
+    local dx = targetX - startX
+    local dz = targetZ - startZ
+
+    local distance =
+        math.sqrt(dx * dx + dz * dz)
+
+    if distance <= 0.001 then
+        return true
+    end
+
+    local step =
+        Config.worldUnitsPerMeter
+
+    local steps =
+        math.max(
+            1,
+            math.ceil(distance / step)
+        )
+
+    for index = 1, steps do
+        local progress =
+            index / steps
+
+        local x =
+            startX + dx * progress
+
+        local z =
+            startZ + dz * progress
+
+        if self:collidesAt(
+            x,
+            z,
+            collisionRadius
+        ) then
+            return false
+        end
+    end
+
+    return true
+end
+
+function DungeonWorld:findPath(
+    startX,
+    startZ,
+    targetX,
+    targetZ,
+    collisionRadius,
+    options
+)
+    return Pathfinder.find(
+        self,
+        startX,
+        startZ,
+        targetX,
+        targetZ,
+        collisionRadius,
+        options
+    )
+end
+
 -- Проверяет столкновение.
 function DungeonWorld:collidesWithObjects(
     x,
@@ -490,26 +670,47 @@ function DungeonWorld:collidesWithObjects(
     for _, object in ipairs(
         self.objects
     ) do
-        local shouldCheck =
-            object.collidable and
-            (
-                not columnsOnly or
-                object.type == "column"
-            )
-
-        if shouldCheck then
-            local dx = x - object.x
-            local dz = z - object.z
-
-            local radius =
-                playerRadius +
-                object.collisionRadius
-
+        if
+            object.type ==
+            "dungeon_door"
+        then
             if
-                dx * dx + dz * dz <
-                radius * radius
+                self.encounters:isDoorBlocked(
+                    object,
+                    x,
+                    z,
+                    playerRadius
+                )
             then
                 return true
+            end
+        else
+            local shouldCheck =
+                object.collidable and
+                (
+                    not columnsOnly or
+                    object.type == "column" or
+                    object.type ==
+                    "dungeon_wall"
+                )
+
+            if shouldCheck then
+                local dx =
+                    x - object.x
+
+                local dz =
+                    z - object.z
+
+                local radius =
+                    playerRadius +
+                    object.collisionRadius
+
+                if
+                    dx * dx + dz * dz <
+                    radius * radius
+                then
+                    return true
+                end
             end
         end
     end
@@ -661,7 +862,20 @@ function DungeonWorld:isSafePosition(
     z,
     collisionRadius
 )
-    return true
+    collisionRadius =
+        collisionRadius or 0
+
+    return
+        not self:collidesAt(
+            x,
+            z,
+            collisionRadius
+        ) and
+        not self.traps:isReserved(
+            x,
+            z,
+            collisionRadius
+        )
 end
 
 -- Не требует подготовки возрождения.
@@ -675,12 +889,198 @@ end
 -- Обновляет подземелье.
 function DungeonWorld:update(
     dt,
-    player
+    player,
+    enemies
 )
+    self.lightingTime =
+        self.lightingTime + dt
+
     self:updateArrowBundles(
         dt,
         player
     )
+
+    self.traps:update(
+        dt,
+        player
+    )
+
+    self.encounters:update(
+        dt,
+        player,
+        enemies
+    )
+end
+
+function DungeonWorld:drawDoorObject(
+    door
+)
+    local x, y, perspectiveScale =
+        self.projection:project(
+            door.x,
+            door.z,
+            self.cameraX,
+            self.cameraZ
+        )
+
+    local alpha =
+        self.projection:getVisibilityAlpha(
+            door.z,
+            self.cameraZ
+        )
+
+    local image
+
+    if door.locked then
+        image = door.closedImage
+    else
+        image = door.openImage
+    end
+
+    if image then
+        local scale =
+            perspectiveScale *
+            door.height /
+            image:getHeight()
+
+        love.graphics.setColor(
+            1,
+            1,
+            1,
+            alpha
+        )
+
+        love.graphics.draw(
+            image,
+            x,
+            y,
+            0,
+            scale,
+            scale,
+            image:getWidth() / 2,
+            image:getHeight()
+        )
+
+        love.graphics.setColor(1, 1, 1, 1)
+        return
+    end
+
+    local leftX =
+        self.projection:project(
+            door.x - door.width / 2,
+            door.z,
+            self.cameraX,
+            self.cameraZ
+        )
+
+    local rightX =
+        self.projection:project(
+            door.x + door.width / 2,
+            door.z,
+            self.cameraX,
+            self.cameraZ
+        )
+
+    local height =
+        door.height *
+        perspectiveScale
+
+    local color = door.color
+    local dark = door.darkColor
+    local metal = door.metalColor
+
+    if door.locked then
+        love.graphics.setColor(
+            color[1],
+            color[2],
+            color[3],
+            alpha * (color[4] or 1)
+        )
+
+        love.graphics.rectangle(
+            "fill",
+            leftX,
+            y - height,
+            rightX - leftX,
+            height
+        )
+
+        love.graphics.setColor(
+            dark[1],
+            dark[2],
+            dark[3],
+            alpha * (dark[4] or 1)
+        )
+
+        local plankCount = 5
+
+        for index = 1,
+            plankCount - 1
+        do
+            local plankX =
+                leftX +
+                (
+                    rightX - leftX
+                ) *
+                index /
+                plankCount
+
+            love.graphics.line(
+                plankX,
+                y,
+                plankX,
+                y - height
+            )
+        end
+
+        love.graphics.setColor(
+            metal[1],
+            metal[2],
+            metal[3],
+            alpha * (metal[4] or 1)
+        )
+
+        love.graphics.rectangle(
+            "fill",
+            leftX,
+            y - height * 0.58,
+            rightX - leftX,
+            math.max(
+                2,
+                8 * perspectiveScale
+            )
+        )
+    else
+        -- Открытая дверь отображается двумя
+        -- створками у краёв прохода.
+        local leafWidth =
+            (rightX - leftX) * 0.14
+
+        love.graphics.setColor(
+            color[1],
+            color[2],
+            color[3],
+            alpha * 0.8
+        )
+
+        love.graphics.rectangle(
+            "fill",
+            leftX,
+            y - height,
+            leafWidth,
+            height
+        )
+
+        love.graphics.rectangle(
+            "fill",
+            rightX - leafWidth,
+            y - height,
+            leafWidth,
+            height
+        )
+    end
+
+    love.graphics.setColor(1, 1, 1, 1)
 end
 
 -- Проверяет завершение уровня.
@@ -694,7 +1094,9 @@ function DungeonWorld:isLevelComplete(
     return
         player.z >=
         self.maxZ -
-        finishDistance
+        finishDistance and
+        self.encounters:
+        isFinalRoomCleared()
 end
 
 -- Проверяет горизонтальную видимость.
@@ -845,6 +1247,266 @@ function DungeonWorld:collectVisibleObjects(
     return queue
 end
 
+-- Добавляет мягкий круг света на карту освещения.
+function DungeonWorld:drawRadialLight(
+    x,
+    y,
+    radius,
+    color,
+    intensity
+)
+    if radius <= 0 or intensity <= 0 then
+        return
+    end
+
+    color = color or {
+        1,
+        1,
+        1
+    }
+
+    local steps = 28
+
+    local stepAlpha =
+        intensity / steps
+
+    -- Круги накладываются друг на друга:
+    -- в центре свет получается наиболее ярким.
+    for index = steps, 1, -1 do
+        local progress =
+            index / steps
+
+        local currentRadius =
+            radius * progress
+
+        love.graphics.setColor(
+            color[1] or 1,
+            color[2] or 1,
+            color[3] or 1,
+            stepAlpha
+        )
+
+        love.graphics.circle(
+            "fill",
+            x,
+            y,
+            currentRadius
+        )
+    end
+end
+
+-- Рисует свет вокруг игрока.
+function DungeonWorld:drawPlayerLight(
+    player
+)
+    local settings =
+        self.lighting.player or {}
+
+    if settings.enabled == false then
+        return
+    end
+
+    local x, y, perspectiveScale =
+        self.projection:project(
+            player.x,
+            player.z,
+            self.cameraX,
+            self.cameraZ
+        )
+
+    y =
+        y -
+        player.height *
+        perspectiveScale
+
+    y =
+        y -
+        (settings.offsetY or 48) *
+        perspectiveScale
+
+    local flicker =
+        settings.flicker or 0
+
+    local flickerValue =
+        1 +
+        math.sin(
+            self.lightingTime * 8.3
+        ) *
+        flicker +
+        math.sin(
+            self.lightingTime * 13.7
+        ) *
+        flicker *
+        0.45
+
+    local radius =
+        (settings.radius or 285) *
+        flickerValue
+
+    local intensity =
+        settings.intensity or 0.74
+
+    if
+        player.state == "dying" or
+        player.state == "dead"
+    then
+        intensity = intensity * 0.45
+    end
+
+    self:drawRadialLight(
+        x,
+        y,
+        radius,
+        settings.color or {
+            1,
+            0.88,
+            0.68
+        },
+        intensity
+    )
+end
+
+-- Рисует свечение грибов.
+function DungeonWorld:drawMushroomLights()
+    local settings =
+        self.lighting.mushrooms or {}
+
+    if settings.enabled == false then
+        return
+    end
+
+    for _, object in ipairs(
+        self.objects
+    ) do
+        if
+            object.type == "mushroom" and
+            self.projection:isDepthVisible(
+                object.z,
+                self.cameraZ
+            ) and
+            self:isObjectOnScreen(object)
+        then
+            local x, y, perspectiveScale =
+                self.projection:project(
+                    object.x,
+                    object.z,
+                    self.cameraX,
+                    self.cameraZ
+                )
+
+            local flicker =
+                settings.flicker or 0.08
+
+            local phase =
+                object.x * 0.013 +
+                object.z * 0.007
+
+            local flickerValue =
+                1 +
+                math.sin(
+                    self.lightingTime * 4.5 +
+                    phase
+                ) *
+                flicker
+
+            local radius =
+                (settings.radius or 115) *
+                math.max(
+                    0.2,
+                    perspectiveScale
+                ) *
+                flickerValue
+
+            y =
+                y -
+                (settings.offsetY or 12) *
+                perspectiveScale
+
+            self:drawRadialLight(
+                x,
+                y,
+                radius,
+                settings.color or {
+                    0.28,
+                    0.78,
+                    0.5
+                },
+                settings.intensity or 0.4
+            )
+        end
+    end
+end
+
+-- Накладывает карту освещения на мир.
+function DungeonWorld:drawLighting(
+    player
+)
+    if
+        not self.lightingEnabled or
+        not self.lightCanvas
+    then
+        return
+    end
+
+    local previousCanvas =
+        love.graphics.getCanvas()
+
+    love.graphics.setCanvas(
+        self.lightCanvas
+    )
+
+    local ambient =
+        self.lighting.ambient or {
+            0.24,
+            0.22,
+            0.2
+        }
+
+    love.graphics.clear(
+        ambient[1] or 0.24,
+        ambient[2] or ambient[1] or 0.22,
+        ambient[3] or ambient[1] or 0.2,
+        1
+    )
+
+    love.graphics.setBlendMode(
+        "add",
+        "alphamultiply"
+    )
+
+    self:drawMushroomLights()
+    self:drawPlayerLight(player)
+
+    love.graphics.setBlendMode(
+        "alpha",
+        "alphamultiply"
+    )
+
+    love.graphics.setCanvas(
+        previousCanvas
+    )
+
+    love.graphics.setColor(1, 1, 1, 1)
+
+    love.graphics.setBlendMode(
+        "multiply",
+        "premultiplied"
+    )
+
+    love.graphics.draw(
+        self.lightCanvas,
+        0,
+        0
+    )
+
+    love.graphics.setBlendMode(
+        "alpha",
+        "alphamultiply"
+    )
+
+    love.graphics.setColor(1, 1, 1, 1)
+end
+
 -- Рисует подземелье.
 function DungeonWorld:draw(
     player,
@@ -884,6 +1546,320 @@ function DungeonWorld:draw(
             )
         end
     end
+	
+	self:drawLighting(player)
+end
+
+-- Рисует каменный блок стены.
+function DungeonWorld:drawWallObject(object)
+    local x, y, perspectiveScale =
+        self.projection:project(
+            object.x,
+            object.z,
+            self.cameraX,
+            self.cameraZ
+        )
+
+    local alpha =
+        self.projection:getVisibilityAlpha(
+            object.z,
+            self.cameraZ
+        )
+
+    if object.image then
+        local image = object.image
+
+        local scale =
+            perspectiveScale *
+            object.wallHeight /
+            image:getHeight()
+
+        love.graphics.setColor(
+            1,
+            1,
+            1,
+            alpha
+        )
+
+        love.graphics.draw(
+            image,
+            x,
+            y,
+            0,
+            scale,
+            scale,
+            image:getWidth() / 2,
+            image:getHeight()
+        )
+
+        love.graphics.setColor(1, 1, 1, 1)
+        return
+    end
+
+    local halfWidth =
+        object.wallWidth / 2
+
+    local leftX =
+        self.projection:project(
+            object.x - halfWidth,
+            object.z,
+            self.cameraX,
+            self.cameraZ
+        )
+
+    local rightX =
+        self.projection:project(
+            object.x + halfWidth,
+            object.z,
+            self.cameraX,
+            self.cameraZ
+        )
+
+    local height =
+        object.wallHeight *
+        perspectiveScale
+
+    local color =
+        object.wallColor
+
+    love.graphics.setColor(
+        color[1],
+        color[2],
+        color[3],
+        alpha * (color[4] or 1)
+    )
+
+    love.graphics.polygon(
+        "fill",
+
+        leftX,
+        y,
+
+        rightX,
+        y,
+
+        rightX,
+        y - height,
+
+        leftX,
+        y - height
+    )
+
+    local topColor =
+        object.wallTopColor
+
+    local topDepth =
+        math.max(
+            2,
+            10 * perspectiveScale
+        )
+
+    love.graphics.setColor(
+        topColor[1],
+        topColor[2],
+        topColor[3],
+        alpha * (topColor[4] or 1)
+    )
+
+    love.graphics.polygon(
+        "fill",
+
+        leftX,
+        y - height,
+
+        rightX,
+        y - height,
+
+        rightX - topDepth,
+        y - height - topDepth,
+
+        leftX + topDepth,
+        y - height - topDepth
+    )
+
+    local lineColor =
+        object.wallLineColor
+
+    love.graphics.setColor(
+        lineColor[1],
+        lineColor[2],
+        lineColor[3],
+        alpha * (lineColor[4] or 1)
+    )
+
+    love.graphics.setLineWidth(
+        math.max(
+            1,
+            perspectiveScale * 2
+        )
+    )
+
+    love.graphics.line(
+        leftX,
+        y - height * 0.5,
+        rightX,
+        y - height * 0.5
+    )
+
+    love.graphics.line(
+        x,
+        y,
+        x,
+        y - height * 0.5
+    )
+
+    love.graphics.setLineWidth(1)
+    love.graphics.setColor(1, 1, 1, 1)
+end
+
+-- Рисует напольную ловушку.
+function DungeonWorld:drawSpikeTrap(trap)
+    local x, y, perspectiveScale =
+        self.projection:project(
+            trap.x,
+            trap.z,
+            self.cameraX,
+            self.cameraZ
+        )
+
+    local alpha =
+        self.projection:getVisibilityAlpha(
+            trap.z,
+            self.cameraZ
+        )
+
+    local image
+
+    if trap.state == "active" then
+        image = trap.activeImage
+    elseif trap.state == "warning" then
+        image = trap.warningImage
+    else
+        image = trap.idleImage
+    end
+
+    if image then
+        local desiredHeight =
+            trap.spikeHeight +
+            trap.visualRadius
+
+        local scale =
+            perspectiveScale *
+            desiredHeight /
+            image:getHeight()
+
+        love.graphics.setColor(
+            1,
+            1,
+            1,
+            alpha
+        )
+
+        love.graphics.draw(
+            image,
+            x,
+            y,
+            0,
+            scale,
+            scale,
+            image:getWidth() / 2,
+            image:getHeight()
+        )
+
+        love.graphics.setColor(1, 1, 1, 1)
+        return
+    end
+
+    local radius =
+        trap.visualRadius *
+        perspectiveScale
+
+    local plateHeight =
+        math.max(
+            3,
+            radius * 0.3
+        )
+
+    local color =
+        trap.idleColor
+
+    if trap.state == "warning" then
+        local flash =
+            math.sin(
+                trap.stateTime * 22
+            ) > 0
+
+        if flash then
+            color = trap.warningColor
+        end
+    elseif trap.state == "active" then
+        color = trap.darkColor
+    end
+
+    love.graphics.setColor(
+        color[1],
+        color[2],
+        color[3],
+        alpha * (color[4] or 1)
+    )
+
+    love.graphics.ellipse(
+        "fill",
+        x,
+        y,
+        radius,
+        plateHeight
+    )
+
+    if trap.state == "active" then
+        local spikeColor =
+            trap.activeColor
+
+        love.graphics.setColor(
+            spikeColor[1],
+            spikeColor[2],
+            spikeColor[3],
+            alpha *
+            (spikeColor[4] or 1)
+        )
+
+        local spikeHeight =
+            trap.spikeHeight *
+            perspectiveScale
+
+        local spikeCount = 5
+
+        for index = 1, spikeCount do
+            local progress =
+                index /
+                (spikeCount + 1)
+
+            local spikeX =
+                x - radius +
+                radius * 2 * progress
+
+            local halfWidth =
+                math.max(
+                    2,
+                    radius * 0.1
+                )
+
+            love.graphics.polygon(
+                "fill",
+
+                spikeX - halfWidth,
+                y,
+
+                spikeX,
+                y - spikeHeight,
+
+                spikeX + halfWidth,
+                y
+            )
+        end
+    end
+
+    love.graphics.setColor(1, 1, 1, 1)
 end
 
 -- Рисует объект подземелья.
@@ -910,6 +1886,37 @@ function DungeonWorld:drawWorldObject(
             object.imageGroup,
             object.variant
         )
+		
+		
+	if object.type == "dungeon_spikes" then
+		self:drawSpikeTrap(object)
+		return
+	end
+
+	if object.type == "dungeon_door" then
+		self:drawDoorObject(object)
+		return
+	end
+
+	if object.type == "dungeon_wall" then
+		self:drawWallObject(object)
+		return
+	end	
+		
+	if object.type == "dungeon_door" then
+		self:drawDoorObject(object)
+		return
+	end
+
+	if object.type == "dungeon_wall" then
+		self:drawWallObject(object)
+		return
+	end	
+		
+	if object.type == "dungeon_wall" then
+		self:drawWallObject(object)
+		return
+	end	
 
     if image then
         self:drawImageObject(

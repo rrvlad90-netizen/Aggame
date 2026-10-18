@@ -1029,10 +1029,11 @@ function BiomeManager:update(
 
     self:applyCamera()
 
-    self.world:update(
-        dt,
-        player
-    )
+	self.world:update(
+		dt,
+		player,
+		self.enemies
+	)
 
     self:updatePlayerArrows(dt)
 
