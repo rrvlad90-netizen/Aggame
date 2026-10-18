@@ -1,0 +1,44 @@
+	endMountain = {
+		enabled = true,
+
+		--image = "assets/images/backgrounds/forest/end_mountain.png",
+		-- Пока nil — используется мокап.
+		image = nil,
+
+		x = 0,
+
+		-- Гора располагается за порталом.
+		distanceBehindPortal = 8,
+
+		scale = 1,
+		spriteHeight = 680,
+		alpha = 1,
+		offsetY = 0,
+
+		-- Позволяет увидеть вершину немного раньше.
+		renderMargin = 20,
+
+		mockupWidth = 900,
+		mockupHeight = 680,
+
+		mockupColor = {
+			0.24,
+			0.27,
+			0.3,
+			1
+		},
+
+		mockupDarkColor = {
+			0.16,
+			0.18,
+			0.21,
+			1
+		},
+
+		snowColor = {
+			0.75,
+			0.78,
+			0.8,
+			1
+		}
+	},

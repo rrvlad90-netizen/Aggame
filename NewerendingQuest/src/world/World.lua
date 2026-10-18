@@ -7,6 +7,7 @@ local Ground = require("src.rendering.Ground")
 local ArrowBundle = require("src.items.ArrowBundle")
 local Portal = require("src.entities.Portal")
 local ForestRivers = require("src.world.ForestRivers")
+local ForestEndMountain = require("src.world.ForestEndMountain")
 
 local World = {}
 World.__index = World
@@ -178,6 +179,9 @@ function World.new(projection, assets, level)
     self.portal =
         self:createPortal()
 
+	self.endMountain =
+		self:createEndMountain()
+		
     return self
 end
 
@@ -345,6 +349,67 @@ function World:createPortal()
         z,
         definition
     )
+end
+
+-- Создаёт гору за выходным порталом.
+function World:createEndMountain()
+    local definition =
+        self.level.endMountain
+
+    if
+        not definition or
+        definition.enabled == false
+    then
+        return nil
+    end
+
+    local units =
+        Config.worldUnitsPerMeter
+
+    local x =
+        (definition.x or 0) *
+        units
+
+    local z
+
+    if definition.distanceBeyondEnd then
+        z =
+            self.maxZ +
+            definition.distanceBeyondEnd *
+            units
+    elseif self.portal then
+        z =
+            self.portal.z +
+            (
+                definition.distanceBehindPortal or
+                8
+            ) *
+            units
+    else
+        z =
+            self.maxZ +
+            (
+                definition.distanceBehindPortal or
+                8
+            ) *
+            units
+    end
+
+    local mountain =
+        ForestEndMountain.new(
+            self.assets,
+            x,
+            z,
+            definition
+        )
+
+    mountain.renderMargin =
+        (
+            definition.renderMargin or 20
+        ) *
+        units
+
+    return mountain
 end
 
 function World:generateArrowBundles()
@@ -1069,6 +1134,7 @@ function World:isObjectOnScreen(object)
         margin
 end
 
+-- Собирает все видимые объекты леса.
 function World:collectVisibleObjects(
     player,
     projectiles,
@@ -1077,6 +1143,7 @@ function World:collectVisibleObjects(
 )
     local queue = {}
 
+    -- Деревья, кусты, камни и грибы.
     for _, chunk in pairs(
         self.chunks
     ) do
@@ -1084,8 +1151,7 @@ function World:collectVisibleObjects(
             chunk
         ) do
             if
-                self.projection:
-                isDepthVisible(
+                self.projection:isDepthVisible(
                     object.z,
                     self.cameraZ
                 ) and
@@ -1099,6 +1165,7 @@ function World:collectVisibleObjects(
         end
     end
 
+    -- Связки стрел.
     for _, bundle in ipairs(
         self.arrowBundles
     ) do
@@ -1106,8 +1173,7 @@ function World:collectVisibleObjects(
             bundle.active ~= false and
             bundle.visible ~= false and
             not bundle.collected and
-            self.projection:
-            isDepthVisible(
+            self.projection:isDepthVisible(
                 bundle.z,
                 self.cameraZ
             ) and
@@ -1124,36 +1190,36 @@ function World:collectVisibleObjects(
         end
     end
 
-    for _, projectile in ipairs(
+    -- Стрелы игрока.
+    for _, arrow in ipairs(
         projectiles or {}
     ) do
         if
-            projectile.active and
-            self.projection:
-            isDepthVisible(
-                projectile.z,
+            arrow.active and
+            self.projection:isDepthVisible(
+                arrow.z,
                 self.cameraZ
             ) and
             self:isObjectOnScreen(
-                projectile
+                arrow
             )
         then
             queue[#queue + 1] = {
-                type = "projectile",
-                x = projectile.x,
-                z = projectile.z,
-                reference = projectile
+                type = "player_arrow",
+                x = arrow.x,
+                z = arrow.z,
+                reference = arrow
             }
         end
     end
 
+    -- Враги.
     for _, enemy in ipairs(
         enemies or {}
     ) do
         if
             enemy.active and
-            self.projection:
-            isDepthVisible(
+            self.projection:isDepthVisible(
                 enemy.z,
                 self.cameraZ
             ) and
@@ -1170,6 +1236,7 @@ function World:collectVisibleObjects(
         end
     end
 
+    -- Выпавшие предметы.
     for _, pickup in ipairs(
         pickups or {}
     ) do
@@ -1177,8 +1244,7 @@ function World:collectVisibleObjects(
             pickup.active ~= false and
             pickup.visible ~= false and
             not pickup.collected and
-            self.projection:
-            isDepthVisible(
+            self.projection:isDepthVisible(
                 pickup.z,
                 self.cameraZ
             ) and
@@ -1195,10 +1261,30 @@ function World:collectVisibleObjects(
         end
     end
 
+    -- Конечная гора.
+    if
+        self.endMountain and
+        self.endMountain.active and
+        self.projection:isDepthVisible(
+            self.endMountain.z,
+            self.cameraZ
+        ) and
+        self:isObjectOnScreen(
+            self.endMountain
+        )
+    then
+        queue[#queue + 1] = {
+            type = "end_mountain",
+            x = self.endMountain.x,
+            z = self.endMountain.z,
+            reference = self.endMountain
+        }
+    end
+
+    -- Портал выхода.
     if
         self.portal and
-        self.projection:
-        isDepthVisible(
+        self.projection:isDepthVisible(
             self.portal.z,
             self.cameraZ
         ) and
@@ -1214,6 +1300,7 @@ function World:collectVisibleObjects(
         }
     end
 
+    -- Игрок рисуется через общую очередь глубины.
     queue[#queue + 1] = {
         type = "player",
         x = player.x,
@@ -1221,6 +1308,8 @@ function World:collectVisibleObjects(
         reference = player
     }
 
+    -- Перила мостов также участвуют
+    -- в сортировке по глубине.
     self.rivers:addRailingsToQueue(
         queue,
         self.cameraZ
@@ -1229,9 +1318,7 @@ function World:collectVisibleObjects(
     table.sort(
         queue,
         function(first, second)
-            return
-                first.z >
-                second.z
+            return first.z > second.z
         end
     )
 
@@ -1249,6 +1336,7 @@ function World:prepareRespawn(
 )
 end
 
+-- Рисует лес.
 function World:draw(
     player,
     projectiles,
@@ -1277,15 +1365,12 @@ function World:draw(
             pickups
         )
 
-    for _, object in ipairs(
-        queue
-    ) do
+    for _, object in ipairs(queue) do
         if
             object.type ==
             "river_railing"
         then
-            self.rivers:
-            drawRailingSegment(
+            self.rivers:drawRailingSegment(
                 object,
                 self.cameraX,
                 self.cameraZ
@@ -1294,10 +1379,11 @@ function World:draw(
         elseif
             object.type == "player" or
             object.type == "arrow_bundle" or
-            object.type == "projectile" or
+            object.type == "player_arrow" or
             object.type == "enemy" or
             object.type == "pickup" or
-            object.type == "portal"
+            object.type == "portal" or
+            object.type == "end_mountain"
         then
             object.reference:draw(
                 self.projection,
@@ -1311,6 +1397,8 @@ function World:draw(
             )
         end
     end
+
+    love.graphics.setColor(1, 1, 1, 1)
 end
 
 function World:drawDepthLines()

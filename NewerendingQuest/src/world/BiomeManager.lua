@@ -993,6 +993,26 @@ function BiomeManager:update(
 )
     self.background:update(dt)
 
+	if self.world and player then
+		local minimumZ =
+			self.world.minZ or 0
+
+		local maximumZ =
+			self.world.maxZ or
+			minimumZ + 1
+
+		local levelLength =
+			math.max(
+				1,
+				maximumZ - minimumZ
+			)
+
+		self.background:setProgress(
+			(player.z - minimumZ) /
+			levelLength
+		)
+	end
+
     if self.transition:isActive() then
         self.transition:update(dt)
         return
