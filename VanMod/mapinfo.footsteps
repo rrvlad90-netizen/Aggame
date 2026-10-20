@@ -1,4 +1,0 @@
-gameInfo
-{
-	addEventHandlers = "StepEventHandler"
-}

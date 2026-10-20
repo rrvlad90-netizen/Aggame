@@ -1,5 +1,0 @@
-texture SKY1, 1024, 576
-{
-xscale 1
-//yscale 4
-}
