@@ -1056,12 +1056,28 @@ Draw the small two score display
 #ifndef MISSIONPACK
 static float CG_DrawScores( float y ) {
 	const char	*s;
-	int			s1, s2, score;
-	int			x, w;
-	int			v;
+	const char	*serverInfo;
+	int		s1, s2, score;
+	int		x, w;
+	int		v;
 	vec4_t		color;
 	float		y1;
 	gitem_t		*item;
+
+	/*
+	 * Hide the small team frag counter in both One Life modes.
+	 * g_oneLifeTDM is transmitted through CS_SERVERINFO.
+	 */
+	serverInfo = CG_ConfigString( CS_SERVERINFO );
+
+	if( atoi(
+		Info_ValueForKey(
+			serverInfo,
+			"g_oneLifeTDM"
+		)
+	) ) {
+		return y;
+	}
 
 	s1 = cgs.scores1;
 	s2 = cgs.scores2;

@@ -1,0 +1,15 @@
+boxtest
+{
+	death
+	{
+		alertentity spawntest
+	}
+}
+
+door1
+{
+	trigger testk
+	{
+		alertentity door1relay
+	}
+}

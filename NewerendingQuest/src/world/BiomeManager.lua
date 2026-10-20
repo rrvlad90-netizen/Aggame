@@ -1,3 +1,6 @@
+local SceneWorld =
+    require("src.world.SceneWorld")
+
 local SkeletonData =
     require("data.entities.enemies.skeleton")
 
@@ -123,6 +126,15 @@ end
 
 -- Создаёт мир указанного биома.
 function BiomeManager:createWorld(level)
+
+	if level.biome == "scene" then
+		return SceneWorld.new(
+			self.projection,
+			self.assets,
+			level
+		)
+	end
+
     if level.biome == "swamp" then
         return SwampWorld.new(
             self.projection,
@@ -174,6 +186,14 @@ function BiomeManager:activateLevel(
     level,
     player
 )
+
+	if
+		self.world and
+		self.world.leave
+	then
+		self.world:leave()
+	end
+
     self.level = level
 
     self.background:configure(
@@ -991,6 +1011,16 @@ function BiomeManager:update(
     dt,
     player
 )
+
+		if
+			not self.world.takePortalDestination and
+			self.world.isLevelComplete and
+			player.state == "grounded" and
+			self.world:isLevelComplete(player)
+		then
+			self:beginNextLevel(player)
+		end
+
     self.background:update(dt)
 
 	if self.world and player then
@@ -1098,7 +1128,12 @@ end
 function BiomeManager:isInputLocked()
     return
         self.completed or
-        self.transition:isActive()
+        self.transition:isActive() or
+        (
+            self.world and
+            self.world.blocksPlayerInput and
+            self.world:blocksPlayerInput()
+        )
 end
 
 -- Возвращает горизонтальную позицию камеры.
@@ -1242,6 +1277,26 @@ function BiomeManager:getLevelId()
         self.level and
         self.level.id or
         nil
+end
+
+function BiomeManager:isScene()
+    return
+        self.world and
+        self.world.isScene and
+        self.world:isScene() or
+        false
+end
+
+function BiomeManager:keypressed(key)
+    if
+        self.world and
+        self.world.keypressed
+    then
+        return
+            self.world:keypressed(key)
+    end
+
+    return false
 end
 
 -- Проверяет завершение кампании.

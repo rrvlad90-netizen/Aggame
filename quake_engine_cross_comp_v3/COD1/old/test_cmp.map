@@ -1,0 +1,980 @@
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -128 384 128 ) ( -320 384 128 ) ( -320 320 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -320 320 136 ) ( -320 384 136 ) ( -128 384 136 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -320 256 136 ) ( -128 256 136 ) ( -128 256 120 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 320 136 ) ( -128 384 136 ) ( -128 384 120 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 384 136 ) ( -320 384 136 ) ( -320 384 120 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -320 384 136 ) ( -320 320 136 ) ( -320 320 120 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 1
+{
+( -128 352 0 ) ( -128 296 0 ) ( -120 296 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 296 144 ) ( -128 296 144 ) ( -128 352 144 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 296 128 ) ( -120 352 128 ) ( -120 352 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 296 144 ) ( -128 296 144 ) ( -128 296 16 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 352 128 ) ( -128 296 128 ) ( -128 296 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 288 128 ) ( -120 288 128 ) ( -120 288 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 2
+{
+( -128 344 128 ) ( -120 344 128 ) ( -120 344 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 408 128 ) ( -128 352 128 ) ( -128 352 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 352 128 ) ( -128 352 128 ) ( -128 352 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 352 128 ) ( -120 408 128 ) ( -120 408 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 352 144 ) ( -128 352 144 ) ( -128 408 144 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 408 0 ) ( -128 352 0 ) ( -120 352 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 3
+{
+( -128 400 24 ) ( -128 344 24 ) ( -120 344 24 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 344 32 ) ( -128 344 32 ) ( -128 400 32 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 344 144 ) ( -120 400 144 ) ( -120 400 16 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 344 144 ) ( -128 344 144 ) ( -128 344 16 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 400 144 ) ( -128 344 144 ) ( -128 344 16 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 296 144 ) ( -120 296 144 ) ( -120 296 16 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 4
+{
+( -128 296 184 ) ( -120 296 184 ) ( -120 296 56 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 400 184 ) ( -128 344 184 ) ( -128 344 56 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 344 184 ) ( -128 344 184 ) ( -128 344 56 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 344 184 ) ( -120 400 184 ) ( -120 400 56 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 344 72 ) ( -128 344 72 ) ( -128 400 72 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 400 64 ) ( -128 344 64 ) ( -120 344 64 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 5
+{
+( -128 296 224 ) ( -120 296 224 ) ( -120 296 96 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 400 224 ) ( -128 344 224 ) ( -128 344 96 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 344 224 ) ( -128 344 224 ) ( -128 344 96 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 344 224 ) ( -120 400 224 ) ( -120 400 96 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -120 344 112 ) ( -128 344 112 ) ( -128 400 112 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 400 104 ) ( -128 344 104 ) ( -120 344 104 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 6
+{
+( -120 352 0 ) ( -120 288 0 ) ( -104 288 0 ) common/ladder 63 0 90 0.5 0.5 0 13 0 0
+( -104 288 144 ) ( -120 288 144 ) ( -120 352 144 ) common/ladder 63 0 90 0.5 0.5 0 13 0 0
+( -104 288 208 ) ( -104 352 208 ) ( -104 352 0 ) common/ladder 0 0 0 0.5 0.5 0 13 0 0
+( -104 352 208 ) ( -120 352 208 ) ( -120 352 0 ) common/ladder 0 0 -180 0.5 -0.5 0 13 0 0
+( -128 352 208 ) ( -128 288 208 ) ( -128 288 0 ) common/ladder 0 0 0 0.5 0.5 0 13 0 0
+( -120 288 208 ) ( -104 288 208 ) ( -104 288 0 ) common/ladder 0 0 -180 0.5 -0.5 0 13 0 0
+}
+// brush 7
+{
+( -384 320 136 ) ( -384 256 136 ) ( -384 256 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -320 320 136 ) ( -384 320 136 ) ( -384 320 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -320 256 136 ) ( -320 320 136 ) ( -320 320 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -384 256 136 ) ( -320 256 136 ) ( -320 256 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -384 256 136 ) ( -384 320 136 ) ( -320 320 136 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -320 320 128 ) ( -384 320 128 ) ( -384 256 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 8
+{
+( -256 256 136 ) ( -256 248 136 ) ( -256 248 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -248 256 136 ) ( -256 256 136 ) ( -256 256 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -248 248 136 ) ( -248 256 136 ) ( -248 256 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -256 248 136 ) ( -248 248 136 ) ( -248 248 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -256 248 136 ) ( -256 256 136 ) ( -248 256 136 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -248 256 0 ) ( -256 256 0 ) ( -256 248 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 9
+{
+( -200 256 8 ) ( -200 248 8 ) ( -200 248 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -192 256 136 ) ( -200 256 136 ) ( -200 256 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -192 248 136 ) ( -192 256 136 ) ( -192 256 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 248 136 ) ( -192 248 136 ) ( -192 248 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 248 136 ) ( -200 256 136 ) ( -192 256 136 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -192 256 0 ) ( -200 256 0 ) ( -200 248 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 10
+{
+( -200 256 8 ) ( -240 256 8 ) ( -240 248 8 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 248 16 ) ( -240 256 16 ) ( -200 256 16 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 248 144 ) ( -200 248 144 ) ( -200 248 8 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 248 144 ) ( -200 256 144 ) ( -200 256 8 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -208 256 144 ) ( -248 256 144 ) ( -248 256 8 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -248 256 144 ) ( -248 248 144 ) ( -248 248 8 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 11
+{
+( -248 256 160 ) ( -248 248 160 ) ( -248 248 24 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -208 256 160 ) ( -248 256 160 ) ( -248 256 24 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 248 160 ) ( -200 256 160 ) ( -200 256 24 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 249 160 ) ( -200 249 160 ) ( -200 249 24 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 248 32 ) ( -240 256 32 ) ( -200 256 32 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 256 24 ) ( -240 256 24 ) ( -240 248 24 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 12
+{
+( -200 256 40 ) ( -240 256 40 ) ( -240 248 40 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 248 48 ) ( -240 256 48 ) ( -200 256 48 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 250 176 ) ( -200 250 176 ) ( -200 250 40 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 248 176 ) ( -200 256 176 ) ( -200 256 40 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -208 256 176 ) ( -248 256 176 ) ( -248 256 40 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -248 256 176 ) ( -248 248 176 ) ( -248 248 40 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 13
+{
+( -248 256 192 ) ( -248 248 192 ) ( -248 248 56 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -208 256 192 ) ( -248 256 192 ) ( -248 256 56 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 248 192 ) ( -200 256 192 ) ( -200 256 56 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 251 192 ) ( -200 251 192 ) ( -200 251 56 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 248 64 ) ( -240 256 64 ) ( -200 256 64 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 256 56 ) ( -240 256 56 ) ( -240 248 56 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 14
+{
+( -200 256 72 ) ( -240 256 72 ) ( -240 248 72 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 248 80 ) ( -240 256 80 ) ( -200 256 80 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 252 208 ) ( -200 252 208 ) ( -200 252 72 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 248 208 ) ( -200 256 208 ) ( -200 256 72 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -208 256 208 ) ( -248 256 208 ) ( -248 256 72 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -248 256 208 ) ( -248 248 208 ) ( -248 248 72 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 15
+{
+( -248 256 240 ) ( -248 248 240 ) ( -248 248 104 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -208 256 240 ) ( -248 256 240 ) ( -248 256 104 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 248 240 ) ( -200 256 240 ) ( -200 256 104 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -239 254 240 ) ( -199 254 240 ) ( -199 254 104 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 248 112 ) ( -240 256 112 ) ( -200 256 112 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 256 104 ) ( -240 256 104 ) ( -240 248 104 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 16
+{
+( -200 256 120 ) ( -240 256 120 ) ( -240 248 120 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 248 128 ) ( -240 256 128 ) ( -200 256 128 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -239 255 256 ) ( -199 255 256 ) ( -199 255 120 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 248 256 ) ( -200 256 256 ) ( -200 256 120 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -208 256 256 ) ( -248 256 256 ) ( -248 256 120 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -248 256 256 ) ( -248 248 256 ) ( -248 248 120 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 17
+{
+( -200 256 88 ) ( -240 256 88 ) ( -240 248 88 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 248 96 ) ( -240 256 96 ) ( -200 256 96 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -240 253 224 ) ( -200 253 224 ) ( -200 253 88 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -200 248 224 ) ( -200 256 224 ) ( -200 256 88 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -208 256 224 ) ( -248 256 224 ) ( -248 256 88 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -248 256 224 ) ( -248 248 224 ) ( -248 248 88 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 18
+{
+( 56 192 256 ) ( 56 192 0 ) ( 64 200 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 200 256 ) ( 64 200 256 ) ( 64 200 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 56 192 0 ) ( 56 192 256 ) ( 384 192 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 64 192 256 ) ( 64 200 256 ) ( 384 200 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 200 0 ) ( 64 200 0 ) ( 64 192 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 192 208 0 ) ( 192 184 0 ) ( 192 208 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 19
+{
+( 384 200 256 ) ( 64 200 256 ) ( 64 200 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 56 192 0 ) ( 56 192 256 ) ( 384 192 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 64 192 256 ) ( 64 200 256 ) ( 384 200 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 200 128 ) ( 64 200 128 ) ( 64 192 128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 192 184 0 ) ( 192 208 0 ) ( 192 208 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 256 200 0 ) ( 256 184 0 ) ( 256 200 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 20
+{
+( 384 200 256 ) ( 64 200 256 ) ( 64 200 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 192 256 ) ( 384 200 256 ) ( 384 200 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 56 192 0 ) ( 56 192 256 ) ( 384 192 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 64 192 256 ) ( 64 200 256 ) ( 384 200 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 200 0 ) ( 64 200 0 ) ( 64 192 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 256 184 0 ) ( 256 200 0 ) ( 256 200 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 21
+{
+( 64 384 0 ) ( 56 384 0 ) ( 56 192 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 56 192 256 ) ( 56 384 256 ) ( 64 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 64 200 256 ) ( 64 200 0 ) ( 56 192 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 64 200 0 ) ( 64 200 256 ) ( 64 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 56 384 8 ) ( 56 192 8 ) ( 56 192 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 40 256 0 ) ( 80 256 0 ) ( 40 256 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 22
+{
+( 64 384 128 ) ( 56 384 128 ) ( 56 192 128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 56 192 256 ) ( 56 384 256 ) ( 64 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 64 200 0 ) ( 64 200 256 ) ( 64 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 56 384 8 ) ( 56 192 8 ) ( 56 192 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 32 320 0 ) ( 80 320 0 ) ( 32 320 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 80 256 0 ) ( 40 256 0 ) ( 40 256 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 23
+{
+( 64 384 0 ) ( 56 384 0 ) ( 56 192 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 56 192 256 ) ( 56 384 256 ) ( 64 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 64 200 0 ) ( 64 200 256 ) ( 64 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 64 384 8 ) ( 56 384 8 ) ( 56 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 56 384 8 ) ( 56 192 8 ) ( 56 192 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 80 320 0 ) ( 32 320 0 ) ( 32 320 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 24
+{
+( 192 -272 -240 ) ( 192 -256 -240 ) ( 192 -256 -232 ) austria/ground/grass@ravine1_grass 0 0 0 0.25 0.25 0 0 0 0
+( 416 -256 -240 ) ( 440 -256 -240 ) ( 440 -256 -232 ) austria/ground/grass@ravine1_grass 0 0 0 0.25 0.25 0 0 0 0
+( -384 384 -320 ) ( 384 384 -320 ) ( -384 -384 -320 ) austria/ground/grass@ravine1_grass 0 0 0 0.25 0.25 0 0 0 0
+( 384 -384 -168 ) ( 384 384 -168 ) ( 384 384 -232 ) austria/ground/grass@ravine1_grass 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 -168 ) ( 384 -384 -168 ) ( 384 -384 -232 ) austria/ground/grass@ravine1_grass 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 -328 ) ( -384 384 -328 ) ( -384 -384 -328 ) austria/ground/grass@ravine1_grass 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 25
+{
+( 504 -192 0 ) ( 520 -192 0 ) ( 504 -192 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 512 384 -192 ) ( 512 -384 -192 ) ( 512 384 -256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 520 -384 64 ) ( 520 384 64 ) ( 520 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -256 -384 64 ) ( 512 -384 64 ) ( 512 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -256 -384 256 ) ( -256 384 256 ) ( 512 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 512 384 -320 ) ( -256 384 -320 ) ( -256 -384 -320 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 26
+{
+( 192 -232 -8 ) ( 192 -256 -8 ) ( 192 -256 -584 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 312 -248 256 ) ( 192 -248 256 ) ( 192 -248 -320 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 512 -256 256 ) ( 512 -232 256 ) ( 512 -232 -320 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 256 -256 0 ) ( 384 -256 0 ) ( 384 -256 -320 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 -256 0 ) ( 256 -256 0 ) ( 256 -248 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 -232 -320 ) ( 264 -232 -320 ) ( 264 -256 -320 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 27
+{
+( 184 -256 256 ) ( 184 -384 256 ) ( 184 -384 -320 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 192 -256 256 ) ( 184 -256 256 ) ( 184 -256 -320 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 192 -376 0 ) ( 192 -248 0 ) ( 192 -256 -320 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 184 -384 256 ) ( 192 -384 256 ) ( 192 -384 -320 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 192 -248 0 ) ( 192 -376 0 ) ( 184 -384 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 192 -256 -320 ) ( 184 -256 -320 ) ( 184 -384 -320 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 28
+{
+( 256 -256 -8 ) ( 256 -384 -8 ) ( 256 -384 -320 ) common/cushion 0 0 0 0.5 0.5 0 7 0 0
+( 384 -256 -8 ) ( 256 -256 -8 ) ( 256 -256 -320 ) common/cushion 0 0 0 0.5 0.5 0 7 0 0
+( 384 -384 -8 ) ( 384 -256 -8 ) ( 384 -256 -320 ) common/cushion 0 0 0 0.5 0.5 0 7 0 0
+( 256 -384 -8 ) ( 384 -384 -8 ) ( 384 -384 -320 ) common/cushion 0 0 0 0.5 0.5 0 7 0 0
+( 256 -384 -318 ) ( 256 -256 -318 ) ( 384 -256 -318 ) common/cushion 0 0 0 0.5 0.5 0 7 0 0
+( 384 -256 -328 ) ( 256 -256 -328 ) ( 256 -384 -328 ) common/cushion 0 0 0 0.5 0.5 0 7 0 0
+}
+// brush 29
+{
+( -384 -384 128 ) ( -384 384 128 ) ( -384 -384 64 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -392 -72 0 ) ( -392 -72 256 ) ( -392 -384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 64 ) ( 384 -384 64 ) ( 384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -392 -72 256 ) ( -392 -72 0 ) ( -384 -64 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 30
+{
+( -384 -384 128 ) ( -384 384 128 ) ( -384 -384 64 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -392 72 256 ) ( -392 72 0 ) ( -392 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 64 ) ( -384 384 64 ) ( -384 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -392 72 0 ) ( -392 72 256 ) ( -384 64 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 31
+{
+( -776 392 64 ) ( -776 -376 64 ) ( -776 -376 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -408 64 0 ) ( -368 64 0 ) ( -408 64 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -360 -64 0 ) ( -416 -64 0 ) ( -416 -64 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -768 -376 64 ) ( -768 392 64 ) ( -768 -376 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 32
+{
+( -384 -384 128 ) ( -384 384 128 ) ( -384 -384 64 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -768 392 64 ) ( -768 -376 64 ) ( -768 -376 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 264 ) ( -384 384 264 ) ( 384 384 264 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -416 64 0 ) ( -376 64 0 ) ( -416 64 256 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -368 -64 0 ) ( -424 -64 0 ) ( -424 -64 256 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -384 384 256 ) ( -384 -384 256 ) ( 384 384 256 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 33
+{
+( -384 64 0 ) ( -384 64 256 ) ( -392 72 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -768 392 64 ) ( -768 -376 64 ) ( -768 -376 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -408 72 0 ) ( -368 72 0 ) ( -408 72 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 64 256 ) ( -384 64 0 ) ( -768 64 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 34
+{
+( -384 -64 256 ) ( -384 -64 0 ) ( -392 -72 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -768 392 64 ) ( -768 -376 64 ) ( -768 -376 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -360 -72 0 ) ( -416 -72 0 ) ( -416 -72 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -64 0 ) ( -384 -64 256 ) ( -768 -64 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 35
+{
+( -384 384 0 ) ( 384 384 0 ) ( -384 -384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -368 -64 0 ) ( -424 -64 0 ) ( -424 -64 256 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -416 64 0 ) ( -376 64 0 ) ( -416 64 256 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -584 -64 -8 ) ( -584 64 -8 ) ( -768 64 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -768 392 64 ) ( -768 -376 64 ) ( -768 -376 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -584 64 -8 ) ( -584 -64 -8 ) ( -576 -64 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 36
+{
+( -376 -376 120 ) ( -376 392 120 ) ( -376 -376 56 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 576 384 -128 ) ( -192 384 -128 ) ( -192 -384 -128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -224 64 -8 ) ( -184 64 -8 ) ( -224 64 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -176 -64 -8 ) ( -232 -64 -8 ) ( -232 -64 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -64 0 ) ( -384 64 0 ) ( -376 64 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 64 0 ) ( -384 -64 0 ) ( -384 -64 -128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 37
+{
+( -584 392 56 ) ( -584 -376 56 ) ( -584 -376 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 576 384 -128 ) ( -192 384 -128 ) ( -192 -384 -128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -224 64 -8 ) ( -184 64 -8 ) ( -224 64 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -176 -64 -8 ) ( -232 -64 -8 ) ( -232 -64 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -576 64 0 ) ( -576 -64 0 ) ( -584 -64 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -576 -64 0 ) ( -576 64 0 ) ( -576 64 -128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 38
+{
+( -384 -376 120 ) ( -384 392 120 ) ( -384 -376 56 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -576 392 56 ) ( -576 -376 56 ) ( -576 -376 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 576 384 -136 ) ( -192 384 -136 ) ( -192 -384 -136 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -224 64 -8 ) ( -184 64 -8 ) ( -224 64 248 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -176 -64 -8 ) ( -232 -64 -8 ) ( -232 -64 248 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -192 384 -128 ) ( 576 384 -128 ) ( -192 -384 -128 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 39
+{
+( -384 -376 120 ) ( -384 392 120 ) ( -384 -376 56 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -576 392 56 ) ( -576 -376 56 ) ( -576 -376 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 576 384 -128 ) ( -192 384 -128 ) ( -192 -384 -128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -224 72 -8 ) ( -184 72 -8 ) ( -224 72 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -192 384 0 ) ( 576 384 0 ) ( -192 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -184 64 -8 ) ( -224 64 -8 ) ( -224 64 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 40
+{
+( -384 -376 120 ) ( -384 392 120 ) ( -384 -376 56 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -576 392 56 ) ( -576 -376 56 ) ( -576 -376 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 576 384 -128 ) ( -192 384 -128 ) ( -192 -384 -128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -176 -72 -8 ) ( -232 -72 -8 ) ( -232 -72 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -192 384 0 ) ( 576 384 0 ) ( -192 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -232 -64 -8 ) ( -176 -64 -8 ) ( -232 -64 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 41
+{
+( -384 64 -8 ) ( -576 64 -8 ) ( -576 -64 -8 ) common/clip 0 0 0 0.5 0.5 0 13 0 0
+( -576 -64 0 ) ( -576 64 0 ) ( -384 64 0 ) common/clip 0 0 0 0.5 0.5 0 13 0 0
+( -576 -64 0 ) ( -384 -64 0 ) ( -384 -64 -8 ) common/clip 0 0 0 0.5 0.5 0 13 0 0
+( -384 -64 0 ) ( -384 64 0 ) ( -384 64 -8 ) common/clip 0 0 0 0.5 0.5 0 13 0 0
+( -384 64 0 ) ( -576 64 0 ) ( -576 64 -8 ) common/clip 0 0 0 0.5 0.5 0 13 0 0
+( -576 64 0 ) ( -576 -64 0 ) ( -576 -64 -8 ) common/clip 0 0 0 0.5 0.5 0 13 0 0
+}
+// brush 42
+{
+( -632 64 0 ) ( -640 64 0 ) ( -640 -64 0 ) common/clipweap 0 0 0 0.5 0.5 0 5 0 0
+( -640 -64 256 ) ( -640 64 256 ) ( -632 64 256 ) common/clipweap 0 0 0 0.5 0.5 0 5 0 0
+( -640 -64 8 ) ( -632 -64 8 ) ( -632 -64 0 ) common/clipweap 0 0 0 0.5 0.5 0 5 0 0
+( -632 -64 8 ) ( -632 64 8 ) ( -632 64 0 ) common/clipweap 0 0 0 0.5 0.5 0 5 0 0
+( -632 64 8 ) ( -640 64 8 ) ( -640 64 0 ) common/clipweap 0 0 0 0.5 0.5 0 5 0 0
+( -640 64 8 ) ( -640 -64 8 ) ( -640 -64 0 ) common/clipweap 0 0 0 0.5 0.5 0 5 0 0
+}
+// brush 43
+{
+( 392 -184 256 ) ( 392 -184 0 ) ( 384 -192 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 128 ) ( 384 -384 128 ) ( 384 384 64 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 392 -184 0 ) ( 392 -184 256 ) ( 392 -72 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 392 -72 0 ) ( 392 -72 256 ) ( 384 -64 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 44
+{
+( 384 384 128 ) ( 384 -384 128 ) ( 384 384 64 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 64 ) ( -384 384 64 ) ( -384 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 392 72 0 ) ( 392 72 256 ) ( 392 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 392 72 256 ) ( 392 72 0 ) ( 384 64 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 45
+{
+( 960 376 64 ) ( 960 -392 64 ) ( 960 376 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 552 64 0 ) ( 608 64 0 ) ( 608 64 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 600 -64 0 ) ( 560 -64 0 ) ( 600 -64 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -192 -384 0 ) ( 576 -384 0 ) ( 576 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 576 384 256 ) ( 576 -384 256 ) ( -192 -384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 968 -392 64 ) ( 968 376 64 ) ( 968 376 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 46
+{
+( 384 -384 256 ) ( 384 384 256 ) ( -384 -384 256 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 368 64 0 ) ( 424 64 0 ) ( 424 64 256 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 416 -64 0 ) ( 376 -64 0 ) ( 416 -64 256 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 264 ) ( 384 -384 264 ) ( -384 -384 264 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 960 -392 64 ) ( 960 376 64 ) ( 960 376 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 128 ) ( 384 -384 128 ) ( 384 384 64 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 47
+{
+( 384 -64 256 ) ( 384 -64 0 ) ( 768 -64 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 408 -72 0 ) ( 368 -72 0 ) ( 408 -72 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 0 ) ( 384 -384 0 ) ( 384 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 256 ) ( 384 -384 256 ) ( -384 -384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 960 -392 64 ) ( 960 376 64 ) ( 960 376 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 -64 0 ) ( 384 -64 256 ) ( 392 -72 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 48
+{
+( 576 64 0 ) ( 576 64 256 ) ( 960 64 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 360 72 0 ) ( 416 72 0 ) ( 416 72 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 0 ) ( 384 -384 0 ) ( 384 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 256 ) ( 384 -384 256 ) ( -384 -384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 960 -392 64 ) ( 960 376 64 ) ( 960 376 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 64 256 ) ( 384 64 0 ) ( 392 72 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 49
+{
+( 784 -64 -8 ) ( 784 64 -8 ) ( 776 64 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 960 -392 64 ) ( 960 376 64 ) ( 960 376 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 584 64 -8 ) ( 584 -64 -8 ) ( 768 -64 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 416 -64 0 ) ( 376 -64 0 ) ( 416 -64 256 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 368 64 0 ) ( 424 64 0 ) ( 424 64 256 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 384 -384 0 ) ( -384 -384 0 ) ( 384 384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 50
+{
+( 776 64 0 ) ( 776 -64 0 ) ( 776 -64 -128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 776 -64 0 ) ( 776 64 0 ) ( 784 64 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 376 64 -8 ) ( 432 64 -8 ) ( 432 64 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 424 -64 -8 ) ( 384 -64 -8 ) ( 424 -64 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -376 -384 -128 ) ( 392 -384 -128 ) ( 392 384 -128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 784 -392 56 ) ( 784 376 56 ) ( 784 376 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 51
+{
+( 192 -384 -128 ) ( -576 -384 -128 ) ( 192 384 -128 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 376 64 -8 ) ( 432 64 -8 ) ( 432 64 248 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 424 -64 -8 ) ( 384 -64 -8 ) ( 424 -64 248 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -576 -384 -136 ) ( 192 -384 -136 ) ( 192 384 -136 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 776 -392 56 ) ( 776 376 56 ) ( 776 376 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 384 376 120 ) ( 384 -392 120 ) ( 384 376 56 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 52
+{
+( 384 -64 -8 ) ( 424 -64 -8 ) ( 424 -64 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 192 -384 0 ) ( -576 -384 0 ) ( 192 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 224 -72 -8 ) ( 184 -72 -8 ) ( 224 -72 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -576 -384 -128 ) ( 192 -384 -128 ) ( 192 384 -128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 776 -392 56 ) ( 776 376 56 ) ( 776 376 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 376 120 ) ( 384 -392 120 ) ( 384 376 56 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 53
+{
+( 432 64 -8 ) ( 376 64 -8 ) ( 432 64 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 192 -384 0 ) ( -576 -384 0 ) ( 192 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 176 72 -8 ) ( 232 72 -8 ) ( 232 72 248 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -576 -384 -128 ) ( 192 -384 -128 ) ( 192 384 -128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 776 -392 56 ) ( 776 376 56 ) ( 776 376 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 376 120 ) ( 384 -392 120 ) ( 384 376 56 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 54
+{
+( 776 -64 0 ) ( 776 64 0 ) ( 776 64 -8 ) common/clipmonster 0 0 0 0.5 0.5 0 13 0 0
+( 584 -64 0 ) ( 776 -64 0 ) ( 776 -64 -8 ) common/clipmonster 0 0 0 0.5 0.5 0 13 0 0
+( 576 64 0 ) ( 576 -64 0 ) ( 576 -64 -8 ) common/clipmonster 0 0 0 0.5 0.5 0 13 0 0
+( 776 64 0 ) ( 584 64 0 ) ( 584 64 -8 ) common/clipmonster 0 0 0 0.5 0.5 0 13 0 0
+( 776 64 0 ) ( 776 -64 0 ) ( 584 -64 0 ) common/clipmonster 0 0 0 0.5 0.5 0 13 0 0
+( 584 -64 -8 ) ( 776 -64 -8 ) ( 776 64 -8 ) common/clipmonster 0 0 0 0.5 0.5 0 13 0 0
+}
+// brush 55
+{
+( 376 -376 56 ) ( 376 392 120 ) ( 376 -376 120 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 192 -384 -128 ) ( 192 384 -128 ) ( -576 384 -128 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 224 64 248 ) ( 184 64 -8 ) ( 224 64 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 232 -64 248 ) ( 232 -64 -8 ) ( 176 -64 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 376 64 -8 ) ( 384 64 0 ) ( 384 -64 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 -64 -128 ) ( 384 -64 0 ) ( 384 64 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 56
+{
+( 576 56 -8 ) ( 384 56 -8 ) ( 384 -64 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 384 -64 0 ) ( 384 56 0 ) ( 576 56 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 384 -64 0 ) ( 576 -64 0 ) ( 576 -64 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 576 -64 0 ) ( 576 56 0 ) ( 576 56 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 576 64 0 ) ( 384 64 0 ) ( 384 64 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 384 56 0 ) ( 384 -64 0 ) ( 384 -64 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 57
+{
+( 384 -384 64 ) ( -384 -384 64 ) ( 384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 384 128 ) ( -384 -384 128 ) ( -384 -384 64 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -392 64 ) ( 384 -392 64 ) ( 384 -392 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -128 -376 0 ) ( -128 -392 0 ) ( -128 -376 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 58
+{
+( 192 -376 0 ) ( 192 -400 0 ) ( 192 -376 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 -384 64 ) ( -384 -384 64 ) ( 384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -448 -392 64 ) ( 320 -392 64 ) ( 320 -392 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 0 -400 0 ) ( 0 -376 0 ) ( 0 -376 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 59
+{
+( 248 -384 -8 ) ( 248 -256 -8 ) ( -384 -256 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 256 -384 -8 ) ( -384 -384 -8 ) ( -384 -384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -384 384 64 ) ( -384 -384 64 ) ( -384 -384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -384 384 0 ) ( 384 384 0 ) ( -384 -384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 416 -256 -8 ) ( 440 -256 -8 ) ( 440 -256 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 184 -264 -8 ) ( 184 -392 -8 ) ( 192 -392 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 60
+{
+( 0 -384 -8 ) ( -128 -384 -8 ) ( -128 -576 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -128 -1080 0 ) ( 0 -1080 0 ) ( 0 -1080 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 0 -1080 0 ) ( 0 -888 0 ) ( 0 -888 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 0 -384 0 ) ( -128 -384 0 ) ( -128 -384 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -128 -888 0 ) ( -128 -1080 0 ) ( -128 -1080 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -128 -384 0 ) ( 0 -384 0 ) ( -128 -576 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 61
+{
+( -128 -576 264 ) ( -128 -384 264 ) ( 0 -384 264 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 -1080 0 ) ( 0 -1080 0 ) ( 0 -1080 -8 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 0 -1080 0 ) ( 0 -888 0 ) ( 0 -888 -8 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 0 -384 0 ) ( -128 -384 0 ) ( -128 -384 -8 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 -888 0 ) ( -128 -1080 0 ) ( -128 -1080 -8 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -128 -384 256 ) ( -128 -576 256 ) ( 0 -384 256 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 62
+{
+( 0 -888 0 ) ( -128 -888 0 ) ( -128 -1080 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -128 -1080 256 ) ( -128 -888 256 ) ( 0 -888 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -128 -1088 0 ) ( 0 -1088 0 ) ( 0 -1088 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 0 -1080 0 ) ( 0 -888 0 ) ( 0 -888 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -128 -888 0 ) ( -128 -1080 0 ) ( -128 -1080 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 0 -1080 0 ) ( -128 -1080 0 ) ( 0 -1080 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 63
+{
+( 0 -384 0 ) ( -128 -384 0 ) ( -128 -576 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -128 -576 256 ) ( -128 -384 256 ) ( 0 -384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -128 -1080 0 ) ( 0 -1080 0 ) ( 0 -1080 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 8 -576 0 ) ( 8 -384 0 ) ( 8 -384 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 0 -392 0 ) ( -128 -392 0 ) ( -128 -392 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 0 -888 0 ) ( 0 -1080 0 ) ( 0 -888 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 64
+{
+( 0 -384 0 ) ( -128 -384 0 ) ( -128 -576 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -128 -576 256 ) ( -128 -384 256 ) ( 0 -384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -128 -1080 0 ) ( 0 -1080 0 ) ( 0 -1080 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 0 -392 0 ) ( -128 -392 0 ) ( -128 -392 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -136 -384 0 ) ( -136 -576 0 ) ( -136 -576 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -128 -1080 0 ) ( -128 -888 0 ) ( -128 -1080 -8 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 65
+{
+( -256 -256 0 ) ( -384 -256 0 ) ( -384 -384 0 ) crates/wood@greencrate1 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 8 ) ( -384 -256 8 ) ( -256 -256 8 ) crates/wood@greencrate1 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 112 ) ( -256 -384 112 ) ( -256 -384 0 ) crates/wood@greencrate1 0 0 0 0.25 0.25 0 0 0 0
+( -256 -384 112 ) ( -256 -256 112 ) ( -256 -256 0 ) crates/wood@greencrate1 0 0 0 0.25 0.25 0 0 0 0
+( -256 -256 112 ) ( -384 -256 112 ) ( -384 -256 0 ) crates/wood@greencrate1 0 0 0 0.25 0.25 0 0 0 0
+( -384 -256 112 ) ( -384 -384 112 ) ( -384 -384 0 ) crates/wood@greencrate1 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 66
+{
+( -96 640 112 ) ( -96 512 112 ) ( -96 512 0 ) crates/wood@tancrate1 0 0 0 0.25 0.25 0 0 0 0
+( 32 640 112 ) ( -96 640 112 ) ( -96 640 0 ) crates/wood@tancrate1 0 0 0 0.25 0.25 0 0 0 0
+( 32 512 112 ) ( 32 640 112 ) ( 32 640 0 ) crates/wood@tancrate1 0 0 0 0.25 0.25 0 0 0 0
+( -96 512 112 ) ( 32 512 112 ) ( 32 512 0 ) crates/wood@tancrate1 0 0 0 0.25 0.25 0 0 0 0
+( -96 512 8 ) ( -96 640 8 ) ( 32 640 8 ) crates/wood@tancrate1 0 0 0 0.25 0.25 0 0 0 0
+( 32 640 0 ) ( -96 640 0 ) ( -96 512 0 ) crates/wood@tancrate1 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 67
+{
+( -384 384 64 ) ( 384 384 64 ) ( -384 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 384 128 ) ( -384 -384 128 ) ( -384 -384 64 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -104 392 0 ) ( -104 392 256 ) ( -384 392 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -104 392 256 ) ( -104 392 0 ) ( -96 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 68
+{
+( -384 384 64 ) ( 384 384 64 ) ( -384 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 40 392 256 ) ( 40 392 0 ) ( 384 392 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 -384 128 ) ( 384 384 128 ) ( 384 384 64 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 40 392 0 ) ( 40 392 256 ) ( 32 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 69
+{
+( 24 392 -8 ) ( -88 392 -8 ) ( -88 384 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -88 384 256 ) ( 24 384 256 ) ( 24 384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 32 384 256 ) ( 32 392 256 ) ( 32 392 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 40 640 256 ) ( -72 640 256 ) ( -72 640 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -96 392 256 ) ( -96 384 256 ) ( -96 384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -88 392 0 ) ( 24 392 0 ) ( -88 384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 70
+{
+( -88 384 264 ) ( -88 392 264 ) ( 24 392 264 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -88 384 256 ) ( 24 384 256 ) ( 24 384 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 32 384 256 ) ( 32 392 256 ) ( 32 392 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 40 640 256 ) ( -72 640 256 ) ( -72 640 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -96 392 256 ) ( -96 384 256 ) ( -96 384 0 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -88 392 256 ) ( -88 384 256 ) ( 24 392 256 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 71
+{
+( 24 392 0 ) ( -88 392 0 ) ( -88 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -88 384 256 ) ( -88 392 256 ) ( 24 392 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 32 384 0 ) ( 32 384 256 ) ( 40 392 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 40 384 256 ) ( 40 392 256 ) ( 40 392 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 40 640 256 ) ( -72 640 256 ) ( -72 640 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 32 384 256 ) ( 32 384 0 ) ( 32 640 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 72
+{
+( 24 392 0 ) ( -88 392 0 ) ( -88 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -88 384 256 ) ( -88 392 256 ) ( 24 392 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 32 384 256 ) ( 32 392 256 ) ( 32 392 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 40 648 256 ) ( -72 648 256 ) ( -72 648 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -96 392 256 ) ( -96 384 256 ) ( -96 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -72 640 256 ) ( 40 640 256 ) ( -72 640 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 73
+{
+( 24 392 0 ) ( -88 392 0 ) ( -88 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -88 384 256 ) ( -88 392 256 ) ( 24 392 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -96 384 256 ) ( -96 384 0 ) ( -104 392 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 40 640 256 ) ( -72 640 256 ) ( -72 640 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -104 392 256 ) ( -104 384 256 ) ( -104 384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -96 384 0 ) ( -96 384 256 ) ( -96 640 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 74
+{
+( 384 384 -320 ) ( -384 384 -320 ) ( -384 -384 -320 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -384 -392 64 ) ( 384 -392 64 ) ( 384 -392 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 512 -384 -192 ) ( 512 384 -192 ) ( 512 384 -256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 448 -384 64 ) ( -320 -384 64 ) ( 448 -384 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 192 -400 0 ) ( 192 -376 0 ) ( 192 -376 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 75
+{
+( 392 -184 0 ) ( 392 -184 256 ) ( 384 -192 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -64 -192 0 ) ( -64 -960 0 ) ( 704 -960 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 704 -960 256 ) ( -64 -960 256 ) ( -64 -192 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 328 -184 256 ) ( 328 -184 0 ) ( 512 -184 0 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( -64 -192 128 ) ( 704 -192 128 ) ( -64 -192 64 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+( 512 -176 0 ) ( 512 -192 0 ) ( 512 -192 256 ) austria/walls/rock@chateauwall_int2stonewall 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 76
+{
+( -384 384 0 ) ( 384 384 0 ) ( -384 -384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -376 -256 -8 ) ( -376 384 -8 ) ( -384 384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 64 ) ( -384 384 64 ) ( -384 384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 376 384 -8 ) ( 376 -256 -8 ) ( 384 -256 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -376 -248 -8 ) ( 376 -248 -8 ) ( 376 384 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 384 -192 -8 ) ( 376 -192 -8 ) ( 384 -192 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 77
+{
+( 376 -248 -8 ) ( -376 -248 -8 ) ( -384 -256 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -384 384 0 ) ( 384 384 0 ) ( -384 -384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -376 -256 -8 ) ( -376 384 -8 ) ( -384 384 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 504 384 -8 ) ( 504 -256 -8 ) ( 512 -256 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -376 -248 -8 ) ( 376 -248 -8 ) ( 376 384 -8 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 376 -192 -8 ) ( 384 -192 -8 ) ( 384 -192 0 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 78
+{
+( 512 384 -328 ) ( -256 384 -328 ) ( -256 -384 -328 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -256 -384 -168 ) ( 512 -384 -168 ) ( 512 -384 -232 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 512 -384 -168 ) ( 512 384 -168 ) ( 512 384 -232 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( -256 384 -320 ) ( 512 384 -320 ) ( -256 -384 -320 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 544 -256 -240 ) ( 568 -256 -240 ) ( 568 -256 -232 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+( 384 -272 -240 ) ( 384 -256 -240 ) ( 384 -256 -232 ) normandy/floors/rock@cobbl_patrn1a 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 79
+{
+( -384 384 256 ) ( -384 -384 256 ) ( 384 384 256 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -384 384 128 ) ( -384 -384 128 ) ( -384 -384 64 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 512 -376 128 ) ( 512 392 128 ) ( 512 392 64 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 128 ) ( 384 -384 128 ) ( 384 -384 64 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 264 ) ( -384 384 264 ) ( 384 384 264 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 352 -192 256 ) ( 392 -192 256 ) ( 352 -192 264 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 80
+{
+( -384 384 256 ) ( -384 -384 256 ) ( 384 384 256 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -384 384 128 ) ( -384 -384 128 ) ( -384 -384 64 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 384 384 128 ) ( -384 384 128 ) ( -384 384 64 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 384 -384 128 ) ( 384 384 128 ) ( 384 384 64 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( -384 -384 264 ) ( -384 384 264 ) ( 384 384 264 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+( 392 -192 256 ) ( 352 -192 256 ) ( 352 -192 264 ) normandy/floors/wood@barnboard1rd 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 81
+{
+( -192 384 8 ) ( -192 320 8 ) ( -256 384 8 ) normandy/walls/brick@brick2 0 0 0 0.25 0.25 0 0 0 0
+( -192 384 120 ) ( -256 384 120 ) ( -192 384 0 ) normandy/walls/brick@brick2 0 0 0 0.25 0.25 0 0 0 0
+( -192 384 120 ) ( -192 384 0 ) ( -192 320 120 ) normandy/walls/brick@brick2 0 0 0 0.25 0.25 0 0 0 0
+( -256 320 0 ) ( -192 320 0 ) ( -256 384 0 ) normandy/walls/brick@brick2 0 0 0 0.25 0.25 0 0 0 0
+( -256 320 0 ) ( -256 320 120 ) ( -192 320 0 ) normandy/walls/brick@brick2 0 0 0 0.25 0.25 0 0 0 0
+( -256 320 0 ) ( -256 384 0 ) ( -256 320 120 ) normandy/walls/brick@brick2 0 0 0 0.25 0.25 0 0 0 0
+}
+}
+// entity 1
+{
+"origin" "320 0 16"
+"classname" "node_pathnode"
+}
+// entity 2
+{
+"classname" "func_door_rotating"
+// brush 0
+{
+( 256 200 0 ) ( 192 200 0 ) ( 192 192 0 ) denmark/doors/wood@hoteldoor_interior1h 0 0 0 0.25 0.25 0 0 0 0
+( 192 192 128 ) ( 192 200 128 ) ( 256 200 128 ) denmark/doors/wood@hoteldoor_interior1h 0 0 0 0.25 0.25 0 0 0 0
+( 192 194 160 ) ( 256 194 160 ) ( 256 194 0 ) denmark/doors/wood@hoteldoor_interior1h 0 0 0 0.25 0.25 0 0 0 0
+( 256 192 160 ) ( 256 200 160 ) ( 256 200 0 ) denmark/doors/wood@hoteldoor_interior1h 0 0 0 0.25 0.25 0 0 0 0
+( 256 198 160 ) ( 192 198 160 ) ( 192 198 0 ) denmark/doors/wood@hoteldoor_interior1h 0 0 0 0.25 0.25 0 0 0 0
+( 192 200 160 ) ( 192 192 160 ) ( 192 192 0 ) denmark/doors/wood@hoteldoor_interior1h 0 0 0 0.25 0.25 0 0 0 0
+}
+// brush 1
+{
+( 208 208 0 ) ( 184 208 0 ) ( 184 184 0 ) common/origin 0 0 0 0.5 0.5 0 15 0 0
+( 184 184 128 ) ( 184 208 128 ) ( 208 208 128 ) common/origin 0 0 0 0.5 0.5 0 15 0 0
+( 184 184 128 ) ( 208 184 128 ) ( 208 184 0 ) common/origin 0 0 0 0.5 0.5 0 15 0 0
+( 208 184 128 ) ( 208 208 128 ) ( 208 208 0 ) common/origin 0 0 0 0.5 0.5 0 15 0 0
+( 208 208 128 ) ( 184 208 128 ) ( 184 208 0 ) common/origin 0 0 0 0.5 0.5 0 15 0 0
+( 184 208 128 ) ( 184 184 128 ) ( 184 184 0 ) common/origin 0 0 0 0.5 0.5 0 15 0 0
+}
+}
+// entity 3
+{
+"lip" "-32"
+"spawnflags" "0"
+"angle" "270"
+"classname" "func_door"
+// brush 0
+{
+( 62 320 0 ) ( 58 320 0 ) ( 58 256 0 ) denmark/doors/wood@harbor_warehousedoor1 0 0 0 0.25 0.25 0 0 0 0
+( 58 256 128 ) ( 58 320 128 ) ( 62 320 128 ) denmark/doors/wood@harbor_warehousedoor1 0 0 0 0.25 0.25 0 0 0 0
+( 58 256 128 ) ( 62 256 128 ) ( 62 256 0 ) denmark/doors/wood@harbor_warehousedoor1 0 0 0 0.25 0.25 0 0 0 0
+( 62 256 128 ) ( 62 320 128 ) ( 62 320 0 ) denmark/doors/wood@harbor_warehousedoor1 0 0 0 0.25 0.25 0 0 0 0
+( 62 320 128 ) ( 58 320 128 ) ( 58 320 0 ) denmark/doors/wood@harbor_warehousedoor1 0 0 0 0.25 0.25 0 0 0 0
+( 58 320 128 ) ( 58 256 128 ) ( 58 256 0 ) denmark/doors/wood@harbor_warehousedoor1 0 0 0 0.25 0.25 0 0 0 0
+}
+}
+// entity 4
+{
+"origin" "720 0 0"
+"export" "1"
+"model" "xmodel/character_german_waffen_officer"
+"classname" "actor_axis_waffen_officer_mp40"
+}
+// entity 5
+{
+"classname" "light"
+"light" "300"
+"origin" "-192 192 128"
+}
+// entity 6
+{
+"classname" "light"
+"origin" "-192 -192 128"
+"light" "300"
+}
+// entity 7
+{
+"classname" "light"
+"light" "300"
+"origin" "192 -192 128"
+}
+// entity 8
+{
+"classname" "light"
+"origin" "192 64 128"
+"light" "300"
+}
+// entity 9
+{
+"classname" "info_player_start"
+"angle" "90"
+"origin" "0 -64 24"
+}
+// entity 10
+{
+"classname" "light"
+"light" "300"
+"origin" "192 288 128"
+}
+// entity 11
+{
+"classname" "func_door"
+"wait" "-1"
+// brush 0
+{
+( 0 -504 0 ) ( -128 -504 0 ) ( -128 -512 0 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( -128 -512 256 ) ( -128 -504 256 ) ( 0 -504 256 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( -136 -512 256 ) ( -8 -512 256 ) ( -8 -512 0 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( 0 -512 256 ) ( 0 -504 256 ) ( 0 -504 0 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( 0 -504 256 ) ( -128 -504 256 ) ( -128 -504 0 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( -128 -504 256 ) ( -128 -512 256 ) ( -128 -512 0 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+}
+}
+// entity 12
+{
+"classname" "func_door"
+// brush 0
+{
+( -128 -888 256 ) ( -128 -896 256 ) ( -128 -896 0 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( 0 -888 256 ) ( -128 -888 256 ) ( -128 -888 0 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( 0 -896 256 ) ( 0 -888 256 ) ( 0 -888 0 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( -128 -896 256 ) ( 0 -896 256 ) ( 0 -896 0 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( -128 -896 256 ) ( -128 -888 256 ) ( 0 -888 256 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( 0 -888 0 ) ( -128 -888 0 ) ( -128 -896 0 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+}
+}
+// entity 13
+{
+"classname" "func_door"
+"angle" "-2"
+// brush 0
+{
+( 256 -256 -320 ) ( 192 -256 -320 ) ( 192 -384 -320 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( 192 -384 0 ) ( 192 -256 0 ) ( 256 -256 0 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( 192 -384 0 ) ( 256 -384 0 ) ( 256 -384 -320 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( 256 -384 0 ) ( 256 -256 0 ) ( 256 -256 -320 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( 256 -256 0 ) ( 192 -256 0 ) ( 192 -256 -320 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( 192 -256 0 ) ( 192 -384 0 ) ( 192 -384 -320 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+}
+}
+// entity 14
+{
+"classname" "light"
+"light" "300"
+"origin" "-576 0 128"
+}
+// entity 15
+{
+"classname" "light"
+"origin" "-64 -384 128"
+"light" "300"
+}
+// entity 16
+{
+"classname" "light"
+"light" "300"
+"origin" "-64 -992 128"
+}
+// entity 17
+{
+"classname" "light"
+"origin" "-64 -704 128"
+"light" "300"
+}
+// entity 18
+{
+"classname" "light"
+"light" "300"
+"origin" "384 -320 -128"
+}
+// entity 19
+{
+"classname" "light"
+"origin" "896 0 128"
+"light" "300"
+}
+// entity 20
+{
+"classname" "light"
+"light" "300"
+"origin" "640 0 128"
+}
+// entity 21
+{
+"classname" "light"
+"origin" "-32 512 128"
+"light" "300"
+}
+// entity 22
+{
+"classname" "light"
+"origin" "-256 320 192"
+"light" "150"
+}
+// entity 23
+{
+"classname" "func_door"
+"angle" "270"
+"lip" "0"
+// brush 0
+{
+( -320 256 136 ) ( -320 192 136 ) ( -384 256 136 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( -320 256 72 ) ( -384 256 72 ) ( -320 256 -56 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( -320 256 72 ) ( -320 256 -56 ) ( -320 192 72 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( -384 192 128 ) ( -320 192 128 ) ( -384 256 128 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( -384 192 -56 ) ( -384 192 72 ) ( -320 192 -56 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+( -384 192 -56 ) ( -384 256 -56 ) ( -384 192 72 ) austria/floors/rock@floordirt_granite1 0 0 0 0.25 0.25 0 0 0 0
+}
+}
+// entity 24
+{
+"classname" "trigger_hurt"
+// brush 0
+{
+( -192 384 128 ) ( -192 320 128 ) ( -256 384 128 ) common/trigger 0 0 0 0.5 0.5 0 0 0 0
+( -192 384 120 ) ( -256 384 120 ) ( -192 384 0 ) common/trigger 0 0 0 0.5 0.5 0 0 0 0
+( -192 384 120 ) ( -192 384 0 ) ( -192 320 120 ) common/trigger 0 0 0 0.5 0.5 0 0 0 0
+( -256 320 8 ) ( -192 320 8 ) ( -256 384 8 ) common/trigger 0 0 0 0.5 0.5 0 0 0 0
+( -256 320 0 ) ( -256 320 120 ) ( -192 320 0 ) common/trigger 0 0 0 0.5 0.5 0 0 0 0
+( -256 320 0 ) ( -256 384 0 ) ( -256 320 120 ) common/trigger 0 0 0 0.5 0.5 0 0 0 0
+}
+}
+// entity 25
+{
+"classname" "node_pathnode"
+"origin" "832 0 16"
+}
+// entity 26
+{
+"origin" "680 0 16"
+"classname" "node_pathnode"
+}
+// entity 27
+{
+"classname" "node_pathnode"
+"origin" "-64 0 16"
+}
+// entity 28
+{
+"origin" "-40 288 16"
+"classname" "node_pathnode"
+}
+// entity 29
+{
+"classname" "node_pathnode"
+"origin" "-56 -312 16"
+}
+// entity 30
+{
+"origin" "-344 0 16"
+"classname" "node_pathnode"
+}

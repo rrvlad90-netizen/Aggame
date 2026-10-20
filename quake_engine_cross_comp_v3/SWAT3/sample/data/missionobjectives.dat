@@ -1,0 +1,24 @@
+// see objectives.dat for description
+Objectives
+{
+//	Character	
+//	Name or Type	Objective			Count	Message
+//	------------	---------			-----	-------
+	ric_dog		Neutralize			1
+}
+
+
+
+
+
+Strings
+{
+
+}
+
+ValorEvents
+{
+//	Mission			Event			Character		Count
+//	-------			-----			---------		-----
+//
+}

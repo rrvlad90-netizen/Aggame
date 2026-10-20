@@ -1310,11 +1310,25 @@ static void GiveRandomStartWeapon( gclient_t *client ) {
 
 	case WP_MACHINEGUN:
 	default:
-		if( g_gametype.integer == GT_TEAM ) {
-			client->ps.ammo[weapon] = 50;
+		/*
+		 * Scavenger mode gives Machinegun 50% more
+		 * starting ammunition.
+		 */
+		if( g_scavengerWeapons.integer ) {
+			if( g_gametype.integer == GT_TEAM ) {
+				client->ps.ammo[weapon] = 75;
+			}
+			else {
+				client->ps.ammo[weapon] = 150;
+			}
 		}
 		else {
-			client->ps.ammo[weapon] = 100;
+			if( g_gametype.integer == GT_TEAM ) {
+				client->ps.ammo[weapon] = 50;
+			}
+			else {
+				client->ps.ammo[weapon] = 100;
+			}
 		}
 		break;
 	}

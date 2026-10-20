@@ -1,3 +1,4 @@
+local Portal = require("src.entities.Portal")
 local DungeonTraps = require("src.world.DungeonTraps")
 local DungeonEncounters = require("src.world.DungeonEncounters")
 local Pathfinder = require("src.world.Pathfinder")
@@ -201,8 +202,41 @@ function DungeonWorld.new(
 
     self:generateObjects()
     self:generateArrowBundles()
+	self.portal =
+    self:createPortal()
+    self.portalDestinationTaken = false
 
     return self
+end
+
+function DungeonWorld:createPortal()
+    local definition =
+        self.level.exit
+
+    if
+        not definition or
+        definition.type ~= "portal"
+    then
+        return nil
+    end
+
+    local x =
+        (definition.x or 0) *
+        Config.worldUnitsPerMeter
+
+    local z =
+        self.maxZ -
+        (
+            definition.distanceFromEnd or 4
+        ) *
+        Config.worldUnitsPerMeter
+
+    return Portal.new(
+        self.assets,
+        x,
+        z,
+        definition
+    )
 end
 
 -- Объединяет настройки объекта.
@@ -910,6 +944,47 @@ function DungeonWorld:update(
         player,
         enemies
     )
+	
+	if
+		self.portal and
+		self.encounters:isFinalRoomCleared()
+	then
+		self.portal:update(
+			dt,
+			player
+		)
+	end
+end
+
+function DungeonWorld:isLevelComplete(player)
+    return
+        self.portal and
+        self.encounters:
+        isFinalRoomCleared() and
+        self.portal:isActivated() or
+        false
+end
+
+function DungeonWorld:getExitDestination()
+    if not self.portal then
+        return nil
+    end
+
+    return self.portal:getDestination()
+end
+
+function DungeonWorld:takePortalDestination()
+    if
+        self.portalDestinationTaken or
+        not self:isLevelComplete()
+    then
+        return nil
+    end
+
+    self.portalDestinationTaken = true
+
+    return
+        self.portal:getDestination()
 end
 
 function DungeonWorld:drawDoorObject(
@@ -1230,6 +1305,26 @@ function DungeonWorld:collectVisibleObjects(
         end
     end
 
+	if
+		self.portal and
+		self.encounters:
+		isFinalRoomCleared() and
+		self.projection:isDepthVisible(
+			self.portal.z,
+			self.cameraZ
+		) and
+		self:isObjectOnScreen(
+			self.portal
+		)
+	then
+		queue[#queue + 1] = {
+			type = "portal",
+			x = self.portal.x,
+			z = self.portal.z + 0.1,
+			reference = self.portal
+		}
+	end
+
     queue[#queue + 1] = {
         type = "player",
         x = player.x,
@@ -1528,13 +1623,14 @@ function DungeonWorld:draw(
         )
 
     for _, object in ipairs(queue) do
-        if
-            object.type == "player" or
-            object.type == "arrow_bundle" or
-            object.type == "player_arrow" or
-            object.type == "enemy" or
-            object.type == "pickup"
-        then
+		if
+			object.type == "player" or
+			object.type == "arrow_bundle" or
+			object.type == "player_arrow" or
+			object.type == "enemy" or
+			object.type == "pickup" or
+			object.type == "portal"
+		then
             object.reference:draw(
                 self.projection,
                 self.cameraX,

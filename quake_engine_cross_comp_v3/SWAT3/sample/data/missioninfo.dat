@@ -1,0 +1,55 @@
+sample
+{
+	Mission_Info
+	{
+		MapName			sample
+		ShortName			Rapid Deployment, Sample Mission
+		Version			1.0
+		Dot_X				74	
+		Dot_Y				147
+		ShortDesc			Sample
+		ShortDesc_Type		MissName_topR
+		ShortDesc_Top		109
+		ShortDesc_Left		109
+		ShortDesc_Bottom		128
+		ShortDesc_Right		255
+		ShortDesc_PicLeft		82	
+		ShortDesc_PicTop		107
+		Estab_Bmp			sample_est2
+	
+
+		[FullDesc]
+			MISSION OBJECTIVES \nSample Mission
+		[End]
+
+
+		LoadingText			Rapid Deployment \nSample Mission
+
+	}
+
+	// Entrypoints must be in the same order as in the level...
+	Entrypoints
+	{
+//		Entrypoint	Name
+//		----------	----
+		   0		Side 1 / Level 1
+		}
+
+	// see maps.dat for description.  note that the estab. text name must be "Loading_" + mapname.
+	MapLoadData
+	{
+//		Map			Entry #		Training	Estab. bitmap		Estab. Text		Stealth Music	Dynamic Music		Slides
+//		---			-------		--------	-------------		-----------		-------------	-------------		------
+		Sample		0			0		Loading_Sample		Loading_Sample	Stealth		Dynamic		(D6_Night,N11,N7,N4_Left)
+		//Sample, entry #0 is .... " Side 1 / Level 1 "
+	}
+
+	// see maps.dat for description.
+	Maps
+	{
+//		Map			Timeframe		Leader				Red1				Red2			Blue1				Blue2			Medals			Playable		ShortName			SmallEstabBmp
+//		---			---------		------				----				----			-----				-----			------			--------		---------			-------------
+		Sample		1				(mp5,10,10,5)	    (mp5,10,10,5)		(mp5,10,10,5)	    (mp5,10,10,5)		(mp5,10,10,5)		(1,1,1,1)			1			SampleShortName		sample_est2
+	}
+
+}

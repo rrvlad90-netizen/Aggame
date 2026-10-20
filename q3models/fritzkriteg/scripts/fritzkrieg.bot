@@ -1,7 +1,0 @@
-{
-name		Fritzkrieg
-model		fritzkrieg
-aifile		bots/visor_c.c
-color		2	
-}
-

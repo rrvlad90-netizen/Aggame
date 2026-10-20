@@ -1,0 +1,1197 @@
+{
+"classname" "worldspawn"
+// brush 0
+{
+( -128 360 112 ) ( -128 304 112 ) ( -120 304 112 ) interior/manor_woodfloor 0 8 0.00 1 1 0 16384 0 
+( -120 304 120 ) ( -128 304 120 ) ( -128 360 120 ) interior/manor_woodfloor 0 8 0.00 1 1 0 16384 0 
+( -120 304 240 ) ( -120 360 240 ) ( -120 360 112 ) interior/manor_woodfloor -8 112 0.00 1 1 0 16384 0 
+( -120 344 256 ) ( -128 344 256 ) ( -128 344 128 ) interior/manor_woodfloor 0 112 0.00 1 1 0 16384 0 
+( -128 416 240 ) ( -128 360 240 ) ( -128 360 112 ) interior/manor_woodfloor -8 112 0.00 1 1 0 16384 0 
+( -128 296 240 ) ( -120 296 240 ) ( -120 296 112 ) interior/manor_woodfloor 0 112 0.00 1 1 0 16384 0 
+}
+// brush 1
+{
+( -128 360 72 ) ( -128 304 72 ) ( -120 304 72 ) interior/manor_woodfloor 0 8 0.00 1 1 0 16384 0 
+( -120 304 80 ) ( -128 304 80 ) ( -128 360 80 ) interior/manor_woodfloor 0 8 0.00 1 1 0 16384 0 
+( -120 304 200 ) ( -120 360 200 ) ( -120 360 72 ) interior/manor_woodfloor -8 72 0.00 1 1 0 16384 0 
+( -120 344 216 ) ( -128 344 216 ) ( -128 344 88 ) interior/manor_woodfloor 0 72 0.00 1 1 0 16384 0 
+( -128 416 200 ) ( -128 360 200 ) ( -128 360 72 ) interior/manor_woodfloor -8 72 0.00 1 1 0 16384 0 
+( -128 296 200 ) ( -120 296 200 ) ( -120 296 72 ) interior/manor_woodfloor 0 72 0.00 1 1 0 16384 0 
+}
+// brush 2
+{
+( -128 360 32 ) ( -128 304 32 ) ( -120 304 32 ) interior/manor_woodfloor 0 8 0.00 1 1 0 16384 0 
+( -120 304 40 ) ( -128 304 40 ) ( -128 360 40 ) interior/manor_woodfloor 0 8 0.00 1 1 0 16384 0 
+( -120 304 160 ) ( -120 360 160 ) ( -120 360 32 ) interior/manor_woodfloor -8 32 0.00 1 1 0 16384 0 
+( -120 344 176 ) ( -128 344 176 ) ( -128 344 48 ) interior/manor_woodfloor 0 32 0.00 1 1 0 16384 0 
+( -128 416 160 ) ( -128 360 160 ) ( -128 360 32 ) interior/manor_woodfloor -8 32 0.00 1 1 0 16384 0 
+( -128 296 160 ) ( -120 296 160 ) ( -120 296 32 ) interior/manor_woodfloor 0 32 0.00 1 1 0 16384 0 
+}
+// brush 3
+{
+( -128 408 0 ) ( -128 352 0 ) ( -120 352 0 ) interior/manor_woodfloor 0 56 0.00 1 1 0 16384 0 
+( -120 352 144 ) ( -128 352 144 ) ( -128 408 144 ) interior/manor_woodfloor 0 56 0.00 1 1 0 16384 0 
+( -120 352 128 ) ( -120 408 128 ) ( -120 408 0 ) interior/manor_woodfloor -56 0 0.00 1 1 0 16384 0 
+( -120 352 144 ) ( -128 352 144 ) ( -128 352 16 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -128 464 128 ) ( -128 408 128 ) ( -128 408 0 ) interior/manor_woodfloor -56 0 0.00 1 1 0 16384 0 
+( -128 344 128 ) ( -120 344 128 ) ( -120 344 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 4
+{
+( -384 384 0 ) ( 384 384 0 ) ( -384 -384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -376 -256 -8 ) ( -376 384 -8 ) ( -384 384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -376 -248 -8 ) ( 376 -248 -8 ) ( 376 384 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 384 -192 -8 ) ( 376 -192 -8 ) ( 384 -192 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 384 576 -8 ) ( 384 568 -8 ) ( 384 572 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 384 384 -8 ) ( 392 384 -8 ) ( 388 384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+}
+// brush 5
+{
+( 384 -256 -328 ) ( 288 -256 -328 ) ( 288 -384 -328 ) common/clip 0 0 0.00 1 1 196608 2193 0 
+( 288 -384 -318 ) ( 288 -256 -318 ) ( 384 -256 -318 ) common/clip 0 0 0.00 1 1 196608 2193 0 
+( 288 -384 -312 ) ( 384 -384 -312 ) ( 384 -384 -320 ) common/clip 0 8 0.00 1 1 196608 2193 0 
+( 384 -384 -312 ) ( 384 -256 -312 ) ( 384 -256 -320 ) common/clip 0 8 0.00 1 1 196608 2193 0 
+( 384 -256 -312 ) ( 288 -256 -312 ) ( 288 -256 -320 ) common/clip 0 8 0.00 1 1 196608 2193 0 
+( 256 -256 -312 ) ( 256 -384 -312 ) ( 256 -384 -320 ) common/clip 0 8 0.00 1 1 196608 2193 0 
+}
+// brush 6
+{
+( -128 384 128 ) ( -320 384 128 ) ( -320 320 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -320 320 136 ) ( -320 384 136 ) ( -128 384 136 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -320 256 136 ) ( -128 256 136 ) ( -128 256 120 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -128 320 136 ) ( -128 384 136 ) ( -128 384 120 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -128 384 136 ) ( -320 384 136 ) ( -320 384 120 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -320 384 136 ) ( -320 320 136 ) ( -320 320 120 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 7
+{
+( -128 352 0 ) ( -128 296 0 ) ( -120 296 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -120 296 144 ) ( -128 296 144 ) ( -128 352 144 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -120 296 128 ) ( -120 352 128 ) ( -120 352 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -120 296 144 ) ( -128 296 144 ) ( -128 296 16 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -128 408 128 ) ( -128 352 128 ) ( -128 352 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -128 288 128 ) ( -120 288 128 ) ( -120 288 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 8
+{
+( -384 320 136 ) ( -384 256 136 ) ( -384 256 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -320 320 136 ) ( -384 320 136 ) ( -384 320 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -320 256 136 ) ( -320 320 136 ) ( -320 320 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -384 256 136 ) ( -320 256 136 ) ( -320 256 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -384 256 136 ) ( -384 320 136 ) ( -320 320 136 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -320 320 128 ) ( -384 320 128 ) ( -384 256 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 9
+{
+( -256 256 136 ) ( -256 248 136 ) ( -256 248 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -248 256 136 ) ( -256 256 136 ) ( -256 256 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -248 248 136 ) ( -248 256 136 ) ( -248 256 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -256 248 136 ) ( -248 248 136 ) ( -248 248 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -256 248 136 ) ( -256 256 136 ) ( -248 256 136 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -248 256 0 ) ( -256 256 0 ) ( -256 248 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 10
+{
+( -200 256 8 ) ( -200 248 8 ) ( -200 248 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -192 256 136 ) ( -200 256 136 ) ( -200 256 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -192 248 136 ) ( -192 256 136 ) ( -192 256 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 248 136 ) ( -192 248 136 ) ( -192 248 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 248 136 ) ( -200 256 136 ) ( -192 256 136 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -192 256 0 ) ( -200 256 0 ) ( -200 248 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 11
+{
+( -200 256 8 ) ( -240 256 8 ) ( -240 248 8 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 248 16 ) ( -240 256 16 ) ( -200 256 16 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 248 144 ) ( -200 248 144 ) ( -200 248 8 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 248 144 ) ( -200 256 144 ) ( -200 256 8 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -208 256 144 ) ( -248 256 144 ) ( -248 256 8 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -248 256 144 ) ( -248 248 144 ) ( -248 248 8 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 12
+{
+( -248 256 160 ) ( -248 248 160 ) ( -248 248 24 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -208 256 160 ) ( -248 256 160 ) ( -248 256 24 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 248 160 ) ( -200 256 160 ) ( -200 256 24 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 249 160 ) ( -200 249 160 ) ( -200 249 24 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 248 32 ) ( -240 256 32 ) ( -200 256 32 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 256 24 ) ( -240 256 24 ) ( -240 248 24 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 13
+{
+( -200 256 40 ) ( -240 256 40 ) ( -240 248 40 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 248 48 ) ( -240 256 48 ) ( -200 256 48 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 250 176 ) ( -200 250 176 ) ( -200 250 40 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 248 176 ) ( -200 256 176 ) ( -200 256 40 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -208 256 176 ) ( -248 256 176 ) ( -248 256 40 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -248 256 176 ) ( -248 248 176 ) ( -248 248 40 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 14
+{
+( -248 256 192 ) ( -248 248 192 ) ( -248 248 56 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -208 256 192 ) ( -248 256 192 ) ( -248 256 56 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 248 192 ) ( -200 256 192 ) ( -200 256 56 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 251 192 ) ( -200 251 192 ) ( -200 251 56 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 248 64 ) ( -240 256 64 ) ( -200 256 64 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 256 56 ) ( -240 256 56 ) ( -240 248 56 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 15
+{
+( -200 256 72 ) ( -240 256 72 ) ( -240 248 72 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 248 80 ) ( -240 256 80 ) ( -200 256 80 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 252 208 ) ( -200 252 208 ) ( -200 252 72 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 248 208 ) ( -200 256 208 ) ( -200 256 72 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -208 256 208 ) ( -248 256 208 ) ( -248 256 72 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -248 256 208 ) ( -248 248 208 ) ( -248 248 72 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 16
+{
+( -248 256 240 ) ( -248 248 240 ) ( -248 248 104 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -208 256 240 ) ( -248 256 240 ) ( -248 256 104 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 248 240 ) ( -200 256 240 ) ( -200 256 104 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -239 254 240 ) ( -199 254 240 ) ( -199 254 104 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 248 112 ) ( -240 256 112 ) ( -200 256 112 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 256 104 ) ( -240 256 104 ) ( -240 248 104 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 17
+{
+( -200 256 120 ) ( -240 256 120 ) ( -240 248 120 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 248 128 ) ( -240 256 128 ) ( -200 256 128 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -239 255 256 ) ( -199 255 256 ) ( -199 255 120 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 248 256 ) ( -200 256 256 ) ( -200 256 120 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -208 256 256 ) ( -248 256 256 ) ( -248 256 120 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -248 256 256 ) ( -248 248 256 ) ( -248 248 120 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 18
+{
+( -200 256 88 ) ( -240 256 88 ) ( -240 248 88 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 248 96 ) ( -240 256 96 ) ( -200 256 96 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -240 253 224 ) ( -200 253 224 ) ( -200 253 88 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -200 248 224 ) ( -200 256 224 ) ( -200 256 88 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -208 256 224 ) ( -248 256 224 ) ( -248 256 88 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -248 256 224 ) ( -248 248 224 ) ( -248 248 88 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 19
+{
+( 56 192 256 ) ( 56 192 0 ) ( 64 200 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 200 256 ) ( 64 200 256 ) ( 64 200 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 56 192 0 ) ( 56 192 256 ) ( 384 192 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 64 192 320 ) ( 64 200 320 ) ( 384 200 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 200 0 ) ( 64 200 0 ) ( 64 192 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 192 208 64 ) ( 192 184 64 ) ( 192 208 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 20
+{
+( 384 200 256 ) ( 64 200 256 ) ( 64 200 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 56 192 0 ) ( 56 192 256 ) ( 384 192 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 64 192 320 ) ( 64 200 320 ) ( 384 200 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 200 128 ) ( 64 200 128 ) ( 64 192 128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 192 184 64 ) ( 192 208 64 ) ( 192 208 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 256 200 64 ) ( 256 184 64 ) ( 256 200 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 21
+{
+( 384 200 256 ) ( 64 200 256 ) ( 64 200 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 192 320 ) ( 384 200 320 ) ( 384 200 64 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 56 192 0 ) ( 56 192 256 ) ( 384 192 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 64 192 320 ) ( 64 200 320 ) ( 384 200 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 200 0 ) ( 64 200 0 ) ( 64 192 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 256 184 64 ) ( 256 200 64 ) ( 256 200 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 22
+{
+( 64 384 0 ) ( 56 384 0 ) ( 56 192 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 56 192 320 ) ( 56 384 320 ) ( 64 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 64 200 256 ) ( 64 200 0 ) ( 56 192 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 64 200 64 ) ( 64 200 320 ) ( 64 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 56 384 8 ) ( 56 192 8 ) ( 56 192 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 40 256 64 ) ( 80 256 64 ) ( 40 256 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 23
+{
+( 64 384 128 ) ( 56 384 128 ) ( 56 192 128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 56 192 320 ) ( 56 384 320 ) ( 64 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 64 200 64 ) ( 64 200 320 ) ( 64 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 56 384 8 ) ( 56 192 8 ) ( 56 192 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 32 320 0 ) ( 80 320 0 ) ( 32 320 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 80 256 64 ) ( 40 256 64 ) ( 40 256 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 24
+{
+( 64 384 0 ) ( 56 384 0 ) ( 56 192 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 56 192 320 ) ( 56 384 320 ) ( 64 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 64 200 64 ) ( 64 200 320 ) ( 64 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 64 384 8 ) ( 56 384 8 ) ( 56 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 56 384 8 ) ( 56 192 8 ) ( 56 192 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 80 320 0 ) ( 32 320 0 ) ( 32 320 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 25
+{
+( 192 -272 -240 ) ( 192 -256 -240 ) ( 192 -256 -232 ) wilderness/m3l3grass_1 0 0 0.00 1 1 0 524288 0 
+( 416 -256 -240 ) ( 440 -256 -240 ) ( 440 -256 -232 ) wilderness/m3l3grass_1 0 0 0.00 1 1 0 524288 0 
+( -384 384 -320 ) ( 384 384 -320 ) ( -384 -384 -320 ) wilderness/m3l3grass_1 0 0 0.00 1 1 0 524288 0 
+( 384 -384 -168 ) ( 384 384 -168 ) ( 384 384 -232 ) wilderness/m3l3grass_1 0 0 0.00 1 1 0 524288 0 
+( -384 -384 -168 ) ( 384 -384 -168 ) ( 384 -384 -232 ) wilderness/m3l3grass_1 0 0 0.00 1 1 0 524288 0 
+( 384 384 -328 ) ( -384 384 -328 ) ( -384 -384 -328 ) wilderness/m3l3grass_1 0 0 0.00 1 1 0 524288 0 
+}
+// brush 26
+{
+( 504 -192 0 ) ( 520 -192 0 ) ( 504 -192 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 512 384 -128 ) ( 512 -384 -128 ) ( 512 384 -192 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 520 -384 64 ) ( 520 384 64 ) ( 520 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -256 -384 64 ) ( 512 -384 64 ) ( 512 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -256 -384 320 ) ( -256 384 320 ) ( 512 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 512 384 -320 ) ( -256 384 -320 ) ( -256 -384 -320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 27
+{
+( 192 -232 -8 ) ( 192 -256 -8 ) ( 192 -256 -584 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 312 -248 256 ) ( 192 -248 256 ) ( 192 -248 -320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 512 -256 256 ) ( 512 -232 256 ) ( 512 -232 -320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 256 -256 0 ) ( 384 -256 0 ) ( 384 -256 -320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 -256 0 ) ( 256 -256 0 ) ( 256 -248 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 -232 -320 ) ( 264 -232 -320 ) ( 264 -256 -320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 28
+{
+( 184 -256 256 ) ( 184 -384 256 ) ( 184 -384 -320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 192 -256 256 ) ( 184 -256 256 ) ( 184 -256 -320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 192 -376 0 ) ( 192 -248 0 ) ( 192 -256 -320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 184 -384 256 ) ( 192 -384 256 ) ( 192 -384 -320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 192 -248 0 ) ( 192 -376 0 ) ( 184 -384 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 192 -256 -320 ) ( 184 -256 -320 ) ( 184 -384 -320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 29
+{
+( -384 -384 128 ) ( -384 384 128 ) ( -384 -384 64 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -392 -72 0 ) ( -392 -72 256 ) ( -392 -384 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 64 ) ( 384 -384 64 ) ( 384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 320 ) ( -384 384 320 ) ( 384 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -392 -72 256 ) ( -392 -72 0 ) ( -384 -64 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 30
+{
+( -384 -384 192 ) ( -384 384 192 ) ( -384 -384 128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -392 72 256 ) ( -392 72 0 ) ( -392 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 64 ) ( -384 384 64 ) ( -384 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 320 ) ( -384 384 320 ) ( 384 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -392 72 0 ) ( -392 72 256 ) ( -384 64 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 31
+{
+( -776 392 64 ) ( -776 -376 64 ) ( -776 -376 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -408 64 0 ) ( -368 64 0 ) ( -408 64 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -360 -64 0 ) ( -416 -64 0 ) ( -416 -64 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -768 -376 64 ) ( -768 392 64 ) ( -768 -376 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 32
+{
+( -384 -384 128 ) ( -384 384 128 ) ( -384 -384 64 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -768 392 64 ) ( -768 -376 64 ) ( -768 -376 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -384 -384 320 ) ( -384 384 320 ) ( 384 384 320 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -416 64 0 ) ( -376 64 0 ) ( -416 64 256 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -368 -64 0 ) ( -424 -64 0 ) ( -424 -64 256 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -384 384 256 ) ( -384 -384 256 ) ( 384 384 256 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 33
+{
+( -384 64 0 ) ( -384 64 256 ) ( -392 72 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -768 392 64 ) ( -768 -376 64 ) ( -768 -376 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -408 72 0 ) ( -368 72 0 ) ( -408 72 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 64 256 ) ( -384 64 0 ) ( -768 64 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 34
+{
+( -384 -64 256 ) ( -384 -64 0 ) ( -392 -72 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -768 392 64 ) ( -768 -376 64 ) ( -768 -376 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 256 ) ( -384 384 256 ) ( 384 384 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -360 -72 0 ) ( -416 -72 0 ) ( -416 -72 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -64 0 ) ( -384 -64 256 ) ( -768 -64 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 35
+{
+( -384 384 0 ) ( 384 384 0 ) ( -384 -384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -368 -64 0 ) ( -424 -64 0 ) ( -424 -64 256 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -416 64 0 ) ( -376 64 0 ) ( -416 64 256 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -584 -64 -8 ) ( -584 64 -8 ) ( -768 64 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -768 392 64 ) ( -768 -376 64 ) ( -768 -376 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -584 64 -8 ) ( -584 -64 -8 ) ( -576 -64 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+}
+// brush 36
+{
+( -376 -376 120 ) ( -376 392 120 ) ( -376 -376 56 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 576 384 -128 ) ( -192 384 -128 ) ( -192 -384 -128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -224 64 -8 ) ( -184 64 -8 ) ( -224 64 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -176 -64 -8 ) ( -232 -64 -8 ) ( -232 -64 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -64 0 ) ( -384 64 0 ) ( -376 64 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 64 0 ) ( -384 -64 0 ) ( -384 -64 -128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 37
+{
+( -584 392 56 ) ( -584 -376 56 ) ( -584 -376 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 576 384 -128 ) ( -192 384 -128 ) ( -192 -384 -128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -224 64 -8 ) ( -184 64 -8 ) ( -224 64 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -176 -64 -8 ) ( -232 -64 -8 ) ( -232 -64 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -576 64 0 ) ( -576 -64 0 ) ( -584 -64 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -576 -64 0 ) ( -576 64 0 ) ( -576 64 -128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 38
+{
+( -384 -376 120 ) ( -384 392 120 ) ( -384 -376 56 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -576 392 56 ) ( -576 -376 56 ) ( -576 -376 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 576 384 -136 ) ( -192 384 -136 ) ( -192 -384 -136 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -224 64 -8 ) ( -184 64 -8 ) ( -224 64 248 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -176 -64 -8 ) ( -232 -64 -8 ) ( -232 -64 248 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -192 384 -128 ) ( 576 384 -128 ) ( -192 -384 -128 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+}
+// brush 39
+{
+( -384 -376 120 ) ( -384 392 120 ) ( -384 -376 56 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -576 392 56 ) ( -576 -376 56 ) ( -576 -376 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 576 384 -128 ) ( -192 384 -128 ) ( -192 -384 -128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -224 72 -8 ) ( -184 72 -8 ) ( -224 72 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -192 384 0 ) ( 576 384 0 ) ( -192 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -184 64 -8 ) ( -224 64 -8 ) ( -224 64 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 40
+{
+( -384 -376 120 ) ( -384 392 120 ) ( -384 -376 56 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -576 392 56 ) ( -576 -376 56 ) ( -576 -376 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 576 384 -128 ) ( -192 384 -128 ) ( -192 -384 -128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -176 -72 -8 ) ( -232 -72 -8 ) ( -232 -72 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -192 384 0 ) ( 576 384 0 ) ( -192 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -232 -64 -8 ) ( -176 -64 -8 ) ( -232 -64 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 41
+{
+( -384 64 -8 ) ( -576 64 -8 ) ( -576 -64 -8 ) common/clip 0 0 0.00 0.500000 0.500000 196608 2193 0 
+( -576 -64 0 ) ( -576 64 0 ) ( -384 64 0 ) common/clip 0 0 0.00 0.500000 0.500000 196608 2193 0 
+( -576 -64 0 ) ( -384 -64 0 ) ( -384 -64 -8 ) common/clip 0 0 0.00 0.500000 0.500000 196608 2193 0 
+( -384 -64 0 ) ( -384 64 0 ) ( -384 64 -8 ) common/clip 0 0 0.00 0.500000 0.500000 196608 2193 0 
+( -384 64 0 ) ( -576 64 0 ) ( -576 64 -8 ) common/clip 0 0 0.00 0.500000 0.500000 196608 2193 0 
+( -576 64 0 ) ( -576 -64 0 ) ( -576 -64 -8 ) common/clip 0 0 0.00 0.500000 0.500000 196608 2193 0 
+}
+// brush 42
+{
+( -632 64 0 ) ( -640 64 0 ) ( -640 -64 0 ) common/clipall 0 0 0.00 1 1 983040 2193 0 
+( -640 -64 256 ) ( -640 64 256 ) ( -632 64 256 ) common/clipall 0 0 0.00 1 1 983040 2193 0 
+( -640 -64 8 ) ( -632 -64 8 ) ( -632 -64 0 ) common/clipall 0 0 0.00 1 1 983040 2193 0 
+( -632 -64 8 ) ( -632 64 8 ) ( -632 64 0 ) common/clipall 0 0 0.00 1 1 983040 2193 0 
+( -632 64 8 ) ( -640 64 8 ) ( -640 64 0 ) common/clipall 0 0 0.00 1 1 983040 2193 0 
+( -640 64 8 ) ( -640 -64 8 ) ( -640 -64 0 ) common/clipall 0 0 0.00 1 1 983040 2193 0 
+}
+// brush 43
+{
+( 392 -184 256 ) ( 392 -184 0 ) ( 384 -192 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 192 ) ( 384 -384 192 ) ( 384 384 128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 392 -184 0 ) ( 392 -184 256 ) ( 392 -72 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 320 ) ( -384 384 320 ) ( 384 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 392 -72 0 ) ( 392 -72 256 ) ( 384 -64 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 44
+{
+( 384 384 192 ) ( 384 -384 192 ) ( 384 384 128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 64 ) ( -384 384 64 ) ( -384 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 392 72 0 ) ( 392 72 256 ) ( 392 384 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 320 ) ( -384 384 320 ) ( 384 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 392 72 256 ) ( 392 72 0 ) ( 384 64 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 45
+{
+( 960 376 64 ) ( 960 -392 64 ) ( 960 376 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 552 64 0 ) ( 608 64 0 ) ( 608 64 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 600 -64 0 ) ( 560 -64 0 ) ( 600 -64 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -192 -384 0 ) ( 576 -384 0 ) ( 576 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 576 384 256 ) ( 576 -384 256 ) ( -192 -384 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 968 -392 64 ) ( 968 376 64 ) ( 968 376 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 46
+{
+( 384 -384 256 ) ( 384 384 256 ) ( -384 -384 256 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( 368 64 0 ) ( 424 64 0 ) ( 424 64 256 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( 416 -64 0 ) ( 376 -64 0 ) ( 416 -64 256 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( 384 384 320 ) ( 384 -384 320 ) ( -384 -384 320 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( 960 -392 64 ) ( 960 376 64 ) ( 960 376 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( 384 384 184 ) ( 384 -384 184 ) ( 384 384 120 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 47
+{
+( 384 -64 256 ) ( 384 -64 0 ) ( 768 -64 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 408 -72 0 ) ( 368 -72 0 ) ( 408 -72 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 0 ) ( 384 -384 0 ) ( 384 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 256 ) ( 384 -384 256 ) ( -384 -384 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 960 -392 64 ) ( 960 376 64 ) ( 960 376 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 -64 0 ) ( 384 -64 256 ) ( 392 -72 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 48
+{
+( 576 64 0 ) ( 576 64 256 ) ( 960 64 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 360 72 0 ) ( 416 72 0 ) ( 416 72 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 0 ) ( 384 -384 0 ) ( 384 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 256 ) ( 384 -384 256 ) ( -384 -384 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 960 -392 64 ) ( 960 376 64 ) ( 960 376 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 64 256 ) ( 384 64 0 ) ( 392 72 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 49
+{
+( 784 -64 -8 ) ( 784 64 -8 ) ( 776 64 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 960 -392 64 ) ( 960 376 64 ) ( 960 376 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 584 64 -8 ) ( 584 -64 -8 ) ( 768 -64 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 416 -64 0 ) ( 376 -64 0 ) ( 416 -64 256 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 368 64 0 ) ( 424 64 0 ) ( 424 64 256 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 384 -384 0 ) ( -384 -384 0 ) ( 384 384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+}
+// brush 50
+{
+( 776 64 0 ) ( 776 -64 0 ) ( 776 -64 -128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 776 -64 0 ) ( 776 64 0 ) ( 784 64 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 376 64 -8 ) ( 432 64 -8 ) ( 432 64 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 424 -64 -8 ) ( 384 -64 -8 ) ( 424 -64 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -376 -384 -128 ) ( 392 -384 -128 ) ( 392 384 -128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 784 -392 56 ) ( 784 376 56 ) ( 784 376 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 51
+{
+( 192 -384 -128 ) ( -576 -384 -128 ) ( 192 384 -128 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 376 64 -8 ) ( 432 64 -8 ) ( 432 64 248 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 424 -64 -8 ) ( 384 -64 -8 ) ( 424 -64 248 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -576 -384 -136 ) ( 192 -384 -136 ) ( 192 384 -136 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 776 -392 56 ) ( 776 376 56 ) ( 776 376 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 384 376 120 ) ( 384 -392 120 ) ( 384 376 56 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+}
+// brush 52
+{
+( 384 -64 -8 ) ( 424 -64 -8 ) ( 424 -64 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 192 -384 0 ) ( -576 -384 0 ) ( 192 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 224 -72 -8 ) ( 184 -72 -8 ) ( 224 -72 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -576 -384 -128 ) ( 192 -384 -128 ) ( 192 384 -128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 776 -392 56 ) ( 776 376 56 ) ( 776 376 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 376 120 ) ( 384 -392 120 ) ( 384 376 56 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 53
+{
+( 432 64 -8 ) ( 376 64 -8 ) ( 432 64 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 192 -384 0 ) ( -576 -384 0 ) ( 192 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 176 72 -8 ) ( 232 72 -8 ) ( 232 72 248 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -576 -384 -128 ) ( 192 -384 -128 ) ( 192 384 -128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 776 -392 56 ) ( 776 376 56 ) ( 776 376 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 376 120 ) ( 384 -392 120 ) ( 384 376 56 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 54
+{
+( 776 -64 0 ) ( 776 64 0 ) ( 776 64 -8 ) common/monster 0 0 0.00 1 1 131072 2193 0 
+( 584 -64 0 ) ( 776 -64 0 ) ( 776 -64 -8 ) common/monster 0 0 0.00 1 1 131072 2193 0 
+( 576 64 0 ) ( 576 -64 0 ) ( 576 -64 -8 ) common/monster 0 0 0.00 1 1 131072 2193 0 
+( 776 64 0 ) ( 584 64 0 ) ( 584 64 -8 ) common/monster 0 0 0.00 1 1 131072 2193 0 
+( 776 64 0 ) ( 776 -64 0 ) ( 584 -64 0 ) common/monster 0 0 0.00 1 1 131072 2193 0 
+( 584 -64 -8 ) ( 776 -64 -8 ) ( 776 64 -8 ) common/monster 0 0 0.00 1 1 131072 2193 0 
+}
+// brush 55
+{
+( 376 -376 56 ) ( 376 392 120 ) ( 376 -376 120 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 192 -384 -128 ) ( 192 384 -128 ) ( -576 384 -128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 224 64 248 ) ( 184 64 -8 ) ( 224 64 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 232 -64 248 ) ( 232 -64 -8 ) ( 176 -64 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 376 64 -8 ) ( 384 64 0 ) ( 384 -64 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 -64 -128 ) ( 384 -64 0 ) ( 384 64 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 56
+{
+( 576 56 -8 ) ( 384 56 -8 ) ( 384 -64 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 384 -64 0 ) ( 384 56 0 ) ( 576 56 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 384 -64 0 ) ( 576 -64 0 ) ( 576 -64 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 576 -64 0 ) ( 576 56 0 ) ( 576 56 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 576 64 0 ) ( 384 64 0 ) ( 384 64 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 384 56 0 ) ( 384 -64 0 ) ( 384 -64 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+}
+// brush 57
+{
+( 384 -384 64 ) ( -384 -384 64 ) ( 384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 384 128 ) ( -384 -384 128 ) ( -384 -384 64 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -392 64 ) ( 384 -392 64 ) ( 384 -392 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 320 ) ( -384 384 320 ) ( 384 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -128 -376 64 ) ( -128 -392 64 ) ( -128 -376 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 58
+{
+( 192 -376 0 ) ( 192 -400 0 ) ( 192 -376 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 -384 64 ) ( -384 -384 64 ) ( 384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -448 -392 64 ) ( 320 -392 64 ) ( 320 -392 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 320 ) ( -384 384 320 ) ( 384 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 0 -400 0 ) ( 0 -376 0 ) ( 0 -376 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 59
+{
+( 248 -384 -8 ) ( 248 -256 -8 ) ( -384 -256 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 256 -384 -8 ) ( -384 -384 -8 ) ( -384 -384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -384 384 64 ) ( -384 -384 64 ) ( -384 -384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -384 384 0 ) ( 384 384 0 ) ( -384 -384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 416 -256 -8 ) ( 440 -256 -8 ) ( 440 -256 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 184 -264 -8 ) ( 184 -392 -8 ) ( 192 -392 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+}
+// brush 60
+{
+( 0 -384 -8 ) ( -128 -384 -8 ) ( -128 -576 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -128 -1080 0 ) ( 0 -1080 0 ) ( 0 -1080 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 0 -1080 0 ) ( 0 -888 0 ) ( 0 -888 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 0 -384 0 ) ( -128 -384 0 ) ( -128 -384 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -128 -888 0 ) ( -128 -1080 0 ) ( -128 -1080 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -128 -384 0 ) ( 0 -384 0 ) ( -128 -576 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+}
+// brush 61
+{
+( -128 -576 320 ) ( -128 -384 320 ) ( 0 -384 320 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -128 -1080 0 ) ( 0 -1080 0 ) ( 0 -1080 -8 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( 0 -1080 0 ) ( 0 -888 0 ) ( 0 -888 -8 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( 0 -384 0 ) ( -128 -384 0 ) ( -128 -384 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -128 -888 0 ) ( -128 -1080 0 ) ( -128 -1080 -8 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -128 -384 256 ) ( -128 -576 256 ) ( 0 -384 256 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 62
+{
+( 0 -888 0 ) ( -128 -888 0 ) ( -128 -1080 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -128 -1080 256 ) ( -128 -888 256 ) ( 0 -888 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -128 -1088 0 ) ( 0 -1088 0 ) ( 0 -1088 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 0 -1080 0 ) ( 0 -888 0 ) ( 0 -888 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -128 -888 0 ) ( -128 -1080 0 ) ( -128 -1080 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 0 -1080 0 ) ( -128 -1080 0 ) ( 0 -1080 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 63
+{
+( 0 -384 0 ) ( -128 -384 0 ) ( -128 -576 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -128 -576 256 ) ( -128 -384 256 ) ( 0 -384 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -128 -1080 0 ) ( 0 -1080 0 ) ( 0 -1080 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 8 -576 0 ) ( 8 -384 0 ) ( 8 -384 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 0 -392 0 ) ( -128 -392 0 ) ( -128 -392 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 0 -888 0 ) ( 0 -1080 0 ) ( 0 -888 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 64
+{
+( 0 -384 0 ) ( -128 -384 0 ) ( -128 -576 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -128 -576 256 ) ( -128 -384 256 ) ( 0 -384 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -128 -1080 0 ) ( 0 -1080 0 ) ( 0 -1080 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 0 -392 0 ) ( -128 -392 0 ) ( -128 -392 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -136 -384 0 ) ( -136 -576 0 ) ( -136 -576 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -128 -1080 0 ) ( -128 -888 0 ) ( -128 -1080 -8 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 65
+{
+( -256 -256 0 ) ( -384 -256 0 ) ( -384 -384 0 ) interior/carptset1a 0 0 0.00 1 1 0 134217728 0 
+( -384 -384 8 ) ( -384 -256 8 ) ( -256 -256 8 ) interior/carptset1a 0 0 0.00 1 1 0 134217728 0 
+( -384 -384 112 ) ( -256 -384 112 ) ( -256 -384 0 ) interior/carptset1a 0 0 0.00 1 1 0 134217728 0 
+( -256 -384 112 ) ( -256 -256 112 ) ( -256 -256 0 ) interior/carptset1a 0 0 0.00 1 1 0 134217728 0 
+( -256 -256 112 ) ( -384 -256 112 ) ( -384 -256 0 ) interior/carptset1a 0 0 0.00 1 1 0 134217728 0 
+( -384 -256 112 ) ( -384 -384 112 ) ( -384 -384 0 ) interior/carptset1a 0 0 0.00 1 1 0 134217728 0 
+}
+// brush 66
+{
+( -96 640 112 ) ( -96 512 112 ) ( -96 512 0 ) interior/sp_carpet_townhall 0 0 0.00 1 1 0 134217728 0 
+( 32 640 112 ) ( -96 640 112 ) ( -96 640 0 ) interior/sp_carpet_townhall 0 0 0.00 1 1 0 134217728 0 
+( 32 512 112 ) ( 32 640 112 ) ( 32 640 0 ) interior/sp_carpet_townhall 0 0 0.00 1 1 0 134217728 0 
+( -96 512 112 ) ( 32 512 112 ) ( 32 512 0 ) interior/sp_carpet_townhall 0 0 0.00 1 1 0 134217728 0 
+( -96 512 8 ) ( -96 640 8 ) ( 32 640 8 ) interior/sp_carpet_townhall 0 0 0.00 1 1 0 134217728 0 
+( 32 640 0 ) ( -96 640 0 ) ( -96 512 0 ) interior/sp_carpet_townhall 0 0 0.00 1 1 0 134217728 0 
+}
+// brush 67
+{
+( -384 384 64 ) ( 384 384 64 ) ( -384 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 384 192 ) ( -384 -384 192 ) ( -384 -384 128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -104 392 0 ) ( -104 392 256 ) ( -384 392 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 320 ) ( -384 384 320 ) ( 384 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -104 392 320 ) ( -104 392 64 ) ( -96 384 64 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 68
+{
+( -384 384 64 ) ( 384 384 64 ) ( -384 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 40 392 256 ) ( 40 392 0 ) ( 384 392 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 -384 192 ) ( 384 384 192 ) ( 384 384 128 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 320 ) ( -384 384 320 ) ( 384 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 384 384 0 ) ( -384 384 0 ) ( -384 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 40 392 0 ) ( 40 392 256 ) ( 32 384 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 69
+{
+( 24 392 -8 ) ( -88 392 -8 ) ( -88 384 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -88 384 256 ) ( 24 384 256 ) ( 24 384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 32 384 256 ) ( 32 392 256 ) ( 32 392 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 40 640 256 ) ( -72 640 256 ) ( -72 640 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -96 392 256 ) ( -96 384 256 ) ( -96 384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -88 392 0 ) ( 24 392 0 ) ( -88 384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+}
+// brush 70
+{
+( -88 384 320 ) ( -88 392 320 ) ( 24 392 320 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -88 384 256 ) ( 24 384 256 ) ( 24 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 32 384 256 ) ( 32 392 256 ) ( 32 392 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( 40 640 256 ) ( -72 640 256 ) ( -72 640 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -96 392 256 ) ( -96 384 256 ) ( -96 384 0 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -88 392 256 ) ( -88 384 256 ) ( 24 392 256 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+}
+// brush 71
+{
+( 24 392 0 ) ( -88 392 0 ) ( -88 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -88 384 256 ) ( -88 392 256 ) ( 24 392 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 32 384 0 ) ( 32 384 256 ) ( 40 392 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 40 384 256 ) ( 40 392 256 ) ( 40 392 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 40 640 256 ) ( -72 640 256 ) ( -72 640 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 32 384 256 ) ( 32 384 0 ) ( 32 640 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 72
+{
+( 24 392 0 ) ( -88 392 0 ) ( -88 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -88 384 256 ) ( -88 392 256 ) ( 24 392 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 32 384 256 ) ( 32 392 256 ) ( 32 392 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 40 648 256 ) ( -72 648 256 ) ( -72 648 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -96 392 256 ) ( -96 384 256 ) ( -96 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -72 640 256 ) ( 40 640 256 ) ( -72 640 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 73
+{
+( 24 392 0 ) ( -88 392 0 ) ( -88 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -88 384 256 ) ( -88 392 256 ) ( 24 392 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -96 384 256 ) ( -96 384 0 ) ( -104 392 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 40 640 256 ) ( -72 640 256 ) ( -72 640 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -104 392 256 ) ( -104 384 256 ) ( -104 384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -96 384 0 ) ( -96 384 256 ) ( -96 640 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 74
+{
+( 384 384 -320 ) ( -384 384 -320 ) ( -384 -384 -320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -384 320 ) ( -384 384 320 ) ( 384 384 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -384 -392 64 ) ( 384 -392 64 ) ( 384 -392 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 512 -384 -128 ) ( 512 384 -128 ) ( 512 384 -192 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 448 -384 64 ) ( -320 -384 64 ) ( 448 -384 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 192 -400 0 ) ( 192 -376 0 ) ( 192 -376 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 75
+{
+( 392 -184 0 ) ( 392 -184 256 ) ( 384 -192 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -64 -192 0 ) ( -64 -960 0 ) ( 704 -960 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 704 -960 320 ) ( -64 -960 320 ) ( -64 -192 320 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 328 -184 256 ) ( 328 -184 0 ) ( 512 -184 0 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( -64 -192 128 ) ( 704 -192 128 ) ( -64 -192 64 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+( 512 -176 0 ) ( 512 -192 0 ) ( 512 -192 256 ) central_europe/church_interior_wall2flt 0 0 0.00 1 1 0 0 0 
+}
+// brush 76
+{
+( 376 -248 -8 ) ( -376 -248 -8 ) ( -384 -256 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -384 384 0 ) ( 384 384 0 ) ( -384 -384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -376 -256 -8 ) ( -376 384 -8 ) ( -384 384 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 504 384 -8 ) ( 504 -256 -8 ) ( 512 -256 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -376 -248 -8 ) ( 376 -248 -8 ) ( 376 384 -8 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 376 -192 -8 ) ( 384 -192 -8 ) ( 384 -192 0 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+}
+// brush 77
+{
+( 512 384 -328 ) ( -256 384 -328 ) ( -256 -384 -328 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -256 -384 -168 ) ( 512 -384 -168 ) ( 512 -384 -232 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 512 -384 -168 ) ( 512 384 -168 ) ( 512 384 -232 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( -256 384 -320 ) ( 512 384 -320 ) ( -256 -384 -320 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 544 -256 -240 ) ( 568 -256 -240 ) ( 568 -256 -232 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+( 384 -272 -240 ) ( 384 -256 -240 ) ( 384 -256 -232 ) central_europe/strtset_cew 0 0 0.00 1 1 0 0 0 
+}
+// brush 78
+{
+( -384 384 320 ) ( -384 -384 320 ) ( 384 384 320 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -384 384 136 ) ( -384 -384 136 ) ( -384 -384 72 ) interior/manor_woodfloor 0 8 0.00 1 1 0 16384 0 
+( 512 -376 136 ) ( 512 392 136 ) ( 512 392 72 ) interior/manor_woodfloor 0 8 0.00 1 1 0 16384 0 
+( -384 -384 136 ) ( 384 -384 136 ) ( 384 -384 72 ) interior/manor_woodfloor 0 8 0.00 1 1 0 16384 0 
+( -384 -384 328 ) ( -384 384 328 ) ( 384 384 328 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( 352 -192 264 ) ( 392 -192 264 ) ( 352 -192 272 ) interior/manor_woodfloor 0 8 0.00 1 1 0 16384 0 
+}
+// brush 79
+{
+( -384 384 320 ) ( -384 -384 320 ) ( 384 384 320 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( -384 384 192 ) ( -384 -384 192 ) ( -384 -384 128 ) interior/manor_woodfloor 0 64 0.00 1 1 0 16384 0 
+( 384 384 192 ) ( -384 384 192 ) ( -384 384 128 ) interior/manor_woodfloor 0 64 0.00 1 1 0 16384 0 
+( 384 -384 192 ) ( 384 384 192 ) ( 384 384 128 ) interior/manor_woodfloor 0 64 0.00 1 1 0 16384 0 
+( -384 -384 328 ) ( -384 384 328 ) ( 384 384 328 ) interior/manor_woodfloor 0 0 0.00 1 1 0 16384 0 
+( 392 -192 320 ) ( 352 -192 320 ) ( 352 -192 328 ) interior/manor_woodfloor 0 64 0.00 1 1 0 16384 0 
+}
+// brush 80
+{
+( -192 384 8 ) ( -192 320 8 ) ( -256 384 8 ) general_structure/jh_tileroof1 0 0 0.00 1 1 0 0 0 
+( -192 384 120 ) ( -256 384 120 ) ( -192 384 0 ) general_structure/jh_tileroof1 0 0 0.00 1 1 0 0 0 
+( -192 384 120 ) ( -192 384 0 ) ( -192 320 120 ) general_structure/jh_tileroof1 0 0 0.00 1 1 0 0 0 
+( -256 320 0 ) ( -192 320 0 ) ( -256 384 0 ) general_structure/jh_tileroof1 0 0 0.00 1 1 0 0 0 
+( -256 320 0 ) ( -256 320 120 ) ( -192 320 0 ) general_structure/jh_tileroof1 0 0 0.00 1 1 0 0 0 
+( -256 320 0 ) ( -256 384 0 ) ( -256 320 120 ) general_structure/jh_tileroof1 0 0 0.00 1 1 0 0 0 
+}
+}
+// entity 1
+{
+"origin" "856 0 0"
+"classname" "info_pathnode"
+}
+// entity 2
+{
+"origin" "896.00  0.00  0.00"
+"testanim" "idle"
+"model" "human/german_waffenss_officer.tik"
+"scale" "1.0"
+"classname" "ai_german_waffenss_officer"
+}
+// entity 3
+{
+"angle" "180"
+"classname" "func_ladder"
+// brush 0
+{
+( -120 352 0 ) ( -120 288 0 ) ( -104 288 0 ) common/ladder 63 0 90.00 0.500000 0.500000 0 136 0 
+( -104 288 144 ) ( -120 288 144 ) ( -120 352 144 ) common/ladder 63 0 90.00 0.500000 0.500000 0 136 0 
+( -96 288 208 ) ( -96 352 208 ) ( -96 352 0 ) common/ladder 0 0 0.00 0.500000 0.500000 0 136 0 
+( -96 344 208 ) ( -112 344 208 ) ( -112 344 0 ) common/ladder 0 0 -180.00 0.500000 -0.500000 0 136 0 
+( -120 352 208 ) ( -120 288 208 ) ( -120 288 0 ) common/ladder 0 0 0.00 0.500000 0.500000 0 136 0 
+( -120 296 208 ) ( -104 296 208 ) ( -104 296 0 ) common/ladder 0 0 -180.00 0.500000 -0.500000 0 136 0 
+}
+}
+// entity 4
+{
+"angle" "90"
+"classname" "func_rotatingdoor"
+// brush 0
+{
+( 256 198 0 ) ( 192 198 0 ) ( 192 194 0 ) central_europe/frenchdoor_wood1 0 0 0.00 1 1 0 16384 0 
+( 192 194 128 ) ( 192 198 128 ) ( 256 198 128 ) central_europe/frenchdoor_wood1 0 0 0.00 1 1 0 16384 0 
+( 192 194 128 ) ( 256 194 128 ) ( 256 194 0 ) central_europe/frenchdoor_wood1 0 0 0.00 -0.500000 0.500000 0 16384 0 
+( 256 194 128 ) ( 256 198 128 ) ( 256 198 0 ) central_europe/frenchdoor_wood1 0 0 0.00 1 1 0 16384 0 
+( 256 198 128 ) ( 192 198 128 ) ( 192 198 0 ) central_europe/frenchdoor_wood1 0 0 0.00 -0.500000 0.500000 0 16384 0 
+( 192 198 128 ) ( 192 194 128 ) ( 192 194 0 ) central_europe/frenchdoor_wood1 0 0 0.00 1 1 0 16384 0 
+}
+// brush 1
+{
+( 208 208 0 ) ( 184 208 0 ) ( 184 184 0 ) common/origin 0 0 0.00 1 1 16777216 2176 0 
+( 184 184 128 ) ( 184 208 128 ) ( 208 208 128 ) common/origin 0 0 0.00 1 1 16777216 2176 0 
+( 184 184 128 ) ( 208 184 128 ) ( 208 184 0 ) common/origin 0 0 0.00 1 1 16777216 2176 0 
+( 208 184 128 ) ( 208 208 128 ) ( 208 208 0 ) common/origin 0 0 0.00 1 1 16777216 2176 0 
+( 208 208 128 ) ( 184 208 128 ) ( 184 208 0 ) common/origin 0 0 0.00 1 1 16777216 2176 0 
+( 184 208 128 ) ( 184 184 128 ) ( 184 184 0 ) common/origin 0 0 0.00 1 1 16777216 2176 0 
+}
+}
+// entity 5
+{
+"classname" "light"
+"light" "300"
+"origin" "-192 192 128"
+}
+// entity 6
+{
+"classname" "light"
+"origin" "-192 -192 128"
+"light" "300"
+}
+// entity 7
+{
+"classname" "light"
+"light" "300"
+"origin" "192 -192 128"
+}
+// entity 8
+{
+"classname" "light"
+"origin" "192 64 128"
+"light" "300"
+}
+// entity 9
+{
+"classname" "info_player_start"
+"angle" "90"
+"origin" "0 -64 24"
+}
+// entity 10
+{
+"classname" "light"
+"light" "300"
+"origin" "192 288 128"
+}
+// entity 11
+{
+"classname" "func_door"
+"angle" "270"
+// brush 0
+{
+( 64 320 0 ) ( 56 320 0 ) ( 56 256 0 ) general_industrial/metaldoor_gen1plain 0 0 0.00 1 1 0 32768 0 
+( 56 256 128 ) ( 56 320 128 ) ( 64 320 128 ) general_industrial/metaldoor_gen1plain 0 0 0.00 1 1 0 32768 0 
+( 56 256 128 ) ( 64 256 128 ) ( 64 256 0 ) general_industrial/metaldoor_gen1plain 0 0 0.00 1 1 0 32768 0 
+( 62 256 128 ) ( 62 320 128 ) ( 62 320 0 ) general_industrial/metaldoor_gen1plain 0 0 0.00 0.500000 0.500000 0 32768 0 
+( 64 320 128 ) ( 56 320 128 ) ( 56 320 0 ) general_industrial/metaldoor_gen1plain 0 0 0.00 1 1 0 32768 0 
+( 58 320 128 ) ( 58 256 128 ) ( 58 256 0 ) general_industrial/metaldoor_gen1plain 0 0 0.00 0.500000 0.500000 0 32768 0 
+}
+}
+// entity 12
+{
+"spawnflags" "128"
+"classname" "func_door"
+"targetname" "door1"
+"wait" "-1"
+"angle" "-1"
+// brush 0
+{
+( 808 56 0 ) ( 792 56 0 ) ( 792 -64 0 ) general_structure/jh_barndoor1 56 0 0.00 1 1 0 16384 0 
+( 792 -64 256 ) ( 792 56 256 ) ( 808 56 256 ) general_structure/jh_barndoor1 56 0 0.00 1 1 0 16384 0 
+( 792 -64 8 ) ( 808 -64 8 ) ( 808 -64 0 ) general_structure/jh_barndoor1 56 0 0.00 1 1 0 16384 0 
+( 832 -56 8 ) ( 832 64 8 ) ( 832 64 0 ) general_structure/jh_barndoor1 56 0 0.00 1 1 0 16384 0 
+( 808 64 8 ) ( 792 64 8 ) ( 792 64 0 ) general_structure/jh_barndoor1 56 0 0.00 1 1 0 16384 0 
+( 824 56 8 ) ( 824 -64 8 ) ( 824 -64 0 ) general_structure/jh_barndoor1 56 0 0.00 1 1 0 16384 0 
+}
+}
+// entity 13
+{
+"spawnflags" "128"
+"classname" "func_door"
+"wait" "-1"
+"targetname" "door2"
+"angle" "-1"
+// brush 0
+{
+( 0 -504 0 ) ( -128 -504 0 ) ( -128 -512 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -128 -512 256 ) ( -128 -504 256 ) ( 0 -504 256 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -128 -512 256 ) ( 0 -512 256 ) ( 0 -512 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( 0 -512 256 ) ( 0 -504 256 ) ( 0 -504 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( 0 -504 256 ) ( -128 -504 256 ) ( -128 -504 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -128 -504 256 ) ( -128 -512 256 ) ( -128 -512 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+}
+}
+// entity 14
+{
+"classname" "trigger_once"
+"target" "door2"
+// brush 0
+{
+( 0 -400 0 ) ( -128 -400 0 ) ( -128 -424 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -128 -424 256 ) ( -128 -400 256 ) ( 0 -400 256 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -128 -424 256 ) ( 0 -424 256 ) ( 0 -424 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 0 -424 256 ) ( 0 -400 256 ) ( 0 -400 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 8 -392 256 ) ( -120 -392 256 ) ( -120 -392 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -128 -400 256 ) ( -128 -424 256 ) ( -128 -424 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+}
+}
+// entity 15
+{
+"spawnflags" "128"
+"classname" "func_door"
+"targetname" "door3"
+"angle" "-1"
+// brush 0
+{
+( -128 -888 256 ) ( -128 -896 256 ) ( -128 -896 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( 0 -888 256 ) ( -128 -888 256 ) ( -128 -888 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( 0 -896 256 ) ( 0 -888 256 ) ( 0 -888 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -128 -896 256 ) ( 0 -896 256 ) ( 0 -896 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -128 -896 256 ) ( -128 -888 256 ) ( 0 -888 256 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( 0 -888 0 ) ( -128 -888 0 ) ( -128 -896 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+}
+}
+// entity 16
+{
+"classname" "trigger_multiple"
+"target" "door3"
+"wait" "3"
+// brush 0
+{
+( -128 -680 256 ) ( -128 -704 256 ) ( -128 -704 0 ) common/trigger -16 0 0.00 0.500000 0.500000 0 128 0 
+( 8 -672 256 ) ( -120 -672 256 ) ( -120 -672 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 0 -704 256 ) ( 0 -680 256 ) ( 0 -680 0 ) common/trigger -16 0 0.00 0.500000 0.500000 0 128 0 
+( -128 -704 256 ) ( 0 -704 256 ) ( 0 -704 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -128 -704 256 ) ( -128 -680 256 ) ( 0 -680 256 ) common/trigger 0 16 0.00 0.500000 0.500000 0 128 0 
+( 0 -680 0 ) ( -128 -680 0 ) ( -128 -704 0 ) common/trigger 0 16 0.00 0.500000 0.500000 0 128 0 
+}
+}
+// entity 17
+{
+"classname" "trigger_multiple"
+"target" "door3"
+// brush 0
+{
+( 0 -904 0 ) ( -128 -904 0 ) ( -128 -928 0 ) common/trigger 0 16 0.00 0.500000 0.500000 0 128 0 
+( -128 -928 256 ) ( -128 -904 256 ) ( 0 -904 256 ) common/trigger 0 16 0.00 0.500000 0.500000 0 128 0 
+( -128 -928 256 ) ( 0 -928 256 ) ( 0 -928 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 0 -928 256 ) ( 0 -904 256 ) ( 0 -904 0 ) common/trigger -16 0 0.00 0.500000 0.500000 0 128 0 
+( 8 -896 256 ) ( -120 -896 256 ) ( -120 -896 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -128 -904 256 ) ( -128 -928 256 ) ( -128 -928 0 ) common/trigger -16 0 0.00 0.500000 0.500000 0 128 0 
+}
+}
+// entity 18
+{
+"classname" "trigger_push"
+"target" "push1"
+// brush 0
+{
+( -256 -256 8 ) ( -384 -256 8 ) ( -384 -384 8 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -384 -384 24 ) ( -384 -256 24 ) ( -256 -256 24 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -384 -384 256 ) ( -256 -384 256 ) ( -256 -384 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -256 -384 256 ) ( -256 -256 256 ) ( -256 -256 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -256 -256 256 ) ( -384 -256 256 ) ( -384 -256 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -384 -256 256 ) ( -384 -384 256 ) ( -384 -384 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+}
+}
+// entity 19
+{
+"classname" "target_push"
+"targetname" "push1"
+"origin" "-320 -320 136"
+}
+// entity 20
+{
+"classname" "trigger_teleport"
+"target" "tele1"
+// brush 0
+{
+( 32 640 8 ) ( -96 640 8 ) ( -96 512 8 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -96 512 256 ) ( -96 640 256 ) ( 32 640 256 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -96 512 256 ) ( 32 512 256 ) ( 32 512 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 32 512 256 ) ( 32 640 256 ) ( 32 640 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 32 640 256 ) ( -96 640 256 ) ( -96 640 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -96 640 256 ) ( -96 512 256 ) ( -96 512 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+}
+}
+// entity 21
+{
+"spawnflags" "128"
+"classname" "func_door"
+"targetname" "door4"
+"angle" "-2"
+// brush 0
+{
+( 256 -256 -320 ) ( 192 -256 -320 ) ( 192 -384 -320 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( 192 -384 0 ) ( 192 -256 0 ) ( 256 -256 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( 192 -384 0 ) ( 256 -384 0 ) ( 256 -384 -320 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( 256 -384 0 ) ( 256 -256 0 ) ( 256 -256 -320 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( 256 -256 0 ) ( 192 -256 0 ) ( 192 -256 -320 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( 192 -256 0 ) ( 192 -384 0 ) ( 192 -384 -320 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+}
+}
+// entity 22
+{
+"classname" "trigger_multiple"
+"target" "door4"
+// brush 0
+{
+( 280 -256 -320 ) ( 256 -256 -320 ) ( 256 -384 -320 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 256 -384 -192 ) ( 256 -256 -192 ) ( 280 -256 -192 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 256 -384 0 ) ( 280 -384 0 ) ( 280 -384 -320 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 288 -384 0 ) ( 288 -256 0 ) ( 288 -256 -320 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 280 -256 0 ) ( 256 -256 0 ) ( 256 -256 -320 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 256 -256 0 ) ( 256 -384 0 ) ( 256 -384 -320 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+}
+}
+// entity 23
+{
+"classname" "light"
+"light" "300"
+"origin" "-576 0 128"
+}
+// entity 24
+{
+"classname" "light"
+"origin" "-64 -384 128"
+"light" "300"
+}
+// entity 25
+{
+"classname" "light"
+"light" "300"
+"origin" "-64 -992 128"
+}
+// entity 26
+{
+"classname" "light"
+"origin" "-64 -704 128"
+"light" "300"
+}
+// entity 27
+{
+"classname" "light"
+"light" "300"
+"origin" "384 -320 -128"
+}
+// entity 28
+{
+"classname" "light"
+"origin" "896 0 128"
+"light" "300"
+}
+// entity 29
+{
+"classname" "light"
+"light" "300"
+"origin" "640 0 128"
+}
+// entity 30
+{
+"classname" "light"
+"origin" "-32 512 128"
+"light" "300"
+}
+// entity 31
+{
+"classname" "light"
+"origin" "-256 320 192"
+"light" "150"
+}
+// entity 32
+{
+"classname" "trigger_teleport"
+"target" "tele1"
+// brush 0
+{
+( 512 64 -128 ) ( 384 64 -128 ) ( 384 -64 -128 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 384 -64 -8 ) ( 384 64 -8 ) ( 512 64 -8 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 384 -64 256 ) ( 512 -64 256 ) ( 512 -64 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 512 -64 256 ) ( 512 64 256 ) ( 512 64 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 512 64 256 ) ( 384 64 256 ) ( 384 64 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( 384 64 256 ) ( 384 -64 256 ) ( 384 -64 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+}
+}
+// entity 33
+{
+"spawnflags" "128"
+"classname" "func_door"
+"angle" "270"
+"lip" "0"
+"targetname" "door5"
+// brush 0
+{
+( -320 192 136 ) ( -320 -192 136 ) ( -384 192 136 ) common/skip 0 0 0.00 0.500000 0.500000 536870912 2192 0 
+( -320 192 136 ) ( -384 192 136 ) ( -320 192 128 ) common/skip 0 0 0.00 0.500000 0.500000 536870912 2192 0 
+( -320 192 136 ) ( -320 192 128 ) ( -320 -192 136 ) common/skip 0 0 0.00 0.500000 0.500000 536870912 2192 0 
+( -384 -192 128 ) ( -320 -192 128 ) ( -384 192 128 ) common/skip 0 0 0.00 0.500000 0.500000 536870912 2192 0 
+( -392 -64 128 ) ( -392 -64 136 ) ( -328 -64 128 ) common/skip 0 0 0.00 0.500000 0.500000 536870912 2192 0 
+( -384 -192 128 ) ( -384 192 128 ) ( -384 -192 136 ) common/skip 0 0 0.00 0.500000 0.500000 536870912 2192 0 
+}
+// brush 1
+{
+( -320 256 136 ) ( -320 192 136 ) ( -384 256 136 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -320 256 72 ) ( -384 256 72 ) ( -320 256 -56 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -320 256 72 ) ( -320 256 -56 ) ( -320 192 72 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -384 192 128 ) ( -320 192 128 ) ( -384 256 128 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -384 192 -56 ) ( -384 192 72 ) ( -320 192 -56 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -384 192 -56 ) ( -384 256 -56 ) ( -384 192 72 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+}
+}
+// entity 34
+{
+"classname" "trigger_multiple"
+"target" "door5"
+// brush 0
+{
+( -320 256 256 ) ( -320 224 256 ) ( -384 256 256 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -320 240 144 ) ( -384 240 144 ) ( -320 240 136 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -320 256 144 ) ( -320 256 136 ) ( -320 224 144 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -384 224 136 ) ( -320 224 136 ) ( -384 256 136 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -384 224 136 ) ( -384 224 144 ) ( -320 224 136 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -384 224 136 ) ( -384 256 136 ) ( -384 224 144 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+}
+}
+// entity 35
+{
+"classname" "func_teleportdest"
+"origin" "-192 64 88"
+"targetname" "tele1"
+}
+// entity 36
+{
+"classname" "trigger_hurt"
+// brush 0
+{
+( -192 384 128 ) ( -192 320 128 ) ( -256 384 128 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -192 384 120 ) ( -256 384 120 ) ( -192 384 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -192 384 120 ) ( -192 384 0 ) ( -192 320 120 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -256 320 8 ) ( -192 320 8 ) ( -256 384 8 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -256 320 0 ) ( -256 320 120 ) ( -192 320 0 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+( -256 320 0 ) ( -256 384 0 ) ( -256 320 120 ) common/trigger 0 0 0.00 0.500000 0.500000 0 128 0 
+}
+}
+// entity 37
+{
+"classname" "trigger_once"
+"target" "door1"
+// brush 0
+{
+( 568 56 0 ) ( 440 56 0 ) ( 440 32 0 ) common/trigger -48 16 0.00 0.500000 0.500000 0 128 0 
+( 440 32 256 ) ( 440 56 256 ) ( 568 56 256 ) common/trigger -48 16 0.00 0.500000 0.500000 0 128 0 
+( 384 -64 256 ) ( 512 -64 256 ) ( 512 -64 0 ) common/trigger -48 0 0.00 0.500000 0.500000 0 128 0 
+( 512 -64 256 ) ( 512 -40 256 ) ( 512 -40 0 ) common/trigger -16 0 0.00 0.500000 0.500000 0 128 0 
+( 576 64 256 ) ( 448 64 256 ) ( 448 64 0 ) common/trigger -48 0 0.00 0.500000 0.500000 0 128 0 
+( 448 56 256 ) ( 448 32 256 ) ( 448 32 0 ) common/trigger -16 0 0.00 0.500000 0.500000 0 128 0 
+}
+}
+// entity 38
+{
+"angle" "-2"
+"classname" "func_plat"
+// brush 0
+{
+( -320 384 128 ) ( -384 384 128 ) ( -384 320 128 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -384 320 136 ) ( -384 384 136 ) ( -320 384 136 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -384 320 136 ) ( -320 320 136 ) ( -320 320 128 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -320 320 136 ) ( -320 384 136 ) ( -320 384 128 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -320 384 136 ) ( -384 384 136 ) ( -384 384 128 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -384 384 136 ) ( -384 320 136 ) ( -384 320 128 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+}
+// brush 1
+{
+( -344 360 0 ) ( -360 360 0 ) ( -360 344 0 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -360 344 128 ) ( -360 360 128 ) ( -344 360 128 ) general_structure/jh_barndoor1 0 0 0.00 1 1 0 16384 0 
+( -360 344 128 ) ( -344 344 128 ) ( -344 344 120 ) general_structure/jh_barndoor1 0 -8 0.00 1 1 0 16384 0 
+( -344 344 128 ) ( -344 360 128 ) ( -344 360 120 ) general_structure/jh_barndoor1 0 -8 0.00 1 1 0 16384 0 
+( -344 360 128 ) ( -360 360 128 ) ( -360 360 120 ) general_structure/jh_barndoor1 0 -8 0.00 1 1 0 16384 0 
+( -360 360 128 ) ( -360 344 128 ) ( -360 344 120 ) general_structure/jh_barndoor1 0 -8 0.00 1 1 0 16384 0 
+}
+}
+// entity 39
+{
+"health" "50"
+"classname" "func_crate"
+// brush 0
+{
+( 384 -152 0 ) ( 320 -152 0 ) ( 320 -160 0 ) german/crate_reinforced1_topflt 0 -64 0.00 0.500000 0.500000 0 16384 0 
+( 320 -160 64 ) ( 320 -152 64 ) ( 384 -152 64 ) german/crate_reinforced1_topflt 0 -64 0.00 0.500000 0.500000 0 16384 0 
+( 320 -160 128 ) ( 384 -160 128 ) ( 384 -160 0 ) german/crate_reinforced1_topflt 0 0 0.00 0.500000 0.500000 0 16384 0 
+( 384 -160 128 ) ( 384 -152 128 ) ( 384 -152 0 ) german/crate_reinforced1_topflt 0 64 0.00 0.500000 0.500000 0 16384 0 
+( 384 -96 128 ) ( 320 -96 128 ) ( 320 -96 0 ) german/crate_reinforced1_topflt 0 0 0.00 0.500000 0.500000 0 16384 0 
+( 320 -152 128 ) ( 320 -160 128 ) ( 320 -160 0 ) german/crate_reinforced1_topflt 64 0 0.00 0.500000 0.500000 0 16384 0 
+}
+}
+// entity 40
+{
+"origin" "664 0 0"
+"classname" "info_pathnode"
+}
+// entity 41
+{
+"origin" "440 0 0"
+"classname" "info_pathnode"
+}
+// entity 42
+{
+"origin" "184 0 0"
+"classname" "info_pathnode"
+}
+// entity 43
+{
+"origin" "-40 240 0"
+"classname" "info_pathnode"
+}
+// entity 44
+{
+"origin" "-48 -312 0"
+"classname" "info_pathnode"
+}
+// entity 45
+{
+"origin" "-344 0 0"
+"classname" "info_pathnode"
+}

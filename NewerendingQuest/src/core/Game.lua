@@ -123,6 +123,28 @@ function Game:update(dt)
 end	
 end
 
+function Game:keypressed(key)
+    if
+        self.world and
+        self.world:keypressed(key)
+    then
+        return true
+    end
+
+    return false
+end
+
+function Game:keypressed(key)
+    if
+        self.world and
+        self.world:keypressed(key)
+    then
+        return true
+    end
+
+    return false
+end
+
 -- Рисует игровой кадр.
 function Game:draw()
     love.graphics.setCanvas(
@@ -136,33 +158,51 @@ function Game:draw()
         1
     )
 
-	self.world:drawBackground()
+    local sceneActive =
+        self.world:isScene()
+
+    self.world:drawBackground()
 
     self.world:draw(
         self.player
     )
 
-    self:drawHud()
-	self:drawControlHint()
-    self.input:draw()
-	-- Переход рисуется поверх мира, HUD и кнопок.
-	self.world:drawTransition()
+    if not sceneActive then
+        self:drawHud()
+        self:drawControlHint()
+        self.input:draw()
+    end
 
-	if
-		self.player.gameOver or
-		self.gameOverFade > 0
-	then
-		self:drawGameOverOverlay()
-	end
+    -- Переход остаётся видимым и для сцен.
+    self.world:drawTransition()
 
-    if self.paused then
+    if
+        not sceneActive and
+        (
+            self.player.gameOver or
+            self.gameOverFade > 0
+        )
+    then
+        self:drawGameOverOverlay()
+    end
+
+    if
+        not sceneActive and
+        self.paused
+    then
         self:drawPauseOverlay()
     end
 
     love.graphics.setCanvas()
-    love.graphics.clear(0, 0, 0, 1)
 
-    love.graphics.setColor(1, 1, 1)
+    love.graphics.clear(
+        0,
+        0,
+        0,
+        1
+    )
+
+    love.graphics.setColor(1, 1, 1, 1)
 
     love.graphics.draw(
         self.canvas,

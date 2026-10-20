@@ -1,0 +1,117 @@
+//
+// SPRITES.DAT: Sprite data file
+//
+//
+// Name: Sprite name.  Must be under 30 characters.
+//
+// Base Texture: Texture filename.  For an animated sequence, this is the filename excluding the sequence number.
+//				 Both Windows .bmp and Targa .tga file types are supported.  .bmp files must be 24-bit with no
+//				 compression, and .tga files must be 32-bit with no compression.  The "base texture" field does not
+//				 include the texture's extension.  The engine looks for .bmp files first, and if not found, then
+//				 looks for .tga files.
+//
+// # of Textures: Number of textures in the animation sequence, or 0 if none.  For example, suppose a smoke
+//				  animation has 3 textures.  The base texture would be "smoke", the # of textures would be 3,
+//				  and the texture filenames would be "smoke0.bmp", "smoke1.bmp", and "smoke2.bmp".
+//
+// Type:
+//		facing	-- always faces viewer
+//		upright	-- always faces viewer, but only rotates about y axis
+//		xform	-- arbitrary transformation (program controlled -- use for muzzle flashes, light streamers, etc.)
+//		(Note: the type doesn't matter for sprites used as decals)
+//
+// Freq: Animation rate in seconds.  The textures will be cycled at this rate.
+//
+// Repeat?: 1 to automatically repeat the animated sequence.  0 to play the sequence only once.
+//
+// Width/Height: Sprite's width and height in inches.
+//
+// Alpha: The alpha value controls the level of transparency.  1 is fully transparent, and 255 is opaque.  The alpha
+//		  value should be set to < 255 when the texture contains an alpha channel (i.e., it's a targa file).
+//
+// Alpha Mode:
+//		normal	-- normal rendering (plants, gates, etc.)
+//		add		-- add colors to frame buffer (smoke, sparks, etc.)
+//		blend	-- blend colors with frame buffer (decals)
+//		corona	-- light corona
+//
+
+
+Sprites
+{
+					
+//
+// Mission M
+//	Name			base texture	frames	type		freq		repeat?	width		height	radius  	alpha		alpha mode	intensity
+//	----			------------	------	----		----		------	-----		------	------	-----		----------	---------
+	1_graf1_decal	1_graf1_decal	1		facing	0		0		32		32		0		255		normal
+	1_graf2_decal	1_graf2_decal	1		facing	0		0		32		32		0		255		normal
+	1_grf_9		1_grf_9		1		facing	0		0		32		32		0		255		normal
+	1_loco		1_loco		1		facing	0		0		32		32		0		255		normal
+	1_graf3_decal	1_graf3_decal	1		facing	0		0		32		32		0		255		normal
+	1_phoenix		1_phoenix		1		facing	0		0		200		200		0		255		normal
+	1_urinal		1_urinal		1		facing	0		0		16		16		0		255		normal
+	1_clothes_1		1_clothes_1		1		facing	0		0		18		18		0		255		normal
+	1_clothes_2		1_clothes_2		1		facing	0		0		18		18		0		255		normal
+	1_clothes_3		1_clothes_3		1		facing	0		0		26		26		0		255		normal
+	1_clothes_4		1_clothes_4		1		facing	0		0		18		18		0		255		normal
+	1_clothes_5		1_clothes_5		1		facing	0		0		18		18		0		255		normal
+	1_magazine_1	1_magazine_1	1		facing	0		0		12		12		0		255		normal
+	1_magazine_2	1_magazine_2	1		facing	0		0		12		12		0		255		normal
+	1_magazine_3	1_magazine_3	1		facing	0		0		24		24		0		255		normal
+	1_magazine_4	1_magazine_4	1		facing	0		0		24		24		0		255		normal
+	1_mail_1		1_mail_1		1		facing	0		0		18		18		0		255		normal
+	1_mail_2		1_mail_2		1		facing	0		0		18		18		0		255		normal
+	1_mail_3		1_mail_3		1		facing	0		0		18		18		0		255		normal
+	1_newspaper_1	1_newspaper_1	1		facing	0		0		18		18		0		255		normal
+	1_newspaper_2	1_newspaper_2	1		facing	0		0		18		18		0		255		normal
+	1_newspaper_3	1_newspaper_3	1		facing	0		0		18		18		0		255		normal
+	1_papers_1		1_papers_1		1		facing	0		0		18		18		0		255		normal
+	1_papers_2		1_papers_2		1		facing	0		0		18		18		0		255		normal
+	1_papers_3		1_papers_3		1		facing	0		0		18		18		0		255		normal
+	1_papers_4		1_papers_4		1		facing	0		0		18		18		0		255		normal
+	1_papers_5		1_papers_5		1		facing	0		0		18		18		0		255		normal
+	1_papers_6		1_papers_6		1		facing	0		0		18		18		0		255		normal
+	1_pen_pencil	1_pen_pencil	1		facing	0		0		12		12		0		255		normal
+	1_light_fix1	1_light_fix1	1		xform		0		0		8		8		0		255		normal
+	1_bath_dryer	1_bath_dryer	1		facing	0		0		18		14		0		255		normal
+	1_phoenix2		1_phoenix2		1		facing	0		0		120		60		0		255		normal
+	1_phoenix2a		1_phoenix2a		1		facing	0		0		138		138		0		255		normal
+	1_phoenix32		1_phoenix32		1		facing	0		0		48		48		0		255		normal
+	1_phoenix3a2	1_phoenix3a2	1		facing	0		0		48		48		0		255		normal
+	1_dartline		1_dartline		1		facing	0		0		18		54		0		255		normal
+	1_rug03		1_rug03		1		facing	0		0		48		48		0		255		normal
+	1_rug11		1_rug11		1		facing	0		0		128		64		0		255		normal
+	1_lswitch_off	1_lswitch_off	1		facing	0		0		6		6		0		255		normal
+	1_lswitch		1_lswitch		1		facing	0		0		6		6		0		255		normal
+	1_trash1		1_trash1		1		facing	0		0		8		8		0		255		normal
+	1_trash2		1_trash2		1		facing	0		0		8		8		0		255		normal
+	1_trash3		1_trash3		1		facing	0		0		8		8		0		255		normal
+	1_trash4		1_trash4		1		facing	0		0		8		8		0		255		normal
+	1_trash5		1_trash5		1		facing	0		0		24		24		0		255		normal
+	1_trash6		1_trash6		1		facing	0		0		24		24		0		255		normal
+	1_trash7		1_trash7		1		facing	0		0		24		24		0		255		normal
+	1_trash8		1_trash8		1		facing	0		0		24		24		0		255		normal
+	1_trash9		1_trash9		1		facing	0		0		24		24		0		255		normal
+	1_trash10		1_trash10		1		facing	0		0		24		24		0		255		normal
+	1_walldecal1	1_walldecal1	1		facing	0		0		200		100		0		255		normal
+	1_barbwire		1_barbwire		1		facing	0		0		95		20		0		255		normal
+	1_dancefloor2	1_dancefloor2	1		facing	0		0		128		128		0		255		normal
+	1_outlet		1_outlet		1		facing	0		0		6		6		0		255		normal
+	1_walldec_4		1_walldec_4		1		facing	0		0		200		100		0		255		normal
+	1_walldec_5a	1_walldec_5a	1		facing	0		0		60		40		0		255		normal
+	1_walldec_6		1_walldec_6		1		facing	0		0		128		128		0		255		normal
+	1_outside		1_outside		1		facing	0		0		70		70		0		255		normal
+	1_outside2		1_outside2		1		facing	0		0		90		90		0		255		normal
+	1_floordrain	1_floordrain	1		facing	0		0		10		10		0		255		normal
+	1_tablebase		1_tablebase		1		facing	0		0		12		12		0		255		normal
+	1_tvfronta		1_tvfront		2		facing	.1		1		18		17		0		255		add
+	1_tvfrontb		1_tvfront		2		facing	.15		1		18		17		0		255		add
+	1_tvfrontc		1_tvfront		2		facing	.2		1		18		17		0		255		add
+	bottle01		1_bottle01		1		upright	0		0		16		16		0		255		normal		.5
+	1_flower_05		1_flower_05		1		facing	0		0		48		48		0		255		normal		.6
+	1_aniwater2		1_aniwater		5		xform		.3		1		70		60		0		255		add			.2
+//
+//
+}																		  
+

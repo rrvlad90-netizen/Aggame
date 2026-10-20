@@ -280,6 +280,20 @@ return {
             alpha = 1
         }
     },
+	
+	exit = {
+		type = "portal",
+
+		x = 0,
+		distanceFromEnd = 4,
+
+		scale = 1,
+		activationRadius = 1.8,
+
+		destination = {
+			type = "next"
+		}
+	},
 
     assets = {
         music = nil
