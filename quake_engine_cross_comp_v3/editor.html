@@ -2,15 +2,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Q3 Simple Map Editor</title>
+<title>Quake 3 Simple Map Editor</title>
+
 <style>
   * { box-sizing: border-box; }
+
   body {
     margin: 0;
     height: 100vh;
     overflow: hidden;
     display: grid;
-    grid-template-columns: 290px 1fr;
+    grid-template-columns: 320px 1fr;
     background: #101216;
     color: #ddd;
     font: 14px Arial, sans-serif;
@@ -23,8 +25,21 @@
     border-right: 1px solid #333;
   }
 
-  h1 { margin: 0 0 12px; font-size: 18px; }
-  h2 { margin: 16px 0 8px; font-size: 14px; color: #f0a44b; }
+  main {
+    position: relative;
+    min-width: 0;
+  }
+
+  h1 {
+    margin: 0 0 12px;
+    font-size: 18px;
+  }
+
+  h2 {
+    margin: 16px 0 8px;
+    font-size: 14px;
+    color: #f0a44b;
+  }
 
   label {
     display: block;
@@ -32,7 +47,8 @@
     color: #bbb;
   }
 
-  input, select, button {
+  input,
+  button {
     width: 100%;
     padding: 6px;
     color: #eee;
@@ -41,31 +57,48 @@
     border-radius: 3px;
   }
 
-  input[type="checkbox"] { width: auto; }
+  input[type="checkbox"] {
+    width: auto;
+  }
 
   button {
-    cursor: pointer;
     margin: 3px 0;
+    cursor: pointer;
   }
 
-  button:hover { background: #343d49; }
-  button.active { background: #87551f; border-color: #e5963d; }
-
-  .tools {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
+  button:hover {
+    background: #343d49;
   }
 
+  button.active {
+    background: #87551f;
+    border-color: #e5963d;
+  }
+
+  .tools,
   .row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 6px;
+    gap: 5px;
   }
 
-  main {
-    position: relative;
-    min-width: 0;
+  .wall-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .wall-options label {
+    margin: 4px 0;
+  }
+
+  .separator {
+    height: 1px;
+    margin: 12px 0;
+    background: #343a44;
+  }
+
+  .danger {
+    border-color: #744;
   }
 
   canvas {
@@ -74,28 +107,31 @@
     display: block;
     background: #11151a;
     cursor: crosshair;
+    touch-action: none;
   }
 
   #status {
     position: absolute;
     left: 10px;
     bottom: 10px;
-    padding: 6px 10px;
-    background: #000b;
+    max-width: calc(100% - 20px);
+    padding: 7px 10px;
+    background: #000c;
     border-radius: 3px;
     pointer-events: none;
+    white-space: pre-line;
   }
 
   small {
-    color: #888;
-    line-height: 1.4;
+    color: #8c929b;
+    line-height: 1.45;
   }
 </style>
 </head>
-<body>
 
+<body>
 <aside>
-  <h1>Q3 Simple Map Editor</h1>
+  <h1>Quake 3 Simple Map Editor</h1>
 
   <div class="tools">
     <button data-tool="select">Выбор</button>
@@ -107,111 +143,189 @@
     <button data-tool="light">Свет</button>
   </div>
 
-  <h2>Сетка и геометрия</h2>
+  <h2>Сетка</h2>
 
   <div class="row">
-    <label>Сетка
-      <input id="grid" type="number" value="32" min="8" step="8">
+    <label>
+      Размер сетки
+      <input id="grid" type="number" value="32" min="1" step="8">
     </label>
-    <label>Высота комнаты
-      <input id="roomHeight" type="number" value="256" step="8">
+
+    <label>
+      Масштаб
+      <button id="fitView" type="button">Показать всё</button>
+    </label>
+  </div>
+
+  <h2>Комната</h2>
+
+  <div class="row">
+    <label>
+      Высота пола Z
+      <input id="roomFloorZ" type="number" value="0" step="8">
+    </label>
+
+    <label>
+      Высота помещения
+      <input id="roomHeight" type="number" value="256" min="32" step="8">
     </label>
   </div>
 
   <div class="row">
-    <label>Толщина стен
-      <input id="wallThickness" type="number" value="16" step="4">
+    <label>
+      Толщина стен
+      <input id="wallThickness" type="number" value="16" min="1" step="4">
     </label>
-    <label>Толщина пола
-      <input id="floorThickness" type="number" value="16" step="4">
+
+    <label>
+      Толщина пола
+      <input id="floorThickness" type="number" value="16" min="1" step="4">
     </label>
+  </div>
+
+  <label>
+    Толщина потолка
+    <input id="ceilingThickness" type="number" value="16" min="1" step="4">
+  </label>
+
+  <h2>Стороны комнаты</h2>
+
+  <small>
+    Отключайте стены там, где комнаты соединяются проходом.
+  </small>
+
+  <div class="wall-options">
+    <label><input id="wallNorth" type="checkbox" checked> Северная</label>
+    <label><input id="wallSouth" type="checkbox" checked> Южная</label>
+    <label><input id="wallWest" type="checkbox" checked> Западная</label>
+    <label><input id="wallEast" type="checkbox" checked> Восточная</label>
   </div>
 
   <h2>Текстуры комнаты</h2>
 
-  <label>Стены
-    <input id="wallTexture" value="textures/base_wall/concrete">
+  <label>
+    Стены
+    <input id="wallTexture" value="base_wall/rusted">
   </label>
 
-  <label>Пол
-    <input id="floorTexture" value="textures/base_floor/clang_floor">
+  <label>
+    Пол
+    <input id="floorTexture" value="base_floor/clang_floor">
   </label>
 
-  <label>Потолок
-    <input id="ceilingTexture" value="textures/base_wall/comp3text">
+  <label>
+    Потолок
+    <input id="ceilingTexture" value="base_wall/comp3text">
   </label>
 
   <label>
     <input id="skyEnabled" type="checkbox">
-    Использовать небо вместо потолка
+    Небо вместо обычного потолка
   </label>
 
-  <label>Sky shader
-    <input id="skyTexture" value="textures/skies/xtoxicsky_tourney">
+  <label>
+    Sky shader
+    <input id="skyTexture" value="skies/xtoxicsky_tourney">
   </label>
 
   <h2>Лестница</h2>
 
   <div class="row">
-    <label>Количество ступеней
-      <input id="stairCount" type="number" value="8" min="1" max="64">
+    <label>
+      Начальная Z
+      <input id="stairBaseZ" type="number" value="0" step="8">
     </label>
-    <label>Высота ступени
-      <input id="stairRise" type="number" value="16" min="1">
+
+    <label>
+      Ступеней
+      <input id="stairCount" type="number" value="8" min="1" max="64">
     </label>
   </div>
 
-  <label>Текстура лестницы
-    <input id="stairTexture" value="textures/base_floor/clang_floor">
+  <div class="row">
+    <label>
+      Высота ступени
+      <input id="stairRise" type="number" value="16" min="1">
+    </label>
+
+    <label>
+      Итоговая высота
+      <input id="stairTotal" value="128" readonly>
+    </label>
+  </div>
+
+  <label>
+    Текстура лестницы
+    <input id="stairTexture" value="base_floor/clang_floor">
   </label>
 
   <h2>Сущности</h2>
 
   <div class="row">
-    <label>Высота Z
+    <label>
+      Высота Z
       <input id="entityZ" type="number" value="32">
     </label>
-    <label>Угол
+
+    <label>
+      Угол
       <input id="entityAngle" type="number" value="0">
     </label>
   </div>
 
-  <label>MD3-модель декорации
+  <label>
+    MD3-модель
     <input id="decorModel" value="models/mapobjects/tree/tree.md3">
   </label>
 
   <div class="row">
-    <label>Масштаб модели
+    <label>
+      Масштаб модели
       <input id="decorScale" type="number" value="1" min="0.01" step="0.1">
     </label>
-    <label>Яркость света
+
+    <label>
+      Яркость света
       <input id="lightValue" type="number" value="300" min="1">
     </label>
   </div>
 
-  <button id="apply">Применить к выбранному объекту</button>
-  <button id="delete">Удалить выбранное</button>
-  <button id="undo">Отменить</button>
+  <button id="apply" type="button">Применить параметры</button>
+  <button id="delete" type="button" class="danger">Удалить выбранное</button>
+  <button id="undo" type="button">Отменить</button>
 
   <h2>Проект</h2>
 
-  <label>Название карты
+  <label>
+    Название карты
     <input id="mapName" value="team_arena">
   </label>
 
-  <button id="saveJson">Сохранить проект JSON</button>
-  <button id="loadJson">Открыть проект JSON</button>
-  <input id="jsonFile" type="file" accept=".json" hidden>
+  <button id="newProject" type="button">Новый проект</button>
+  <button id="saveJson" type="button">Сохранить JSON</button>
+  <button id="loadProject" type="button">Открыть JSON или MAP</button>
 
-  <button id="exportMap">Экспортировать Quake 3 MAP</button>
+  <input
+    id="projectFile"
+    type="file"
+    accept=".json,.map,application/json,text/plain"
+    hidden
+  >
 
-  <p><small>
-    ЛКМ — создать или выбрать объект.<br>
+  <button id="exportMap" type="button">Экспортировать Quake 3 MAP</button>
+
+  <div class="separator"></div>
+
+  <small>
+    ЛКМ — создать объект.<br>
+    Инструмент «Выбор» — выбрать и переместить.<br>
     ПКМ — удалить объект.<br>
     Средняя кнопка — перемещение поля.<br>
     Колесо — масштаб.<br>
-    Delete — удалить выбранное.
-  </small></p>
+    Delete — удалить выбранное.<br>
+    Ctrl+Z — отменить.<br>
+    Escape — отменить текущее действие.
+  </small>
 </aside>
 
 <main>
@@ -223,11 +337,14 @@
 "use strict";
 
 const $ = id => document.getElementById(id);
+
 const canvas = $("canvas");
 const ctx = canvas.getContext("2d");
-const status = $("status");
+const statusElement = $("status");
 
-const CAULK = "textures/common/caulk";
+const PROJECT_VERSION = 2;
+const MAP_DATA_PREFIX = "// Q3SE_DATA ";
+const CAULK = "common/caulk";
 
 const state = {
   objects: [],
@@ -235,28 +352,39 @@ const state = {
   selectedId: null
 };
 
-let tool = "room";
-let history = [];
-let drag = null;
-let panning = null;
-let mouseWorld = { x: 0, y: 0 };
-
-let view = {
+const view = {
   scale: 0.25,
   panX: 0,
   panY: 0
 };
 
-function number(id, fallback = 0) {
+let tool = "room";
+let history = [];
+let createDrag = null;
+let moveDrag = null;
+let panning = null;
+let mouseWorld = { x: 0, y: 0 };
+let statusMessage = "";
+
+/* Возвращает числовое значение элемента формы. */
+function numberValue(id, fallback = 0) {
   const value = Number($(id).value);
   return Number.isFinite(value) ? value : fallback;
 }
 
+/* Возвращает безопасное целое положительное значение. */
+function positiveInteger(value, fallback = 1) {
+  const result = Math.round(Number(value));
+  return Number.isFinite(result) && result > 0 ? result : fallback;
+}
+
+/* Привязывает координату к текущей сетке. */
 function snap(value) {
-  const grid = Math.max(1, number("grid", 32));
+  const grid = Math.max(1, numberValue("grid", 32));
   return Math.round(value / grid) * grid;
 }
 
+/* Нормализует прямоугольник независимо от направления рисования. */
 function normalizeRect(a, b) {
   return {
     minX: Math.min(a.x, b.x),
@@ -266,6 +394,7 @@ function normalizeRect(a, b) {
   };
 }
 
+/* Возвращает фактический размер canvas в CSS-пикселях. */
 function canvasSize() {
   return {
     width: canvas.clientWidth,
@@ -273,22 +402,27 @@ function canvasSize() {
   };
 }
 
+/* Переводит координаты уровня в экранные координаты. */
 function worldToScreen(x, y) {
   const size = canvasSize();
+
   return {
     x: size.width / 2 + view.panX + x * view.scale,
     y: size.height / 2 + view.panY - y * view.scale
   };
 }
 
+/* Переводит экранные координаты в координаты уровня. */
 function screenToWorld(x, y) {
   const size = canvasSize();
+
   return {
     x: (x - size.width / 2 - view.panX) / view.scale,
     y: -(y - size.height / 2 - view.panY) / view.scale
   };
 }
 
+/* Меняет размер буфера canvas с учётом плотности экрана. */
 function resizeCanvas() {
   const dpr = window.devicePixelRatio || 1;
   const width = canvas.clientWidth;
@@ -296,12 +430,18 @@ function resizeCanvas() {
 
   canvas.width = Math.round(width * dpr);
   canvas.height = Math.round(height * dpr);
+
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   draw();
 }
 
-new ResizeObserver(resizeCanvas).observe(canvas);
+/* Выводит временное сообщение в строке состояния. */
+function setStatus(message) {
+  statusMessage = message;
+  draw();
+}
 
+/* Сохраняет состояние проекта для Ctrl+Z. */
 function remember() {
   history.push(JSON.stringify({
     objects: state.objects,
@@ -309,41 +449,69 @@ function remember() {
     selectedId: state.selectedId
   }));
 
-  if (history.length > 50) history.shift();
+  if (history.length > 100) {
+    history.shift();
+  }
 }
 
+/* Восстанавливает последнее состояние проекта. */
 function undo() {
-  if (!history.length) return;
+  if (!history.length) {
+    setStatus("Отменять больше нечего");
+    return;
+  }
 
   const previous = JSON.parse(history.pop());
+
   state.objects = previous.objects;
   state.nextId = previous.nextId;
   state.selectedId = previous.selectedId;
+
+  loadSelectedProperties();
   draw();
 }
 
+/* Возвращает выбранный объект. */
 function selectedObject() {
-  return state.objects.find(o => o.id === state.selectedId) || null;
+  return state.objects.find(object => object.id === state.selectedId) || null;
 }
 
+/* Выбирает активный инструмент. */
 function setTool(name) {
   tool = name;
+
   document.querySelectorAll("[data-tool]").forEach(button => {
     button.classList.toggle("active", button.dataset.tool === name);
   });
-  status.textContent = "Инструмент: " + name;
+
+  setStatus(`Инструмент: ${toolLabel(name)}`);
 }
 
-document.querySelectorAll("[data-tool]").forEach(button => {
-  button.addEventListener("click", () => setTool(button.dataset.tool));
-});
+/* Возвращает русское название инструмента. */
+function toolLabel(name) {
+  const labels = {
+    select: "выбор",
+    room: "комната",
+    stairs: "лестница",
+    red: "старт красных",
+    blue: "старт синих",
+    decor: "декорация",
+    light: "свет"
+  };
 
+  return labels[name] || name;
+}
+
+/* Рисует координатную сетку. */
 function drawGrid() {
   const size = canvasSize();
-  const grid = Math.max(8, number("grid", 32));
+  const grid = Math.max(1, numberValue("grid", 32));
 
   let visibleGrid = grid;
-  while (visibleGrid * view.scale < 10) visibleGrid *= 2;
+
+  while (visibleGrid * view.scale < 10) {
+    visibleGrid *= 2;
+  }
 
   const topLeft = screenToWorld(0, 0);
   const bottomRight = screenToWorld(size.width, size.height);
@@ -358,21 +526,22 @@ function drawGrid() {
   ctx.beginPath();
 
   for (let x = minX; x <= maxX; x += visibleGrid) {
-    const p = worldToScreen(x, 0);
-    ctx.moveTo(p.x, 0);
-    ctx.lineTo(p.x, size.height);
+    const point = worldToScreen(x, 0);
+    ctx.moveTo(point.x, 0);
+    ctx.lineTo(point.x, size.height);
   }
 
   for (let y = minY; y <= maxY; y += visibleGrid) {
-    const p = worldToScreen(0, y);
-    ctx.moveTo(0, p.y);
-    ctx.lineTo(size.width, p.y);
+    const point = worldToScreen(0, y);
+    ctx.moveTo(0, point.y);
+    ctx.lineTo(size.width, point.y);
   }
 
   ctx.stroke();
 
   const origin = worldToScreen(0, 0);
-  ctx.strokeStyle = "#555";
+
+  ctx.strokeStyle = "#59616c";
   ctx.beginPath();
   ctx.moveTo(origin.x, 0);
   ctx.lineTo(origin.x, size.height);
@@ -381,45 +550,57 @@ function drawGrid() {
   ctx.stroke();
 }
 
+/* Рисует прямоугольный объект уровня. */
 function drawRectObject(object, fill, stroke, label) {
   const rect = normalizeRect(
     { x: object.x0, y: object.y0 },
     { x: object.x1, y: object.y1 }
   );
 
-  const a = worldToScreen(rect.minX, rect.maxY);
-  const b = worldToScreen(rect.maxX, rect.minY);
+  const topLeft = worldToScreen(rect.minX, rect.maxY);
+  const bottomRight = worldToScreen(rect.maxX, rect.minY);
 
   ctx.fillStyle = fill;
   ctx.strokeStyle = stroke;
   ctx.lineWidth = object.id === state.selectedId ? 3 : 1;
 
-  ctx.fillRect(a.x, a.y, b.x - a.x, b.y - a.y);
-  ctx.strokeRect(a.x, a.y, b.x - a.x, b.y - a.y);
+  ctx.fillRect(
+    topLeft.x,
+    topLeft.y,
+    bottomRight.x - topLeft.x,
+    bottomRight.y - topLeft.y
+  );
+
+  ctx.strokeRect(
+    topLeft.x,
+    topLeft.y,
+    bottomRight.x - topLeft.x,
+    bottomRight.y - topLeft.y
+  );
 
   ctx.fillStyle = "#fff";
   ctx.font = "12px Arial";
-  ctx.fillText(label, a.x + 5, a.y + 15);
+  ctx.fillText(label, topLeft.x + 5, topLeft.y + 15);
 }
 
+/* Рисует точечную сущность уровня. */
 function drawPointObject(object, color, label, shape = "circle") {
-  const p = worldToScreen(object.x, object.y);
+  const point = worldToScreen(object.x, object.y);
   const selected = object.id === state.selectedId;
 
   ctx.fillStyle = color;
   ctx.strokeStyle = selected ? "#fff" : "#111";
   ctx.lineWidth = selected ? 3 : 1;
-
   ctx.beginPath();
 
   if (shape === "diamond") {
-    ctx.moveTo(p.x, p.y - 9);
-    ctx.lineTo(p.x + 9, p.y);
-    ctx.lineTo(p.x, p.y + 9);
-    ctx.lineTo(p.x - 9, p.y);
+    ctx.moveTo(point.x, point.y - 9);
+    ctx.lineTo(point.x + 9, point.y);
+    ctx.lineTo(point.x, point.y + 9);
+    ctx.lineTo(point.x - 9, point.y);
     ctx.closePath();
   } else {
-    ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+    ctx.arc(point.x, point.y, 8, 0, Math.PI * 2);
   }
 
   ctx.fill();
@@ -427,11 +608,48 @@ function drawPointObject(object, color, label, shape = "circle") {
 
   ctx.fillStyle = "#fff";
   ctx.font = "11px Arial";
-  ctx.fillText(label, p.x + 12, p.y + 4);
+  ctx.fillText(label, point.x + 12, point.y + 4);
 }
 
+/* Рисует границы ступеней. */
+function drawStairLines(object) {
+  const count = positiveInteger(object.count, 1);
+  const dx = object.x1 - object.x0;
+  const dy = object.y1 - object.y0;
+  const horizontal = Math.abs(dx) >= Math.abs(dy);
+
+  ctx.strokeStyle = "#e5a34f";
+  ctx.lineWidth = 1;
+
+  for (let i = 1; i < count; i++) {
+    const t = i / count;
+
+    ctx.beginPath();
+
+    if (horizontal) {
+      const x = object.x0 + dx * t;
+      const a = worldToScreen(x, object.y0);
+      const b = worldToScreen(x, object.y1);
+
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+    } else {
+      const y = object.y0 + dy * t;
+      const a = worldToScreen(object.x0, y);
+      const b = worldToScreen(object.x1, y);
+
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+    }
+
+    ctx.stroke();
+  }
+}
+
+/* Перерисовывает весь редактор. */
 function draw() {
   const size = canvasSize();
+
   ctx.clearRect(0, 0, size.width, size.height);
   ctx.fillStyle = "#11151a";
   ctx.fillRect(0, 0, size.width, size.height);
@@ -440,46 +658,69 @@ function draw() {
 
   for (const object of state.objects) {
     if (object.type === "room") {
-      drawRectObject(object, "#23658b55", "#4ca8dc", "ROOM");
+      drawRectObject(
+        object,
+        object.skyEnabled ? "#315b8655" : "#23658b55",
+        "#4ca8dc",
+        `ROOM Z:${object.floorZ || 0}`
+      );
     } else if (object.type === "stairs") {
-      drawRectObject(object, "#a16a2855", "#e5a34f", "STAIRS");
+      drawRectObject(
+        object,
+        "#a16a2855",
+        "#e5a34f",
+        `STAIRS ${(object.baseZ || 0)}→${stairEndZ(object)}`
+      );
 
-      const count = Math.max(1, object.count);
-      for (let i = 1; i < count; i++) {
-        const t = i / count;
-        const x = object.x0 + (object.x1 - object.x0) * t;
-        const y = object.y0 + (object.y1 - object.y0) * t;
-        const p = worldToScreen(x, y);
-
-        ctx.fillStyle = "#e5a34f";
-        ctx.fillRect(p.x - 1, p.y - 1, 2, 2);
-      }
+      drawStairLines(object);
     } else if (object.type === "red") {
-      drawPointObject(object, "#d34242", "RED");
+      drawPointObject(object, "#d34242", `RED Z:${object.z}`);
     } else if (object.type === "blue") {
-      drawPointObject(object, "#397bdf", "BLUE");
+      drawPointObject(object, "#397bdf", `BLUE Z:${object.z}`);
     } else if (object.type === "decor") {
-      drawPointObject(object, "#46b879", "MD3", "diamond");
+      drawPointObject(object, "#46b879", `MD3 Z:${object.z}`, "diamond");
     } else if (object.type === "light") {
-      drawPointObject(object, "#e7d64d", "LIGHT");
+      drawPointObject(object, "#e7d64d", `LIGHT Z:${object.z}`);
     }
   }
 
-  if (drag && (tool === "room" || tool === "stairs")) {
+  if (createDrag) {
     drawRectObject({
       id: -1,
-      x0: drag.start.x,
-      y0: drag.start.y,
-      x1: drag.end.x,
-      y1: drag.end.y
+      x0: createDrag.start.x,
+      y0: createDrag.start.y,
+      x1: createDrag.end.x,
+      y1: createDrag.end.y
     }, "#ffffff18", "#fff", tool.toUpperCase());
   }
 
-  status.textContent =
-    `X: ${Math.round(mouseWorld.x)}  Y: ${Math.round(mouseWorld.y)}  ` +
-    `Объектов: ${state.objects.length}`;
+  const selected = selectedObject();
+  const selectedText = selected
+    ? ` | Выбрано: ${toolLabel(selected.type)} #${selected.id}`
+    : "";
+
+  statusElement.textContent =
+    `X: ${Math.round(mouseWorld.x)} Y: ${Math.round(mouseWorld.y)}` +
+    ` | Объектов: ${state.objects.length}${selectedText}` +
+    (statusMessage ? `\n${statusMessage}` : "");
 }
 
+/* Возвращает конечную высоту лестницы. */
+function stairEndZ(object) {
+  return Number(object.baseZ || 0) +
+    positiveInteger(object.count, 1) * Math.max(1, Number(object.rise) || 1);
+}
+
+/* Обновляет отображаемую итоговую высоту лестницы. */
+function updateStairTotal() {
+  const baseZ = numberValue("stairBaseZ", 0);
+  const count = positiveInteger(numberValue("stairCount", 8), 8);
+  const rise = Math.max(1, numberValue("stairRise", 16));
+
+  $("stairTotal").value = baseZ + count * rise;
+}
+
+/* Создаёт точечную сущность. */
 function createPoint(type, position) {
   remember();
 
@@ -488,78 +729,99 @@ function createPoint(type, position) {
     type,
     x: snap(position.x),
     y: snap(position.y),
-    z: number("entityZ", 32),
-    angle: number("entityAngle", 0)
+    z: numberValue("entityZ", 32),
+    angle: numberValue("entityAngle", 0)
   };
 
   if (type === "decor") {
     object.model = $("decorModel").value.trim();
-    object.scale = number("decorScale", 1);
+    object.scale = Math.max(0.01, numberValue("decorScale", 1));
   }
 
   if (type === "light") {
-    object.light = number("lightValue", 300);
+    object.light = Math.max(1, numberValue("lightValue", 300));
   }
 
   state.objects.push(object);
   state.selectedId = object.id;
+
+  loadSelectedProperties();
   draw();
 }
 
-function createDraggedObject() {
-  if (!drag) return;
+/* Создаёт комнату по текущим значениям формы. */
+function createRoomFromDrag() {
+  return {
+    id: state.nextId++,
+    type: "room",
+    x0: createDrag.start.x,
+    y0: createDrag.start.y,
+    x1: createDrag.end.x,
+    y1: createDrag.end.y,
+    floorZ: numberValue("roomFloorZ", 0),
+    height: Math.max(32, numberValue("roomHeight", 256)),
+    wallThickness: Math.max(1, numberValue("wallThickness", 16)),
+    floorThickness: Math.max(1, numberValue("floorThickness", 16)),
+    ceilingThickness: Math.max(1, numberValue("ceilingThickness", 16)),
+    wallNorth: $("wallNorth").checked,
+    wallSouth: $("wallSouth").checked,
+    wallWest: $("wallWest").checked,
+    wallEast: $("wallEast").checked,
+    wallTexture: $("wallTexture").value.trim(),
+    floorTexture: $("floorTexture").value.trim(),
+    ceilingTexture: $("ceilingTexture").value.trim(),
+    skyEnabled: $("skyEnabled").checked,
+    skyTexture: $("skyTexture").value.trim()
+  };
+}
 
-  const width = Math.abs(drag.end.x - drag.start.x);
-  const height = Math.abs(drag.end.y - drag.start.y);
-  const grid = Math.max(1, number("grid", 32));
+/* Создаёт лестницу по текущим значениям формы. */
+function createStairsFromDrag() {
+  return {
+    id: state.nextId++,
+    type: "stairs",
+    x0: createDrag.start.x,
+    y0: createDrag.start.y,
+    x1: createDrag.end.x,
+    y1: createDrag.end.y,
+    baseZ: numberValue("stairBaseZ", 0),
+    count: positiveInteger(numberValue("stairCount", 8), 8),
+    rise: Math.max(1, numberValue("stairRise", 16)),
+    texture: $("stairTexture").value.trim()
+  };
+}
 
-  if (width < grid || height < grid) {
-    drag = null;
-    draw();
+/* Завершает создание прямоугольного объекта. */
+function finishCreateDrag() {
+  if (!createDrag) {
+    return;
+  }
+
+  const width = Math.abs(createDrag.end.x - createDrag.start.x);
+  const depth = Math.abs(createDrag.end.y - createDrag.start.y);
+  const grid = Math.max(1, numberValue("grid", 32));
+
+  if (width < grid || depth < grid) {
+    createDrag = null;
+    setStatus("Объект слишком маленький");
     return;
   }
 
   remember();
 
-  let object;
-
-  if (tool === "room") {
-    object = {
-      id: state.nextId++,
-      type: "room",
-      x0: drag.start.x,
-      y0: drag.start.y,
-      x1: drag.end.x,
-      y1: drag.end.y,
-      height: number("roomHeight", 256),
-      wallThickness: number("wallThickness", 16),
-      floorThickness: number("floorThickness", 16),
-      wallTexture: $("wallTexture").value.trim(),
-      floorTexture: $("floorTexture").value.trim(),
-      ceilingTexture: $("ceilingTexture").value.trim(),
-      skyEnabled: $("skyEnabled").checked,
-      skyTexture: $("skyTexture").value.trim()
-    };
-  } else {
-    object = {
-      id: state.nextId++,
-      type: "stairs",
-      x0: drag.start.x,
-      y0: drag.start.y,
-      x1: drag.end.x,
-      y1: drag.end.y,
-      count: Math.max(1, number("stairCount", 8)),
-      rise: Math.max(1, number("stairRise", 16)),
-      texture: $("stairTexture").value.trim()
-    };
-  }
+  const object = tool === "room"
+    ? createRoomFromDrag()
+    : createStairsFromDrag();
 
   state.objects.push(object);
   state.selectedId = object.id;
-  drag = null;
+  createDrag = null;
+
+  loadSelectedProperties();
   draw();
 }
 
+/* Ищет верхний объект под курсором. */
 function findObject(position) {
   const tolerance = 14 / view.scale;
 
@@ -581,180 +843,326 @@ function findObject(position) {
         return object;
       }
     } else {
-      const distance = Math.hypot(position.x - object.x, position.y - object.y);
-      if (distance <= tolerance) return object;
+      const distance = Math.hypot(
+        position.x - object.x,
+        position.y - object.y
+      );
+
+      if (distance <= tolerance) {
+        return object;
+      }
     }
   }
 
   return null;
 }
 
+/* Удаляет выбранный объект. */
 function deleteSelected() {
-  if (state.selectedId === null) return;
+  if (state.selectedId === null) {
+    return;
+  }
 
   remember();
-  state.objects = state.objects.filter(o => o.id !== state.selectedId);
+
+  state.objects = state.objects.filter(
+    object => object.id !== state.selectedId
+  );
+
   state.selectedId = null;
   draw();
 }
 
+/* Загружает параметры выбранного объекта в форму. */
+function loadSelectedProperties() {
+  const object = selectedObject();
+
+  if (!object) {
+    return;
+  }
+
+  if (object.type === "room") {
+    $("roomFloorZ").value = object.floorZ ?? 0;
+    $("roomHeight").value = object.height ?? 256;
+    $("wallThickness").value = object.wallThickness ?? 16;
+    $("floorThickness").value = object.floorThickness ?? 16;
+    $("ceilingThickness").value = object.ceilingThickness ?? 16;
+
+    $("wallNorth").checked = object.wallNorth !== false;
+    $("wallSouth").checked = object.wallSouth !== false;
+    $("wallWest").checked = object.wallWest !== false;
+    $("wallEast").checked = object.wallEast !== false;
+
+    $("wallTexture").value = object.wallTexture || "base_wall/rusted";
+    $("floorTexture").value = object.floorTexture || "base_floor/clang_floor";
+    $("ceilingTexture").value =
+      object.ceilingTexture || "base_wall/comp3text";
+
+    $("skyEnabled").checked = Boolean(object.skyEnabled);
+    $("skyTexture").value =
+      object.skyTexture || "skies/xtoxicsky_tourney";
+  }
+
+  if (object.type === "stairs") {
+    $("stairBaseZ").value = object.baseZ ?? 0;
+    $("stairCount").value = object.count ?? 8;
+    $("stairRise").value = object.rise ?? 16;
+    $("stairTexture").value =
+      object.texture || "base_floor/clang_floor";
+
+    updateStairTotal();
+  }
+
+  if (["red", "blue", "decor", "light"].includes(object.type)) {
+    $("entityZ").value = object.z ?? 32;
+    $("entityAngle").value = object.angle ?? 0;
+  }
+
+  if (object.type === "decor") {
+    $("decorModel").value =
+      object.model || "models/mapobjects/tree/tree.md3";
+
+    $("decorScale").value = object.scale ?? 1;
+  }
+
+  if (object.type === "light") {
+    $("lightValue").value = object.light ?? 300;
+  }
+}
+
+/* Применяет значения формы к выбранному объекту. */
 function applyProperties() {
   const object = selectedObject();
-  if (!object) return;
+
+  if (!object) {
+    setStatus("Сначала выберите объект");
+    return;
+  }
 
   remember();
 
   if (object.type === "room") {
-    object.height = number("roomHeight", 256);
-    object.wallThickness = number("wallThickness", 16);
-    object.floorThickness = number("floorThickness", 16);
+    object.floorZ = numberValue("roomFloorZ", 0);
+    object.height = Math.max(32, numberValue("roomHeight", 256));
+    object.wallThickness = Math.max(
+      1,
+      numberValue("wallThickness", 16)
+    );
+    object.floorThickness = Math.max(
+      1,
+      numberValue("floorThickness", 16)
+    );
+    object.ceilingThickness = Math.max(
+      1,
+      numberValue("ceilingThickness", 16)
+    );
+
+    object.wallNorth = $("wallNorth").checked;
+    object.wallSouth = $("wallSouth").checked;
+    object.wallWest = $("wallWest").checked;
+    object.wallEast = $("wallEast").checked;
+
     object.wallTexture = $("wallTexture").value.trim();
     object.floorTexture = $("floorTexture").value.trim();
     object.ceilingTexture = $("ceilingTexture").value.trim();
     object.skyEnabled = $("skyEnabled").checked;
     object.skyTexture = $("skyTexture").value.trim();
   } else if (object.type === "stairs") {
-    object.count = Math.max(1, number("stairCount", 8));
-    object.rise = Math.max(1, number("stairRise", 16));
+    object.baseZ = numberValue("stairBaseZ", 0);
+    object.count = positiveInteger(
+      numberValue("stairCount", 8),
+      8
+    );
+    object.rise = Math.max(1, numberValue("stairRise", 16));
     object.texture = $("stairTexture").value.trim();
   } else {
-    object.z = number("entityZ", 32);
-    object.angle = number("entityAngle", 0);
+    object.z = numberValue("entityZ", 32);
+    object.angle = numberValue("entityAngle", 0);
 
     if (object.type === "decor") {
       object.model = $("decorModel").value.trim();
-      object.scale = number("decorScale", 1);
+      object.scale = Math.max(
+        0.01,
+        numberValue("decorScale", 1)
+      );
     }
 
     if (object.type === "light") {
-      object.light = number("lightValue", 300);
+      object.light = Math.max(
+        1,
+        numberValue("lightValue", 300)
+      );
     }
   }
+
+  setStatus("Параметры применены");
+}
+
+/* Создаёт снимок объекта перед его перемещением. */
+function beginMove(object, position) {
+  remember();
+
+  moveDrag = {
+    object,
+    startX: snap(position.x),
+    startY: snap(position.y),
+    original: JSON.parse(JSON.stringify(object))
+  };
+}
+
+/* Перемещает выбранный объект за курсором. */
+function updateMove(position) {
+  if (!moveDrag) {
+    return;
+  }
+
+  const dx = snap(position.x) - moveDrag.startX;
+  const dy = snap(position.y) - moveDrag.startY;
+  const object = moveDrag.object;
+  const original = moveDrag.original;
+
+  if (original.x0 !== undefined) {
+    object.x0 = original.x0 + dx;
+    object.x1 = original.x1 + dx;
+    object.y0 = original.y0 + dy;
+    object.y1 = original.y1 + dy;
+  } else {
+    object.x = original.x + dx;
+    object.y = original.y + dy;
+  }
+}
+
+/* Масштабирует вид так, чтобы показать все объекты. */
+function fitView() {
+  if (!state.objects.length) {
+    view.scale = 0.25;
+    view.panX = 0;
+    view.panY = 0;
+    draw();
+    return;
+  }
+
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+
+  for (const object of state.objects) {
+    if (object.x0 !== undefined) {
+      minX = Math.min(minX, object.x0, object.x1);
+      minY = Math.min(minY, object.y0, object.y1);
+      maxX = Math.max(maxX, object.x0, object.x1);
+      maxY = Math.max(maxY, object.y0, object.y1);
+    } else {
+      minX = Math.min(minX, object.x - 32);
+      minY = Math.min(minY, object.y - 32);
+      maxX = Math.max(maxX, object.x + 32);
+      maxY = Math.max(maxY, object.y + 32);
+    }
+  }
+
+  const size = canvasSize();
+  const width = Math.max(64, maxX - minX);
+  const height = Math.max(64, maxY - minY);
+
+  view.scale = Math.min(
+    2,
+    Math.max(
+      0.03,
+      Math.min((size.width - 100) / width, (size.height - 100) / height)
+    )
+  );
+
+  const centerX = (minX + maxX) / 2;
+  const centerY = (minY + maxY) / 2;
+
+  view.panX = -centerX * view.scale;
+  view.panY = centerY * view.scale;
 
   draw();
 }
 
-canvas.addEventListener("pointerdown", event => {
-  const rect = canvas.getBoundingClientRect();
-  const sx = event.clientX - rect.left;
-  const sy = event.clientY - rect.top;
-  const world = screenToWorld(sx, sy);
-
-  if (event.button === 1) {
-    panning = {
-      x: event.clientX,
-      y: event.clientY,
-      panX: view.panX,
-      panY: view.panY
-    };
-    return;
-  }
-
-  if (event.button === 2) {
-    const object = findObject(world);
-    if (object) {
-      state.selectedId = object.id;
-      deleteSelected();
-    }
-    return;
-  }
-
-  if (event.button !== 0) return;
-
-  if (tool === "room" || tool === "stairs") {
-    drag = {
-      start: { x: snap(world.x), y: snap(world.y) },
-      end: { x: snap(world.x), y: snap(world.y) }
-    };
-  } else if (tool === "select") {
-    const object = findObject(world);
-    state.selectedId = object ? object.id : null;
-    draw();
-  } else {
-    createPoint(tool, world);
-  }
-});
-
-canvas.addEventListener("pointermove", event => {
-  const rect = canvas.getBoundingClientRect();
-  const sx = event.clientX - rect.left;
-  const sy = event.clientY - rect.top;
-
-  mouseWorld = screenToWorld(sx, sy);
-
-  if (panning) {
-    view.panX = panning.panX + event.clientX - panning.x;
-    view.panY = panning.panY + event.clientY - panning.y;
-  }
-
-  if (drag) {
-    drag.end = {
-      x: snap(mouseWorld.x),
-      y: snap(mouseWorld.y)
-    };
-  }
-
-  draw();
-});
-
-canvas.addEventListener("pointerup", event => {
-  if (event.button === 1) {
-    panning = null;
-    return;
-  }
-
-  if (event.button === 0 && drag) {
-    createDraggedObject();
-  }
-});
-
-canvas.addEventListener("contextmenu", event => event.preventDefault());
-
-canvas.addEventListener("wheel", event => {
-  event.preventDefault();
-
-  const rect = canvas.getBoundingClientRect();
-  const sx = event.clientX - rect.left;
-  const sy = event.clientY - rect.top;
-  const before = screenToWorld(sx, sy);
-
-  const factor = event.deltaY < 0 ? 1.15 : 1 / 1.15;
-  view.scale = Math.min(2, Math.max(0.03, view.scale * factor));
-
-  const after = screenToWorld(sx, sy);
-  view.panX += (after.x - before.x) * view.scale;
-  view.panY -= (after.y - before.y) * view.scale;
-
-  draw();
-}, { passive: false });
-
-window.addEventListener("keydown", event => {
-  if (event.key === "Delete") deleteSelected();
-  if (event.key === "Escape") {
-    drag = null;
-    state.selectedId = null;
-    draw();
-  }
-  if (event.ctrlKey && event.key.toLowerCase() === "z") {
-    event.preventDefault();
-    undo();
-  }
-});
-
-$("apply").addEventListener("click", applyProperties);
-$("delete").addEventListener("click", deleteSelected);
-$("undo").addEventListener("click", undo);
-
-/* ---------- JSON ---------- */
-
+/* Возвращает данные проекта для сохранения. */
 function projectData() {
   return {
-    version: 1,
-    mapName: $("mapName").value.trim(),
+    format: "q3-simple-map-editor",
+    version: PROJECT_VERSION,
+    mapName: $("mapName").value.trim() || "team_arena",
+    grid: Math.max(1, numberValue("grid", 32)),
     objects: state.objects
   };
 }
 
+/* Приводит старые проекты к текущей версии. */
+function migrateProject(data) {
+  if (!data || !Array.isArray(data.objects)) {
+    throw new Error("Файл не содержит список объектов редактора");
+  }
+
+  const objects = data.objects.map((source, index) => {
+    const object = { ...source };
+
+    object.id = positiveInteger(object.id, index + 1);
+
+    if (object.type === "room") {
+      object.floorZ = Number(object.floorZ ?? 0);
+      object.height = Math.max(32, Number(object.height ?? 256));
+      object.wallThickness = Math.max(
+        1,
+        Number(object.wallThickness ?? 16)
+      );
+      object.floorThickness = Math.max(
+        1,
+        Number(object.floorThickness ?? 16)
+      );
+      object.ceilingThickness = Math.max(
+        1,
+        Number(object.ceilingThickness ?? object.floorThickness ?? 16)
+      );
+
+      object.wallNorth = object.wallNorth !== false;
+      object.wallSouth = object.wallSouth !== false;
+      object.wallWest = object.wallWest !== false;
+      object.wallEast = object.wallEast !== false;
+    }
+
+    if (object.type === "stairs") {
+      object.baseZ = Number(object.baseZ ?? 0);
+      object.count = positiveInteger(object.count, 8);
+      object.rise = Math.max(1, Number(object.rise ?? 16));
+    }
+
+    return object;
+  });
+
+  return {
+    format: "q3-simple-map-editor",
+    version: PROJECT_VERSION,
+    mapName: String(data.mapName || "team_arena"),
+    grid: Math.max(1, Number(data.grid || 32)),
+    objects
+  };
+}
+
+/* Загружает подготовленные данные проекта в редактор. */
+function loadProjectData(rawData) {
+  const data = migrateProject(rawData);
+
+  state.objects = data.objects;
+  state.nextId =
+    Math.max(0, ...state.objects.map(object => Number(object.id) || 0)) + 1;
+
+  state.selectedId = null;
+  history = [];
+
+  $("mapName").value = data.mapName;
+  $("grid").value = data.grid;
+
+  fitView();
+  setStatus(`Проект загружен: ${state.objects.length} объектов`);
+}
+
+/* Скачивает текстовый файл через браузер. */
 function download(name, text, type) {
   const blob = new Blob([text], { type });
   const url = URL.createObjectURL(blob);
@@ -762,64 +1170,138 @@ function download(name, text, type) {
 
   link.href = url;
   link.download = name;
+  document.body.appendChild(link);
   link.click();
+  link.remove();
 
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-$("saveJson").addEventListener("click", () => {
-  download(
-    ($("mapName").value.trim() || "map") + ".json",
-    JSON.stringify(projectData(), null, 2),
-    "application/json"
-  );
-});
+/* Кодирует Unicode-строку в Base64. */
+function encodeBase64(text) {
+  const bytes = new TextEncoder().encode(text);
+  let binary = "";
 
-$("loadJson").addEventListener("click", () => $("jsonFile").click());
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
 
-$("jsonFile").addEventListener("change", async event => {
-  const file = event.target.files[0];
-  if (!file) return;
+  return btoa(binary);
+}
 
-  const data = JSON.parse(await file.text());
+/* Декодирует Unicode-строку из Base64. */
+function decodeBase64(text) {
+  const binary = atob(text);
+  const bytes = Uint8Array.from(binary, character => character.charCodeAt(0));
 
-  remember();
-  state.objects = Array.isArray(data.objects) ? data.objects : [];
-  state.nextId = Math.max(0, ...state.objects.map(o => o.id || 0)) + 1;
+  return new TextDecoder().decode(bytes);
+}
+
+/* Создаёт комментарии с проектом для добавления в MAP. */
+function embeddedProjectComments() {
+  const encoded = encodeBase64(JSON.stringify(projectData()));
+  const chunks = encoded.match(/.{1,100}/g) || [];
+
+  return [
+    "// Q3SE_PROJECT_BEGIN",
+    ...chunks.map(chunk => MAP_DATA_PREFIX + chunk),
+    "// Q3SE_PROJECT_END"
+  ].join("\n") + "\n";
+}
+
+/* Извлекает проект редактора из созданного им MAP-файла. */
+function extractProjectFromMap(text) {
+  const chunks = [];
+
+  for (const line of text.split(/\r?\n/)) {
+    if (line.startsWith(MAP_DATA_PREFIX)) {
+      chunks.push(line.slice(MAP_DATA_PREFIX.length).trim());
+    }
+  }
+
+  if (!chunks.length) {
+    throw new Error(
+      "В MAP нет данных редактора. Обычные готовые MAP пока не импортируются."
+    );
+  }
+
+  return JSON.parse(decodeBase64(chunks.join("")));
+}
+
+/* Открывает выбранный JSON или MAP-файл. */
+async function openProjectFile(file) {
+  const text = await file.text();
+  const lowerName = file.name.toLowerCase();
+
+  if (lowerName.endsWith(".map")) {
+    loadProjectData(extractProjectFromMap(text));
+  } else {
+    loadProjectData(JSON.parse(text));
+  }
+}
+
+/* Создаёт новый пустой проект после подтверждения. */
+function newProject() {
+  if (
+    state.objects.length &&
+    !confirm("Очистить текущий проект? Несохранённые изменения пропадут.")
+  ) {
+    return;
+  }
+
+  state.objects = [];
+  state.nextId = 1;
   state.selectedId = null;
-  $("mapName").value = data.mapName || "team_arena";
-  draw();
-});
+  history = [];
 
-/* ---------- Quake 3 MAP export ---------- */
+  $("mapName").value = "team_arena";
 
+  view.scale = 0.25;
+  view.panX = 0;
+  view.panY = 0;
+
+  setStatus("Создан новый проект");
+}
+
+/* Нормализует путь текстуры для формата примера Quake 3. */
 function cleanTexture(value) {
-  const result = String(value || CAULK).trim().split(/\s+/)[0];
+  let result = String(value || CAULK).trim().split(/\s+/)[0];
+
+  result = result.replace(/\\/g, "/");
+  result = result.replace(/^textures\//i, "");
+
   return result || CAULK;
 }
 
-function q(value) {
-  return String(value).replace(/\\/g, "/").replace(/"/g, "");
+/* Очищает строку перед записью в значение entity. */
+function quoteValue(value) {
+  return String(value ?? "")
+    .replace(/\\/g, "/")
+    .replace(/"/g, "");
 }
 
-function v(value) {
-  return Math.round(value);
+/* Округляет координаты для MAP-файла. */
+function mapNumber(value) {
+  const result = Number(value);
+  return Math.round(Number.isFinite(result) ? result : 0);
 }
 
+/* Создаёт одну плоскость brush в формате Quake 3 MAP. */
 function face(a, b, c, texture) {
-  return `( ${v(a[0])} ${v(a[1])} ${v(a[2])} ) ` +
-         `( ${v(b[0])} ${v(b[1])} ${v(b[2])} ) ` +
-         `( ${v(c[0])} ${v(c[1])} ${v(c[2])} ) ` +
-         `${cleanTexture(texture)} 0 0 0 0.5 0.5 0 0 0`;
+  return `( ${mapNumber(a[0])} ${mapNumber(a[1])} ${mapNumber(a[2])} ) ` +
+    `( ${mapNumber(b[0])} ${mapNumber(b[1])} ${mapNumber(b[2])} ) ` +
+    `( ${mapNumber(c[0])} ${mapNumber(c[1])} ${mapNumber(c[2])} ) ` +
+    `${cleanTexture(texture)} 0 0 0 0.5 0.5 0 0 0`;
 }
 
+/* Создаёт прямоугольный brush с шестью плоскостями. */
 function boxBrush(minX, minY, minZ, maxX, maxY, maxZ, textures = {}) {
-  if (maxX <= minX || maxY <= minY || maxZ <= minZ) return "";
+  if (maxX <= minX || maxY <= minY || maxZ <= minZ) {
+    return "";
+  }
 
-  const t = {
+  const brushTextures = {
     bottom: textures.bottom || CAULK,
-
-bottom: textures.bottom || CAULK,
     top: textures.top || CAULK,
     west: textures.west || CAULK,
     east: textures.east || CAULK,
@@ -829,16 +1311,47 @@ bottom: textures.bottom || CAULK,
 
   return [
     "{",
-    face([minX,minY,minZ], [minX,maxY,minZ], [maxX,maxY,minZ], t.bottom),
-    face([minX,maxY,maxZ], [minX,minY,maxZ], [maxX,minY,maxZ], t.top),
-    face([minX,minY,minZ], [minX,minY,maxZ], [minX,maxY,maxZ], t.west),
-    face([maxX,maxY,minZ], [maxX,maxY,maxZ], [maxX,minY,maxZ], t.east),
-    face([maxX,minY,minZ], [maxX,minY,maxZ], [minX,minY,maxZ], t.south),
-    face([minX,maxY,minZ], [minX,maxY,maxZ], [maxX,maxY,maxZ], t.north),
+    face(
+      [minX, minY, minZ],
+      [minX, maxY, minZ],
+      [maxX, maxY, minZ],
+      brushTextures.bottom
+    ),
+    face(
+      [minX, maxY, maxZ],
+      [minX, minY, maxZ],
+      [maxX, minY, maxZ],
+      brushTextures.top
+    ),
+    face(
+      [minX, minY, minZ],
+      [minX, minY, maxZ],
+      [minX, maxY, maxZ],
+      brushTextures.west
+    ),
+    face(
+      [maxX, maxY, minZ],
+      [maxX, maxY, maxZ],
+      [maxX, minY, maxZ],
+      brushTextures.east
+    ),
+    face(
+      [maxX, minY, minZ],
+      [maxX, minY, maxZ],
+      [minX, minY, maxZ],
+      brushTextures.south
+    ),
+    face(
+      [minX, maxY, minZ],
+      [minX, maxY, maxZ],
+      [maxX, maxY, maxZ],
+      brushTextures.north
+    ),
     "}"
   ].join("\n") + "\n";
 }
 
+/* Создаёт brushes пола, потолка и включённых стен комнаты. */
 function roomBrushes(object) {
   const rect = normalizeRect(
     { x: object.x0, y: object.y0 },
@@ -848,27 +1361,48 @@ function roomBrushes(object) {
   const width = rect.maxX - rect.minX;
   const depth = rect.maxY - rect.minY;
 
-  const wall = Math.max(
+  const floorZ = Number(object.floorZ || 0);
+  const height = Math.max(32, Number(object.height || 256));
+  const ceilingZ = floorZ + height;
+
+  const floorThickness = Math.max(
     1,
-    Math.min(object.wallThickness, width / 2 - 1, depth / 2 - 1)
+    Number(object.floorThickness || 16)
   );
 
-  const floor = Math.max(1, object.floorThickness);
-  const height = Math.max(32, object.height);
+  const ceilingThickness = Math.max(
+    1,
+    Number(object.ceilingThickness || 16)
+  );
 
-  let result = "";
+  const wall = Math.max(
+    1,
+    Math.min(
+      Number(object.wallThickness || 16),
+      width / 2 - 1,
+      depth / 2 - 1
+    )
+  );
 
-  // Floor
-  result += boxBrush(
-    rect.minX, rect.minY, -floor,
-    rect.maxX, rect.maxY, 0,
+  let output = "";
+
+  output += boxBrush(
+    rect.minX,
+    rect.minY,
+    floorZ - floorThickness,
+    rect.maxX,
+    rect.maxY,
+    floorZ,
     { top: object.floorTexture }
   );
 
-  // Ceiling or sky
-  result += boxBrush(
-    rect.minX, rect.minY, height,
-    rect.maxX, rect.maxY, height + floor,
+  output += boxBrush(
+    rect.minX,
+    rect.minY,
+    ceilingZ,
+    rect.maxX,
+    rect.maxY,
+    ceilingZ + ceilingThickness,
     {
       bottom: object.skyEnabled
         ? object.skyTexture
@@ -876,213 +1410,298 @@ function roomBrushes(object) {
     }
   );
 
-  // West wall: texture on interior east face
-  result += boxBrush(
-    rect.minX, rect.minY, 0,
-    rect.minX + wall, rect.maxY, height,
-    { east: object.wallTexture }
-  );
+  if (object.wallWest !== false) {
+    output += boxBrush(
+      rect.minX,
+      rect.minY,
+      floorZ,
+      rect.minX + wall,
+      rect.maxY,
+      ceilingZ,
+      { east: object.wallTexture }
+    );
+  }
 
-  // East wall: texture on interior west face
-  result += boxBrush(
-    rect.maxX - wall, rect.minY, 0,
-    rect.maxX, rect.maxY, height,
-    { west: object.wallTexture }
-  );
+  if (object.wallEast !== false) {
+    output += boxBrush(
+      rect.maxX - wall,
+      rect.minY,
+      floorZ,
+      rect.maxX,
+      rect.maxY,
+      ceilingZ,
+      { west: object.wallTexture }
+    );
+  }
 
-  // South wall: texture on interior north face
-  result += boxBrush(
-    rect.minX + wall, rect.minY, 0,
-    rect.maxX - wall, rect.minY + wall, height,
-    { north: object.wallTexture }
-  );
+  if (object.wallSouth !== false) {
+    output += boxBrush(
+      rect.minX + wall,
+      rect.minY,
+      floorZ,
+      rect.maxX - wall,
+      rect.minY + wall,
+      ceilingZ,
+      { north: object.wallTexture }
+    );
+  }
 
-  // North wall: texture on interior south face
-  result += boxBrush(
-    rect.minX + wall, rect.maxY - wall, 0,
-    rect.maxX - wall, rect.maxY, height,
-    { south: object.wallTexture }
-  );
+  if (object.wallNorth !== false) {
+    output += boxBrush(
+      rect.minX + wall,
+      rect.maxY - wall,
+      floorZ,
+      rect.maxX - wall,
+      rect.maxY,
+      ceilingZ,
+      { south: object.wallTexture }
+    );
+  }
 
-  return result;
+  return output;
 }
 
+/* Создаёт brushes ступеней в направлении рисования лестницы. */
 function stairBrushes(object) {
-  const count = Math.max(1, Math.round(object.count));
-  const rise = Math.max(1, object.rise);
+  const count = positiveInteger(object.count, 1);
+  const rise = Math.max(1, Number(object.rise || 1));
+  const baseZ = Number(object.baseZ || 0);
+
   const dx = object.x1 - object.x0;
   const dy = object.y1 - object.y0;
   const horizontal = Math.abs(dx) >= Math.abs(dy);
 
-  let result = "";
+  let output = "";
 
   for (let i = 0; i < count; i++) {
-    const a = i / count;
-    const b = (i + 1) / count;
+    const start = i / count;
+    const end = (i + 1) / count;
 
-    let x0, x1, y0, y1;
+    let x0;
+    let x1;
+    let y0;
+    let y1;
 
     if (horizontal) {
-      x0 = object.x0 + dx * a;
-      x1 = object.x0 + dx * b;
+      x0 = object.x0 + dx * start;
+      x1 = object.x0 + dx * end;
       y0 = object.y0;
       y1 = object.y1;
     } else {
       x0 = object.x0;
       x1 = object.x1;
-      y0 = object.y0 + dy * a;
-      y1 = object.y0 + dy * b;
+      y0 = object.y0 + dy * start;
+      y1 = object.y0 + dy * end;
     }
 
     const minX = Math.min(x0, x1);
     const maxX = Math.max(x0, x1);
     const minY = Math.min(y0, y1);
     const maxY = Math.max(y0, y1);
-    const top = (i + 1) * rise;
-    const texture = object.texture;
+    const topZ = baseZ + (i + 1) * rise;
 
-    result += boxBrush(
-      minX, minY, 0,
-      maxX, maxY, top,
+    output += boxBrush(
+      minX,
+      minY,
+      baseZ,
+      maxX,
+      maxY,
+      topZ,
       {
-        top: texture,
-        west: texture,
-        east: texture,
-        south: texture,
-        north: texture
+        top: object.texture,
+        west: object.texture,
+        east: object.texture,
+        south: object.texture,
+        north: object.texture
       }
     );
   }
 
-  return result;
+  return output;
 }
 
+/* Создаёт блок точечной entity. */
 function entityBlock(properties) {
   const lines = ["{"];
 
   for (const [key, value] of Object.entries(properties)) {
-    lines.push(`"${q(key)}" "${q(value)}"`);
+    if (value === undefined || value === null || value === "") {
+      continue;
+    }
+
+    lines.push(
+      `"${quoteValue(key)}" "${quoteValue(value)}"`
+    );
   }
 
   lines.push("}");
+
   return lines.join("\n") + "\n";
 }
 
-function exportMap() {
-  let output = "// Generated by Q3 Simple Map Editor\n";
-  let brushNumber = 0;
-  let fallbackSpawn = null;
+/* Находит резервную точку появления игрока. */
+function fallbackSpawn() {
+  const spawn = state.objects.find(
+    object => object.type === "red" || object.type === "blue"
+  );
 
+  if (spawn) {
+    return spawn;
+  }
+
+  const room = state.objects.find(object => object.type === "room");
+
+  if (room) {
+    const rect = normalizeRect(
+      { x: room.x0, y: room.y0 },
+      { x: room.x1, y: room.y1 }
+    );
+
+    return {
+      x: (rect.minX + rect.maxX) / 2,
+      y: (rect.minY + rect.maxY) / 2,
+      z: Number(room.floorZ || 0) + 24,
+      angle: 0
+    };
+  }
+
+  return {
+    x: 0,
+    y: 0,
+    z: 24,
+    angle: 0
+  };
+}
+
+/* Проверяет проект перед экспортом. */
+function validateProject() {
+  const errors = [];
+  const warnings = [];
+
+  const rooms = state.objects.filter(object => object.type === "room");
+
+  if (!rooms.length) {
+    errors.push("Не создано ни одной комнаты");
+  }
+
+  for (const object of state.objects) {
+    if (object.x0 !== undefined) {
+      const rect = normalizeRect(
+        { x: object.x0, y: object.y0 },
+        { x: object.x1, y: object.y1 }
+      );
+
+      if (
+        rect.maxX - rect.minX < 2 ||
+        rect.maxY - rect.minY < 2
+      ) {
+        errors.push(`Объект #${object.id} имеет нулевой размер`);
+      }
+    }
+
+    if (object.type === "room") {
+      const closedWalls = [
+        object.wallNorth !== false,
+        object.wallSouth !== false,
+        object.wallWest !== false,
+        object.wallEast !== false
+      ].filter(Boolean).length;
+
+      if (closedWalls === 0) {
+        warnings.push(
+          `У комнаты #${object.id} отключены все стены`
+        );
+      }
+    }
+
+    if (object.type === "decor" && !object.model) {
+      warnings.push(`У декорации #${object.id} не задана модель`);
+    }
+  }
+
+  return { errors, warnings };
+}
+
+/* Создаёт полный текст Quake 3 MAP. */
+function buildMapText() {
+  const mapName = $("mapName").value.trim() || "team_arena";
+  const spawn = fallbackSpawn();
+
+  let output = "";
+
+  output += "// Generated by Quake 3 Simple Map Editor\n";
+  output += embeddedProjectComments();
+  output += "\n// entity 0\n";
   output += "{\n";
   output += '"classname" "worldspawn"\n';
-  output += `"message" "${q($("mapName").value.trim())}"\n`;
+  output += `"message" "${quoteValue(mapName)}"\n`;
   output += '"_ambient" "20"\n';
+
+  let brushNumber = 0;
 
   for (const object of state.objects) {
     if (object.type === "room") {
-      output += `// room brushes ${brushNumber++}\n`;
+      output += `// room ${object.id}, brush group ${brushNumber++}\n`;
       output += roomBrushes(object);
     }
 
     if (object.type === "stairs") {
-      output += `// stair brushes ${brushNumber++}\n`;
+      output += `// stairs ${object.id}, brush group ${brushNumber++}\n`;
       output += stairBrushes(object);
     }
   }
 
   output += "}\n";
 
-  /*
-   * Выбираем безопасную резервную точку:
-   * 1. Красная или синяя точка.
-   * 2. Центр первой комнаты.
-   * 3. Начало координат.
-   */
-  fallbackSpawn = state.objects.find(object =>
-    object.type === "red" || object.type === "blue"
-  );
-
-  if (!fallbackSpawn) {
-    const room = state.objects.find(object => object.type === "room");
-
-    if (room) {
-      const rect = normalizeRect(
-        { x: room.x0, y: room.y0 },
-        { x: room.x1, y: room.y1 }
-      );
-
-      fallbackSpawn = {
-        x: (rect.minX + rect.maxX) / 2,
-        y: (rect.minY + rect.maxY) / 2,
-        z: 32,
-        angle: 0
-      };
-    } else {
-      fallbackSpawn = {
-        x: 0,
-        y: 0,
-        z: 32,
-        angle: 0
-      };
-    }
-  }
-
-  /*
-   * Обычная точка появления нужна для FFA,
-   * а также как запасная точка для других режимов.
-   */
   output += entityBlock({
     classname: "info_player_deathmatch",
     origin:
-      `${v(fallbackSpawn.x)} ` +
-      `${v(fallbackSpawn.y)} ` +
-      `${v(fallbackSpawn.z || 32)}`,
-    angle: v(fallbackSpawn.angle || 0)
+      `${mapNumber(spawn.x)} ` +
+      `${mapNumber(spawn.y)} ` +
+      `${mapNumber(spawn.z ?? 24)}`,
+    angle: mapNumber(spawn.angle || 0)
   });
 
-  /*
-   * Обязательная точка наблюдателя/intermission.
-   * Используется зрителями и экраном окончания матча.
-   */
   output += entityBlock({
     classname: "info_player_intermission",
     origin:
-      `${v(fallbackSpawn.x)} ` +
-      `${v(fallbackSpawn.y)} ` +
-      `${v((fallbackSpawn.z || 32) + 48)}`,
-    angle: v(fallbackSpawn.angle || 0)
+      `${mapNumber(spawn.x)} ` +
+      `${mapNumber(spawn.y)} ` +
+      `${mapNumber((spawn.z ?? 24) + 48)}`,
+    angle: mapNumber(spawn.angle || 0)
   });
 
   for (const object of state.objects) {
+    const origin =
+      `${mapNumber(object.x)} ` +
+      `${mapNumber(object.y)} ` +
+      `${mapNumber(object.z)}`;
+
     if (object.type === "red") {
-      // Последующие появления красной команды
       output += entityBlock({
         classname: "team_CTF_redspawn",
-        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
-        angle: v(object.angle)
+        origin,
+        angle: mapNumber(object.angle || 0)
       });
 
-      // Первоначальное появление красной команды
       output += entityBlock({
         classname: "team_CTF_redplayer",
-        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
-        angle: v(object.angle)
+        origin,
+        angle: mapNumber(object.angle || 0)
       });
     }
 
     if (object.type === "blue") {
-      // Последующие появления синей команды
       output += entityBlock({
         classname: "team_CTF_bluespawn",
-        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
-        angle: v(object.angle)
+        origin,
+        angle: mapNumber(object.angle || 0)
       });
 
-      // Первоначальное появление синей команды
       output += entityBlock({
         classname: "team_CTF_blueplayer",
-        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
-        angle: v(object.angle)
+        origin,
+        angle: mapNumber(object.angle || 0)
       });
     }
 
@@ -1090,28 +1709,299 @@ function exportMap() {
       output += entityBlock({
         classname: "misc_model",
         model: object.model,
-        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
-        angle: v(object.angle),
-        modelscale: object.scale
+        origin,
+        angle: mapNumber(object.angle || 0),
+        modelscale: Number(object.scale || 1)
       });
     }
 
     if (object.type === "light") {
       output += entityBlock({
         classname: "light",
-        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
-        light: v(object.light)
+        origin,
+        light: mapNumber(object.light || 300)
       });
     }
   }
 
-  const mapName = $("mapName").value.trim() || "team_arena";
-  download(mapName + ".map", output, "text/plain");
+  return output;
 }
 
-$("exportMap").addEventListener("click", exportMap);
+/* Проверяет проект и экспортирует MAP-файл. */
+function exportMap() {
+  const validation = validateProject();
 
-resizeCanvas();
+  if (validation.errors.length) {
+    alert(
+      "Экспорт невозможен:\n\n" +
+      validation.errors.map(error => "• " + error).join("\n")
+    );
+
+    return;
+  }
+
+  if (validation.warnings.length) {
+    const proceed = confirm(
+      "Предупреждения:\n\n" +
+      validation.warnings.map(warning => "• " + warning).join("\n") +
+      "\n\nПродолжить экспорт?"
+    );
+
+    if (!proceed) {
+      return;
+    }
+  }
+
+  const mapName = $("mapName").value.trim() || "team_arena";
+
+  download(
+    mapName + ".map",
+    buildMapText(),
+    "text/plain;charset=utf-8"
+  );
+
+  setStatus("MAP экспортирован");
+}
+
+/* Обрабатывает нажатие кнопки мыши на canvas. */
+function handlePointerDown(event) {
+  const rect = canvas.getBoundingClientRect();
+  const screenX = event.clientX - rect.left;
+  const screenY = event.clientY - rect.top;
+  const world = screenToWorld(screenX, screenY);
+
+  canvas.setPointerCapture(event.pointerId);
+
+  if (event.button === 1) {
+    panning = {
+      clientX: event.clientX,
+      clientY: event.clientY,
+      panX: view.panX,
+      panY: view.panY
+    };
+
+    return;
+  }
+
+  if (event.button === 2) {
+    const object = findObject(world);
+
+    if (object) {
+      state.selectedId = object.id;
+      deleteSelected();
+    }
+
+    return;
+  }
+
+  if (event.button !== 0) {
+    return;
+  }
+
+  if (tool === "room" || tool === "stairs") {
+    createDrag = {
+      start: {
+        x: snap(world.x),
+        y: snap(world.y)
+      },
+      end: {
+        x: snap(world.x),
+        y: snap(world.y)
+      }
+    };
+
+    return;
+  }
+
+  if (tool === "select") {
+    const object = findObject(world);
+
+    state.selectedId = object ? object.id : null;
+    loadSelectedProperties();
+
+    if (object) {
+      beginMove(object, world);
+    }
+
+    draw();
+    return;
+  }
+
+  createPoint(tool, world);
+}
+
+/* Обрабатывает движение курсора над canvas. */
+function handlePointerMove(event) {
+  const rect = canvas.getBoundingClientRect();
+  const screenX = event.clientX - rect.left;
+  const screenY = event.clientY - rect.top;
+
+  mouseWorld = screenToWorld(screenX, screenY);
+
+  if (panning) {
+    view.panX =
+      panning.panX + event.clientX - panning.clientX;
+
+    view.panY =
+      panning.panY + event.clientY - panning.clientY;
+  }
+
+  if (createDrag) {
+    createDrag.end = {
+      x: snap(mouseWorld.x),
+      y: snap(mouseWorld.y)
+    };
+  }
+
+  updateMove(mouseWorld);
+  draw();
+}
+
+/* Завершает рисование, перемещение или прокрутку поля. */
+function handlePointerUp(event) {
+  if (event.button === 1) {
+    panning = null;
+  }
+
+  if (event.button === 0 && createDrag) {
+    finishCreateDrag();
+  }
+
+  if (event.button === 0) {
+    moveDrag = null;
+  }
+
+  if (canvas.hasPointerCapture(event.pointerId)) {
+    canvas.releasePointerCapture(event.pointerId);
+  }
+}
+
+/* Масштабирует карту относительно положения курсора. */
+function handleWheel(event) {
+  event.preventDefault();
+
+  const rect = canvas.getBoundingClientRect();
+  const screenX = event.clientX - rect.left;
+  const screenY = event.clientY - rect.top;
+  const before = screenToWorld(screenX, screenY);
+
+  const factor = event.deltaY < 0 ? 1.15 : 1 / 1.15;
+
+  view.scale = Math.min(
+    4,
+    Math.max(0.02, view.scale * factor)
+  );
+
+  const after = screenToWorld(screenX, screenY);
+
+  view.panX += (after.x - before.x) * view.scale;
+  view.panY -= (after.y - before.y) * view.scale;
+
+  draw();
+}
+
+/* Обрабатывает горячие клавиши редактора. */
+function handleKeyDown(event) {
+  const inputFocused = ["INPUT", "TEXTAREA"].includes(
+    document.activeElement?.tagName
+  );
+
+  if (event.key === "Delete" && !inputFocused) {
+    deleteSelected();
+  }
+
+  if (event.key === "Escape") {
+    createDrag = null;
+    moveDrag = null;
+    panning = null;
+    state.selectedId = null;
+    draw();
+  }
+
+  if (
+    event.ctrlKey &&
+    event.key.toLowerCase() === "z" &&
+    !inputFocused
+  ) {
+    event.preventDefault();
+    undo();
+  }
+}
+
+/* Подключает все обработчики интерфейса. */
+function bindEvents() {
+  document.querySelectorAll("[data-tool]").forEach(button => {
+    button.addEventListener("click", () => {
+      setTool(button.dataset.tool);
+    });
+  });
+
+  canvas.addEventListener("pointerdown", handlePointerDown);
+  canvas.addEventListener("pointermove", handlePointerMove);
+  canvas.addEventListener("pointerup", handlePointerUp);
+  canvas.addEventListener("pointercancel", handlePointerUp);
+  canvas.addEventListener("contextmenu", event => event.preventDefault());
+  canvas.addEventListener("wheel", handleWheel, { passive: false });
+
+  window.addEventListener("keydown", handleKeyDown);
+
+  $("apply").addEventListener("click", applyProperties);
+  $("delete").addEventListener("click", deleteSelected);
+  $("undo").addEventListener("click", undo);
+  $("fitView").addEventListener("click", fitView);
+  $("newProject").addEventListener("click", newProject);
+  $("exportMap").addEventListener("click", exportMap);
+
+  $("stairBaseZ").addEventListener("input", updateStairTotal);
+  $("stairCount").addEventListener("input", updateStairTotal);
+  $("stairRise").addEventListener("input", updateStairTotal);
+
+  $("saveJson").addEventListener("click", () => {
+    const mapName = $("mapName").value.trim() || "team_arena";
+
+    download(
+      mapName + ".json",
+      JSON.stringify(projectData(), null, 2),
+      "application/json;charset=utf-8"
+    );
+
+    setStatus("JSON сохранён");
+  });
+
+  $("loadProject").addEventListener("click", () => {
+    $("projectFile").value = "";
+    $("projectFile").click();
+  });
+
+  $("projectFile").addEventListener("change", async event => {
+    const file = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    try {
+      await openProjectFile(file);
+    } catch (error) {
+      console.error(error);
+      alert("Не удалось открыть проект:\n\n" + error.message);
+    } finally {
+      event.target.value = "";
+    }
+  });
+
+  new ResizeObserver(resizeCanvas).observe(canvas);
+}
+
+/* Запускает редактор после загрузки страницы. */
+function initializeEditor() {
+  bindEvents();
+  updateStairTotal();
+  resizeCanvas();
+  setTool("room");
+}
+
+initializeEditor();
 </script>
 </body>
 </html>
