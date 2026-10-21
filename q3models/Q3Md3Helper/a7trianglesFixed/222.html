@@ -1,0 +1,1421 @@
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MD3 Triangle Editor</title>
+
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0d1116;--panel:#171d25;--panel2:#202833;
+  --border:#34404e;--text:#edf2f7;--muted:#98a5b5;
+  --blue:#51a8ff;--yellow:#e9bd61;--red:#f06a6a
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font:14px/1.45 system-ui,sans-serif
+}
+header{
+  display:flex;align-items:center;gap:8px;padding:12px 16px;
+  border-bottom:1px solid var(--border);background:var(--panel)
+}
+header h1{margin:0 auto 0 0;font-size:20px}
+button,input{font:inherit}
+button{
+  padding:8px 11px;border:1px solid var(--border);border-radius:7px;
+  background:var(--panel2);color:var(--text);cursor:pointer
+}
+button:hover:not(:disabled){border-color:var(--blue)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.primary{
+  border-color:var(--blue);background:var(--blue);
+  color:#071421;font-weight:700
+}
+main{
+  display:grid;grid-template-columns:minmax(0,1fr) 380px;
+  gap:16px;max-width:1500px;margin:auto;padding:16px
+}
+.card{
+  margin-bottom:16px;padding:15px;border:1px solid var(--border);
+  border-radius:10px;background:var(--panel)
+}
+.card h2{margin:0 0 10px;font-size:17px}
+canvas{
+  display:block;width:100%;height:700px;border:1px solid var(--border);
+  border-radius:8px;background:#090d12;touch-action:none;cursor:crosshair
+}
+canvas.rotate{cursor:grabbing}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.field{display:grid;gap:4px}
+.field span,.muted{color:var(--muted)}
+input[type=number]{
+  width:100%;padding:7px;border:1px solid var(--border);
+  border-radius:6px;background:#11171e;color:var(--text)
+}
+input[type=range]{width:100%}
+.notice{
+  margin-top:10px;padding:9px 11px;border-left:3px solid var(--blue);
+  background:#172435;white-space:pre-wrap
+}
+.warning{border-left-color:var(--yellow)}
+kbd{
+  padding:2px 5px;border:1px solid var(--border);
+  border-radius:4px;background:#11171e
+}
+@media(max-width:1000px){
+  main{grid-template-columns:1fr}
+  canvas{height:550px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>MD3 Triangle Editor</h1>
+  <button id="clear" disabled>Снять выделение</button>
+  <button id="undo" disabled>Отменить</button>
+  <button id="save" class="primary" disabled>Скачать MD3</button>
+</header>
+
+<main>
+<section>
+  <div class="card">
+    <h2>Открыть MD3</h2>
+    <input id="file" type="file" accept=".md3">
+    <div id="fileInfo" class="notice">Выберите MD3-файл.</div>
+  </div>
+
+  <div class="card">
+    <canvas id="canvas"></canvas>
+
+    <div class="toolbar" style="margin-top:10px">
+      <button id="resetCamera">Сброс камеры</button>
+      <label>
+        <input id="wireframe" type="checkbox" checked>
+        Сетка
+      </label>
+    </div>
+
+    <label class="field" style="margin-top:12px">
+      <span>
+        Кадр: <b id="frameNumber">0</b> /
+        <b id="frameMaximum">0</b>
+      </span>
+      <input id="frame" type="range" min="0" max="0" value="0">
+    </label>
+  </div>
+</section>
+
+<aside>
+  <div class="card">
+    <h2>Выделение</h2>
+
+    <div class="muted">
+      Левая кнопка и протягивание — выделить рамкой.<br>
+      <kbd>Shift</kbd> + рамка — добавить к выделению.<br>
+      Обычный щелчок — выбрать один треугольник.<br>
+      <kbd>Shift</kbd> + щелчок — добавить треугольник.<br>
+      <kbd>Ctrl</kbd> + щелчок — убрать треугольник.<br>
+      Правая кнопка — вращение камеры.<br>
+      Колесо — масштаб.
+    </div>
+
+    <div id="selectionInfo" class="notice">
+      Треугольники не выбраны.
+    </div>
+
+    <div class="notice warning">
+      Смещение применяется только к выбранному кадру.
+
+      Соседние треугольники могут использовать общие вершины.
+      В таком случае изменятся обе грани.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Перемещение в текущем кадре</h2>
+
+    <label class="field">
+      <span>Шаг в единицах Quake 3</span>
+      <input id="step" type="number" min="0.015625" step="0.1" value="1">
+    </label>
+
+    <div class="grid" style="margin-top:10px">
+      <button data-move="0,1,0">← Влево (+Y)</button>
+      <button data-move="0,-1,0">Вправо (−Y) →</button>
+
+      <button data-move="0,0,1">↑ Вверх (+Z)</button>
+      <button data-move="0,0,-1">↓ Вниз (−Z)</button>
+
+      <button data-move="1,0,0">Вперёд (+X)</button>
+      <button data-move="-1,0,0">Назад (−X)</button>
+    </div>
+  </div>
+</aside>
+</main>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+const canvas = $("canvas");
+const context = canvas.getContext("2d");
+
+const state = {
+  name:"model.md3",
+  source:null,
+  model:null,
+  selected:new Set(),
+  polygons:[],
+  undo:null,
+
+  camera:{
+    rotating:false,
+    yaw:-0.7,
+    pitch:-0.25,
+    zoom:1,
+    x:0,
+    y:0
+  },
+
+  box:{
+    active:false,
+    moved:false,
+    additive:false,
+    startX:0,
+    startY:0,
+    endX:0,
+    endY:0
+  }
+};
+
+function fixedString(bytes,offset,length){
+  let result="";
+
+  for(let i=0;i<length;i++){
+    const value=bytes[offset+i];
+    if(!value)break;
+    result+=String.fromCharCode(value);
+  }
+
+  return result;
+}
+
+function ensure(buffer,offset,length,label){
+  if(offset<0||length<0||offset+length>buffer.byteLength){
+    throw new Error(`Повреждён MD3: ${label}`);
+  }
+}
+
+function parseMD3(buffer){
+  const bytes=new Uint8Array(buffer);
+  const view=new DataView(buffer);
+
+  ensure(buffer,0,108,"заголовок");
+
+  if(fixedString(bytes,0,4)!=="IDP3"){
+    throw new Error("Файл не является MD3");
+  }
+
+  if(view.getInt32(4,true)!==15){
+    throw new Error("Поддерживается только MD3 версии 15");
+  }
+
+  const model={
+    name:fixedString(bytes,8,64),
+    frameCount:view.getInt32(76,true),
+    surfaceCount:view.getInt32(84,true),
+    frameOffset:view.getInt32(92,true),
+    surfaceOffset:view.getInt32(100,true),
+    frames:[],
+    surfaces:[]
+  };
+
+  if(
+    model.frameCount<1||
+    model.frameCount>1024||
+    model.surfaceCount<1||
+    model.surfaceCount>256
+  ){
+    throw new Error("Некорректный заголовок MD3");
+  }
+
+  for(let frame=0;frame<model.frameCount;frame++){
+    const offset=model.frameOffset+frame*56;
+    ensure(buffer,offset,56,"кадр");
+
+    model.frames.push({
+      origin:[
+        view.getFloat32(offset+24,true),
+        view.getFloat32(offset+28,true),
+        view.getFloat32(offset+32,true)
+      ]
+    });
+  }
+
+  let surfaceOffset=model.surfaceOffset;
+
+  for(let surfaceIndex=0;surfaceIndex<model.surfaceCount;surfaceIndex++){
+    ensure(buffer,surfaceOffset,108,"surface");
+
+    if(fixedString(bytes,surfaceOffset,4)!=="IDP3"){
+      throw new Error(`Повреждён surface ${surfaceIndex+1}`);
+    }
+
+    const surface={
+      index:surfaceIndex,
+      name:fixedString(bytes,surfaceOffset+4,64),
+      frameCount:view.getInt32(surfaceOffset+72,true),
+      vertexCount:view.getInt32(surfaceOffset+80,true),
+      triangleCount:view.getInt32(surfaceOffset+84,true),
+      triangleOffset:view.getInt32(surfaceOffset+88,true),
+      vertexOffset:view.getInt32(surfaceOffset+100,true),
+      endOffset:view.getInt32(surfaceOffset+104,true),
+      fileOffset:surfaceOffset,
+      triangles:[],
+      frames:[]
+    };
+
+    if(
+      surface.frameCount<1||
+      surface.vertexCount<1||
+      surface.triangleCount<1||
+      surface.endOffset<108
+    ){
+      throw new Error(`Некорректный surface ${surface.name}`);
+    }
+
+    for(let triangleIndex=0;triangleIndex<surface.triangleCount;triangleIndex++){
+      const offset=
+        surfaceOffset+
+        surface.triangleOffset+
+        triangleIndex*12;
+
+      ensure(buffer,offset,12,"треугольник");
+
+      const triangle=[
+        view.getInt32(offset,true),
+        view.getInt32(offset+4,true),
+        view.getInt32(offset+8,true)
+      ];
+
+      if(triangle.some(index=>index<0||index>=surface.vertexCount)){
+        throw new Error("Некорректный индекс вершины");
+      }
+
+      surface.triangles.push(triangle);
+    }
+
+    for(let frame=0;frame<surface.frameCount;frame++){
+      const vertices=[];
+
+      for(let vertex=0;vertex<surface.vertexCount;vertex++){
+        const offset=
+          surfaceOffset+
+          surface.vertexOffset+
+          (frame*surface.vertexCount+vertex)*8;
+
+        ensure(buffer,offset,8,"вершина");
+
+        vertices.push([
+          view.getInt16(offset,true)/64,
+          view.getInt16(offset+2,true)/64,
+          view.getInt16(offset+4,true)/64
+        ]);
+      }
+
+      surface.frames.push(vertices);
+    }
+
+    model.surfaces.push(surface);
+    surfaceOffset+=surface.endOffset;
+  }
+
+  return model;
+}
+
+function resizeCanvas(){
+  const rectangle=canvas.getBoundingClientRect();
+  const ratio=Math.min(2,devicePixelRatio||1);
+  const width=Math.max(1,Math.round(rectangle.width*ratio));
+  const height=Math.max(1,Math.round(rectangle.height*ratio));
+
+  if(canvas.width!==width||canvas.height!==height){
+    canvas.width=width;
+    canvas.height=height;
+  }
+}
+
+function canvasPoint(event){
+  const rectangle=canvas.getBoundingClientRect();
+
+  return {
+    x:(event.clientX-rectangle.left)*canvas.width/rectangle.width,
+    y:(event.clientY-rectangle.top)*canvas.height/rectangle.height
+  };
+}
+
+function currentVertices(){
+  if(!state.model)return [];
+
+  const requested=Number($("frame").value)||0;
+  const result=[];
+
+  for(const surface of state.model.surfaces){
+    const frame=Math.min(requested,surface.frames.length-1);
+    result.push(...surface.frames[frame]);
+  }
+
+  return result;
+}
+
+function createProjector(){
+  const vertices=currentVertices();
+  const minimum=[Infinity,Infinity,Infinity];
+  const maximum=[-Infinity,-Infinity,-Infinity];
+
+  for(const vertex of vertices){
+    for(let axis=0;axis<3;axis++){
+      minimum[axis]=Math.min(minimum[axis],vertex[axis]);
+      maximum[axis]=Math.max(maximum[axis],vertex[axis]);
+    }
+  }
+
+  if(!vertices.length){
+    minimum.fill(-1);
+    maximum.fill(1);
+  }
+
+  const center=minimum.map(
+    (value,axis)=>(value+maximum[axis])/2
+  );
+
+  const extent=Math.max(
+    maximum[0]-minimum[0],
+    maximum[1]-minimum[1],
+    maximum[2]-minimum[2],
+    .001
+  );
+
+  const scale=
+    Math.min(canvas.width,canvas.height)*
+    .78/extent*
+    state.camera.zoom;
+
+  const cy=Math.cos(state.camera.yaw);
+  const sy=Math.sin(state.camera.yaw);
+  const cp=Math.cos(state.camera.pitch);
+  const sp=Math.sin(state.camera.pitch);
+
+  return point=>{
+    const x=point[0]-center[0];
+    const y=point[1]-center[1];
+    const z=point[2]-center[2];
+
+    const horizontal=x*cy-y*sy;
+    const depthBase=x*sy+y*cy;
+    const vertical=z*cp-depthBase*sp;
+    const depth=depthBase*cp+z*sp;
+
+    return {
+      x:canvas.width/2+horizontal*scale,
+      y:canvas.height/2-vertical*scale,
+      depth
+    };
+  };
+}
+
+function triangleKey(surface,triangle){
+  return `${surface}:${triangle}`;
+}
+
+function normalizedBox(){
+  return {
+    left:Math.min(state.box.startX,state.box.endX),
+    right:Math.max(state.box.startX,state.box.endX),
+    top:Math.min(state.box.startY,state.box.endY),
+    bottom:Math.max(state.box.startY,state.box.endY)
+  };
+}
+
+function pointInsideTriangle(point,triangle){
+  const sign=(p,a,b)=>
+    (p.x-b.x)*(a.y-b.y)-
+    (a.x-b.x)*(p.y-b.y);
+
+  const first=sign(point,triangle[0],triangle[1]);
+  const second=sign(point,triangle[1],triangle[2]);
+  const third=sign(point,triangle[2],triangle[0]);
+
+  const negative=first<0||second<0||third<0;
+  const positive=first>0||second>0||third>0;
+
+  return !(negative&&positive);
+}
+
+function pointInsideBox(point,box){
+  return (
+    point.x>=box.left&&point.x<=box.right&&
+    point.y>=box.top&&point.y<=box.bottom
+  );
+}
+
+function segmentsIntersect(a,b,c,d){
+  const orientation=(p,q,r)=>
+    (q.x-p.x)*(r.y-p.y)-
+    (q.y-p.y)*(r.x-p.x);
+
+  const a1=orientation(a,b,c);
+  const a2=orientation(a,b,d);
+  const b1=orientation(c,d,a);
+  const b2=orientation(c,d,b);
+
+  return (
+    ((a1<=0&&a2>=0)||(a1>=0&&a2<=0))&&
+    ((b1<=0&&b2>=0)||(b1>=0&&b2<=0))
+  );
+}
+
+function triangleIntersectsBox(points,box){
+  if(points.some(point=>pointInsideBox(point,box))){
+    return true;
+  }
+
+  const corners=[
+    {x:box.left,y:box.top},
+    {x:box.right,y:box.top},
+    {x:box.right,y:box.bottom},
+    {x:box.left,y:box.bottom}
+  ];
+
+  if(corners.some(point=>pointInsideTriangle(point,points))){
+    return true;
+  }
+
+  const triangleEdges=[
+    [points[0],points[1]],
+    [points[1],points[2]],
+    [points[2],points[0]]
+  ];
+
+  const boxEdges=[
+    [corners[0],corners[1]],
+    [corners[1],corners[2]],
+    [corners[2],corners[3]],
+    [corners[3],corners[0]]
+  ];
+
+  return triangleEdges.some(first=>
+    boxEdges.some(second=>
+      segmentsIntersect(first[0],first[1],second[0],second[1])
+    )
+  );
+}
+
+function draw(){
+  resizeCanvas();
+
+  context.clearRect(0,0,canvas.width,canvas.height);
+  context.fillStyle="#090d12";
+  context.fillRect(0,0,canvas.width,canvas.height);
+
+  state.polygons=[];
+
+  if(!state.model){
+    context.fillStyle="#98a5b5";
+    context.font="16px system-ui";
+    context.textAlign="center";
+    context.fillText(
+      "Откройте MD3-файл",
+      canvas.width/2,
+      canvas.height/2
+    );
+    return;
+  }
+
+  const requested=Number($("frame").value)||0;
+  $("frameNumber").textContent=requested;
+
+  const project=createProjector();
+
+  for(const surface of state.model.surfaces){
+    const frame=Math.min(requested,surface.frames.length-1);
+    const vertices=surface.frames[frame].map(project);
+
+    surface.triangles.forEach((triangle,triangleIndex)=>{
+      const points=triangle.map(index=>vertices[index]);
+
+      state.polygons.push({
+        surfaceIndex:surface.index,
+        triangleIndex,
+        points,
+        depth:(points[0].depth+points[1].depth+points[2].depth)/3
+      });
+    });
+  }
+
+  state.polygons.sort((a,b)=>a.depth-b.depth);
+
+  for(const polygon of state.polygons){
+    const selected=state.selected.has(
+      triangleKey(polygon.surfaceIndex,polygon.triangleIndex)
+    );
+
+    const points=polygon.points;
+
+    context.beginPath();
+    context.moveTo(points[0].x,points[0].y);
+    context.lineTo(points[1].x,points[1].y);
+    context.lineTo(points[2].x,points[2].y);
+    context.closePath();
+
+    context.fillStyle=selected
+      ?"rgba(233,189,97,.82)"
+      :"rgba(82,101,124,.42)";
+
+    context.fill();
+
+    if($("wireframe").checked||selected){
+      context.strokeStyle=selected
+        ?"#fff1a8"
+        :"rgba(255,255,255,.22)";
+
+      context.lineWidth=selected?2.5:1;
+      context.stroke();
+    }
+  }
+
+  if(state.box.active&&state.box.moved){
+    const box=normalizedBox();
+
+    context.save();
+    context.fillStyle="rgba(81,168,255,.16)";
+    context.strokeStyle="#51a8ff";
+    context.lineWidth=2;
+    context.setLineDash([8,5]);
+
+    context.fillRect(
+      box.left,box.top,
+      box.right-box.left,
+      box.bottom-box.top
+    );
+
+    context.strokeRect(
+      box.left,box.top,
+      box.right-box.left,
+      box.bottom-box.top
+    );
+
+    context.restore();
+  }
+}
+
+function selectedVertices(){
+  const result=new Map();
+
+  for(const key of state.selected){
+    const [surfaceIndex,triangleIndex]=key.split(":").map(Number);
+    const surface=state.model.surfaces[surfaceIndex];
+    const triangle=surface?.triangles[triangleIndex];
+
+    if(!triangle)continue;
+
+    if(!result.has(surfaceIndex)){
+      result.set(surfaceIndex,new Set());
+    }
+
+    triangle.forEach(index=>result.get(surfaceIndex).add(index));
+  }
+
+  return result;
+}
+
+function updateSelectionInfo(){
+  let vertices=0;
+
+  for(const indices of selectedVertices().values()){
+    vertices+=indices.size;
+  }
+
+  $("selectionInfo").textContent=state.selected.size
+    ?`Выбрано треугольников: ${state.selected.size}\n`+
+     `Уникальных вершин: ${vertices}\n`+
+     `Кадр: ${$("frame").value}`
+    :"Треугольники не выбраны.";
+
+  $("clear").disabled=state.selected.size===0;
+}
+
+function selectClick(event){
+  const point=canvasPoint(event);
+  let found=null;
+
+  for(let index=state.polygons.length-1;index>=0;index--){
+    if(pointInsideTriangle(point,state.polygons[index].points)){
+      found=state.polygons[index];
+      break;
+    }
+  }
+
+  if(!event.shiftKey&&!event.ctrlKey){
+    state.selected.clear();
+  }
+
+  if(found){
+    const key=triangleKey(
+      found.surfaceIndex,
+      found.triangleIndex
+    );
+
+    if(event.ctrlKey&&state.selected.has(key)){
+      state.selected.delete(key);
+    }else{
+      state.selected.add(key);
+    }
+  }
+
+  updateSelectionInfo();
+}
+
+function selectBox(){
+  const box=normalizedBox();
+
+  if(!state.box.additive){
+    state.selected.clear();
+  }
+
+  for(const polygon of state.polygons){
+    if(triangleIntersectsBox(polygon.points,box)){
+      state.selected.add(
+        triangleKey(
+          polygon.surfaceIndex,
+          polygon.triangleIndex
+        )
+      );
+    }
+  }
+
+  updateSelectionInfo();
+}
+
+function quantize(value){
+  return Math.round(value*64)/64;
+}
+
+function moveSelection(direction){
+  if(!state.model||!state.selected.size){
+    alert("Сначала выберите треугольники");
+    return;
+  }
+
+  const step=Number($("step").value);
+
+  if(!Number.isFinite(step)||step<=0){
+    alert("Некорректный шаг");
+    return;
+  }
+
+  const requested=Number($("frame").value)||0;
+  const undo=[];
+
+  for(const [surfaceIndex,indices] of selectedVertices()){
+    const surface=state.model.surfaces[surfaceIndex];
+    const frameIndex=Math.min(requested,surface.frames.length-1);
+    const frame=surface.frames[frameIndex];
+
+    for(const vertexIndex of indices){
+      const vertex=frame[vertexIndex];
+
+      undo.push({
+        vertex,
+        position:vertex.slice()
+      });
+
+      for(let axis=0;axis<3;axis++){
+        vertex[axis]=quantize(
+          vertex[axis]+direction[axis]*step
+        );
+      }
+    }
+  }
+
+  state.undo=undo;
+  $("undo").disabled=false;
+  draw();
+}
+
+function undoMove(){
+  if(!state.undo)return;
+
+  for(const item of state.undo){
+    item.vertex[0]=item.position[0];
+    item.vertex[1]=item.position[1];
+    item.vertex[2]=item.position[2];
+  }
+
+  state.undo=null;
+  $("undo").disabled=true;
+  draw();
+}
+
+function encodedCoordinate(value){
+  const result=Math.round(value*64);
+
+  if(result<-32768||result>32767){
+    throw new Error("Координата вышла за диапазон MD3");
+  }
+
+  return result;
+}
+
+function buildMD3(){
+  const output=state.source.slice(0);
+  const view=new DataView(output);
+
+  for(const surface of state.model.surfaces){
+    for(let frame=0;frame<surface.frames.length;frame++){
+      for(let vertex=0;vertex<surface.vertexCount;vertex++){
+        const position=surface.frames[frame][vertex];
+
+        const offset=
+          surface.fileOffset+
+          surface.vertexOffset+
+          (frame*surface.vertexCount+vertex)*8;
+
+        view.setInt16(offset,encodedCoordinate(position[0]),true);
+        view.setInt16(offset+2,encodedCoordinate(position[1]),true);
+        view.setInt16(offset+4,encodedCoordinate(position[2]),true);
+      }
+    }
+  }
+
+  for(let frame=0;frame<state.model.frameCount;frame++){
+    const minimum=[Infinity,Infinity,Infinity];
+    const maximum=[-Infinity,-Infinity,-Infinity];
+    const origin=state.model.frames[frame].origin;
+    let radius=0;
+
+    for(const surface of state.model.surfaces){
+      const frameIndex=Math.min(frame,surface.frames.length-1);
+
+      for(const vertex of surface.frames[frameIndex]){
+        for(let axis=0;axis<3;axis++){
+          minimum[axis]=Math.min(minimum[axis],vertex[axis]);
+          maximum[axis]=Math.max(maximum[axis],vertex[axis]);
+        }
+
+        radius=Math.max(
+          radius,
+          Math.hypot(
+            vertex[0]-origin[0],
+            vertex[1]-origin[1],
+            vertex[2]-origin[2]
+          )
+        );
+      }
+    }
+
+    const offset=state.model.frameOffset+frame*56;
+
+    minimum.forEach((value,axis)=>
+      view.setFloat32(offset+axis*4,value,true)
+    );
+
+    maximum.forEach((value,axis)=>
+      view.setFloat32(offset+12+axis*4,value,true)
+    );
+
+    view.setFloat32(offset+36,radius,true);
+  }
+
+  return output;
+}
+
+function saveMD3(){
+  try{
+    const output=buildMD3();
+    const blob=new Blob([output],{
+      type:"application/octet-stream"
+    });
+
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+
+    link.href=url;
+    link.download=
+      state.name.replace(/\.md3$/i,"")+
+      "_edited.md3";
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
+  }catch(error){
+    alert(error.message);
+  }
+}
+
+async function openFile(file){
+  try{
+    const buffer=await file.arrayBuffer();
+    const model=parseMD3(buffer);
+
+    state.name=file.name;
+    state.source=buffer;
+    state.model=model;
+    state.selected.clear();
+    state.undo=null;
+
+    $("frame").value=0;
+    $("frame").max=model.frameCount-1;
+    $("frameMaximum").textContent=model.frameCount-1;
+
+    const triangles=model.surfaces.reduce(
+      (sum,surface)=>sum+surface.triangleCount,
+      0
+    );
+
+    $("fileInfo").textContent=
+      `${file.name}\n`+
+      `Кадров: ${model.frameCount}\n`+
+      `Поверхностей: ${model.surfaceCount}\n`+
+      `Треугольников: ${triangles}`;
+
+    $("save").disabled=false;
+    $("undo").disabled=true;
+
+    updateSelectionInfo();
+    draw();
+  }catch(error){
+    alert(error.message);
+    $("fileInfo").textContent=`Ошибка: ${error.message}`;
+  }
+}
+
+canvas.addEventListener("contextmenu",event=>{
+  event.preventDefault();
+});
+
+canvas.addEventListener("pointerdown",event=>{
+  if(event.button===2){
+    state.camera.rotating=true;
+    state.camera.x=event.clientX;
+    state.camera.y=event.clientY;
+
+    canvas.classList.add("rotate");
+    canvas.setPointerCapture(event.pointerId);
+    return;
+  }
+
+  if(event.button===0){
+    const point=canvasPoint(event);
+
+    state.box.active=true;
+    state.box.moved=false;
+    state.box.additive=event.shiftKey;
+    state.box.startX=point.x;
+    state.box.startY=point.y;
+    state.box.endX=point.x;
+    state.box.endY=point.y;
+
+    canvas.setPointerCapture(event.pointerId);
+  }
+});
+
+canvas.addEventListener("pointermove",event=>{
+  if(state.camera.rotating){
+    const dx=event.clientX-state.camera.x;
+    const dy=event.clientY-state.camera.y;
+
+    state.camera.x=event.clientX;
+    state.camera.y=event.clientY;
+    state.camera.yaw+=dx*.01;
+
+    state.camera.pitch=Math.max(
+      -1.55,
+      Math.min(1.55,state.camera.pitch+dy*.01)
+    );
+
+    draw();
+    return;
+  }
+
+  if(state.box.active){
+    const point=canvasPoint(event);
+
+    state.box.endX=point.x;
+    state.box.endY=point.y;
+
+    state.box.moved=
+      Math.abs(state.box.endX-state.box.startX)>3||
+      Math.abs(state.box.endY-state.box.startY)>3;
+
+    draw();
+  }
+});
+
+canvas.addEventListener("pointerup",event=>{
+  if(state.camera.rotating){
+    state.camera.rotating=false;
+    canvas.classList.remove("rotate");
+
+    if(canvas.hasPointerCapture(event.pointerId)){
+      canvas.releasePointerCapture(event.pointerId);
+    }
+
+    return;
+  }
+
+  if(!state.box.active)return;
+
+  const moved=state.box.moved;
+  state.box.active=false;
+
+  if(canvas.hasPointerCapture(event.pointerId)){
+    canvas.releasePointerCapture(event.pointerId);
+  }
+
+  if(moved){
+    selectBox();
+  }else{
+    selectClick(event);
+  }
+
+  draw();
+});
+
+canvas.addEventListener("wheel",event=>{
+  event.preventDefault();
+
+  state.camera.zoom=Math.max(
+    .1,
+    Math.min(
+      10,
+      state.camera.zoom*Math.exp(-event.deltaY*.001)
+    )
+  );
+
+  draw();
+},{passive:false});
+
+$("file").addEventListener("change",()=>{
+  const file=$("file").files[0];
+  if(file)openFile(file);
+});
+
+$("frame").addEventListener("input",()=>{
+  updateSelectionInfo();
+  draw();
+});
+
+$("wireframe").addEventListener("change",draw);
+
+$("clear").addEventListener("click",()=>{
+  state.selected.clear();
+  updateSelectionInfo();
+  draw();
+});
+
+$("undo").addEventListener("click",undoMove);
+$("save").addEventListener("click",saveMD3);
+
+$("resetCamera").addEventListener("click",()=>{
+  state.camera.yaw=-.7;
+  state.camera.pitch=-.25;
+  state.camera.zoom=1;
+  draw();
+});
+
+document.querySelectorAll("[data-move]").forEach(button=>{
+  button.addEventListener("click",()=>{
+    moveSelection(
+      button.dataset.move.split(",").map(Number)
+    );
+  });
+});
+
+window.addEventListener("resize",draw);
+
+draw();
+</script>
+
+
+<script>
+(() => {
+  "use strict";
+
+  /*
+   * Находим карточку с кнопками перемещения.
+   */
+  const moveButton = document.querySelector("[data-move]");
+  const moveCard = moveButton?.closest(".card");
+
+  if (!moveCard) {
+    console.error("Не найдена карточка перемещения");
+    return;
+  }
+
+  /*
+   * Создаём панель выбора кадров.
+   */
+  const frameControls = document.createElement("div");
+
+  frameControls.innerHTML = `
+    <div
+      style="
+        margin:12px 0;
+        padding:12px;
+        border:1px solid var(--border);
+        border-radius:8px;
+        background:#11171e;
+      "
+    >
+      <label class="field">
+        <span>Применить перемещение</span>
+
+        <select
+          id="applyFrameMode"
+          style="
+            width:100%;
+            padding:8px;
+            border:1px solid var(--border);
+            border-radius:6px;
+            background:#11171e;
+            color:var(--text);
+          "
+        >
+          <option value="current">
+            Только к текущему кадру
+          </option>
+
+          <option value="range">
+            К диапазону кадров
+          </option>
+        </select>
+      </label>
+
+      <div
+        id="frameRangeControls"
+        class="grid"
+        style="margin-top:10px;display:none"
+      >
+        <label class="field">
+          <span>Первый кадр</span>
+          <input
+            id="applyFrameFrom"
+            type="number"
+            min="0"
+            step="1"
+            value="0"
+          >
+        </label>
+
+        <label class="field">
+          <span>Последний кадр</span>
+          <input
+            id="applyFrameTo"
+            type="number"
+            min="0"
+            step="1"
+            value="0"
+          >
+        </label>
+      </div>
+
+      <div
+        id="frameApplyStatus"
+        class="notice"
+        style="margin-top:10px"
+      >
+        Изменится только выбранный кадр.
+      </div>
+    </div>
+  `;
+
+  /*
+   * Вставляем настройки после поля шага.
+   */
+  const stepField =
+    document.getElementById("step")?.closest(".field");
+
+  if (stepField) {
+    stepField.insertAdjacentElement(
+      "afterend",
+      frameControls
+    );
+  } else {
+    moveCard.prepend(frameControls);
+  }
+
+  const mode =
+    document.getElementById("applyFrameMode");
+
+  const rangeControls =
+    document.getElementById("frameRangeControls");
+
+  const frameFrom =
+    document.getElementById("applyFrameFrom");
+
+  const frameTo =
+    document.getElementById("applyFrameTo");
+
+  const status =
+    document.getElementById("frameApplyStatus");
+
+  function maximumFrame() {
+    if (!state.model) {
+      return 0;
+    }
+
+    return Math.max(
+      0,
+      state.model.frameCount - 1
+    );
+  }
+
+  function clampFrame(value) {
+    return Math.max(
+      0,
+      Math.min(
+        maximumFrame(),
+        Math.trunc(Number(value) || 0)
+      )
+    );
+  }
+
+  function synchronizeLimits() {
+    const maximum = maximumFrame();
+
+    frameFrom.max = maximum;
+    frameTo.max = maximum;
+
+    frameFrom.value = clampFrame(
+      frameFrom.value
+    );
+
+    frameTo.value = clampFrame(
+      frameTo.value
+    );
+  }
+
+  function updateModeInterface() {
+    const useRange =
+      mode.value === "range";
+
+    rangeControls.style.display =
+      useRange
+        ? "grid"
+        : "none";
+
+    if (useRange) {
+      synchronizeLimits();
+
+      status.textContent =
+        `Изменятся кадры от ${frameFrom.value} ` +
+        `до ${frameTo.value} включительно.`;
+    } else {
+      status.textContent =
+        `Изменится только текущий кадр: ` +
+        `${document.getElementById("frame").value}.`;
+    }
+  }
+
+  mode.addEventListener("change", () => {
+    if (mode.value === "range") {
+      const current = clampFrame(
+        document.getElementById("frame").value
+      );
+
+      frameFrom.value = current;
+      frameTo.value = current;
+    }
+
+    updateModeInterface();
+  });
+
+  frameFrom.addEventListener(
+    "input",
+    updateModeInterface
+  );
+
+  frameTo.addEventListener(
+    "input",
+    updateModeInterface
+  );
+
+  document
+    .getElementById("frame")
+    .addEventListener(
+      "input",
+      updateModeInterface
+    );
+
+  /*
+   * Следим за загрузкой новой модели и обновляем максимумы.
+   */
+  const maximumLabel =
+    document.getElementById("frameMaximum");
+
+  const observer = new MutationObserver(() => {
+    synchronizeLimits();
+    updateModeInterface();
+  });
+
+  observer.observe(maximumLabel, {
+    childList: true,
+    characterData: true,
+    subtree: true
+  });
+
+  /*
+   * Заменяем старую функцию перемещения.
+   * Обработчики существующих кнопок автоматически
+   * начнут использовать эту версию.
+   */
+  moveSelection = function(direction) {
+    if (
+      !state.model ||
+      !state.selected.size
+    ) {
+      alert(
+        "Сначала выберите треугольники"
+      );
+
+      return;
+    }
+
+    const step = Number(
+      document.getElementById("step").value
+    );
+
+    if (
+      !Number.isFinite(step) ||
+      step <= 0
+    ) {
+      alert("Некорректный шаг");
+      return;
+    }
+
+    let firstFrame;
+    let lastFrame;
+
+    if (mode.value === "range") {
+      firstFrame = clampFrame(
+        frameFrom.value
+      );
+
+      lastFrame = clampFrame(
+        frameTo.value
+      );
+
+      if (firstFrame > lastFrame) {
+        alert(
+          "Первый кадр не может быть больше последнего"
+        );
+
+        return;
+      }
+
+      frameFrom.value = firstFrame;
+      frameTo.value = lastFrame;
+    } else {
+      firstFrame = clampFrame(
+        document.getElementById("frame").value
+      );
+
+      lastFrame = firstFrame;
+    }
+
+    const undo = [];
+    const vertexSets = selectedVertices();
+
+    for (
+      const [surfaceIndex, indices]
+      of vertexSets
+    ) {
+      const surface =
+        state.model.surfaces[surfaceIndex];
+
+      if (
+        !surface ||
+        !surface.frames.length
+      ) {
+        continue;
+      }
+
+      const surfaceFirst = Math.min(
+        firstFrame,
+        surface.frames.length - 1
+      );
+
+      const surfaceLast = Math.min(
+        lastFrame,
+        surface.frames.length - 1
+      );
+
+      for (
+        let frameIndex = surfaceFirst;
+        frameIndex <= surfaceLast;
+        frameIndex++
+      ) {
+        const frame =
+          surface.frames[frameIndex];
+
+        for (const vertexIndex of indices) {
+          const vertex =
+            frame[vertexIndex];
+
+          undo.push({
+            vertex,
+            position: vertex.slice()
+          });
+
+          for (
+            let axis = 0;
+            axis < 3;
+            axis++
+          ) {
+            vertex[axis] = quantize(
+              vertex[axis] +
+              direction[axis] *
+              step
+            );
+          }
+        }
+      }
+    }
+
+    if (!undo.length) {
+      alert(
+        "Не найдено вершин для изменения"
+      );
+
+      return;
+    }
+
+    state.undo = undo;
+
+    document.getElementById(
+      "undo"
+    ).disabled = false;
+
+    draw();
+
+    status.textContent =
+      firstFrame === lastFrame
+        ? `Изменён кадр ${firstFrame}.`
+        : `Изменены кадры ${firstFrame}–${lastFrame}.`;
+  };
+
+  synchronizeLimits();
+  updateModeInterface();
+})();
+</script>
+
+
+</body>
+</html>

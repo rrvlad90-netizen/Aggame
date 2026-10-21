@@ -1,0 +1,4106 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quake 3 MD3 Post Processor</title>
+<style>
+:root{
+  color-scheme:dark;--bg:#0d1116;--panel:#171d25;--panel2:#202833;
+  --border:#34404e;--text:#edf2f7;--muted:#98a5b5;
+  --blue:#51a8ff;--yellow:#e9bd61;--red:#f06a6a;--green:#4fd199
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,sans-serif}
+header{
+  position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;
+  padding:12px 18px;border-bottom:1px solid var(--border);background:#171d25f6
+}
+header h1{margin:0 auto 0 0;font-size:20px}
+button,input,select{font:inherit}
+button{
+  padding:8px 11px;border:1px solid var(--border);border-radius:7px;
+  background:var(--panel2);color:var(--text);cursor:pointer
+}
+button:hover:not(:disabled){border-color:var(--blue)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.primary{border-color:var(--blue);background:var(--blue);color:#071421;font-weight:700}
+button.active{border-color:var(--yellow);color:var(--yellow)}
+input,select{
+  width:100%;min-width:0;padding:7px;border:1px solid var(--border);
+  border-radius:6px;background:#11171e;color:var(--text)
+}
+input[type=checkbox]{width:auto;accent-color:var(--blue)}
+.main{
+  display:grid;grid-template-columns:minmax(0,1fr) 460px;gap:16px;
+  width:min(1700px,100%);margin:auto;padding:16px
+}
+.nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.nav button{min-height:48px;text-align:left}
+.nav button span{display:block}
+.nav button span:first-child{color:var(--blue);font:700 11px ui-monospace,monospace}
+.nav button.active{border-color:var(--blue);background:#18304a}
+.view{display:none}.view.active{display:block}
+.card{margin-bottom:16px;padding:15px;border:1px solid var(--border);border-radius:10px;background:var(--panel)}
+.card h2{margin:0 0 10px;font-size:18px}
+.card h3{margin:16px 0 8px;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.field{display:grid;gap:4px}.field span,.muted{color:var(--muted)}.field span{font-size:12px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.notice{margin-top:10px;padding:9px 11px;border-left:3px solid var(--blue);background:#172435;white-space:pre-wrap}
+.warning{border-left-color:var(--yellow)}
+.preview-card{position:sticky;top:76px}
+canvas{
+  display:block;width:100%;height:610px;border:1px solid var(--border);
+  border-radius:8px;background:#090d12;touch-action:none;cursor:grab
+}
+.table-wrap{overflow:auto;max-height:520px;border:1px solid var(--border);border-radius:8px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:middle}
+th{position:sticky;top:0;background:var(--panel2);color:var(--muted);font-size:12px}
+.part-card{padding:10px;margin-top:10px;border:1px solid var(--border);border-radius:8px;background:#121920}
+.result{padding:8px 0;border-bottom:1px solid var(--border)}
+#log{
+  max-height:250px;overflow:auto;margin:0;padding:9px;border:1px solid var(--border);
+  border-radius:8px;background:#0b1015;color:#bbc6d3;
+  font:12px/1.5 ui-monospace,monospace;white-space:pre-wrap
+}
+@media(max-width:1150px){.main{grid-template-columns:1fr}.preview-card{position:static}}
+@media(max-width:760px){.nav{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Quake 3 MD3 Post Processor</h1>
+  <button id="resetProject">Новый проект</button>
+  <button id="saveZip" class="primary" disabled>Скачать ZIP</button>
+  <button id="savePk3" class="primary" disabled>Скачать PK3</button>
+</header>
+
+<main class="main">
+<section>
+
+<nav class="nav">
+  <button class="active" data-view="archive"><span>01</span><span>Архив</span></button>
+  <button data-view="transform"><span>02</span><span>Трансформация</span></button>
+  <button data-view="tags"><span>03</span><span>Теги</span></button>
+  <button data-view="textures"><span>04</span><span>Текстуры</span></button>
+  <button data-view="result"><span>05</span><span>Результат</span></button>
+</nav>
+
+<section class="view active" data-panel="archive">
+<div class="card">
+  <h2>ZIP или PK3</h2>
+  <div class="toolbar">
+    <input id="archiveFile" type="file" accept=".zip,.pk3,application/zip">
+    <button id="openArchive">Открыть архив</button>
+  </div>
+
+  <label class="field" style="margin-top:12px">
+    <span>Найденная модель</span>
+    <select id="modelSelect" disabled>
+      <option>Архив не загружен</option>
+    </select>
+  </label>
+
+  <div id="archiveInfo" class="notice">Выберите ZIP или PK3.</div>
+</div>
+
+<div class="card">
+  <h2>Загруженные части</h2>
+  <div id="loadedParts" class="muted">Модель не загружена.</div>
+</div>
+</section>
+
+<section class="view" data-panel="transform">
+<div class="card">
+  <h2>Глобальный масштаб</h2>
+  <p class="muted">
+    Масштаб применяется одновременно к вершинам всех частей и координатам тегов.
+  </p>
+
+  <div class="toolbar">
+    <label class="field" style="width:180px">
+      <span>Множитель</span>
+      <input id="globalScale" type="number" min=".001" step=".01" value="1">
+    </label>
+    <button id="applyGlobalScale">Применить Scale</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Трансформация части</h2>
+
+  <div class="grid">
+    <label class="field">
+      <span>Часть</span>
+      <select id="partSelect">
+        <option value="lower">lower</option>
+        <option value="upper">upper</option>
+        <option value="head">head</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Scale части</span>
+      <input id="partScale" type="number" min=".001" step=".01" value="1">
+    </label>
+
+    <div></div>
+
+    <label class="field"><span>Перемещение X</span><input id="partX" type="number" step=".1" value="0"></label>
+    <label class="field"><span>Перемещение Y</span><input id="partY" type="number" step=".1" value="0"></label>
+    <label class="field"><span>Перемещение Z</span><input id="partZ" type="number" step=".1" value="0"></label>
+
+    <label class="field"><span>Вращение X</span><input id="partRX" type="number" step="1" value="0"></label>
+    <label class="field"><span>Вращение Y</span><input id="partRY" type="number" step="1" value="0"></label>
+    <label class="field"><span>Вращение Z</span><input id="partRZ" type="number" step="1" value="0"></label>
+  </div>
+
+  <div class="toolbar" style="margin-top:12px">
+    <button id="applyPartTransform">Применить к части</button>
+  </div>
+
+  <div class="notice warning">
+    Изменение применяется ко всем кадрам выбранной MD3.
+  </div>
+</div>
+</section>
+
+<section class="view" data-panel="tags">
+<div class="card">
+  <h2>Редактор тегов</h2>
+
+  <div class="grid">
+    <label class="field">
+      <span>MD3-владелец</span>
+      <select id="tagPart">
+        <option value="lower">lower</option>
+        <option value="upper">upper</option>
+        <option value="head">head</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Тег</span>
+      <select id="tagSelect"></select>
+    </label>
+
+    <div></div>
+
+    <label class="field"><span>Смещение X</span><input id="tagX" type="number" step=".1" value="0"></label>
+    <label class="field"><span>Смещение Y</span><input id="tagY" type="number" step=".1" value="0"></label>
+    <label class="field"><span>Смещение Z</span><input id="tagZ" type="number" step=".1" value="0"></label>
+
+    <label class="field"><span>Вращение X</span><input id="tagRX" type="number" step="1" value="0"></label>
+    <label class="field"><span>Вращение Y</span><input id="tagRY" type="number" step="1" value="0"></label>
+    <label class="field"><span>Вращение Z</span><input id="tagRZ" type="number" step="1" value="0"></label>
+  </div>
+
+  <div class="toolbar" style="margin-top:12px">
+    <button id="applyTagTransform">Применить ко всем кадрам</button>
+  </div>
+</div>
+</section>
+
+<section class="view" data-panel="textures">
+<div class="card">
+  <h2>Переназначение текстур</h2>
+  <div id="textureEditor" class="muted">Модель не загружена.</div>
+</div>
+</section>
+
+<section class="view" data-panel="result">
+<div class="card">
+  <h2>Экспорт архива</h2>
+  <p>
+    Все неизвестные файлы исходного архива сохраняются.
+    MD3 и изменённые skin-файлы заменяются обновлёнными версиями.
+  </p>
+
+  <div class="toolbar">
+    <button id="resultZip" class="primary" disabled>Скачать ZIP</button>
+    <button id="resultPk3" class="primary" disabled>Скачать PK3</button>
+  </div>
+
+  <div id="resultInfo" class="notice">Изменений пока нет.</div>
+</div>
+
+<div class="card">
+  <h2>Журнал</h2>
+  <pre id="log">Приложение готово.</pre>
+</div>
+</section>
+
+</section>
+
+<aside>
+<div class="card preview-card">
+  <h2>Предпросмотр</h2>
+  <canvas id="preview"></canvas>
+
+  <div class="toolbar" style="margin-top:10px">
+    <button id="resetView">Сброс камеры</button>
+    <label><input id="wireframe" type="checkbox" checked> Сетка</label>
+    <label><input id="showTagAxes" type="checkbox" checked> Оси тегов</label>
+  </div>
+
+  <label class="field" style="margin-top:12px">
+    <span>Кадр: <b id="frameNumber">0</b> / <b id="frameMaximum">0</b></span>
+    <input id="frameSlider" type="range" min="0" max="0" value="0">
+  </label>
+
+  <div class="toolbar" style="margin-top:10px">
+    <button id="previousFrame">◀</button>
+    <button id="playPause">▶</button>
+    <button id="nextFrame">▶|</button>
+
+    <label class="field" style="width:100px">
+      <span>FPS</span>
+      <input id="previewFps" type="number" min="1" max="120" value="20">
+    </label>
+
+    <label><input id="loopPlayback" type="checkbox" checked> Цикл</label>
+  </div>
+</div>
+</aside>
+</main>
+
+<script>
+"use strict";
+
+const $=id=>document.getElementById(id);
+const decoder=new TextDecoder();
+const encoder=new TextEncoder();
+
+const state={
+  archiveName:"",
+  entries:new Map(),
+  roots:[],
+  root:"",
+  models:{lower:null,upper:null,head:null},
+  skins:{lower:new Map(),upper:new Map(),head:new Map()},
+  textures:new Map(),
+  changed:false,
+  camera:{yaw:-.7,pitch:-.25,zoom:1,drag:false,moved:false,x:0,y:0},
+  projected:[],
+  animation:{playing:false,last:0,accumulator:0,request:0}
+};
+
+function log(text){
+  const output=$("log");
+  output.textContent+=`\n[${new Date().toLocaleTimeString()}] ${text}`;
+  output.scrollTop=output.scrollHeight;
+}
+
+function safeFileName(value,fallback="model"){
+  return String(value||fallback)
+    .replace(/\.(zip|pk3)$/i,"")
+    .replace(/[^a-zA-Z0-9_-]+/g,"_")||fallback;
+}
+
+function normalizePath(path){
+  return String(path).replaceAll("\\","/").replace(/^\/+/,"");
+}
+
+function findEntry(path){
+  const wanted=normalizePath(path).toLowerCase();
+
+  for(const [name,data] of state.entries){
+    if(name.toLowerCase()===wanted)return {name,data};
+  }
+
+  return null;
+}
+
+function fixedString(bytes,offset,length){
+  let output="";
+  for(let i=0;i<length&&bytes[offset+i];i++){
+    output+=String.fromCharCode(bytes[offset+i]);
+  }
+  return output;
+}
+
+function ensure(buffer,offset,length,label){
+  if(offset<0||length<0||offset+length>buffer.byteLength){
+    throw new Error(`Повреждён файл: ${label}`);
+  }
+}
+
+const add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]];
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+const mul=(a,n)=>[a[0]*n,a[1]*n,a[2]*n];
+const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+
+function cross(a,b){
+  return [
+    a[1]*b[2]-a[2]*b[1],
+    a[2]*b[0]-a[0]*b[2],
+    a[0]*b[1]-a[1]*b[0]
+  ];
+}
+
+function normalize(value){
+  const length=Math.hypot(...value);
+  return length>1e-10?mul(value,1/length):[0,0,1];
+}
+
+function identityMatrix(){
+  return [[1,0,0],[0,1,0],[0,0,1]];
+}
+
+function eulerMatrix(rotation){
+  const [x,y,z]=rotation.map(value=>value*Math.PI/180);
+  const cx=Math.cos(x),sx=Math.sin(x);
+  const cy=Math.cos(y),sy=Math.sin(y);
+  const cz=Math.cos(z),sz=Math.sin(z);
+
+  return [
+    [cy*cz,-cy*sz,sy],
+    [sx*sy*cz+cx*sz,-sx*sy*sz+cx*cz,-sx*cy],
+    [-cx*sy*cz+sx*sz,cx*sy*sz+sx*cz,cx*cy]
+  ];
+}
+
+function rotateVector(matrix,value){
+  return [
+    matrix[0][0]*value[0]+matrix[0][1]*value[1]+matrix[0][2]*value[2],
+    matrix[1][0]*value[0]+matrix[1][1]*value[1]+matrix[1][2]*value[2],
+    matrix[2][0]*value[0]+matrix[2][1]*value[1]+matrix[2][2]*value[2]
+  ];
+}
+
+function applyOrientation(orientation,point){
+  return add(
+    orientation.origin,
+    add(
+      mul(orientation.axes[0],point[0]),
+      add(
+        mul(orientation.axes[1],point[1]),
+        mul(orientation.axes[2],point[2])
+      )
+    )
+  );
+}
+
+function transformAxis(orientation,axis){
+  return normalize([
+    orientation.axes[0][0]*axis[0]+orientation.axes[1][0]*axis[1]+orientation.axes[2][0]*axis[2],
+    orientation.axes[0][1]*axis[0]+orientation.axes[1][1]*axis[1]+orientation.axes[2][1]*axis[2],
+    orientation.axes[0][2]*axis[0]+orientation.axes[1][2]*axis[1]+orientation.axes[2][2]*axis[2]
+  ]);
+}
+
+function composeOrientation(parent,child){
+  return {
+    origin:applyOrientation(parent,child.origin),
+    axes:child.axes.map(axis=>transformAxis(parent,axis))
+  };
+}
+
+function identityOrientation(){
+  return {origin:[0,0,0],axes:identityMatrix()};
+}
+
+function decodeNormal(value){
+  const latitude=((value>>8)&255)*Math.PI*2/255;
+  const longitude=(value&255)*Math.PI*2/255;
+
+  return [
+    Math.cos(latitude)*Math.sin(longitude),
+    Math.sin(latitude)*Math.sin(longitude),
+    Math.cos(longitude)
+  ];
+}
+
+function encodeNormal(normal){
+  const value=normalize(normal);
+
+  const latitude=
+    Math.floor(
+      Math.atan2(value[1],value[0])*
+      255/(2*Math.PI)
+    )&255;
+
+  const longitude=
+    Math.floor(
+      Math.acos(Math.max(-1,Math.min(1,value[2])))*
+      255/(2*Math.PI)
+    )&255;
+
+  return (latitude<<8)|longitude;
+}
+
+async function inflateRaw(data){
+  if(typeof DecompressionStream==="undefined"){
+    throw new Error(
+      "Браузер не поддерживает распаковку Deflate. "+
+      "Откройте файл в современном Chrome, Edge или Firefox."
+    );
+  }
+
+  const stream=new Blob([data]).stream()
+    .pipeThrough(new DecompressionStream("deflate-raw"));
+
+  return new Uint8Array(
+    await new Response(stream).arrayBuffer()
+  );
+}
+
+async function readZip(buffer){
+  const bytes=new Uint8Array(buffer);
+  const view=new DataView(buffer);
+
+  let eocd=-1;
+
+  for(
+    let offset=bytes.length-22;
+    offset>=Math.max(0,bytes.length-65557);
+    offset--
+  ){
+    if(view.getUint32(offset,true)===0x06054b50){
+      eocd=offset;
+      break;
+    }
+  }
+
+  if(eocd<0)throw new Error("Конец ZIP-архива не найден");
+
+  const entryCount=view.getUint16(eocd+10,true);
+  const centralOffset=view.getUint32(eocd+16,true);
+  const entries=new Map();
+  let position=centralOffset;
+
+  for(let index=0;index<entryCount;index++){
+    if(view.getUint32(position,true)!==0x02014b50){
+      throw new Error("Повреждён центральный каталог ZIP");
+    }
+
+    const method=view.getUint16(position+10,true);
+    const compressedSize=view.getUint32(position+20,true);
+    const nameLength=view.getUint16(position+28,true);
+    const extraLength=view.getUint16(position+30,true);
+    const commentLength=view.getUint16(position+32,true);
+    const localOffset=view.getUint32(position+42,true);
+
+    const name=normalizePath(
+      decoder.decode(
+        bytes.subarray(
+          position+46,
+          position+46+nameLength
+        )
+      )
+    );
+
+    if(view.getUint32(localOffset,true)!==0x04034b50){
+      throw new Error(`Повреждена запись ${name}`);
+    }
+
+    const localNameLength=view.getUint16(localOffset+26,true);
+    const localExtraLength=view.getUint16(localOffset+28,true);
+    const dataOffset=
+      localOffset+30+
+      localNameLength+
+      localExtraLength;
+
+    const compressed=bytes.slice(
+      dataOffset,
+      dataOffset+compressedSize
+    );
+
+    let data;
+
+    if(method===0){
+      data=compressed;
+    }else if(method===8){
+      data=await inflateRaw(compressed);
+    }else{
+      throw new Error(
+        `Файл ${name}: метод сжатия ${method} не поддерживается`
+      );
+    }
+
+    if(!name.endsWith("/")){
+      entries.set(name,data);
+    }
+
+    position+=
+      46+
+      nameLength+
+      extraLength+
+      commentLength;
+  }
+
+  return entries;
+}
+
+function findModelRoots(){
+  const roots=new Set();
+
+  for(const name of state.entries.keys()){
+    const match=name.match(
+      /^(models\/players\/[^/]+)\/lower\.md3$/i
+    );
+
+    if(match)roots.add(match[1]);
+  }
+
+  return [...roots].sort();
+}
+
+function parseMD3(data){
+  const buffer=data.buffer.slice(
+    data.byteOffset,
+    data.byteOffset+data.byteLength
+  );
+
+  const bytes=new Uint8Array(buffer);
+  const view=new DataView(buffer);
+
+  ensure(buffer,0,108,"заголовок MD3");
+
+  if(fixedString(bytes,0,4)!=="IDP3"){
+    throw new Error("Файл не является MD3");
+  }
+
+  if(view.getInt32(4,true)!==15){
+    throw new Error("Поддерживается MD3 версии 15");
+  }
+
+  const model={
+    name:fixedString(bytes,8,64),
+    frameCount:view.getInt32(76,true),
+    tagCount:view.getInt32(80,true),
+    surfaceCount:view.getInt32(84,true),
+    frameOffset:view.getInt32(92,true),
+    tagOffset:view.getInt32(96,true),
+    surfaceOffset:view.getInt32(100,true),
+    frames:[],
+    tags:[],
+    surfaces:[]
+  };
+
+  if(model.frameCount<1||model.frameCount>1024){
+    throw new Error("Некорректное количество кадров MD3");
+  }
+
+  for(let frame=0;frame<model.frameCount;frame++){
+    const offset=model.frameOffset+frame*56;
+
+    ensure(buffer,offset,56,"кадр MD3");
+
+    model.frames.push({
+      name:fixedString(bytes,offset+40,16)||
+        `frame_${frame}`
+    });
+  }
+
+  for(let frame=0;frame<model.frameCount;frame++){
+    const frameTags=[];
+
+    for(let index=0;index<model.tagCount;index++){
+      const offset=
+        model.tagOffset+
+        (frame*model.tagCount+index)*112;
+
+      ensure(buffer,offset,112,"тег MD3");
+
+      const origin=[
+        view.getFloat32(offset+64,true),
+        view.getFloat32(offset+68,true),
+        view.getFloat32(offset+72,true)
+      ];
+
+      const axes=[];
+      let axisOffset=offset+76;
+
+      for(let axis=0;axis<3;axis++){
+        axes.push([
+          view.getFloat32(axisOffset,true),
+          view.getFloat32(axisOffset+4,true),
+          view.getFloat32(axisOffset+8,true)
+        ]);
+
+        axisOffset+=12;
+      }
+
+      frameTags.push({
+        name:fixedString(bytes,offset,64),
+        origin,
+        axes
+      });
+    }
+
+    model.tags.push(frameTags);
+  }
+
+  let surfaceOffset=model.surfaceOffset;
+
+  for(
+    let surfaceIndex=0;
+    surfaceIndex<model.surfaceCount;
+    surfaceIndex++
+  ){
+    ensure(buffer,surfaceOffset,108,"surface MD3");
+
+    if(fixedString(bytes,surfaceOffset,4)!=="IDP3"){
+      throw new Error("Повреждён surface MD3");
+    }
+
+    const surface={
+      name:fixedString(bytes,surfaceOffset+4,64),
+      frameCount:view.getInt32(surfaceOffset+72,true),
+      shaderCount:view.getInt32(surfaceOffset+76,true),
+      vertexCount:view.getInt32(surfaceOffset+80,true),
+      triangleCount:view.getInt32(surfaceOffset+84,true),
+      triangleOffset:view.getInt32(surfaceOffset+88,true),
+      shaderOffset:view.getInt32(surfaceOffset+92,true),
+      uvOffset:view.getInt32(surfaceOffset+96,true),
+      vertexOffset:view.getInt32(surfaceOffset+100,true),
+      endOffset:view.getInt32(surfaceOffset+104,true),
+      shader:"",
+      triangles:[],
+      uvs:[],
+      frames:[]
+    };
+
+    if(surface.shaderCount>0){
+      surface.shader=fixedString(
+        bytes,
+        surfaceOffset+surface.shaderOffset,
+        64
+      );
+    }
+
+    for(let index=0;index<surface.triangleCount;index++){
+      const offset=
+        surfaceOffset+
+        surface.triangleOffset+
+        index*12;
+
+      surface.triangles.push([
+        view.getInt32(offset,true),
+        view.getInt32(offset+4,true),
+        view.getInt32(offset+8,true)
+      ]);
+    }
+
+    for(let index=0;index<surface.vertexCount;index++){
+      const offset=
+        surfaceOffset+
+        surface.uvOffset+
+        index*8;
+
+      surface.uvs.push([
+        view.getFloat32(offset,true),
+        view.getFloat32(offset+4,true)
+      ]);
+    }
+
+    for(let frame=0;frame<surface.frameCount;frame++){
+      const vertices=[];
+
+      for(
+        let vertex=0;
+        vertex<surface.vertexCount;
+        vertex++
+      ){
+        const offset=
+          surfaceOffset+
+          surface.vertexOffset+
+          (frame*surface.vertexCount+vertex)*8;
+
+        vertices.push({
+          position:[
+            view.getInt16(offset,true)/64,
+            view.getInt16(offset+2,true)/64,
+            view.getInt16(offset+4,true)/64
+          ],
+          normal:decodeNormal(
+            view.getUint16(offset+6,true)
+          )
+        });
+      }
+
+      surface.frames.push(vertices);
+    }
+
+    model.surfaces.push(surface);
+    surfaceOffset+=surface.endOffset;
+  }
+
+  return model;
+}
+
+function parseSkin(data){
+  const text=decoder.decode(data);
+  const map=new Map();
+
+  for(const rawLine of text.split(/\r?\n/)){
+    const line=rawLine.trim();
+
+    if(!line||line.startsWith("//"))continue;
+
+    const comma=line.indexOf(",");
+
+    if(comma<0)continue;
+
+    const surface=line.slice(0,comma).trim();
+    const texture=line.slice(comma+1).trim();
+
+    if(
+      surface&&
+      texture&&
+      !surface.toLowerCase().startsWith("tag_")
+    ){
+      map.set(surface.toLowerCase(),texture);
+    }
+  }
+
+  return map;
+}
+
+function skinText(part,model,map){
+  const lines={
+    lower:["tag_torso,"],
+    upper:["tag_torso,","tag_head,","tag_weapon,"],
+    head:["tag_head,"]
+  }[part].slice();
+
+  for(const surface of model.surfaces){
+    const texture=
+      map.get(surface.name.toLowerCase())||
+      surface.shader||
+      "textures/common/white";
+
+    lines.push(`${surface.name},${texture}`);
+  }
+
+  return lines.join("\n")+"\n";
+}
+
+function decodeTGA(data){
+  const buffer=data.buffer.slice(
+    data.byteOffset,
+    data.byteOffset+data.byteLength
+  );
+
+  const bytes=new Uint8Array(buffer);
+  const view=new DataView(buffer);
+
+  if(bytes.length<18)return null;
+
+  const idLength=bytes[0];
+  const colorMap=bytes[1];
+  const type=bytes[2];
+  const width=view.getUint16(12,true);
+  const height=view.getUint16(14,true);
+  const depth=bytes[16];
+  const descriptor=bytes[17];
+
+  if(
+    colorMap!==0||
+    ![2,10].includes(type)||
+    ![24,32].includes(depth)||
+    !width||
+    !height
+  ){
+    return null;
+  }
+
+  const bytesPerPixel=depth/8;
+  const pixels=new Uint8ClampedArray(
+    width*height*4
+  );
+
+  let offset=18+idLength;
+  let produced=0;
+
+  function readPixel(){
+    if(offset+bytesPerPixel>bytes.length){
+      throw new Error("Повреждён TGA");
+    }
+
+    const pixel=[
+      bytes[offset+2],
+      bytes[offset+1],
+      bytes[offset],
+      bytesPerPixel===4
+        ?bytes[offset+3]
+        :255
+    ];
+
+    offset+=bytesPerPixel;
+    return pixel;
+  }
+
+  function put(pixel,index){
+    const sourceX=index%width;
+    const sourceY=Math.floor(index/width);
+
+    const x=(descriptor&0x10)
+      ?width-1-sourceX
+      :sourceX;
+
+    const y=(descriptor&0x20)
+      ?sourceY
+      :height-1-sourceY;
+
+    pixels.set(
+      pixel,
+      (y*width+x)*4
+    );
+  }
+
+  if(type===2){
+    while(produced<width*height){
+      put(readPixel(),produced++);
+    }
+  }else{
+    while(produced<width*height){
+      const packet=bytes[offset++];
+      const count=(packet&127)+1;
+
+      if(packet&128){
+        const pixel=readPixel();
+
+        for(
+          let index=0;
+          index<count&&produced<width*height;
+          index++
+        ){
+          put(pixel,produced++);
+        }
+      }else{
+        for(
+          let index=0;
+          index<count&&produced<width*height;
+          index++
+        ){
+          put(readPixel(),produced++);
+        }
+      }
+    }
+  }
+
+  const canvas=document.createElement("canvas");
+
+  canvas.width=width;
+  canvas.height=height;
+
+  canvas.getContext("2d").putImageData(
+    new ImageData(pixels,width,height),
+    0,
+    0
+  );
+
+  return canvas;
+}
+
+function textureCanvas(path){
+  if(!path)return null;
+
+  const key=normalizePath(path).toLowerCase();
+
+  if(state.textures.has(key)){
+    return state.textures.get(key);
+  }
+
+  const entry=findEntry(path);
+
+  if(!entry){
+    state.textures.set(key,null);
+    return null;
+  }
+
+  let canvas=null;
+
+  if(path.toLowerCase().endsWith(".tga")){
+    try{
+      canvas=decodeTGA(entry.data);
+    }catch{
+      canvas=null;
+    }
+  }
+
+  state.textures.set(key,canvas);
+  return canvas;
+}
+
+function modelTag(model,frame,name){
+  if(!model)return null;
+
+  const frameIndex=Math.min(
+    frame,
+    model.frameCount-1
+  );
+
+  const tag=model.tags[frameIndex]?.find(
+    value=>
+      value.name.toLowerCase()===
+      name.toLowerCase()
+  );
+
+  return tag
+    ?{
+      origin:tag.origin,
+      axes:tag.axes
+    }
+    :null;
+}
+
+async function loadSelectedModel(){
+  const root=$("modelSelect").value;
+
+  if(!root)return;
+
+  state.root=root;
+  state.models={
+    lower:null,
+    upper:null,
+    head:null
+  };
+
+  state.skins={
+    lower:new Map(),
+    upper:new Map(),
+    head:new Map()
+  };
+
+  for(const part of ["lower","upper","head"]){
+    const md3Entry=findEntry(
+      `${root}/${part}.md3`
+    );
+
+    if(md3Entry){
+      state.models[part]=parseMD3(
+        md3Entry.data
+      );
+    }
+
+    const skinEntry=findEntry(
+      `${root}/${part}_default.skin`
+    );
+
+    if(skinEntry){
+      state.skins[part]=parseSkin(
+        skinEntry.data
+      );
+    }
+  }
+
+  const maximum=Math.max(
+    0,
+    ...Object.values(state.models)
+      .filter(Boolean)
+      .map(model=>model.frameCount-1)
+  );
+
+  $("frameSlider").max=maximum;
+  $("frameSlider").value=0;
+  $("frameMaximum").textContent=maximum;
+
+  renderLoadedParts();
+  renderTagOptions();
+  renderTextureEditor();
+  drawPreview();
+
+  $("saveZip").disabled=false;
+  $("savePk3").disabled=false;
+  $("resultZip").disabled=false;
+  $("resultPk3").disabled=false;
+
+  log(`Загружена модель ${root}`);
+}
+
+function renderLoadedParts(){
+  const container=$("loadedParts");
+
+  container.className="";
+  container.innerHTML=[
+    "lower","upper","head"
+  ].map(part=>{
+    const model=state.models[part];
+
+    if(!model){
+      return `
+        <div class="part-card">
+          <strong>${part}.md3</strong>
+          <div style="color:var(--red)">
+            Не найден
+          </div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="part-card">
+        <strong>${part}.md3</strong>
+        <div class="muted">
+          Кадров: ${model.frameCount},
+          surfaces: ${model.surfaceCount},
+          тегов: ${model.tagCount}
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderTagOptions(){
+  const part=$("tagPart").value;
+  const model=state.models[part];
+  const select=$("tagSelect");
+
+  if(
+    !model||
+    !model.tags.length
+  ){
+    select.innerHTML=
+      '<option value="">Теги отсутствуют</option>';
+    return;
+  }
+
+  const names=[
+    ...new Set(
+      model.tags[0].map(tag=>tag.name)
+    )
+  ];
+
+  select.innerHTML=names.map(name=>
+    `<option value="${name}">${name}</option>`
+  ).join("");
+}
+
+function renderTextureEditor(){
+  const container=$("textureEditor");
+
+  if(!state.root){
+    container.textContent="Модель не загружена.";
+    return;
+  }
+
+  const rows=[];
+
+  for(const part of ["lower","upper","head"]){
+    const model=state.models[part];
+
+    if(!model)continue;
+
+    for(
+      let index=0;
+      index<model.surfaces.length;
+      index++
+    ){
+      const surface=model.surfaces[index];
+
+      const texture=
+        state.skins[part].get(
+          surface.name.toLowerCase()
+        )||
+        surface.shader||
+        "";
+
+      rows.push(`
+        <tr>
+          <td>${part}</td>
+          <td>${surface.name}</td>
+          <td>
+            <input
+              class="texture-path"
+              data-part="${part}"
+              data-surface="${surface.name}"
+              value="${escapeHTML(texture)}"
+            >
+          </td>
+          <td>
+            <input
+              class="texture-file"
+              data-part="${part}"
+              data-surface="${surface.name}"
+              type="file"
+              accept=".tga"
+            >
+          </td>
+        </tr>
+      `);
+    }
+  }
+
+  container.className="";
+  container.innerHTML=`
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Часть</th>
+            <th>Surface</th>
+            <th>Путь текстуры</th>
+            <th>Новая TGA</th>
+          </tr>
+        </thead>
+        <tbody>${rows.join("")}</tbody>
+      </table>
+    </div>
+  `;
+
+  document.querySelectorAll(
+    ".texture-path"
+  ).forEach(input=>{
+    input.addEventListener("change",()=>{
+      const part=input.dataset.part;
+      const surface=input.dataset.surface;
+
+      state.skins[part].set(
+        surface.toLowerCase(),
+        normalizePath(input.value.trim())
+      );
+
+      state.changed=true;
+      drawPreview();
+    });
+  });
+
+  document.querySelectorAll(
+    ".texture-file"
+  ).forEach(input=>{
+    input.addEventListener(
+      "change",
+      async()=>{
+        const file=input.files[0];
+
+        if(!file)return;
+
+        const part=input.dataset.part;
+        const surface=input.dataset.surface;
+        const path=
+          `${state.root}/${safeFileName(file.name,"texture")}.tga`
+          .replace(/\.tga\.tga$/i,".tga");
+
+        const data=new Uint8Array(
+          await file.arrayBuffer()
+        );
+
+        state.entries.set(path,data);
+
+        state.skins[part].set(
+          surface.toLowerCase(),
+          path
+        );
+
+        state.textures.delete(
+          path.toLowerCase()
+        );
+
+        state.changed=true;
+        renderTextureEditor();
+        drawPreview();
+
+        log(`Добавлена текстура ${path}`);
+      }
+    );
+  });
+}
+
+function escapeHTML(value){
+  return String(value).replace(
+    /[&<>"']/g,
+    character=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    })[character]
+  );
+}
+
+function transformModel(
+  model,
+  scale,
+  translation,
+  rotation
+){
+  const matrix=eulerMatrix(rotation);
+
+  for(const surface of model.surfaces){
+    for(const frame of surface.frames){
+      for(const vertex of frame){
+        vertex.position=add(
+          rotateVector(
+            matrix,
+            mul(vertex.position,scale)
+          ),
+          translation
+        );
+
+        vertex.normal=normalize(
+          rotateVector(
+            matrix,
+            vertex.normal
+          )
+        );
+      }
+    }
+  }
+
+  for(const frameTags of model.tags){
+    for(const tag of frameTags){
+      tag.origin=add(
+        rotateVector(
+          matrix,
+          mul(tag.origin,scale)
+        ),
+        translation
+      );
+
+      tag.axes=tag.axes.map(axis=>
+        normalize(
+          rotateVector(matrix,axis)
+        )
+      );
+    }
+  }
+}
+
+function scaleAllModels(scale){
+  for(const model of Object.values(state.models)){
+    if(!model)continue;
+
+    for(const surface of model.surfaces){
+      for(const frame of surface.frames){
+        for(const vertex of frame){
+          vertex.position=mul(
+            vertex.position,
+            scale
+          );
+        }
+      }
+    }
+
+    for(const frameTags of model.tags){
+      for(const tag of frameTags){
+        tag.origin=mul(
+          tag.origin,
+          scale
+        );
+      }
+    }
+  }
+}
+
+function transformTag(
+  model,
+  name,
+  translation,
+  rotation
+){
+  const matrix=eulerMatrix(rotation);
+
+  for(const frameTags of model.tags){
+    const tag=frameTags.find(
+      value=>
+        value.name.toLowerCase()===
+        name.toLowerCase()
+    );
+
+    if(!tag)continue;
+
+    tag.origin=add(
+      tag.origin,
+      translation
+    );
+
+    tag.axes=tag.axes.map(axis=>
+      normalize(
+        rotateVector(matrix,axis)
+      )
+    );
+  }
+}
+
+function resizeCanvas(){
+  const canvas=$("preview");
+  const rect=canvas.getBoundingClientRect();
+  const ratio=Math.min(
+    2,
+    devicePixelRatio||1
+  );
+
+  const width=Math.max(
+    1,
+    Math.round(rect.width*ratio)
+  );
+
+  const height=Math.max(
+    1,
+    Math.round(rect.height*ratio)
+  );
+
+  if(
+    canvas.width!==width||
+    canvas.height!==height
+  ){
+    canvas.width=width;
+    canvas.height=height;
+  }
+}
+
+function assembledSurfaces(frame){
+  const output=[];
+
+  const lower=state.models.lower;
+  const upper=state.models.upper;
+  const head=state.models.head;
+
+  const lowerFrame=lower
+    ?Math.min(frame,lower.frameCount-1)
+    :0;
+
+  const upperFrame=upper
+    ?Math.min(frame,upper.frameCount-1)
+    :0;
+
+  const headFrame=head
+    ?Math.min(frame,head.frameCount-1)
+    :0;
+
+  const lowerOrientation=
+    identityOrientation();
+
+  const torsoTag=
+    modelTag(
+      lower,
+      lowerFrame,
+      "tag_torso"
+    )||
+    identityOrientation();
+
+  const upperOrientation=
+    composeOrientation(
+      lowerOrientation,
+      torsoTag
+    );
+
+  const headTag=
+    modelTag(
+      upper,
+      upperFrame,
+      "tag_head"
+    )||
+    identityOrientation();
+
+  const headOrientation=
+    composeOrientation(
+      upperOrientation,
+      headTag
+    );
+
+  function append(
+    part,
+    model,
+    frameIndex,
+    orientation
+  ){
+    if(!model)return;
+
+    model.surfaces.forEach(
+      (surface,surfaceIndex)=>{
+        const vertices=
+          surface.frames[frameIndex]
+          .map(vertex=>({
+            position:
+              applyOrientation(
+                orientation,
+                vertex.position
+              ),
+            normal:
+              transformAxis(
+                orientation,
+                vertex.normal
+              )
+          }));
+
+        const texturePath=
+          state.skins[part].get(
+            surface.name.toLowerCase()
+          )||
+          surface.shader;
+
+        output.push({
+          part,
+          surface,
+          surfaceIndex,
+          vertices,
+          texture:
+            textureCanvas(texturePath)
+        });
+      }
+    );
+  }
+
+  append(
+    "lower",
+    lower,
+    lowerFrame,
+    lowerOrientation
+  );
+
+  append(
+    "upper",
+    upper,
+    upperFrame,
+    upperOrientation
+  );
+
+  append(
+    "head",
+    head,
+    headFrame,
+    headOrientation
+  );
+
+  return {
+    surfaces:output,
+    orientations:{
+      lower:lowerOrientation,
+      upper:upperOrientation,
+      head:headOrientation
+    }
+  };
+}
+
+function createView(surfaces){
+  const minimum=[Infinity,Infinity,Infinity];
+  const maximum=[-Infinity,-Infinity,-Infinity];
+
+  for(const item of surfaces){
+    for(const vertex of item.vertices){
+      for(let axis=0;axis<3;axis++){
+        minimum[axis]=Math.min(
+          minimum[axis],
+          vertex.position[axis]
+        );
+
+        maximum[axis]=Math.max(
+          maximum[axis],
+          vertex.position[axis]
+        );
+      }
+    }
+  }
+
+  if(!isFinite(minimum[0])){
+    minimum.fill(-1);
+    maximum.fill(1);
+  }
+
+  const center=minimum.map(
+    (value,axis)=>
+      (value+maximum[axis])/2
+  );
+
+  const extent=Math.max(
+    ...maximum.map(
+      (value,axis)=>
+        value-minimum[axis]
+    ),
+    .001
+  );
+
+  const canvas=$("preview");
+
+  const scale=
+    Math.min(
+      canvas.width,
+      canvas.height
+    )*
+    .72/
+    extent*
+    state.camera.zoom;
+
+  const cy=Math.cos(state.camera.yaw);
+  const sy=Math.sin(state.camera.yaw);
+  const cp=Math.cos(state.camera.pitch);
+  const sp=Math.sin(state.camera.pitch);
+
+  return {
+    project(point){
+      const x=point[0]-center[0];
+      const y=point[1]-center[1];
+      const z=point[2]-center[2];
+
+      const x1=x*cy-y*sy;
+      const y1=x*sy+y*cy;
+
+      return {
+        x:
+          canvas.width/2+
+          x1*scale,
+
+        y:
+          canvas.height/2-
+          (y1*sp+z*cp)*scale,
+
+        depth:
+          y1*cp-z*sp
+      };
+    }
+  };
+}
+
+function paintTriangle(
+  context,
+  image,
+  uv,
+  points
+){
+  const width=image.width;
+  const height=image.height;
+
+  const u=uv.map(value=>value[0]*width);
+  const v=uv.map(value=>value[1]*height);
+
+  const determinant=
+    u[0]*(v[1]-v[2])+
+    u[1]*(v[2]-v[0])+
+    u[2]*(v[0]-v[1]);
+
+  if(Math.abs(determinant)<1e-8){
+    return;
+  }
+
+  const x=points.map(point=>point.x);
+  const y=points.map(point=>point.y);
+
+  const a=
+    (
+      x[0]*(v[1]-v[2])+
+      x[1]*(v[2]-v[0])+
+      x[2]*(v[0]-v[1])
+    )/
+    determinant;
+
+  const c=
+    (
+      x[0]*(u[2]-u[1])+
+      x[1]*(u[0]-u[2])+
+      x[2]*(u[1]-u[0])
+    )/
+    determinant;
+
+  const e=
+    (
+      x[0]*(u[1]*v[2]-u[2]*v[1])+
+      x[1]*(u[2]*v[0]-u[0]*v[2])+
+      x[2]*(u[0]*v[1]-u[1]*v[0])
+    )/
+    determinant;
+
+  const b=
+    (
+      y[0]*(v[1]-v[2])+
+      y[1]*(v[2]-v[0])+
+      y[2]*(v[0]-v[1])
+    )/
+    determinant;
+
+  const d=
+    (
+      y[0]*(u[2]-u[1])+
+      y[1]*(u[0]-u[2])+
+      y[2]*(u[1]-u[0])
+    )/
+    determinant;
+
+  const f=
+    (
+      y[0]*(u[1]*v[2]-u[2]*v[1])+
+      y[1]*(u[2]*v[0]-u[0]*v[2])+
+      y[2]*(u[0]*v[1]-u[1]*v[0])
+    )/
+    determinant;
+
+  context.save();
+
+  context.beginPath();
+  context.moveTo(x[0],y[0]);
+  context.lineTo(x[1],y[1]);
+  context.lineTo(x[2],y[2]);
+  context.closePath();
+  context.clip();
+
+  context.setTransform(
+    a,b,c,d,e,f
+  );
+
+  context.drawImage(image,0,0);
+  context.restore();
+}
+
+function drawPreview(){
+  resizeCanvas();
+
+  const canvas=$("preview");
+  const context=canvas.getContext("2d");
+
+  context.setTransform(1,0,0,1,0,0);
+  context.fillStyle="#090d12";
+  context.fillRect(
+    0,0,
+    canvas.width,
+    canvas.height
+  );
+
+  if(!state.root){
+    context.fillStyle="#98a5b5";
+    context.textAlign="center";
+    context.fillText(
+      "Откройте ZIP или PK3",
+      canvas.width/2,
+      canvas.height/2
+    );
+    return;
+  }
+
+  const frame=
+    +$("frameSlider").value||0;
+
+  $("frameNumber").textContent=frame;
+
+  const assembled=
+    assembledSurfaces(frame);
+
+  const view=createView(
+    assembled.surfaces
+  );
+
+  const polygons=[];
+
+  for(const item of assembled.surfaces){
+    const projected=
+      item.vertices.map(vertex=>
+        view.project(vertex.position)
+      );
+
+    item.surface.triangles.forEach(
+      triangle=>{
+        const points=
+          triangle.map(
+            index=>projected[index]
+          );
+
+        polygons.push({
+          points,
+          uv:
+            triangle.map(
+              index=>
+                item.surface.uvs[index]
+            ),
+          texture:item.texture,
+          depth:
+            (
+              points[0].depth+
+              points[1].depth+
+              points[2].depth
+            )/3
+        });
+      }
+    );
+  }
+
+  polygons.sort(
+    (a,b)=>a.depth-b.depth
+  );
+
+  for(const polygon of polygons){
+    if(polygon.texture){
+      paintTriangle(
+        context,
+        polygon.texture,
+        polygon.uv,
+        polygon.points
+      );
+    }else{
+      context.beginPath();
+      context.moveTo(
+        polygon.points[0].x,
+        polygon.points[0].y
+      );
+      context.lineTo(
+        polygon.points[1].x,
+        polygon.points[1].y
+      );
+      context.lineTo(
+        polygon.points[2].x,
+        polygon.points[2].y
+      );
+      context.closePath();
+
+      context.fillStyle="#52657c";
+      context.globalAlpha=.45;
+      context.fill();
+      context.globalAlpha=1;
+    }
+
+    if($("wireframe").checked){
+      context.beginPath();
+      context.moveTo(
+        polygon.points[0].x,
+        polygon.points[0].y
+      );
+      context.lineTo(
+        polygon.points[1].x,
+        polygon.points[1].y
+      );
+      context.lineTo(
+        polygon.points[2].x,
+        polygon.points[2].y
+      );
+      context.closePath();
+
+      context.strokeStyle="#ffffff28";
+      context.lineWidth=1;
+      context.stroke();
+    }
+  }
+
+  if($("showTagAxes").checked){
+    const tagItems=[
+      {
+        orientation:
+          assembled.orientations.upper,
+        color:"#ffff00"
+      },
+      {
+        orientation:
+          assembled.orientations.head,
+        color:"#00ff88"
+      }
+    ];
+
+    for(const item of tagItems){
+      const origin=
+        view.project(
+          item.orientation.origin
+        );
+
+      context.beginPath();
+      context.arc(
+        origin.x,
+        origin.y,
+        5,
+        0,
+        Math.PI*2
+      );
+      context.fillStyle=item.color;
+      context.fill();
+
+      [
+        "#ff5555",
+        "#55ff55",
+        "#5599ff"
+      ].forEach(
+        (color,index)=>{
+          const end=
+            view.project(
+              add(
+                item.orientation.origin,
+                mul(
+                  item.orientation.axes[index],
+                  5
+                )
+              )
+            );
+
+          context.beginPath();
+          context.moveTo(
+            origin.x,
+            origin.y
+          );
+          context.lineTo(
+            end.x,
+            end.y
+          );
+          context.strokeStyle=color;
+          context.lineWidth=3;
+          context.stroke();
+        }
+      );
+    }
+  }
+}
+
+function configurePreview(){
+  const canvas=$("preview");
+
+  canvas.addEventListener(
+    "pointerdown",
+    event=>{
+      state.camera.drag=true;
+      state.camera.moved=false;
+      state.camera.x=event.clientX;
+      state.camera.y=event.clientY;
+
+      canvas.setPointerCapture(
+        event.pointerId
+      );
+    }
+  );
+
+  canvas.addEventListener(
+    "pointermove",
+    event=>{
+      if(!state.camera.drag)return;
+
+      const dx=
+        event.clientX-
+        state.camera.x;
+
+      const dy=
+        event.clientY-
+        state.camera.y;
+
+      if(Math.abs(dx)+Math.abs(dy)>2){
+        state.camera.moved=true;
+      }
+
+      state.camera.x=event.clientX;
+      state.camera.y=event.clientY;
+
+      state.camera.yaw+=dx*.01;
+
+      state.camera.pitch=
+        Math.max(
+          -1.55,
+          Math.min(
+            1.55,
+            state.camera.pitch+dy*.01
+          )
+        );
+
+      drawPreview();
+    }
+  );
+
+  canvas.addEventListener(
+    "pointerup",
+    event=>{
+      state.camera.drag=false;
+
+      if(
+        canvas.hasPointerCapture(
+          event.pointerId
+        )
+      ){
+        canvas.releasePointerCapture(
+          event.pointerId
+        );
+      }
+    }
+  );
+
+  canvas.addEventListener(
+    "wheel",
+    event=>{
+      event.preventDefault();
+
+      state.camera.zoom=
+        Math.max(
+          .1,
+          Math.min(
+            10,
+            state.camera.zoom*
+            Math.exp(
+              -event.deltaY*.001
+            )
+          )
+        );
+
+      drawPreview();
+    },
+    {passive:false}
+  );
+}
+
+function setFrame(value){
+  const maximum=
+    +$("frameSlider").max||0;
+
+  const frame=
+    Math.max(
+      0,
+      Math.min(maximum,value)
+    );
+
+  $("frameSlider").value=frame;
+  drawPreview();
+}
+
+function stopPlayback(){
+  state.animation.playing=false;
+  state.animation.last=0;
+  state.animation.accumulator=0;
+
+  if(state.animation.request){
+    cancelAnimationFrame(
+      state.animation.request
+    );
+  }
+
+  state.animation.request=0;
+  $("playPause").textContent="▶";
+}
+
+function playback(time){
+  if(
+    !state.animation.playing||
+    !state.root
+  ){
+    return;
+  }
+
+  if(!state.animation.last){
+    state.animation.last=time;
+  }
+
+  state.animation.accumulator+=
+    time-state.animation.last;
+
+  state.animation.last=time;
+
+  const duration=
+    1000/
+    Math.max(
+      1,
+      Math.min(
+        120,
+        +$("previewFps").value||20
+      )
+    );
+
+  while(
+    state.animation.accumulator>=
+    duration
+  ){
+    state.animation.accumulator-=
+      duration;
+
+    let frame=
+      +$("frameSlider").value+1;
+
+    const maximum=
+      +$("frameSlider").max;
+
+    if(frame>maximum){
+      if($("loopPlayback").checked){
+        frame=0;
+      }else{
+        setFrame(maximum);
+        stopPlayback();
+        return;
+      }
+    }
+
+    setFrame(frame);
+  }
+
+  state.animation.request=
+    requestAnimationFrame(playback);
+}
+
+function togglePlayback(){
+  if(!state.root)return;
+
+  if(state.animation.playing){
+    stopPlayback();
+    return;
+  }
+
+  state.animation.playing=true;
+  state.animation.last=0;
+  state.animation.accumulator=0;
+  $("playPause").textContent="⏸";
+
+  state.animation.request=
+    requestAnimationFrame(playback);
+}
+
+class Writer{
+  constructor(){
+    this.parts=[];
+    this.length=0;
+  }
+
+  bytes(value){
+    const bytes=
+      value instanceof Uint8Array
+        ?value
+        :new Uint8Array(value);
+
+    this.parts.push(bytes);
+    this.length+=bytes.length;
+  }
+
+  raw(text){
+    this.bytes(
+      Uint8Array.from(
+        [...text].map(
+          character=>
+            character.charCodeAt(0)&255
+        )
+      )
+    );
+  }
+
+  fixed(text,length){
+    const bytes=new Uint8Array(length);
+
+    for(
+      let index=0;
+      index<
+      Math.min(text.length,length-1);
+      index++
+    ){
+      bytes[index]=
+        text.charCodeAt(index)&255;
+    }
+
+    this.bytes(bytes);
+  }
+
+  i16(value){
+    const bytes=new Uint8Array(2);
+
+    new DataView(bytes.buffer)
+      .setInt16(0,value,true);
+
+    this.bytes(bytes);
+  }
+
+  u16(value){
+    const bytes=new Uint8Array(2);
+
+    new DataView(bytes.buffer)
+      .setUint16(0,value&65535,true);
+
+    this.bytes(bytes);
+  }
+
+  u32(value){
+    const bytes=new Uint8Array(4);
+
+    new DataView(bytes.buffer)
+      .setUint32(0,value>>>0,true);
+
+    this.bytes(bytes);
+  }
+
+  f32(value){
+    const bytes=new Uint8Array(4);
+
+    new DataView(bytes.buffer)
+      .setFloat32(0,value,true);
+
+    this.bytes(bytes);
+  }
+
+  result(){
+    const output=
+      new Uint8Array(this.length);
+
+    let offset=0;
+
+    for(const part of this.parts){
+      output.set(part,offset);
+      offset+=part.length;
+    }
+
+    return output;
+  }
+}
+
+function encodeCoordinate(value){
+  const encoded=Math.round(value*64);
+
+  if(
+    encoded<-32768||
+    encoded>32767
+  ){
+    throw new Error(
+      "Координата MD3 вышла за диапазон. "+
+      "Уменьшите Scale."
+    );
+  }
+
+  return encoded;
+}
+
+function createSurfaceBytes(surface){
+  const triangleOffset=108;
+
+  const shaderOffset=
+    triangleOffset+
+    surface.triangleCount*12;
+
+  const uvOffset=
+    shaderOffset+68;
+
+  const vertexOffset=
+    uvOffset+
+    surface.vertexCount*8;
+
+  const endOffset=
+    vertexOffset+
+    surface.frameCount*
+    surface.vertexCount*8;
+
+  const writer=new Writer();
+
+  writer.raw("IDP3");
+  writer.fixed(surface.name,64);
+  writer.u32(0);
+  writer.u32(surface.frameCount);
+  writer.u32(1);
+  writer.u32(surface.vertexCount);
+  writer.u32(surface.triangleCount);
+  writer.u32(triangleOffset);
+  writer.u32(shaderOffset);
+  writer.u32(uvOffset);
+  writer.u32(vertexOffset);
+  writer.u32(endOffset);
+
+  surface.triangles.forEach(
+    triangle=>
+      triangle.forEach(
+        index=>writer.u32(index)
+      )
+  );
+
+  writer.fixed(
+    surface.shader||
+    surface.name,
+    64
+  );
+
+  writer.u32(0);
+
+  surface.uvs.forEach(uv=>{
+    writer.f32(uv[0]);
+    writer.f32(uv[1]);
+  });
+
+  for(const frame of surface.frames){
+    for(const vertex of frame){
+      writer.i16(
+        encodeCoordinate(
+          vertex.position[0]
+        )
+      );
+
+      writer.i16(
+        encodeCoordinate(
+          vertex.position[1]
+        )
+      );
+
+      writer.i16(
+        encodeCoordinate(
+          vertex.position[2]
+        )
+      );
+
+      writer.u16(
+        encodeNormal(
+          vertex.normal
+        )
+      );
+    }
+  }
+
+  return writer.result();
+}
+
+function frameBounds(model,frame){
+  const minimum=[
+    Infinity,
+    Infinity,
+    Infinity
+  ];
+
+  const maximum=[
+    -Infinity,
+    -Infinity,
+    -Infinity
+  ];
+
+  let radius=0;
+  let hasVertex=false;
+
+  for(const surface of model.surfaces){
+    const sourceFrame=
+      surface.frames[
+        Math.min(
+          frame,
+          surface.frames.length-1
+        )
+      ];
+
+    for(const vertex of sourceFrame){
+      hasVertex=true;
+
+      for(let axis=0;axis<3;axis++){
+        minimum[axis]=
+          Math.min(
+            minimum[axis],
+            vertex.position[axis]
+          );
+
+        maximum[axis]=
+          Math.max(
+            maximum[axis],
+            vertex.position[axis]
+          );
+      }
+
+      radius=Math.max(
+        radius,
+        Math.hypot(
+          ...vertex.position
+        )
+      );
+    }
+  }
+
+  if(!hasVertex){
+    return {
+      minimum:[0,0,0],
+      maximum:[0,0,0],
+      radius:0
+    };
+  }
+
+  return {
+    minimum,
+    maximum,
+    radius
+  };
+}
+
+function writeMD3(model){
+  const surfaces=
+    model.surfaces.map(
+      createSurfaceBytes
+    );
+
+  const frameOffset=108;
+
+  const tagOffset=
+    frameOffset+
+    model.frameCount*56;
+
+  const surfaceOffset=
+    tagOffset+
+    model.frameCount*
+    model.tagCount*
+    112;
+
+  const endOffset=
+    surfaceOffset+
+    surfaces.reduce(
+      (sum,surface)=>
+        sum+surface.length,
+      0
+    );
+
+  const writer=new Writer();
+
+  writer.raw("IDP3");
+  writer.u32(15);
+  writer.fixed(model.name,64);
+  writer.u32(0);
+  writer.u32(model.frameCount);
+  writer.u32(model.tagCount);
+  writer.u32(model.surfaces.length);
+  writer.u32(0);
+  writer.u32(frameOffset);
+  writer.u32(tagOffset);
+  writer.u32(surfaceOffset);
+  writer.u32(endOffset);
+
+  for(
+    let frame=0;
+    frame<model.frameCount;
+    frame++
+  ){
+    const bounds=
+      frameBounds(model,frame);
+
+    bounds.minimum.forEach(
+      value=>writer.f32(value)
+    );
+
+    bounds.maximum.forEach(
+      value=>writer.f32(value)
+    );
+
+    writer.f32(0);
+    writer.f32(0);
+    writer.f32(0);
+    writer.f32(bounds.radius);
+
+    writer.fixed(
+      model.frames[frame]?.name||
+      `frame_${frame}`,
+      16
+    );
+  }
+
+  for(const frameTags of model.tags){
+    for(const tag of frameTags){
+      writer.fixed(tag.name,64);
+
+      tag.origin.forEach(
+        value=>writer.f32(value)
+      );
+
+      tag.axes.forEach(
+        axis=>
+          axis.forEach(
+            value=>writer.f32(value)
+          )
+      );
+    }
+  }
+
+  surfaces.forEach(
+    surface=>writer.bytes(surface)
+  );
+
+  return writer.result();
+}
+
+const CRC_TABLE=(()=>{
+  const table=new Uint32Array(256);
+
+  for(let index=0;index<256;index++){
+    let value=index;
+
+    for(let bit=0;bit<8;bit++){
+      value=
+        value&1
+          ?0xedb88320^(value>>>1)
+          :value>>>1;
+    }
+
+    table[index]=value>>>0;
+  }
+
+  return table;
+})();
+
+function crc32(bytes){
+  let crc=0xffffffff;
+
+  for(const byte of bytes){
+    crc=
+      CRC_TABLE[
+        (crc^byte)&255
+      ]^
+      (crc>>>8);
+  }
+
+  return (
+    crc^0xffffffff
+  )>>>0;
+}
+
+function dosDateTime(date=new Date()){
+  const year=Math.max(
+    1980,
+    date.getFullYear()
+  );
+
+  return {
+    time:
+      (date.getHours()<<11)|
+      (date.getMinutes()<<5)|
+      Math.floor(
+        date.getSeconds()/2
+      ),
+
+    date:
+      ((year-1980)<<9)|
+      ((date.getMonth()+1)<<5)|
+      date.getDate()
+  };
+}
+
+async function createZip(entries){
+  const local=new Writer();
+  const central=new Writer();
+  const stamp=dosDateTime();
+
+  let localOffset=0;
+
+  for(const [fileName,fileData] of entries){
+    const name=encoder.encode(fileName);
+    const data=
+      fileData instanceof Uint8Array
+        ?fileData
+        :new Uint8Array(fileData);
+
+    const checksum=crc32(data);
+
+    local.u32(0x04034b50);
+    local.u16(20);
+    local.u16(0x0800);
+    local.u16(0);
+    local.u16(stamp.time);
+    local.u16(stamp.date);
+    local.u32(checksum);
+    local.u32(data.length);
+    local.u32(data.length);
+    local.u16(name.length);
+    local.u16(0);
+    local.bytes(name);
+    local.bytes(data);
+
+    central.u32(0x02014b50);
+    central.u16(20);
+    central.u16(20);
+    central.u16(0x0800);
+    central.u16(0);
+    central.u16(stamp.time);
+    central.u16(stamp.date);
+    central.u32(checksum);
+    central.u32(data.length);
+    central.u32(data.length);
+    central.u16(name.length);
+    central.u16(0);
+    central.u16(0);
+    central.u16(0);
+    central.u16(0);
+    central.u32(0);
+    central.u32(localOffset);
+    central.bytes(name);
+
+    localOffset+=
+      30+
+      name.length+
+      data.length;
+  }
+
+  const localData=local.result();
+  const centralData=central.result();
+  const output=new Writer();
+
+  output.bytes(localData);
+  output.bytes(centralData);
+  output.u32(0x06054b50);
+  output.u16(0);
+  output.u16(0);
+  output.u16(entries.size);
+  output.u16(entries.size);
+  output.u32(centralData.length);
+  output.u32(localData.length);
+  output.u16(0);
+
+  return new Blob(
+    [output.result()],
+    {type:"application/zip"}
+  );
+}
+
+function prepareArchiveEntries(){
+  const output=new Map(state.entries);
+
+  for(const part of ["lower","upper","head"]){
+    const model=state.models[part];
+
+    if(!model)continue;
+
+    const md3Entry=
+      findEntry(
+        `${state.root}/${part}.md3`
+      );
+
+    const md3Path=
+      md3Entry
+        ?md3Entry.name
+        :`${state.root}/${part}.md3`;
+
+    output.set(
+      md3Path,
+      writeMD3(model)
+    );
+
+    const skinEntry=
+      findEntry(
+        `${state.root}/${part}_default.skin`
+      );
+
+    const skinPath=
+      skinEntry
+        ?skinEntry.name
+        :`${state.root}/${part}_default.skin`;
+
+    output.set(
+      skinPath,
+      encoder.encode(
+        skinText(
+          part,
+          model,
+          state.skins[part]
+        )
+      )
+    );
+  }
+
+  return output;
+}
+
+function downloadBlob(blob,name){
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+
+  link.href=url;
+  link.download=name;
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(
+    ()=>URL.revokeObjectURL(url),
+    2000
+  );
+}
+
+async function exportArchive(extension){
+  if(!state.root)return;
+
+  try{
+    const entries=
+      prepareArchiveEntries();
+
+    const blob=
+      await createZip(entries);
+
+    const base=
+      safeFileName(
+        state.archiveName,
+        "q3_model"
+      );
+
+    const name=
+      `${base}_edited.${extension}`;
+
+    downloadBlob(blob,name);
+
+    $("resultInfo").textContent=
+      `Создан ${name}\n`+
+      `Файлов: ${entries.size}\n`+
+      `Размер: ${(blob.size/1024/1024).toFixed(2)} МБ`;
+
+    state.changed=false;
+
+    log(`Создан ${name}`);
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА ЭКСПОРТА: ${error.message}`);
+  }
+}
+
+async function openArchive(){
+  const file=$("archiveFile").files[0];
+
+  if(!file){
+    alert("Выберите ZIP или PK3");
+    return;
+  }
+
+  try{
+    stopPlayback();
+
+    $("archiveInfo").textContent=
+      "Чтение архива...";
+
+    state.archiveName=file.name;
+    state.entries=
+      await readZip(
+        await file.arrayBuffer()
+      );
+
+    state.roots=findModelRoots();
+
+    if(!state.roots.length){
+      throw new Error(
+        "В архиве не найден "+
+        "models/players/<имя>/lower.md3"
+      );
+    }
+
+    $("modelSelect").disabled=false;
+
+    $("modelSelect").innerHTML=
+      state.roots.map(root=>
+        `<option value="${root}">${root}</option>`
+      ).join("");
+
+    $("archiveInfo").textContent=
+      `${file.name}\n`+
+      `Файлов: ${state.entries.size}\n`+
+      `Найдено моделей: ${state.roots.length}`;
+
+    await loadSelectedModel();
+
+    log(`Открыт архив ${file.name}`);
+  }catch(error){
+    alert(error.message);
+
+    $("archiveInfo").textContent=
+      `Ошибка: ${error.message}`;
+
+    log(`ОШИБКА АРХИВА: ${error.message}`);
+  }
+}
+
+function resetProject(){
+  stopPlayback();
+
+  state.archiveName="";
+  state.entries=new Map();
+  state.roots=[];
+  state.root="";
+  state.models={
+    lower:null,
+    upper:null,
+    head:null
+  };
+  state.skins={
+    lower:new Map(),
+    upper:new Map(),
+    head:new Map()
+  };
+  state.textures=new Map();
+  state.changed=false;
+
+  $("archiveFile").value="";
+  $("modelSelect").disabled=true;
+  $("modelSelect").innerHTML=
+    "<option>Архив не загружен</option>";
+
+  $("archiveInfo").textContent=
+    "Выберите ZIP или PK3.";
+
+  $("loadedParts").textContent=
+    "Модель не загружена.";
+
+  $("textureEditor").textContent=
+    "Модель не загружена.";
+
+  $("frameSlider").value=0;
+  $("frameSlider").max=0;
+  $("frameNumber").textContent="0";
+  $("frameMaximum").textContent="0";
+
+  $("saveZip").disabled=true;
+  $("savePk3").disabled=true;
+  $("resultZip").disabled=true;
+  $("resultPk3").disabled=true;
+
+  $("resultInfo").textContent=
+    "Изменений пока нет.";
+
+  drawPreview();
+  activateView("archive");
+
+  log("Создан новый проект");
+}
+
+function activateView(name){
+  document.querySelectorAll(
+    ".nav button"
+  ).forEach(button=>{
+    button.classList.toggle(
+      "active",
+      button.dataset.view===name
+    );
+  });
+
+  document.querySelectorAll(
+    "[data-panel]"
+  ).forEach(panel=>{
+    panel.classList.toggle(
+      "active",
+      panel.dataset.panel===name
+    );
+  });
+}
+
+document.querySelectorAll(
+  ".nav button"
+).forEach(button=>{
+  button.addEventListener("click",()=>{
+    activateView(
+      button.dataset.view
+    );
+  });
+});
+
+$("openArchive").addEventListener(
+  "click",
+  openArchive
+);
+
+$("modelSelect").addEventListener(
+  "change",
+  loadSelectedModel
+);
+
+$("resetProject").addEventListener(
+  "click",
+  resetProject
+);
+
+$("applyGlobalScale").addEventListener(
+  "click",
+  ()=>{
+    if(!state.root)return;
+
+    const scale=
+      +$("globalScale").value;
+
+    if(
+      !isFinite(scale)||
+      scale<=0
+    ){
+      alert("Некорректный Scale");
+      return;
+    }
+
+    scaleAllModels(scale);
+
+    state.changed=true;
+    $("globalScale").value=1;
+
+    drawPreview();
+    log(`Применён общий Scale ${scale}`);
+  }
+);
+
+$("applyPartTransform").addEventListener(
+  "click",
+  ()=>{
+    const part=$("partSelect").value;
+    const model=state.models[part];
+
+    if(!model){
+      alert(`${part}.md3 не загружен`);
+      return;
+    }
+
+    const scale=
+      +$("partScale").value||1;
+
+    const translation=[
+      +$("partX").value||0,
+      +$("partY").value||0,
+      +$("partZ").value||0
+    ];
+
+    const rotation=[
+      +$("partRX").value||0,
+      +$("partRY").value||0,
+      +$("partRZ").value||0
+    ];
+
+    transformModel(
+      model,
+      scale,
+      translation,
+      rotation
+    );
+
+    state.changed=true;
+
+    [
+      "partScale",
+      "partX","partY","partZ",
+      "partRX","partRY","partRZ"
+    ].forEach(id=>{
+      $(id).value=
+        id==="partScale"
+          ?1
+          :0;
+    });
+
+    drawPreview();
+
+    log(
+      `Изменена часть ${part}`
+    );
+  }
+);
+
+$("tagPart").addEventListener(
+  "change",
+  renderTagOptions
+);
+
+$("applyTagTransform").addEventListener(
+  "click",
+  ()=>{
+    const part=$("tagPart").value;
+    const model=state.models[part];
+    const name=$("tagSelect").value;
+
+    if(!model||!name){
+      alert("Выберите тег");
+      return;
+    }
+
+    const translation=[
+      +$("tagX").value||0,
+      +$("tagY").value||0,
+      +$("tagZ").value||0
+    ];
+
+    const rotation=[
+      +$("tagRX").value||0,
+      +$("tagRY").value||0,
+      +$("tagRZ").value||0
+    ];
+
+    transformTag(
+      model,
+      name,
+      translation,
+      rotation
+    );
+
+    state.changed=true;
+
+    [
+      "tagX","tagY","tagZ",
+      "tagRX","tagRY","tagRZ"
+    ].forEach(id=>{
+      $(id).value=0;
+    });
+
+    drawPreview();
+
+    log(
+      `Изменён ${part}:${name}`
+    );
+  }
+);
+
+$("saveZip").addEventListener(
+  "click",
+  ()=>exportArchive("zip")
+);
+
+$("savePk3").addEventListener(
+  "click",
+  ()=>exportArchive("pk3")
+);
+
+$("resultZip").addEventListener(
+  "click",
+  ()=>exportArchive("zip")
+);
+
+$("resultPk3").addEventListener(
+  "click",
+  ()=>exportArchive("pk3")
+);
+
+$("frameSlider").addEventListener(
+  "input",
+  drawPreview
+);
+
+$("previousFrame").addEventListener(
+  "click",
+  ()=>{
+    stopPlayback();
+
+    setFrame(
+      (+$("frameSlider").value||0)-1
+    );
+  }
+);
+
+$("nextFrame").addEventListener(
+  "click",
+  ()=>{
+    stopPlayback();
+
+    let frame=
+      (+$("frameSlider").value||0)+1;
+
+    const maximum=
+      +$("frameSlider").max||0;
+
+    if(frame>maximum){
+      frame=
+        $("loopPlayback").checked
+          ?0
+          :maximum;
+    }
+
+    setFrame(frame);
+  }
+);
+
+$("playPause").addEventListener(
+  "click",
+  togglePlayback
+);
+
+$("resetView").addEventListener(
+  "click",
+  ()=>{
+    state.camera.yaw=-.7;
+    state.camera.pitch=-.25;
+    state.camera.zoom=1;
+
+    drawPreview();
+  }
+);
+
+$("wireframe").addEventListener(
+  "change",
+  drawPreview
+);
+
+$("showTagAxes").addEventListener(
+  "change",
+  drawPreview
+);
+
+window.addEventListener(
+  "resize",
+  drawPreview
+);
+
+configurePreview();
+renderTagOptions();
+drawPreview();
+</script>
+<script>
+(() => {
+  "use strict";
+
+  function translateWholeModel(offset) {
+    const lower = state.models.lower;
+
+    if (!lower) {
+      alert("Сначала загрузите модель с lower.md3");
+      return;
+    }
+
+    /*
+     * Перемещаем только корневую lower.md3.
+     * Upper и head последуют за tag_torso и tag_head.
+     * Если перемещать все три MD3, смещение сложится несколько раз.
+     */
+    for (const surface of lower.surfaces) {
+      for (const frame of surface.frames) {
+        for (const vertex of frame) {
+          vertex.position[0] += offset[0];
+          vertex.position[1] += offset[1];
+          vertex.position[2] += offset[2];
+        }
+      }
+    }
+
+    /*
+     * Теги lower также должны переместиться вместе с геометрией.
+     */
+    for (const frameTags of lower.tags) {
+      for (const tag of frameTags) {
+        tag.origin[0] += offset[0];
+        tag.origin[1] += offset[1];
+        tag.origin[2] += offset[2];
+      }
+    }
+
+    state.changed = true;
+    drawPreview();
+
+    log(
+      "Смещена вся модель: " +
+      `X=${offset[0]}, Y=${offset[1]}, Z=${offset[2]}`
+    );
+  }
+
+  function readMoveStep() {
+    const value = Number(
+      document.getElementById("wholeModelMoveStep").value
+    );
+
+    return Number.isFinite(value) && value > 0
+      ? value
+      : 1;
+  }
+
+  function placeCurrentFrameOnGround() {
+    const lower = state.models.lower;
+
+    if (!lower) {
+      alert("Сначала загрузите модель с lower.md3");
+      return;
+    }
+
+    const requestedFrame =
+      Number(document.getElementById("frameSlider").value) || 0;
+
+    let minimumZ = Infinity;
+
+    for (const surface of lower.surfaces) {
+      if (!surface.frames.length) {
+        continue;
+      }
+
+      const frameIndex = Math.min(
+        requestedFrame,
+        surface.frames.length - 1
+      );
+
+      for (const vertex of surface.frames[frameIndex]) {
+        minimumZ = Math.min(
+          minimumZ,
+          vertex.position[2]
+        );
+      }
+    }
+
+    if (!Number.isFinite(minimumZ)) {
+      alert("В lower.md3 не найдены вершины");
+      return;
+    }
+
+    if (Math.abs(minimumZ) < 0.0001) {
+      log("Модель уже находится на уровне Z=0");
+      return;
+    }
+
+    //translateWholeModel([0, 0, -minimumZ]);
+	
+	const PLAYER_GROUND_Z = -24;
+
+	translateWholeModel([
+	  0,
+	  0,
+	  PLAYER_GROUND_Z - minimumZ
+	]);
+
+    log(
+      `Модель поставлена на землю по кадру ${requestedFrame}`
+    );
+  }
+
+  function applyExactTranslation() {
+    const x =
+      Number(document.getElementById("wholeModelX").value) || 0;
+
+    const y =
+      Number(document.getElementById("wholeModelY").value) || 0;
+
+    const z =
+      Number(document.getElementById("wholeModelZ").value) || 0;
+
+    if (x === 0 && y === 0 && z === 0) {
+      return;
+    }
+
+    translateWholeModel([x, y, z]);
+
+    document.getElementById("wholeModelX").value = 0;
+    document.getElementById("wholeModelY").value = 0;
+    document.getElementById("wholeModelZ").value = 0;
+  }
+
+  const transformView = document.querySelector(
+    '[data-panel="transform"]'
+  );
+
+  if (!transformView) {
+    console.error(
+      "Не найдена секция data-panel=\"transform\""
+    );
+    return;
+  }
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <h2>Положение всей модели</h2>
+
+    <p class="muted">
+      Перемещает корневую lower.md3. Upper и head следуют
+      за ней через теги, поэтому соединение частей сохраняется.
+    </p>
+
+    <div class="grid">
+      <label class="field">
+        <span>Шаг кнопок</span>
+        <input
+          id="wholeModelMoveStep"
+          type="number"
+          min="0.01"
+          step="0.1"
+          value="1"
+        >
+      </label>
+
+      <label class="field">
+        <span>Точное смещение X</span>
+        <input
+          id="wholeModelX"
+          type="number"
+          step="0.1"
+          value="0"
+        >
+      </label>
+
+      <label class="field">
+        <span>Точное смещение Y</span>
+        <input
+          id="wholeModelY"
+          type="number"
+          step="0.1"
+          value="0"
+        >
+      </label>
+
+      <label class="field">
+        <span>Точное смещение Z</span>
+        <input
+          id="wholeModelZ"
+          type="number"
+          step="0.1"
+          value="0"
+        >
+      </label>
+    </div>
+
+    <div class="toolbar" style="margin-top:12px">
+      <button data-whole-move="-1,0,0">← Влево (−X)</button>
+      <button data-whole-move="1,0,0">Вправо (+X) →</button>
+
+      <button data-whole-move="0,-1,0">Назад (−Y)</button>
+      <button data-whole-move="0,1,0">Вперёд (+Y)</button>
+
+      <button data-whole-move="0,0,-1">↓ Вниз (−Z)</button>
+      <button data-whole-move="0,0,1">Вверх (+Z) ↑</button>
+    </div>
+
+    <div class="toolbar" style="margin-top:10px">
+      <button id="applyWholeModelTranslation">
+        Применить точное смещение
+      </button>
+
+      <button id="placeModelOnGround" class="primary">
+        Поставить на землю
+      </button>
+    </div>
+
+    <div class="notice warning">
+      «Поставить на землю» совмещает самую нижнюю вершину
+      lower.md3 на выбранном кадре с уровнем Z=0.
+    </div>
+  `;
+
+  /*
+   * Размещаем карточку после глобального Scale.
+   */
+  const firstCard = transformView.querySelector(".card");
+
+  if (firstCard && firstCard.nextSibling) {
+    transformView.insertBefore(
+      card,
+      firstCard.nextSibling
+    );
+  } else {
+    transformView.appendChild(card);
+  }
+
+  card.querySelectorAll("[data-whole-move]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        const direction = button.dataset.wholeMove
+          .split(",")
+          .map(Number);
+
+        const step = readMoveStep();
+
+        translateWholeModel([
+          direction[0] * step,
+          direction[1] * step,
+          direction[2] * step
+        ]);
+      });
+    });
+
+  document
+    .getElementById("applyWholeModelTranslation")
+    .addEventListener(
+      "click",
+      applyExactTranslation
+    );
+
+  document
+    .getElementById("placeModelOnGround")
+    .addEventListener(
+      "click",
+      placeCurrentFrameOnGround
+    );
+})();
+</script>
+
+<script>
+(() => {
+  "use strict";
+
+  const transformView = document.querySelector(
+    '[data-panel="transform"]'
+  );
+
+  if (!transformView) return;
+
+  const warning = document.createElement("div");
+  warning.className = "card";
+
+  warning.innerHTML = `
+    <h2>Важное предупреждение</h2>
+
+    <div class="notice warning">
+      Изменяйте масштаб и положение модели аккуратно,
+      небольшими шагами.
+
+      MD3-трансформации изменяют только видимую модель.
+      Положение игрока, игровая точка и hitbox Quake 3
+      остаются прежними.
+
+      При сильном увеличении или смещении вниз модель может
+      перестать совпадать с игровым hitbox. Из-за этого боты
+      могут неправильно целиться, не реагировать на персонажа
+      или визуально перестать его атаковать.
+
+      Рекомендуется изменять Scale небольшими шагами
+      0.05–0.10, а положение — по 0.5–1 единице, каждый раз
+      проверяя результат в игре.
+	  
+	  !!!! Кнопка «Поставить на землю» совмещает нижнюю вершину lower.md3
+	  с нижней границей стандартного hitbox Quake 3: Z = -24. 
+	  ДЛЯ ЭТОГО ВЫБЕРИТЕ В АНИМАЦИИ КАДР ГДЕ ПЕРСОНАЖ СТОИТ 
+	  НА МЕСТЕ НОГАМИ, ТОЛЬКО ТАК БУДЕТ ВЕРНО
+    </div>
+  `;
+
+  transformView.insertBefore(
+    warning,
+    transformView.firstChild
+  );
+})();
+</script>
+
+<script>
+(() => {
+  "use strict";
+
+  const TAG_SETTINGS = {
+    tag_torso: {
+      owner: "lower",
+      color: "#ffff00",
+      allowedParts: ["lower"]
+    },
+
+    tag_head: {
+      owner: "upper",
+      color: "#00ff88",
+      allowedParts: ["lower", "upper"]
+    },
+
+    tag_weapon: {
+      owner: "upper",
+      color: "#ff5050",
+      allowedParts: ["lower", "upper"]
+    }
+  };
+
+  let activeTagPicker = null;
+
+  function setFieldLabel(id, text) {
+    const input = document.getElementById(id);
+    const label = input?.closest("label");
+    const span = label?.querySelector("span");
+
+    if (span) {
+      span.textContent = text;
+    }
+  }
+
+  /*
+   * Понятные названия координат Quake 3:
+   * X — вперёд/назад
+   * Y — влево/вправо
+   * Z — вверх/вниз
+   */
+  setFieldLabel("partX", "Вперёд / назад — X");
+  setFieldLabel("partY", "Влево / вправо — Y");
+  setFieldLabel("partZ", "Вверх / вниз — Z");
+
+  setFieldLabel("partRX", "Наклон вверх / вниз — вокруг X");
+  setFieldLabel("partRY", "Крен влево / вправо — вокруг Y");
+  setFieldLabel("partRZ", "Поворот влево / вправо — вокруг Z");
+
+  setFieldLabel("tagX", "Вперёд / назад — X");
+  setFieldLabel("tagY", "Влево / вправо — Y");
+  setFieldLabel("tagZ", "Вверх / вниз — Z");
+
+  setFieldLabel("tagRX", "Наклон вверх / вниз — вокруг X");
+  setFieldLabel("tagRY", "Крен влево / вправо — вокруг Y");
+  setFieldLabel("tagRZ", "Поворот влево / вправо — вокруг Z");
+
+  /*
+   * Исправляем подписи кнопок перемещения всей модели,
+   * если дополнение перемещения уже установлено.
+   */
+  const wholeMoveLabels = {
+    "-1,0,0": "Назад (−X)",
+    "1,0,0": "Вперёд (+X)",
+    "0,-1,0": "Вправо (−Y)",
+    "0,1,0": "Влево (+Y)",
+    "0,0,-1": "Вниз (−Z)",
+    "0,0,1": "Вверх (+Z)"
+  };
+
+  document
+    .querySelectorAll("[data-whole-move]")
+    .forEach(button => {
+      const label = wholeMoveLabels[
+        button.dataset.wholeMove
+      ];
+
+      if (label) {
+        button.textContent = label;
+      }
+    });
+
+  function partOrientation(part, frameIndex) {
+    const lower = state.models.lower;
+    const upper = state.models.upper;
+
+    const lowerOrientation = identityOrientation();
+
+    if (part === "lower") {
+      return lowerOrientation;
+    }
+
+    const lowerFrame = lower
+      ? Math.min(frameIndex, lower.frameCount - 1)
+      : 0;
+
+    const torsoTag =
+      modelTag(
+        lower,
+        lowerFrame,
+        "tag_torso"
+      ) || identityOrientation();
+
+    const upperOrientation = composeOrientation(
+      lowerOrientation,
+      torsoTag
+    );
+
+    if (part === "upper") {
+      return upperOrientation;
+    }
+
+    const upperFrame = upper
+      ? Math.min(frameIndex, upper.frameCount - 1)
+      : 0;
+
+    const headTag =
+      modelTag(
+        upper,
+        upperFrame,
+        "tag_head"
+      ) || identityOrientation();
+
+    return composeOrientation(
+      upperOrientation,
+      headTag
+    );
+  }
+
+  function triangleOrientation(points, name) {
+    const axisX = normalize(
+      sub(points[1], points[0])
+    );
+
+    const axisZ = normalize(
+      cross(
+        sub(points[1], points[0]),
+        sub(points[2], points[0])
+      )
+    );
+
+    const axisY = normalize(
+      cross(axisZ, axisX)
+    );
+
+    const origin = mul(
+      add(
+        add(points[0], points[1]),
+        points[2]
+      ),
+      1 / 3
+    );
+
+    return {
+      name,
+      origin,
+      axes: [axisX, axisY, axisZ]
+    };
+  }
+
+  function orientationToLocal(world, parent) {
+    const difference = sub(
+      world.origin,
+      parent.origin
+    );
+
+    return {
+      name: world.name,
+
+      origin: [
+        dot(difference, parent.axes[0]),
+        dot(difference, parent.axes[1]),
+        dot(difference, parent.axes[2])
+      ],
+
+      axes: world.axes.map(axis =>
+        normalize([
+          dot(axis, parent.axes[0]),
+          dot(axis, parent.axes[1]),
+          dot(axis, parent.axes[2])
+        ])
+      )
+    };
+  }
+
+  function findOrCreateTag(model, frameIndex, name) {
+    const frameTags = model.tags[frameIndex];
+
+    let tag = frameTags.find(
+      value =>
+        value.name.toLowerCase() ===
+        name.toLowerCase()
+    );
+
+    if (!tag) {
+      tag = {
+        name,
+        origin: [0, 0, 0],
+        axes: [
+          [1, 0, 0],
+          [0, 1, 0],
+          [0, 0, 1]
+        ]
+      };
+
+      frameTags.push(tag);
+    }
+
+    return tag;
+  }
+
+  function assignTagFromTriangle(
+    tagName,
+    sourcePart,
+    surfaceIndex,
+    triangleIndex
+  ) {
+    const settings = TAG_SETTINGS[tagName];
+    const targetModel = state.models[settings.owner];
+    const sourceModel = state.models[sourcePart];
+
+    if (!targetModel || !sourceModel) {
+      throw new Error(
+        "Не найдена необходимая MD3-часть"
+      );
+    }
+
+    const sourceSurface =
+      sourceModel.surfaces[surfaceIndex];
+
+    const triangle =
+      sourceSurface?.triangles[triangleIndex];
+
+    if (!sourceSurface || !triangle) {
+      throw new Error(
+        "Выбранный треугольник не найден"
+      );
+    }
+
+    for (
+      let frame = 0;
+      frame < targetModel.frameCount;
+      frame++
+    ) {
+      const sourceFrame = Math.min(
+        frame,
+        sourceSurface.frames.length - 1
+      );
+
+      const sourceOrientation =
+        partOrientation(sourcePart, frame);
+
+      /*
+       * Получаем положение выбранного треугольника
+       * в общих мировых координатах собранной модели.
+       */
+      const worldPoints = triangle.map(
+        vertexIndex =>
+          applyOrientation(
+            sourceOrientation,
+            sourceSurface
+              .frames[sourceFrame]
+              [vertexIndex]
+              .position
+          )
+      );
+
+      const worldTag = triangleOrientation(
+        worldPoints,
+        tagName
+      );
+
+      /*
+       * tag_torso хранится в lower.
+       * tag_head и tag_weapon хранятся в upper.
+       */
+      const targetParent =
+        settings.owner === "lower"
+          ? identityOrientation()
+          : partOrientation("upper", frame);
+
+      const localTag = orientationToLocal(
+        worldTag,
+        targetParent
+      );
+
+      const targetTag = findOrCreateTag(
+        targetModel,
+        frame,
+        tagName
+      );
+
+      targetTag.origin =
+        localTag.origin.slice();
+
+      targetTag.axes =
+        localTag.axes.map(axis =>
+          axis.slice()
+        );
+    }
+
+    targetModel.tagCount =
+      targetModel.tags[0]?.length || 0;
+
+    state.changed = true;
+
+    /*
+     * Выбираем исправленный тег в обычном редакторе,
+     * чтобы его можно было сразу вращать и двигать.
+     */
+    document.getElementById("tagPart").value =
+      settings.owner;
+
+    renderTagOptions();
+
+    document.getElementById("tagSelect").value =
+      tagName;
+
+    drawPreview();
+
+    log(
+      `${tagName} переназначен: ` +
+      `${sourcePart}, surface ${surfaceIndex + 1}, ` +
+      `triangle ${triangleIndex + 1}`
+    );
+  }
+
+  function buildPickPolygons(frameIndex) {
+    const assembled =
+      assembledSurfaces(frameIndex);
+
+    const view = createView(
+      assembled.surfaces
+    );
+
+    const polygons = [];
+
+    for (const item of assembled.surfaces) {
+      const projected = item.vertices.map(
+        vertex =>
+          view.project(vertex.position)
+      );
+
+      item.surface.triangles.forEach(
+        (triangle, triangleIndex) => {
+          const points = triangle.map(
+            vertexIndex =>
+              projected[vertexIndex]
+          );
+
+          polygons.push({
+            part: item.part,
+            surfaceIndex: item.surfaceIndex,
+            triangleIndex,
+            points,
+
+            depth:
+              (
+                points[0].depth +
+                points[1].depth +
+                points[2].depth
+              ) / 3
+          });
+        }
+      );
+    }
+
+    polygons.sort(
+      (first, second) =>
+        first.depth - second.depth
+    );
+
+    return polygons;
+  }
+
+  function pointInsideTriangle(point, triangle) {
+    const sign = (p, first, second) =>
+      (p.x - second.x) *
+      (first.y - second.y) -
+      (first.x - second.x) *
+      (p.y - second.y);
+
+    const first = sign(
+      point,
+      triangle[0],
+      triangle[1]
+    );
+
+    const second = sign(
+      point,
+      triangle[1],
+      triangle[2]
+    );
+
+    const third = sign(
+      point,
+      triangle[2],
+      triangle[0]
+    );
+
+    const hasNegative =
+      first < 0 ||
+      second < 0 ||
+      third < 0;
+
+    const hasPositive =
+      first > 0 ||
+      second > 0 ||
+      third > 0;
+
+    return !(hasNegative && hasPositive);
+  }
+
+  function updatePickerButtons() {
+    document
+      .querySelectorAll("[data-reassign-tag]")
+      .forEach(button => {
+        const name =
+          button.dataset.reassignTag;
+
+        const active =
+          activeTagPicker === name;
+
+        button.classList.toggle(
+          "active",
+          active
+        );
+
+        button.textContent = active
+          ? `Щёлкните по треугольнику для ${name}`
+          : `Переназначить ${name}`;
+      });
+
+    const status = document.getElementById(
+      "tagReassignStatus"
+    );
+
+    if (!status) return;
+
+    if (!activeTagPicker) {
+      status.textContent =
+        "Выберите тег, затем треугольник на модели.";
+      return;
+    }
+
+    const allowed =
+      TAG_SETTINGS[
+        activeTagPicker
+      ].allowedParts.join(", ");
+
+    status.textContent =
+      `Выбирается ${activeTagPicker}. ` +
+      `Допустимые части: ${allowed}.`;
+  }
+
+  const tagsPanel = document.querySelector(
+    '[data-panel="tags"]'
+  );
+
+  if (!tagsPanel) {
+    console.error(
+      'Не найдена секция data-panel="tags"'
+    );
+    return;
+  }
+
+  const reassignCard =
+    document.createElement("div");
+
+  reassignCard.className = "card";
+
+  reassignCard.innerHTML = `
+    <h2>Повторное назначение тегов</h2>
+
+    <p class="muted">
+      Выберите нужный тег, затем щёлкните по треугольнику
+      собранной модели. Новая позиция и ориентация будут
+      рассчитаны для каждого кадра.
+    </p>
+
+    <div class="toolbar">
+      <button
+        data-reassign-tag="tag_torso"
+      >
+        Переназначить tag_torso
+      </button>
+
+      <button
+        data-reassign-tag="tag_head"
+      >
+        Переназначить tag_head
+      </button>
+
+      <button
+        data-reassign-tag="tag_weapon"
+      >
+        Переназначить tag_weapon
+      </button>
+
+      <button id="cancelTagReassign">
+        Отмена
+      </button>
+    </div>
+
+    <div
+      id="tagReassignStatus"
+      class="notice"
+    >
+      Выберите тег, затем треугольник на модели.
+    </div>
+
+    <div class="notice warning">
+      tag_torso выбирается на lower.
+
+      tag_head и tag_weapon можно выбирать на lower или upper.
+      Это позволяет исправлять теги и у моделей, вся геометрия
+      которых находится в lower.md3.
+    </div>
+  `;
+
+  tagsPanel.insertBefore(
+    reassignCard,
+    tagsPanel.firstChild
+  );
+
+  reassignCard
+    .querySelectorAll("[data-reassign-tag]")
+    .forEach(button => {
+      button.addEventListener(
+        "click",
+        () => {
+          const name =
+            button.dataset.reassignTag;
+
+          activeTagPicker =
+            activeTagPicker === name
+              ? null
+              : name;
+
+          stopPlayback();
+          updatePickerButtons();
+        }
+      );
+    });
+
+  document
+    .getElementById("cancelTagReassign")
+    .addEventListener(
+      "click",
+      () => {
+        activeTagPicker = null;
+        updatePickerButtons();
+      }
+    );
+
+  /*
+   * Обработчик выбора треугольника.
+   */
+  document
+    .getElementById("preview")
+    .addEventListener(
+      "click",
+      event => {
+        if (
+          !activeTagPicker ||
+          state.camera.moved ||
+          !state.root
+        ) {
+          return;
+        }
+
+        const canvas =
+          document.getElementById("preview");
+
+        const rectangle =
+          canvas.getBoundingClientRect();
+
+        const point = {
+          x:
+            (event.clientX - rectangle.left) *
+            canvas.width /
+            rectangle.width,
+
+          y:
+            (event.clientY - rectangle.top) *
+            canvas.height /
+            rectangle.height
+        };
+
+        const frameIndex =
+          Number(
+            document.getElementById(
+              "frameSlider"
+            ).value
+          ) || 0;
+
+        const polygons =
+          buildPickPolygons(frameIndex);
+
+        for (
+          let index = polygons.length - 1;
+          index >= 0;
+          index--
+        ) {
+          const polygon = polygons[index];
+
+          if (
+            !pointInsideTriangle(
+              point,
+              polygon.points
+            )
+          ) {
+            continue;
+          }
+
+          const settings =
+            TAG_SETTINGS[
+              activeTagPicker
+            ];
+
+          if (
+            !settings.allowedParts.includes(
+              polygon.part
+            )
+          ) {
+            alert(
+              `${activeTagPicker} нельзя выбрать ` +
+              `на части ${polygon.part}. ` +
+              `Используйте: ` +
+              settings.allowedParts.join(", ")
+            );
+
+            return;
+          }
+
+          try {
+            assignTagFromTriangle(
+              activeTagPicker,
+              polygon.part,
+              polygon.surfaceIndex,
+              polygon.triangleIndex
+            );
+
+            activeTagPicker = null;
+            updatePickerButtons();
+          } catch (error) {
+            alert(error.message);
+
+            log(
+              `ОШИБКА ТЕГА: ${error.message}`
+            );
+          }
+
+          return;
+        }
+      },
+      true
+    );
+
+  /*
+   * Дополнительно рисуем tag_weapon и подписи тегов.
+   */
+  const originalDrawPreview = drawPreview;
+
+  drawPreview = function() {
+    originalDrawPreview();
+
+    if (
+      !state.root ||
+      !document.getElementById(
+        "showTagAxes"
+      ).checked
+    ) {
+      return;
+    }
+
+    const frame =
+      Number(
+        document.getElementById(
+          "frameSlider"
+        ).value
+      ) || 0;
+
+    const assembled =
+      assembledSurfaces(frame);
+
+    const view = createView(
+      assembled.surfaces
+    );
+
+    const upper = state.models.upper;
+
+    if (!upper) return;
+
+    const upperFrame = Math.min(
+      frame,
+      upper.frameCount - 1
+    );
+
+    const weaponTag =
+      modelTag(
+        upper,
+        upperFrame,
+        "tag_weapon"
+      );
+
+    if (!weaponTag) return;
+
+    const worldWeapon =
+      composeOrientation(
+        assembled.orientations.upper,
+        weaponTag
+      );
+
+    const canvas =
+      document.getElementById("preview");
+
+    const context =
+      canvas.getContext("2d");
+
+    const origin = view.project(
+      worldWeapon.origin
+    );
+
+    context.beginPath();
+    context.arc(
+      origin.x,
+      origin.y,
+      7,
+      0,
+      Math.PI * 2
+    );
+
+    context.fillStyle =
+      TAG_SETTINGS.tag_weapon.color;
+
+    context.fill();
+
+    context.strokeStyle = "#000";
+    context.lineWidth = 2;
+    context.stroke();
+
+    [
+      "#ff5555",
+      "#55ff55",
+      "#5599ff"
+    ].forEach((color, axisIndex) => {
+      const end = view.project(
+        add(
+          worldWeapon.origin,
+          mul(
+            worldWeapon.axes[axisIndex],
+            5
+          )
+        )
+      );
+
+      context.beginPath();
+      context.moveTo(
+        origin.x,
+        origin.y
+      );
+      context.lineTo(
+        end.x,
+        end.y
+      );
+
+      context.strokeStyle = color;
+      context.lineWidth = 3;
+      context.stroke();
+    });
+
+    context.font =
+      "bold 12px system-ui";
+
+    context.fillStyle =
+      TAG_SETTINGS.tag_weapon.color;
+
+    context.textAlign = "left";
+
+    context.fillText(
+      "tag_weapon",
+      origin.x + 10,
+      origin.y - 8
+    );
+  };
+
+  updatePickerButtons();
+  drawPreview();
+})();
+</script>
+</body>
+</html>

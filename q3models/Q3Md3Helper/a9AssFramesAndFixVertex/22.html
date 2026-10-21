@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Quake 3 animation.cfg — добавление кадра</title>
+<style>
+body {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 18px;
+    color: #ddd;
+    background: #191b20;
+    font: 15px Arial, sans-serif;
+}
+section {
+    padding: 18px;
+    background: #252830;
+    border: 1px solid #484c55;
+    border-radius: 8px;
+}
+.row {
+    display: flex;
+    gap: 10px;
+    margin: 12px 0;
+    align-items: center;
+    flex-wrap: wrap;
+}
+input, select, button, textarea {
+    box-sizing: border-box;
+    padding: 9px;
+    color: #eee;
+    background: #343945;
+    border: 1px solid #666;
+    border-radius: 4px;
+}
+select { min-width: 260px; }
+button { cursor: pointer; }
+button:disabled { opacity: .45; cursor: default; }
+textarea {
+    width: 100%;
+    height: 520px;
+    margin-top: 12px;
+    resize: vertical;
+    font: 13px monospace;
+    white-space: pre;
+}
+#status {
+    margin-top: 12px;
+    padding: 10px;
+    white-space: pre-wrap;
+    background: #15171b;
+}
+.ok { color: #9ee49e; }
+.error { color: #ff9292; }
+</style>
+</head>
+<body>
+
+<h2>animation.cfg — добавление кадра</h2>
+
+<section>
+    <div class="row">
+        <input id="file" type="file" accept=".cfg,.txt">
+    </div>
+
+    <div class="row">
+        <label>
+            Анимация:
+            <select id="animation" disabled></select>
+        </label>
+
+        <label>
+            Добавить кадров:
+            <input id="amount" type="number" min="1" value="1">
+        </label>
+    </div>
+
+    <div class="row">
+        <button id="apply" disabled>Применить смещение</button>
+        <button id="download" disabled>Скачать animation.cfg</button>
+        <button id="reset" disabled>Вернуть исходник</button>
+    </div>
+
+    <div id="status">Выбери animation.cfg.</div>
+    <textarea id="output" readonly></textarea>
+</section>
+
+<script>
+"use strict";
+
+const ANIMATION_NAMES = [
+    "BOTH_DEATH1",
+    "BOTH_DEAD1",
+    "BOTH_DEATH2",
+    "BOTH_DEAD2",
+    "BOTH_DEATH3",
+    "BOTH_DEAD3",
+
+    "TORSO_GESTURE",
+    "TORSO_ATTACK",
+    "TORSO_ATTACK2",
+    "TORSO_DROP",
+    "TORSO_RAISE",
+    "TORSO_STAND",
+    "TORSO_STAND2",
+
+    "LEGS_WALKCR",
+    "LEGS_WALK",
+    "LEGS_RUN",
+    "LEGS_BACK",
+    "LEGS_SWIM",
+    "LEGS_JUMP",
+    "LEGS_LAND",
+    "LEGS_JUMPB",
+    "LEGS_LANDB",
+    "LEGS_IDLE",
+    "LEGS_IDLECR",
+    "LEGS_TURN"
+];
+
+const fileInput = document.getElementById("file");
+const animationSelect = document.getElementById("animation");
+const amountInput = document.getElementById("amount");
+const applyButton = document.getElementById("apply");
+const downloadButton = document.getElementById("download");
+const resetButton = document.getElementById("reset");
+const output = document.getElementById("output");
+const statusBox = document.getElementById("status");
+
+let sourceFileName = "animation.cfg";
+let originalText = "";
+let parsedFile = null;
+let resultText = "";
+
+function fail(message) {
+    throw new Error(message);
+}
+
+function animationGroup(name) {
+    if (name.startsWith("BOTH_")) return "BOTH";
+    if (name.startsWith("TORSO_")) return "TORSO";
+    if (name.startsWith("LEGS_")) return "LEGS";
+    return "UNKNOWN";
+}
+
+function parseAnimationCfg(text) {
+    const newline = text.includes("\r\n") ? "\r\n" : "\n";
+    const sourceLines = text.split(/\r?\n/);
+
+    const records = [];
+    let animationIndex = 0;
+
+    const numberPattern =
+        /^(\s*)(-?\d+)\s+(-?\d+)\s+(-?\d+)\s+(-?\d+)(\s*(?:\/\/.*)?)$/;
+
+    const lines = sourceLines.map((source, lineIndex) => {
+        const match = source.match(numberPattern);
+
+        if (!match) {
+            return {
+                type: "text",
+                source,
+                lineIndex
+            };
+        }
+
+        if (animationIndex >= ANIMATION_NAMES.length) {
+            return {
+                type: "text",
+                source,
+                lineIndex
+            };
+        }
+
+        const record = {
+            type: "animation",
+            lineIndex,
+            animationIndex,
+            name: ANIMATION_NAMES[animationIndex],
+            indent: match[1],
+            firstFrame: Number(match[2]),
+            numFrames: Number(match[3]),
+            loopFrames: Number(match[4]),
+            fps: Number(match[5]),
+            suffix: match[6] || ""
+        };
+
+        if (
+            !Number.isInteger(record.firstFrame) ||
+            !Number.isInteger(record.numFrames) ||
+            record.numFrames === 0
+        ) {
+            fail(
+                `Некорректная анимация в строке ${lineIndex + 1}.`
+            );
+        }
+
+        records.push(record);
+        animationIndex++;
+
+        return record;
+    });
+
+    if (records.length !== ANIMATION_NAMES.length) {
+        fail(
+            `Найдено ${records.length} строк анимаций, ` +
+            `ожидалось ${ANIMATION_NAMES.length}.`
+        );
+    }
+
+    return {
+        newline,
+        hasFinalNewline: /\r?\n$/.test(text),
+        lines,
+        records
+    };
+}
+
+function formatRecord(record) {
+    return (
+        record.indent +
+        String(record.firstFrame).padEnd(6) +
+        String(record.numFrames).padEnd(6) +
+        String(record.loopFrames).padEnd(6) +
+        String(record.fps).padEnd(6) +
+        record.suffix
+    ).replace(/\s+$/, "");
+}
+
+function serializeCfg(parsed) {
+    let text = parsed.lines.map(line => {
+        if (line.type === "animation") {
+            return formatRecord(line);
+        }
+
+        return line.source;
+    }).join(parsed.newline);
+
+    if (
+        parsed.hasFinalNewline &&
+        !text.endsWith(parsed.newline)
+    ) {
+        text += parsed.newline;
+    }
+
+    return text;
+}
+
+function cloneParsedFile(parsed) {
+    const clonedLines = parsed.lines.map(line => ({ ...line }));
+
+    return {
+        newline: parsed.newline,
+        hasFinalNewline: parsed.hasFinalNewline,
+        lines: clonedLines,
+        records: clonedLines.filter(
+            line => line.type === "animation"
+        )
+    };
+}
+
+function fillAnimationList(parsed) {
+    animationSelect.innerHTML = "";
+
+    for (const record of parsed.records) {
+        const option = document.createElement("option");
+
+        option.value = record.animationIndex;
+        option.textContent =
+            `${record.name}: ` +
+            `кадр ${record.firstFrame}, ` +
+            `длина ${Math.abs(record.numFrames)}`;
+
+        animationSelect.appendChild(option);
+    }
+
+    const attack = parsed.records.find(
+        record => record.name === "TORSO_ATTACK"
+    );
+
+    if (attack) {
+        animationSelect.value = attack.animationIndex;
+    }
+}
+
+function applyFrameAddition(parsed, selectedIndex, amount) {
+    const result = cloneParsedFile(parsed);
+    const selected = result.records[selectedIndex];
+
+    if (!selected) {
+        fail("Выбранная анимация не найдена.");
+    }
+
+    const oldLength = Math.abs(selected.numFrames);
+    const direction = selected.numFrames < 0 ? -1 : 1;
+
+    /*
+     * Новый кадр добавляется в конец выбранной анимации.
+     * Все анимации, начинающиеся с этого места или позже,
+     * получают смещение.
+     */
+    const insertionFrame = selected.firstFrame + oldLength;
+    const selectedGroup = animationGroup(selected.name);
+
+    selected.numFrames =
+        direction * (oldLength + amount);
+
+    const shifted = [];
+
+    for (const record of result.records) {
+        if (record === selected) continue;
+
+        const recordGroup = animationGroup(record.name);
+
+        let belongsToAffectedModel = false;
+
+        if (selectedGroup === "TORSO") {
+            belongsToAffectedModel = recordGroup === "TORSO";
+        } else if (selectedGroup === "LEGS") {
+            belongsToAffectedModel = recordGroup === "LEGS";
+        } else if (selectedGroup === "BOTH") {
+            /*
+             * BOTH-кадры существуют одновременно в upper и lower,
+             * поэтому сдвигаются все более поздние диапазоны.
+             */
+            belongsToAffectedModel =
+                recordGroup === "BOTH" ||
+                recordGroup === "TORSO" ||
+                recordGroup === "LEGS";
+        }
+
+        if (
+            belongsToAffectedModel &&
+            record.firstFrame >= insertionFrame
+        ) {
+            const oldFirstFrame = record.firstFrame;
+            record.firstFrame += amount;
+
+            shifted.push({
+                name: record.name,
+                from: oldFirstFrame,
+                to: record.firstFrame
+            });
+        }
+    }
+
+    return {
+        parsed: result,
+        selected: selected.name,
+        oldLength,
+        newLength: Math.abs(selected.numFrames),
+        insertionFrame,
+        shifted
+    };
+}
+
+function showOriginal() {
+    output.value = originalText;
+    resultText = "";
+    downloadButton.disabled = true;
+
+    statusBox.className = "";
+    statusBox.textContent =
+        "Показан исходный animation.cfg.";
+}
+
+fileInput.addEventListener("change", async event => {
+    try {
+        const file = event.target.files[0];
+
+        if (!file) return;
+
+        sourceFileName = file.name;
+        originalText = await file.text();
+        parsedFile = parseAnimationCfg(originalText);
+
+        fillAnimationList(parsedFile);
+
+        output.value = originalText;
+        animationSelect.disabled = false;
+        applyButton.disabled = false;
+        resetButton.disabled = false;
+        downloadButton.disabled = true;
+
+        statusBox.className = "ok";
+        statusBox.textContent =
+            `Загружено ${parsedFile.records.length} анимаций.`;
+    } catch (error) {
+        parsedFile = null;
+        animationSelect.disabled = true;
+        applyButton.disabled = true;
+        resetButton.disabled = true;
+        downloadButton.disabled = true;
+
+        statusBox.className = "error";
+        statusBox.textContent = error.message;
+    }
+});
+
+applyButton.addEventListener("click", () => {
+    try {
+        if (!parsedFile) {
+            fail("Сначала выбери animation.cfg.");
+        }
+
+        const selectedIndex = Number(animationSelect.value);
+        const amount = Number(amountInput.value);
+
+        if (!Number.isInteger(amount) || amount < 1) {
+            fail("Количество кадров должно быть больше нуля.");
+        }
+
+        const result = applyFrameAddition(
+            parsedFile,
+            selectedIndex,
+            amount
+        );
+
+        resultText = serializeCfg(result.parsed);
+        output.value = resultText;
+        downloadButton.disabled = false;
+
+        const shiftedText = result.shifted.length
+            ? result.shifted
+                .map(item =>
+                    `${item.name}: ${item.from} → ${item.to}`
+                )
+                .join("\n")
+            : "Последующие диапазоны не потребовали смещения.";
+
+        statusBox.className = "ok";
+        statusBox.textContent =
+            `${result.selected}: ` +
+            `${result.oldLength} → ${result.newLength} кадров\n` +
+            `Позиция вставки: ${result.insertionFrame}\n\n` +
+            shiftedText;
+    } catch (error) {
+        downloadButton.disabled = true;
+        statusBox.className = "error";
+        statusBox.textContent = error.message;
+    }
+});
+
+resetButton.addEventListener("click", showOriginal);
+
+downloadButton.addEventListener("click", () => {
+    if (!resultText) return;
+
+    const blob = new Blob(
+        [resultText],
+        { type: "text/plain;charset=utf-8" }
+    );
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = sourceFileName || "animation.cfg";
+    link.click();
+
+    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1691 @@
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>MD3 Pose Editor</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    color: #ddd;
+    background: #17191e;
+    font: 14px Arial, sans-serif;
+}
+
+#layout {
+    display: grid;
+    grid-template-columns: 330px 1fr;
+    height: 100vh;
+}
+
+#panel {
+    padding: 14px;
+    overflow: auto;
+    background: #242730;
+    border-right: 1px solid #555;
+}
+
+#viewer {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+}
+
+fieldset {
+    margin: 12px 0;
+    padding: 10px;
+    border: 1px solid #555;
+}
+
+legend {
+    color: #a9d7ff;
+}
+
+label {
+    display: block;
+    margin: 7px 0;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    padding: 7px;
+    color: #eee;
+    background: #343944;
+    border: 1px solid #666;
+    border-radius: 3px;
+}
+
+button {
+    margin: 4px 0;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+#tags {
+    min-height: 90px;
+}
+
+#status {
+    margin-top: 10px;
+    padding: 9px;
+    white-space: pre-wrap;
+    background: #15171b;
+}
+
+#selectionBox {
+    position: absolute;
+    display: none;
+    z-index: 10;
+    pointer-events: none;
+    border: 1px solid #55bbff;
+    background: rgba(60, 160, 255, 0.18);
+}
+
+.ok { color: #9ee49e; }
+.error { color: #ff9292; }
+small { color: #aaa; }
+</style>
+</head>
+
+<body>
+
+<div id="layout">
+
+<aside id="panel">
+
+    <h2>MD3 Pose Editor</h2>
+
+    <input id="file" type="file" accept=".md3">
+
+    <fieldset>
+        <legend>Кадр и поверхность</legend>
+
+        <label>
+            Кадр
+            <input
+                id="frame"
+                type="number"
+                min="0"
+                value="93"
+                disabled
+            >
+        </label>
+
+        <label>
+            Поверхность
+            <select id="surface" disabled></select>
+        </label>
+
+        <button id="show" disabled>
+            Показать кадр
+        </button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Выделение</legend>
+
+        <label>
+            Радиус выделения при клике
+            <input
+                id="radius"
+                type="number"
+                min="0"
+                step="0.25"
+                value="2"
+            >
+        </label>
+
+        <button id="selectAll" disabled>
+            Выделить всё
+        </button>
+
+        <button id="clear" disabled>
+            Снять выделение
+        </button>
+
+        <div id="selection">Выбрано: 0</div>
+
+        <small>
+            Левая кнопка + движение — рамка.<br>
+            Клик — выбор точек по радиусу.<br>
+            Shift — добавить точки.<br>
+            Ctrl — убрать точки.<br>
+            Правая кнопка — вращение камеры.<br>
+            Колесо — масштаб.
+        </small>
+    </fieldset>
+
+    <fieldset>
+        <legend>Смещение</legend>
+
+        <div class="grid">
+            <label>
+                X
+                <input
+                    id="dx"
+                    type="number"
+                    step="0.015625"
+                    value="0"
+                >
+            </label>
+
+            <label>
+                Y
+                <input
+                    id="dy"
+                    type="number"
+                    step="0.015625"
+                    value="0"
+                >
+            </label>
+
+            <label>
+                Z
+                <input
+                    id="dz"
+                    type="number"
+                    step="0.015625"
+                    value="0"
+                >
+            </label>
+        </div>
+
+        <label>
+            Наклон вокруг оси Y, градусов
+            <input
+                id="angle"
+                type="number"
+                step="0.5"
+                value="0"
+            >
+        </label>
+
+        <small>
+            Точка вращения автоматически располагается
+            в нижней части выделения.
+        </small>
+    </fieldset>
+
+    <fieldset>
+        <legend>Перемещаемые теги</legend>
+
+        <select id="tags" multiple disabled></select>
+
+        <small>
+            Ctrl позволяет выбрать несколько тегов.<br>
+            tag_torso лучше оставлять неподвижным.
+        </small>
+    </fieldset>
+
+		<fieldset>
+			<legend>Поднять или опустить</legend>
+
+			<label>
+				Шаг по Z
+				<input id="zStep" type="number" step="0.015625" value="0.5">
+			</label>
+
+			<div class="grid">
+				<button id="raisePoints">Поднять</button>
+				<button id="lowerPoints">Опустить</button>
+			</div>
+		</fieldset>
+		
+		<label>
+		Шаг смещения
+		<input id="moveStep" type="number" step="0.015625" value="0.5">
+	</label>
+
+	<div class="grid">
+		<button id="moveBack">Назад</button>
+		<button id="moveForward">Вперёд</button>
+	</div>
+
+    <button id="apply" disabled>
+        Применить преобразование
+    </button>
+
+    <button id="undo" disabled>
+        Отменить последнюю операцию
+    </button>
+
+    <button id="download" disabled>
+        Скачать изменённый MD3
+    </button>
+
+    <div id="status">
+        Выбери MD3-файл.
+    </div>
+
+</aside>
+
+<main id="viewer">
+    <div id="selectionBox"></div>
+</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+let fileName = "upper_edited.md3";
+let buffer = null;
+let undoBuffer = null;
+let model = null;
+
+let currentFrame = 0;
+let currentSurface = 0;
+
+let selected = new Set();
+
+let mesh = null;
+let points = null;
+
+let selectionStart = null;
+
+/*
+ * Создание 3D-сцены.
+ */
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x17191e);
+
+const camera = new THREE.PerspectiveCamera(
+    55,
+    1,
+    0.1,
+    5000
+);
+
+camera.position.set(55, -75, 40);
+camera.up.set(0, 0, 1);
+
+const renderer = new THREE.WebGLRenderer({
+    antialias: true
+});
+
+$("viewer").appendChild(renderer.domElement);
+
+const controls = new THREE.OrbitControls(
+    camera,
+    renderer.domElement
+);
+
+controls.enableDamping = true;
+
+/*
+ * Левая кнопка отдана выделению.
+ * Правая вращает модель.
+ */
+controls.mouseButtons = {
+    LEFT: -1,
+    MIDDLE: THREE.MOUSE.DOLLY,
+    RIGHT: THREE.MOUSE.ROTATE
+};
+
+renderer.domElement.addEventListener(
+    "contextmenu",
+    event => event.preventDefault()
+);
+
+const grid = new THREE.GridHelper(
+    100,
+    20,
+    0x555555,
+    0x303030
+);
+
+/*
+ * GridHelper создаётся в плоскости XZ.
+ * Поворачиваем его в плоскость XY,
+ * поскольку в Quake 3 ось Z направлена вверх.
+ */
+grid.rotation.x = Math.PI / 2;
+scene.add(grid);
+
+scene.add(new THREE.AxesHelper(15));
+
+function resize() {
+    const box = $("viewer").getBoundingClientRect();
+
+    renderer.setSize(box.width, box.height);
+
+    camera.aspect = box.width / box.height;
+    camera.updateProjectionMatrix();
+}
+
+window.addEventListener("resize", resize);
+resize();
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    controls.update();
+    renderer.render(scene, camera);
+}
+
+animate();
+
+/*
+ * Чтение MD3.
+ */
+
+function readText(view, offset, length) {
+    let result = "";
+
+    for (let i = 0; i < length; i++) {
+        const value = view.getUint8(offset + i);
+
+        if (value === 0) {
+            break;
+        }
+
+        result += String.fromCharCode(value);
+    }
+
+    return result;
+}
+
+function parseMD3(arrayBuffer) {
+    if (arrayBuffer.byteLength < 108) {
+        throw new Error("Файл слишком маленький для MD3.");
+    }
+
+    const view = new DataView(arrayBuffer);
+
+    if (readText(view, 0, 4) !== "IDP3") {
+        throw new Error("Это не MD3-файл.");
+    }
+
+    if (view.getInt32(4, true) !== 15) {
+        throw new Error(
+            "Поддерживается только MD3 версии 15."
+        );
+    }
+
+    const result = {
+        view,
+        numFrames: view.getInt32(76, true),
+        numTags: view.getInt32(80, true),
+        numSurfaces: view.getInt32(84, true),
+        ofsFrames: view.getInt32(92, true),
+        ofsTags: view.getInt32(96, true),
+        ofsSurfaces: view.getInt32(100, true),
+        ofsEnd: view.getInt32(104, true),
+        surfaces: [],
+        tagNames: []
+    };
+
+    if (
+        result.numFrames < 1 ||
+        result.numSurfaces < 1 ||
+        result.ofsEnd > arrayBuffer.byteLength
+    ) {
+        throw new Error("Структура MD3 повреждена.");
+    }
+
+    /*
+     * Названия тегов берём из первого кадра.
+     */
+    for (let i = 0; i < result.numTags; i++) {
+        result.tagNames.push(
+            readText(
+                view,
+                result.ofsTags + i * 112,
+                64
+            )
+        );
+    }
+
+    /*
+     * Поверхности.
+     */
+    let offset = result.ofsSurfaces;
+
+    for (
+        let surfaceIndex = 0;
+        surfaceIndex < result.numSurfaces;
+        surfaceIndex++
+    ) {
+        if (readText(view, offset, 4) !== "IDP3") {
+            throw new Error(
+                `Поверхность ${surfaceIndex} повреждена.`
+            );
+        }
+
+        const surface = {
+            offset,
+            name: readText(view, offset + 4, 64),
+            numFrames: view.getInt32(offset + 72, true),
+            numVerts: view.getInt32(offset + 80, true),
+            numTriangles: view.getInt32(offset + 84, true),
+            ofsTriangles: view.getInt32(offset + 88, true),
+            ofsXYZ: view.getInt32(offset + 100, true),
+            ofsEnd: view.getInt32(offset + 104, true)
+        };
+
+        if (surface.numFrames !== result.numFrames) {
+            throw new Error(
+                `Поверхность "${surface.name}" содержит ` +
+                `${surface.numFrames} кадров, модель содержит ` +
+                `${result.numFrames}.`
+            );
+        }
+
+        if (
+            surface.numVerts < 1 ||
+            surface.numTriangles < 1 ||
+            surface.ofsEnd < 108
+        ) {
+            throw new Error(
+                `Поверхность "${surface.name}" повреждена.`
+            );
+        }
+
+        result.surfaces.push(surface);
+        offset += surface.ofsEnd;
+    }
+
+    return result;
+}
+
+/*
+ * Работа с вершинами.
+ */
+
+function vertexOffset(surface, frame, vertex) {
+    return (
+        surface.offset +
+        surface.ofsXYZ +
+        (frame * surface.numVerts + vertex) * 8
+    );
+}
+
+function getPosition(surface, frame, vertex) {
+    const offset = vertexOffset(
+        surface,
+        frame,
+        vertex
+    );
+
+    return [
+        model.view.getInt16(offset, true) / 64,
+        model.view.getInt16(offset + 2, true) / 64,
+        model.view.getInt16(offset + 4, true) / 64
+    ];
+}
+
+function setPosition(surface, frame, vertex, position) {
+    const offset = vertexOffset(
+        surface,
+        frame,
+        vertex
+    );
+
+    const values = position.map(value => {
+        const quantized = Math.round(value * 64);
+
+        return Math.max(
+            -32768,
+            Math.min(32767, quantized)
+        );
+    });
+
+    model.view.setInt16(offset, values[0], true);
+    model.view.setInt16(offset + 2, values[1], true);
+    model.view.setInt16(offset + 4, values[2], true);
+}
+
+/*
+ * Нормали MD3.
+ */
+
+function decodeNormal(value) {
+    const latitude =
+        ((value >> 8) & 255) * Math.PI * 2 / 255;
+
+    const longitude =
+        (value & 255) * Math.PI * 2 / 255;
+
+    return [
+        Math.cos(latitude) * Math.sin(longitude),
+        Math.sin(latitude) * Math.sin(longitude),
+        Math.cos(longitude)
+    ];
+}
+
+function encodeNormal(normal) {
+    const length = Math.hypot(
+        normal[0],
+        normal[1],
+        normal[2]
+    ) || 1;
+
+    const x = normal[0] / length;
+    const y = normal[1] / length;
+    const z = normal[2] / length;
+
+    let latitude = Math.atan2(y, x);
+
+    if (latitude < 0) {
+        latitude += Math.PI * 2;
+    }
+
+    const longitude = Math.acos(
+        Math.max(-1, Math.min(1, z))
+    );
+
+    const encodedLatitude =
+        Math.round(
+            latitude * 255 / (Math.PI * 2)
+        ) & 255;
+
+    const encodedLongitude =
+        Math.round(
+            longitude * 255 / (Math.PI * 2)
+        ) & 255;
+
+    return (
+        (encodedLatitude << 8) |
+        encodedLongitude
+    );
+}
+
+/*
+ * Вращение вокруг оси Y.
+ */
+
+function rotateY(vector, angle) {
+    const cosine = Math.cos(angle);
+    const sine = Math.sin(angle);
+
+    return [
+        cosine * vector[0] + sine * vector[2],
+        vector[1],
+        -sine * vector[0] + cosine * vector[2]
+    ];
+}
+
+/*
+ * Построение модели.
+ */
+
+function rebuildView(fitCamera = false) {
+    if (!model) {
+        return;
+    }
+
+    if (mesh) {
+        scene.remove(mesh);
+        mesh.geometry.dispose();
+        mesh.material.dispose();
+        mesh = null;
+    }
+
+    if (points) {
+        scene.remove(points);
+        points.geometry.dispose();
+        points.material.dispose();
+        points = null;
+    }
+
+    const surface = model.surfaces[currentSurface];
+
+    const positions = new Float32Array(
+        surface.numVerts * 3
+    );
+
+    const colors = new Float32Array(
+        surface.numVerts * 3
+    );
+
+    for (
+        let vertex = 0;
+        vertex < surface.numVerts;
+        vertex++
+    ) {
+        const position = getPosition(
+            surface,
+            currentFrame,
+            vertex
+        );
+
+        positions.set(position, vertex * 3);
+
+        if (selected.has(vertex)) {
+            colors.set(
+                [1, 0.15, 0.1],
+                vertex * 3
+            );
+        } else {
+            colors.set(
+                [0.2, 0.75, 1],
+                vertex * 3
+            );
+        }
+    }
+
+    const geometry = new THREE.BufferGeometry();
+
+    geometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(positions, 3)
+    );
+
+    const indices = new Uint32Array(
+        surface.numTriangles * 3
+    );
+
+    const triangleStart =
+        surface.offset + surface.ofsTriangles;
+
+    for (
+        let index = 0;
+        index < indices.length;
+        index++
+    ) {
+        indices[index] = model.view.getInt32(
+            triangleStart + index * 4,
+            true
+        );
+    }
+
+    geometry.setIndex(
+        new THREE.BufferAttribute(indices, 1)
+    );
+
+    mesh = new THREE.Mesh(
+        geometry,
+        new THREE.MeshBasicMaterial({
+            color: 0x6b7788,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.42
+        })
+    );
+
+    scene.add(mesh);
+
+    const pointGeometry = new THREE.BufferGeometry();
+
+    pointGeometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(
+            positions.slice(),
+            3
+        )
+    );
+
+    pointGeometry.setAttribute(
+        "color",
+        new THREE.BufferAttribute(colors, 3)
+    );
+
+    points = new THREE.Points(
+        pointGeometry,
+        new THREE.PointsMaterial({
+            size: 0.55,
+            vertexColors: true,
+            sizeAttenuation: true
+        })
+    );
+
+    scene.add(points);
+
+    $("selection").textContent =
+        `Выбрано: ${selected.size}`;
+
+    if (fitCamera) {
+        geometry.computeBoundingSphere();
+
+        const sphere = geometry.boundingSphere;
+
+        if (sphere) {
+            controls.target.copy(sphere.center);
+
+            camera.position.set(
+                sphere.center.x + sphere.radius * 2,
+                sphere.center.y - sphere.radius * 2.5,
+                sphere.center.z + sphere.radius * 1.5
+            );
+
+            camera.near = Math.max(
+                0.01,
+                sphere.radius / 100
+            );
+
+            camera.far = Math.max(
+                100,
+                sphere.radius * 100
+            );
+
+            camera.updateProjectionMatrix();
+            controls.update();
+        }
+    }
+}
+
+/*
+ * Пересчёт границ всего кадра.
+ */
+
+function updateFrameBounds() {
+    const mins = [
+        Infinity,
+        Infinity,
+        Infinity
+    ];
+
+    const maxs = [
+        -Infinity,
+        -Infinity,
+        -Infinity
+    ];
+
+    const allPositions = [];
+
+    for (const surface of model.surfaces) {
+        for (
+            let vertex = 0;
+            vertex < surface.numVerts;
+            vertex++
+        ) {
+            const position = getPosition(
+                surface,
+                currentFrame,
+                vertex
+            );
+
+            allPositions.push(position);
+
+            for (let axis = 0; axis < 3; axis++) {
+                mins[axis] = Math.min(
+                    mins[axis],
+                    position[axis]
+                );
+
+                maxs[axis] = Math.max(
+                    maxs[axis],
+                    position[axis]
+                );
+            }
+        }
+    }
+
+    const origin = mins.map(
+        (value, axis) =>
+            (value + maxs[axis]) / 2
+    );
+
+    let radius = 0;
+
+    for (const position of allPositions) {
+        radius = Math.max(
+            radius,
+            Math.hypot(
+                position[0] - origin[0],
+                position[1] - origin[1],
+                position[2] - origin[2]
+            )
+        );
+    }
+
+    const offset =
+        model.ofsFrames + currentFrame * 56;
+
+    for (let axis = 0; axis < 3; axis++) {
+        model.view.setFloat32(
+            offset + axis * 4,
+            mins[axis],
+            true
+        );
+
+        model.view.setFloat32(
+            offset + 12 + axis * 4,
+            maxs[axis],
+            true
+        );
+
+        model.view.setFloat32(
+            offset + 24 + axis * 4,
+            origin[axis],
+            true
+        );
+    }
+
+    model.view.setFloat32(
+        offset + 36,
+        radius,
+        true
+    );
+}
+
+/*
+ * Теги.
+ */
+
+function selectedTagIndices() {
+    return [...$("tags").selectedOptions].map(
+        option => Number(option.value)
+    );
+}
+
+function transformTags(pivot, translation, angle) {
+    for (const tagIndex of selectedTagIndices()) {
+        const offset =
+            model.ofsTags +
+            (
+                currentFrame * model.numTags +
+                tagIndex
+            ) * 112;
+
+        const origin = [
+            model.view.getFloat32(offset + 64, true),
+            model.view.getFloat32(offset + 68, true),
+            model.view.getFloat32(offset + 72, true)
+        ];
+
+        const relative = origin.map(
+            (value, axis) =>
+                value - pivot[axis]
+        );
+
+        const rotatedOrigin = rotateY(
+            relative,
+            angle
+        );
+
+        for (let axis = 0; axis < 3; axis++) {
+            model.view.setFloat32(
+                offset + 64 + axis * 4,
+                pivot[axis] +
+                    rotatedOrigin[axis] +
+                    translation[axis],
+                true
+            );
+        }
+
+        /*
+         * Вращаем три оси тега.
+         */
+        for (let row = 0; row < 3; row++) {
+            const axisOffset =
+                offset + 76 + row * 12;
+
+            const tagAxis = [
+                model.view.getFloat32(
+                    axisOffset,
+                    true
+                ),
+                model.view.getFloat32(
+                    axisOffset + 4,
+                    true
+                ),
+                model.view.getFloat32(
+                    axisOffset + 8,
+                    true
+                )
+            ];
+
+            const rotatedAxis = rotateY(
+                tagAxis,
+                angle
+            );
+
+            for (let axis = 0; axis < 3; axis++) {
+                model.view.setFloat32(
+                    axisOffset + axis * 4,
+                    rotatedAxis[axis],
+                    true
+                );
+            }
+        }
+    }
+}
+
+/*
+ * Выделение.
+ */
+
+const raycaster = new THREE.Raycaster();
+raycaster.params.Points.threshold = 0.8;
+
+const pointer = new THREE.Vector2();
+const selectionBox = $("selectionBox");
+
+function canvasPosition(event) {
+    const rect =
+        renderer.domElement.getBoundingClientRect();
+
+    return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+        rect
+    };
+}
+
+function changeSelection(indices, add, remove) {
+    if (!add && !remove) {
+        selected.clear();
+    }
+
+    for (const index of indices) {
+        if (remove) {
+            selected.delete(index);
+        } else {
+            selected.add(index);
+        }
+    }
+
+    rebuildView();
+}
+
+function verticesInsideRectangle(
+    startX,
+    startY,
+    endX,
+    endY
+) {
+    const result = [];
+    const surface = model.surfaces[currentSurface];
+
+    const rect =
+        renderer.domElement.getBoundingClientRect();
+
+    const left = Math.min(startX, endX);
+    const right = Math.max(startX, endX);
+    const top = Math.min(startY, endY);
+    const bottom = Math.max(startY, endY);
+
+    for (
+        let vertex = 0;
+        vertex < surface.numVerts;
+        vertex++
+    ) {
+        const position = getPosition(
+            surface,
+            currentFrame,
+            vertex
+        );
+
+        const projected = new THREE.Vector3(
+            position[0],
+            position[1],
+            position[2]
+        ).project(camera);
+
+        if (
+            projected.z < -1 ||
+            projected.z > 1
+        ) {
+            continue;
+        }
+
+        const screenX =
+            (projected.x + 1) *
+            0.5 *
+            rect.width;
+
+        const screenY =
+            (1 - projected.y) *
+            0.5 *
+            rect.height;
+
+        if (
+            screenX >= left &&
+            screenX <= right &&
+            screenY >= top &&
+            screenY <= bottom
+        ) {
+            result.push(vertex);
+        }
+    }
+
+    return result;
+}
+
+function verticesAroundClick(event) {
+    const position = canvasPosition(event);
+
+    pointer.x =
+        (position.x / position.rect.width) * 2 - 1;
+
+    pointer.y =
+        -(position.y / position.rect.height) * 2 + 1;
+
+    raycaster.setFromCamera(pointer, camera);
+
+    const hit =
+        raycaster.intersectObject(points)[0];
+
+    if (!hit) {
+        return [];
+    }
+
+    const surface = model.surfaces[currentSurface];
+
+    const center = getPosition(
+        surface,
+        currentFrame,
+        hit.index
+    );
+
+    const radius = Math.max(
+        0,
+        Number($("radius").value) || 0
+    );
+
+    const result = [];
+
+    for (
+        let vertex = 0;
+        vertex < surface.numVerts;
+        vertex++
+    ) {
+        const position = getPosition(
+            surface,
+            currentFrame,
+            vertex
+        );
+
+        const distance = Math.hypot(
+            position[0] - center[0],
+            position[1] - center[1],
+            position[2] - center[2]
+        );
+
+        if (distance <= radius) {
+            result.push(vertex);
+        }
+    }
+
+    return result;
+}
+
+renderer.domElement.addEventListener(
+    "pointerdown",
+    event => {
+        if (
+            !points ||
+            event.button !== 0
+        ) {
+            return;
+        }
+
+        const position = canvasPosition(event);
+
+        selectionStart = {
+            x: position.x,
+            y: position.y,
+            shift: event.shiftKey,
+            ctrl: event.ctrlKey,
+            pointerId: event.pointerId
+        };
+
+        selectionBox.style.display = "block";
+        selectionBox.style.left = position.x + "px";
+        selectionBox.style.top = position.y + "px";
+        selectionBox.style.width = "0px";
+        selectionBox.style.height = "0px";
+
+        renderer.domElement.setPointerCapture(
+            event.pointerId
+        );
+    }
+);
+
+renderer.domElement.addEventListener(
+    "pointermove",
+    event => {
+        if (!selectionStart) {
+            return;
+        }
+
+        const position = canvasPosition(event);
+
+        const left = Math.min(
+            selectionStart.x,
+            position.x
+        );
+
+        const top = Math.min(
+            selectionStart.y,
+            position.y
+        );
+
+        const width = Math.abs(
+            position.x - selectionStart.x
+        );
+
+        const height = Math.abs(
+            position.y - selectionStart.y
+        );
+
+        selectionBox.style.left = left + "px";
+        selectionBox.style.top = top + "px";
+        selectionBox.style.width = width + "px";
+        selectionBox.style.height = height + "px";
+    }
+);
+
+renderer.domElement.addEventListener(
+    "pointerup",
+    event => {
+        if (
+            !selectionStart ||
+            event.button !== 0
+        ) {
+            return;
+        }
+
+        const end = canvasPosition(event);
+
+        const width = Math.abs(
+            end.x - selectionStart.x
+        );
+
+        const height = Math.abs(
+            end.y - selectionStart.y
+        );
+
+        let affected;
+
+        if (width < 5 && height < 5) {
+            affected = verticesAroundClick(event);
+        } else {
+            affected = verticesInsideRectangle(
+                selectionStart.x,
+                selectionStart.y,
+                end.x,
+                end.y
+            );
+        }
+
+        changeSelection(
+            affected,
+            selectionStart.shift,
+            selectionStart.ctrl
+        );
+
+        selectionBox.style.display = "none";
+
+        if (
+            renderer.domElement.hasPointerCapture(
+                event.pointerId
+            )
+        ) {
+            renderer.domElement.releasePointerCapture(
+                event.pointerId
+            );
+        }
+
+        selectionStart = null;
+    }
+);
+
+renderer.domElement.addEventListener(
+    "pointercancel",
+    event => {
+        selectionBox.style.display = "none";
+
+        if (
+            renderer.domElement.hasPointerCapture(
+                event.pointerId
+            )
+        ) {
+            renderer.domElement.releasePointerCapture(
+                event.pointerId
+            );
+        }
+
+        selectionStart = null;
+    }
+);
+
+/*
+ * Загрузка модели.
+ */
+
+$("file").addEventListener(
+    "change",
+    async event => {
+        try {
+            const file = event.target.files[0];
+
+            if (!file) {
+                return;
+            }
+
+            fileName =
+                file.name.replace(/\.md3$/i, "") +
+                "_edited.md3";
+
+            buffer = await file.arrayBuffer();
+            model = parseMD3(buffer);
+
+            $("frame").max =
+                model.numFrames - 1;
+
+            $("frame").value =
+                Math.min(93, model.numFrames - 1);
+
+            $("surface").innerHTML = "";
+
+            model.surfaces.forEach(
+                (surface, index) => {
+                    const option =
+                        document.createElement("option");
+
+                    option.value = index;
+
+                    option.textContent =
+                        `${index}: ${surface.name} ` +
+                        `(${surface.numVerts} вершин)`;
+
+                    $("surface").appendChild(option);
+                }
+            );
+
+            $("tags").innerHTML = "";
+
+            model.tagNames.forEach(
+                (name, index) => {
+                    const option =
+                        document.createElement("option");
+
+                    option.value = index;
+                    option.textContent = name;
+
+                    if (
+                        name === "tag_weapon" ||
+                        name === "tag_head"
+                    ) {
+                        option.selected = true;
+                    }
+
+                    $("tags").appendChild(option);
+                }
+            );
+
+            [
+                "frame",
+                "surface",
+                "show",
+                "selectAll",
+                "clear",
+                "tags",
+                "apply",
+                "download"
+            ].forEach(id => {
+                $(id).disabled = false;
+            });
+
+            currentFrame =
+                Number($("frame").value);
+
+            currentSurface = 0;
+
+            selected.clear();
+            undoBuffer = null;
+
+            $("undo").disabled = true;
+
+            rebuildView(true);
+
+            $("status").className = "ok";
+
+            $("status").textContent =
+                `Кадров: ${model.numFrames}\n` +
+                `Поверхностей: ${model.numSurfaces}\n` +
+                `Тегов: ${model.numTags}\n` +
+                `Открыт кадр: ${currentFrame}`;
+        } catch (error) {
+            $("status").className = "error";
+            $("status").textContent = error.message;
+        }
+    }
+);
+
+/*
+ * Переключение кадра.
+ */
+
+$("show").addEventListener("click", () => {
+    const frame = Number($("frame").value);
+    const surface = Number($("surface").value);
+
+    if (
+        !Number.isInteger(frame) ||
+        frame < 0 ||
+        frame >= model.numFrames
+    ) {
+        $("status").className = "error";
+        $("status").textContent =
+            "Указанный кадр отсутствует.";
+
+        return;
+    }
+
+    currentFrame = frame;
+    currentSurface = surface;
+
+    selected.clear();
+    rebuildView(true);
+
+    $("status").className = "ok";
+    $("status").textContent =
+        `Открыт кадр: ${currentFrame}`;
+});
+
+/*
+ * Кнопки выделения.
+ */
+
+$("selectAll").addEventListener("click", () => {
+    selected.clear();
+
+    const surface = model.surfaces[currentSurface];
+
+    for (
+        let vertex = 0;
+        vertex < surface.numVerts;
+        vertex++
+    ) {
+        selected.add(vertex);
+    }
+
+    rebuildView();
+});
+
+$("clear").addEventListener("click", () => {
+    selected.clear();
+    rebuildView();
+});
+
+/*
+ * Применение преобразования.
+ */
+
+$("apply").addEventListener("click", () => {
+    try {
+        if (!selected.size) {
+            throw new Error(
+                "Сначала выбери вершины."
+            );
+        }
+
+        /*
+         * Сохраняем модель для отмены операции.
+         */
+        undoBuffer = buffer.slice(0);
+        $("undo").disabled = false;
+
+        const surface =
+            model.surfaces[currentSurface];
+
+        const translation = [
+            Number($("dx").value) || 0,
+            Number($("dy").value) || 0,
+            Number($("dz").value) || 0
+        ];
+
+        const angleDegrees =
+            Number($("angle").value) || 0;
+
+        const angle =
+            angleDegrees * Math.PI / 180;
+
+        /*
+         * Получаем позиции выбранных вершин.
+         */
+        const selectedPositions =
+            [...selected].map(vertex =>
+                getPosition(
+                    surface,
+                    currentFrame,
+                    vertex
+                )
+            );
+
+        /*
+         * Точка вращения:
+         * X/Y — центр выделения;
+         * Z — нижняя точка выделения.
+         */
+        const pivot = [
+            selectedPositions.reduce(
+                (sum, position) =>
+                    sum + position[0],
+                0
+            ) / selectedPositions.length,
+
+            selectedPositions.reduce(
+                (sum, position) =>
+                    sum + position[1],
+                0
+            ) / selectedPositions.length,
+
+            Math.min(
+                ...selectedPositions.map(
+                    position => position[2]
+                )
+            )
+        ];
+
+        /*
+         * Изменяем выбранные вершины.
+         */
+        for (const vertex of selected) {
+            const original = getPosition(
+                surface,
+                currentFrame,
+                vertex
+            );
+
+            let transformed;
+
+            /*
+             * Если наклона нет, выполняем только смещение.
+             * Это исключает случайное стягивание к центру.
+             */
+            if (Math.abs(angle) < 0.000001) {
+                transformed = [
+                    original[0] + translation[0],
+                    original[1] + translation[1],
+                    original[2] + translation[2]
+                ];
+            } else {
+                const relative = [
+                    original[0] - pivot[0],
+                    original[1] - pivot[1],
+                    original[2] - pivot[2]
+                ];
+
+                const rotated = rotateY(
+                    relative,
+                    angle
+                );
+
+                transformed = [
+                    pivot[0] + rotated[0] + translation[0],
+                    pivot[1] + rotated[1] + translation[1],
+                    pivot[2] + rotated[2] + translation[2]
+                ];
+            }
+
+            setPosition(
+                surface,
+                currentFrame,
+                vertex,
+                transformed
+            );
+
+            /*
+             * Нормаль вращаем только при наклоне.
+             * Обычное перемещение нормаль не изменяет.
+             */
+            if (Math.abs(angle) >= 0.000001) {
+                const normalOffset =
+                    vertexOffset(
+                        surface,
+                        currentFrame,
+                        vertex
+                    ) + 6;
+
+                const normal = decodeNormal(
+                    model.view.getUint16(
+                        normalOffset,
+                        true
+                    )
+                );
+
+                const rotatedNormal = rotateY(
+                    normal,
+                    angle
+                );
+
+                model.view.setUint16(
+                    normalOffset,
+                    encodeNormal(rotatedNormal),
+                    true
+                );
+            }
+        }
+
+        /*
+         * Перемещаем выбранные теги тем же способом.
+         */
+        transformTags(
+            pivot,
+            translation,
+            angle
+        );
+
+        /*
+         * Обновляем параметры кадра и просмотр.
+         */
+        updateFrameBounds();
+        rebuildView();
+
+        /*
+         * Сбрасываем преобразование, чтобы оно
+         * случайно не применилось повторно.
+         */
+        $("dx").value = 0;
+        $("dy").value = 0;
+        $("dz").value = 0;
+        $("angle").value = 0;
+
+        $("status").className = "ok";
+
+        $("status").textContent =
+            `Изменено вершин: ${selected.size}\n` +
+            `Кадр: ${currentFrame}\n` +
+            `Смещение: ` +
+            `${translation.map(value => value.toFixed(3)).join(", ")}\n` +
+            `Наклон: ${angleDegrees.toFixed(2)}°`;
+    } catch (error) {
+        $("status").className = "error";
+        $("status").textContent = error.message;
+    }
+});
+
+/*
+ * Отмена.
+ */
+
+$("undo").addEventListener("click", () => {
+    if (!undoBuffer) {
+        return;
+    }
+
+    buffer = undoBuffer;
+    undoBuffer = null;
+
+    model = parseMD3(buffer);
+
+    $("undo").disabled = true;
+
+    selected.clear();
+    rebuildView();
+
+    $("status").className = "ok";
+    $("status").textContent =
+        "Последняя операция отменена.";
+});
+
+/*
+ * Экспорт.
+ */
+
+$("download").addEventListener("click", () => {
+    if (!buffer) {
+        return;
+    }
+
+    const blob = new Blob(
+        [buffer],
+        {
+            type: "application/octet-stream"
+        }
+    );
+
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+
+    setTimeout(
+        () => URL.revokeObjectURL(link.href),
+        1000
+    );
+});
+
+$("moveBack").addEventListener("click", () => {
+    const step = Math.abs(
+        Number($("moveStep").value) || 0
+    );
+
+    $("dx").value = -step;
+    $("dy").value = 0;
+    $("dz").value = 0;
+    $("angle").value = 0;
+});
+
+$("moveForward").addEventListener("click", () => {
+    const step = Math.abs(
+        Number($("moveStep").value) || 0
+    );
+
+    $("dx").value = step;
+    $("dy").value = 0;
+    $("dz").value = 0;
+    $("angle").value = 0;
+});
+</script>
+
+</body>
+</html>

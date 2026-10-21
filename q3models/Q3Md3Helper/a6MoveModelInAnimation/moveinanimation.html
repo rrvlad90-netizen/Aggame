@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MD3 Frame Vertical Mover</title>
+
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0e1217;--panel:#181e26;--panel2:#202833;
+  --border:#34404e;--text:#edf2f7;--muted:#98a5b5;
+  --blue:#51a8ff;--green:#4fd199;--yellow:#e9bd61;--red:#f06a6a
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,sans-serif}
+header{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid var(--border);background:#181e26f5}
+header h1{margin:0 auto 0 0;font-size:20px}
+button,input,select{font:inherit}
+button{padding:8px 11px;border:1px solid var(--border);border-radius:7px;background:var(--panel2);color:var(--text);cursor:pointer}
+button:hover:not(:disabled){border-color:var(--blue)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.primary{background:var(--blue);border-color:var(--blue);color:#071421;font-weight:700}
+input,select{width:100%;min-width:0;padding:7px;border:1px solid var(--border);border-radius:6px;background:#11171e;color:var(--text)}
+input[type=checkbox]{width:auto}
+main{display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:16px;width:min(1500px,100%);margin:auto;padding:16px}
+.card{margin-bottom:16px;padding:15px;border:1px solid var(--border);border-radius:10px;background:var(--panel)}
+.card h2{margin:0 0 10px;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.field{display:grid;gap:4px}.field span,.muted{color:var(--muted)}.field span{font-size:12px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.notice{margin-top:10px;padding:9px 11px;border-left:3px solid var(--blue);background:#172435;white-space:pre-wrap}
+.warning{border-left-color:var(--yellow)}
+canvas{display:block;width:100%;height:600px;border:1px solid var(--border);border-radius:8px;background:#0b1015;cursor:grab;touch-action:none}
+canvas:active{cursor:grabbing}
+#log{max-height:190px;overflow:auto;margin:0;padding:9px;border:1px solid var(--border);border-radius:8px;background:#0c1116;color:#bbc6d3;font:12px/1.5 ui-monospace,monospace;white-space:pre-wrap}
+@media(max-width:950px){main{grid-template-columns:1fr}}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>MD3 Frame Vertical Mover</h1>
+  <button id="downloadButton" class="primary" disabled>
+    Скачать изменённую MD3
+  </button>
+</header>
+
+<main>
+<section>
+
+<div class="card">
+  <h2>1. Исходная MD3</h2>
+
+  <div class="toolbar">
+    <input id="modelFile" type="file" accept=".md3">
+    <button id="loadButton">Открыть MD3</button>
+  </div>
+
+  <div id="fileInfo" class="notice">
+    Выберите lower.md3 или другую MD3.
+  </div>
+</div>
+
+<div class="card">
+  <h2>2. Выбор кадров</h2>
+
+  <div class="grid">
+    <label class="field">
+      <span>Режим</span>
+      <select id="frameMode">
+        <option value="single">Один кадр</option>
+        <option value="range">Диапазон кадров</option>
+        <option value="all">Все кадры</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Начальный кадр</span>
+      <input id="startFrame" type="number" min="0" step="1" value="0">
+    </label>
+
+    <label class="field">
+      <span>Конечный кадр</span>
+      <input id="endFrame" type="number" min="0" step="1" value="0" disabled>
+    </label>
+  </div>
+
+  <div class="notice">
+    Номера относятся к физическим кадрам внутри загруженной MD3,
+    а не к номерам LEGS из animation.cfg.
+  </div>
+</div>
+
+<div class="card">
+  <h2>3. Вертикальное смещение</h2>
+
+  <div class="grid">
+    <label class="field">
+      <span>Z — вверх / вниз</span>
+      <input id="offsetZ" type="number" step="0.1" value="0">
+    </label>
+
+    <label class="field">
+      <span>Имя выходного файла</span>
+      <input id="outputName" value="lower_moved.md3">
+    </label>
+
+    <label class="field">
+      <span>Показывать исходную позу</span>
+      <span style="display:flex;align-items:center;gap:8px;min-height:37px;padding:7px;border:1px solid var(--border);border-radius:6px;background:#11171e;color:var(--text)">
+        <input id="showOriginal" type="checkbox" checked>
+        Серым цветом
+      </span>
+    </label>
+  </div>
+
+  <div class="toolbar" style="margin-top:10px">
+    <button class="move" data-value="-5">−5 вниз</button>
+    <button class="move" data-value="-1">−1 вниз</button>
+    <button class="move" data-value="-.5">−0.5</button>
+    <button class="move" data-value=".5">+0.5</button>
+    <button class="move" data-value="1">+1 вверх</button>
+    <button class="move" data-value="5">+5 вверх</button>
+    <button id="resetOffset">Сбросить</button>
+  </div>
+
+  <div class="notice warning">
+    Для составного персонажа обычно изменяйте только lower.md3.
+    Вместе с геометрией утилита перемещает теги выбранного кадра,
+    поэтому upper и head останутся прикреплены правильно.
+
+    Изменяйте высоту небольшими шагами.
+  </div>
+</div>
+
+<div class="card">
+  <h2>Журнал</h2>
+  <pre id="log">Приложение готово.</pre>
+</div>
+
+</section>
+
+<aside>
+  <div class="card">
+    <h2>Предпросмотр</h2>
+
+    <canvas id="preview"></canvas>
+
+    <label class="field" style="margin-top:10px">
+      <span>
+        Просматриваемый кадр:
+        <b id="frameLabel">0</b>
+      </span>
+      <input id="previewFrame" type="range" min="0" max="0" value="0">
+    </label>
+
+    <div class="toolbar" style="margin-top:10px">
+      <button id="playButton" disabled>▶ Воспроизвести</button>
+      <button id="resetCamera">Сброс камеры</button>
+    </div>
+
+    <div id="previewInfo" class="notice">
+      Модель не загружена.
+    </div>
+
+    <div class="notice">
+      <span style="color:#51a8ff">■</span> результат<br>
+      <span style="color:#718096">■</span> исходная позиция<br>
+      <span style="color:#e9bd61">―</span> стандартный уровень Z = −24
+    </div>
+  </div>
+</aside>
+</main>
+
+<script>
+"use strict";
+
+const $=id=>document.getElementById(id);
+
+const state={
+  file:null,
+  sourceBuffer:null,
+  model:null,
+  playing:false,
+  lastTime:0,
+  fit:null,
+  camera:{
+    yaw:-.7,
+    pitch:-.25,
+    zoom:1,
+    dragging:false,
+    lastX:0,
+    lastY:0
+  }
+};
+
+function log(message){
+  const output=$("log");
+  output.textContent+=`\n[${new Date().toLocaleTimeString()}] ${message}`;
+  output.scrollTop=output.scrollHeight;
+}
+
+function fixedString(bytes,offset,length){
+  let result="";
+
+  for(let index=0;index<length;index++){
+    const value=bytes[offset+index];
+    if(!value)break;
+    result+=String.fromCharCode(value);
+  }
+
+  return result;
+}
+
+function ensure(buffer,offset,length,label){
+  if(offset<0||length<0||offset+length>buffer.byteLength){
+    throw new Error(`Повреждён MD3: ${label}`);
+  }
+}
+
+function parseMD3(buffer){
+  const bytes=new Uint8Array(buffer);
+  const view=new DataView(buffer);
+
+  ensure(buffer,0,108,"заголовок");
+
+  if(fixedString(bytes,0,4)!=="IDP3"){
+    throw new Error("Файл не является MD3.");
+  }
+
+  if(view.getInt32(4,true)!==15){
+    throw new Error("Поддерживается только MD3 версии 15.");
+  }
+
+  const model={
+    name:fixedString(bytes,8,64),
+    frameCount:view.getInt32(76,true),
+    tagCount:view.getInt32(80,true),
+    surfaceCount:view.getInt32(84,true),
+    frameOffset:view.getInt32(92,true),
+    tagOffset:view.getInt32(96,true),
+    surfaceOffset:view.getInt32(100,true),
+    surfaces:[],
+    frames:[]
+  };
+
+  if(model.frameCount<1){
+    throw new Error("MD3 не содержит кадров.");
+  }
+
+  for(let frame=0;frame<model.frameCount;frame++){
+    const offset=model.frameOffset+frame*56;
+
+    model.frames.push({
+      name:fixedString(bytes,offset+40,16)||`frame_${frame}`
+    });
+  }
+
+  let surfacePosition=model.surfaceOffset;
+
+  for(
+    let surfaceIndex=0;
+    surfaceIndex<model.surfaceCount;
+    surfaceIndex++
+  ){
+    ensure(buffer,surfacePosition,108,`surface ${surfaceIndex}`);
+
+    if(fixedString(bytes,surfacePosition,4)!=="IDP3"){
+      throw new Error(`Повреждена surface ${surfaceIndex}.`);
+    }
+
+    const surface={
+      name:fixedString(bytes,surfacePosition+4,64),
+      base:surfacePosition,
+      frameCount:view.getInt32(surfacePosition+72,true),
+      vertexCount:view.getInt32(surfacePosition+80,true),
+      triangleCount:view.getInt32(surfacePosition+84,true),
+      triangleOffset:view.getInt32(surfacePosition+88,true),
+      vertexOffset:view.getInt32(surfacePosition+100,true),
+      endOffset:view.getInt32(surfacePosition+104,true),
+      triangles:[]
+    };
+
+    for(let index=0;index<surface.triangleCount;index++){
+      const offset=
+        surfacePosition+
+        surface.triangleOffset+
+        index*12;
+
+      surface.triangles.push([
+        view.getInt32(offset,true),
+        view.getInt32(offset+4,true),
+        view.getInt32(offset+8,true)
+      ]);
+    }
+
+    model.surfaces.push(surface);
+    surfacePosition+=surface.endOffset;
+  }
+
+  return model;
+}
+
+function selectedFrames(){
+  if(!state.model)return new Set();
+
+  const mode=$("frameMode").value;
+
+  if(mode==="all"){
+    return new Set(
+      Array.from(
+        {length:state.model.frameCount},
+        (_,index)=>index
+      )
+    );
+  }
+
+  let start=Math.max(
+    0,
+    Math.min(
+      state.model.frameCount-1,
+      Math.trunc(Number($("startFrame").value)||0)
+    )
+  );
+
+  if(mode==="single"){
+    return new Set([start]);
+  }
+
+  let end=Math.max(
+    0,
+    Math.min(
+      state.model.frameCount-1,
+      Math.trunc(Number($("endFrame").value)||0)
+    )
+  );
+
+  if(start>end)[start,end]=[end,start];
+
+  const frames=new Set();
+
+  for(let frame=start;frame<=end;frame++){
+    frames.add(frame);
+  }
+
+  return frames;
+}
+
+function readFrameVertices(buffer,frame){
+  const view=new DataView(buffer);
+  const surfaces=[];
+
+  for(const surface of state.model.surfaces){
+    if(frame>=surface.frameCount){
+      surfaces.push([]);
+      continue;
+    }
+
+    const vertices=[];
+
+    for(let vertex=0;vertex<surface.vertexCount;vertex++){
+      const offset=
+        surface.base+
+        surface.vertexOffset+
+        (frame*surface.vertexCount+vertex)*8;
+
+      vertices.push([
+        view.getInt16(offset,true)/64,
+        view.getInt16(offset+2,true)/64,
+        view.getInt16(offset+4,true)/64
+      ]);
+    }
+
+    surfaces.push(vertices);
+  }
+
+  return surfaces;
+}
+
+function patchMD3(){
+  const result=state.sourceBuffer.slice(0);
+  const view=new DataView(result);
+  const frames=selectedFrames();
+  const offsetZ=Number($("offsetZ").value)||0;
+  const encodedOffset=Math.round(offsetZ*64);
+
+  for(const surface of state.model.surfaces){
+    for(const frame of frames){
+      if(frame>=surface.frameCount)continue;
+
+      for(let vertex=0;vertex<surface.vertexCount;vertex++){
+        const offset=
+          surface.base+
+          surface.vertexOffset+
+          (frame*surface.vertexCount+vertex)*8+
+          4;
+
+        const oldZ=view.getInt16(offset,true);
+        const newZ=oldZ+encodedOffset;
+
+        if(newZ<-32768||newZ>32767){
+          throw new Error(
+            `Координата Z выходит за диапазон MD3 на кадре ${frame}.`
+          );
+        }
+
+        view.setInt16(offset,newZ,true);
+      }
+    }
+  }
+
+  /*
+   * Смещаем все теги тех же кадров.
+   * tag_torso потянет за собой upper и head.
+   */
+  for(const frame of frames){
+    for(let tag=0;tag<state.model.tagCount;tag++){
+      const tagOffset=
+        state.model.tagOffset+
+        (frame*state.model.tagCount+tag)*112;
+
+      const zOffset=tagOffset+72;
+      const oldZ=view.getFloat32(zOffset,true);
+
+      view.setFloat32(
+        zOffset,
+        oldZ+offsetZ,
+        true
+      );
+    }
+  }
+
+  /*
+   * Пересчитываем bounds изменённых кадров.
+   */
+  for(const frame of frames){
+    const minimum=[Infinity,Infinity,Infinity];
+    const maximum=[-Infinity,-Infinity,-Infinity];
+    const points=[];
+
+    for(const surface of state.model.surfaces){
+      if(frame>=surface.frameCount)continue;
+
+      for(let vertex=0;vertex<surface.vertexCount;vertex++){
+        const offset=
+          surface.base+
+          surface.vertexOffset+
+          (frame*surface.vertexCount+vertex)*8;
+
+        const point=[
+          view.getInt16(offset,true)/64,
+          view.getInt16(offset+2,true)/64,
+          view.getInt16(offset+4,true)/64
+        ];
+
+        points.push(point);
+
+        for(let axis=0;axis<3;axis++){
+          minimum[axis]=Math.min(minimum[axis],point[axis]);
+          maximum[axis]=Math.max(maximum[axis],point[axis]);
+        }
+      }
+    }
+
+    if(!points.length)continue;
+
+    const origin=[
+      (minimum[0]+maximum[0])/2,
+      (minimum[1]+maximum[1])/2,
+      (minimum[2]+maximum[2])/2
+    ];
+
+    let radius=0;
+
+    for(const point of points){
+      radius=Math.max(
+        radius,
+        Math.hypot(
+          point[0]-origin[0],
+          point[1]-origin[1],
+          point[2]-origin[2]
+        )
+      );
+    }
+
+    const frameOffset=
+      state.model.frameOffset+
+      frame*56;
+
+    for(let axis=0;axis<3;axis++){
+      view.setFloat32(
+        frameOffset+axis*4,
+        minimum[axis],
+        true
+      );
+
+      view.setFloat32(
+        frameOffset+12+axis*4,
+        maximum[axis],
+        true
+      );
+
+      view.setFloat32(
+        frameOffset+24+axis*4,
+        origin[axis],
+        true
+      );
+    }
+
+    view.setFloat32(
+      frameOffset+36,
+      radius,
+      true
+    );
+  }
+
+  return result;
+}
+
+function resizeCanvas(){
+  const canvas=$("preview");
+  const ratio=Math.min(2,window.devicePixelRatio||1);
+  const width=Math.max(1,Math.round(canvas.clientWidth*ratio));
+  const height=Math.max(1,Math.round(canvas.clientHeight*ratio));
+
+  if(canvas.width!==width||canvas.height!==height){
+    canvas.width=width;
+    canvas.height=height;
+  }
+
+  return ratio;
+}
+
+function drawGeometry(context,vertices,offsetZ,color,alpha,project){
+  const polygons=[];
+
+  state.model.surfaces.forEach((surface,surfaceIndex)=>{
+    const points=vertices[surfaceIndex].map(point=>
+      project([
+        point[0],
+        point[1],
+        point[2]+offsetZ
+      ])
+    );
+
+    for(const triangle of surface.triangles){
+      const polygon=triangle.map(index=>points[index]);
+
+      polygons.push({
+        points:polygon,
+        depth:
+          (
+            polygon[0].depth+
+            polygon[1].depth+
+            polygon[2].depth
+          )/3
+      });
+    }
+  });
+
+  polygons.sort((a,b)=>a.depth-b.depth);
+
+  for(const polygon of polygons){
+    context.beginPath();
+    context.moveTo(polygon.points[0].x,polygon.points[0].y);
+    context.lineTo(polygon.points[1].x,polygon.points[1].y);
+    context.lineTo(polygon.points[2].x,polygon.points[2].y);
+    context.closePath();
+
+    context.globalAlpha=alpha*.35;
+    context.fillStyle=color;
+    context.fill();
+
+    context.globalAlpha=alpha;
+    context.strokeStyle=color;
+    context.lineWidth=1;
+    context.stroke();
+  }
+}
+
+function drawPreview(){
+  const canvas=$("preview");
+  const context=canvas.getContext("2d");
+  const ratio=resizeCanvas();
+
+  context.clearRect(0,0,canvas.width,canvas.height);
+  context.fillStyle="#0b1015";
+  context.fillRect(0,0,canvas.width,canvas.height);
+
+  if(!state.model){
+    context.fillStyle="#98a5b5";
+    context.textAlign="center";
+    context.font=`${14*ratio}px system-ui`;
+    context.fillText(
+      "Загрузите MD3",
+      canvas.width/2,
+      canvas.height/2
+    );
+    return;
+  }
+
+  const frame=Math.max(
+    0,
+    Math.min(
+      state.model.frameCount-1,
+      Number($("previewFrame").value)||0
+    )
+  );
+
+  $("frameLabel").textContent=String(frame);
+
+  const vertices=readFrameVertices(
+    state.sourceBuffer,
+    frame
+  );
+
+  const allPoints=vertices.flat();
+
+  if(!state.fit&&allPoints.length){
+    const minimum=[Infinity,Infinity,Infinity];
+    const maximum=[-Infinity,-Infinity,-Infinity];
+
+    for(const point of allPoints){
+      for(let axis=0;axis<3;axis++){
+        minimum[axis]=Math.min(minimum[axis],point[axis]);
+        maximum[axis]=Math.max(maximum[axis],point[axis]);
+      }
+    }
+
+    state.fit={
+      center:[
+        (minimum[0]+maximum[0])/2,
+        (minimum[1]+maximum[1])/2,
+        (minimum[2]+maximum[2])/2
+      ],
+      extent:Math.max(
+        maximum[0]-minimum[0],
+        maximum[1]-minimum[1],
+        maximum[2]-minimum[2],
+        1
+      )
+    };
+  }
+
+  const center=state.fit.center;
+  const scale=
+    Math.min(canvas.width,canvas.height)*
+    .68/state.fit.extent*
+    state.camera.zoom;
+
+  const cy=Math.cos(state.camera.yaw);
+  const sy=Math.sin(state.camera.yaw);
+  const cp=Math.cos(state.camera.pitch);
+  const sp=Math.sin(state.camera.pitch);
+
+  function project(point){
+    const x=point[0]-center[0];
+    const y=point[1]-center[1];
+    const z=point[2]-center[2];
+
+    const x1=x*cy-y*sy;
+    const y1=x*sy+y*cy;
+    const y2=y1*cp-z*sp;
+    const z2=y1*sp+z*cp;
+
+    return {
+      x:canvas.width/2+x1*scale,
+      y:canvas.height/2-z2*scale,
+      depth:y2
+    };
+  }
+
+  /*
+   * Линия стандартной нижней границы hitbox Z=-24.
+   */
+  const groundA=project([
+    center[0]-state.fit.extent,
+    center[1],
+    -24
+  ]);
+
+  const groundB=project([
+    center[0]+state.fit.extent,
+    center[1],
+    -24
+  ]);
+
+  context.globalAlpha=.8;
+  context.strokeStyle="#e9bd61";
+  context.lineWidth=Math.max(1,ratio);
+  context.beginPath();
+  context.moveTo(groundA.x,groundA.y);
+  context.lineTo(groundB.x,groundB.y);
+  context.stroke();
+
+  const affected=selectedFrames().has(frame);
+  const offsetZ=affected
+    ?Number($("offsetZ").value)||0
+    :0;
+
+  if(
+    affected&&
+    offsetZ!==0&&
+    $("showOriginal").checked
+  ){
+    drawGeometry(
+      context,
+      vertices,
+      0,
+      "#718096",
+      .45,
+      project
+    );
+  }
+
+  drawGeometry(
+    context,
+    vertices,
+    offsetZ,
+    "#51a8ff",
+    .8,
+    project
+  );
+
+  context.globalAlpha=1;
+
+  $("previewInfo").textContent=
+    `Кадр ${frame}: `+
+    (affected
+      ?`будет смещён на Z ${offsetZ}`
+      :"не входит в выбранный диапазон");
+}
+
+async function loadModel(){
+  const file=$("modelFile").files[0];
+
+  if(!file){
+    alert("Выберите MD3.");
+    return;
+  }
+
+  try{
+    const buffer=await file.arrayBuffer();
+    const model=parseMD3(buffer);
+
+    state.file=file;
+    state.sourceBuffer=buffer;
+    state.model=model;
+    state.fit=null;
+
+    $("startFrame").max=model.frameCount-1;
+    $("endFrame").max=model.frameCount-1;
+    $("previewFrame").max=model.frameCount-1;
+    $("startFrame").value=0;
+    $("endFrame").value=0;
+    $("previewFrame").value=0;
+
+    $("outputName").value=
+      file.name.replace(/\.md3$/i,"")+
+      "_moved.md3";
+
+    $("downloadButton").disabled=false;
+    $("playButton").disabled=model.frameCount<2;
+
+    $("fileInfo").textContent=
+      `${file.name}\n`+
+      `Кадров: ${model.frameCount}\n`+
+      `Surfaces: ${model.surfaceCount}\n`+
+      `Tags: ${model.tagCount}`;
+
+    log(`Загружен ${file.name}`);
+    drawPreview();
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА: ${error.message}`);
+  }
+}
+
+function downloadModel(){
+  if(!state.model)return;
+
+  try{
+    const data=patchMD3();
+    const blob=new Blob(
+      [data],
+      {type:"application/octet-stream"}
+    );
+
+    let name=$("outputName").value.trim()||
+      "model_moved.md3";
+
+    if(!name.toLowerCase().endsWith(".md3")){
+      name+=".md3";
+    }
+
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+
+    link.href=url;
+    link.download=name;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
+
+    log(
+      `Создан ${name}; Z=${Number($("offsetZ").value)||0}; `+
+      `кадров изменено: ${selectedFrames().size}`
+    );
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА ЭКСПОРТА: ${error.message}`);
+  }
+}
+
+$("loadButton").onclick=loadModel;
+$("downloadButton").onclick=downloadModel;
+
+$("frameMode").onchange=()=>{
+  const mode=$("frameMode").value;
+  $("startFrame").disabled=mode==="all";
+  $("endFrame").disabled=mode!=="range";
+  drawPreview();
+};
+
+[
+  "startFrame",
+  "endFrame",
+  "offsetZ",
+  "showOriginal"
+].forEach(id=>{
+  $(id).addEventListener("input",drawPreview);
+});
+
+$("previewFrame").oninput=drawPreview;
+
+document.querySelectorAll(".move").forEach(button=>{
+  button.onclick=()=>{
+    $("offsetZ").value=
+      (
+        (Number($("offsetZ").value)||0)+
+        Number(button.dataset.value)
+      ).toFixed(2).replace(/\.?0+$/,"");
+
+    drawPreview();
+  };
+});
+
+$("resetOffset").onclick=()=>{
+  $("offsetZ").value=0;
+  drawPreview();
+};
+
+$("playButton").onclick=()=>{
+  state.playing=!state.playing;
+
+  $("playButton").textContent=
+    state.playing
+      ?"⏸ Пауза"
+      :"▶ Воспроизвести";
+};
+
+$("resetCamera").onclick=()=>{
+  state.camera.yaw=-.7;
+  state.camera.pitch=-.25;
+  state.camera.zoom=1;
+  state.fit=null;
+  drawPreview();
+};
+
+const canvas=$("preview");
+
+canvas.addEventListener("pointerdown",event=>{
+  state.camera.dragging=true;
+  state.camera.lastX=event.clientX;
+  state.camera.lastY=event.clientY;
+  canvas.setPointerCapture(event.pointerId);
+});
+
+canvas.addEventListener("pointermove",event=>{
+  if(!state.camera.dragging)return;
+
+  const dx=event.clientX-state.camera.lastX;
+  const dy=event.clientY-state.camera.lastY;
+
+  state.camera.lastX=event.clientX;
+  state.camera.lastY=event.clientY;
+
+  state.camera.yaw+=dx*.01;
+  state.camera.pitch+=dy*.01;
+
+  state.camera.pitch=Math.max(
+    -Math.PI/2,
+    Math.min(Math.PI/2,state.camera.pitch)
+  );
+
+  drawPreview();
+});
+
+canvas.addEventListener("pointerup",event=>{
+  state.camera.dragging=false;
+
+  if(canvas.hasPointerCapture(event.pointerId)){
+    canvas.releasePointerCapture(event.pointerId);
+  }
+});
+
+canvas.addEventListener("wheel",event=>{
+  event.preventDefault();
+
+  state.camera.zoom*=Math.exp(-event.deltaY*.001);
+  state.camera.zoom=Math.max(.1,Math.min(10,state.camera.zoom));
+  drawPreview();
+},{passive:false});
+
+function animationLoop(time){
+  if(state.playing&&state.model){
+    if(time-state.lastTime>=1000/15){
+      state.lastTime=time;
+
+      $("previewFrame").value=
+        (Number($("previewFrame").value)+1)%
+        state.model.frameCount;
+
+      drawPreview();
+    }
+  }else{
+    state.lastTime=time;
+  }
+
+  requestAnimationFrame(animationLoop);
+}
+
+window.addEventListener("resize",drawPreview);
+
+drawPreview();
+requestAnimationFrame(animationLoop);
+</script>
+</body>
+</html>

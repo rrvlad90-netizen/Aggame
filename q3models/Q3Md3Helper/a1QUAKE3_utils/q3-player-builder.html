@@ -1,0 +1,1624 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quake 3 Player Builder</title>
+<style>
+:root{
+  color-scheme:dark;--bg:#0e1217;--panel:#171d25;--panel2:#202833;
+  --border:#34404e;--text:#edf2f7;--muted:#98a5b5;
+  --blue:#51a8ff;--yellow:#e9bd61;--red:#f06a6a
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,sans-serif}
+header{position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;padding:12px 18px;border-bottom:1px solid var(--border);background:#171d25f5}
+header h1{margin:0 auto 0 0;font-size:20px}
+button,input,select{font:inherit}
+button{padding:8px 11px;border:1px solid var(--border);border-radius:7px;background:var(--panel2);color:var(--text);cursor:pointer}
+button:hover:not(:disabled){border-color:var(--blue)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.primary{border-color:var(--blue);background:var(--blue);color:#071421;font-weight:700}
+button.active{border-color:var(--yellow);color:var(--yellow)}
+input,select{width:100%;min-width:0;padding:7px;border:1px solid var(--border);border-radius:6px;background:#11171e;color:var(--text)}
+input[type=checkbox],input[type=radio]{width:auto;accent-color:var(--blue)}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 430px;gap:16px;width:min(1650px,100%);margin:auto;padding:16px}
+.nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.nav-button{display:flex;gap:9px;align-items:center;justify-content:flex-start;min-height:48px;text-align:left}
+.nav-button span:first-child{color:var(--blue);font:700 12px ui-monospace,monospace}
+.nav-button.active{border-color:var(--blue);background:#18304a}
+.view{display:none}.view.active{display:block}
+.card{margin-bottom:16px;padding:15px;border:1px solid var(--border);border-radius:10px;background:var(--panel)}
+.card h2{margin:0 0 10px;font-size:18px}
+.card h3{margin:16px 0 8px;font-size:15px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.field{display:grid;gap:4px}.field span,.muted{color:var(--muted)}.field span{font-size:12px}
+.notice{margin-top:10px;padding:9px 11px;border-left:3px solid var(--blue);background:#172435;white-space:pre-wrap}
+.warning{border-left-color:var(--yellow)}
+.table-wrap{overflow:auto;max-height:480px;border:1px solid var(--border);border-radius:8px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px 9px;border-bottom:1px solid var(--border);text-align:left;vertical-align:middle}
+th{position:sticky;top:0;background:var(--panel2);color:var(--muted);font-size:12px}
+.preview-card{position:sticky;top:76px}
+canvas{display:block;width:100%;height:590px;border:1px solid var(--border);border-radius:8px;background:#0b0f14;touch-action:none;cursor:grab}
+.tag{margin-top:10px;padding:11px;border:1px solid var(--border);border-radius:8px;background:#121920}
+.tag.selected{border-color:var(--yellow)}
+.tag-head{display:flex;gap:8px;align-items:center;margin-bottom:8px}.tag-head strong{margin-right:auto}
+.moves{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-top:8px}.moves button{padding:6px 3px}
+.value{margin-top:7px;color:var(--muted);font:12px/1.5 ui-monospace,monospace;white-space:pre-wrap}
+.texture-row{display:grid;grid-template-columns:minmax(120px,1fr) minmax(160px,1fr);gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.animation-controls{display:grid;grid-template-columns:auto auto auto minmax(120px,1fr);gap:8px;align-items:end}
+.icon-preview{width:128px;height:128px;object-fit:contain;image-rendering:auto;border:1px solid var(--border);border-radius:8px;background:#090c10}
+#log{max-height:240px;overflow:auto;margin:0;padding:9px;border:1px solid var(--border);border-radius:8px;background:#0c1116;color:#bbc6d3;font:12px/1.5 ui-monospace,monospace;white-space:pre-wrap}
+@media(max-width:1100px){.main{grid-template-columns:1fr}.preview-card{position:static}}
+@media(max-width:750px){.nav{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.moves{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Quake 3 Player Builder</h1>
+  <button id="resetProject">Новый проект</button>
+  <button id="headerExport" class="primary" disabled>Создать ZIP</button>
+</header>
+
+<main class="main">
+<section>
+
+<nav class="nav">
+  <button class="nav-button active" data-view="files"><span>01</span><span>Файл и тип</span></button>
+  <button class="nav-button" data-view="split"><span>02</span><span>Разделение</span></button>
+  <button class="nav-button" data-view="textures"><span>03</span><span>Текстуры</span></button>
+  <button class="nav-button" data-view="tags"><span>04</span><span>Теги</span></button>
+  <button class="nav-button" data-view="character"><span>05</span><span>Персонаж</span></button>
+  <button class="nav-button" data-view="icon"><span>06</span><span>Иконка</span></button>
+  <button class="nav-button" data-view="check"><span>07</span><span>Проверка</span></button>
+  <button class="nav-button" data-view="results"><span>08</span><span>Результат</span></button>
+</nav>
+
+<section class="view active" data-panel="files">
+<div class="card">
+  <h2>Исходная MD3</h2>
+  <div class="toolbar">
+    <input id="md3File" type="file" accept=".md3">
+    <button id="loadModel">Загрузить</button>
+  </div>
+  <div id="fileInfo" class="notice">Выберите анимированную MD3.</div>
+
+  <h3>Тип модели</h3>
+  <div class="grid">
+    <label><input type="radio" name="modelMode" value="complete" checked> Правильная: lower + upper + head</label>
+    <label><input type="radio" name="modelMode" value="nohead"> Тело и торс без головы</label>
+    <label><input type="radio" name="modelMode" value="loweronly"> Вся модель в lower</label>
+  </div>
+
+  <div id="modeInfo" class="notice warning"></div>
+</div>
+</section>
+
+<section class="view" data-panel="split">
+<div class="card">
+  <h2>Разделение поверхностей</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>№</th><th>Surface</th><th>Вершины</th><th>Треугольники</th><th>Часть</th><th>Видна</th></tr></thead>
+      <tbody id="splitRows"><tr><td colspan="6">Модель не загружена.</td></tr></tbody>
+    </table>
+  </div>
+</div>
+</section>
+
+<section class="view" data-panel="textures">
+<div class="card">
+  <h2>Текстуры поверхностей</h2>
+  <p class="muted">Выберите подготовленную TGA для каждой поверхности.</p>
+  <div id="textureRows" class="muted">Модель не загружена.</div>
+</div>
+</section>
+
+<section class="view" data-panel="tags">
+<div class="card">
+  <h2>Теги</h2>
+  <p class="muted">Выберите тег, затем щёлкните по треугольнику модели.</p>
+  <div id="tagEditors"></div>
+</div>
+</section>
+
+<section class="view" data-panel="character">
+<div class="card">
+  <h2>Персонаж и бот</h2>
+  <div class="grid">
+    <label class="field"><span>Имя модели и папки</span><input id="modelName" value="player"></label>
+    <label class="field"><span>Имя персонажа</span><input id="characterName" value="Player"></label>
+    <label class="field"><span>Имя в игре</span><input id="funName" value="Player"></label>
+    <label class="field"><span>Файл бота</span><input id="botFile" value="visor_c.c"></label>
+    <label class="field"><span>Пол</span><select id="sex"><option value="m">Мужской</option><option value="f">Женский</option><option value="n">Нейтральный</option></select></label>
+    <label class="field"><span>Footsteps</span><select id="footsteps"><option>normal</option><option>boot</option><option>flesh</option><option>mech</option><option>energy</option></select></label>
+  </div>
+</div>
+</section>
+
+<section class="view" data-panel="icon">
+<div class="card">
+  <h2>Иконка персонажа</h2>
+  <div class="toolbar">
+    <input id="iconFile" type="file" accept=".tga,image/x-tga">
+    <button id="generateIcon">Создать автоматически</button>
+    <button id="clearIcon">Сбросить</button>
+  </div>
+  <div class="toolbar" style="margin-top:12px">
+    <canvas id="iconPreview" class="icon-preview" width="128" height="128"></canvas>
+    <div id="iconInfo" class="muted">Если TGA не выбрана, иконка будет создана автоматически.</div>
+  </div>
+</div>
+</section>
+
+<section class="view" data-panel="check">
+<div class="card">
+  <h2>Проверка проекта</h2>
+  <button id="runCheck">Обновить</button>
+  <div id="checkOutput" class="notice">Загрузите модель.</div>
+</div>
+<div class="card">
+  <h2>Журнал</h2>
+  <pre id="log">Приложение готово.</pre>
+</div>
+</section>
+
+<section class="view" data-panel="results">
+<div class="card">
+  <h2>Экспорт</h2>
+  <div id="resultsOutput" class="muted">ZIP ещё не создан.</div>
+  <button id="exportProject" class="primary" disabled style="margin-top:12px">Создать и скачать ZIP</button>
+</div>
+</section>
+
+</section>
+
+<aside>
+<div class="card preview-card">
+  <h2>Предпросмотр</h2>
+  <canvas id="preview"></canvas>
+
+  <div class="toolbar" style="margin-top:10px">
+    <button id="resetView">Сброс камеры</button>
+    <span id="previewInfo" class="muted">Модель не загружена</span>
+  </div>
+
+  <label class="field" style="margin-top:12px">
+    <span>Кадр: <b id="frameNumber">0</b> / <b id="frameMaximum">0</b></span>
+    <input id="frameSlider" type="range" min="0" max="0" value="0">
+  </label>
+
+  <div class="animation-controls" style="margin-top:10px">
+    <button id="previousFrame">◀</button>
+    <button id="playPause">▶</button>
+    <button id="nextFrame">▶|</button>
+    <label class="field"><span>FPS</span><input id="previewFps" type="number" min="1" max="120" value="20"></label>
+  </div>
+
+  <div class="toolbar" style="margin-top:10px">
+    <label><input id="loopAnimation" type="checkbox" checked> Цикл</label>
+    <label><input id="showWireframe" type="checkbox" checked> Сетка</label>
+    <label><input id="showTags" type="checkbox" checked> Теги</label>
+  </div>
+</div>
+</aside>
+</main>
+
+<script>
+"use strict";
+
+const $=id=>document.getElementById(id);
+const MAX_COORD=32767/64;
+
+const TAG_DEFS=[
+  {key:"torso",name:"tag_torso",color:"#ffff00"},
+  {key:"head",name:"tag_head",color:"#00ff88"},
+  {key:"weapon",name:"tag_weapon",color:"#ff5050"}
+];
+
+const state={
+  file:null,model:null,surfaces:[],picker:null,projected:[],packageScale:1,
+  iconFile:null,iconCanvas:null,
+  tags:{
+    torso:{anchor:null,offset:[0,0,0],rotation:[0,0,0]},
+    head:{anchor:null,offset:[0,0,0],rotation:[0,0,0]},
+    weapon:{anchor:null,offset:[0,0,0],rotation:[0,0,0]}
+  },
+  camera:{yaw:-.7,pitch:-.25,zoom:1,drag:false,moved:false,x:0,y:0},
+  animation:{playing:false,last:0,accumulator:0,request:0}
+};
+
+function log(text){
+  const output=$("log");
+  output.textContent+=`\n[${new Date().toLocaleTimeString()}] ${text}`;
+  output.scrollTop=output.scrollHeight;
+}
+
+function safeName(value,fallback="player"){
+  return String(value||fallback).toLowerCase()
+    .replace(/[^a-z0-9_-]+/g,"_").replace(/^_+|_+$/g,"")||fallback;
+}
+
+function safeFile(value,fallback="texture.tga"){
+  return String(value||fallback).split(/[\\/]/).pop()
+    .replace(/[^a-zA-Z0-9_.-]+/g,"_")||fallback;
+}
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+
+function fixedString(bytes,offset,length){
+  let output="";
+  for(let i=0;i<length&&bytes[offset+i];i++)output+=String.fromCharCode(bytes[offset+i]);
+  return output;
+}
+
+function ensure(buffer,offset,length,label){
+  if(offset<0||length<0||offset+length>buffer.byteLength)
+    throw new Error(`Повреждён MD3: ${label}`);
+}
+
+function decodeNormal(value){
+  const latitude=((value>>8)&255)*Math.PI*2/255;
+  const longitude=(value&255)*Math.PI*2/255;
+  return [
+    Math.cos(latitude)*Math.sin(longitude),
+    Math.sin(latitude)*Math.sin(longitude),
+    Math.cos(longitude)
+  ];
+}
+
+function parseMD3(buffer){
+  ensure(buffer,0,108,"заголовок");
+  const bytes=new Uint8Array(buffer),view=new DataView(buffer);
+
+  if(fixedString(bytes,0,4)!=="IDP3")throw new Error("Файл не является MD3");
+  if(view.getInt32(4,true)!==15)throw new Error("Поддерживается только MD3 версии 15");
+
+  const model={
+    name:fixedString(bytes,8,64),
+    frameCount:view.getInt32(76,true),
+    tagCount:view.getInt32(80,true),
+    surfaceCount:view.getInt32(84,true),
+    frameOffset:view.getInt32(92,true),
+    surfaceOffset:view.getInt32(100,true),
+    frames:[],surfaces:[]
+  };
+
+  if(model.frameCount<1||model.frameCount>1024)throw new Error("Некорректное количество кадров");
+  if(model.surfaceCount<1||model.surfaceCount>32)throw new Error("Некорректное количество поверхностей");
+
+  for(let frame=0;frame<model.frameCount;frame++){
+    const offset=model.frameOffset+frame*56;
+    ensure(buffer,offset,56,"кадр");
+    model.frames.push({name:fixedString(bytes,offset+40,16)||`frame_${frame}`});
+  }
+
+  let base=model.surfaceOffset;
+
+  for(let surfaceIndex=0;surfaceIndex<model.surfaceCount;surfaceIndex++){
+    ensure(buffer,base,108,"surface");
+
+    if(fixedString(bytes,base,4)!=="IDP3")throw new Error(`Повреждён surface ${surfaceIndex+1}`);
+
+    const surface={
+      name:fixedString(bytes,base+4,64)||`surface_${surfaceIndex}`,
+      frameCount:view.getInt32(base+72,true),
+      shaderCount:view.getInt32(base+76,true),
+      vertexCount:view.getInt32(base+80,true),
+      triangleCount:view.getInt32(base+84,true),
+      triangleOffset:view.getInt32(base+88,true),
+      shaderOffset:view.getInt32(base+92,true),
+      uvOffset:view.getInt32(base+96,true),
+      vertexOffset:view.getInt32(base+100,true),
+      endOffset:view.getInt32(base+104,true),
+      shader:"",triangles:[],uvs:[],frames:[]
+    };
+
+    if(surface.frameCount!==model.frameCount)throw new Error(`Surface ${surface.name}: число кадров отличается`);
+    if(surface.vertexCount<0||surface.vertexCount>4096)throw new Error(`Surface ${surface.name}: неверное число вершин`);
+    if(surface.triangleCount<0||surface.triangleCount>8192)throw new Error(`Surface ${surface.name}: неверное число треугольников`);
+    if(surface.endOffset<=0)throw new Error(`Surface ${surface.name}: неверный размер`);
+
+    ensure(buffer,base,surface.endOffset,`surface ${surface.name}`);
+
+    if(surface.shaderCount>0)surface.shader=fixedString(bytes,base+surface.shaderOffset,64);
+
+    for(let i=0;i<surface.triangleCount;i++){
+      const offset=base+surface.triangleOffset+i*12;
+      const triangle=[
+        view.getInt32(offset,true),
+        view.getInt32(offset+4,true),
+        view.getInt32(offset+8,true)
+      ];
+      if(triangle.some(index=>index<0||index>=surface.vertexCount))throw new Error(`Surface ${surface.name}: неверный индекс`);
+      surface.triangles.push(triangle);
+    }
+
+    for(let i=0;i<surface.vertexCount;i++){
+      const offset=base+surface.uvOffset+i*8;
+      surface.uvs.push([view.getFloat32(offset,true),view.getFloat32(offset+4,true)]);
+    }
+
+    for(let frame=0;frame<surface.frameCount;frame++){
+      const vertices=[];
+      for(let vertex=0;vertex<surface.vertexCount;vertex++){
+        const offset=base+surface.vertexOffset+(frame*surface.vertexCount+vertex)*8;
+        vertices.push({
+          position:[
+            view.getInt16(offset,true)/64,
+            view.getInt16(offset+2,true)/64,
+            view.getInt16(offset+4,true)/64
+          ],
+          normal:decodeNormal(view.getUint16(offset+6,true))
+        });
+      }
+      surface.frames.push(vertices);
+    }
+
+    model.surfaces.push(surface);
+    base+=surface.endOffset;
+  }
+
+  return model;
+}
+
+const add=(a,b)=>[a[0]+b[0],a[1]+b[1],a[2]+b[2]];
+const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
+const mul=(a,n)=>[a[0]*n,a[1]*n,a[2]*n];
+const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+
+function cross(a,b){
+  return [
+    a[1]*b[2]-a[2]*b[1],
+    a[2]*b[0]-a[0]*b[2],
+    a[0]*b[1]-a[1]*b[0]
+  ];
+}
+
+function normalize(value){
+  const length=Math.hypot(...value);
+  return length>1e-10?mul(value,1/length):[0,0,1];
+}
+
+function identityTag(name){
+  return {name,origin:[0,0,0],axes:[[1,0,0],[0,1,0],[0,0,1]]};
+}
+
+function eulerMatrix(rotation){
+  const [x,y,z]=rotation.map(value=>value*Math.PI/180);
+  const cx=Math.cos(x),sx=Math.sin(x),cy=Math.cos(y),sy=Math.sin(y),cz=Math.cos(z),sz=Math.sin(z);
+
+  return [
+    [cy*cz,-cy*sz,sy],
+    [sx*sy*cz+cx*sz,-sx*sy*sz+cx*cz,-sx*cy],
+    [-cx*sy*cz+sx*sz,cx*sy*sz+sx*cz,cx*cy]
+  ];
+}
+
+function tagAt(key,frame){
+  const data=state.tags[key],name=`tag_${key}`;
+  if(!data.anchor)return identityTag(name);
+
+  const surface=state.model.surfaces[data.anchor.surfaceIndex];
+  const triangle=surface?.triangles[data.anchor.triangleIndex];
+  if(!surface||!triangle)return identityTag(name);
+
+  const points=triangle.map(index=>surface.frames[frame][index].position);
+  const x=normalize(sub(points[1],points[0]));
+  const z=normalize(cross(sub(points[1],points[0]),sub(points[2],points[0])));
+  const y=normalize(cross(z,x));
+  const base=[x,y,z],rotation=eulerMatrix(data.rotation);
+
+  const axes=rotation.map(row=>normalize([
+    row[0]*base[0][0]+row[1]*base[1][0]+row[2]*base[2][0],
+    row[0]*base[0][1]+row[1]*base[1][1]+row[2]*base[2][1],
+    row[0]*base[0][2]+row[1]*base[1][2]+row[2]*base[2][2]
+  ]));
+
+  let origin=mul(add(add(points[0],points[1]),points[2]),1/3);
+  origin=add(origin,add(mul(x,data.offset[0]),add(mul(y,data.offset[1]),mul(z,data.offset[2]))));
+
+  return {name,origin,axes};
+}
+
+function pointToLocal(parent,point){
+  const difference=sub(point,parent.origin);
+  return parent.axes.map(axis=>dot(difference,axis));
+}
+
+function vectorToLocal(parent,vector){
+  return parent.axes.map(axis=>dot(vector,axis));
+}
+
+function tagToLocal(child,parent){
+  return {
+    name:child.name,
+    origin:pointToLocal(parent,child.origin),
+    axes:child.axes.map(axis=>normalize(vectorToLocal(parent,axis)))
+  };
+}
+
+function decodeTGA(buffer){
+  const bytes=new Uint8Array(buffer),view=new DataView(buffer);
+  if(bytes.length<18)throw new Error("Повреждён TGA");
+
+  const idLength=bytes[0],colorMap=bytes[1],type=bytes[2];
+  const width=view.getUint16(12,true),height=view.getUint16(14,true);
+  const depth=bytes[16],descriptor=bytes[17];
+
+  if(colorMap!==0||![2,10].includes(type))throw new Error("Поддерживаются TGA типов 2 и 10");
+  if(!width||!height||![24,32].includes(depth))throw new Error("Поддерживаются TGA 24/32-bit");
+
+  const bytesPerPixel=depth/8,total=width*height;
+  const pixels=new Uint8ClampedArray(total*4);
+  let offset=18+idLength,produced=0;
+
+  function readPixel(){
+    if(offset+bytesPerPixel>bytes.length)throw new Error("TGA неожиданно закончился");
+    const pixel=[bytes[offset+2],bytes[offset+1],bytes[offset],bytesPerPixel===4?bytes[offset+3]:255];
+    offset+=bytesPerPixel;
+    return pixel;
+  }
+
+  function put(pixel,index){
+    const sx=index%width,sy=Math.floor(index/width);
+    const x=(descriptor&0x10)?width-1-sx:sx;
+    const y=(descriptor&0x20)?sy:height-1-sy;
+    pixels.set(pixel,(y*width+x)*4);
+  }
+
+  if(type===2){
+    while(produced<total)put(readPixel(),produced++);
+  }else{
+    while(produced<total){
+      if(offset>=bytes.length)throw new Error("Повреждён RLE TGA");
+      const packet=bytes[offset++],count=(packet&127)+1;
+      if(packet&128){
+        const pixel=readPixel();
+        for(let i=0;i<count&&produced<total;i++)put(pixel,produced++);
+      }else{
+        for(let i=0;i<count&&produced<total;i++)put(readPixel(),produced++);
+      }
+    }
+  }
+
+  const canvas=document.createElement("canvas");
+  canvas.width=width;canvas.height=height;
+  canvas.getContext("2d").putImageData(new ImageData(pixels,width,height),0,0);
+  return canvas;
+}
+
+function encodeCanvasTGA(canvas) {
+  const width = canvas.width;
+  const height = canvas.height;
+
+  const context = canvas.getContext(
+    "2d",
+    { willReadFrequently: true }
+  );
+
+  const rgba = context.getImageData(
+    0,
+    0,
+    width,
+    height
+  ).data;
+
+  /*
+   * 18 байт заголовка + BGRA для каждого пикселя.
+   */
+  const output = new Uint8Array(
+    18 + width * height * 4
+  );
+
+  const view = new DataView(output.buffer);
+
+  output[0] = 0;  // длина Image ID
+  output[1] = 0;  // без палитры
+  output[2] = 2;  // несжатое true-color изображение
+
+  view.setUint16(3, 0, true);
+  view.setUint16(5, 0, true);
+  output[7] = 0;
+
+  view.setUint16(8, 0, true);   // X origin
+  view.setUint16(10, 0, true);  // Y origin
+  view.setUint16(12, width, true);
+  view.setUint16(14, height, true);
+
+  output[16] = 32;   // 32 бита на пиксель
+  output[17] = 0x28; // верхнее начало + 8 бит alpha
+
+  let target = 18;
+
+  /*
+   * Canvas хранит RGBA, TGA требует BGRA.
+   */
+  for (let source = 0; source < rgba.length; source += 4) {
+    output[target++] = rgba[source + 2]; // B
+    output[target++] = rgba[source + 1]; // G
+    output[target++] = rgba[source];     // R
+    output[target++] = rgba[source + 3]; // A
+  }
+
+  return output;
+}
+
+function createGeneratedIcon(){
+  const canvas=document.createElement("canvas");
+  canvas.width=64;canvas.height=64;
+  const context=canvas.getContext("2d");
+  const name=safeName($("modelName").value,"P");
+  const symbol=(name[0]||"P").toUpperCase();
+
+  const gradient=context.createLinearGradient(0,0,64,64);
+  gradient.addColorStop(0,"#162536");
+  gradient.addColorStop(1,"#05080c");
+  context.fillStyle=gradient;
+  context.fillRect(0,0,64,64);
+
+  context.strokeStyle="#51a8ff";
+  context.lineWidth=3;
+  context.strokeRect(3.5,3.5,57,57);
+
+  context.fillStyle="#51a8ff";
+  context.beginPath();
+  context.arc(32,32,22,0,Math.PI*2);
+  context.fill();
+
+  context.fillStyle="#071421";
+  context.font="bold 34px system-ui";
+  context.textAlign="center";
+  context.textBaseline="middle";
+  context.fillText(symbol,32,34);
+
+  state.iconCanvas=canvas;
+  state.iconFile=null;
+  drawIconPreview();
+  $("iconInfo").textContent="Автоматическая icon_default.tga 64×64";
+}
+
+function createTransparentTGA(){
+  const canvas=document.createElement("canvas");
+  canvas.width=2;canvas.height=2;
+  canvas.getContext("2d").clearRect(0,0,2,2);
+  return encodeCanvasTGA(canvas);
+}
+
+function drawIconPreview(){
+  const canvas=$("iconPreview"),context=canvas.getContext("2d");
+  context.clearRect(0,0,canvas.width,canvas.height);
+  context.fillStyle="#090c10";
+  context.fillRect(0,0,canvas.width,canvas.height);
+
+  if(state.iconCanvas){
+    context.imageSmoothingEnabled=false;
+    context.drawImage(state.iconCanvas,0,0,canvas.width,canvas.height);
+  }
+}
+
+function automaticPart(name){
+  const value=name.toLowerCase();
+  if(value.includes("lower")||value.includes("leg"))return "lower";
+  if(value.includes("upper")||value.includes("body")||value.includes("torso")||value.includes("arm"))return "upper";
+  if(value.includes("head")||value.includes("face"))return "head";
+  return "ignore";
+}
+
+function currentMode(){
+  return document.querySelector('input[name="modelMode"]:checked').value;
+}
+
+function updateModeInfo(){
+  const mode=currentMode();
+  const descriptions={
+    complete:"Нужны настоящие поверхности lower, upper и head.",
+    nohead:"Нужны lower и upper. Для head будет создан маленький служебный треугольник.",
+    loweronly:"Вся исходная геометрия попадёт в lower. Для upper и head будут созданы служебные треугольники."
+  };
+  $("modeInfo").textContent=descriptions[mode];
+  updateCheck();
+}
+
+function renderSplitRows(){
+  const body=$("splitRows");
+  if(!state.model){
+    body.innerHTML='<tr><td colspan="6">Модель не загружена.</td></tr>';
+    return;
+  }
+
+  body.innerHTML=state.model.surfaces.map((surface,index)=>{
+    const settings=state.surfaces[index];
+    return `
+      <tr>
+        <td>${index+1}</td>
+        <td>${escapeHTML(surface.name)}</td>
+        <td>${surface.vertexCount}</td>
+        <td>${surface.triangleCount}</td>
+        <td>
+          <select class="part-select" data-index="${index}">
+            ${["lower","upper","head","ignore"].map(part=>
+              `<option value="${part}" ${settings.part===part?"selected":""}>${part}</option>`
+            ).join("")}
+          </select>
+        </td>
+        <td><input class="surface-visible" data-index="${index}" type="checkbox" ${settings.visible?"checked":""}></td>
+      </tr>
+    `;
+  }).join("");
+
+  document.querySelectorAll(".part-select").forEach(select=>{
+    select.onchange=()=>{
+      state.surfaces[+select.dataset.index].part=select.value;
+      drawPreview();updateCheck();
+    };
+  });
+
+  document.querySelectorAll(".surface-visible").forEach(input=>{
+    input.onchange=()=>{
+      state.surfaces[+input.dataset.index].visible=input.checked;
+      drawPreview();
+    };
+  });
+}
+
+function renderTextureRows(){
+  const container=$("textureRows");
+  if(!state.model){
+    container.textContent="Модель не загружена.";
+    return;
+  }
+
+  container.innerHTML=state.model.surfaces.map((surface,index)=>{
+    const settings=state.surfaces[index];
+    return `
+      <div class="texture-row">
+        <div>
+          <strong>${escapeHTML(surface.name)}</strong>
+          <div class="muted">${escapeHTML(settings.textureName||"TGA не выбрана")}</div>
+        </div>
+        <input class="texture-file" data-index="${index}" type="file" accept=".tga,image/x-tga">
+      </div>
+    `;
+  }).join("");
+
+  document.querySelectorAll(".texture-file").forEach(input=>{
+    input.onchange=async()=>{
+      const file=input.files[0];
+      if(!file)return;
+
+      try{
+        const index=+input.dataset.index;
+        state.surfaces[index].textureFile=file;
+        state.surfaces[index].textureName=safeFile(file.name,`texture_${index}.tga`);
+        state.surfaces[index].textureCanvas=decodeTGA(await file.arrayBuffer());
+        renderTextureRows();drawPreview();updateCheck();
+      }catch(error){
+        alert(error.message);
+      }
+    };
+  });
+}
+
+function renderTagEditors(){
+  $("tagEditors").innerHTML=TAG_DEFS.map(definition=>{
+    const data=state.tags[definition.key],anchor=data.anchor;
+    return `
+      <div class="tag ${state.picker===definition.key?"selected":""}">
+        <div class="tag-head">
+          <strong style="color:${definition.color}">${definition.name}</strong>
+          <span class="muted">${anchor?`surface ${anchor.surfaceIndex+1}, triangle ${anchor.triangleIndex+1}`:"не задан"}</span>
+        </div>
+        <div class="toolbar">
+          <button class="pick-tag ${state.picker===definition.key?"active":""}" data-key="${definition.key}">
+            ${state.picker===definition.key?"Щёлкните по модели":"Выбрать треугольник"}
+          </button>
+          <button class="reset-tag" data-key="${definition.key}">Сбросить</button>
+        </div>
+        <div class="moves">
+          <button data-move="${definition.key},0,-1">−X</button><button data-move="${definition.key},0,1">+X</button>
+          <button data-move="${definition.key},1,-1">−Y</button><button data-move="${definition.key},1,1">+Y</button>
+          <button data-move="${definition.key},2,-1">−Z</button><button data-move="${definition.key},2,1">+Z</button>
+        </div>
+        <div class="moves">
+          <button data-rotate="${definition.key},0,-1">↶X</button><button data-rotate="${definition.key},0,1">↷X</button>
+          <button data-rotate="${definition.key},1,-1">↶Y</button><button data-rotate="${definition.key},1,1">↷Y</button>
+          <button data-rotate="${definition.key},2,-1">↶Z</button><button data-rotate="${definition.key},2,1">↷Z</button>
+        </div>
+        <div class="value">Смещение: ${data.offset.map(v=>v.toFixed(2)).join(", ")}
+Поворот: ${data.rotation.map(v=>v.toFixed(1)+"°").join(", ")}</div>
+      </div>
+    `;
+  }).join("");
+
+  document.querySelectorAll(".pick-tag").forEach(button=>{
+    button.onclick=()=>{
+      state.picker=state.picker===button.dataset.key?null:button.dataset.key;
+      renderTagEditors();drawPreview();
+    };
+  });
+
+  document.querySelectorAll(".reset-tag").forEach(button=>{
+    button.onclick=()=>{
+      state.tags[button.dataset.key]={anchor:null,offset:[0,0,0],rotation:[0,0,0]};
+      state.picker=null;renderTagEditors();drawPreview();updateCheck();
+    };
+  });
+
+  document.querySelectorAll("[data-move]").forEach(button=>{
+    button.onclick=()=>{
+      const [key,axis,direction]=button.dataset.move.split(",");
+      state.tags[key].offset[+axis]+=+direction*.5;
+      renderTagEditors();drawPreview();
+    };
+  });
+
+  document.querySelectorAll("[data-rotate]").forEach(button=>{
+    button.onclick=()=>{
+      const [key,axis,direction]=button.dataset.rotate.split(",");
+      state.tags[key].rotation[+axis]+=+direction*5;
+      renderTagEditors();drawPreview();
+    };
+  });
+}
+
+function resizeCanvas(){
+  const canvas=$("preview"),rect=canvas.getBoundingClientRect();
+  const ratio=Math.min(2,devicePixelRatio||1);
+  const width=Math.max(1,Math.round(rect.width*ratio));
+  const height=Math.max(1,Math.round(rect.height*ratio));
+  if(canvas.width!==width||canvas.height!==height){
+    canvas.width=width;canvas.height=height;
+  }
+}
+
+function createView(frame){
+  const minimum=[Infinity,Infinity,Infinity],maximum=[-Infinity,-Infinity,-Infinity];
+
+  state.model.surfaces.forEach(surface=>surface.frames[frame].forEach(vertex=>{
+    for(let axis=0;axis<3;axis++){
+      minimum[axis]=Math.min(minimum[axis],vertex.position[axis]);
+      maximum[axis]=Math.max(maximum[axis],vertex.position[axis]);
+    }
+  }));
+
+  const center=minimum.map((value,axis)=>(value+maximum[axis])/2);
+  const extent=Math.max(...maximum.map((value,axis)=>value-minimum[axis]),.001);
+  const canvas=$("preview");
+  const scale=Math.min(canvas.width,canvas.height)*.72/extent*state.camera.zoom;
+  const cy=Math.cos(state.camera.yaw),sy=Math.sin(state.camera.yaw);
+  const cp=Math.cos(state.camera.pitch),sp=Math.sin(state.camera.pitch);
+
+  return {
+    project(point){
+      const x=point[0]-center[0],y=point[1]-center[1],z=point[2]-center[2];
+      const x1=x*cy-y*sy,y1=x*sy+y*cy;
+      return {
+        x:canvas.width/2+x1*scale,
+        y:canvas.height/2-(y1*sp+z*cp)*scale,
+        depth:y1*cp-z*sp
+      };
+    }
+  };
+}
+
+function paintTriangle(context,image,uv,points){
+  const width=image.width,height=image.height;
+  const u=uv.map(value=>value[0]*width),v=uv.map(value=>value[1]*height);
+  const determinant=u[0]*(v[1]-v[2])+u[1]*(v[2]-v[0])+u[2]*(v[0]-v[1]);
+  if(Math.abs(determinant)<1e-8)return;
+
+  const x=points.map(point=>point.x),y=points.map(point=>point.y);
+  const a=(x[0]*(v[1]-v[2])+x[1]*(v[2]-v[0])+x[2]*(v[0]-v[1]))/determinant;
+  const c=(x[0]*(u[2]-u[1])+x[1]*(u[0]-u[2])+x[2]*(u[1]-u[0]))/determinant;
+  const e=(x[0]*(u[1]*v[2]-u[2]*v[1])+x[1]*(u[2]*v[0]-u[0]*v[2])+x[2]*(u[0]*v[1]-u[1]*v[0]))/determinant;
+  const b=(y[0]*(v[1]-v[2])+y[1]*(v[2]-v[0])+y[2]*(v[0]-v[1]))/determinant;
+  const d=(y[0]*(u[2]-u[1])+y[1]*(u[0]-u[2])+y[2]*(u[1]-u[0]))/determinant;
+  const f=(y[0]*(u[1]*v[2]-u[2]*v[1])+y[1]*(u[2]*v[0]-u[0]*v[2])+y[2]*(u[0]*v[1]-u[1]*v[0]))/determinant;
+
+  context.save();
+  context.beginPath();
+  context.moveTo(x[0],y[0]);context.lineTo(x[1],y[1]);context.lineTo(x[2],y[2]);
+  context.closePath();context.clip();
+  context.setTransform(a,b,c,d,e,f);
+  context.drawImage(image,0,0);
+  context.restore();
+}
+
+function drawPreview(){
+  resizeCanvas();
+  const canvas=$("preview"),context=canvas.getContext("2d");
+  context.setTransform(1,0,0,1,0,0);
+  context.fillStyle="#0b0f14";context.fillRect(0,0,canvas.width,canvas.height);
+  state.projected=[];
+
+  if(!state.model){
+    context.fillStyle="#98a5b5";context.textAlign="center";
+    context.fillText("Загрузите MD3",canvas.width/2,canvas.height/2);
+    return;
+  }
+
+  const frame=+$("frameSlider").value||0;
+  $("frameNumber").textContent=frame;
+  const view=createView(frame),polygons=[];
+
+  state.model.surfaces.forEach((surface,surfaceIndex)=>{
+    if(!state.surfaces[surfaceIndex].visible)return;
+    const projected=surface.frames[frame].map(vertex=>view.project(vertex.position));
+
+    surface.triangles.forEach((triangle,triangleIndex)=>{
+      const points=triangle.map(index=>projected[index]);
+      polygons.push({
+        surfaceIndex,triangleIndex,points,
+        uv:triangle.map(index=>surface.uvs[index]),
+        depth:(points[0].depth+points[1].depth+points[2].depth)/3
+      });
+    });
+  });
+
+  polygons.sort((a,b)=>a.depth-b.depth);
+  state.projected=polygons;
+
+  for(const polygon of polygons){
+    const settings=state.surfaces[polygon.surfaceIndex];
+
+    if(settings.textureCanvas){
+      paintTriangle(context,settings.textureCanvas,polygon.uv,polygon.points);
+    }else{
+      context.beginPath();
+      context.moveTo(polygon.points[0].x,polygon.points[0].y);
+      context.lineTo(polygon.points[1].x,polygon.points[1].y);
+      context.lineTo(polygon.points[2].x,polygon.points[2].y);
+      context.closePath();context.fillStyle="#52657c";context.globalAlpha=.45;
+      context.fill();context.globalAlpha=1;
+    }
+
+    if($("showWireframe").checked){
+      context.beginPath();
+      context.moveTo(polygon.points[0].x,polygon.points[0].y);
+      context.lineTo(polygon.points[1].x,polygon.points[1].y);
+      context.lineTo(polygon.points[2].x,polygon.points[2].y);
+      context.closePath();context.strokeStyle="#ffffff28";context.stroke();
+    }
+  }
+
+  if($("showTags").checked){
+    TAG_DEFS.forEach(definition=>{
+      if(!state.tags[definition.key].anchor)return;
+      const tag=tagAt(definition.key,frame),origin=view.project(tag.origin);
+
+      context.beginPath();context.arc(origin.x,origin.y,6,0,Math.PI*2);
+      context.fillStyle=definition.color;context.fill();
+      context.strokeStyle="#000";context.lineWidth=2;context.stroke();
+
+      ["#ff5555","#55ff55","#5599ff"].forEach((color,index)=>{
+        const end=view.project(add(tag.origin,mul(tag.axes[index],5)));
+        context.beginPath();context.moveTo(origin.x,origin.y);context.lineTo(end.x,end.y);
+        context.strokeStyle=color;context.lineWidth=3;context.stroke();
+      });
+    });
+  }
+}
+
+function insideTriangle(point,triangle){
+  const sign=(p,a,b)=>(p.x-b.x)*(a.y-b.y)-(a.x-b.x)*(p.y-b.y);
+  const d1=sign(point,triangle[0],triangle[1]);
+  const d2=sign(point,triangle[1],triangle[2]);
+  const d3=sign(point,triangle[2],triangle[0]);
+  return !((d1<0||d2<0||d3<0)&&(d1>0||d2>0||d3>0));
+}
+
+function configurePreview(){
+  const canvas=$("preview");
+
+  canvas.onpointerdown=event=>{
+    state.camera.drag=true;state.camera.moved=false;
+    state.camera.x=event.clientX;state.camera.y=event.clientY;
+    canvas.setPointerCapture(event.pointerId);
+  };
+
+  canvas.onpointermove=event=>{
+    if(!state.camera.drag)return;
+    const dx=event.clientX-state.camera.x,dy=event.clientY-state.camera.y;
+    if(Math.abs(dx)+Math.abs(dy)>2)state.camera.moved=true;
+    state.camera.x=event.clientX;state.camera.y=event.clientY;
+    state.camera.yaw+=dx*.01;
+    state.camera.pitch=Math.max(-1.55,Math.min(1.55,state.camera.pitch+dy*.01));
+    drawPreview();
+  };
+
+  canvas.onpointerup=event=>{
+    state.camera.drag=false;
+    if(canvas.hasPointerCapture(event.pointerId))canvas.releasePointerCapture(event.pointerId);
+  };
+
+  canvas.onclick=event=>{
+    if(!state.picker||state.camera.moved)return;
+
+    const rect=canvas.getBoundingClientRect();
+    const point={
+      x:(event.clientX-rect.left)*canvas.width/rect.width,
+      y:(event.clientY-rect.top)*canvas.height/rect.height
+    };
+
+    for(let index=state.projected.length-1;index>=0;index--){
+      const polygon=state.projected[index];
+      if(insideTriangle(point,polygon.points)){
+        state.tags[state.picker].anchor={
+          surfaceIndex:polygon.surfaceIndex,
+          triangleIndex:polygon.triangleIndex
+        };
+        state.picker=null;renderTagEditors();drawPreview();updateCheck();
+        return;
+      }
+    }
+  };
+
+  canvas.onwheel=event=>{
+    event.preventDefault();
+    state.camera.zoom=Math.max(.1,Math.min(10,state.camera.zoom*Math.exp(-event.deltaY*.001)));
+    drawPreview();
+  };
+}
+
+function setFrame(value){
+  if(!state.model)return;
+  const frame=Math.max(0,Math.min(state.model.frameCount-1,value));
+  $("frameSlider").value=frame;drawPreview();
+}
+
+function stopPlayback(){
+  state.animation.playing=false;state.animation.last=0;state.animation.accumulator=0;
+  if(state.animation.request)cancelAnimationFrame(state.animation.request);
+  state.animation.request=0;$("playPause").textContent="▶";
+}
+
+function playback(time){
+  if(!state.animation.playing||!state.model)return;
+  if(!state.animation.last)state.animation.last=time;
+
+  state.animation.accumulator+=time-state.animation.last;
+  state.animation.last=time;
+
+  const duration=1000/Math.max(1,Math.min(120,+$("previewFps").value||20));
+
+  while(state.animation.accumulator>=duration){
+    state.animation.accumulator-=duration;
+    let frame=+$("frameSlider").value+1;
+
+    if(frame>=state.model.frameCount){
+      if($("loopAnimation").checked)frame=0;
+      else{setFrame(state.model.frameCount-1);stopPlayback();return}
+    }
+
+    setFrame(frame);
+  }
+
+  state.animation.request=requestAnimationFrame(playback);
+}
+
+function togglePlayback(){
+  if(!state.model)return;
+  if(state.animation.playing){stopPlayback();return}
+  state.animation.playing=true;state.animation.last=0;state.animation.accumulator=0;
+  $("playPause").textContent="⏸";
+  state.animation.request=requestAnimationFrame(playback);
+}
+
+class Writer{
+  constructor(){this.parts=[];this.length=0}
+  bytes(value){const bytes=value instanceof Uint8Array?value:new Uint8Array(value);this.parts.push(bytes);this.length+=bytes.length}
+  raw(text){this.bytes(Uint8Array.from([...text].map(character=>character.charCodeAt(0)&255)))}
+  fixed(text,length){const bytes=new Uint8Array(length);for(let i=0;i<Math.min(text.length,length-1);i++)bytes[i]=text.charCodeAt(i)&255;this.bytes(bytes)}
+  i16(value){const bytes=new Uint8Array(2);new DataView(bytes.buffer).setInt16(0,value,true);this.bytes(bytes)}
+  u16(value){const bytes=new Uint8Array(2);new DataView(bytes.buffer).setUint16(0,value&65535,true);this.bytes(bytes)}
+  u32(value){const bytes=new Uint8Array(4);new DataView(bytes.buffer).setUint32(0,value>>>0,true);this.bytes(bytes)}
+  f32(value){const bytes=new Uint8Array(4);new DataView(bytes.buffer).setFloat32(0,value,true);this.bytes(bytes)}
+  result(){const output=new Uint8Array(this.length);let offset=0;for(const part of this.parts){output.set(part,offset);offset+=part.length}return output}
+}
+
+function encodeNormal(normal){
+  const value=normalize(normal);
+  const latitude=Math.floor(Math.atan2(value[1],value[0])*255/(2*Math.PI))&255;
+  const longitude=Math.floor(Math.acos(Math.max(-1,Math.min(1,value[2])))*255/(2*Math.PI))&255;
+  return (latitude<<8)|longitude;
+}
+
+function encodeCoordinate(value){
+  const encoded=Math.round(value*state.packageScale*64);
+  if(encoded<-32768||encoded>32767)throw new Error("Координата выходит за диапазон MD3");
+  return encoded;
+}
+
+function transformForPart(part,frame){
+  if(part==="lower")return {point:value=>value.slice(),vector:value=>value.slice()};
+  const parent=part==="upper"?tagAt("torso",frame):tagAt("head",frame);
+  return {
+    point:value=>pointToLocal(parent,value),
+    vector:value=>normalize(vectorToLocal(parent,value))
+  };
+}
+
+function selectedTextureName(){
+  const found=state.surfaces.find(surface=>surface.textureName);
+  return found?found.textureName:"dummy.tga";
+}
+
+function createSurfaceBytes(surface,settings,part){
+  const triangleOffset=108;
+  const shaderOffset=triangleOffset+surface.triangleCount*12;
+  const uvOffset=shaderOffset+68;
+  const vertexOffset=uvOffset+surface.vertexCount*8;
+  const endOffset=vertexOffset+state.model.frameCount*surface.vertexCount*8;
+  const writer=new Writer();
+  const model=safeName($("modelName").value);
+  const texture=settings.textureName||safeFile(surface.shader.split("/").pop(),`${surface.name}.tga`);
+
+  writer.raw("IDP3");writer.fixed(surface.name,64);writer.u32(0);
+  writer.u32(state.model.frameCount);writer.u32(1);writer.u32(surface.vertexCount);writer.u32(surface.triangleCount);
+  writer.u32(triangleOffset);writer.u32(shaderOffset);writer.u32(uvOffset);writer.u32(vertexOffset);writer.u32(endOffset);
+
+  surface.triangles.forEach(triangle=>triangle.forEach(index=>writer.u32(index)));
+  writer.fixed(`models/players/${model}/${texture}`,64);writer.u32(0);
+  surface.uvs.forEach(uv=>{writer.f32(uv[0]);writer.f32(uv[1])});
+
+  for(let frame=0;frame<state.model.frameCount;frame++){
+    const transform=transformForPart(part,frame);
+    surface.frames[frame].forEach(vertex=>{
+      const position=transform.point(vertex.position);
+      const normal=transform.vector(vertex.normal);
+      position.forEach(value=>writer.i16(encodeCoordinate(value)));
+      writer.u16(encodeNormal(normal));
+    });
+  }
+
+  return writer.result();
+}
+
+function createDummySurfaceBytes(part){
+  const frames=state.model.frameCount;
+  const triangleOffset=108,shaderOffset=120,uvOffset=188,vertexOffset=212;
+  const endOffset=vertexOffset+frames*3*8;
+  const writer=new Writer();
+  const model=safeName($("modelName").value);
+  const texture=selectedTextureName();
+  const name=`dummy_${part}`;
+
+  writer.raw("IDP3");writer.fixed(name,64);writer.u32(0);
+  writer.u32(frames);writer.u32(1);writer.u32(3);writer.u32(1);
+  writer.u32(triangleOffset);writer.u32(shaderOffset);writer.u32(uvOffset);writer.u32(vertexOffset);writer.u32(endOffset);
+
+  writer.u32(0);writer.u32(1);writer.u32(2);
+  writer.fixed(`models/players/${model}/${texture}`,64);writer.u32(0);
+
+  writer.f32(0);writer.f32(0);
+  writer.f32(1);writer.f32(0);
+  writer.f32(0);writer.f32(1);
+
+  const positions=[[0,0,0],[.1,0,0],[0,.1,0]];
+
+  for(let frame=0;frame<frames;frame++){
+    positions.forEach(position=>{
+      position.forEach(value=>writer.i16(encodeCoordinate(value)));
+      writer.u16(encodeNormal([0,0,1]));
+    });
+  }
+
+  return writer.result();
+}
+
+function tagsForPart(part,frame){
+  const torso=tagAt("torso",frame);
+  const head=tagAt("head",frame);
+  const weapon=tagAt("weapon",frame);
+
+  if(part==="lower")return [torso];
+
+  if(part==="upper"){
+    return [
+      identityTag("tag_torso"),
+      tagToLocal(head,torso),
+      tagToLocal(weapon,torso)
+    ];
+  }
+
+  return [identityTag("tag_head")];
+}
+
+function writeTag(writer,tag){
+  writer.fixed(tag.name,64);
+  tag.origin.forEach(value=>writer.f32(value*state.packageScale));
+  tag.axes.forEach(axis=>axis.forEach(value=>writer.f32(value)));
+}
+
+function partConfiguration(part){
+  const mode=currentMode();
+
+  if(mode==="loweronly"){
+    return {
+      indices:part==="lower"?state.model.surfaces.map((_,index)=>index):[],
+      dummy:part!=="lower"
+    };
+  }
+
+  if(mode==="nohead"){
+    return {
+      indices:part==="head"?[]:state.surfaces.map((surface,index)=>surface.part===part?index:null).filter(index=>index!==null),
+      dummy:part==="head"
+    };
+  }
+
+  const indices=state.surfaces.map((surface,index)=>surface.part===part?index:null).filter(index=>index!==null);
+  return {indices,dummy:false};
+}
+
+function boundsForPart(indices,part,frame,dummy){
+  if(dummy)return {minimum:[0,0,0],maximum:[.1,.1,0],radius:.15};
+  if(!indices.length)return {minimum:[0,0,0],maximum:[0,0,0],radius:0};
+
+  const minimum=[Infinity,Infinity,Infinity],maximum=[-Infinity,-Infinity,-Infinity];
+  const transform=transformForPart(part,frame);
+  let radius=0;
+
+  indices.forEach(index=>state.model.surfaces[index].frames[frame].forEach(vertex=>{
+    const position=transform.point(vertex.position).map(value=>value*state.packageScale);
+    for(let axis=0;axis<3;axis++){
+      minimum[axis]=Math.min(minimum[axis],position[axis]);
+      maximum[axis]=Math.max(maximum[axis],position[axis]);
+    }
+    radius=Math.max(radius,Math.hypot(...position));
+  }));
+
+  return {minimum,maximum,radius};
+}
+
+function createPartMD3(part,configuration){
+  const surfaces=configuration.indices.map(index=>
+    createSurfaceBytes(state.model.surfaces[index],state.surfaces[index],part)
+  );
+
+  if(configuration.dummy)surfaces.push(createDummySurfaceBytes(part));
+
+  const tagCount=tagsForPart(part,0).length;
+  const frameOffset=108;
+  const tagOffset=frameOffset+state.model.frameCount*56;
+  const surfaceOffset=tagOffset+state.model.frameCount*tagCount*112;
+  const endOffset=surfaceOffset+surfaces.reduce((sum,surface)=>sum+surface.length,0);
+  const writer=new Writer();
+
+  writer.raw("IDP3");writer.u32(15);writer.fixed(part,64);writer.u32(0);
+  writer.u32(state.model.frameCount);writer.u32(tagCount);writer.u32(surfaces.length);writer.u32(0);
+  writer.u32(frameOffset);writer.u32(tagOffset);writer.u32(surfaceOffset);writer.u32(endOffset);
+
+  for(let frame=0;frame<state.model.frameCount;frame++){
+    const bounds=boundsForPart(configuration.indices,part,frame,configuration.dummy);
+    bounds.minimum.forEach(value=>writer.f32(value));
+    bounds.maximum.forEach(value=>writer.f32(value));
+    writer.f32(0);writer.f32(0);writer.f32(0);writer.f32(bounds.radius);
+    writer.fixed(state.model.frames[frame].name,16);
+  }
+
+  for(let frame=0;frame<state.model.frameCount;frame++){
+    tagsForPart(part,frame).forEach(tag=>writeTag(writer,tag));
+  }
+
+  surfaces.forEach(surface=>writer.bytes(surface));
+  return writer.result();
+}
+
+function createSkin(part,configuration){
+  const lines={
+    lower:["tag_torso,"],
+    upper:["tag_torso,","tag_head,","tag_weapon,"],
+    head:["tag_head,"]
+  }[part].slice();
+
+  const model=safeName($("modelName").value);
+
+  configuration.indices.forEach(index=>{
+    const surface=state.model.surfaces[index],settings=state.surfaces[index];
+    const texture=settings.textureName||safeFile(surface.shader.split("/").pop(),`${surface.name}.tga`);
+    lines.push(`${surface.name},models/players/${model}/${texture}`);
+  });
+
+  if(configuration.dummy){
+    lines.push(`dummy_${part},models/players/${model}/${selectedTextureName()}`);
+  }
+
+  return lines.join("\n")+"\n";
+}
+
+function animationCfg() {
+  return `// ВНИМАНИЕ: это только пример animation.cfg.
+// Диапазоны кадров необходимо заменить значениями вашей модели.
+//
+// animation config file
+
+
+headoffset -1.4 0 0
+
+sex	m
+
+footsteps mech
+
+0	30	0	25		// BOTH_DEATH1	x
+29	1	0	25		// BOTH_DEAD1	x
+30	30	0	15		// BOTH_DEATH2	x
+59	1	0	25		// BOTH_DEAD2	x
+60	30	0	25		// BOTH_DEATH3	x
+89	1	0	25		// BOTH_DEAD3	x
+
+90	40	0	20		// TORSO_GESTURE	x
+
+130	6	0	15		// TORSO_ATTACK	x
+136	6	0	15		// TORSO_ATTACK2	x
+
+142	5	0	20		// TORSO_DROP	x
+147	4	0	20		// TORSO_RAISE	x
+
+151	1	0	15		// TORSO_STAND	x
+152	1	0	15		// TORSO_STAND2	x
+
+153	9	9	20		// LEGS_WALKCR	x
+162	8	8	20		// LEGS_WALK	x
+170	13	13	23		// LEGS_RUN		x
+183	10	10	23		// LEGS_BACK	x
+193	10	10	15		// LEGS_SWIM	x
+
+203	9	0	15		// LEGS_JUMP	x
+212	5	0	15		// LEGS_LAND	x
+
+217	9	0	15		// LEGS_JUMPB	x
+226	3	0	15		// LEGS_LANDB	x
+
+229	10	10	15		// LEGS_IDLE	x
+239	8	8	15		// LEGS_IDLECR	x
+
+247	7	7	15		// LEGS_TURN	x
+`;
+}
+
+function botText(){
+  const model=safeName($("modelName").value);
+  const name=String($("characterName").value||"Player").replace(/[\r\n"]/g," ");
+  const fun=String($("funName").value||name).replace(/[\r\n"]/g," ");
+  let bot=safeFile($("botFile").value,"visor_c.c");
+  if(!bot.toLowerCase().endsWith(".c"))bot+=".c";
+
+  return `{
+name "${name}"
+funname "${fun}"
+model ${model}
+aifile bots/${bot}
+}
+`;
+}
+
+function readmeText(){
+  return `QUAKE 3 PLAYER BUILDER
+
+Тип модели: ${currentMode()}
+Исходных кадров: ${state.model.frameCount}
+
+animation.cfg является шаблоном модели Gork.
+Диапазоны кадров необходимо заменить реальными.
+
+Служебные поверхности dummy_upper и dummy_head созданы
+для того, чтобы Quake 3 зарегистрировал непустые skin-файлы.
+
+tag_torso соединяет lower и upper.
+tag_head задаёт положение головы.
+tag_weapon задаёт положение оружия.
+`;
+}
+
+function calculateScale(){
+  let largest=0;
+  state.model.surfaces.forEach(surface=>surface.frames.forEach(frame=>frame.forEach(vertex=>{
+    largest=Math.max(largest,...vertex.position.map(Math.abs));
+  })));
+  return largest>MAX_COORD?MAX_COORD/largest*.995:1;
+}
+
+function textBlob(text){return new Blob([text],{type:"text/plain;charset=utf-8"})}
+function binaryBlob(bytes){return new Blob([bytes],{type:"application/octet-stream"})}
+
+const CRC_TABLE=(()=>{
+  const table=new Uint32Array(256);
+  for(let index=0;index<256;index++){
+    let value=index;
+    for(let bit=0;bit<8;bit++)value=value&1?0xedb88320^(value>>>1):value>>>1;
+    table[index]=value>>>0;
+  }
+  return table;
+})();
+
+function crc32(bytes){
+  let crc=0xffffffff;
+  for(const byte of bytes)crc=CRC_TABLE[(crc^byte)&255]^(crc>>>8);
+  return (crc^0xffffffff)>>>0;
+}
+
+function dosDateTime(date=new Date()){
+  const year=Math.max(1980,date.getFullYear());
+  return {
+    time:(date.getHours()<<11)|(date.getMinutes()<<5)|Math.floor(date.getSeconds()/2),
+    date:((year-1980)<<9)|((date.getMonth()+1)<<5)|date.getDate()
+  };
+}
+
+async function createZip(files){
+  const encoder=new TextEncoder(),local=new Writer(),central=new Writer(),stamp=dosDateTime();
+  let localOffset=0;
+
+  for(const file of files){
+    const name=encoder.encode(file.name);
+    const data=new Uint8Array(await file.blob.arrayBuffer());
+    const checksum=crc32(data);
+
+    local.u32(0x04034b50);local.u16(20);local.u16(0x0800);local.u16(0);
+    local.u16(stamp.time);local.u16(stamp.date);local.u32(checksum);
+    local.u32(data.length);local.u32(data.length);local.u16(name.length);local.u16(0);
+    local.bytes(name);local.bytes(data);
+
+    central.u32(0x02014b50);central.u16(20);central.u16(20);central.u16(0x0800);central.u16(0);
+    central.u16(stamp.time);central.u16(stamp.date);central.u32(checksum);
+    central.u32(data.length);central.u32(data.length);central.u16(name.length);
+    central.u16(0);central.u16(0);central.u16(0);central.u16(0);central.u32(0);
+    central.u32(localOffset);central.bytes(name);
+
+    localOffset+=30+name.length+data.length;
+  }
+
+  const localData=local.result(),centralData=central.result(),output=new Writer();
+  output.bytes(localData);output.bytes(centralData);
+  output.u32(0x06054b50);output.u16(0);output.u16(0);
+  output.u16(files.length);output.u16(files.length);
+  output.u32(centralData.length);output.u32(localData.length);output.u16(0);
+
+  return new Blob([output.result()],{type:"application/zip"});
+}
+
+function downloadBlob(blob,name){
+  const url=URL.createObjectURL(blob),link=document.createElement("a");
+  link.href=url;link.download=name;document.body.appendChild(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+
+function updateCheck(){
+  if(!state.model){
+    $("checkOutput").textContent="Загрузите модель.";
+    return false;
+  }
+
+  const mode=currentMode(),errors=[],warnings=[];
+
+  if(mode==="complete"){
+    for(const part of ["lower","upper","head"]){
+      if(!state.surfaces.some(surface=>surface.part===part))errors.push(`Не выбрана поверхность ${part}.`);
+    }
+  }
+
+  if(mode==="nohead"){
+    for(const part of ["lower","upper"]){
+      if(!state.surfaces.some(surface=>surface.part===part))errors.push(`Не выбрана поверхность ${part}.`);
+    }
+  }
+
+  TAG_DEFS.forEach(definition=>{
+    if(!state.tags[definition.key].anchor)errors.push(`Не задан ${definition.name}.`);
+  });
+
+  if(!state.iconFile&&!state.iconCanvas)warnings.push("Иконка будет создана автоматически.");
+  if(!state.surfaces.some(surface=>surface.textureFile))warnings.push("TGA не выбраны: будет добавлена служебная dummy.tga.");
+
+  const output=[
+    errors.length?"Ошибки:":"Критических ошибок не найдено.",
+    ...errors.map(error=>`• ${error}`),
+    ...(warnings.length?["","Предупреждения:",...warnings.map(warning=>`• ${warning}`)]:[])
+  ].join("\n");
+
+  $("checkOutput").textContent=output;
+  return errors.length===0;
+}
+
+async function exportProject(){
+  if(!state.model)return;
+
+  try{
+    if(!updateCheck())throw new Error("Исправьте ошибки проекта");
+
+    if(!state.iconFile&&!state.iconCanvas)createGeneratedIcon();
+
+    const model=safeName($("modelName").value);
+    const base=`models/players/${model}/`;
+    const files=[];
+    state.packageScale=calculateScale();
+
+    for(const part of ["lower","upper","head"]){
+      const configuration=partConfiguration(part);
+
+      files.push({
+        name:`${base}${part}.md3`,
+        blob:binaryBlob(createPartMD3(part,configuration))
+      });
+
+      files.push({
+        name:`${base}${part}_default.skin`,
+        blob:textBlob(createSkin(part,configuration))
+      });
+    }
+
+    const addedTextures=new Set();
+
+    for(const surface of state.surfaces){
+      if(!surface.textureFile||addedTextures.has(surface.textureName))continue;
+      addedTextures.add(surface.textureName);
+      files.push({name:base+surface.textureName,blob:surface.textureFile});
+    }
+
+    if(!addedTextures.size){
+      files.push({name:base+"dummy.tga",blob:binaryBlob(createTransparentTGA())});
+    }
+
+	const iconBlob = binaryBlob(
+	  encodeCanvasTGA(state.iconCanvas)
+	);
+
+    files.push({name:base+"icon_default.tga",blob:iconBlob});
+    files.push({name:base+"animation.cfg",blob:textBlob(animationCfg())});
+    files.push({name:`scripts/${model}.bot`,blob:textBlob(botText())});
+
+    const zip=await createZip(files);
+
+    $("resultsOutput").innerHTML=`
+      <strong>${escapeHTML(model)}_q3_player.zip</strong>
+      <p class="muted">${files.length} файлов, ${(zip.size/1024/1024).toFixed(2)} МБ</p>
+    `;
+
+    downloadBlob(zip,`${model}_q3_player.zip`);
+    activateView("results");
+    log(`Создан ZIP: ${files.length} файлов`);
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА: ${error.message}`);
+  }
+}
+
+async function loadModel(){
+  const file=$("md3File").files[0];
+  if(!file)return alert("Выберите MD3");
+
+  try{
+    stopPlayback();
+    state.model=parseMD3(await file.arrayBuffer());
+    state.file=file;
+    state.surfaces=state.model.surfaces.map(surface=>({
+      part:automaticPart(surface.name),
+      visible:true,
+      textureFile:null,
+      textureName:"",
+      textureCanvas:null
+    }));
+
+    TAG_DEFS.forEach(definition=>{
+      state.tags[definition.key]={anchor:null,offset:[0,0,0],rotation:[0,0,0]};
+    });
+
+    $("modelName").value=safeName(file.name.replace(/\.md3$/i,""));
+    $("frameSlider").max=state.model.frameCount-1;
+    $("frameSlider").value=0;
+    $("frameMaximum").textContent=state.model.frameCount-1;
+    $("fileInfo").textContent=
+      `${file.name}\nКадров: ${state.model.frameCount}\nПоверхностей: ${state.model.surfaceCount}`;
+    $("previewInfo").textContent=`${state.model.frameCount} кадров`;
+    $("headerExport").disabled=false;
+    $("exportProject").disabled=false;
+
+    renderSplitRows();renderTextureRows();renderTagEditors();
+    drawPreview();updateCheck();activateView("split");
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА MD3: ${error.message}`);
+  }
+}
+
+function activateView(name){
+  document.querySelectorAll(".nav-button").forEach(button=>
+    button.classList.toggle("active",button.dataset.view===name)
+  );
+  document.querySelectorAll("[data-panel]").forEach(panel=>
+    panel.classList.toggle("active",panel.dataset.panel===name)
+  );
+}
+
+function resetProject(){
+  stopPlayback();
+  state.file=null;state.model=null;state.surfaces=[];state.picker=null;
+  state.iconFile=null;state.iconCanvas=null;
+  TAG_DEFS.forEach(definition=>{
+    state.tags[definition.key]={anchor:null,offset:[0,0,0],rotation:[0,0,0]};
+  });
+
+  $("md3File").value="";$("iconFile").value="";
+  $("frameSlider").value=0;$("frameSlider").max=0;
+  $("frameNumber").textContent="0";$("frameMaximum").textContent="0";
+  $("fileInfo").textContent="Выберите анимированную MD3.";
+  $("previewInfo").textContent="Модель не загружена";
+  $("headerExport").disabled=true;$("exportProject").disabled=true;
+  $("resultsOutput").textContent="ZIP ещё не создан.";
+  drawIconPreview();renderSplitRows();renderTextureRows();renderTagEditors();
+  drawPreview();updateCheck();activateView("files");
+}
+
+document.querySelectorAll(".nav-button").forEach(button=>{
+  button.onclick=()=>{
+    activateView(button.dataset.view);
+    if(button.dataset.view==="check")updateCheck();
+  };
+});
+
+document.querySelectorAll('input[name="modelMode"]').forEach(input=>{
+  input.onchange=updateModeInfo;
+});
+
+$("iconFile").onchange=async()=>{
+  const file=$("iconFile").files[0];
+  if(!file)return;
+
+  try{
+    state.iconCanvas=decodeTGA(await file.arrayBuffer());
+    state.iconFile=file;
+    $("iconInfo").textContent=file.name;
+    drawIconPreview();updateCheck();
+  }catch(error){
+    alert(error.message);
+  }
+};
+
+$("generateIcon").onclick=createGeneratedIcon;
+$("clearIcon").onclick=()=>{
+  state.iconFile=null;state.iconCanvas=null;$("iconFile").value="";
+  $("iconInfo").textContent="Иконка будет создана автоматически.";
+  drawIconPreview();updateCheck();
+};
+
+$("loadModel").onclick=loadModel;
+$("headerExport").onclick=exportProject;
+$("exportProject").onclick=exportProject;
+$("resetProject").onclick=resetProject;
+$("runCheck").onclick=updateCheck;
+
+$("frameSlider").oninput=drawPreview;
+$("playPause").onclick=togglePlayback;
+$("previousFrame").onclick=()=>{stopPlayback();setFrame((+$("frameSlider").value||0)-1)};
+$("nextFrame").onclick=()=>{
+  stopPlayback();
+  let frame=(+$("frameSlider").value||0)+1;
+  if(state.model&&frame>=state.model.frameCount)frame=$("loopAnimation").checked?0:state.model.frameCount-1;
+  setFrame(frame);
+};
+
+$("resetView").onclick=()=>{
+  state.camera.yaw=-.7;state.camera.pitch=-.25;state.camera.zoom=1;drawPreview();
+};
+
+$("showWireframe").onchange=drawPreview;
+$("showTags").onchange=drawPreview;
+window.onresize=drawPreview;
+
+configurePreview();
+renderTagEditors();
+updateModeInfo();
+drawIconPreview();
+drawPreview();
+</script>
+</body>
+</html>

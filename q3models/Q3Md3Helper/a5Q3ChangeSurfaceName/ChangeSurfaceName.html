@@ -1,0 +1,1376 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quake 3 MD3 Surface Renamer</title>
+
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0e1217;--panel:#181e26;--panel2:#202833;
+  --border:#34404e;--text:#edf2f7;--muted:#98a5b5;
+  --blue:#51a8ff;--green:#4fd199;--yellow:#e9bd61;--red:#f06a6a
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:14px/1.45 system-ui,sans-serif
+}
+header{
+  position:sticky;top:0;z-index:10;
+  display:flex;align-items:center;gap:8px;
+  padding:12px 18px;
+  border-bottom:1px solid var(--border);
+  background:#181e26f5
+}
+header h1{margin:0 auto 0 0;font-size:20px}
+button,input,select{font:inherit}
+button{
+  padding:8px 11px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  background:var(--panel2);
+  color:var(--text);
+  cursor:pointer
+}
+button:hover:not(:disabled){border-color:var(--blue)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.primary{
+  background:var(--blue);
+  border-color:var(--blue);
+  color:#071421;
+  font-weight:700
+}
+input,select{
+  width:100%;min-width:0;
+  padding:7px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:#11171e;
+  color:var(--text)
+}
+main{
+  width:min(1300px,100%);
+  margin:auto;
+  padding:16px
+}
+.card{
+  margin-bottom:16px;
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--panel)
+}
+.card h2{margin:0 0 10px;font-size:17px}
+.toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px
+}
+.field{display:grid;gap:4px}
+.field span,.muted{color:var(--muted)}
+.field span{font-size:12px}
+.notice{
+  margin-top:10px;
+  padding:9px 11px;
+  border-left:3px solid var(--blue);
+  background:#172435;
+  white-space:pre-wrap
+}
+.warning{border-left-color:var(--yellow)}
+.error{border-left-color:var(--red)}
+.part{
+  margin-top:12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  overflow:hidden
+}
+.part-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px;
+  background:var(--panel2)
+}
+.part-title strong{margin-right:auto}
+.badge{
+  padding:3px 8px;
+  border-radius:999px;
+  background:#293442;
+  color:var(--muted);
+  font-size:11px
+}
+table{
+  width:100%;
+  border-collapse:collapse
+}
+th,td{
+  padding:8px;
+  border-top:1px solid var(--border);
+  text-align:left;
+  vertical-align:middle
+}
+th{
+  color:var(--muted);
+  font-size:12px
+}
+.old-name{
+  width:34%;
+  font-family:ui-monospace,monospace;
+  word-break:break-all
+}
+.shader{
+  color:var(--muted);
+  font-size:12px;
+  word-break:break-all
+}
+.changed input{border-color:var(--yellow)}
+.invalid input{border-color:var(--red)}
+#log{
+  max-height:220px;
+  overflow:auto;
+  margin:0;
+  padding:9px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#0c1116;
+  color:#bbc6d3;
+  font:12px/1.5 ui-monospace,monospace;
+  white-space:pre-wrap
+}
+@media(max-width:750px){
+  .grid{grid-template-columns:1fr}
+  table,tbody,tr,td{display:block}
+  thead{display:none}
+  tr{padding:8px;border-top:1px solid var(--border)}
+  td{border:0;padding:4px}
+  .old-name{width:auto}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>Quake 3 MD3 Surface Renamer</h1>
+  <button id="exportZip" class="primary" disabled>
+    Скачать ZIP
+  </button>
+  <button id="exportPk3" class="primary" disabled>
+    Скачать PK3
+  </button>
+</header>
+
+<main>
+
+<div class="card">
+  <h2>1. Архив модели</h2>
+
+  <div class="toolbar">
+    <input
+      id="archiveFile"
+      type="file"
+      accept=".zip,.pk3,application/zip"
+    >
+    <button id="openArchive">Открыть ZIP/PK3</button>
+  </div>
+
+  <div class="grid" style="margin-top:10px">
+    <label class="field">
+      <span>Модель в архиве</span>
+      <select id="modelRoot" disabled>
+        <option>Архив не загружен</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Найдено MD3</span>
+      <input id="md3Count" readonly value="—">
+    </label>
+
+    <label class="field">
+      <span>Найдено skin</span>
+      <input id="skinCount" readonly value="—">
+    </label>
+  </div>
+
+  <div id="archiveInfo" class="notice">
+    Выберите ZIP или PK3 с моделью игрока.
+  </div>
+</div>
+
+<div class="card">
+  <h2>2. Имена surfaces</h2>
+
+  <div class="toolbar">
+    <button id="resetNames" disabled>
+      Вернуть исходные имена
+    </button>
+
+    <button id="makeUnique" disabled>
+      Сделать имена уникальными
+    </button>
+
+    <button id="lowerCase" disabled>
+      Перевести в нижний регистр
+    </button>
+  </div>
+
+  <div id="parts">
+    <p class="muted">Архив не загружен.</p>
+  </div>
+
+  <div class="notice warning">
+    Имя surface должно содержать только латинские буквы,
+    цифры, символы «_» и «-».
+
+    Максимальная длина — 63 символа. Имена должны быть
+    уникальны внутри одного MD3.
+  </div>
+</div>
+
+<div class="card">
+  <h2>3. Проверка</h2>
+  <div id="validation" class="notice">
+    Загрузите архив.
+  </div>
+</div>
+
+<div class="card">
+  <h2>Журнал</h2>
+  <pre id="log">Приложение готово.</pre>
+</div>
+
+</main>
+
+<script>
+"use strict";
+
+const $=id=>document.getElementById(id);
+const encoder=new TextEncoder();
+const decoder=new TextDecoder();
+
+const PARTS=["lower","upper","head"];
+
+const state={
+  archiveName:"",
+  entries:new Map(),
+  roots:[],
+  root:"",
+  models:new Map(),
+  skinEntries:new Map()
+};
+
+function log(message){
+  const output=$("log");
+
+  output.textContent+=
+    `\n[${new Date().toLocaleTimeString()}] ${message}`;
+
+  output.scrollTop=output.scrollHeight;
+}
+
+function normalizePath(path){
+  return String(path)
+    .replaceAll("\\","/")
+    .replace(/^\/+/,"");
+}
+
+function escapeHTML(value){
+  return String(value).replace(
+    /[&<>"']/g,
+    character=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    })[character]
+  );
+}
+
+function safeArchiveName(value){
+  return String(value||"model")
+    .replace(/\.(zip|pk3)$/i,"")
+    .replace(/[^a-zA-Z0-9_-]+/g,"_")||
+    "model";
+}
+
+function safeSurfaceName(value,fallback="surface"){
+  const result=String(value||fallback)
+    .trim()
+    .replace(/[^a-zA-Z0-9_-]+/g,"_")
+    .replace(/^_+|_+$/g,"")
+    .slice(0,63);
+
+  return result||fallback;
+}
+
+function ensure(buffer,offset,length,label){
+  if(
+    offset<0||
+    length<0||
+    offset+length>buffer.byteLength
+  ){
+    throw new Error(`Повреждён файл: ${label}`);
+  }
+}
+
+function readFixedString(bytes,offset,length){
+  let result="";
+
+  for(let index=0;index<length;index++){
+    const value=bytes[offset+index];
+
+    if(!value)break;
+    result+=String.fromCharCode(value);
+  }
+
+  return result;
+}
+
+function writeFixedString(bytes,offset,length,value){
+  bytes.fill(0,offset,offset+length);
+
+  for(
+    let index=0;
+    index<Math.min(value.length,length-1);
+    index++
+  ){
+    bytes[offset+index]=
+      value.charCodeAt(index)&255;
+  }
+}
+
+function findEntry(path){
+  const wanted=normalizePath(path).toLowerCase();
+
+  for(const [name,data] of state.entries){
+    if(name.toLowerCase()===wanted){
+      return {name,data};
+    }
+  }
+
+  return null;
+}
+
+async function inflateRaw(data){
+  if(typeof DecompressionStream==="undefined"){
+    throw new Error(
+      "Браузер не поддерживает распаковку Deflate."
+    );
+  }
+
+  const stream=new Blob([data]).stream()
+    .pipeThrough(
+      new DecompressionStream("deflate-raw")
+    );
+
+  return new Uint8Array(
+    await new Response(stream).arrayBuffer()
+  );
+}
+
+async function readZip(buffer){
+  const bytes=new Uint8Array(buffer);
+  const view=new DataView(buffer);
+  let eocd=-1;
+
+  for(
+    let offset=bytes.length-22;
+    offset>=Math.max(0,bytes.length-65557);
+    offset--
+  ){
+    if(view.getUint32(offset,true)===0x06054b50){
+      eocd=offset;
+      break;
+    }
+  }
+
+  if(eocd<0){
+    throw new Error("Конец ZIP не найден.");
+  }
+
+  const count=view.getUint16(eocd+10,true);
+  const centralOffset=view.getUint32(eocd+16,true);
+  const entries=new Map();
+  let position=centralOffset;
+
+  for(let index=0;index<count;index++){
+    ensure(buffer,position,46,"каталог ZIP");
+
+    if(view.getUint32(position,true)!==0x02014b50){
+      throw new Error("Повреждён ZIP.");
+    }
+
+    const method=view.getUint16(position+10,true);
+    const compressedSize=view.getUint32(position+20,true);
+    const nameLength=view.getUint16(position+28,true);
+    const extraLength=view.getUint16(position+30,true);
+    const commentLength=view.getUint16(position+32,true);
+    const localOffset=view.getUint32(position+42,true);
+
+    const name=normalizePath(
+      decoder.decode(
+        bytes.subarray(
+          position+46,
+          position+46+nameLength
+        )
+      )
+    );
+
+    ensure(buffer,localOffset,30,name);
+
+    if(view.getUint32(localOffset,true)!==0x04034b50){
+      throw new Error(`Повреждён ${name}`);
+    }
+
+    const localNameLength=
+      view.getUint16(localOffset+26,true);
+
+    const localExtraLength=
+      view.getUint16(localOffset+28,true);
+
+    const dataOffset=
+      localOffset+
+      30+
+      localNameLength+
+      localExtraLength;
+
+    ensure(
+      buffer,
+      dataOffset,
+      compressedSize,
+      name
+    );
+
+    const compressed=bytes.slice(
+      dataOffset,
+      dataOffset+compressedSize
+    );
+
+    let data;
+
+    if(method===0){
+      data=compressed;
+    }else if(method===8){
+      data=await inflateRaw(compressed);
+    }else{
+      throw new Error(
+        `Метод сжатия ZIP ${method} не поддерживается.`
+      );
+    }
+
+    if(!name.endsWith("/")){
+      entries.set(name,data);
+    }
+
+    position+=
+      46+
+      nameLength+
+      extraLength+
+      commentLength;
+  }
+
+  return entries;
+}
+
+function parseMD3Surfaces(data,entryName,part){
+  const buffer=data.buffer.slice(
+    data.byteOffset,
+    data.byteOffset+data.byteLength
+  );
+
+  const bytes=new Uint8Array(buffer);
+  const view=new DataView(buffer);
+
+  ensure(buffer,0,108,entryName);
+
+  if(readFixedString(bytes,0,4)!=="IDP3"){
+    throw new Error(`${entryName} не является MD3.`);
+  }
+
+  if(view.getInt32(4,true)!==15){
+    throw new Error(
+      `${entryName}: поддерживается только MD3 v15.`
+    );
+  }
+
+  const surfaceCount=view.getInt32(84,true);
+  const surfaceOffset=view.getInt32(100,true);
+  const surfaces=[];
+
+  let position=surfaceOffset;
+
+  for(
+    let index=0;
+    index<surfaceCount;
+    index++
+  ){
+    ensure(
+      buffer,
+      position,
+      108,
+      `${entryName}, surface ${index}`
+    );
+
+    if(readFixedString(bytes,position,4)!=="IDP3"){
+      throw new Error(
+        `${entryName}: повреждена surface ${index}.`
+      );
+    }
+
+    const oldName=
+      readFixedString(bytes,position+4,64);
+
+    const shaderCount=
+      view.getInt32(position+76,true);
+
+    const shaderOffset=
+      view.getInt32(position+92,true);
+
+    const endOffset=
+      view.getInt32(position+104,true);
+
+    if(endOffset<=0){
+      throw new Error(
+        `${entryName}: неверный размер surface ${index}.`
+      );
+    }
+
+    let shader="";
+
+    if(shaderCount>0){
+      ensure(
+        buffer,
+        position+shaderOffset,
+        64,
+        `${entryName}, shader ${index}`
+      );
+
+      shader=readFixedString(
+        bytes,
+        position+shaderOffset,
+        64
+      );
+    }
+
+    surfaces.push({
+      index,
+      oldName,
+      newName:oldName,
+      nameOffset:position+4,
+      shader
+    });
+
+    position+=endOffset;
+  }
+
+  return {
+    part,
+    entryName,
+    originalData:data,
+    surfaces
+  };
+}
+
+function discoverRoots(){
+  const roots=new Set();
+
+  for(const name of state.entries.keys()){
+    const match=name.match(
+      /^(models\/players\/[^/]+)\/(?:lower|upper|head)\.md3$/i
+    );
+
+    if(match){
+      roots.add(match[1]);
+    }
+  }
+
+  return [...roots];
+}
+
+function discoverSkins(root,part){
+  const prefix=
+    `${normalizePath(root)}/${part}_`
+      .toLowerCase();
+
+  const result=[];
+
+  for(const [name,data] of state.entries){
+    const lower=name.toLowerCase();
+
+    if(
+      lower.startsWith(prefix)&&
+      lower.endsWith(".skin")
+    ){
+      result.push({name,data});
+    }
+  }
+
+  return result;
+}
+
+async function loadRoot(){
+  state.root=$("modelRoot").value;
+  state.models.clear();
+  state.skinEntries.clear();
+
+  let md3Count=0;
+  let skinCount=0;
+
+  for(const part of PARTS){
+    const entry=findEntry(
+      `${state.root}/${part}.md3`
+    );
+
+    if(!entry)continue;
+
+    const model=parseMD3Surfaces(
+      entry.data,
+      entry.name,
+      part
+    );
+
+    state.models.set(part,model);
+    md3Count++;
+
+    const skins=discoverSkins(
+      state.root,
+      part
+    );
+
+    state.skinEntries.set(part,skins);
+    skinCount+=skins.length;
+  }
+
+  $("md3Count").value=md3Count;
+  $("skinCount").value=skinCount;
+
+  renderParts();
+  validate();
+  updateButtons();
+
+  $("archiveInfo").textContent=
+    `${state.archiveName}\n`+
+    `Модель: ${state.root}\n`+
+    `MD3: ${md3Count}\n`+
+    `Skin-файлов: ${skinCount}`;
+
+  log(`Выбрана модель ${state.root}`);
+}
+
+function renderParts(){
+  const container=$("parts");
+
+  if(!state.models.size){
+    container.innerHTML=
+      '<p class="muted">MD3 не найдены.</p>';
+
+    return;
+  }
+
+  container.innerHTML=PARTS.map(part=>{
+    const model=state.models.get(part);
+
+    if(!model){
+      return `
+        <div class="part">
+          <div class="part-title">
+            <strong>${part}.md3</strong>
+            <span class="badge">не найден</span>
+          </div>
+        </div>
+      `;
+    }
+
+    const skins=
+      state.skinEntries.get(part)||[];
+
+    return `
+      <div class="part">
+        <div class="part-title">
+          <strong>${part}.md3</strong>
+
+          <span class="badge">
+            ${model.surfaces.length} surfaces
+          </span>
+
+          <span class="badge">
+            ${skins.length} skin
+          </span>
+        </div>
+
+        <table>
+          <thead>
+          <tr>
+            <th>№</th>
+            <th>Исходное имя</th>
+            <th>Новое имя</th>
+            <th>Shader в MD3</th>
+          </tr>
+          </thead>
+
+          <tbody>
+            ${model.surfaces.map(surface=>`
+              <tr
+                data-part="${part}"
+                data-index="${surface.index}"
+              >
+                <td>${surface.index+1}</td>
+
+                <td class="old-name">
+                  ${escapeHTML(surface.oldName)}
+                </td>
+
+                <td>
+                  <input
+                    class="surface-name"
+                    data-part="${part}"
+                    data-index="${surface.index}"
+                    value="${escapeHTML(surface.newName)}"
+                    maxlength="63"
+                  >
+                </td>
+
+                <td class="shader">
+                  ${escapeHTML(surface.shader||"—")}
+                </td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }).join("");
+
+  document.querySelectorAll(
+    ".surface-name"
+  ).forEach(input=>{
+    input.addEventListener("input",()=>{
+      const model=
+        state.models.get(input.dataset.part);
+
+      const surface=
+        model.surfaces[
+          Number(input.dataset.index)
+        ];
+
+      surface.newName=input.value.trim();
+
+      validate();
+    });
+
+    input.addEventListener("blur",()=>{
+      const model=
+        state.models.get(input.dataset.part);
+
+      const surface=
+        model.surfaces[
+          Number(input.dataset.index)
+        ];
+
+      surface.newName=safeSurfaceName(
+        input.value,
+        `surface_${surface.index+1}`
+      );
+
+      input.value=surface.newName;
+      validate();
+    });
+  });
+}
+
+function validate(){
+  const errors=[];
+  const warnings=[];
+  let changed=0;
+
+  document.querySelectorAll(
+    "#parts tr[data-part]"
+  ).forEach(row=>{
+    row.classList.remove(
+      "changed",
+      "invalid"
+    );
+  });
+
+  for(const [part,model] of state.models){
+    const used=new Map();
+
+    for(const surface of model.surfaces){
+      const row=document.querySelector(
+        `tr[data-part="${part}"]`+
+        `[data-index="${surface.index}"]`
+      );
+
+      const name=surface.newName.trim();
+
+      let invalid=false;
+
+      if(!name){
+        errors.push(
+          `${part}, surface ${surface.index+1}: пустое имя.`
+        );
+
+        invalid=true;
+      }
+
+      if(name.length>63){
+        errors.push(
+          `${part}, ${name}: имя длиннее 63 символов.`
+        );
+
+        invalid=true;
+      }
+
+      if(!/^[a-zA-Z0-9_-]+$/.test(name)){
+        errors.push(
+          `${part}, ${name||surface.index+1}: `+
+          `недопустимые символы.`
+        );
+
+        invalid=true;
+      }
+
+      const key=name.toLowerCase();
+
+      if(used.has(key)){
+        errors.push(
+          `${part}: повторяющееся имя ${name}.`
+        );
+
+        invalid=true;
+
+        const previous=used.get(key);
+
+        document.querySelector(
+          `tr[data-part="${part}"]`+
+          `[data-index="${previous.index}"]`
+        )?.classList.add("invalid");
+      }else{
+        used.set(key,surface);
+      }
+
+      if(name!==surface.oldName){
+        changed++;
+        row?.classList.add("changed");
+      }
+
+      if(invalid){
+        row?.classList.add("invalid");
+      }
+    }
+
+    const skins=state.skinEntries.get(part)||[];
+
+    if(!skins.length){
+      warnings.push(
+        `${part}.md3: соответствующие skin не найдены. `+
+        `Будет изменена только MD3.`
+      );
+    }
+  }
+
+  const output=$("validation");
+
+  if(errors.length){
+    output.className="notice error";
+    output.textContent=
+      `Ошибки:\n• ${errors.join("\n• ")}`;
+  }else if(warnings.length){
+    output.className="notice warning";
+    output.textContent=
+      `Изменено surfaces: ${changed}.\n\n`+
+      `Предупреждения:\n• ${warnings.join("\n• ")}`;
+  }else{
+    output.className="notice";
+    output.textContent=
+      `Проверка пройдена.\n`+
+      `Изменено surfaces: ${changed}.\n`+
+      `Все соответствующие skin будут обновлены.`;
+  }
+
+  $("exportZip").disabled=
+    !state.models.size||errors.length>0;
+
+  $("exportPk3").disabled=
+    !state.models.size||errors.length>0;
+
+  return {
+    errors,
+    warnings,
+    changed
+  };
+}
+
+function updateButtons(){
+  const disabled=!state.models.size;
+
+  $("resetNames").disabled=disabled;
+  $("makeUnique").disabled=disabled;
+  $("lowerCase").disabled=disabled;
+}
+
+function patchMD3(model){
+  const result=model.originalData.slice();
+  const bytes=new Uint8Array(
+    result.buffer,
+    result.byteOffset,
+    result.byteLength
+  );
+
+  for(const surface of model.surfaces){
+    writeFixedString(
+      bytes,
+      surface.nameOffset,
+      64,
+      surface.newName
+    );
+  }
+
+  return result;
+}
+
+function updateSkin(data,model){
+  const text=decoder.decode(data);
+  const newline=text.includes("\r\n")
+    ?"\r\n"
+    :"\n";
+
+  const hadFinalNewline=
+    text.endsWith("\n")||
+    text.endsWith("\r");
+
+  const replacements=new Map();
+
+  for(const surface of model.surfaces){
+    const key=surface.oldName.toLowerCase();
+
+    if(!replacements.has(key)){
+      replacements.set(key,[]);
+    }
+
+    replacements.get(key).push(
+      surface.newName
+    );
+  }
+
+  const output=[];
+
+  for(const rawLine of text.split(/\r?\n/)){
+    if(rawLine===""&&output.length&&rawLine===text.split(/\r?\n/).at(-1)){
+      continue;
+    }
+
+    const trimmed=rawLine.trim();
+
+    if(!trimmed||trimmed.startsWith("//")){
+      output.push(rawLine);
+      continue;
+    }
+
+    const comma=rawLine.indexOf(",");
+
+    if(comma<0){
+      output.push(rawLine);
+      continue;
+    }
+
+    const surfaceName=
+      rawLine.slice(0,comma).trim();
+
+    /*
+     * Строки тегов оставляем без изменений.
+     */
+    if(
+      surfaceName.toLowerCase().startsWith("tag_")
+    ){
+      output.push(rawLine);
+      continue;
+    }
+
+    const names=replacements.get(
+      surfaceName.toLowerCase()
+    );
+
+    if(!names){
+      output.push(rawLine);
+      continue;
+    }
+
+    const suffix=rawLine.slice(comma);
+
+    /*
+     * Если внутри MD3 было несколько surfaces
+     * с одинаковым старым именем, создаём строку
+     * skin для каждого нового имени.
+     */
+    for(const newName of names){
+      output.push(`${newName}${suffix}`);
+    }
+  }
+
+  let result=output.join(newline);
+
+  if(hadFinalNewline&&!result.endsWith(newline)){
+    result+=newline;
+  }
+
+  return encoder.encode(result);
+}
+
+class Writer{
+  constructor(){
+    this.parts=[];
+    this.length=0;
+  }
+
+  bytes(value){
+    const bytes=value instanceof Uint8Array
+      ?value
+      :new Uint8Array(value);
+
+    this.parts.push(bytes);
+    this.length+=bytes.length;
+  }
+
+  u16(value){
+    const bytes=new Uint8Array(2);
+
+    new DataView(bytes.buffer)
+      .setUint16(0,value&65535,true);
+
+    this.bytes(bytes);
+  }
+
+  u32(value){
+    const bytes=new Uint8Array(4);
+
+    new DataView(bytes.buffer)
+      .setUint32(0,value>>>0,true);
+
+    this.bytes(bytes);
+  }
+
+  result(){
+    const result=new Uint8Array(this.length);
+    let offset=0;
+
+    for(const part of this.parts){
+      result.set(part,offset);
+      offset+=part.length;
+    }
+
+    return result;
+  }
+}
+
+const CRC_TABLE=(()=>{
+  const table=new Uint32Array(256);
+
+  for(let index=0;index<256;index++){
+    let value=index;
+
+    for(let bit=0;bit<8;bit++){
+      value=value&1
+        ?0xedb88320^(value>>>1)
+        :value>>>1;
+    }
+
+    table[index]=value>>>0;
+  }
+
+  return table;
+})();
+
+function crc32(bytes){
+  let crc=0xffffffff;
+
+  for(const byte of bytes){
+    crc=
+      CRC_TABLE[(crc^byte)&255]^
+      (crc>>>8);
+  }
+
+  return (crc^0xffffffff)>>>0;
+}
+
+function dosDateTime(date=new Date()){
+  const year=Math.max(
+    1980,
+    date.getFullYear()
+  );
+
+  return {
+    time:
+      (date.getHours()<<11)|
+      (date.getMinutes()<<5)|
+      Math.floor(date.getSeconds()/2),
+
+    date:
+      ((year-1980)<<9)|
+      ((date.getMonth()+1)<<5)|
+      date.getDate()
+  };
+}
+
+async function createZip(entries){
+  const local=new Writer();
+  const central=new Writer();
+  const stamp=dosDateTime();
+  let localOffset=0;
+
+  for(const [fileName,fileData] of entries){
+    const name=encoder.encode(fileName);
+
+    const data=fileData instanceof Uint8Array
+      ?fileData
+      :new Uint8Array(fileData);
+
+    const checksum=crc32(data);
+
+    local.u32(0x04034b50);
+    local.u16(20);
+    local.u16(0x0800);
+    local.u16(0);
+    local.u16(stamp.time);
+    local.u16(stamp.date);
+    local.u32(checksum);
+    local.u32(data.length);
+    local.u32(data.length);
+    local.u16(name.length);
+    local.u16(0);
+    local.bytes(name);
+    local.bytes(data);
+
+    central.u32(0x02014b50);
+    central.u16(20);
+    central.u16(20);
+    central.u16(0x0800);
+    central.u16(0);
+    central.u16(stamp.time);
+    central.u16(stamp.date);
+    central.u32(checksum);
+    central.u32(data.length);
+    central.u32(data.length);
+    central.u16(name.length);
+    central.u16(0);
+    central.u16(0);
+    central.u16(0);
+    central.u16(0);
+    central.u32(0);
+    central.u32(localOffset);
+    central.bytes(name);
+
+    localOffset+=
+      30+
+      name.length+
+      data.length;
+  }
+
+  const localData=local.result();
+  const centralData=central.result();
+  const output=new Writer();
+
+  output.bytes(localData);
+  output.bytes(centralData);
+  output.u32(0x06054b50);
+  output.u16(0);
+  output.u16(0);
+  output.u16(entries.size);
+  output.u16(entries.size);
+  output.u32(centralData.length);
+  output.u32(localData.length);
+  output.u16(0);
+
+  return new Blob(
+    [output.result()],
+    {type:"application/zip"}
+  );
+}
+
+function downloadBlob(blob,name){
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+
+  link.href=url;
+  link.download=name;
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(
+    ()=>URL.revokeObjectURL(url),
+    2000
+  );
+}
+
+async function exportArchive(extension){
+  const validation=validate();
+
+  if(validation.errors.length){
+    alert("Исправьте ошибки имён.");
+    return;
+  }
+
+  try{
+    const entries=new Map(state.entries);
+
+    for(const [part,model] of state.models){
+      entries.set(
+        model.entryName,
+        patchMD3(model)
+      );
+
+      for(
+        const skin of
+        state.skinEntries.get(part)||[]
+      ){
+        entries.set(
+          skin.name,
+          updateSkin(skin.data,model)
+        );
+      }
+    }
+
+    const blob=await createZip(entries);
+
+    const name=
+      `${safeArchiveName(state.archiveName)}`+
+      `_renamed.${extension}`;
+
+    downloadBlob(blob,name);
+
+    log(
+      `Создан ${name}. `+
+      `Изменено surfaces: ${validation.changed}.`
+    );
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА ЭКСПОРТА: ${error.message}`);
+  }
+}
+
+async function openArchive(){
+  const file=$("archiveFile").files[0];
+
+  if(!file){
+    alert("Выберите ZIP или PK3.");
+    return;
+  }
+
+  try{
+    state.archiveName=file.name;
+
+    state.entries=await readZip(
+      await file.arrayBuffer()
+    );
+
+    state.roots=discoverRoots();
+
+    if(!state.roots.length){
+      throw new Error(
+        "В архиве не найдены lower.md3, upper.md3 или head.md3."
+      );
+    }
+
+    $("modelRoot").disabled=false;
+
+    $("modelRoot").innerHTML=
+      state.roots.map(root=>
+        `<option value="${escapeHTML(root)}">`+
+        `${escapeHTML(root)}</option>`
+      ).join("");
+
+    await loadRoot();
+
+    log(`Открыт ${file.name}`);
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА АРХИВА: ${error.message}`);
+  }
+}
+
+$("openArchive").onclick=openArchive;
+
+$("modelRoot").onchange=()=>{
+  loadRoot().catch(error=>{
+    alert(error.message);
+    log(`ОШИБКА МОДЕЛИ: ${error.message}`);
+  });
+};
+
+$("resetNames").onclick=()=>{
+  for(const model of state.models.values()){
+    for(const surface of model.surfaces){
+      surface.newName=surface.oldName;
+    }
+  }
+
+  renderParts();
+  validate();
+};
+
+$("lowerCase").onclick=()=>{
+  for(const model of state.models.values()){
+    for(const surface of model.surfaces){
+      surface.newName=safeSurfaceName(
+        surface.newName.toLowerCase(),
+        `surface_${surface.index+1}`
+      );
+    }
+  }
+
+  renderParts();
+  validate();
+};
+
+$("makeUnique").onclick=()=>{
+  for(const model of state.models.values()){
+    const used=new Set();
+
+    for(const surface of model.surfaces){
+      const base=safeSurfaceName(
+        surface.newName,
+        `surface_${surface.index+1}`
+      ).slice(0,55);
+
+      let name=base;
+      let suffix=2;
+
+      while(used.has(name.toLowerCase())){
+        name=
+          `${base}_${suffix++}`
+            .slice(0,63);
+      }
+
+      used.add(name.toLowerCase());
+      surface.newName=name;
+    }
+  }
+
+  renderParts();
+  validate();
+};
+
+$("exportZip").onclick=()=>
+  exportArchive("zip");
+
+$("exportPk3").onclick=()=>
+  exportArchive("pk3");
+
+updateButtons();
+validate();
+</script>
+</body>
+</html>

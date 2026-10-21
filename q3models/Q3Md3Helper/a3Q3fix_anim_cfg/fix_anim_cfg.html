@@ -1,0 +1,3028 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quake 3 Animation Recompiler</title>
+<style>
+:root{
+  color-scheme:dark;--bg:#0e1217;--panel:#181e26;--panel2:#202833;
+  --border:#34404e;--text:#edf2f7;--muted:#98a5b5;
+  --blue:#51a8ff;--green:#4fd199;--yellow:#e9bd61;--red:#f06a6a
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,sans-serif}
+header{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:8px;padding:12px 18px;border-bottom:1px solid var(--border);background:#181e26f5}
+header h1{margin:0 auto 0 0;font-size:20px}
+button,input,select,textarea{font:inherit}
+button{padding:8px 11px;border:1px solid var(--border);border-radius:7px;background:var(--panel2);color:var(--text);cursor:pointer}
+button:hover:not(:disabled){border-color:var(--blue)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.primary{background:var(--blue);border-color:var(--blue);color:#071421;font-weight:700}
+input,select,textarea{width:100%;min-width:0;padding:7px;border:1px solid var(--border);border-radius:6px;background:#11171e;color:var(--text)}
+main{width:min(1650px,100%);margin:auto;padding:16px}
+.card{margin-bottom:16px;padding:15px;border:1px solid var(--border);border-radius:10px;background:var(--panel)}
+.card h2{margin:0 0 10px;font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.field{display:grid;gap:4px}.field span,.muted{color:var(--muted)}.field span{font-size:12px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.notice{margin-top:10px;padding:9px 11px;border-left:3px solid var(--blue);background:#172435;white-space:pre-wrap}
+.warning{border-left-color:var(--yellow)}.error{border-left-color:var(--red)}
+.table-wrap{overflow:auto;max-height:650px;border:1px solid var(--border);border-radius:8px}
+table{width:100%;min-width:1050px;border-collapse:collapse}
+th,td{padding:7px 8px;border-bottom:1px solid var(--border);text-align:left;vertical-align:middle}
+th{position:sticky;top:0;background:var(--panel2);color:var(--muted);font-size:12px}
+td input{min-width:75px}
+.name{min-width:175px;font-family:ui-monospace,monospace}
+.badge{display:inline-block;min-width:60px;padding:3px 7px;border-radius:999px;text-align:center;font-size:11px}
+.both{background:#513c22;color:#ffd27d}.torso{background:#193b51;color:#7fc9ff}.legs{background:#1d4939;color:#75e0b2}
+textarea{min-height:570px;resize:vertical;font:13px/1.5 ui-monospace,monospace;tab-size:4}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(420px,.75fr);gap:16px}
+.message{margin-top:8px;padding:9px;border-radius:6px;background:#11171e;white-space:pre-wrap}
+.ok{color:var(--green)}.warn{color:var(--yellow)}.bad{color:var(--red)}
+#log{max-height:220px;overflow:auto;margin:0;padding:9px;border:1px solid var(--border);border-radius:8px;background:#0c1116;color:#bbc6d3;font:12px/1.5 ui-monospace,monospace;white-space:pre-wrap}
+@media(max-width:1100px){.split{grid-template-columns:1fr}}
+@media(max-width:750px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Quake 3 Animation Recompiler</h1>
+  <button id="exampleButton">Пример Gork</button>
+  <button id="clearButton">Очистить</button>
+  <button id="exportZip" class="primary" disabled>Скачать ZIP</button>
+  <button id="exportPk3" class="primary" disabled>Скачать PK3</button>
+</header>
+
+<main>
+
+<div class="card">
+  <h2>1. Архив модели</h2>
+  <div class="toolbar">
+    <input id="archiveFile" type="file" accept=".zip,.pk3,application/zip">
+    <button id="loadArchive">Открыть ZIP/PK3</button>
+  </div>
+
+  <div class="grid" style="margin-top:10px">
+    <label class="field">
+      <span>Модель в архиве</span>
+      <select id="modelRoot" disabled><option>Архив не загружен</option></select>
+    </label>
+
+    <label class="field">
+      <span>Кадров lower.md3</span>
+      <input id="lowerFrames" readonly value="—">
+    </label>
+
+    <label class="field">
+      <span>Кадров upper.md3</span>
+      <input id="upperFrames" readonly value="—">
+    </label>
+
+    <label class="field">
+      <span>Рассчитанный новый LEGS skip</span>
+      <input id="newSkip" readonly value="—">
+    </label>
+  </div>
+
+  <div id="archiveInfo" class="notice">Выберите готовый ZIP или PK3.</div>
+</div>
+
+<div class="card">
+  <h2>2. Загрузка существующего animation.cfg</h2>
+
+  <div class="toolbar">
+    <input id="cfgFile" type="file" accept=".cfg,text/plain">
+    <button id="loadCfg">Загрузить и проанализировать</button>
+    <button id="loadCfgFromArchive" disabled>Взять CFG из архива</button>
+  </div>
+
+  <div id="cfgInfo" class="notice">
+    CFG можно загрузить отдельно либо взять из открытого архива.
+  </div>
+</div>
+
+<div class="card">
+  <h2>3. Параметры</h2>
+
+  <div class="grid">
+    <label class="field"><span>Head offset X</span><input id="headX" type="number" step=".1" value="-1.4"></label>
+    <label class="field"><span>Head offset Y</span><input id="headY" type="number" step=".1" value="0"></label>
+    <label class="field"><span>Head offset Z</span><input id="headZ" type="number" step=".1" value="0"></label>
+
+    <label class="field">
+      <span>Пол</span>
+      <select id="sex">
+        <option value="m">m — мужской</option>
+        <option value="f">f — женский</option>
+        <option value="n">n — нейтральный</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Footsteps</span>
+      <select id="footsteps">
+        <option value="normal">normal</option>
+        <option value="boot">boot</option>
+        <option value="flesh">flesh</option>
+        <option value="mech" selected>mech</option>
+        <option value="energy">energy</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="notice warning">
+    В таблице указываются кадры исходных MD3 до перекомпоновки.
+
+    Если начало больше конца, анимация будет воспроизводиться в обратном направлении.
+
+    При перекомпоновке BOTH попадут в lower и upper, TORSO — только в upper, LEGS — только в lower.
+  </div>
+</div>
+
+<div class="split">
+<section>
+
+<div class="card">
+  <h2>4. Исходные диапазоны кадров</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+      <tr>
+        <th>Анимация</th>
+        <th>Часть</th>
+        <th>Начало</th>
+        <th>Конец</th>
+        <th>Loop</th>
+        <th>FPS</th>
+        <th>Новый первый кадр</th>
+      </tr>
+      </thead>
+      <tbody id="animationRows"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <h2>5. Проверка и перекомпоновка</h2>
+
+  <div class="toolbar">
+    <button id="validateButton">Только проверить</button>
+    <button id="recompileButton" class="primary" disabled>
+      Перекомпоновать модель
+    </button>
+  </div>
+
+  <div id="summary" class="notice">Заполните диапазоны кадров.</div>
+  <div id="messages"></div>
+</div>
+
+</section>
+
+<section>
+
+<div class="card">
+  <h2>Новый animation.cfg</h2>
+
+  <textarea id="cfgOutput" readonly
+    placeholder="Здесь появится новый animation.cfg"></textarea>
+
+  <div class="toolbar" style="margin-top:10px">
+    <button id="copyCfg" disabled>Копировать</button>
+    <button id="downloadCfg" disabled>Скачать CFG</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Журнал</h2>
+  <pre id="log">Приложение готово.</pre>
+</div>
+
+</section>
+</div>
+
+</main>
+
+<script>
+"use strict";
+
+const $=id=>document.getElementById(id);
+const textEncoder=new TextEncoder();
+const textDecoder=new TextDecoder();
+
+const DEFINITIONS=[
+  ["BOTH_DEATH1","both",0,25],
+  ["BOTH_DEAD1","both",0,25],
+  ["BOTH_DEATH2","both",0,15],
+  ["BOTH_DEAD2","both",0,25],
+  ["BOTH_DEATH3","both",0,25],
+  ["BOTH_DEAD3","both",0,25],
+
+  ["TORSO_GESTURE","torso",0,20],
+  ["TORSO_ATTACK","torso",0,15],
+  ["TORSO_ATTACK2","torso",0,15],
+  ["TORSO_DROP","torso",0,20],
+  ["TORSO_RAISE","torso",0,20],
+  ["TORSO_STAND","torso",0,15],
+  ["TORSO_STAND2","torso",0,15],
+
+  ["LEGS_WALKCR","legs",null,20],
+  ["LEGS_WALK","legs",null,20],
+  ["LEGS_RUN","legs",null,23],
+  ["LEGS_BACK","legs",null,23],
+  ["LEGS_SWIM","legs",null,15],
+  ["LEGS_JUMP","legs",0,15],
+  ["LEGS_LAND","legs",0,15],
+  ["LEGS_JUMPB","legs",0,15],
+  ["LEGS_LANDB","legs",0,15],
+  ["LEGS_IDLE","legs",null,15],
+  ["LEGS_IDLECR","legs",null,15],
+  ["LEGS_TURN","legs",null,15]
+].map(([name,part,loop,fps])=>({name,part,loop,fps}));
+
+const state={
+  archiveName:"",
+  entries:new Map(),
+  roots:[],
+  root:"",
+  lower:null,
+  upper:null,
+  head:null,
+  packedLower:null,
+  packedUpper:null,
+  generatedCfg:"",
+  ready:false
+};
+
+function log(text){
+  const output=$("log");
+  output.textContent+=`\n[${new Date().toLocaleTimeString()}] ${text}`;
+  output.scrollTop=output.scrollHeight;
+}
+
+function normalizePath(path){
+  return String(path).replaceAll("\\","/").replace(/^\/+/,"");
+}
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  })[c]);
+}
+
+function safeName(value,fallback="model"){
+  return String(value||fallback)
+    .replace(/\.(zip|pk3)$/i,"")
+    .replace(/[^a-zA-Z0-9_-]+/g,"_")||fallback;
+}
+
+function fixedString(bytes,offset,length){
+  let output="";
+  for(let i=0;i<length&&bytes[offset+i];i++)output+=String.fromCharCode(bytes[offset+i]);
+  return output;
+}
+
+function ensure(buffer,offset,length,label){
+  if(offset<0||length<0||offset+length>buffer.byteLength)
+    throw new Error(`Повреждён файл: ${label}`);
+}
+
+function findEntry(path){
+  const wanted=normalizePath(path).toLowerCase();
+
+  for(const [name,data] of state.entries){
+    if(name.toLowerCase()===wanted)return {name,data};
+  }
+
+  return null;
+}
+
+function renderRows(){
+  $("animationRows").innerHTML=DEFINITIONS.map(definition=>`
+    <tr data-name="${definition.name}">
+      <td class="name">${definition.name}</td>
+      <td><span class="badge ${definition.part}">${definition.part.toUpperCase()}</span></td>
+      <td><input class="start" type="number" min="0" step="1"></td>
+      <td><input class="end" type="number" min="0" step="1"></td>
+      <td><input class="loop" type="number" min="0" step="1" value="${definition.loop??""}"></td>
+      <td><input class="fps" type="number" min="1" step="1" value="${definition.fps}"></td>
+      <td class="packed muted">—</td>
+    </tr>
+  `).join("");
+
+  document.querySelectorAll("#animationRows input").forEach(input=>{
+    input.addEventListener("input",invalidate);
+  });
+}
+
+function invalidate(){
+  state.ready=false;
+  state.packedLower=null;
+  state.packedUpper=null;
+
+  $("exportZip").disabled=true;
+  $("exportPk3").disabled=true;
+  $("copyCfg").disabled=true;
+  $("downloadCfg").disabled=true;
+}
+
+function rowFor(name){
+  return document.querySelector(`tr[data-name="${name}"]`);
+}
+
+function integerValue(input){
+  const text=input.value.trim();
+  if(text==="")return null;
+
+  const value=Number(text);
+  return Number.isInteger(value)?value:NaN;
+}
+
+function readRanges(){
+  return DEFINITIONS.map(definition=>{
+    const row=rowFor(definition.name);
+    const shownStart=integerValue(row.querySelector(".start"));
+    const shownEnd=integerValue(row.querySelector(".end"));
+    const loop=integerValue(row.querySelector(".loop"));
+    const fps=integerValue(row.querySelector(".fps"));
+
+    if(shownStart===null||shownEnd===null){
+      return {...definition,missing:true,row};
+    }
+
+    const first=Math.min(shownStart,shownEnd);
+    const last=Math.max(shownStart,shownEnd);
+    const count=last-first+1;
+    const reversed=shownStart>shownEnd;
+
+    return {
+      ...definition,row,missing:false,
+      shownStart,shownEnd,first,last,count,reversed,
+      numFrames:reversed?-count:count,
+      loop,fps
+    };
+  });
+}
+
+function validateRanges(ranges,requireArchive=true){
+  const errors=[];
+  const warnings=[];
+
+  if(requireArchive&&(!state.lower||!state.upper)){
+    errors.push("Сначала загрузите архив с lower.md3 и upper.md3.");
+  }
+
+  for(const range of ranges){
+    if(range.missing){
+      errors.push(`${range.name}: диапазон не заполнен.`);
+      continue;
+    }
+
+    if(
+      !Number.isInteger(range.shownStart)||
+      !Number.isInteger(range.shownEnd)||
+      range.shownStart<0||
+      range.shownEnd<0
+    ){
+      errors.push(`${range.name}: неверные номера кадров.`);
+    }
+
+    if(!Number.isInteger(range.loop)||range.loop<0||range.loop>range.count){
+      errors.push(`${range.name}: loop должен быть от 0 до ${range.count}.`);
+    }
+
+    if(!Number.isInteger(range.fps)||range.fps<=0){
+      errors.push(`${range.name}: FPS должен быть положительным.`);
+    }
+
+    if(range.reversed&&range.loop>0){
+      warnings.push(`${range.name}: обратная анимация зациклена.`);
+    }
+
+    if(state.lower&&(range.part==="both"||range.part==="legs")&&range.last>=state.lower.frameCount){
+      errors.push(`${range.name}: кадр ${range.last} отсутствует в lower.md3.`);
+    }
+
+    if(state.upper&&(range.part==="both"||range.part==="torso")&&range.last>=state.upper.frameCount){
+      errors.push(`${range.name}: кадр ${range.last} отсутствует в upper.md3.`);
+    }
+  }
+
+  const groups=[
+    ranges.filter(value=>!value.missing&&(value.part==="both"||value.part==="torso")),
+    ranges.filter(value=>!value.missing&&(value.part==="both"||value.part==="legs"))
+  ];
+
+  for(const group of groups){
+    for(let a=0;a<group.length;a++){
+      for(let b=a+1;b<group.length;b++){
+        const first=group[a],second=group[b];
+
+        if(first.first<=second.last&&second.first<=first.last){
+          const deadOverlap=
+            (/^BOTH_DEAD\d$/.test(first.name)&&/^BOTH_DEATH\d$/.test(second.name)&&first.first===second.last)||
+            (/^BOTH_DEAD\d$/.test(second.name)&&/^BOTH_DEATH\d$/.test(first.name)&&second.first===first.last);
+
+          if(!deadOverlap){
+            warnings.push(
+              `${first.name} ${first.first}–${first.last} пересекается с `+
+              `${second.name} ${second.first}–${second.last}. Кадры будут скопированы повторно.`
+            );
+          }
+        }
+      }
+    }
+  }
+
+  return {errors,warnings};
+}
+
+function physicalFrames(range){
+  const frames=[];
+  for(let frame=range.first;frame<=range.last;frame++)frames.push(frame);
+  return frames;
+}
+
+function makePacking(ranges){
+  const lowerMap=[];
+  const upperMap=[];
+  const packed=new Map();
+
+  let commonCursor=0;
+
+  for(const range of ranges.filter(value=>value.part==="both")){
+    const frames=physicalFrames(range);
+
+    packed.set(range.name,{
+      first:commonCursor,
+      numFrames:range.numFrames,
+      loop:range.loop,
+      fps:range.fps
+    });
+
+    lowerMap.push(...frames);
+    upperMap.push(...frames);
+    commonCursor+=frames.length;
+  }
+
+  let upperCursor=commonCursor;
+
+  for(const range of ranges.filter(value=>value.part==="torso")){
+    const frames=physicalFrames(range);
+
+    packed.set(range.name,{
+      first:upperCursor,
+      numFrames:range.numFrames,
+      loop:range.loop,
+      fps:range.fps
+    });
+
+    upperMap.push(...frames);
+    upperCursor+=frames.length;
+  }
+
+  const torsoOnlyCount=upperCursor-commonCursor;
+  let lowerCursor=commonCursor;
+
+  for(const range of ranges.filter(value=>value.part==="legs")){
+    const frames=physicalFrames(range);
+
+    packed.set(range.name,{
+      first:lowerCursor+torsoOnlyCount,
+      effectiveFirst:lowerCursor,
+      numFrames:range.numFrames,
+      loop:range.loop,
+      fps:range.fps
+    });
+
+    lowerMap.push(...frames);
+    lowerCursor+=frames.length;
+  }
+
+  return {
+    lowerMap,
+    upperMap,
+    packed,
+    skip:torsoOnlyCount
+  };
+}
+
+function paddedLine(first,count,loop,fps,name){
+  return [
+    String(first).padEnd(5),
+    String(count).padEnd(5),
+    String(loop).padEnd(5),
+    String(fps).padEnd(5)
+  ].join("\t")+`\t// ${name}`;
+}
+
+function makeCfg(ranges,packing){
+  const lines=[
+    "// ВНИМАНИЕ: animation.cfg создан после перекомпоновки MD3.",
+    "// Диапазоны согласованы с новыми lower.md3 и upper.md3.",
+    "//",
+    "// animation config file",
+    "",
+    "",
+    `headoffset ${Number($("headX").value)||0} ${Number($("headY").value)||0} ${Number($("headZ").value)||0}`,
+    "",
+    `sex\t${$("sex").value}`,
+    "",
+    `footsteps ${$("footsteps").value}`,
+    ""
+  ];
+
+  const blankAfter=new Set([
+    "BOTH_DEAD3","TORSO_GESTURE","TORSO_ATTACK2","TORSO_RAISE",
+    "TORSO_STAND2","LEGS_SWIM","LEGS_LAND","LEGS_LANDB","LEGS_IDLECR"
+  ]);
+
+  for(const range of ranges){
+    const item=packing.packed.get(range.name);
+
+    lines.push(
+      paddedLine(
+        item.first,
+        item.numFrames,
+        item.loop,
+        item.fps,
+        range.name
+      )
+    );
+
+    if(blankAfter.has(range.name))lines.push("");
+  }
+
+  return lines.join("\n").trimEnd()+"\n";
+}
+
+function showValidation(result){
+  const container=$("messages");
+  container.innerHTML="";
+
+  if(result.errors.length){
+    const block=document.createElement("div");
+    block.className="message bad";
+    block.textContent="Ошибки:\n• "+result.errors.join("\n• ");
+    container.appendChild(block);
+  }
+
+  if(result.warnings.length){
+    const block=document.createElement("div");
+    block.className="message warn";
+    block.textContent="Предупреждения:\n• "+result.warnings.join("\n• ");
+    container.appendChild(block);
+  }
+
+  if(!result.errors.length&&!result.warnings.length){
+    const block=document.createElement("div");
+    block.className="message ok";
+    block.textContent="Ошибок и предупреждений не найдено.";
+    container.appendChild(block);
+  }
+}
+
+function validateOnly(){
+  const ranges=readRanges();
+  const validation=validateRanges(ranges,false);
+  showValidation(validation);
+
+  if(validation.errors.length){
+    $("summary").textContent=`Ошибок: ${validation.errors.length}`;
+    $("summary").className="notice error";
+    return;
+  }
+
+  const packing=makePacking(ranges);
+  const cfg=makeCfg(ranges,packing);
+
+  $("newSkip").value=packing.skip;
+  $("cfgOutput").value=cfg;
+
+  for(const range of ranges){
+    const item=packing.packed.get(range.name);
+    range.row.querySelector(".packed").textContent=
+      range.part==="legs"
+        ?`${item.first} (в lower: ${item.effectiveFirst})`
+        :item.first;
+  }
+
+  state.generatedCfg=cfg;
+  $("copyCfg").disabled=false;
+  $("downloadCfg").disabled=false;
+
+  $("summary").textContent=
+    `Проверка пройдена.\n`+
+    `Новый lower.md3: ${packing.lowerMap.length} кадров.\n`+
+    `Новый upper.md3: ${packing.upperMap.length} кадров.\n`+
+    `LEGS skip: ${packing.skip}.`;
+
+  $("summary").className="notice";
+}
+
+function recompile(){
+  try{
+    const ranges=readRanges();
+    const validation=validateRanges(ranges,true);
+    showValidation(validation);
+
+    if(validation.errors.length){
+      throw new Error("Исправьте ошибки диапазонов.");
+    }
+
+    const packing=makePacking(ranges);
+
+    state.packedLower=repackModel(state.lower,packing.lowerMap);
+    state.packedUpper=repackModel(state.upper,packing.upperMap);
+    state.generatedCfg=makeCfg(ranges,packing);
+    state.ready=true;
+
+    $("newSkip").value=packing.skip;
+    $("cfgOutput").value=state.generatedCfg;
+
+    for(const range of ranges){
+      const item=packing.packed.get(range.name);
+      range.row.querySelector(".packed").textContent=
+        range.part==="legs"
+          ?`${item.first} (в lower: ${item.effectiveFirst})`
+          :item.first;
+    }
+
+    $("summary").textContent=
+      `Перекомпоновка завершена.\n`+
+      `lower: ${state.lower.frameCount} → ${state.packedLower.frameCount} кадров.\n`+
+      `upper: ${state.upper.frameCount} → ${state.packedUpper.frameCount} кадров.\n`+
+      `LEGS skip: ${packing.skip}.`;
+
+    $("summary").className="notice";
+    $("exportZip").disabled=false;
+    $("exportPk3").disabled=false;
+    $("copyCfg").disabled=false;
+    $("downloadCfg").disabled=false;
+
+    log("MD3 успешно перекомпонованы.");
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА: ${error.message}`);
+  }
+}
+
+async function inflateRaw(data){
+  if(typeof DecompressionStream==="undefined"){
+    throw new Error("Браузер не поддерживает распаковку Deflate.");
+  }
+
+  const stream=new Blob([data]).stream()
+    .pipeThrough(new DecompressionStream("deflate-raw"));
+
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
+async function readZip(buffer){
+  const bytes=new Uint8Array(buffer),view=new DataView(buffer);
+  let eocd=-1;
+
+  for(let offset=bytes.length-22;offset>=Math.max(0,bytes.length-65557);offset--){
+    if(view.getUint32(offset,true)===0x06054b50){eocd=offset;break}
+  }
+
+  if(eocd<0)throw new Error("Конец ZIP не найден.");
+
+  const count=view.getUint16(eocd+10,true);
+  const centralOffset=view.getUint32(eocd+16,true);
+  const entries=new Map();
+  let position=centralOffset;
+
+  for(let index=0;index<count;index++){
+    if(view.getUint32(position,true)!==0x02014b50)throw new Error("Повреждён ZIP.");
+
+    const method=view.getUint16(position+10,true);
+    const compressedSize=view.getUint32(position+20,true);
+    const nameLength=view.getUint16(position+28,true);
+    const extraLength=view.getUint16(position+30,true);
+    const commentLength=view.getUint16(position+32,true);
+    const localOffset=view.getUint32(position+42,true);
+    const name=normalizePath(textDecoder.decode(bytes.subarray(position+46,position+46+nameLength)));
+
+    if(view.getUint32(localOffset,true)!==0x04034b50)throw new Error(`Повреждён ${name}`);
+
+    const localName=view.getUint16(localOffset+26,true);
+    const localExtra=view.getUint16(localOffset+28,true);
+    const dataOffset=localOffset+30+localName+localExtra;
+    const compressed=bytes.slice(dataOffset,dataOffset+compressedSize);
+
+    let data;
+    if(method===0)data=compressed;
+    else if(method===8)data=await inflateRaw(compressed);
+    else throw new Error(`Метод сжатия ${method} не поддерживается.`);
+
+    if(!name.endsWith("/"))entries.set(name,data);
+    position+=46+nameLength+extraLength+commentLength;
+  }
+
+  return entries;
+}
+
+function parseMD3(data){
+  const buffer=data.buffer.slice(data.byteOffset,data.byteOffset+data.byteLength);
+  const bytes=new Uint8Array(buffer),view=new DataView(buffer);
+
+  ensure(buffer,0,108,"заголовок MD3");
+  if(fixedString(bytes,0,4)!=="IDP3")throw new Error("Не MD3.");
+  if(view.getInt32(4,true)!==15)throw new Error("Неверная версия MD3.");
+
+  const model={
+    name:fixedString(bytes,8,64),
+    frameCount:view.getInt32(76,true),
+    tagCount:view.getInt32(80,true),
+    surfaceCount:view.getInt32(84,true),
+    frameOffset:view.getInt32(92,true),
+    tagOffset:view.getInt32(96,true),
+    surfaceOffset:view.getInt32(100,true),
+    frames:[],tags:[],surfaces:[]
+  };
+
+  for(let frame=0;frame<model.frameCount;frame++){
+    const offset=model.frameOffset+frame*56;
+    model.frames.push({name:fixedString(bytes,offset+40,16)||`frame_${frame}`});
+  }
+
+  for(let frame=0;frame<model.frameCount;frame++){
+    const tags=[];
+
+    for(let index=0;index<model.tagCount;index++){
+      const offset=model.tagOffset+(frame*model.tagCount+index)*112;
+      const axes=[];
+
+      for(let axis=0;axis<3;axis++){
+        const start=offset+76+axis*12;
+        axes.push([
+          view.getFloat32(start,true),
+          view.getFloat32(start+4,true),
+          view.getFloat32(start+8,true)
+        ]);
+      }
+
+      tags.push({
+        name:fixedString(bytes,offset,64),
+        origin:[
+          view.getFloat32(offset+64,true),
+          view.getFloat32(offset+68,true),
+          view.getFloat32(offset+72,true)
+        ],
+        axes
+      });
+    }
+
+    model.tags.push(tags);
+  }
+
+  let base=model.surfaceOffset;
+
+  for(let surfaceIndex=0;surfaceIndex<model.surfaceCount;surfaceIndex++){
+    const surface={
+      name:fixedString(bytes,base+4,64),
+      frameCount:view.getInt32(base+72,true),
+      shaderCount:view.getInt32(base+76,true),
+      vertexCount:view.getInt32(base+80,true),
+      triangleCount:view.getInt32(base+84,true),
+      triangleOffset:view.getInt32(base+88,true),
+      shaderOffset:view.getInt32(base+92,true),
+      uvOffset:view.getInt32(base+96,true),
+      vertexOffset:view.getInt32(base+100,true),
+      endOffset:view.getInt32(base+104,true),
+      shader:"",triangles:[],uvs:[],frames:[]
+    };
+
+    if(surface.shaderCount>0)surface.shader=fixedString(bytes,base+surface.shaderOffset,64);
+
+    for(let index=0;index<surface.triangleCount;index++){
+      const offset=base+surface.triangleOffset+index*12;
+      surface.triangles.push([
+        view.getInt32(offset,true),
+        view.getInt32(offset+4,true),
+        view.getInt32(offset+8,true)
+      ]);
+    }
+
+    for(let index=0;index<surface.vertexCount;index++){
+      const offset=base+surface.uvOffset+index*8;
+      surface.uvs.push([
+        view.getFloat32(offset,true),
+        view.getFloat32(offset+4,true)
+      ]);
+    }
+
+    for(let frame=0;frame<surface.frameCount;frame++){
+      const vertices=[];
+
+      for(let vertex=0;vertex<surface.vertexCount;vertex++){
+        const offset=base+surface.vertexOffset+(frame*surface.vertexCount+vertex)*8;
+        vertices.push({
+          xyz:[
+            view.getInt16(offset,true),
+            view.getInt16(offset+2,true),
+            view.getInt16(offset+4,true)
+          ],
+          normal:view.getUint16(offset+6,true)
+        });
+      }
+
+      surface.frames.push(vertices);
+    }
+
+    model.surfaces.push(surface);
+    base+=surface.endOffset;
+  }
+
+  return model;
+}
+
+function repackModel(source,map){
+  return {
+    name:source.name,
+    frameCount:map.length,
+    tagCount:source.tagCount,
+    surfaceCount:source.surfaceCount,
+
+    frames:map.map(index=>({
+      name:source.frames[index]?.name||`frame_${index}`
+    })),
+
+    tags:map.map(index=>
+      (source.tags[index]||[]).map(tag=>({
+        name:tag.name,
+        origin:tag.origin.slice(),
+        axes:tag.axes.map(axis=>axis.slice())
+      }))
+    ),
+
+    surfaces:source.surfaces.map(surface=>({
+      name:surface.name,
+      frameCount:map.length,
+      shaderCount:surface.shaderCount,
+      vertexCount:surface.vertexCount,
+      triangleCount:surface.triangleCount,
+      shader:surface.shader,
+      triangles:surface.triangles.map(triangle=>triangle.slice()),
+      uvs:surface.uvs.map(uv=>uv.slice()),
+      frames:map.map(index=>
+        surface.frames[index].map(vertex=>({
+          xyz:vertex.xyz.slice(),
+          normal:vertex.normal
+        }))
+      )
+    }))
+  };
+}
+
+class Writer{
+  constructor(){this.parts=[];this.length=0}
+  bytes(value){const bytes=value instanceof Uint8Array?value:new Uint8Array(value);this.parts.push(bytes);this.length+=bytes.length}
+  raw(text){this.bytes(Uint8Array.from([...text].map(character=>character.charCodeAt(0)&255)))}
+  fixed(text,length){const bytes=new Uint8Array(length);for(let i=0;i<Math.min(text.length,length-1);i++)bytes[i]=text.charCodeAt(i)&255;this.bytes(bytes)}
+  i16(value){const bytes=new Uint8Array(2);new DataView(bytes.buffer).setInt16(0,value,true);this.bytes(bytes)}
+  u16(value){const bytes=new Uint8Array(2);new DataView(bytes.buffer).setUint16(0,value,true);this.bytes(bytes)}
+  u32(value){const bytes=new Uint8Array(4);new DataView(bytes.buffer).setUint32(0,value>>>0,true);this.bytes(bytes)}
+  f32(value){const bytes=new Uint8Array(4);new DataView(bytes.buffer).setFloat32(0,value,true);this.bytes(bytes)}
+  result(){const output=new Uint8Array(this.length);let offset=0;for(const part of this.parts){output.set(part,offset);offset+=part.length}return output}
+}
+
+function surfaceBytes(surface){
+  const triangleOffset=108;
+  const shaderOffset=triangleOffset+surface.triangleCount*12;
+  const uvOffset=shaderOffset+68;
+  const vertexOffset=uvOffset+surface.vertexCount*8;
+  const endOffset=vertexOffset+surface.frameCount*surface.vertexCount*8;
+  const writer=new Writer();
+
+  writer.raw("IDP3");writer.fixed(surface.name,64);writer.u32(0);
+  writer.u32(surface.frameCount);writer.u32(1);
+  writer.u32(surface.vertexCount);writer.u32(surface.triangleCount);
+  writer.u32(triangleOffset);writer.u32(shaderOffset);writer.u32(uvOffset);writer.u32(vertexOffset);writer.u32(endOffset);
+
+  surface.triangles.forEach(triangle=>triangle.forEach(index=>writer.u32(index)));
+  writer.fixed(surface.shader||surface.name,64);writer.u32(0);
+  surface.uvs.forEach(uv=>{writer.f32(uv[0]);writer.f32(uv[1])});
+
+  surface.frames.forEach(frame=>frame.forEach(vertex=>{
+    writer.i16(vertex.xyz[0]);writer.i16(vertex.xyz[1]);writer.i16(vertex.xyz[2]);writer.u16(vertex.normal);
+  }));
+
+  return writer.result();
+}
+
+function frameBounds(model,frame){
+  const minimum=[Infinity,Infinity,Infinity];
+  const maximum=[-Infinity,-Infinity,-Infinity];
+  let radius=0,found=false;
+
+  for(const surface of model.surfaces){
+    for(const vertex of surface.frames[frame]){
+      found=true;
+      const point=vertex.xyz.map(value=>value/64);
+
+      for(let axis=0;axis<3;axis++){
+        minimum[axis]=Math.min(minimum[axis],point[axis]);
+        maximum[axis]=Math.max(maximum[axis],point[axis]);
+      }
+
+      radius=Math.max(radius,Math.hypot(...point));
+    }
+  }
+
+  return found
+    ?{minimum,maximum,radius}
+    :{minimum:[0,0,0],maximum:[0,0,0],radius:0};
+}
+
+function writeMD3(model){
+  const surfaces=model.surfaces.map(surfaceBytes);
+  const frameOffset=108;
+  const tagOffset=frameOffset+model.frameCount*56;
+  const surfaceOffset=tagOffset+model.frameCount*model.tagCount*112;
+  const endOffset=surfaceOffset+surfaces.reduce((sum,data)=>sum+data.length,0);
+  const writer=new Writer();
+
+  writer.raw("IDP3");writer.u32(15);writer.fixed(model.name,64);writer.u32(0);
+  writer.u32(model.frameCount);writer.u32(model.tagCount);writer.u32(model.surfaceCount);writer.u32(0);
+  writer.u32(frameOffset);writer.u32(tagOffset);writer.u32(surfaceOffset);writer.u32(endOffset);
+
+  for(let frame=0;frame<model.frameCount;frame++){
+    const bounds=frameBounds(model,frame);
+    bounds.minimum.forEach(value=>writer.f32(value));
+    bounds.maximum.forEach(value=>writer.f32(value));
+    writer.f32(0);writer.f32(0);writer.f32(0);writer.f32(bounds.radius);
+    writer.fixed(model.frames[frame].name,16);
+  }
+
+  model.tags.forEach(frameTags=>frameTags.forEach(tag=>{
+    writer.fixed(tag.name,64);
+    tag.origin.forEach(value=>writer.f32(value));
+    tag.axes.forEach(axis=>axis.forEach(value=>writer.f32(value)));
+  }));
+
+  surfaces.forEach(data=>writer.bytes(data));
+  return writer.result();
+}
+
+const CRC_TABLE=(()=>{
+  const table=new Uint32Array(256);
+  for(let index=0;index<256;index++){
+    let value=index;
+    for(let bit=0;bit<8;bit++)value=value&1?0xedb88320^(value>>>1):value>>>1;
+    table[index]=value>>>0;
+  }
+  return table;
+})();
+
+function crc32(bytes){
+  let crc=0xffffffff;
+  for(const byte of bytes)crc=CRC_TABLE[(crc^byte)&255]^(crc>>>8);
+  return (crc^0xffffffff)>>>0;
+}
+
+function dosDateTime(date=new Date()){
+  const year=Math.max(1980,date.getFullYear());
+  return {
+    time:(date.getHours()<<11)|(date.getMinutes()<<5)|Math.floor(date.getSeconds()/2),
+    date:((year-1980)<<9)|((date.getMonth()+1)<<5)|date.getDate()
+  };
+}
+
+async function createZip(entries){
+  const local=new Writer(),central=new Writer(),stamp=dosDateTime();
+  let localOffset=0;
+
+  for(const [fileName,fileData] of entries){
+    const name=textEncoder.encode(fileName);
+    const data=fileData instanceof Uint8Array?fileData:new Uint8Array(fileData);
+    const checksum=crc32(data);
+
+    local.u32(0x04034b50);local.u16(20);local.u16(0x0800);local.u16(0);
+    local.u16(stamp.time);local.u16(stamp.date);local.u32(checksum);
+    local.u32(data.length);local.u32(data.length);local.u16(name.length);local.u16(0);
+    local.bytes(name);local.bytes(data);
+
+    central.u32(0x02014b50);central.u16(20);central.u16(20);central.u16(0x0800);central.u16(0);
+    central.u16(stamp.time);central.u16(stamp.date);central.u32(checksum);
+    central.u32(data.length);central.u32(data.length);central.u16(name.length);
+    central.u16(0);central.u16(0);central.u16(0);central.u16(0);central.u32(0);
+    central.u32(localOffset);central.bytes(name);
+
+    localOffset+=30+name.length+data.length;
+  }
+
+  const localData=local.result(),centralData=central.result(),output=new Writer();
+
+  output.bytes(localData);output.bytes(centralData);
+  output.u32(0x06054b50);output.u16(0);output.u16(0);
+  output.u16(entries.size);output.u16(entries.size);
+  output.u32(centralData.length);output.u32(localData.length);output.u16(0);
+
+  return new Blob([output.result()],{type:"application/zip"});
+}
+
+async function loadArchive(){
+  const file=$("archiveFile").files[0];
+  if(!file)return alert("Выберите ZIP или PK3");
+
+  try{
+    state.archiveName=file.name;
+    state.entries=await readZip(await file.arrayBuffer());
+
+    const roots=new Set();
+
+    for(const name of state.entries.keys()){
+      const match=name.match(/^(models\/players\/[^/]+)\/lower\.md3$/i);
+      if(match)roots.add(match[1]);
+    }
+
+    state.roots=[...roots];
+
+    if(!state.roots.length)throw new Error("В архиве не найден lower.md3.");
+
+    $("modelRoot").disabled=false;
+    $("modelRoot").innerHTML=state.roots.map(root=>
+      `<option value="${escapeHTML(root)}">${escapeHTML(root)}</option>`
+    ).join("");
+
+    await loadRoot();
+
+    $("archiveInfo").textContent=
+      `${file.name}\nФайлов: ${state.entries.size}\nМоделей: ${state.roots.length}`;
+
+    $("loadCfgFromArchive").disabled=false;
+    log(`Открыт ${file.name}`);
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА АРХИВА: ${error.message}`);
+  }
+}
+
+async function loadRoot(){
+  state.root=$("modelRoot").value;
+
+  const lowerEntry=findEntry(`${state.root}/lower.md3`);
+  const upperEntry=findEntry(`${state.root}/upper.md3`);
+  const headEntry=findEntry(`${state.root}/head.md3`);
+
+  if(!lowerEntry||!upperEntry)throw new Error("Нужны lower.md3 и upper.md3.");
+
+  state.lower=parseMD3(lowerEntry.data);
+  state.upper=parseMD3(upperEntry.data);
+  state.head=headEntry?parseMD3(headEntry.data):null;
+
+  $("lowerFrames").value=state.lower.frameCount;
+  $("upperFrames").value=state.upper.frameCount;
+  $("recompileButton").disabled=false;
+
+  invalidate();
+}
+
+function parseCfg(text){
+  const lines=text.split(/\r?\n/);
+  const numeric=[];
+  let headOffset=[-1.4,0,0],sex="m",footsteps="mech";
+
+  for(const rawLine of lines){
+    const line=rawLine.replace(/\/\/.*$/,"").trim();
+    if(!line)continue;
+
+    const tokens=line.split(/\s+/);
+
+    if(tokens[0].toLowerCase()==="headoffset"&&tokens.length>=4){
+      headOffset=tokens.slice(1,4).map(Number);
+      continue;
+    }
+
+    if(tokens[0].toLowerCase()==="sex"){
+      sex=tokens[1]||"m";
+      continue;
+    }
+
+    if(tokens[0].toLowerCase()==="footsteps"){
+      footsteps=tokens[1]||"mech";
+      continue;
+    }
+
+    if(/^[-+]?\d+$/.test(tokens[0])&&tokens.length>=4){
+      numeric.push(tokens.slice(0,4).map(Number));
+    }
+  }
+
+  if(numeric.length<DEFINITIONS.length){
+    throw new Error(`В CFG найдено ${numeric.length} строк, требуется ${DEFINITIONS.length}.`);
+  }
+
+  const torsoGestureFirst=numeric[6][0];
+  const legsWalkCrFirst=numeric[13][0];
+  const oldSkip=legsWalkCrFirst-torsoGestureFirst;
+
+  $("headX").value=headOffset[0];
+  $("headY").value=headOffset[1];
+  $("headZ").value=headOffset[2];
+  $("sex").value=sex;
+  $("footsteps").value=footsteps;
+
+  DEFINITIONS.forEach((definition,index)=>{
+    const [cfgFirst,numFrames,loop,fps]=numeric[index];
+    const count=Math.abs(numFrames);
+    const actualFirst=definition.part==="legs"
+      ?cfgFirst-oldSkip
+      :cfgFirst;
+
+    const shownStart=numFrames<0
+      ?actualFirst+count-1
+      :actualFirst;
+
+    const shownEnd=numFrames<0
+      ?actualFirst
+      :actualFirst+count-1;
+
+    const row=rowFor(definition.name);
+
+    row.querySelector(".start").value=shownStart;
+    row.querySelector(".end").value=shownEnd;
+    row.querySelector(".loop").value=loop;
+    row.querySelector(".fps").value=fps;
+  });
+
+  $("cfgInfo").textContent=
+    `CFG загружен.\nСтарый LEGS skip: ${oldSkip}.\n`+
+    `В таблице показаны фактические кадры lower и upper.`;
+
+  invalidate();
+  validateOnly();
+}
+
+async function loadCfgFile(){
+  const file=$("cfgFile").files[0];
+  if(!file)return alert("Выберите animation.cfg");
+
+  try{
+    parseCfg(await file.text());
+    log(`Загружен ${file.name}`);
+  }catch(error){
+    alert(error.message);
+  }
+}
+
+function loadCfgFromArchive(){
+  const entry=findEntry(`${state.root}/animation.cfg`);
+  if(!entry)return alert("animation.cfg в архиве не найден.");
+
+  try{
+    parseCfg(textDecoder.decode(entry.data));
+    log("CFG загружен из архива.");
+  }catch(error){
+    alert(error.message);
+  }
+}
+
+async function exportArchive(extension){
+  if(!state.ready)return;
+
+  try{
+    const entries=new Map(state.entries);
+    const lowerEntry=findEntry(`${state.root}/lower.md3`);
+    const upperEntry=findEntry(`${state.root}/upper.md3`);
+    const cfgEntry=findEntry(`${state.root}/animation.cfg`);
+
+    entries.set(
+      lowerEntry?.name||`${state.root}/lower.md3`,
+      writeMD3(state.packedLower)
+    );
+
+    entries.set(
+      upperEntry?.name||`${state.root}/upper.md3`,
+      writeMD3(state.packedUpper)
+    );
+
+    entries.set(
+      cfgEntry?.name||`${state.root}/animation.cfg`,
+      textEncoder.encode(state.generatedCfg)
+    );
+
+    const blob=await createZip(entries);
+    const name=`${safeName(state.archiveName)}_recompiled.${extension}`;
+
+    downloadBlob(blob,name);
+    log(`Создан ${name}`);
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА ЭКСПОРТА: ${error.message}`);
+  }
+}
+
+function downloadBlob(blob,name){
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+
+  link.href=url;
+  link.download=name;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+
+function downloadCfg(){
+  if(!state.generatedCfg)return;
+
+  downloadBlob(
+    new Blob([state.generatedCfg],{type:"text/plain;charset=utf-8"}),
+    "animation.cfg"
+  );
+}
+
+async function copyCfg(){
+  if(!state.generatedCfg)return;
+
+  try{
+    await navigator.clipboard.writeText(state.generatedCfg);
+  }catch{
+    $("cfgOutput").select();
+    document.execCommand("copy");
+  }
+}
+
+function fillExample(){
+  const example={
+    BOTH_DEATH1:[0,29,0,25],BOTH_DEAD1:[29,29,0,25],
+    BOTH_DEATH2:[30,59,0,15],BOTH_DEAD2:[59,59,0,25],
+    BOTH_DEATH3:[60,89,0,25],BOTH_DEAD3:[89,89,0,25],
+    TORSO_GESTURE:[90,129,0,20],TORSO_ATTACK:[130,135,0,15],
+    TORSO_ATTACK2:[136,141,0,15],TORSO_DROP:[142,146,0,20],
+    TORSO_RAISE:[147,150,0,20],TORSO_STAND:[151,151,0,15],
+    TORSO_STAND2:[152,152,0,15],
+    LEGS_WALKCR:[90,98,9,20],LEGS_WALK:[99,106,8,20],
+    LEGS_RUN:[107,119,13,23],LEGS_BACK:[120,129,10,23],
+    LEGS_SWIM:[130,139,10,15],LEGS_JUMP:[140,148,0,15],
+    LEGS_LAND:[149,153,0,15],LEGS_JUMPB:[154,162,0,15],
+    LEGS_LANDB:[163,165,0,15],LEGS_IDLE:[166,175,10,15],
+    LEGS_IDLECR:[176,183,8,15],LEGS_TURN:[184,190,7,15]
+  };
+
+  DEFINITIONS.forEach(definition=>{
+    const row=rowFor(definition.name);
+    const values=example[definition.name];
+
+    row.querySelector(".start").value=values[0];
+    row.querySelector(".end").value=values[1];
+    row.querySelector(".loop").value=values[2];
+    row.querySelector(".fps").value=values[3];
+  });
+
+  invalidate();
+  validateOnly();
+}
+
+function clearAll(){
+  DEFINITIONS.forEach(definition=>{
+    const row=rowFor(definition.name);
+    row.querySelector(".start").value="";
+    row.querySelector(".end").value="";
+    row.querySelector(".loop").value=definition.loop??"";
+    row.querySelector(".fps").value=definition.fps;
+    row.querySelector(".packed").textContent="—";
+  });
+
+  $("cfgOutput").value="";
+  $("messages").innerHTML="";
+  $("summary").textContent="Заполните диапазоны кадров.";
+  $("newSkip").value="—";
+
+  state.generatedCfg="";
+  invalidate();
+}
+
+$("loadArchive").onclick=loadArchive;
+$("modelRoot").onchange=loadRoot;
+$("loadCfg").onclick=loadCfgFile;
+$("loadCfgFromArchive").onclick=loadCfgFromArchive;
+$("validateButton").onclick=validateOnly;
+$("recompileButton").onclick=recompile;
+$("exportZip").onclick=()=>exportArchive("zip");
+$("exportPk3").onclick=()=>exportArchive("pk3");
+$("downloadCfg").onclick=downloadCfg;
+$("copyCfg").onclick=copyCfg;
+$("exampleButton").onclick=fillExample;
+$("clearButton").onclick=clearAll;
+
+renderRows();
+</script>
+
+<script>
+(() => {
+  "use strict";
+
+  /*
+   * Дополняем существующую проверку диапазонов.
+   */
+  const originalValidateRanges = validateRanges;
+
+  validateRanges = function(
+    ranges,
+    requireArchive = true
+  ) {
+    const result = originalValidateRanges(
+      ranges,
+      requireArchive
+    );
+
+    for (let number = 1; number <= 3; number++) {
+      const death = ranges.find(
+        value =>
+          value.name === `BOTH_DEATH${number}`
+      );
+
+      const dead = ranges.find(
+        value =>
+          value.name === `BOTH_DEAD${number}`
+      );
+
+      if (
+        !death ||
+        !dead ||
+        death.missing ||
+        dead.missing
+      ) {
+        continue;
+      }
+
+      /*
+       * BOTH_DEAD должен содержать ровно один кадр.
+       */
+      if (dead.count !== 1) {
+        result.errors.push(
+          `BOTH_DEAD${number} должен содержать ` +
+          `ровно один кадр. Сейчас: ${dead.count}.`
+        );
+      }
+
+      /*
+       * shownEnd — последний кадр, который игрок увидит.
+       * Это работает и для обычной, и для обратной смерти.
+       */
+      if (dead.first !== death.shownEnd) {
+        result.errors.push(
+          `BOTH_DEAD${number} должен ссылаться на ` +
+          `последний показанный кадр BOTH_DEATH${number}: ` +
+          `${death.shownEnd}. Сейчас указан кадр ${dead.first}. ` +
+          `Измените BOTH_DEAD${number} на ` +
+          `${death.shownEnd} → ${death.shownEnd}.`
+        );
+      }
+    }
+
+    return result;
+  };
+
+  /*
+   * Заменяем алгоритм упаковки.
+   *
+   * BOTH_DEAD больше не создаёт новый физический кадр.
+   * Он указывает на последний проигрываемый кадр
+   * соответствующей BOTH_DEATH.
+   */
+  makePacking = function(ranges) {
+    const lowerMap = [];
+    const upperMap = [];
+    const packed = new Map();
+
+    let commonCursor = 0;
+
+    /*
+     * Сначала упаковываем три пары:
+     * DEATH1 + DEAD1
+     * DEATH2 + DEAD2
+     * DEATH3 + DEAD3
+     */
+    for (let number = 1; number <= 3; number++) {
+      const death = ranges.find(
+        value =>
+          value.name === `BOTH_DEATH${number}`
+      );
+
+      const dead = ranges.find(
+        value =>
+          value.name === `BOTH_DEAD${number}`
+      );
+
+      const deathFrames = physicalFrames(death);
+      const deathPackedFirst = commonCursor;
+
+      /*
+       * Физические кадры смерти добавляются только один раз.
+       */
+      lowerMap.push(...deathFrames);
+      upperMap.push(...deathFrames);
+
+      packed.set(death.name, {
+        first: deathPackedFirst,
+        numFrames: death.numFrames,
+        loop: death.loop,
+        fps: death.fps
+      });
+
+      /*
+       * Если DEATH воспроизводится вперёд, последний
+       * показанный кадр находится в конце диапазона.
+       *
+       * Если DEATH обратный, последним показывается
+       * первый физический кадр диапазона.
+       */
+      const finalDeathFrame = death.reversed
+        ? deathPackedFirst
+        : deathPackedFirst + death.count - 1;
+
+      packed.set(dead.name, {
+        first: finalDeathFrame,
+        numFrames: 1,
+        loop: 0,
+        fps: dead.fps
+      });
+
+      commonCursor += deathFrames.length;
+    }
+
+    /*
+     * После общих смертей добавляем torso-анимации
+     * только в upper.md3.
+     */
+    let upperCursor = commonCursor;
+
+    for (
+      const range of ranges.filter(
+        value => value.part === "torso"
+      )
+    ) {
+      const frames = physicalFrames(range);
+
+      packed.set(range.name, {
+        first: upperCursor,
+        numFrames: range.numFrames,
+        loop: range.loop,
+        fps: range.fps
+      });
+
+      upperMap.push(...frames);
+      upperCursor += frames.length;
+    }
+
+    /*
+     * Количество кадров, существующих только в upper.
+     * Именно это значение Quake 3 вычитает из LEGS.
+     */
+    const torsoOnlyCount =
+      upperCursor - commonCursor;
+
+    /*
+     * Ножные анимации физически начинаются сразу после
+     * BOTH-смертей внутри lower.md3.
+     */
+    let lowerCursor = commonCursor;
+
+    for (
+      const range of ranges.filter(
+        value => value.part === "legs"
+      )
+    ) {
+      const frames = physicalFrames(range);
+
+      packed.set(range.name, {
+        /*
+         * Глобальный номер для animation.cfg.
+         */
+        first:
+          lowerCursor +
+          torsoOnlyCount,
+
+        /*
+         * Фактический кадр внутри lower.md3.
+         */
+        effectiveFirst:
+          lowerCursor,
+
+        numFrames: range.numFrames,
+        loop: range.loop,
+        fps: range.fps
+      });
+
+      lowerMap.push(...frames);
+      lowerCursor += frames.length;
+    }
+
+    return {
+      lowerMap,
+      upperMap,
+      packed,
+      skip: torsoOnlyCount
+    };
+  };
+
+  /*
+   * Старый результат больше нельзя экспортировать:
+   * необходимо заново выполнить перекомпоновку.
+   */
+  state.ready = false;
+  state.packedLower = null;
+  state.packedUpper = null;
+
+  document.getElementById("exportZip").disabled = true;
+  document.getElementById("exportPk3").disabled = true;
+
+  log(
+    "Установлено исправление BOTH_DEATH/BOTH_DEAD. " +
+    "Выполните перекомпоновку заново."
+  );
+})();
+</script>
+
+
+<script>
+(() => {
+  "use strict";
+
+  /*
+   * Убираем ошибочное требование обязательного совпадения
+   * BOTH_DEAD с последним кадром BOTH_DEATH.
+   */
+  const previousValidateRanges = validateRanges;
+
+  validateRanges = function(
+    ranges,
+    requireArchive = true
+  ) {
+    const result = previousValidateRanges(
+      ranges,
+      requireArchive
+    );
+
+    result.errors = result.errors.filter(error =>
+      !error.includes(
+        "должен ссылаться на последний показанный кадр"
+      )
+    );
+
+    return result;
+  };
+
+  /*
+   * BOTH_DEAD обрабатывается гибко:
+   *
+   * 1. Если он совпадает с последним кадром DEATH —
+   *    повторно используем существующий кадр.
+   *
+   * 2. Если это отдельный кадр —
+   *    добавляем его после DEATH.
+   */
+  makePacking = function(ranges) {
+    const lowerMap = [];
+    const upperMap = [];
+    const packed = new Map();
+
+    let commonCursor = 0;
+
+    for (let number = 1; number <= 3; number++) {
+      const death = ranges.find(
+        value =>
+          value.name === `BOTH_DEATH${number}`
+      );
+
+      const dead = ranges.find(
+        value =>
+          value.name === `BOTH_DEAD${number}`
+      );
+
+      const deathFrames = physicalFrames(death);
+      const deathPackedFirst = commonCursor;
+
+      lowerMap.push(...deathFrames);
+      upperMap.push(...deathFrames);
+
+      packed.set(death.name, {
+        first: deathPackedFirst,
+        numFrames: death.numFrames,
+        loop: death.loop,
+        fps: death.fps
+      });
+
+      /*
+       * Физический кадр, который показывается последним
+       * в BOTH_DEATH.
+       */
+      const finalDeathPackedFrame = death.reversed
+        ? deathPackedFirst
+        : deathPackedFirst + death.count - 1;
+
+      const deadUsesDeathFinalFrame =
+        dead.count === 1 &&
+        dead.first === death.shownEnd;
+
+      if (deadUsesDeathFinalFrame) {
+        /*
+         * DEAD совпадает с последней позой DEATH.
+         * Новый физический кадр не нужен.
+         */
+        packed.set(dead.name, {
+          first: finalDeathPackedFrame,
+          numFrames: 1,
+          loop: 0,
+          fps: dead.fps
+        });
+      } else {
+        /*
+         * DEAD является отдельной позой.
+         * Добавляем его после анимации смерти.
+         */
+        const deadFrames = physicalFrames(dead);
+        const deadPackedFirst =
+          commonCursor + deathFrames.length;
+
+        lowerMap.push(...deadFrames);
+        upperMap.push(...deadFrames);
+
+        packed.set(dead.name, {
+          first: deadPackedFirst,
+          numFrames: dead.numFrames,
+          loop: dead.loop,
+          fps: dead.fps
+        });
+
+        commonCursor += deadFrames.length;
+      }
+
+      commonCursor += deathFrames.length;
+    }
+
+    /*
+     * TORSO-анимации добавляются в upper.
+     */
+    let upperCursor = commonCursor;
+
+    for (
+      const range of ranges.filter(
+        value => value.part === "torso"
+      )
+    ) {
+      const frames = physicalFrames(range);
+
+      packed.set(range.name, {
+        first: upperCursor,
+        numFrames: range.numFrames,
+        loop: range.loop,
+        fps: range.fps
+      });
+
+      upperMap.push(...frames);
+      upperCursor += frames.length;
+    }
+
+    const torsoOnlyCount =
+      upperCursor - commonCursor;
+
+    /*
+     * LEGS-анимации добавляются в lower.
+     */
+    let lowerCursor = commonCursor;
+
+    for (
+      const range of ranges.filter(
+        value => value.part === "legs"
+      )
+    ) {
+      const frames = physicalFrames(range);
+
+      packed.set(range.name, {
+        first:
+          lowerCursor +
+          torsoOnlyCount,
+
+        effectiveFirst:
+          lowerCursor,
+
+        numFrames: range.numFrames,
+        loop: range.loop,
+        fps: range.fps
+      });
+
+      lowerMap.push(...frames);
+      lowerCursor += frames.length;
+    }
+
+    return {
+      lowerMap,
+      upperMap,
+      packed,
+      skip: torsoOnlyCount
+    };
+  };
+
+  state.ready = false;
+  state.packedLower = null;
+  state.packedUpper = null;
+
+  document.getElementById("exportZip").disabled = true;
+  document.getElementById("exportPk3").disabled = true;
+
+  log(
+    "Исправлена обработка BOTH_DEAD: " +
+    "поддерживаются и общий, и отдельный кадр."
+  );
+})();
+</script>
+
+<script>
+(() => {
+  "use strict";
+
+  const style = document.createElement("style");
+
+  style.textContent = `
+    .animation-preview-layout {
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 280px;
+      gap:12px;
+    }
+
+    #animationPreview {
+      display:block;
+      width:100%;
+      height:560px;
+      border:1px solid var(--border);
+      border-radius:8px;
+      background:#0b1015;
+      cursor:grab;
+      touch-action:none;
+    }
+
+    #animationPreview:active {
+      cursor:grabbing;
+    }
+
+    .preview-controls {
+      display:grid;
+      align-content:start;
+      gap:10px;
+    }
+
+    .preview-marker {
+      display:inline-block;
+      width:10px;
+      height:10px;
+      margin-right:5px;
+      border-radius:50%;
+    }
+
+    @media(max-width:900px) {
+      .animation-preview-layout {
+        grid-template-columns:1fr;
+      }
+
+      #animationPreview {
+        height:450px;
+      }
+    }
+  `;
+
+  document.head.appendChild(style);
+
+  const previewCard = document.createElement("div");
+
+  previewCard.className = "card";
+  previewCard.innerHTML = `
+    <h2>Предпросмотр анимации</h2>
+
+    <div class="animation-preview-layout">
+      <canvas id="animationPreview"></canvas>
+
+      <div class="preview-controls">
+        <label class="field">
+          <span>Набор моделей</span>
+          <select id="previewVersion">
+            <option value="source">Исходные MD3</option>
+            <option value="packed" disabled>
+              После перекомпоновки
+            </option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Анимация</span>
+          <select id="previewAnimation"></select>
+        </label>
+
+        <div class="toolbar">
+          <button id="previewPlay">▶ Воспроизвести</button>
+          <button id="previewPrevious">−1 кадр</button>
+          <button id="previewNext">+1 кадр</button>
+        </div>
+
+        <label class="field">
+          <span>
+            Кадр анимации:
+            <b id="previewStepNumber">0</b>
+          </span>
+          <input
+            id="previewFrame"
+            type="range"
+            min="0"
+            max="0"
+            value="0"
+          >
+        </label>
+
+        <label class="field">
+          <span>Скорость предпросмотра</span>
+          <select id="previewSpeed">
+            <option value=".25">25%</option>
+            <option value=".5">50%</option>
+            <option value="1" selected>100%</option>
+            <option value="1.5">150%</option>
+            <option value="2">200%</option>
+          </select>
+        </label>
+
+        <div class="toolbar">
+          <button id="previewResetCamera">Сброс камеры</button>
+        </div>
+
+        <div id="previewStatus" class="notice">
+          Сначала загрузите архив модели.
+        </div>
+
+        <div class="notice">
+          <span class="preview-marker" style="background:#51a8ff"></span>
+          lower.md3<br>
+
+          <span class="preview-marker" style="background:#4fd199"></span>
+          upper.md3<br>
+
+          <span class="preview-marker" style="background:#e9bd61"></span>
+          head.md3
+        </div>
+
+        <div class="muted">
+          Мышь — вращение.<br>
+          Колесо — масштаб.<br>
+          Шкала показывает кадр выбранной анимации.
+        </div>
+      </div>
+    </div>
+  `;
+
+  const journalCard = Array.from(
+    document.querySelectorAll(".card")
+  ).find(card =>
+    card.querySelector("h2")?.textContent.trim() === "Журнал"
+  );
+
+  if (journalCard) {
+    journalCard.parentElement.insertBefore(
+      previewCard,
+      journalCard
+    );
+  } else {
+    document.querySelector("main").appendChild(previewCard);
+  }
+
+  const canvas =
+    document.getElementById("animationPreview");
+
+  const context = canvas.getContext("2d");
+
+  const previewState = {
+    playing:false,
+    step:0,
+    lastTime:0,
+    accumulator:0,
+    fit:null,
+
+    camera:{
+      yaw:-0.7,
+      pitch:-0.25,
+      zoom:1,
+      dragging:false,
+      lastX:0,
+      lastY:0
+    }
+  };
+
+  const animationSelect =
+    document.getElementById("previewAnimation");
+
+  animationSelect.innerHTML = DEFINITIONS.map(definition =>
+    `<option value="${definition.name}">` +
+    `${definition.name}</option>`
+  ).join("");
+
+  function previewRange() {
+    const ranges = readRanges();
+
+    return ranges.find(range =>
+      range.name === animationSelect.value
+    );
+  }
+
+  function animationLength() {
+    const range = previewRange();
+
+    if (!range || range.missing) {
+      return 1;
+    }
+
+    return Math.max(1, range.count);
+  }
+
+  function updatePreviewSlider() {
+    const length = animationLength();
+
+    previewState.step = Math.max(
+      0,
+      Math.min(length - 1, previewState.step)
+    );
+
+    const slider =
+      document.getElementById("previewFrame");
+
+    slider.max = Math.max(0, length - 1);
+    slider.value = previewState.step;
+
+    document.getElementById(
+      "previewStepNumber"
+    ).textContent = String(previewState.step);
+  }
+
+  function sourceFrame(range, step) {
+    if (!range || range.missing) {
+      return 0;
+    }
+
+    const direction =
+      range.shownEnd >= range.shownStart ? 1 : -1;
+
+    return range.shownStart + step * direction;
+  }
+
+  function packedFrame(item, step, useEffective) {
+    if (!item) {
+      return 0;
+    }
+
+    const count = Math.abs(item.numFrames);
+    const first =
+      useEffective &&
+      Number.isInteger(item.effectiveFirst)
+        ? item.effectiveFirst
+        : item.first;
+
+    return item.numFrames < 0
+      ? first + count - 1 - step
+      : first + step;
+  }
+
+  function getPreviewModels() {
+    const packed =
+      document.getElementById("previewVersion").value ===
+      "packed";
+
+    if (
+      packed &&
+      state.packedLower &&
+      state.packedUpper
+    ) {
+      return {
+        lower:state.packedLower,
+        upper:state.packedUpper,
+        head:state.head,
+        packed:true
+      };
+    }
+
+    return {
+      lower:state.lower,
+      upper:state.upper,
+      head:state.head,
+      packed:false
+    };
+  }
+
+  function clampFrame(model, frame) {
+    if (!model || model.frameCount < 1) {
+      return 0;
+    }
+
+    return Math.max(
+      0,
+      Math.min(model.frameCount - 1, frame)
+    );
+  }
+
+  function getDisplayedFrames(models) {
+    const ranges = readRanges();
+    const selected = ranges.find(range =>
+      range.name === animationSelect.value
+    );
+
+    if (!selected || selected.missing) {
+      return {
+        lower:0,
+        upper:0,
+        head:0,
+        selected:null
+      };
+    }
+
+    const step = Math.min(
+      previewState.step,
+      selected.count - 1
+    );
+
+    let lowerFrame = 0;
+    let upperFrame = 0;
+
+    if (!models.packed) {
+      const current = sourceFrame(selected, step);
+
+      const idle = ranges.find(range =>
+        range.name === "LEGS_IDLE"
+      );
+
+      const stand = ranges.find(range =>
+        range.name === "TORSO_STAND"
+      );
+
+      if (selected.part === "both") {
+        lowerFrame = current;
+        upperFrame = current;
+      } else if (selected.part === "torso") {
+        lowerFrame =
+          idle && !idle.missing
+            ? sourceFrame(idle, 0)
+            : 0;
+
+        upperFrame = current;
+      } else {
+        lowerFrame = current;
+
+        upperFrame =
+          stand && !stand.missing
+            ? sourceFrame(stand, 0)
+            : 0;
+      }
+    } else {
+      const packing = makePacking(ranges);
+      const current =
+        packing.packed.get(selected.name);
+
+      const idle =
+        packing.packed.get("LEGS_IDLE");
+
+      const stand =
+        packing.packed.get("TORSO_STAND");
+
+      if (selected.part === "both") {
+        lowerFrame = packedFrame(
+          current,
+          step,
+          false
+        );
+
+        upperFrame = packedFrame(
+          current,
+          step,
+          false
+        );
+      } else if (selected.part === "torso") {
+        lowerFrame = packedFrame(
+          idle,
+          0,
+          true
+        );
+
+        upperFrame = packedFrame(
+          current,
+          step,
+          false
+        );
+      } else {
+        lowerFrame = packedFrame(
+          current,
+          step,
+          true
+        );
+
+        upperFrame = packedFrame(
+          stand,
+          0,
+          false
+        );
+      }
+    }
+
+    lowerFrame = clampFrame(
+      models.lower,
+      lowerFrame
+    );
+
+    upperFrame = clampFrame(
+      models.upper,
+      upperFrame
+    );
+
+    return {
+      lower:lowerFrame,
+      upper:upperFrame,
+      head:clampFrame(models.head, upperFrame),
+      selected
+    };
+  }
+
+  function findTag(model, frame, name) {
+    if (!model || !model.tags.length) {
+      return null;
+    }
+
+    const tags =
+      model.tags[
+        clampFrame(model, frame)
+      ] || [];
+
+    return tags.find(tag =>
+      tag.name.toLowerCase() === name.toLowerCase()
+    ) || null;
+  }
+
+  function applyTag(point, tag) {
+    if (!tag) {
+      return point.slice();
+    }
+
+    return [
+      tag.origin[0] +
+        point[0] * tag.axes[0][0] +
+        point[1] * tag.axes[1][0] +
+        point[2] * tag.axes[2][0],
+
+      tag.origin[1] +
+        point[0] * tag.axes[0][1] +
+        point[1] * tag.axes[1][1] +
+        point[2] * tag.axes[2][1],
+
+      tag.origin[2] +
+        point[0] * tag.axes[0][2] +
+        point[1] * tag.axes[1][2] +
+        point[2] * tag.axes[2][2]
+    ];
+  }
+
+  function addModelGeometry(
+    polygons,
+    model,
+    frame,
+    color,
+    transform
+  ) {
+    if (!model) {
+      return;
+    }
+
+    const safeFrame =
+      clampFrame(model, frame);
+
+    for (const surface of model.surfaces) {
+      const vertexFrame =
+        surface.frames[
+          Math.min(
+            safeFrame,
+            surface.frames.length - 1
+          )
+        ];
+
+      if (!vertexFrame) {
+        continue;
+      }
+
+      const points = vertexFrame.map(vertex => {
+        const point = vertex.xyz.map(
+          value => value / 64
+        );
+
+        return transform
+          ? transform(point)
+          : point;
+      });
+
+      for (const triangle of surface.triangles) {
+        polygons.push({
+          points:[
+            points[triangle[0]],
+            points[triangle[1]],
+            points[triangle[2]]
+          ],
+          color
+        });
+      }
+    }
+  }
+
+  function resizePreview() {
+    const ratio = Math.min(
+      2,
+      window.devicePixelRatio || 1
+    );
+
+    const width = Math.max(
+      1,
+      Math.round(canvas.clientWidth * ratio)
+    );
+
+    const height = Math.max(
+      1,
+      Math.round(canvas.clientHeight * ratio)
+    );
+
+    if (
+      canvas.width !== width ||
+      canvas.height !== height
+    ) {
+      canvas.width = width;
+      canvas.height = height;
+    }
+
+    return ratio;
+  }
+
+  function drawPreview() {
+    const ratio = resizePreview();
+
+    context.clearRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    context.fillStyle = "#0b1015";
+    context.fillRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    updatePreviewSlider();
+
+    const models = getPreviewModels();
+
+    if (!models.lower || !models.upper) {
+      context.fillStyle = "#98a5b5";
+      context.textAlign = "center";
+      context.font = `${14 * ratio}px system-ui`;
+
+      context.fillText(
+        "Загрузите ZIP или PK3",
+        canvas.width / 2,
+        canvas.height / 2
+      );
+
+      return;
+    }
+
+    const frames = getDisplayedFrames(models);
+    const polygons = [];
+
+    const torsoTag = findTag(
+      models.lower,
+      frames.lower,
+      "tag_torso"
+    );
+
+    const headTag = findTag(
+      models.upper,
+      frames.upper,
+      "tag_head"
+    );
+
+    addModelGeometry(
+      polygons,
+      models.lower,
+      frames.lower,
+      "#51a8ff",
+      null
+    );
+
+    addModelGeometry(
+      polygons,
+      models.upper,
+      frames.upper,
+      "#4fd199",
+      point => applyTag(point, torsoTag)
+    );
+
+    if (models.head) {
+      addModelGeometry(
+        polygons,
+        models.head,
+        frames.head,
+        "#e9bd61",
+        point => applyTag(
+          applyTag(point, headTag),
+          torsoTag
+        )
+      );
+    }
+
+    const allPoints = [];
+
+    for (const polygon of polygons) {
+      allPoints.push(...polygon.points);
+    }
+
+    if (!allPoints.length) {
+      return;
+    }
+
+    if (!previewState.fit) {
+      const minimum = [
+        Infinity,
+        Infinity,
+        Infinity
+      ];
+
+      const maximum = [
+        -Infinity,
+        -Infinity,
+        -Infinity
+      ];
+
+      for (const point of allPoints) {
+        for (let axis = 0; axis < 3; axis++) {
+          minimum[axis] = Math.min(
+            minimum[axis],
+            point[axis]
+          );
+
+          maximum[axis] = Math.max(
+            maximum[axis],
+            point[axis]
+          );
+        }
+      }
+
+      previewState.fit = {
+        center:[
+          (minimum[0] + maximum[0]) / 2,
+          (minimum[1] + maximum[1]) / 2,
+          (minimum[2] + maximum[2]) / 2
+        ],
+
+        extent:Math.max(
+          maximum[0] - minimum[0],
+          maximum[1] - minimum[1],
+          maximum[2] - minimum[2],
+          1
+        )
+      };
+    }
+
+    const center = previewState.fit.center;
+
+    const scale =
+      Math.min(canvas.width, canvas.height) *
+      0.72 /
+      previewState.fit.extent *
+      previewState.camera.zoom;
+
+    const cy = Math.cos(
+      previewState.camera.yaw
+    );
+
+    const sy = Math.sin(
+      previewState.camera.yaw
+    );
+
+    const cp = Math.cos(
+      previewState.camera.pitch
+    );
+
+    const sp = Math.sin(
+      previewState.camera.pitch
+    );
+
+    function project(point) {
+      const x = point[0] - center[0];
+      const y = point[1] - center[1];
+      const z = point[2] - center[2];
+
+      const x1 = x * cy - y * sy;
+      const y1 = x * sy + y * cy;
+
+      const y2 = y1 * cp - z * sp;
+      const z2 = y1 * sp + z * cp;
+
+      return {
+        x:canvas.width / 2 + x1 * scale,
+        y:canvas.height / 2 - z2 * scale,
+        depth:y2
+      };
+    }
+
+    const projected = polygons.map(polygon => {
+      const points = polygon.points.map(project);
+
+      return {
+        points,
+        color:polygon.color,
+        depth:
+          (
+            points[0].depth +
+            points[1].depth +
+            points[2].depth
+          ) / 3
+      };
+    });
+
+    projected.sort(
+      (first, second) =>
+        first.depth - second.depth
+    );
+
+    context.lineWidth = Math.max(
+      1,
+      ratio * 0.65
+    );
+
+    for (const polygon of projected) {
+      context.beginPath();
+      context.moveTo(
+        polygon.points[0].x,
+        polygon.points[0].y
+      );
+
+      context.lineTo(
+        polygon.points[1].x,
+        polygon.points[1].y
+      );
+
+      context.lineTo(
+        polygon.points[2].x,
+        polygon.points[2].y
+      );
+
+      context.closePath();
+
+      context.globalAlpha = 0.30;
+      context.fillStyle = polygon.color;
+      context.fill();
+
+      context.globalAlpha = 0.55;
+      context.strokeStyle = polygon.color;
+      context.stroke();
+    }
+
+    context.globalAlpha = 1;
+
+    const selected = frames.selected;
+
+    document.getElementById(
+      "previewStatus"
+    ).textContent =
+      `${selected?.name || "Анимация не заполнена"}\n` +
+      `lower: кадр ${frames.lower}\n` +
+      `upper: кадр ${frames.upper}\n` +
+      (
+        models.packed
+          ? "Просмотр после перекомпоновки"
+          : "Просмотр исходных MD3"
+      );
+  }
+
+  function setPreviewStep(step) {
+    const length = animationLength();
+
+    previewState.step =
+      ((step % length) + length) % length;
+
+    drawPreview();
+  }
+
+  function stopPreview() {
+    previewState.playing = false;
+
+    document.getElementById(
+      "previewPlay"
+    ).textContent = "▶ Воспроизвести";
+  }
+
+  function animationLoop(time) {
+    if (previewState.playing) {
+      const range = previewRange();
+
+      if (range && !range.missing) {
+        const speed =
+          Number(
+            document.getElementById(
+              "previewSpeed"
+            ).value
+          ) || 1;
+
+        const fps = Math.max(
+          1,
+          Number(range.fps) || 15
+        ) * speed;
+
+        if (!previewState.lastTime) {
+          previewState.lastTime = time;
+        }
+
+        previewState.accumulator +=
+          time - previewState.lastTime;
+
+        const frameDuration = 1000 / fps;
+
+        while (
+          previewState.accumulator >= frameDuration
+        ) {
+          previewState.accumulator -= frameDuration;
+
+          previewState.step =
+            (
+              previewState.step + 1
+            ) % animationLength();
+        }
+
+        drawPreview();
+      }
+    }
+
+    previewState.lastTime = time;
+    requestAnimationFrame(animationLoop);
+  }
+
+  document.getElementById(
+    "previewPlay"
+  ).onclick = () => {
+    previewState.playing =
+      !previewState.playing;
+
+    previewState.accumulator = 0;
+
+    document.getElementById(
+      "previewPlay"
+    ).textContent = previewState.playing
+      ? "⏸ Пауза"
+      : "▶ Воспроизвести";
+  };
+
+  document.getElementById(
+    "previewPrevious"
+  ).onclick = () => {
+    stopPreview();
+    setPreviewStep(previewState.step - 1);
+  };
+
+  document.getElementById(
+    "previewNext"
+  ).onclick = () => {
+    stopPreview();
+    setPreviewStep(previewState.step + 1);
+  };
+
+  document.getElementById(
+    "previewFrame"
+  ).oninput = event => {
+    stopPreview();
+    previewState.step = Number(event.target.value);
+    drawPreview();
+  };
+
+  animationSelect.onchange = () => {
+    stopPreview();
+    previewState.step = 0;
+    previewState.fit = null;
+    drawPreview();
+  };
+
+  document.getElementById(
+    "previewVersion"
+  ).onchange = () => {
+    stopPreview();
+    previewState.step = 0;
+    previewState.fit = null;
+    drawPreview();
+  };
+
+  document.getElementById(
+    "previewResetCamera"
+  ).onclick = () => {
+    previewState.camera.yaw = -0.7;
+    previewState.camera.pitch = -0.25;
+    previewState.camera.zoom = 1;
+    previewState.fit = null;
+    drawPreview();
+  };
+
+  canvas.addEventListener(
+    "pointerdown",
+    event => {
+      previewState.camera.dragging = true;
+      previewState.camera.lastX = event.clientX;
+      previewState.camera.lastY = event.clientY;
+
+      canvas.setPointerCapture(event.pointerId);
+    }
+  );
+
+  canvas.addEventListener(
+    "pointermove",
+    event => {
+      if (!previewState.camera.dragging) {
+        return;
+      }
+
+      const dx =
+        event.clientX -
+        previewState.camera.lastX;
+
+      const dy =
+        event.clientY -
+        previewState.camera.lastY;
+
+      previewState.camera.lastX = event.clientX;
+      previewState.camera.lastY = event.clientY;
+
+      previewState.camera.yaw += dx * 0.01;
+      previewState.camera.pitch += dy * 0.01;
+
+      previewState.camera.pitch = Math.max(
+        -Math.PI / 2,
+        Math.min(
+          Math.PI / 2,
+          previewState.camera.pitch
+        )
+      );
+
+      drawPreview();
+    }
+  );
+
+  canvas.addEventListener(
+    "pointerup",
+    event => {
+      previewState.camera.dragging = false;
+
+      if (
+        canvas.hasPointerCapture(event.pointerId)
+      ) {
+        canvas.releasePointerCapture(
+          event.pointerId
+        );
+      }
+    }
+  );
+
+  canvas.addEventListener(
+    "wheel",
+    event => {
+      event.preventDefault();
+
+      previewState.camera.zoom *=
+        Math.exp(-event.deltaY * 0.001);
+
+      previewState.camera.zoom = Math.max(
+        0.1,
+        Math.min(
+          10,
+          previewState.camera.zoom
+        )
+      );
+
+      drawPreview();
+    },
+    {passive:false}
+  );
+
+  window.addEventListener(
+    "resize",
+    drawPreview
+  );
+
+  document.getElementById(
+    "animationRows"
+  ).addEventListener("input", () => {
+    previewState.step = 0;
+    previewState.fit = null;
+    drawPreview();
+  });
+
+  /*
+   * Автоматически загружает animation.cfg
+   * из папки выбранной модели.
+   */
+  function autoLoadArchiveCfg() {
+    const entry = findEntry(
+      `${state.root}/animation.cfg`
+    );
+
+    if (!entry) {
+      document.getElementById(
+        "cfgInfo"
+      ).textContent =
+        `В ${state.root} файл animation.cfg не найден.\n` +
+        `Можно загрузить CFG отдельно или заполнить таблицу вручную.`;
+
+      return false;
+    }
+
+    try {
+      parseCfg(textDecoder.decode(entry.data));
+
+      document.getElementById(
+        "cfgInfo"
+      ).textContent =
+        `animation.cfg автоматически загружен из архива.\n` +
+        `Путь: ${entry.name}\n` +
+        `Повторно открывать CFG не требуется.`;
+
+      log(
+        `Автоматически загружен ${entry.name}`
+      );
+
+      previewState.step = 0;
+      previewState.fit = null;
+      drawPreview();
+
+      return true;
+    } catch (error) {
+      document.getElementById(
+        "cfgInfo"
+      ).textContent =
+        `animation.cfg найден, но не удалось разобрать:\n` +
+        error.message;
+
+      log(
+        `ОШИБКА CFG ИЗ АРХИВА: ${error.message}`
+      );
+
+      return false;
+    }
+  }
+
+  /*
+   * Оборачиваем загрузку корня модели.
+   */
+  const originalLoadRoot = loadRoot;
+
+  loadRoot = async function(...argumentsList) {
+    await originalLoadRoot.apply(
+      this,
+      argumentsList
+    );
+
+    previewState.step = 0;
+    previewState.fit = null;
+
+    autoLoadArchiveCfg();
+    drawPreview();
+  };
+
+  /*
+   * Старый onchange сохранял ссылку на прежнюю функцию,
+   * поэтому назначаем его заново.
+   */
+  document.getElementById(
+    "modelRoot"
+  ).onchange = async () => {
+    try {
+      await loadRoot();
+    } catch (error) {
+      alert(error.message);
+      log(`ОШИБКА МОДЕЛИ: ${error.message}`);
+    }
+  };
+
+  /*
+   * После перекомпоновки разрешаем просмотр результата.
+   */
+  const originalRecompile = recompile;
+
+  recompile = function(...argumentsList) {
+    const result = originalRecompile.apply(
+      this,
+      argumentsList
+    );
+
+    const packedOption =
+      document.querySelector(
+        '#previewVersion option[value="packed"]'
+      );
+
+    packedOption.disabled = !(
+      state.packedLower &&
+      state.packedUpper
+    );
+
+    if (!packedOption.disabled) {
+      document.getElementById(
+        "previewVersion"
+      ).value = "packed";
+
+      previewState.step = 0;
+      previewState.fit = null;
+      drawPreview();
+    }
+
+    return result;
+  };
+
+  document.getElementById(
+    "recompileButton"
+  ).onclick = recompile;
+
+  /*
+   * Ручная кнопка CFG также обновляет просмотр.
+   */
+  document.getElementById(
+    "loadCfgFromArchive"
+  ).onclick = () => {
+    loadCfgFromArchive();
+
+    previewState.step = 0;
+    previewState.fit = null;
+    drawPreview();
+  };
+
+  requestAnimationFrame(animationLoop);
+  drawPreview();
+})();
+</script>
+
+<script>
+(() => {
+  "use strict";
+
+  /*
+   * Анимации, которые должны повторяться полностью.
+   */
+  const CYCLIC_ANIMATIONS = new Set([
+    "LEGS_WALKCR",
+    "LEGS_WALK",
+    "LEGS_RUN",
+    "LEGS_BACK",
+    "LEGS_SWIM",
+    "LEGS_IDLE",
+    "LEGS_IDLECR",
+    "LEGS_TURN"
+  ]);
+
+  const parametersGrid = Array.from(
+    document.querySelectorAll(".card")
+  ).find(card =>
+    card.querySelector("h2")?.textContent.trim() ===
+    "3. Параметры"
+  )?.querySelector(".grid");
+
+  if (!parametersGrid) {
+    return;
+  }
+
+  const autoLoopLabel = document.createElement("label");
+
+  autoLoopLabel.className = "field";
+  autoLoopLabel.innerHTML = `
+    <span>Автоматический Loop</span>
+
+    <span style="
+      display:flex;
+      align-items:center;
+      gap:8px;
+      min-height:37px;
+      padding:7px;
+      border:1px solid var(--border);
+      border-radius:6px;
+      background:#11171e;
+      color:var(--text);
+    ">
+      <input
+        id="autoLoop"
+        type="checkbox"
+        checked
+        style="width:auto"
+      >
+
+      Подгонять под диапазон
+    </span>
+  `;
+
+  parametersGrid.appendChild(autoLoopLabel);
+
+  function calculateRangeLength(row) {
+    const start = Number(
+      row.querySelector(".start").value
+    );
+
+    const end = Number(
+      row.querySelector(".end").value
+    );
+
+    if (
+      !Number.isInteger(start) ||
+      !Number.isInteger(end) ||
+      start < 0 ||
+      end < 0
+    ) {
+      return null;
+    }
+
+    return Math.abs(end - start) + 1;
+  }
+
+  function updateRowLoop(row) {
+    if (!document.getElementById("autoLoop").checked) {
+      return;
+    }
+
+    const name = row.dataset.name;
+    const length = calculateRangeLength(row);
+    const loopInput = row.querySelector(".loop");
+
+    if (length === null) {
+      loopInput.value = "";
+      return;
+    }
+
+    /*
+     * Циклические анимации повторяются полностью.
+     * Остальные проигрываются один раз.
+     */
+    loopInput.value = CYCLIC_ANIMATIONS.has(name)
+      ? length
+      : 0;
+  }
+
+  function updateAllLoops() {
+    document
+      .querySelectorAll("#animationRows tr[data-name]")
+      .forEach(updateRowLoop);
+
+    invalidate();
+
+    /*
+     * Обновляем предпросмотр, если дополнение
+     * предпросмотра уже установлено.
+     */
+    document
+      .querySelector("#animationRows .start")
+      ?.dispatchEvent(
+        new Event("input", {bubbles:true})
+      );
+  }
+
+  document.getElementById(
+    "animationRows"
+  ).addEventListener("input", event => {
+    if (
+      !event.target.classList.contains("start") &&
+      !event.target.classList.contains("end")
+    ) {
+      return;
+    }
+
+    const row = event.target.closest(
+      "tr[data-name]"
+    );
+
+    if (row) {
+      updateRowLoop(row);
+    }
+  });
+
+  document.getElementById(
+    "autoLoop"
+  ).addEventListener("change", event => {
+    if (event.target.checked) {
+      updateAllLoops();
+
+      log(
+        "Автоматический Loop включён и пересчитан."
+      );
+    } else {
+      log(
+        "Автоматический Loop выключен. " +
+        "Значения можно менять вручную."
+      );
+    }
+  });
+
+  log("Добавлена автоматическая подгонка Loop.");
+})();
+</script>
+
+</body>
+</html>

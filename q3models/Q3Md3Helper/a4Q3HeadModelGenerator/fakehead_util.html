@@ -1,0 +1,1562 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quake 3 Head MD3 Generator</title>
+
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0e1217;--panel:#181e26;--panel2:#202833;
+  --border:#34404e;--text:#edf2f7;--muted:#98a5b5;
+  --blue:#51a8ff;--green:#4fd199;--yellow:#e9bd61;--red:#f06a6a
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:14px/1.45 system-ui,sans-serif
+}
+header{
+  position:sticky;top:0;z-index:10;
+  display:flex;align-items:center;gap:8px;
+  padding:12px 18px;
+  border-bottom:1px solid var(--border);
+  background:#181e26f5
+}
+header h1{margin:0 auto 0 0;font-size:20px}
+button,input,select{font:inherit}
+button{
+  padding:8px 11px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  background:var(--panel2);
+  color:var(--text);
+  cursor:pointer
+}
+button:hover:not(:disabled){border-color:var(--blue)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.primary{
+  background:var(--blue);
+  border-color:var(--blue);
+  color:#071421;
+  font-weight:700
+}
+input,select{
+  width:100%;min-width:0;
+  padding:7px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:#11171e;
+  color:var(--text)
+}
+input[type=checkbox]{width:auto}
+main{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 390px;
+  gap:16px;
+  width:min(1500px,100%);
+  margin:auto;
+  padding:16px
+}
+.card{
+  margin-bottom:16px;
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--panel)
+}
+.card h2{margin:0 0 10px;font-size:17px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px
+}
+.field{display:grid;gap:4px}
+.field span,.muted{color:var(--muted)}
+.field span{font-size:12px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.notice{
+  margin-top:10px;
+  padding:9px 11px;
+  border-left:3px solid var(--blue);
+  background:#172435;
+  white-space:pre-wrap
+}
+.warning{border-left-color:var(--yellow)}
+.surface{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:7px;
+  padding:8px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  background:#121820
+}
+.surface span{overflow:hidden;text-overflow:ellipsis}
+canvas{
+  display:block;
+  width:100%;
+  height:560px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#0b1015;
+  cursor:grab;
+  touch-action:none
+}
+canvas:active{cursor:grabbing}
+#log{
+  max-height:180px;
+  overflow:auto;
+  margin:0;
+  padding:9px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#0c1116;
+  color:#bbc6d3;
+  font:12px/1.5 ui-monospace,monospace;
+  white-space:pre-wrap
+}
+@media(max-width:950px){
+  main{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <h1>Quake 3 Head MD3 Generator</h1>
+  <button id="downloadButton" class="primary" disabled>
+    Скачать head.md3
+  </button>
+</header>
+
+<main>
+<section>
+
+<div class="card">
+  <h2>1. Исходная MD3</h2>
+
+  <div class="toolbar">
+    <input id="modelFile" type="file" accept=".md3">
+    <button id="loadButton">Открыть MD3</button>
+  </div>
+
+  <div id="fileInfo" class="notice">
+    Выберите MD3, из которой нужно создать голову.
+  </div>
+</div>
+
+<div class="card">
+  <h2>2. Поверхности головы</h2>
+
+  <div class="toolbar">
+    <button id="selectAll" disabled>Выбрать все</button>
+    <button id="selectNone" disabled>Снять все</button>
+  </div>
+
+  <div id="surfaceList">
+    <p class="muted">Модель не загружена.</p>
+  </div>
+</div>
+
+<div class="card">
+  <h2>3. Кадры результата</h2>
+
+  <div class="grid">
+    <label class="field">
+      <span>Режим кадров</span>
+      <select id="frameMode">
+        <option value="single">
+          Только выбранный кадр
+        </option>
+        <option value="all">
+          Сохранить все кадры
+        </option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Выбранный кадр</span>
+      <input
+        id="sourceFrame"
+        type="number"
+        min="0"
+        step="1"
+        value="0"
+      >
+    </label>
+
+    <label class="field">
+      <span>Имя результата</span>
+      <input id="modelName" value="head">
+    </label>
+  </div>
+
+  <div class="notice">
+    Для скрытой головы рекомендуется один кадр. Quake 3 всё равно
+    будет прикреплять её к <b>tag_head</b> модели upper.
+  </div>
+</div>
+
+<div class="card">
+  <h2>4. Масштаб и положение</h2>
+
+  <div class="grid">
+    <label class="field">
+      <span>Scale</span>
+      <input
+        id="scale"
+        type="number"
+        min="0.001"
+        step="0.01"
+        value="1"
+      >
+    </label>
+
+    <label class="field">
+      <span>Центр масштабирования</span>
+      <select id="pivotMode">
+        <option value="center">
+          Центр выбранной геометрии
+        </option>
+        <option value="origin">
+          Начало координат MD3
+        </option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Добавить tag_head</span>
+      <select id="tagMode">
+        <option value="yes">Да</option>
+        <option value="no">Нет</option>
+      </select>
+    </label>
+
+    <label class="field">
+      <span>X — вперёд / назад</span>
+      <input id="offsetX" type="number" step="0.1" value="0">
+    </label>
+
+    <label class="field">
+      <span>Y — влево / вправо</span>
+      <input id="offsetY" type="number" step="0.1" value="0">
+    </label>
+
+    <label class="field">
+      <span>Z — вверх / вниз</span>
+      <input id="offsetZ" type="number" step="0.1" value="0">
+    </label>
+  </div>
+
+  <div class="toolbar" style="margin-top:10px">
+    <button id="hidePreset" disabled>
+      Спрятать голову
+    </button>
+
+    <button id="resetTransform" disabled>
+      Сбросить трансформацию
+    </button>
+  </div>
+
+  <div class="notice warning">
+    Пресет «Спрятать голову» устанавливает Scale = 0.05.
+    При необходимости дополнительно сместите её внутрь тела.
+
+    Не устанавливайте Scale = 0: все вершины совпадут, и Quake 3
+    может некорректно обработать поверхность.
+  </div>
+</div>
+
+<div class="card">
+  <h2>Журнал</h2>
+  <pre id="log">Приложение готово.</pre>
+</div>
+
+</section>
+
+<aside>
+  <div class="card">
+    <h2>Предпросмотр результата</h2>
+
+    <canvas id="preview"></canvas>
+
+    <label class="field" style="margin-top:10px">
+      <span>
+        Кадр предпросмотра:
+        <b id="frameLabel">0</b>
+      </span>
+
+      <input
+        id="frameSlider"
+        type="range"
+        min="0"
+        max="0"
+        value="0"
+      >
+    </label>
+
+    <div class="toolbar" style="margin-top:10px">
+      <button id="resetCamera">Сброс камеры</button>
+    </div>
+
+    <div id="previewInfo" class="notice">
+      Модель не загружена.
+    </div>
+  </div>
+</aside>
+</main>
+
+<script>
+"use strict";
+
+const $=id=>document.getElementById(id);
+
+const state={
+  file:null,
+  model:null,
+  enabledSurfaces:[],
+  camera:{
+    yaw:-0.7,
+    pitch:-0.25,
+    zoom:1,
+    dragging:false,
+    lastX:0,
+    lastY:0
+  }
+};
+
+function log(message){
+  const output=$("log");
+
+  output.textContent+=
+    `\n[${new Date().toLocaleTimeString()}] ${message}`;
+
+  output.scrollTop=output.scrollHeight;
+}
+
+function fixedString(bytes,offset,length){
+  let output="";
+
+  for(let index=0;index<length;index++){
+    const value=bytes[offset+index];
+
+    if(!value)break;
+    output+=String.fromCharCode(value);
+  }
+
+  return output;
+}
+
+function safeName(value,fallback="head"){
+  const result=String(value||fallback)
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g,"_")
+    .replace(/^_+|_+$/g,"");
+
+  return result||fallback;
+}
+
+function escapeHTML(value){
+  return String(value).replace(
+    /[&<>"']/g,
+    character=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    })[character]
+  );
+}
+
+function ensure(buffer,offset,length,label){
+  if(
+    offset<0||
+    length<0||
+    offset+length>buffer.byteLength
+  ){
+    throw new Error(`Повреждён MD3: ${label}`);
+  }
+}
+
+function parseMD3(buffer){
+  const bytes=new Uint8Array(buffer);
+  const view=new DataView(buffer);
+
+  ensure(buffer,0,108,"заголовок");
+
+  if(fixedString(bytes,0,4)!=="IDP3"){
+    throw new Error("Файл не является MD3.");
+  }
+
+  if(view.getInt32(4,true)!==15){
+    throw new Error("Поддерживается только MD3 версии 15.");
+  }
+
+  const model={
+    name:fixedString(bytes,8,64),
+    frameCount:view.getInt32(76,true),
+    tagCount:view.getInt32(80,true),
+    surfaceCount:view.getInt32(84,true),
+    frameOffset:view.getInt32(92,true),
+    tagOffset:view.getInt32(96,true),
+    surfaceOffset:view.getInt32(100,true),
+    frames:[],
+    surfaces:[]
+  };
+
+  if(model.frameCount<1){
+    throw new Error("MD3 не содержит кадров.");
+  }
+
+  for(let frame=0;frame<model.frameCount;frame++){
+    const offset=model.frameOffset+frame*56;
+
+    ensure(buffer,offset,56,`кадр ${frame}`);
+
+    model.frames.push({
+      name:
+        fixedString(bytes,offset+40,16)||
+        `frame_${frame}`
+    });
+  }
+
+  let base=model.surfaceOffset;
+
+  for(
+    let surfaceIndex=0;
+    surfaceIndex<model.surfaceCount;
+    surfaceIndex++
+  ){
+    ensure(buffer,base,108,`surface ${surfaceIndex}`);
+
+    if(fixedString(bytes,base,4)!=="IDP3"){
+      throw new Error(`Повреждена surface ${surfaceIndex}.`);
+    }
+
+    const surface={
+      name:fixedString(bytes,base+4,64),
+      frameCount:view.getInt32(base+72,true),
+      shaderCount:view.getInt32(base+76,true),
+      vertexCount:view.getInt32(base+80,true),
+      triangleCount:view.getInt32(base+84,true),
+      triangleOffset:view.getInt32(base+88,true),
+      shaderOffset:view.getInt32(base+92,true),
+      uvOffset:view.getInt32(base+96,true),
+      vertexOffset:view.getInt32(base+100,true),
+      endOffset:view.getInt32(base+104,true),
+      shader:"",
+      triangles:[],
+      uvs:[],
+      frames:[]
+    };
+
+    if(surface.shaderCount>0){
+      surface.shader=fixedString(
+        bytes,
+        base+surface.shaderOffset,
+        64
+      );
+    }
+
+    for(
+      let triangle=0;
+      triangle<surface.triangleCount;
+      triangle++
+    ){
+      const offset=
+        base+
+        surface.triangleOffset+
+        triangle*12;
+
+      surface.triangles.push([
+        view.getInt32(offset,true),
+        view.getInt32(offset+4,true),
+        view.getInt32(offset+8,true)
+      ]);
+    }
+
+    for(
+      let vertex=0;
+      vertex<surface.vertexCount;
+      vertex++
+    ){
+      const offset=
+        base+
+        surface.uvOffset+
+        vertex*8;
+
+      surface.uvs.push([
+        view.getFloat32(offset,true),
+        view.getFloat32(offset+4,true)
+      ]);
+    }
+
+    for(let frame=0;frame<surface.frameCount;frame++){
+      const vertices=[];
+
+      for(
+        let vertex=0;
+        vertex<surface.vertexCount;
+        vertex++
+      ){
+        const offset=
+          base+
+          surface.vertexOffset+
+          (frame*surface.vertexCount+vertex)*8;
+
+        vertices.push({
+          xyz:[
+            view.getInt16(offset,true),
+            view.getInt16(offset+2,true),
+            view.getInt16(offset+4,true)
+          ],
+          normal:view.getUint16(offset+6,true)
+        });
+      }
+
+      surface.frames.push(vertices);
+    }
+
+    model.surfaces.push(surface);
+    base+=surface.endOffset;
+  }
+
+  return model;
+}
+
+function selectedSurfaceIndices(){
+  return state.enabledSurfaces
+    .map((enabled,index)=>({enabled,index}))
+    .filter(item=>item.enabled)
+    .map(item=>item.index);
+}
+
+function getSourceFrames(){
+  if(!state.model)return [];
+
+  if($("frameMode").value==="all"){
+    return Array.from(
+      {length:state.model.frameCount},
+      (_,index)=>index
+    );
+  }
+
+  const frame=Math.max(
+    0,
+    Math.min(
+      state.model.frameCount-1,
+      Number($("sourceFrame").value)||0
+    )
+  );
+
+  return [frame];
+}
+
+function getPivot(surfaceIndices){
+  if($("pivotMode").value==="origin"){
+    return [0,0,0];
+  }
+
+  const minimum=[Infinity,Infinity,Infinity];
+  const maximum=[-Infinity,-Infinity,-Infinity];
+  const sourceFrame=Math.max(
+    0,
+    Math.min(
+      state.model.frameCount-1,
+      Number($("sourceFrame").value)||0
+    )
+  );
+
+  let found=false;
+
+  for(const surfaceIndex of surfaceIndices){
+    const surface=state.model.surfaces[surfaceIndex];
+    const frame=Math.min(
+      sourceFrame,
+      surface.frames.length-1
+    );
+
+    for(const vertex of surface.frames[frame]){
+      found=true;
+
+      for(let axis=0;axis<3;axis++){
+        const value=vertex.xyz[axis]/64;
+
+        minimum[axis]=Math.min(
+          minimum[axis],
+          value
+        );
+
+        maximum[axis]=Math.max(
+          maximum[axis],
+          value
+        );
+      }
+    }
+  }
+
+  if(!found)return [0,0,0];
+
+  return [
+    (minimum[0]+maximum[0])/2,
+    (minimum[1]+maximum[1])/2,
+    (minimum[2]+maximum[2])/2
+  ];
+}
+
+function getTransform(){
+  const scale=Number($("scale").value);
+
+  if(!Number.isFinite(scale)||scale<=0){
+    throw new Error("Scale должен быть больше нуля.");
+  }
+
+  return {
+    scale,
+    offset:[
+      Number($("offsetX").value)||0,
+      Number($("offsetY").value)||0,
+      Number($("offsetZ").value)||0
+    ]
+  };
+}
+
+function transformPosition(position,pivot,transform){
+  return [
+    (position[0]-pivot[0])*transform.scale+
+      pivot[0]+transform.offset[0],
+
+    (position[1]-pivot[1])*transform.scale+
+      pivot[1]+transform.offset[1],
+
+    (position[2]-pivot[2])*transform.scale+
+      pivot[2]+transform.offset[2]
+  ];
+}
+
+function encodePosition(value){
+  const encoded=Math.round(value*64);
+
+  if(encoded<-32768||encoded>32767){
+    throw new Error(
+      "После масштабирования координата выходит "+
+      "за допустимый диапазон MD3."
+    );
+  }
+
+  return encoded;
+}
+
+function buildHeadModel(){
+  if(!state.model){
+    throw new Error("Сначала загрузите MD3.");
+  }
+
+  const surfaceIndices=selectedSurfaceIndices();
+
+  if(!surfaceIndices.length){
+    throw new Error("Выберите хотя бы одну surface.");
+  }
+
+  const sourceFrames=getSourceFrames();
+  const transform=getTransform();
+  const pivot=getPivot(surfaceIndices);
+
+  const surfaces=surfaceIndices.map(surfaceIndex=>{
+    const source=state.model.surfaces[surfaceIndex];
+
+    return {
+      name:source.name,
+      frameCount:sourceFrames.length,
+      shaderCount:1,
+      vertexCount:source.vertexCount,
+      triangleCount:source.triangleCount,
+      shader:source.shader||source.name,
+
+      triangles:source.triangles.map(
+        triangle=>triangle.slice()
+      ),
+
+      uvs:source.uvs.map(uv=>uv.slice()),
+
+      frames:sourceFrames.map(sourceFrame=>{
+        const frame=Math.min(
+          sourceFrame,
+          source.frames.length-1
+        );
+
+        return source.frames[frame].map(vertex=>{
+          const position=transformPosition(
+            vertex.xyz.map(value=>value/64),
+            pivot,
+            transform
+          );
+
+          return {
+            xyz:position.map(encodePosition),
+            normal:vertex.normal
+          };
+        });
+      })
+    };
+  });
+
+  const withTag=$("tagMode").value==="yes";
+
+  return {
+    name:safeName($("modelName").value,"head"),
+    frameCount:sourceFrames.length,
+    tagCount:withTag?1:0,
+    surfaceCount:surfaces.length,
+
+    frames:sourceFrames.map(sourceFrame=>({
+      name:
+        state.model.frames[sourceFrame]?.name||
+        `frame_${sourceFrame}`
+    })),
+
+    tags:sourceFrames.map(()=>withTag?[{
+      name:"tag_head",
+      origin:[0,0,0],
+      axes:[
+        [1,0,0],
+        [0,1,0],
+        [0,0,1]
+      ]
+    }]:[]),
+
+    surfaces
+  };
+}
+
+class Writer{
+  constructor(){
+    this.parts=[];
+    this.length=0;
+  }
+
+  bytes(value){
+    const bytes=value instanceof Uint8Array
+      ?value
+      :new Uint8Array(value);
+
+    this.parts.push(bytes);
+    this.length+=bytes.length;
+  }
+
+  raw(text){
+    this.bytes(
+      Uint8Array.from(
+        [...text].map(
+          character=>character.charCodeAt(0)&255
+        )
+      )
+    );
+  }
+
+  fixed(text,length){
+    const bytes=new Uint8Array(length);
+
+    for(
+      let index=0;
+      index<Math.min(text.length,length-1);
+      index++
+    ){
+      bytes[index]=text.charCodeAt(index)&255;
+    }
+
+    this.bytes(bytes);
+  }
+
+  i16(value){
+    const bytes=new Uint8Array(2);
+    new DataView(bytes.buffer).setInt16(0,value,true);
+    this.bytes(bytes);
+  }
+
+  u16(value){
+    const bytes=new Uint8Array(2);
+    new DataView(bytes.buffer).setUint16(0,value,true);
+    this.bytes(bytes);
+  }
+
+  u32(value){
+    const bytes=new Uint8Array(4);
+    new DataView(bytes.buffer).setUint32(0,value>>>0,true);
+    this.bytes(bytes);
+  }
+
+  f32(value){
+    const bytes=new Uint8Array(4);
+    new DataView(bytes.buffer).setFloat32(0,value,true);
+    this.bytes(bytes);
+  }
+
+  result(){
+    const output=new Uint8Array(this.length);
+    let offset=0;
+
+    for(const part of this.parts){
+      output.set(part,offset);
+      offset+=part.length;
+    }
+
+    return output;
+  }
+}
+
+function createSurfaceBytes(surface){
+  const triangleOffset=108;
+
+  const shaderOffset=
+    triangleOffset+
+    surface.triangleCount*12;
+
+  const uvOffset=
+    shaderOffset+68;
+
+  const vertexOffset=
+    uvOffset+
+    surface.vertexCount*8;
+
+  const endOffset=
+    vertexOffset+
+    surface.frameCount*
+    surface.vertexCount*
+    8;
+
+  const writer=new Writer();
+
+  writer.raw("IDP3");
+  writer.fixed(surface.name,64);
+  writer.u32(0);
+  writer.u32(surface.frameCount);
+  writer.u32(1);
+  writer.u32(surface.vertexCount);
+  writer.u32(surface.triangleCount);
+  writer.u32(triangleOffset);
+  writer.u32(shaderOffset);
+  writer.u32(uvOffset);
+  writer.u32(vertexOffset);
+  writer.u32(endOffset);
+
+  surface.triangles.forEach(triangle=>
+    triangle.forEach(index=>writer.u32(index))
+  );
+
+  writer.fixed(
+    surface.shader||surface.name,
+    64
+  );
+
+  writer.u32(0);
+
+  surface.uvs.forEach(uv=>{
+    writer.f32(uv[0]);
+    writer.f32(uv[1]);
+  });
+
+  surface.frames.forEach(frame=>
+    frame.forEach(vertex=>{
+      writer.i16(vertex.xyz[0]);
+      writer.i16(vertex.xyz[1]);
+      writer.i16(vertex.xyz[2]);
+      writer.u16(vertex.normal);
+    })
+  );
+
+  return writer.result();
+}
+
+function calculateBounds(model,frame){
+  const minimum=[Infinity,Infinity,Infinity];
+  const maximum=[-Infinity,-Infinity,-Infinity];
+  let radius=0;
+  let found=false;
+
+  for(const surface of model.surfaces){
+    for(const vertex of surface.frames[frame]){
+      found=true;
+      const point=vertex.xyz.map(value=>value/64);
+
+      for(let axis=0;axis<3;axis++){
+        minimum[axis]=Math.min(
+          minimum[axis],
+          point[axis]
+        );
+
+        maximum[axis]=Math.max(
+          maximum[axis],
+          point[axis]
+        );
+      }
+
+      radius=Math.max(
+        radius,
+        Math.hypot(...point)
+      );
+    }
+  }
+
+  return found
+    ?{minimum,maximum,radius}
+    :{
+      minimum:[0,0,0],
+      maximum:[0,0,0],
+      radius:0
+    };
+}
+
+function writeMD3(model){
+  const surfaceData=
+    model.surfaces.map(createSurfaceBytes);
+
+  const frameOffset=108;
+
+  const tagOffset=
+    frameOffset+
+    model.frameCount*56;
+
+  const surfaceOffset=
+    tagOffset+
+    model.frameCount*
+    model.tagCount*
+    112;
+
+  const endOffset=
+    surfaceOffset+
+    surfaceData.reduce(
+      (sum,data)=>sum+data.length,
+      0
+    );
+
+  const writer=new Writer();
+
+  writer.raw("IDP3");
+  writer.u32(15);
+  writer.fixed(model.name,64);
+  writer.u32(0);
+  writer.u32(model.frameCount);
+  writer.u32(model.tagCount);
+  writer.u32(model.surfaceCount);
+  writer.u32(0);
+  writer.u32(frameOffset);
+  writer.u32(tagOffset);
+  writer.u32(surfaceOffset);
+  writer.u32(endOffset);
+
+  for(let frame=0;frame<model.frameCount;frame++){
+    const bounds=calculateBounds(model,frame);
+
+    bounds.minimum.forEach(
+      value=>writer.f32(value)
+    );
+
+    bounds.maximum.forEach(
+      value=>writer.f32(value)
+    );
+
+    writer.f32(0);
+    writer.f32(0);
+    writer.f32(0);
+    writer.f32(bounds.radius);
+
+    writer.fixed(
+      model.frames[frame]?.name||
+      `frame_${frame}`,
+      16
+    );
+  }
+
+  model.tags.forEach(tags=>
+    tags.forEach(tag=>{
+      writer.fixed(tag.name,64);
+
+      tag.origin.forEach(
+        value=>writer.f32(value)
+      );
+
+      tag.axes.forEach(axis=>
+        axis.forEach(
+          value=>writer.f32(value)
+        )
+      );
+    })
+  );
+
+  surfaceData.forEach(
+    data=>writer.bytes(data)
+  );
+
+  return writer.result();
+}
+
+function renderSurfaceList(){
+  const container=$("surfaceList");
+
+  if(!state.model){
+    container.innerHTML=
+      '<p class="muted">Модель не загружена.</p>';
+
+    return;
+  }
+
+  container.innerHTML=
+    state.model.surfaces.map((surface,index)=>`
+      <label class="surface">
+        <input
+          type="checkbox"
+          class="surface-check"
+          data-index="${index}"
+          ${state.enabledSurfaces[index]?"checked":""}
+        >
+
+        <span>
+          <b>${escapeHTML(surface.name)}</b><br>
+          <span class="muted">
+            ${surface.vertexCount} вершин,
+            ${surface.triangleCount} треугольников
+          </span>
+        </span>
+      </label>
+    `).join("");
+
+  document.querySelectorAll(
+    ".surface-check"
+  ).forEach(input=>{
+    input.onchange=()=>{
+      state.enabledSurfaces[
+        Number(input.dataset.index)
+      ]=input.checked;
+
+      updateInterface();
+      drawPreview();
+    };
+  });
+}
+
+function resizeCanvas(){
+  const canvas=$("preview");
+  const ratio=Math.min(
+    2,
+    window.devicePixelRatio||1
+  );
+
+  const width=Math.max(
+    1,
+    Math.round(canvas.clientWidth*ratio)
+  );
+
+  const height=Math.max(
+    1,
+    Math.round(canvas.clientHeight*ratio)
+  );
+
+  if(
+    canvas.width!==width||
+    canvas.height!==height
+  ){
+    canvas.width=width;
+    canvas.height=height;
+  }
+
+  return ratio;
+}
+
+function drawPreview(){
+  const canvas=$("preview");
+  const context=canvas.getContext("2d");
+  const ratio=resizeCanvas();
+
+  context.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  context.fillStyle="#0b1015";
+
+  context.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  if(!state.model){
+    context.fillStyle="#98a5b5";
+    context.textAlign="center";
+    context.font=`${14*ratio}px system-ui`;
+
+    context.fillText(
+      "Загрузите MD3",
+      canvas.width/2,
+      canvas.height/2
+    );
+
+    return;
+  }
+
+  const indices=selectedSurfaceIndices();
+
+  if(!indices.length){
+    context.fillStyle="#98a5b5";
+    context.textAlign="center";
+    context.font=`${14*ratio}px system-ui`;
+
+    context.fillText(
+      "Выберите поверхности",
+      canvas.width/2,
+      canvas.height/2
+    );
+
+    return;
+  }
+
+  let transform;
+
+  try{
+    transform=getTransform();
+  }catch{
+    return;
+  }
+
+  const sourceFrame=Math.max(
+    0,
+    Math.min(
+      state.model.frameCount-1,
+      Number($("frameSlider").value)||0
+    )
+  );
+
+  $("frameLabel").textContent=String(sourceFrame);
+
+  const pivot=getPivot(indices);
+  const points=[];
+  const polygons=[];
+
+  const colors=[
+    "#51a8ff","#4fd199","#e9bd61",
+    "#e879f9","#f97316","#22d3ee"
+  ];
+
+  for(const surfaceIndex of indices){
+    const surface=
+      state.model.surfaces[surfaceIndex];
+
+    const frame=Math.min(
+      sourceFrame,
+      surface.frames.length-1
+    );
+
+    const transformed=
+      surface.frames[frame].map(vertex=>{
+        const position=transformPosition(
+          vertex.xyz.map(value=>value/64),
+          pivot,
+          transform
+        );
+
+        points.push(position);
+        return position;
+      });
+
+    surface.triangles.forEach(triangle=>{
+      polygons.push({
+        points:triangle.map(
+          index=>transformed[index]
+        ),
+        color:
+          colors[
+            surfaceIndex%colors.length
+          ]
+      });
+    });
+  }
+
+  const minimum=[Infinity,Infinity,Infinity];
+  const maximum=[-Infinity,-Infinity,-Infinity];
+
+  for(const point of points){
+    for(let axis=0;axis<3;axis++){
+      minimum[axis]=Math.min(
+        minimum[axis],
+        point[axis]
+      );
+
+      maximum[axis]=Math.max(
+        maximum[axis],
+        point[axis]
+      );
+    }
+  }
+
+  const center=[
+    (minimum[0]+maximum[0])/2,
+    (minimum[1]+maximum[1])/2,
+    (minimum[2]+maximum[2])/2
+  ];
+
+  const extent=Math.max(
+    maximum[0]-minimum[0],
+    maximum[1]-minimum[1],
+    maximum[2]-minimum[2],
+    .01
+  );
+
+  const scale=
+    Math.min(canvas.width,canvas.height)*
+    .72/extent*
+    state.camera.zoom;
+
+  const cy=Math.cos(state.camera.yaw);
+  const sy=Math.sin(state.camera.yaw);
+  const cp=Math.cos(state.camera.pitch);
+  const sp=Math.sin(state.camera.pitch);
+
+  function project(point){
+    const x=point[0]-center[0];
+    const y=point[1]-center[1];
+    const z=point[2]-center[2];
+
+    const x1=x*cy-y*sy;
+    const y1=x*sy+y*cy;
+    const y2=y1*cp-z*sp;
+    const z2=y1*sp+z*cp;
+
+    return {
+      x:canvas.width/2+x1*scale,
+      y:canvas.height/2-z2*scale,
+      depth:y2
+    };
+  }
+
+  const projected=polygons.map(polygon=>{
+    const projectedPoints=
+      polygon.points.map(project);
+
+    return {
+      points:projectedPoints,
+      color:polygon.color,
+      depth:
+        (
+          projectedPoints[0].depth+
+          projectedPoints[1].depth+
+          projectedPoints[2].depth
+        )/3
+    };
+  });
+
+  projected.sort(
+    (first,second)=>
+      first.depth-second.depth
+  );
+
+  for(const polygon of projected){
+    context.beginPath();
+
+    context.moveTo(
+      polygon.points[0].x,
+      polygon.points[0].y
+    );
+
+    context.lineTo(
+      polygon.points[1].x,
+      polygon.points[1].y
+    );
+
+    context.lineTo(
+      polygon.points[2].x,
+      polygon.points[2].y
+    );
+
+    context.closePath();
+
+    context.globalAlpha=.28;
+    context.fillStyle=polygon.color;
+    context.fill();
+
+    context.globalAlpha=.65;
+    context.lineWidth=Math.max(
+      1,
+      ratio*.55
+    );
+
+    context.strokeStyle=polygon.color;
+    context.stroke();
+  }
+
+  context.globalAlpha=1;
+
+  $("previewInfo").textContent=
+    `Scale: ${transform.scale}\n`+
+    `Pivot: ${pivot.map(value=>value.toFixed(2)).join(", ")}\n`+
+    `Выбрано surfaces: ${indices.length}`;
+}
+
+function updateInterface(){
+  const loaded=Boolean(state.model);
+  const selected=selectedSurfaceIndices().length>0;
+
+  $("selectAll").disabled=!loaded;
+  $("selectNone").disabled=!loaded;
+  $("hidePreset").disabled=!loaded;
+  $("resetTransform").disabled=!loaded;
+  $("downloadButton").disabled=!loaded||!selected;
+}
+
+async function loadModel(){
+  const file=$("modelFile").files[0];
+
+  if(!file){
+    alert("Выберите MD3.");
+    return;
+  }
+
+  try{
+    const model=parseMD3(
+      await file.arrayBuffer()
+    );
+
+    state.file=file;
+    state.model=model;
+    state.enabledSurfaces=
+      model.surfaces.map(()=>true);
+
+    $("modelName").value="head";
+    $("sourceFrame").max=
+      model.frameCount-1;
+
+    $("sourceFrame").value=0;
+    $("frameSlider").max=
+      model.frameCount-1;
+
+    $("frameSlider").value=0;
+
+    $("fileInfo").textContent=
+      `${file.name}\n`+
+      `Кадров: ${model.frameCount}\n`+
+      `Surfaces: ${model.surfaceCount}\n`+
+      `Исходных tags: ${model.tagCount}`;
+
+    renderSurfaceList();
+    updateInterface();
+    drawPreview();
+
+    log(`Загружен ${file.name}`);
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА: ${error.message}`);
+  }
+}
+
+function downloadHead(){
+  try{
+    const model=buildHeadModel();
+    const data=writeMD3(model);
+    const blob=new Blob(
+      [data],
+      {type:"application/octet-stream"}
+    );
+
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+
+    link.href=url;
+    link.download="head.md3";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(
+      ()=>URL.revokeObjectURL(url),
+      2000
+    );
+
+    log(
+      `Создан head.md3: `+
+      `${model.frameCount} кадров, `+
+      `${model.surfaceCount} surfaces`
+    );
+  }catch(error){
+    alert(error.message);
+    log(`ОШИБКА ЭКСПОРТА: ${error.message}`);
+  }
+}
+
+$("loadButton").onclick=loadModel;
+$("downloadButton").onclick=downloadHead;
+
+$("selectAll").onclick=()=>{
+  state.enabledSurfaces=
+    state.enabledSurfaces.map(()=>true);
+
+  renderSurfaceList();
+  updateInterface();
+  drawPreview();
+};
+
+$("selectNone").onclick=()=>{
+  state.enabledSurfaces=
+    state.enabledSurfaces.map(()=>false);
+
+  renderSurfaceList();
+  updateInterface();
+  drawPreview();
+};
+
+$("hidePreset").onclick=()=>{
+  $("scale").value=".05";
+  drawPreview();
+};
+
+$("resetTransform").onclick=()=>{
+  $("scale").value="1";
+  $("offsetX").value="0";
+  $("offsetY").value="0";
+  $("offsetZ").value="0";
+  $("pivotMode").value="center";
+  drawPreview();
+};
+
+[
+  "scale",
+  "offsetX",
+  "offsetY",
+  "offsetZ",
+  "pivotMode",
+  "sourceFrame",
+  "frameMode"
+].forEach(id=>{
+  $(id).addEventListener(
+    "input",
+    drawPreview
+  );
+});
+
+$("sourceFrame").addEventListener(
+  "input",
+  ()=>{
+    $("frameSlider").value=
+      $("sourceFrame").value;
+
+    drawPreview();
+  }
+);
+
+$("frameSlider").oninput=()=>{
+  $("sourceFrame").value=
+    $("frameSlider").value;
+
+  drawPreview();
+};
+
+$("resetCamera").onclick=()=>{
+  state.camera.yaw=-.7;
+  state.camera.pitch=-.25;
+  state.camera.zoom=1;
+  drawPreview();
+};
+
+const canvas=$("preview");
+
+canvas.addEventListener(
+  "pointerdown",
+  event=>{
+    state.camera.dragging=true;
+    state.camera.lastX=event.clientX;
+    state.camera.lastY=event.clientY;
+
+    canvas.setPointerCapture(
+      event.pointerId
+    );
+  }
+);
+
+canvas.addEventListener(
+  "pointermove",
+  event=>{
+    if(!state.camera.dragging)return;
+
+    const dx=
+      event.clientX-
+      state.camera.lastX;
+
+    const dy=
+      event.clientY-
+      state.camera.lastY;
+
+    state.camera.lastX=event.clientX;
+    state.camera.lastY=event.clientY;
+
+    state.camera.yaw+=dx*.01;
+    state.camera.pitch+=dy*.01;
+
+    state.camera.pitch=Math.max(
+      -Math.PI/2,
+      Math.min(
+        Math.PI/2,
+        state.camera.pitch
+      )
+    );
+
+    drawPreview();
+  }
+);
+
+canvas.addEventListener(
+  "pointerup",
+  event=>{
+    state.camera.dragging=false;
+
+    if(
+      canvas.hasPointerCapture(
+        event.pointerId
+      )
+    ){
+      canvas.releasePointerCapture(
+        event.pointerId
+      );
+    }
+  }
+);
+
+canvas.addEventListener(
+  "wheel",
+  event=>{
+    event.preventDefault();
+
+    state.camera.zoom*=
+      Math.exp(-event.deltaY*.001);
+
+    state.camera.zoom=Math.max(
+      .1,
+      Math.min(10,state.camera.zoom)
+    );
+
+    drawPreview();
+  },
+  {passive:false}
+);
+
+window.addEventListener(
+  "resize",
+  drawPreview
+);
+
+renderSurfaceList();
+updateInterface();
+drawPreview();
+</script>
+</body>
+</html>

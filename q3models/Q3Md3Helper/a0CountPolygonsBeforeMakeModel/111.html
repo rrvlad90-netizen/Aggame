@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MD3 Triangle Editor</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: #ddd;
+      background: #151515;
+      font: 14px system-ui, sans-serif;
+    }
+
+    #toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 12px;
+      background: #242424;
+    }
+
+    button, select, input {
+      padding: 7px 10px;
+      color: #eee;
+      background: #353535;
+      border: 1px solid #666;
+      border-radius: 4px;
+    }
+
+    button { cursor: pointer; }
+    button:disabled { opacity: .45; cursor: default; }
+
+    #fileInput { max-width: 220px; }
+    #frame { width: 220px; }
+
+    #status {
+      padding: 10px 14px;
+      background: #1d1d1d;
+      white-space: pre-wrap;
+    }
+
+    #viewer {
+      display: block;
+      width: 100vw;
+      height: calc(100vh - 125px);
+    }
+
+    .ok { color: #75dc88; }
+    .bad { color: #ff7777; }
+  </style>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <div id="toolbar">
+    <input id="fileInput" type="file" accept=".md3">
+
+    <select id="surfaceSelect" disabled></select>
+
+    <button id="playButton" disabled>▶ Анимация</button>
+
+    <label>
+      Кадр:
+      <input id="frame" type="range" min="0" max="0" value="0" disabled>
+      <span id="frameNumber">0</span>
+    </label>
+
+    <label>
+      FPS:
+      <input id="fps" type="number" min="1" max="60" value="15">
+    </label>
+
+    <button id="deleteButton" disabled>Удалить выбранные</button>
+    <button id="undoButton" disabled>Отмена</button>
+    <button id="clearButton" disabled>Снять выделение</button>
+    <button id="resetButton" disabled>Вернуть оригинал</button>
+    <button id="saveButton" disabled>Скачать MD3</button>
+  </div>
+
+  <div id="status">
+    Загрузи распакованный lower.md3, upper.md3 или head.md3.
+    Двойной клик по треугольнику — выделение.
+  </div>
+
+  <canvas id="viewer"></canvas>
+
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from
+      "three/addons/controls/OrbitControls.js";
+
+    const MAX_VERTICES = 1000;
+    const MAX_TRIANGLES = 2000;
+
+    const ui = {
+      file: document.querySelector("#fileInput"),
+      surface: document.querySelector("#surfaceSelect"),
+      play: document.querySelector("#playButton"),
+      frame: document.querySelector("#frame"),
+      frameNumber: document.querySelector("#frameNumber"),
+      fps: document.querySelector("#fps"),
+      remove: document.querySelector("#deleteButton"),
+      undo: document.querySelector("#undoButton"),
+      clear: document.querySelector("#clearButton"),
+      reset: document.querySelector("#resetButton"),
+      save: document.querySelector("#saveButton"),
+      status: document.querySelector("#status"),
+      canvas: document.querySelector("#viewer")
+    };
+
+    let sourceFileName = "";
+    let model = null;
+    let surface = null;
+    let mesh = null;
+    let selectionMesh = null;
+    let activeTriangleIds = [];
+    let playing = false;
+    let lastFrameTime = 0;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x171717);
+
+    const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100000);
+    camera.position.set(100, 80, 100);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: ui.canvas,
+      antialias: true
+    });
+
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    scene.add(new THREE.GridHelper(500, 20, 0x555555, 0x333333));
+    scene.add(new THREE.AxesHelper(50));
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    ui.file.addEventListener("change", loadFile);
+    ui.surface.addEventListener("change", selectSurface);
+    ui.frame.addEventListener("input", changeFrame);
+    ui.play.addEventListener("click", toggleAnimation);
+    ui.remove.addEventListener("click", deleteSelected);
+    ui.undo.addEventListener("click", undo);
+    ui.clear.addEventListener("click", clearSelection);
+    ui.reset.addEventListener("click", resetSurface);
+    ui.save.addEventListener("click", saveMD3);
+    ui.canvas.addEventListener("dblclick", selectTriangle);
+    window.addEventListener("resize", resize);
+
+    function i32(view, offset) {
+      checkRange(view, offset, 4);
+      return view.getInt32(offset, true);
+    }
+
+    function readString(view, offset, length) {
+      checkRange(view, offset, length);
+
+      const bytes = new Uint8Array(
+        view.buffer,
+        view.byteOffset + offset,
+        length
+      );
+
+      const zero = bytes.indexOf(0);
+      return new TextDecoder("ascii").decode(
+        zero < 0 ? bytes : bytes.subarray(0, zero)
+      );
+    }
+
+    function checkRange(view, offset, size) {
+      if (offset < 0 || offset + size > view.byteLength) {
+        throw new Error(`Повреждён MD3: смещение ${offset}`);
+      }
+    }
+
+    function parseMD3(buffer) {
+      const view = new DataView(buffer);
+
+      if (view.byteLength < 108 || readString(view, 0, 4) !== "IDP3") {
+        throw new Error("Это не MD3-файл");
+      }
+
+      if (i32(view, 4) !== 15) {
+        throw new Error(`Неподдерживаемая версия MD3: ${i32(view, 4)}`);
+      }
+
+      const parsed = {
+        buffer,
+        name: readString(view, 8, 64),
+        frameCount: i32(view, 76),
+        tagCount: i32(view, 80),
+        surfaceCount: i32(view, 84),
+        surfacesOffset: i32(view, 100),
+        surfaces: []
+      };
+
+      parsed.prefix = new Uint8Array(
+        buffer.slice(0, parsed.surfacesOffset)
+      );
+
+      let base = parsed.surfacesOffset;
+
+      for (let index = 0; index < parsed.surfaceCount; index++) {
+        checkRange(view, base, 108);
+
+        if (readString(view, base, 4) !== "IDP3") {
+          throw new Error(`Повреждена поверхность ${index}`);
+        }
+
+        const frameCount = i32(view, base + 72);
+        const shaderCount = i32(view, base + 76);
+        const vertexCount = i32(view, base + 80);
+        const triangleCount = i32(view, base + 84);
+
+        const trianglesOffset = i32(view, base + 88);
+        const shadersOffset = i32(view, base + 92);
+        const stOffset = i32(view, base + 96);
+        const xyzOffset = i32(view, base + 100);
+        const surfaceSize = i32(view, base + 104);
+
+        checkRange(view, base, surfaceSize);
+
+        const item = {
+          name: readString(view, base + 4, 64),
+          header: new Uint8Array(buffer.slice(base, base + 108)),
+          frameCount,
+          shaderCount,
+          vertexCount,
+          triangleCount,
+          triangles: new Int32Array(triangleCount * 3),
+          uv: new Float32Array(vertexCount * 2),
+          frames: [],
+          deleted: new Set(),
+          selected: new Set(),
+          history: []
+        };
+
+        for (let i = 0; i < item.triangles.length; i++) {
+          item.triangles[i] = i32(
+            view,
+            base + trianglesOffset + i * 4
+          );
+        }
+
+        item.shaderBytes = new Uint8Array(buffer.slice(
+          base + shadersOffset,
+          base + shadersOffset + shaderCount * 68
+        ));
+
+        for (let i = 0; i < vertexCount; i++) {
+          const offset = base + stOffset + i * 8;
+          item.uv[i * 2] = view.getFloat32(offset, true);
+          item.uv[i * 2 + 1] = view.getFloat32(offset + 4, true);
+        }
+
+        for (let frame = 0; frame < frameCount; frame++) {
+          const xyz = new Int16Array(vertexCount * 3);
+          const normals = new Uint16Array(vertexCount);
+
+          for (let vertex = 0; vertex < vertexCount; vertex++) {
+            const offset =
+              base + xyzOffset +
+              (frame * vertexCount + vertex) * 8;
+
+            xyz[vertex * 3] = view.getInt16(offset, true);
+            xyz[vertex * 3 + 1] = view.getInt16(offset + 2, true);
+            xyz[vertex * 3 + 2] = view.getInt16(offset + 4, true);
+            normals[vertex] = view.getUint16(offset + 6, true);
+          }
+
+          item.frames.push({ xyz, normals });
+        }
+
+        parsed.surfaces.push(item);
+        base += surfaceSize;
+      }
+
+      return parsed;
+    }
+
+    async function loadFile() {
+      const file = ui.file.files[0];
+      if (!file) return;
+
+      try {
+        sourceFileName = file.name;
+        model = parseMD3(await file.arrayBuffer());
+
+        ui.surface.innerHTML = "";
+
+        model.surfaces.forEach((item, index) => {
+          const option = document.createElement("option");
+          option.value = index;
+          option.textContent =
+            `${item.name}: ${item.vertexCount} вершин, ` +
+            `${item.triangleCount} треугольников`;
+
+          ui.surface.appendChild(option);
+        });
+
+        setEnabled(true);
+        ui.surface.value = "0";
+        selectSurface();
+      } catch (error) {
+        model = null;
+        setEnabled(false);
+        ui.status.textContent = error.message;
+      }
+    }
+
+    function setEnabled(enabled) {
+      for (const element of [
+        ui.surface, ui.play, ui.frame, ui.remove,
+        ui.clear, ui.reset, ui.save
+      ]) {
+        element.disabled = !enabled;
+      }
+    }
+
+    function selectSurface() {
+      if (!model) return;
+
+      surface = model.surfaces[Number(ui.surface.value)];
+      ui.frame.max = Math.max(0, surface.frameCount - 1);
+      ui.frame.value = "0";
+      ui.frameNumber.textContent = "0";
+
+      buildMesh();
+      fitCamera();
+      updateStatus();
+    }
+
+    function transformedPosition(frame, vertex, target, offset) {
+      const xyz = surface.frames[frame].xyz;
+
+      const x = xyz[vertex * 3] / 64;
+      const y = xyz[vertex * 3 + 1] / 64;
+      const z = xyz[vertex * 3 + 2] / 64;
+
+      // MD3 Z-up преобразуется в Three.js Y-up.
+      target[offset] = x;
+      target[offset + 1] = z;
+      target[offset + 2] = -y;
+    }
+
+    function createPositionArray(frame) {
+      const positions = new Float32Array(surface.vertexCount * 3);
+
+      for (let vertex = 0; vertex < surface.vertexCount; vertex++) {
+        transformedPosition(frame, vertex, positions, vertex * 3);
+      }
+
+      return positions;
+    }
+
+    function buildMesh() {
+      disposeMesh(mesh);
+      mesh = null;
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(
+          createPositionArray(Number(ui.frame.value)),
+          3
+        )
+      );
+
+      activeTriangleIds = [];
+
+      for (let triangle = 0; triangle < surface.triangleCount; triangle++) {
+        if (!surface.deleted.has(triangle)) {
+          activeTriangleIds.push(triangle);
+        }
+      }
+
+      const indices = new Uint32Array(activeTriangleIds.length * 3);
+
+      activeTriangleIds.forEach((triangle, outputIndex) => {
+        indices[outputIndex * 3] =
+          surface.triangles[triangle * 3];
+
+        indices[outputIndex * 3 + 1] =
+          surface.triangles[triangle * 3 + 1];
+
+        indices[outputIndex * 3 + 2] =
+          surface.triangles[triangle * 3 + 2];
+      });
+
+      geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+      geometry.computeVertexNormals();
+      geometry.computeBoundingBox();
+      geometry.computeBoundingSphere();
+
+      mesh = new THREE.Mesh(
+        geometry,
+        new THREE.MeshNormalMaterial({
+          side: THREE.DoubleSide,
+          flatShading: false
+        })
+      );
+
+      scene.add(mesh);
+      updateSelectionMesh();
+    }
+
+    function updateFrameGeometry() {
+      if (!mesh || !surface) return;
+
+      const positions = mesh.geometry.attributes.position.array;
+      const frame = Number(ui.frame.value);
+
+      for (let vertex = 0; vertex < surface.vertexCount; vertex++) {
+        transformedPosition(frame, vertex, positions, vertex * 3);
+      }
+
+      mesh.geometry.attributes.position.needsUpdate = true;
+      mesh.geometry.computeVertexNormals();
+      mesh.geometry.computeBoundingBox();
+      mesh.geometry.computeBoundingSphere();
+
+      updateSelectionMesh();
+    }
+
+    function selectTriangle(event) {
+      if (!mesh || !surface) return;
+
+      const rect = ui.canvas.getBoundingClientRect();
+
+      mouse.x =
+        ((event.clientX - rect.left) / rect.width) * 2 - 1;
+
+      mouse.y =
+        -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+
+      const hit = raycaster.intersectObject(mesh, false)[0];
+
+      if (!hit || hit.faceIndex == null) return;
+
+      const triangleId = activeTriangleIds[hit.faceIndex];
+
+      if (surface.selected.has(triangleId)) {
+        surface.selected.delete(triangleId);
+      } else {
+        surface.selected.add(triangleId);
+      }
+
+      updateSelectionMesh();
+      updateStatus();
+    }
+
+    function updateSelectionMesh() {
+      disposeMesh(selectionMesh);
+      selectionMesh = null;
+
+      if (!surface || surface.selected.size === 0) return;
+
+      const frame = Number(ui.frame.value);
+      const values = [];
+
+      for (const triangle of surface.selected) {
+        if (surface.deleted.has(triangle)) continue;
+
+        for (let corner = 0; corner < 3; corner++) {
+          const vertex = surface.triangles[triangle * 3 + corner];
+          const point = new Float32Array(3);
+
+          transformedPosition(frame, vertex, point, 0);
+          values.push(point[0], point[1], point[2]);
+        }
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute(
+        "position",
+        new THREE.Float32BufferAttribute(values, 3)
+      );
+
+      selectionMesh = new THREE.Mesh(
+        geometry,
+        new THREE.MeshBasicMaterial({
+          color: 0xff2020,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.85,
+          depthTest: false
+        })
+      );
+
+      selectionMesh.renderOrder = 1000;
+      scene.add(selectionMesh);
+    }
+
+    function deleteSelected() {
+      if (!surface || surface.selected.size === 0) return;
+
+      surface.history.push(new Set(surface.deleted));
+
+      for (const triangle of surface.selected) {
+        surface.deleted.add(triangle);
+      }
+
+      surface.selected.clear();
+      buildMesh();
+      updateStatus();
+    }
+
+    function undo() {
+      if (!surface || surface.history.length === 0) return;
+
+      surface.deleted = surface.history.pop();
+      surface.selected.clear();
+
+      buildMesh();
+      updateStatus();
+    }
+
+    function clearSelection() {
+      if (!surface) return;
+
+      surface.selected.clear();
+      updateSelectionMesh();
+      updateStatus();
+    }
+
+    function resetSurface() {
+      if (!surface) return;
+
+      surface.deleted.clear();
+      surface.selected.clear();
+      surface.history.length = 0;
+
+      buildMesh();
+      updateStatus();
+    }
+
+    function getSurfaceStats(item) {
+      const usedVertices = new Set();
+      let triangles = 0;
+
+      for (let triangle = 0; triangle < item.triangleCount; triangle++) {
+        if (item.deleted.has(triangle)) continue;
+
+        triangles++;
+
+        usedVertices.add(item.triangles[triangle * 3]);
+        usedVertices.add(item.triangles[triangle * 3 + 1]);
+        usedVertices.add(item.triangles[triangle * 3 + 2]);
+      }
+
+      return {
+        vertices: usedVertices.size,
+        triangles,
+        valid:
+          usedVertices.size <= MAX_VERTICES &&
+          triangles <= MAX_TRIANGLES
+      };
+    }
+
+    function updateStatus() {
+      if (!surface) return;
+
+      const stats = getSurfaceStats(surface);
+      const excessVertices = Math.max(0, stats.vertices - MAX_VERTICES);
+      const excessTriangles = Math.max(0, stats.triangles - MAX_TRIANGLES);
+
+      ui.status.innerHTML =
+        `Поверхность: <b>${surface.name}</b>\n` +
+        `Используемых вершин: ` +
+        `<span class="${stats.vertices <= MAX_VERTICES ? "ok" : "bad"}">` +
+        `${stats.vertices} / ${MAX_VERTICES}</span>\n` +
+        `Треугольников: ` +
+        `<span class="${stats.triangles <= MAX_TRIANGLES ? "ok" : "bad"}">` +
+        `${stats.triangles} / ${MAX_TRIANGLES}</span>\n` +
+        `Выбрано: ${surface.selected.size}\n` +
+        `Удалено: ${surface.deleted.size}\n` +
+        (excessVertices
+          ? `<span class="bad">Нужно убрать ещё минимум ` +
+            `${excessVertices} используемых вершин.</span>\n`
+          : "") +
+        (excessTriangles
+          ? `<span class="bad">Нужно убрать ещё ` +
+            `${excessTriangles} треугольников.</span>\n`
+          : "") +
+        `<b class="${stats.valid ? "ok" : "bad"}">` +
+        `${stats.valid ? "Лимиты Quake 3 соблюдены" : "Лимиты превышены"}` +
+        `</b>`;
+
+      ui.remove.disabled = surface.selected.size === 0;
+      ui.undo.disabled = surface.history.length === 0;
+    }
+
+    function changeFrame() {
+      ui.frameNumber.textContent = ui.frame.value;
+      updateFrameGeometry();
+    }
+
+    function toggleAnimation() {
+      playing = !playing;
+      ui.play.textContent = playing ? "⏸ Стоп" : "▶ Анимация";
+      lastFrameTime = 0;
+    }
+
+    function buildSurfaceData(item) {
+      const active = [];
+      const used = new Set();
+
+      for (let triangle = 0; triangle < item.triangleCount; triangle++) {
+        if (item.deleted.has(triangle)) continue;
+
+        active.push(triangle);
+        used.add(item.triangles[triangle * 3]);
+        used.add(item.triangles[triangle * 3 + 1]);
+        used.add(item.triangles[triangle * 3 + 2]);
+      }
+
+      if (active.length === 0) {
+        throw new Error(`В поверхности "${item.name}" не осталось треугольников`);
+      }
+
+      const oldVertices = [...used].sort((a, b) => a - b);
+      const remap = new Map();
+
+      oldVertices.forEach((oldIndex, newIndex) => {
+        remap.set(oldIndex, newIndex);
+      });
+
+      const vertexCount = oldVertices.length;
+      const triangleCount = active.length;
+
+      if (vertexCount > MAX_VERTICES) {
+        throw new Error(
+          `${item.name}: осталось ${vertexCount} вершин, максимум 1000`
+        );
+      }
+
+      if (triangleCount > MAX_TRIANGLES) {
+        throw new Error(
+          `${item.name}: осталось ${triangleCount} треугольников, максимум 2000`
+        );
+      }
+
+      const trianglesOffset = 108;
+      const shadersOffset = trianglesOffset + triangleCount * 12;
+      const stOffset = shadersOffset + item.shaderCount * 68;
+      const xyzOffset = stOffset + vertexCount * 8;
+      const endOffset =
+        xyzOffset + item.frameCount * vertexCount * 8;
+
+      const bytes = new Uint8Array(endOffset);
+      bytes.set(item.header, 0);
+
+      const view = new DataView(bytes.buffer);
+
+      view.setInt32(72, item.frameCount, true);
+      view.setInt32(76, item.shaderCount, true);
+      view.setInt32(80, vertexCount, true);
+      view.setInt32(84, triangleCount, true);
+      view.setInt32(88, trianglesOffset, true);
+      view.setInt32(92, shadersOffset, true);
+      view.setInt32(96, stOffset, true);
+      view.setInt32(100, xyzOffset, true);
+      view.setInt32(104, endOffset, true);
+
+      active.forEach((triangle, outputTriangle) => {
+        for (let corner = 0; corner < 3; corner++) {
+          const oldVertex = item.triangles[triangle * 3 + corner];
+          const newVertex = remap.get(oldVertex);
+
+          view.setInt32(
+            trianglesOffset + (outputTriangle * 3 + corner) * 4,
+            newVertex,
+            true
+          );
+        }
+      });
+
+      bytes.set(item.shaderBytes, shadersOffset);
+
+      oldVertices.forEach((oldVertex, newVertex) => {
+        view.setFloat32(
+          stOffset + newVertex * 8,
+          item.uv[oldVertex * 2],
+          true
+        );
+
+        view.setFloat32(
+          stOffset + newVertex * 8 + 4,
+          item.uv[oldVertex * 2 + 1],
+          true
+        );
+      });
+
+      for (let frame = 0; frame < item.frameCount; frame++) {
+        oldVertices.forEach((oldVertex, newVertex) => {
+          const offset =
+            xyzOffset + (frame * vertexCount + newVertex) * 8;
+
+          view.setInt16(
+            offset,
+            item.frames[frame].xyz[oldVertex * 3],
+            true
+          );
+
+          view.setInt16(
+            offset + 2,
+            item.frames[frame].xyz[oldVertex * 3 + 1],
+            true
+          );
+
+          view.setInt16(
+            offset + 4,
+            item.frames[frame].xyz[oldVertex * 3 + 2],
+            true
+          );
+
+          view.setUint16(
+            offset + 6,
+            item.frames[frame].normals[oldVertex],
+            true
+          );
+        });
+      }
+
+      return bytes;
+    }
+
+    function saveMD3() {
+      if (!model) return;
+
+      try {
+        const surfaces = model.surfaces.map(buildSurfaceData);
+        const totalSize =
+          model.prefix.length +
+          surfaces.reduce((sum, bytes) => sum + bytes.length, 0);
+
+        const output = new Uint8Array(totalSize);
+        output.set(model.prefix, 0);
+
+        let offset = model.prefix.length;
+
+        for (const bytes of surfaces) {
+          output.set(bytes, offset);
+          offset += bytes.length;
+        }
+
+        new DataView(output.buffer).setInt32(104, totalSize, true);
+
+        const blob = new Blob([output], {
+          type: "application/octet-stream"
+        });
+
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = sourceFileName.replace(/\.md3$/i, "") + "_edited.md3";
+        link.click();
+
+        setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+    function fitCamera() {
+      if (!mesh) return;
+
+      const box = new THREE.Box3().setFromObject(mesh);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3()).length() || 100;
+
+      controls.target.copy(center);
+      camera.position.set(
+        center.x + size,
+        center.y + size * 0.6,
+        center.z + size
+      );
+
+      camera.near = Math.max(0.01, size / 1000);
+      camera.far = Math.max(1000, size * 20);
+      camera.updateProjectionMatrix();
+      controls.update();
+    }
+
+    function disposeMesh(object) {
+      if (!object) return;
+
+      scene.remove(object);
+      object.geometry?.dispose();
+      object.material?.dispose();
+    }
+
+    function resize() {
+      const width = ui.canvas.clientWidth;
+      const height = ui.canvas.clientHeight;
+
+      renderer.setSize(width, height, false);
+      camera.aspect = width / Math.max(1, height);
+      camera.updateProjectionMatrix();
+    }
+
+    function animate(time) {
+      requestAnimationFrame(animate);
+
+      if (playing && surface) {
+        const fps = Math.max(1, Number(ui.fps.value) || 15);
+        const interval = 1000 / fps;
+
+        if (!lastFrameTime || time - lastFrameTime >= interval) {
+          const next =
+            (Number(ui.frame.value) + 1) % surface.frameCount;
+
+          ui.frame.value = next;
+          ui.frameNumber.textContent = next;
+          updateFrameGeometry();
+          lastFrameTime = time;
+        }
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    resize();
+    animate(0);
+  </script>
+</body>
+</html>

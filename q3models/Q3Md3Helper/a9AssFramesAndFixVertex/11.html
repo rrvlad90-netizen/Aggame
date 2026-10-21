@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>MD3 — вставка кадра</title>
+<style>
+body {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+    background: #191b20;
+    color: #ddd;
+    font: 16px Arial, sans-serif;
+}
+section {
+    padding: 20px;
+    background: #252830;
+    border: 1px solid #444;
+    border-radius: 8px;
+}
+input, button {
+    margin: 6px;
+    padding: 9px 12px;
+    color: #eee;
+    background: #343945;
+    border: 1px solid #666;
+    border-radius: 4px;
+}
+button { cursor: pointer; }
+button:disabled { opacity: .45; cursor: default; }
+#status {
+    margin-top: 15px;
+    padding: 12px;
+    white-space: pre-wrap;
+    background: #15171b;
+}
+.ok { color: #9ee49e; }
+.error { color: #ff9191; }
+</style>
+</head>
+<body>
+
+<h2>MD3: копирование кадра</h2>
+
+<section>
+	<label>
+		Копировать кадр:
+		<input id="sourceFrame" type="number" min="0" value="92">
+	</label>
+
+    <input id="file" type="file" accept=".md3">
+    <button id="process" disabled>Добавить кадр</button>
+    <button id="download" disabled>Скачать</button>
+	
+    <div id="status">Выбери исходный upper.md3.</div>
+</section>
+
+<script>
+"use strict";
+
+let SOURCE_FRAME = 92;
+
+let sourceFile = null;
+let resultBuffer = null;
+
+const fileInput = document.getElementById("file");
+const processButton = document.getElementById("process");
+const downloadButton = document.getElementById("download");
+const statusBox = document.getElementById("status");
+
+function fail(message) {
+    throw new Error(message);
+}
+
+function checkRange(offset, length, total, name) {
+    if (
+        !Number.isInteger(offset) ||
+        !Number.isInteger(length) ||
+        offset < 0 ||
+        length < 0 ||
+        offset + length > total
+    ) {
+        fail(`Повреждённый диапазон: ${name}`);
+    }
+}
+
+function readText(view, offset, length) {
+    checkRange(offset, length, view.byteLength, "строка");
+
+    let result = "";
+
+    for (let i = 0; i < length; i++) {
+        const value = view.getUint8(offset + i);
+        if (value === 0) break;
+        result += String.fromCharCode(value);
+    }
+
+    return result;
+}
+
+function copyBytes(buffer, offset, length) {
+    checkRange(offset, length, buffer.byteLength, "копирование");
+    return new Uint8Array(buffer.slice(offset, offset + length));
+}
+
+function parseHeader(buffer) {
+    const view = new DataView(buffer);
+
+    checkRange(0, 108, buffer.byteLength, "заголовок");
+
+    const header = {
+        ident: readText(view, 0, 4),
+        version: view.getInt32(4, true),
+        name: readText(view, 8, 64),
+        numFrames: view.getInt32(76, true),
+        numTags: view.getInt32(80, true),
+        numSurfaces: view.getInt32(84, true),
+        numSkins: view.getInt32(88, true),
+        ofsFrames: view.getInt32(92, true),
+        ofsTags: view.getInt32(96, true),
+        ofsSurfaces: view.getInt32(100, true),
+        ofsEnd: view.getInt32(104, true)
+    };
+
+    if (header.ident !== "IDP3") {
+        fail("Файл не является MD3.");
+    }
+
+    if (header.version !== 15) {
+        fail(`Версия MD3 ${header.version}; требуется версия 15.`);
+    }
+
+    if (header.numFrames <= SOURCE_FRAME) {
+        fail(
+            `В модели только ${header.numFrames} кадров. ` +
+            `Кадр ${SOURCE_FRAME} отсутствует.`
+        );
+    }
+
+    if (header.numTags < 0 || header.numSurfaces < 1) {
+        fail("Некорректные счётчики MD3.");
+    }
+
+    if (header.ofsEnd > buffer.byteLength) {
+        fail("Конец MD3 выходит за границы файла.");
+    }
+
+    return { view, header };
+}
+
+function collectSurfaces(buffer, header, view) {
+    const surfaces = [];
+    let offset = header.ofsSurfaces;
+
+    for (let index = 0; index < header.numSurfaces; index++) {
+        checkRange(offset, 108, buffer.byteLength, "поверхность");
+
+        const ident = readText(view, offset, 4);
+        const name = readText(view, offset + 4, 64);
+        const numFrames = view.getInt32(offset + 72, true);
+        const numVerts = view.getInt32(offset + 80, true);
+        const ofsXYZNormal = view.getInt32(offset + 100, true);
+        const ofsEnd = view.getInt32(offset + 104, true);
+
+        if (ident !== "IDP3") {
+            fail(`Поверхность ${index} имеет неверную сигнатуру.`);
+        }
+
+        if (numFrames !== header.numFrames) {
+            fail(
+                `Поверхность "${name}" содержит ${numFrames} кадров, ` +
+                `а модель — ${header.numFrames}.`
+            );
+        }
+
+        if (numVerts < 1 || ofsEnd < 108) {
+            fail(`Поверхность "${name}" повреждена.`);
+        }
+
+        const frameSize = numVerts * 8;
+        const vertexDataStart = offset + ofsXYZNormal;
+
+        checkRange(
+            vertexDataStart,
+            numFrames * frameSize,
+            buffer.byteLength,
+            `вершины поверхности "${name}"`
+        );
+
+        surfaces.push({
+            index,
+            name,
+            oldOffset: offset,
+            oldOfsEnd: ofsEnd,
+            numVerts,
+            frameSize,
+            vertexDataStart
+        });
+
+        offset += ofsEnd;
+    }
+
+    return surfaces;
+}
+
+function createInsertedFile(buffer) {
+    const { view, header } = parseHeader(buffer);
+    const surfaces = collectSurfaces(buffer, header, view);
+
+    const frameSize = 56;
+    const tagFrameSize = header.numTags * 112;
+
+    const frameOffset =
+        header.ofsFrames + SOURCE_FRAME * frameSize;
+
+    const frameInsertOffset =
+        header.ofsFrames + (SOURCE_FRAME + 1) * frameSize;
+
+    const tagOffset =
+        header.ofsTags + SOURCE_FRAME * tagFrameSize;
+
+    const tagInsertOffset =
+        header.ofsTags + (SOURCE_FRAME + 1) * tagFrameSize;
+
+    const insertions = [
+        {
+            offset: frameInsertOffset,
+            data: copyBytes(buffer, frameOffset, frameSize),
+            type: "frame"
+        }
+    ];
+
+    if (tagFrameSize > 0) {
+        insertions.push({
+            offset: tagInsertOffset,
+            data: copyBytes(buffer, tagOffset, tagFrameSize),
+            type: "tags"
+        });
+    }
+
+    for (const surface of surfaces) {
+        const sourceOffset =
+            surface.vertexDataStart +
+            SOURCE_FRAME * surface.frameSize;
+
+        const insertOffset =
+            surface.vertexDataStart +
+            (SOURCE_FRAME + 1) * surface.frameSize;
+
+        insertions.push({
+            offset: insertOffset,
+            data: copyBytes(
+                buffer,
+                sourceOffset,
+                surface.frameSize
+            ),
+            type: "surface",
+            surfaceIndex: surface.index
+        });
+    }
+
+    insertions.sort((a, b) => a.offset - b.offset);
+
+    for (let i = 1; i < insertions.length; i++) {
+        if (insertions[i].offset < insertions[i - 1].offset) {
+            fail("Ошибка порядка вставок.");
+        }
+    }
+
+    const addedBytes = insertions.reduce(
+        (total, insertion) => total + insertion.data.length,
+        0
+    );
+
+    const output = new Uint8Array(buffer.byteLength + addedBytes);
+    const original = new Uint8Array(buffer);
+
+    let sourceCursor = 0;
+    let outputCursor = 0;
+
+    for (const insertion of insertions) {
+        const sectionLength = insertion.offset - sourceCursor;
+
+        output.set(
+            original.subarray(
+                sourceCursor,
+                sourceCursor + sectionLength
+            ),
+            outputCursor
+        );
+
+        outputCursor += sectionLength;
+
+        output.set(insertion.data, outputCursor);
+        outputCursor += insertion.data.length;
+
+        sourceCursor = insertion.offset;
+    }
+
+    output.set(original.subarray(sourceCursor), outputCursor);
+
+    function mappedOffset(oldOffset) {
+        let result = oldOffset;
+
+        for (const insertion of insertions) {
+            if (insertion.offset <= oldOffset) {
+                result += insertion.data.length;
+            }
+        }
+
+        return result;
+    }
+
+    const outputView = new DataView(output.buffer);
+
+    // Общее количество кадров.
+    outputView.setInt32(
+        76,
+        header.numFrames + 1,
+        true
+    );
+
+    // Абсолютные смещения разделов MD3.
+    outputView.setInt32(
+        92,
+        mappedOffset(header.ofsFrames),
+        true
+    );
+
+    outputView.setInt32(
+        96,
+        mappedOffset(header.ofsTags),
+        true
+    );
+
+    outputView.setInt32(
+        100,
+        mappedOffset(header.ofsSurfaces),
+        true
+    );
+
+    outputView.setInt32(
+        104,
+        header.ofsEnd + addedBytes,
+        true
+    );
+
+    // Исправляем заголовки всех поверхностей.
+    for (const surface of surfaces) {
+        const newSurfaceOffset =
+            mappedOffset(surface.oldOffset);
+
+        outputView.setInt32(
+            newSurfaceOffset + 72,
+            header.numFrames + 1,
+            true
+        );
+
+        outputView.setInt32(
+            newSurfaceOffset + 104,
+            surface.oldOfsEnd + surface.frameSize,
+            true
+        );
+    }
+
+    verifyResult(output.buffer, header, surfaces);
+
+    return {
+        buffer: output.buffer,
+        oldFrames: header.numFrames,
+        newFrames: header.numFrames + 1,
+        tags: header.numTags,
+        surfaces: surfaces.length,
+        addedBytes
+    };
+}
+
+function verifyResult(buffer, oldHeader, oldSurfaces) {
+    const { view, header } = parseHeader(buffer);
+
+    if (header.numFrames !== oldHeader.numFrames + 1) {
+        fail("Проверка не пройдена: неверное число кадров.");
+    }
+
+    const surfaces = collectSurfaces(buffer, header, view);
+
+    if (surfaces.length !== oldSurfaces.length) {
+        fail("Проверка не пройдена: изменилось число поверхностей.");
+    }
+
+    const frame93 =
+        header.ofsFrames + (SOURCE_FRAME + 1) * 56;
+
+    const frame92 =
+        header.ofsFrames + SOURCE_FRAME * 56;
+
+    for (let i = 0; i < 56; i++) {
+        if (
+            view.getUint8(frame92 + i) !==
+            view.getUint8(frame93 + i)
+        ) {
+            fail("Кадр 93 не совпадает с копией кадра 92.");
+        }
+    }
+
+    for (const surface of surfaces) {
+        const frame92Offset =
+            surface.vertexDataStart +
+            SOURCE_FRAME * surface.frameSize;
+
+        const frame93Offset =
+            surface.vertexDataStart +
+            (SOURCE_FRAME + 1) * surface.frameSize;
+
+        for (let i = 0; i < surface.frameSize; i++) {
+            if (
+                view.getUint8(frame92Offset + i) !==
+                view.getUint8(frame93Offset + i)
+            ) {
+                fail(
+                    `Поверхность "${surface.name}": ` +
+                    `кадры 92 и 93 различаются.`
+                );
+            }
+        }
+    }
+
+    if (header.ofsEnd !== buffer.byteLength) {
+        fail(
+            `Проверка размера не пройдена: ofsEnd=${header.ofsEnd}, ` +
+            `размер=${buffer.byteLength}.`
+        );
+    }
+}
+
+fileInput.addEventListener("change", async event => {
+    sourceFile = event.target.files[0] || null;
+    resultBuffer = null;
+    downloadButton.disabled = true;
+
+    if (!sourceFile) {
+        processButton.disabled = true;
+        statusBox.textContent = "Выбери исходный upper.md3.";
+        return;
+    }
+
+    try {
+        const buffer = await sourceFile.arrayBuffer();
+        const { header } = parseHeader(buffer);
+
+        processButton.disabled = false;
+        statusBox.className = "";
+        statusBox.textContent =
+            `Файл: ${sourceFile.name}\n` +
+            `Кадров: ${header.numFrames}\n` +
+            `Тегов: ${header.numTags}\n` +
+            `Поверхностей: ${header.numSurfaces}`;
+    } catch (error) {
+        processButton.disabled = true;
+        statusBox.className = "error";
+        statusBox.textContent = error.message;
+    }
+});
+
+processButton.addEventListener("click", async () => {
+    try {
+        SOURCE_FRAME = Number(
+            document.getElementById("sourceFrame").value
+        );
+
+        if (
+            !Number.isInteger(SOURCE_FRAME) ||
+            SOURCE_FRAME < 0
+        ) {
+            throw new Error(
+                "Укажи правильный номер копируемого кадра."
+            );
+        }
+
+        if (!sourceFile) {
+            throw new Error("Сначала выбери MD3-файл.");
+        }
+
+        const sourceBuffer = await sourceFile.arrayBuffer();
+        const { header } = parseHeader(sourceBuffer);
+
+        if (SOURCE_FRAME >= header.numFrames) {
+            throw new Error(
+                `Кадр ${SOURCE_FRAME} отсутствует. ` +
+                `Допустимый диапазон: 0–${header.numFrames - 1}.`
+            );
+        }
+
+        const result = createInsertedFile(sourceBuffer);
+
+        resultBuffer = result.buffer;
+        downloadButton.disabled = false;
+
+        statusBox.className = "ok";
+        statusBox.textContent =
+            "Готово и проверено.\n" +
+            `Кадров было: ${result.oldFrames}\n` +
+            `Кадров стало: ${result.newFrames}\n` +
+            `Кадр ${SOURCE_FRAME} скопирован ` +
+            `в позицию ${SOURCE_FRAME + 1}.\n` +
+            `Тегов на кадр: ${result.tags}\n` +
+            `Поверхностей: ${result.surfaces}\n` +
+            `Добавлено байт: ${result.addedBytes}`;
+    } catch (error) {
+        resultBuffer = null;
+        downloadButton.disabled = true;
+
+        statusBox.className = "error";
+        statusBox.textContent = error.message;
+    }
+});
+
+downloadButton.addEventListener("click", () => {
+    if (!resultBuffer) return;
+
+    const blob = new Blob(
+        [resultBuffer],
+        { type: "application/octet-stream" }
+    );
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "upper_139.md3";
+    link.click();
+
+    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+});
+</script>
+</body>
+</html>

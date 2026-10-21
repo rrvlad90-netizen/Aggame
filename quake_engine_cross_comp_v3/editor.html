@@ -1,0 +1,1117 @@
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Q3 Simple Map Editor</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 290px 1fr;
+    background: #101216;
+    color: #ddd;
+    font: 14px Arial, sans-serif;
+  }
+
+  aside {
+    overflow-y: auto;
+    padding: 12px;
+    background: #181c22;
+    border-right: 1px solid #333;
+  }
+
+  h1 { margin: 0 0 12px; font-size: 18px; }
+  h2 { margin: 16px 0 8px; font-size: 14px; color: #f0a44b; }
+
+  label {
+    display: block;
+    margin: 7px 0;
+    color: #bbb;
+  }
+
+  input, select, button {
+    width: 100%;
+    padding: 6px;
+    color: #eee;
+    background: #252b34;
+    border: 1px solid #414957;
+    border-radius: 3px;
+  }
+
+  input[type="checkbox"] { width: auto; }
+
+  button {
+    cursor: pointer;
+    margin: 3px 0;
+  }
+
+  button:hover { background: #343d49; }
+  button.active { background: #87551f; border-color: #e5963d; }
+
+  .tools {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  main {
+    position: relative;
+    min-width: 0;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #11151a;
+    cursor: crosshair;
+  }
+
+  #status {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    padding: 6px 10px;
+    background: #000b;
+    border-radius: 3px;
+    pointer-events: none;
+  }
+
+  small {
+    color: #888;
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<aside>
+  <h1>Q3 Simple Map Editor</h1>
+
+  <div class="tools">
+    <button data-tool="select">Выбор</button>
+    <button data-tool="room" class="active">Комната</button>
+    <button data-tool="stairs">Лестница</button>
+    <button data-tool="red">Старт красных</button>
+    <button data-tool="blue">Старт синих</button>
+    <button data-tool="decor">Декорация</button>
+    <button data-tool="light">Свет</button>
+  </div>
+
+  <h2>Сетка и геометрия</h2>
+
+  <div class="row">
+    <label>Сетка
+      <input id="grid" type="number" value="32" min="8" step="8">
+    </label>
+    <label>Высота комнаты
+      <input id="roomHeight" type="number" value="256" step="8">
+    </label>
+  </div>
+
+  <div class="row">
+    <label>Толщина стен
+      <input id="wallThickness" type="number" value="16" step="4">
+    </label>
+    <label>Толщина пола
+      <input id="floorThickness" type="number" value="16" step="4">
+    </label>
+  </div>
+
+  <h2>Текстуры комнаты</h2>
+
+  <label>Стены
+    <input id="wallTexture" value="textures/base_wall/concrete">
+  </label>
+
+  <label>Пол
+    <input id="floorTexture" value="textures/base_floor/clang_floor">
+  </label>
+
+  <label>Потолок
+    <input id="ceilingTexture" value="textures/base_wall/comp3text">
+  </label>
+
+  <label>
+    <input id="skyEnabled" type="checkbox">
+    Использовать небо вместо потолка
+  </label>
+
+  <label>Sky shader
+    <input id="skyTexture" value="textures/skies/xtoxicsky_tourney">
+  </label>
+
+  <h2>Лестница</h2>
+
+  <div class="row">
+    <label>Количество ступеней
+      <input id="stairCount" type="number" value="8" min="1" max="64">
+    </label>
+    <label>Высота ступени
+      <input id="stairRise" type="number" value="16" min="1">
+    </label>
+  </div>
+
+  <label>Текстура лестницы
+    <input id="stairTexture" value="textures/base_floor/clang_floor">
+  </label>
+
+  <h2>Сущности</h2>
+
+  <div class="row">
+    <label>Высота Z
+      <input id="entityZ" type="number" value="32">
+    </label>
+    <label>Угол
+      <input id="entityAngle" type="number" value="0">
+    </label>
+  </div>
+
+  <label>MD3-модель декорации
+    <input id="decorModel" value="models/mapobjects/tree/tree.md3">
+  </label>
+
+  <div class="row">
+    <label>Масштаб модели
+      <input id="decorScale" type="number" value="1" min="0.01" step="0.1">
+    </label>
+    <label>Яркость света
+      <input id="lightValue" type="number" value="300" min="1">
+    </label>
+  </div>
+
+  <button id="apply">Применить к выбранному объекту</button>
+  <button id="delete">Удалить выбранное</button>
+  <button id="undo">Отменить</button>
+
+  <h2>Проект</h2>
+
+  <label>Название карты
+    <input id="mapName" value="team_arena">
+  </label>
+
+  <button id="saveJson">Сохранить проект JSON</button>
+  <button id="loadJson">Открыть проект JSON</button>
+  <input id="jsonFile" type="file" accept=".json" hidden>
+
+  <button id="exportMap">Экспортировать Quake 3 MAP</button>
+
+  <p><small>
+    ЛКМ — создать или выбрать объект.<br>
+    ПКМ — удалить объект.<br>
+    Средняя кнопка — перемещение поля.<br>
+    Колесо — масштаб.<br>
+    Delete — удалить выбранное.
+  </small></p>
+</aside>
+
+<main>
+  <canvas id="canvas"></canvas>
+  <div id="status">Готово</div>
+</main>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+const canvas = $("canvas");
+const ctx = canvas.getContext("2d");
+const status = $("status");
+
+const CAULK = "textures/common/caulk";
+
+const state = {
+  objects: [],
+  nextId: 1,
+  selectedId: null
+};
+
+let tool = "room";
+let history = [];
+let drag = null;
+let panning = null;
+let mouseWorld = { x: 0, y: 0 };
+
+let view = {
+  scale: 0.25,
+  panX: 0,
+  panY: 0
+};
+
+function number(id, fallback = 0) {
+  const value = Number($(id).value);
+  return Number.isFinite(value) ? value : fallback;
+}
+
+function snap(value) {
+  const grid = Math.max(1, number("grid", 32));
+  return Math.round(value / grid) * grid;
+}
+
+function normalizeRect(a, b) {
+  return {
+    minX: Math.min(a.x, b.x),
+    minY: Math.min(a.y, b.y),
+    maxX: Math.max(a.x, b.x),
+    maxY: Math.max(a.y, b.y)
+  };
+}
+
+function canvasSize() {
+  return {
+    width: canvas.clientWidth,
+    height: canvas.clientHeight
+  };
+}
+
+function worldToScreen(x, y) {
+  const size = canvasSize();
+  return {
+    x: size.width / 2 + view.panX + x * view.scale,
+    y: size.height / 2 + view.panY - y * view.scale
+  };
+}
+
+function screenToWorld(x, y) {
+  const size = canvasSize();
+  return {
+    x: (x - size.width / 2 - view.panX) / view.scale,
+    y: -(y - size.height / 2 - view.panY) / view.scale
+  };
+}
+
+function resizeCanvas() {
+  const dpr = window.devicePixelRatio || 1;
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+
+  canvas.width = Math.round(width * dpr);
+  canvas.height = Math.round(height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  draw();
+}
+
+new ResizeObserver(resizeCanvas).observe(canvas);
+
+function remember() {
+  history.push(JSON.stringify({
+    objects: state.objects,
+    nextId: state.nextId,
+    selectedId: state.selectedId
+  }));
+
+  if (history.length > 50) history.shift();
+}
+
+function undo() {
+  if (!history.length) return;
+
+  const previous = JSON.parse(history.pop());
+  state.objects = previous.objects;
+  state.nextId = previous.nextId;
+  state.selectedId = previous.selectedId;
+  draw();
+}
+
+function selectedObject() {
+  return state.objects.find(o => o.id === state.selectedId) || null;
+}
+
+function setTool(name) {
+  tool = name;
+  document.querySelectorAll("[data-tool]").forEach(button => {
+    button.classList.toggle("active", button.dataset.tool === name);
+  });
+  status.textContent = "Инструмент: " + name;
+}
+
+document.querySelectorAll("[data-tool]").forEach(button => {
+  button.addEventListener("click", () => setTool(button.dataset.tool));
+});
+
+function drawGrid() {
+  const size = canvasSize();
+  const grid = Math.max(8, number("grid", 32));
+
+  let visibleGrid = grid;
+  while (visibleGrid * view.scale < 10) visibleGrid *= 2;
+
+  const topLeft = screenToWorld(0, 0);
+  const bottomRight = screenToWorld(size.width, size.height);
+
+  const minX = Math.floor(topLeft.x / visibleGrid) * visibleGrid;
+  const maxX = Math.ceil(bottomRight.x / visibleGrid) * visibleGrid;
+  const minY = Math.floor(bottomRight.y / visibleGrid) * visibleGrid;
+  const maxY = Math.ceil(topLeft.y / visibleGrid) * visibleGrid;
+
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = "#252c34";
+  ctx.beginPath();
+
+  for (let x = minX; x <= maxX; x += visibleGrid) {
+    const p = worldToScreen(x, 0);
+    ctx.moveTo(p.x, 0);
+    ctx.lineTo(p.x, size.height);
+  }
+
+  for (let y = minY; y <= maxY; y += visibleGrid) {
+    const p = worldToScreen(0, y);
+    ctx.moveTo(0, p.y);
+    ctx.lineTo(size.width, p.y);
+  }
+
+  ctx.stroke();
+
+  const origin = worldToScreen(0, 0);
+  ctx.strokeStyle = "#555";
+  ctx.beginPath();
+  ctx.moveTo(origin.x, 0);
+  ctx.lineTo(origin.x, size.height);
+  ctx.moveTo(0, origin.y);
+  ctx.lineTo(size.width, origin.y);
+  ctx.stroke();
+}
+
+function drawRectObject(object, fill, stroke, label) {
+  const rect = normalizeRect(
+    { x: object.x0, y: object.y0 },
+    { x: object.x1, y: object.y1 }
+  );
+
+  const a = worldToScreen(rect.minX, rect.maxY);
+  const b = worldToScreen(rect.maxX, rect.minY);
+
+  ctx.fillStyle = fill;
+  ctx.strokeStyle = stroke;
+  ctx.lineWidth = object.id === state.selectedId ? 3 : 1;
+
+  ctx.fillRect(a.x, a.y, b.x - a.x, b.y - a.y);
+  ctx.strokeRect(a.x, a.y, b.x - a.x, b.y - a.y);
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "12px Arial";
+  ctx.fillText(label, a.x + 5, a.y + 15);
+}
+
+function drawPointObject(object, color, label, shape = "circle") {
+  const p = worldToScreen(object.x, object.y);
+  const selected = object.id === state.selectedId;
+
+  ctx.fillStyle = color;
+  ctx.strokeStyle = selected ? "#fff" : "#111";
+  ctx.lineWidth = selected ? 3 : 1;
+
+  ctx.beginPath();
+
+  if (shape === "diamond") {
+    ctx.moveTo(p.x, p.y - 9);
+    ctx.lineTo(p.x + 9, p.y);
+    ctx.lineTo(p.x, p.y + 9);
+    ctx.lineTo(p.x - 9, p.y);
+    ctx.closePath();
+  } else {
+    ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+  }
+
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "11px Arial";
+  ctx.fillText(label, p.x + 12, p.y + 4);
+}
+
+function draw() {
+  const size = canvasSize();
+  ctx.clearRect(0, 0, size.width, size.height);
+  ctx.fillStyle = "#11151a";
+  ctx.fillRect(0, 0, size.width, size.height);
+
+  drawGrid();
+
+  for (const object of state.objects) {
+    if (object.type === "room") {
+      drawRectObject(object, "#23658b55", "#4ca8dc", "ROOM");
+    } else if (object.type === "stairs") {
+      drawRectObject(object, "#a16a2855", "#e5a34f", "STAIRS");
+
+      const count = Math.max(1, object.count);
+      for (let i = 1; i < count; i++) {
+        const t = i / count;
+        const x = object.x0 + (object.x1 - object.x0) * t;
+        const y = object.y0 + (object.y1 - object.y0) * t;
+        const p = worldToScreen(x, y);
+
+        ctx.fillStyle = "#e5a34f";
+        ctx.fillRect(p.x - 1, p.y - 1, 2, 2);
+      }
+    } else if (object.type === "red") {
+      drawPointObject(object, "#d34242", "RED");
+    } else if (object.type === "blue") {
+      drawPointObject(object, "#397bdf", "BLUE");
+    } else if (object.type === "decor") {
+      drawPointObject(object, "#46b879", "MD3", "diamond");
+    } else if (object.type === "light") {
+      drawPointObject(object, "#e7d64d", "LIGHT");
+    }
+  }
+
+  if (drag && (tool === "room" || tool === "stairs")) {
+    drawRectObject({
+      id: -1,
+      x0: drag.start.x,
+      y0: drag.start.y,
+      x1: drag.end.x,
+      y1: drag.end.y
+    }, "#ffffff18", "#fff", tool.toUpperCase());
+  }
+
+  status.textContent =
+    `X: ${Math.round(mouseWorld.x)}  Y: ${Math.round(mouseWorld.y)}  ` +
+    `Объектов: ${state.objects.length}`;
+}
+
+function createPoint(type, position) {
+  remember();
+
+  const object = {
+    id: state.nextId++,
+    type,
+    x: snap(position.x),
+    y: snap(position.y),
+    z: number("entityZ", 32),
+    angle: number("entityAngle", 0)
+  };
+
+  if (type === "decor") {
+    object.model = $("decorModel").value.trim();
+    object.scale = number("decorScale", 1);
+  }
+
+  if (type === "light") {
+    object.light = number("lightValue", 300);
+  }
+
+  state.objects.push(object);
+  state.selectedId = object.id;
+  draw();
+}
+
+function createDraggedObject() {
+  if (!drag) return;
+
+  const width = Math.abs(drag.end.x - drag.start.x);
+  const height = Math.abs(drag.end.y - drag.start.y);
+  const grid = Math.max(1, number("grid", 32));
+
+  if (width < grid || height < grid) {
+    drag = null;
+    draw();
+    return;
+  }
+
+  remember();
+
+  let object;
+
+  if (tool === "room") {
+    object = {
+      id: state.nextId++,
+      type: "room",
+      x0: drag.start.x,
+      y0: drag.start.y,
+      x1: drag.end.x,
+      y1: drag.end.y,
+      height: number("roomHeight", 256),
+      wallThickness: number("wallThickness", 16),
+      floorThickness: number("floorThickness", 16),
+      wallTexture: $("wallTexture").value.trim(),
+      floorTexture: $("floorTexture").value.trim(),
+      ceilingTexture: $("ceilingTexture").value.trim(),
+      skyEnabled: $("skyEnabled").checked,
+      skyTexture: $("skyTexture").value.trim()
+    };
+  } else {
+    object = {
+      id: state.nextId++,
+      type: "stairs",
+      x0: drag.start.x,
+      y0: drag.start.y,
+      x1: drag.end.x,
+      y1: drag.end.y,
+      count: Math.max(1, number("stairCount", 8)),
+      rise: Math.max(1, number("stairRise", 16)),
+      texture: $("stairTexture").value.trim()
+    };
+  }
+
+  state.objects.push(object);
+  state.selectedId = object.id;
+  drag = null;
+  draw();
+}
+
+function findObject(position) {
+  const tolerance = 14 / view.scale;
+
+  for (let i = state.objects.length - 1; i >= 0; i--) {
+    const object = state.objects[i];
+
+    if (object.x0 !== undefined) {
+      const rect = normalizeRect(
+        { x: object.x0, y: object.y0 },
+        { x: object.x1, y: object.y1 }
+      );
+
+      if (
+        position.x >= rect.minX &&
+        position.x <= rect.maxX &&
+        position.y >= rect.minY &&
+        position.y <= rect.maxY
+      ) {
+        return object;
+      }
+    } else {
+      const distance = Math.hypot(position.x - object.x, position.y - object.y);
+      if (distance <= tolerance) return object;
+    }
+  }
+
+  return null;
+}
+
+function deleteSelected() {
+  if (state.selectedId === null) return;
+
+  remember();
+  state.objects = state.objects.filter(o => o.id !== state.selectedId);
+  state.selectedId = null;
+  draw();
+}
+
+function applyProperties() {
+  const object = selectedObject();
+  if (!object) return;
+
+  remember();
+
+  if (object.type === "room") {
+    object.height = number("roomHeight", 256);
+    object.wallThickness = number("wallThickness", 16);
+    object.floorThickness = number("floorThickness", 16);
+    object.wallTexture = $("wallTexture").value.trim();
+    object.floorTexture = $("floorTexture").value.trim();
+    object.ceilingTexture = $("ceilingTexture").value.trim();
+    object.skyEnabled = $("skyEnabled").checked;
+    object.skyTexture = $("skyTexture").value.trim();
+  } else if (object.type === "stairs") {
+    object.count = Math.max(1, number("stairCount", 8));
+    object.rise = Math.max(1, number("stairRise", 16));
+    object.texture = $("stairTexture").value.trim();
+  } else {
+    object.z = number("entityZ", 32);
+    object.angle = number("entityAngle", 0);
+
+    if (object.type === "decor") {
+      object.model = $("decorModel").value.trim();
+      object.scale = number("decorScale", 1);
+    }
+
+    if (object.type === "light") {
+      object.light = number("lightValue", 300);
+    }
+  }
+
+  draw();
+}
+
+canvas.addEventListener("pointerdown", event => {
+  const rect = canvas.getBoundingClientRect();
+  const sx = event.clientX - rect.left;
+  const sy = event.clientY - rect.top;
+  const world = screenToWorld(sx, sy);
+
+  if (event.button === 1) {
+    panning = {
+      x: event.clientX,
+      y: event.clientY,
+      panX: view.panX,
+      panY: view.panY
+    };
+    return;
+  }
+
+  if (event.button === 2) {
+    const object = findObject(world);
+    if (object) {
+      state.selectedId = object.id;
+      deleteSelected();
+    }
+    return;
+  }
+
+  if (event.button !== 0) return;
+
+  if (tool === "room" || tool === "stairs") {
+    drag = {
+      start: { x: snap(world.x), y: snap(world.y) },
+      end: { x: snap(world.x), y: snap(world.y) }
+    };
+  } else if (tool === "select") {
+    const object = findObject(world);
+    state.selectedId = object ? object.id : null;
+    draw();
+  } else {
+    createPoint(tool, world);
+  }
+});
+
+canvas.addEventListener("pointermove", event => {
+  const rect = canvas.getBoundingClientRect();
+  const sx = event.clientX - rect.left;
+  const sy = event.clientY - rect.top;
+
+  mouseWorld = screenToWorld(sx, sy);
+
+  if (panning) {
+    view.panX = panning.panX + event.clientX - panning.x;
+    view.panY = panning.panY + event.clientY - panning.y;
+  }
+
+  if (drag) {
+    drag.end = {
+      x: snap(mouseWorld.x),
+      y: snap(mouseWorld.y)
+    };
+  }
+
+  draw();
+});
+
+canvas.addEventListener("pointerup", event => {
+  if (event.button === 1) {
+    panning = null;
+    return;
+  }
+
+  if (event.button === 0 && drag) {
+    createDraggedObject();
+  }
+});
+
+canvas.addEventListener("contextmenu", event => event.preventDefault());
+
+canvas.addEventListener("wheel", event => {
+  event.preventDefault();
+
+  const rect = canvas.getBoundingClientRect();
+  const sx = event.clientX - rect.left;
+  const sy = event.clientY - rect.top;
+  const before = screenToWorld(sx, sy);
+
+  const factor = event.deltaY < 0 ? 1.15 : 1 / 1.15;
+  view.scale = Math.min(2, Math.max(0.03, view.scale * factor));
+
+  const after = screenToWorld(sx, sy);
+  view.panX += (after.x - before.x) * view.scale;
+  view.panY -= (after.y - before.y) * view.scale;
+
+  draw();
+}, { passive: false });
+
+window.addEventListener("keydown", event => {
+  if (event.key === "Delete") deleteSelected();
+  if (event.key === "Escape") {
+    drag = null;
+    state.selectedId = null;
+    draw();
+  }
+  if (event.ctrlKey && event.key.toLowerCase() === "z") {
+    event.preventDefault();
+    undo();
+  }
+});
+
+$("apply").addEventListener("click", applyProperties);
+$("delete").addEventListener("click", deleteSelected);
+$("undo").addEventListener("click", undo);
+
+/* ---------- JSON ---------- */
+
+function projectData() {
+  return {
+    version: 1,
+    mapName: $("mapName").value.trim(),
+    objects: state.objects
+  };
+}
+
+function download(name, text, type) {
+  const blob = new Blob([text], { type });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = name;
+  link.click();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+$("saveJson").addEventListener("click", () => {
+  download(
+    ($("mapName").value.trim() || "map") + ".json",
+    JSON.stringify(projectData(), null, 2),
+    "application/json"
+  );
+});
+
+$("loadJson").addEventListener("click", () => $("jsonFile").click());
+
+$("jsonFile").addEventListener("change", async event => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const data = JSON.parse(await file.text());
+
+  remember();
+  state.objects = Array.isArray(data.objects) ? data.objects : [];
+  state.nextId = Math.max(0, ...state.objects.map(o => o.id || 0)) + 1;
+  state.selectedId = null;
+  $("mapName").value = data.mapName || "team_arena";
+  draw();
+});
+
+/* ---------- Quake 3 MAP export ---------- */
+
+function cleanTexture(value) {
+  const result = String(value || CAULK).trim().split(/\s+/)[0];
+  return result || CAULK;
+}
+
+function q(value) {
+  return String(value).replace(/\\/g, "/").replace(/"/g, "");
+}
+
+function v(value) {
+  return Math.round(value);
+}
+
+function face(a, b, c, texture) {
+  return `( ${v(a[0])} ${v(a[1])} ${v(a[2])} ) ` +
+         `( ${v(b[0])} ${v(b[1])} ${v(b[2])} ) ` +
+         `( ${v(c[0])} ${v(c[1])} ${v(c[2])} ) ` +
+         `${cleanTexture(texture)} 0 0 0 0.5 0.5 0 0 0`;
+}
+
+function boxBrush(minX, minY, minZ, maxX, maxY, maxZ, textures = {}) {
+  if (maxX <= minX || maxY <= minY || maxZ <= minZ) return "";
+
+  const t = {
+    bottom: textures.bottom || CAULK,
+
+bottom: textures.bottom || CAULK,
+    top: textures.top || CAULK,
+    west: textures.west || CAULK,
+    east: textures.east || CAULK,
+    south: textures.south || CAULK,
+    north: textures.north || CAULK
+  };
+
+  return [
+    "{",
+    face([minX,minY,minZ], [minX,maxY,minZ], [maxX,maxY,minZ], t.bottom),
+    face([minX,maxY,maxZ], [minX,minY,maxZ], [maxX,minY,maxZ], t.top),
+    face([minX,minY,minZ], [minX,minY,maxZ], [minX,maxY,maxZ], t.west),
+    face([maxX,maxY,minZ], [maxX,maxY,maxZ], [maxX,minY,maxZ], t.east),
+    face([maxX,minY,minZ], [maxX,minY,maxZ], [minX,minY,maxZ], t.south),
+    face([minX,maxY,minZ], [minX,maxY,maxZ], [maxX,maxY,maxZ], t.north),
+    "}"
+  ].join("\n") + "\n";
+}
+
+function roomBrushes(object) {
+  const rect = normalizeRect(
+    { x: object.x0, y: object.y0 },
+    { x: object.x1, y: object.y1 }
+  );
+
+  const width = rect.maxX - rect.minX;
+  const depth = rect.maxY - rect.minY;
+
+  const wall = Math.max(
+    1,
+    Math.min(object.wallThickness, width / 2 - 1, depth / 2 - 1)
+  );
+
+  const floor = Math.max(1, object.floorThickness);
+  const height = Math.max(32, object.height);
+
+  let result = "";
+
+  // Floor
+  result += boxBrush(
+    rect.minX, rect.minY, -floor,
+    rect.maxX, rect.maxY, 0,
+    { top: object.floorTexture }
+  );
+
+  // Ceiling or sky
+  result += boxBrush(
+    rect.minX, rect.minY, height,
+    rect.maxX, rect.maxY, height + floor,
+    {
+      bottom: object.skyEnabled
+        ? object.skyTexture
+        : object.ceilingTexture
+    }
+  );
+
+  // West wall: texture on interior east face
+  result += boxBrush(
+    rect.minX, rect.minY, 0,
+    rect.minX + wall, rect.maxY, height,
+    { east: object.wallTexture }
+  );
+
+  // East wall: texture on interior west face
+  result += boxBrush(
+    rect.maxX - wall, rect.minY, 0,
+    rect.maxX, rect.maxY, height,
+    { west: object.wallTexture }
+  );
+
+  // South wall: texture on interior north face
+  result += boxBrush(
+    rect.minX + wall, rect.minY, 0,
+    rect.maxX - wall, rect.minY + wall, height,
+    { north: object.wallTexture }
+  );
+
+  // North wall: texture on interior south face
+  result += boxBrush(
+    rect.minX + wall, rect.maxY - wall, 0,
+    rect.maxX - wall, rect.maxY, height,
+    { south: object.wallTexture }
+  );
+
+  return result;
+}
+
+function stairBrushes(object) {
+  const count = Math.max(1, Math.round(object.count));
+  const rise = Math.max(1, object.rise);
+  const dx = object.x1 - object.x0;
+  const dy = object.y1 - object.y0;
+  const horizontal = Math.abs(dx) >= Math.abs(dy);
+
+  let result = "";
+
+  for (let i = 0; i < count; i++) {
+    const a = i / count;
+    const b = (i + 1) / count;
+
+    let x0, x1, y0, y1;
+
+    if (horizontal) {
+      x0 = object.x0 + dx * a;
+      x1 = object.x0 + dx * b;
+      y0 = object.y0;
+      y1 = object.y1;
+    } else {
+      x0 = object.x0;
+      x1 = object.x1;
+      y0 = object.y0 + dy * a;
+      y1 = object.y0 + dy * b;
+    }
+
+    const minX = Math.min(x0, x1);
+    const maxX = Math.max(x0, x1);
+    const minY = Math.min(y0, y1);
+    const maxY = Math.max(y0, y1);
+    const top = (i + 1) * rise;
+    const texture = object.texture;
+
+    result += boxBrush(
+      minX, minY, 0,
+      maxX, maxY, top,
+      {
+        top: texture,
+        west: texture,
+        east: texture,
+        south: texture,
+        north: texture
+      }
+    );
+  }
+
+  return result;
+}
+
+function entityBlock(properties) {
+  const lines = ["{"];
+
+  for (const [key, value] of Object.entries(properties)) {
+    lines.push(`"${q(key)}" "${q(value)}"`);
+  }
+
+  lines.push("}");
+  return lines.join("\n") + "\n";
+}
+
+function exportMap() {
+  let output = "// Generated by Q3 Simple Map Editor\n";
+  let brushNumber = 0;
+  let fallbackSpawn = null;
+
+  output += "{\n";
+  output += '"classname" "worldspawn"\n';
+  output += `"message" "${q($("mapName").value.trim())}"\n`;
+  output += '"_ambient" "20"\n';
+
+  for (const object of state.objects) {
+    if (object.type === "room") {
+      output += `// room brushes ${brushNumber++}\n`;
+      output += roomBrushes(object);
+    }
+
+    if (object.type === "stairs") {
+      output += `// stair brushes ${brushNumber++}\n`;
+      output += stairBrushes(object);
+    }
+  }
+
+  output += "}\n";
+
+  /*
+   * Выбираем безопасную резервную точку:
+   * 1. Красная или синяя точка.
+   * 2. Центр первой комнаты.
+   * 3. Начало координат.
+   */
+  fallbackSpawn = state.objects.find(object =>
+    object.type === "red" || object.type === "blue"
+  );
+
+  if (!fallbackSpawn) {
+    const room = state.objects.find(object => object.type === "room");
+
+    if (room) {
+      const rect = normalizeRect(
+        { x: room.x0, y: room.y0 },
+        { x: room.x1, y: room.y1 }
+      );
+
+      fallbackSpawn = {
+        x: (rect.minX + rect.maxX) / 2,
+        y: (rect.minY + rect.maxY) / 2,
+        z: 32,
+        angle: 0
+      };
+    } else {
+      fallbackSpawn = {
+        x: 0,
+        y: 0,
+        z: 32,
+        angle: 0
+      };
+    }
+  }
+
+  /*
+   * Обычная точка появления нужна для FFA,
+   * а также как запасная точка для других режимов.
+   */
+  output += entityBlock({
+    classname: "info_player_deathmatch",
+    origin:
+      `${v(fallbackSpawn.x)} ` +
+      `${v(fallbackSpawn.y)} ` +
+      `${v(fallbackSpawn.z || 32)}`,
+    angle: v(fallbackSpawn.angle || 0)
+  });
+
+  /*
+   * Обязательная точка наблюдателя/intermission.
+   * Используется зрителями и экраном окончания матча.
+   */
+  output += entityBlock({
+    classname: "info_player_intermission",
+    origin:
+      `${v(fallbackSpawn.x)} ` +
+      `${v(fallbackSpawn.y)} ` +
+      `${v((fallbackSpawn.z || 32) + 48)}`,
+    angle: v(fallbackSpawn.angle || 0)
+  });
+
+  for (const object of state.objects) {
+    if (object.type === "red") {
+      // Последующие появления красной команды
+      output += entityBlock({
+        classname: "team_CTF_redspawn",
+        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
+        angle: v(object.angle)
+      });
+
+      // Первоначальное появление красной команды
+      output += entityBlock({
+        classname: "team_CTF_redplayer",
+        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
+        angle: v(object.angle)
+      });
+    }
+
+    if (object.type === "blue") {
+      // Последующие появления синей команды
+      output += entityBlock({
+        classname: "team_CTF_bluespawn",
+        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
+        angle: v(object.angle)
+      });
+
+      // Первоначальное появление синей команды
+      output += entityBlock({
+        classname: "team_CTF_blueplayer",
+        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
+        angle: v(object.angle)
+      });
+    }
+
+    if (object.type === "decor") {
+      output += entityBlock({
+        classname: "misc_model",
+        model: object.model,
+        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
+        angle: v(object.angle),
+        modelscale: object.scale
+      });
+    }
+
+    if (object.type === "light") {
+      output += entityBlock({
+        classname: "light",
+        origin: `${v(object.x)} ${v(object.y)} ${v(object.z)}`,
+        light: v(object.light)
+      });
+    }
+  }
+
+  const mapName = $("mapName").value.trim() || "team_arena";
+  download(mapName + ".map", output, "text/plain");
+}
+
+$("exportMap").addEventListener("click", exportMap);
+
+resizeCanvas();
+</script>
+</body>
+</html>
