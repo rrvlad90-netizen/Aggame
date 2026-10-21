@@ -20,8 +20,6 @@ set cc=lcc -DQ3_VM -DMISSIONPACK -S -Wf-target=bytecode -Wf-g -I..\..\cgame -I..
 
 %cc% ../g_main.c
 if errorlevel 1 goto failed_vm
-%cc% ../g_syscalls.c
-if errorlevel 1 goto failed_vm
 
 %cc% ../bg_misc.c
 if errorlevel 1 goto failed_vm

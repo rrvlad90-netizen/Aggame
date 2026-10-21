@@ -1,188 +1,51 @@
-export G_Alloc
+export BotAssaultSeekGoals
 code
-proc G_Alloc 8 12
-file "../g_mem.c"
-line 36
-;1:/*
-;2:===========================================================================
-;3:Copyright (C) 1999-2005 Id Software, Inc.
-;4:
-;5:This file is part of Quake III Arena source code.
-;6:
-;7:Quake III Arena source code is free software; you can redistribute it
-;8:and/or modify it under the terms of the GNU General Public License as
-;9:published by the Free Software Foundation; either version 2 of the License,
-;10:or (at your option) any later version.
-;11:
-;12:Quake III Arena source code is distributed in the hope that it will be
-;13:useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-;14:MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;15:GNU General Public License for more details.
-;16:
-;17:You should have received a copy of the GNU General Public License
-;18:along with Foobar; if not, write to the Free Software
-;19:Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-;20:===========================================================================
-;21:*/
-;22://
-;23://
-;24:// g_mem.c
-;25://
-;26:
-;27:
-;28:#include "g_local.h"
-;29:
-;30:
-;31:#define POOLSIZE	(256 * 1024)
-;32:
-;33:static char		memoryPool[POOLSIZE];
-;34:static int		allocPoint;
-;35:
-;36:void *G_Alloc( int size ) {
-line 39
-;37:	char	*p;
-;38:
-;39:	if ( g_debugAlloc.integer ) {
-ADDRGP4 g_debugAlloc+12
-INDIRI4
-CNSTI4 0
-EQI4 $53
-line 40
-;40:		G_Printf( "G_Alloc of %i bytes (%i left)\n", size, POOLSIZE - allocPoint - ( ( size + 31 ) & ~31 ) );
-ADDRGP4 $56
-ARGP4
-ADDRLP4 4
-ADDRFP4 0
-INDIRI4
-ASGNI4
-ADDRLP4 4
-INDIRI4
-ARGI4
-CNSTI4 262144
-ADDRGP4 allocPoint
-INDIRI4
-SUBI4
-ADDRLP4 4
-INDIRI4
-CNSTI4 31
-ADDI4
-CNSTI4 -32
-BANDI4
-SUBI4
-ARGI4
-ADDRGP4 G_Printf
-CALLV
-pop
-line 41
-;41:	}
-LABELV $53
-line 43
-;42:
-;43:	if ( allocPoint + size > POOLSIZE ) {
-ADDRGP4 allocPoint
-INDIRI4
-ADDRFP4 0
-INDIRI4
-ADDI4
-CNSTI4 262144
-LEI4 $57
-line 44
-;44:	  G_Error( "G_Alloc: failed on allocation of %i bytes\n", size ); // bk010103 - was %u, but is signed
-ADDRGP4 $59
-ARGP4
-ADDRFP4 0
-INDIRI4
-ARGI4
-ADDRGP4 G_Error
-CALLV
-pop
-line 45
-;45:		return NULL;
-CNSTP4 0
-RETP4
-ADDRGP4 $52
-JUMPV
-LABELV $57
-line 48
-;46:	}
-;47:
-;48:	p = &memoryPool[allocPoint];
-ADDRLP4 0
-ADDRGP4 allocPoint
-INDIRI4
-ADDRGP4 memoryPool
-ADDP4
-ASGNP4
-line 50
-;49:
-;50:	allocPoint += ( size + 31 ) & ~31;
-ADDRLP4 4
-ADDRGP4 allocPoint
-ASGNP4
-ADDRLP4 4
-INDIRP4
-ADDRLP4 4
-INDIRP4
-INDIRI4
-ADDRFP4 0
-INDIRI4
-CNSTI4 31
-ADDI4
-CNSTI4 -32
-BANDI4
-ADDI4
-ASGNI4
-line 52
-;51:
-;52:	return p;
-ADDRLP4 0
-INDIRP4
-RETP4
-LABELV $52
-endproc G_Alloc 8 12
-export G_InitMemory
-proc G_InitMemory 0 0
-line 55
-;53:}
-;54:
-;55:void G_InitMemory( void ) {
-line 56
-;56:	allocPoint = 0;
-ADDRGP4 allocPoint
-CNSTI4 0
-ASGNI4
-line 57
-;57:}
-LABELV $60
-endproc G_InitMemory 0 0
-export Svcmd_GameMem_f
-proc Svcmd_GameMem_f 0 12
-line 59
-;58:
-;59:void Svcmd_GameMem_f( void ) {
-line 60
-;60:	G_Printf( "Game memory status: %i out of %i bytes allocated\n", allocPoint, POOLSIZE );
-ADDRGP4 $62
-ARGP4
-ADDRGP4 allocPoint
-INDIRI4
-ARGI4
-CNSTI4 262144
-ARGI4
-ADDRGP4 G_Printf
-CALLV
-pop
-line 61
-;61:}
-LABELV $61
-endproc Svcmd_GameMem_f 0 12
-bss
-align 4
-LABELV allocPoint
-skip 4
-align 1
-LABELV memoryPool
-skip 262144
+proc BotAssaultSeekGoals 0 0
+endproc BotAssaultSeekGoals 0 0
+import BotTeam
+import BotTeamLeader
+import BotAI_GetSnapshotEntity
+import BotAI_GetEntityState
+import BotAI_GetClientState
+import BotAI_Trace
+import BotAI_BotInitialChat
+import BotAI_Print
+import floattime
+import BotEntityInfo
+import NumBots
+import BotResetState
+import BotShutdownGoalAI
+import BotSetupGoalAI
+import BotFreeGoalState
+import BotAllocGoalState
+import BotFreeItemWeights
+import BotLoadItemWeights
+import BotMutateGoalFuzzyLogic
+import BotSaveGoalFuzzyLogic
+import BotInterbreedGoalFuzzyLogic
+import BotUpdateEntityItems
+import BotInitLevelItems
+import BotSetAvoidGoalTime
+import BotAvoidGoalTime
+import BotGetMapLocationGoal
+import BotGetNextCampSpotGoal
+import BotGetLevelItemGoal
+import BotItemGoalInVisButNotVisible
+import BotTouchingGoal
+import BotChooseNBGItem
+import BotChooseLTGItem
+import BotGetSecondGoal
+import BotGetTopGoal
+import BotGoalName
+import BotDumpGoalStack
+import BotDumpAvoidGoals
+import BotEmptyGoalStack
+import BotPopGoal
+import BotPushGoal
+import BotRemoveFromAvoidGoals
+import BotResetAvoidGoals
+import BotResetGoalState
+import GetBotLibAPI
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection
 import trap_BotResetWeaponState
@@ -425,6 +288,17 @@ import g_noHealth
 import g_playerHealth
 import g_randomStartWeapon
 import g_scavengerWeapons
+import g_assaultRadius
+import g_assaultRoundTime
+import g_assaultHoldTime
+import g_assaultMode
+import G_AssaultGetActiveGoal
+import G_AssaultClientCommand
+import G_AssaultRunFrame
+import G_AssaultInit
+import G_AssaultControlsExitRules
+import G_AssaultBlocksWarmup
+import G_AssaultEnabled
 import g_entities
 import level
 import Pickup_Team
@@ -467,6 +341,9 @@ import G_WriteSessionData
 import G_InitWorldSession
 import G_InitSessionData
 import G_ReadSessionData
+import Svcmd_GameMem_f
+import G_InitMemory
+import G_Alloc
 import CheckObeliskAttack
 import Team_CheckDroppedItem
 import OnSameTeam
@@ -751,134 +628,3 @@ import strlen
 import rand
 import srand
 import qsort
-lit
-align 1
-LABELV $62
-byte 1 71
-byte 1 97
-byte 1 109
-byte 1 101
-byte 1 32
-byte 1 109
-byte 1 101
-byte 1 109
-byte 1 111
-byte 1 114
-byte 1 121
-byte 1 32
-byte 1 115
-byte 1 116
-byte 1 97
-byte 1 116
-byte 1 117
-byte 1 115
-byte 1 58
-byte 1 32
-byte 1 37
-byte 1 105
-byte 1 32
-byte 1 111
-byte 1 117
-byte 1 116
-byte 1 32
-byte 1 111
-byte 1 102
-byte 1 32
-byte 1 37
-byte 1 105
-byte 1 32
-byte 1 98
-byte 1 121
-byte 1 116
-byte 1 101
-byte 1 115
-byte 1 32
-byte 1 97
-byte 1 108
-byte 1 108
-byte 1 111
-byte 1 99
-byte 1 97
-byte 1 116
-byte 1 101
-byte 1 100
-byte 1 10
-byte 1 0
-align 1
-LABELV $59
-byte 1 71
-byte 1 95
-byte 1 65
-byte 1 108
-byte 1 108
-byte 1 111
-byte 1 99
-byte 1 58
-byte 1 32
-byte 1 102
-byte 1 97
-byte 1 105
-byte 1 108
-byte 1 101
-byte 1 100
-byte 1 32
-byte 1 111
-byte 1 110
-byte 1 32
-byte 1 97
-byte 1 108
-byte 1 108
-byte 1 111
-byte 1 99
-byte 1 97
-byte 1 116
-byte 1 105
-byte 1 111
-byte 1 110
-byte 1 32
-byte 1 111
-byte 1 102
-byte 1 32
-byte 1 37
-byte 1 105
-byte 1 32
-byte 1 98
-byte 1 121
-byte 1 116
-byte 1 101
-byte 1 115
-byte 1 10
-byte 1 0
-align 1
-LABELV $56
-byte 1 71
-byte 1 95
-byte 1 65
-byte 1 108
-byte 1 108
-byte 1 111
-byte 1 99
-byte 1 32
-byte 1 111
-byte 1 102
-byte 1 32
-byte 1 37
-byte 1 105
-byte 1 32
-byte 1 98
-byte 1 121
-byte 1 116
-byte 1 101
-byte 1 115
-byte 1 32
-byte 1 40
-byte 1 37
-byte 1 105
-byte 1 32
-byte 1 108
-byte 1 101
-byte 1 102
-byte 1 116
-byte 1 41
-byte 1 10
-byte 1 0

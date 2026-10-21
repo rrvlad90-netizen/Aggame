@@ -34,9 +34,6 @@ echo Compiling game VM...
 %cc% ../g_main.c
 if errorlevel 1 goto failed_vm
 
-%cc% ../g_syscalls.c
-if errorlevel 1 goto failed_vm
-
 %cc% ../bg_misc.c
 if errorlevel 1 goto failed_vm
 
