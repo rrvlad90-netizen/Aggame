@@ -31,3 +31,4 @@ set cc=lcc -DMISSIONPACK -DQ3_VM -S -Wf-target=bytecode -Wf-g -I..\..\cgame -I..
 q3asm -f ../ui
 :quit
 cd ..
+pause

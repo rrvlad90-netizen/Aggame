@@ -4729,9 +4729,24 @@ static qboolean GameType_Parse(char **p, qboolean join) {
 	while ( 1 ) {
 		token = COM_ParseExt(p, qtrue);
 
-		if (Q_stricmp(token, "}") == 0) {
-			return qtrue;
+	if( Q_stricmp(token, "}") == 0 ) {
+		if( !join &&
+			uiInfo.numGameTypes < MAX_GAMETYPES ) {
+			uiInfo.gameTypes[uiInfo.numGameTypes].gameType =
+				"Assault";
+
+			/*
+			 * Use CTF for map filtering.
+			 * The actual game starts as GT_TEAM.
+			 */
+			uiInfo.gameTypes[uiInfo.numGameTypes].gtEnum =
+				GT_CTF;
+
+			uiInfo.numGameTypes++;
 		}
+
+		return qtrue;
+	}
 
 		if ( !token || token[0] == 0 ) {
 			return qfalse;
