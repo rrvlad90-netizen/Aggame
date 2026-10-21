@@ -1,7 +1,281 @@
 export BotAssaultSeekGoals
 code
-proc BotAssaultSeekGoals 0 0
-endproc BotAssaultSeekGoals 0 0
+proc BotAssaultSeekGoals 36 12
+file "../ai_assault.c"
+line 21
+;1:#include "g_local.h"
+;2:#include "botlib.h"
+;3:#include "be_aas.h"
+;4:#include "be_ea.h"
+;5:#include "be_ai_char.h"
+;6:#include "be_ai_chat.h"
+;7:#include "be_ai_gen.h"
+;8:#include "be_ai_goal.h"
+;9:#include "be_ai_move.h"
+;10:#include "be_ai_weap.h"
+;11:
+;12:#include "ai_main.h"
+;13:#include "ai_assault.h"
+;14:
+;15:/*
+;16: * BotTeam is implemented in ai_dmq3.c.
+;17: * Declaring it here avoids including the large ai_dmq3.h.
+;18: */
+;19:int BotTeam( bot_state_t *bs );
+;20:
+;21:void BotAssaultSeekGoals( bot_state_t *bs ) {
+line 27
+;22:	vec3_t origin;
+;23:	int area;
+;24:	team_t attackingTeam;
+;25:	int team;
+;26:
+;27:	if( !G_AssaultGetActiveGoal(
+ADDRLP4 0
+ARGP4
+ADDRLP4 12
+ARGP4
+ADDRLP4 16
+ARGP4
+ADDRLP4 24
+ADDRGP4 G_AssaultGetActiveGoal
+CALLI4
+ASGNI4
+ADDRLP4 24
+INDIRI4
+CNSTI4 0
+NEI4 $54
+line 31
+;28:		origin,
+;29:		&area,
+;30:		&attackingTeam
+;31:	) ) {
+line 32
+;32:		if( bs->ltgtype == LTG_ASSAULT_ATTACK ||
+ADDRLP4 28
+ADDRFP4 0
+INDIRP4
+CNSTI4 6600
+ADDP4
+INDIRI4
+ASGNI4
+ADDRLP4 28
+INDIRI4
+CNSTI4 16
+EQI4 $58
+ADDRLP4 28
+INDIRI4
+CNSTI4 17
+NEI4 $53
+LABELV $58
+line 33
+;33:			bs->ltgtype == LTG_ASSAULT_DEFEND ) {
+line 34
+;34:			bs->ltgtype = 0;
+ADDRFP4 0
+INDIRP4
+CNSTI4 6600
+ADDP4
+CNSTI4 0
+ASGNI4
+line 35
+;35:		}
+line 37
+;36:
+;37:		return;
+ADDRGP4 $53
+JUMPV
+LABELV $54
+line 40
+;38:	}
+;39:
+;40:	team = BotTeam( bs );
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRLP4 28
+ADDRGP4 BotTeam
+CALLI4
+ASGNI4
+ADDRLP4 20
+ADDRLP4 28
+INDIRI4
+ASGNI4
+line 42
+;41:
+;42:	memset(
+ADDRFP4 0
+INDIRP4
+CNSTI4 6624
+ADDP4
+ARGP4
+CNSTI4 0
+ARGI4
+CNSTI4 56
+ARGI4
+ADDRGP4 memset
+CALLP4
+pop
+line 48
+;43:		&bs->teamgoal,
+;44:		0,
+;45:		sizeof(bs->teamgoal)
+;46:	);
+;47:
+;48:	VectorCopy(
+ADDRFP4 0
+INDIRP4
+CNSTI4 6624
+ADDP4
+ADDRLP4 0
+INDIRB
+ASGNB 12
+line 53
+;49:		origin,
+;50:		bs->teamgoal.origin
+;51:	);
+;52:
+;53:	VectorSet(
+ADDRFP4 0
+INDIRP4
+CNSTI4 6640
+ADDP4
+CNSTF4 3254779904
+ASGNF4
+ADDRFP4 0
+INDIRP4
+CNSTI4 6644
+ADDP4
+CNSTF4 3254779904
+ASGNF4
+ADDRFP4 0
+INDIRP4
+CNSTI4 6648
+ADDP4
+CNSTF4 3250585600
+ASGNF4
+line 60
+;54:		bs->teamgoal.mins,
+;55:		-32,
+;56:		-32,
+;57:		-24
+;58:	);
+;59:
+;60:	VectorSet(
+ADDRFP4 0
+INDIRP4
+CNSTI4 6652
+ADDP4
+CNSTF4 1107296256
+ASGNF4
+ADDRFP4 0
+INDIRP4
+CNSTI4 6656
+ADDP4
+CNSTF4 1107296256
+ASGNF4
+ADDRFP4 0
+INDIRP4
+CNSTI4 6660
+ADDP4
+CNSTF4 1111490560
+ASGNF4
+line 67
+;61:		bs->teamgoal.maxs,
+;62:		32,
+;63:		32,
+;64:		48
+;65:	);
+;66:
+;67:	bs->teamgoal.areanum = area;
+ADDRFP4 0
+INDIRP4
+CNSTI4 6636
+ADDP4
+ADDRLP4 12
+INDIRI4
+ASGNI4
+line 68
+;68:	bs->teamgoal.entitynum = ENTITYNUM_NONE;
+ADDRFP4 0
+INDIRP4
+CNSTI4 6664
+ADDP4
+CNSTI4 1023
+ASGNI4
+line 69
+;69:	bs->teamgoal_time = FloatTime() + 3600;
+ADDRFP4 0
+INDIRP4
+CNSTI4 6744
+ADDP4
+ADDRGP4 floattime
+INDIRF4
+CNSTF4 1163984896
+ADDF4
+ASGNF4
+line 70
+;70:	bs->ordered = qfalse;
+ADDRFP4 0
+INDIRP4
+CNSTI4 6612
+ADDP4
+CNSTI4 0
+ASGNI4
+line 71
+;71:	bs->decisionmaker = bs->client;
+ADDRLP4 32
+ADDRFP4 0
+INDIRP4
+ASGNP4
+ADDRLP4 32
+INDIRP4
+CNSTI4 6608
+ADDP4
+ADDRLP4 32
+INDIRP4
+CNSTI4 8
+ADDP4
+INDIRI4
+ASGNI4
+line 73
+;72:
+;73:	if( team == attackingTeam ) {
+ADDRLP4 20
+INDIRI4
+ADDRLP4 16
+INDIRI4
+NEI4 $59
+line 74
+;74:		bs->ltgtype = LTG_ASSAULT_ATTACK;
+ADDRFP4 0
+INDIRP4
+CNSTI4 6600
+ADDP4
+CNSTI4 16
+ASGNI4
+line 75
+;75:	}
+ADDRGP4 $60
+JUMPV
+LABELV $59
+line 76
+;76:	else {
+line 77
+;77:		bs->ltgtype = LTG_ASSAULT_DEFEND;
+ADDRFP4 0
+INDIRP4
+CNSTI4 6600
+ADDP4
+CNSTI4 17
+ASGNI4
+line 78
+;78:	}
+LABELV $60
+line 79
+;79:}
+LABELV $53
+endproc BotAssaultSeekGoals 36 12
 import BotTeam
 import BotTeamLeader
 import BotAI_GetSnapshotEntity
@@ -14,6 +288,29 @@ import floattime
 import BotEntityInfo
 import NumBots
 import BotResetState
+import BotResetWeaponState
+import BotFreeWeaponState
+import BotAllocWeaponState
+import BotLoadWeaponWeights
+import BotGetWeaponInfo
+import BotChooseBestFightWeapon
+import BotShutdownWeaponAI
+import BotSetupWeaponAI
+import BotShutdownMoveAI
+import BotSetupMoveAI
+import BotSetBrushModelTypes
+import BotAddAvoidSpot
+import BotInitMoveState
+import BotFreeMoveState
+import BotAllocMoveState
+import BotPredictVisiblePosition
+import BotMovementViewTarget
+import BotReachabilityArea
+import BotResetLastAvoidReach
+import BotResetAvoidReach
+import BotMoveInDirection
+import BotMoveToGoal
+import BotResetMoveState
 import BotShutdownGoalAI
 import BotSetupGoalAI
 import BotFreeGoalState
@@ -45,6 +342,64 @@ import BotPushGoal
 import BotRemoveFromAvoidGoals
 import BotResetAvoidGoals
 import BotResetGoalState
+import GeneticParentsAndChildSelection
+import BotSetChatName
+import BotSetChatGender
+import BotLoadChatFile
+import BotReplaceSynonyms
+import UnifyWhiteSpaces
+import BotMatchVariable
+import BotFindMatch
+import StringContains
+import BotGetChatMessage
+import BotEnterChat
+import BotChatLength
+import BotReplyChat
+import BotNumInitialChats
+import BotInitialChat
+import BotNumConsoleMessages
+import BotNextConsoleMessage
+import BotRemoveConsoleMessage
+import BotQueueConsoleMessage
+import BotFreeChatState
+import BotAllocChatState
+import BotShutdownChatAI
+import BotSetupChatAI
+import BotShutdownCharacters
+import Characteristic_String
+import Characteristic_BInteger
+import Characteristic_Integer
+import Characteristic_BFloat
+import Characteristic_Float
+import BotFreeCharacter
+import BotLoadCharacter
+import EA_Shutdown
+import EA_Setup
+import EA_ResetInput
+import EA_GetInput
+import EA_EndRegular
+import EA_View
+import EA_Move
+import EA_DelayedJump
+import EA_Jump
+import EA_SelectWeapon
+import EA_Use
+import EA_Gesture
+import EA_Talk
+import EA_Respawn
+import EA_Attack
+import EA_MoveRight
+import EA_MoveLeft
+import EA_MoveBack
+import EA_MoveForward
+import EA_MoveDown
+import EA_MoveUp
+import EA_Walk
+import EA_Crouch
+import EA_Action
+import EA_Command
+import EA_SayTeam
+import EA_Say
 import GetBotLibAPI
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

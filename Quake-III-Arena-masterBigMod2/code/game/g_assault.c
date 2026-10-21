@@ -1,8 +1,9 @@
 #include "g_local.h"
 
 #define ASSAULT_MIN_POINT_DISTANCE 512.0f
-#define ASSAULT_MARKER_MODEL \
-	"models/powerups/teleporter/tele_exit.md3"
+#define ASSAULT_MARKER_MODEL "models/powerups/teleporter/tele_exit.md3"
+#define ASSAULT_MAX_POINTS 3
+#define ASSAULT_DEFAULT_POINTS 2
 
 typedef enum {
 	ASSAULT_SETUP,
@@ -20,10 +21,12 @@ typedef struct {
 typedef struct {
 	assaultPhase_t phase;
 
-	vec3_t points[2];
-	int pointAreas[2];
-	qboolean pointSet[2];
-	gentity_t *markers[2];
+	vec3_t points[ASSAULT_MAX_POINTS];
+	int pointAreas[ASSAULT_MAX_POINTS];
+	qboolean pointSet[ASSAULT_MAX_POINTS];
+	gentity_t *markers[ASSAULT_MAX_POINTS];
+
+	int pointCount;
 
 	int editorClient;
 	int activeStage;
@@ -43,7 +46,16 @@ typedef struct {
 static assaultState_t assault;
 
 static char *AssaultPointName( int point ) {
-	return point == 0 ? "A" : "B";
+	switch( point ) {
+	case 0:
+		return "A";
+	case 1:
+		return "B";
+	case 2:
+		return "C";
+	default:
+		return "?";
+	}
 }
 
 qboolean G_AssaultEnabled( void ) {
@@ -56,7 +68,7 @@ static int AssaultActualPoint( void ) {
 		return assault.activeStage;
 	}
 
-	return 1 - assault.activeStage;
+	return assault.pointCount - 1 - assault.activeStage;
 }
 
 static void AssaultSetMarkerLight(
@@ -79,6 +91,7 @@ static void AssaultSetMarkerLight(
 
 static void AssaultUpdateMarkers( void ) {
 	int activePoint;
+	int i;
 
 	activePoint = -1;
 
@@ -87,28 +100,31 @@ static void AssaultUpdateMarkers( void ) {
 		activePoint = AssaultActualPoint();
 	}
 
-	if( assault.markers[0] ) {
-		if( activePoint == 0 ) {
-			AssaultSetMarkerLight(
-				assault.markers[0], 32, 255, 32, 100
-			);
+	for( i = 0; i < ASSAULT_MAX_POINTS; i++ ) {
+		if( !assault.markers[i] ) {
+			continue;
 		}
-		else {
-			AssaultSetMarkerLight(
-				assault.markers[0], 255, 48, 32, 55
-			);
-		}
-	}
 
-	if( assault.markers[1] ) {
-		if( activePoint == 1 ) {
+		if( i == activePoint ) {
 			AssaultSetMarkerLight(
-				assault.markers[1], 32, 255, 32, 100
+				assault.markers[i], 32, 255, 32, 100
+			);
+			continue;
+		}
+
+		if( i == 0 ) {
+			AssaultSetMarkerLight(
+				assault.markers[i], 255, 48, 32, 55
+			);
+		}
+		else if( i == 1 ) {
+			AssaultSetMarkerLight(
+				assault.markers[i], 48, 96, 255, 55
 			);
 		}
 		else {
 			AssaultSetMarkerLight(
-				assault.markers[1], 48, 96, 255, 55
+				assault.markers[i], 255, 192, 32, 55
 			);
 		}
 	}
@@ -125,9 +141,7 @@ static void AssaultCreateOrMoveMarker( int point ) {
 
 		marker->classname = "assault_marker";
 		marker->s.eType = ET_GENERAL;
-		marker->s.modelindex =
-			G_ModelIndex( ASSAULT_MARKER_MODEL );
-
+		marker->s.modelindex = G_ModelIndex( ASSAULT_MARKER_MODEL );
 		marker->s.apos.trType = TR_LINEAR;
 		marker->s.apos.trTime = level.time;
 		VectorSet(
@@ -145,6 +159,44 @@ static void AssaultCreateOrMoveMarker( int point ) {
 	trap_LinkEntity( marker );
 
 	AssaultUpdateMarkers();
+}
+
+static int AssaultPointAreaNum( vec3_t origin ) {
+	int area;
+	int areas[16];
+	int numAreas;
+	int i;
+	vec3_t start;
+	vec3_t end;
+
+	area = trap_AAS_PointAreaNum( origin );
+
+	if( area &&
+		trap_AAS_AreaReachability(area) ) {
+		return area;
+	}
+
+	VectorCopy( origin, start );
+	VectorCopy( origin, end );
+
+	start[2] -= 32.0f;
+	end[2] += 64.0f;
+
+	numAreas = trap_AAS_TraceAreas(
+		start,
+		end,
+		areas,
+		NULL,
+		16
+	);
+
+	for( i = 0; i < numAreas; i++ ) {
+		if( trap_AAS_AreaReachability(areas[i]) ) {
+			return areas[i];
+		}
+	}
+
+	return 0;
 }
 
 static qboolean AssaultTracePlacement(
@@ -241,48 +293,76 @@ static void AssaultPlacePoint( gentity_t *ent, int point ) {
 	vec3_t origin;
 	int otherPoint;
 	int area;
+	int clientNum;
+
+	clientNum = ent - g_entities;
 
 	if( assault.phase != ASSAULT_SETUP ) {
 		trap_SendServerCommand(
-			ent - g_entities,
+			clientNum,
 			"print \"The match has already started.\n\""
 		);
 		return;
 	}
 
-	if( point < 0 || point > 1 ) {
-		return;
-	}
-
-	if( !AssaultClaimEditor( ent ) ) {
-		return;
-	}
-
-	if( !AssaultTracePlacement( ent, origin ) ) {
+	if( point < 0 || point >= assault.pointCount ) {
 		trap_SendServerCommand(
-			ent - g_entities,
+			clientNum,
+			va(
+				"print \"Point number must be from 1 to %i.\n\"",
+				assault.pointCount
+			)
+		);
+		return;
+	}
+
+	if( assault.editorClient != clientNum ) {
+		trap_SendServerCommand(
+			clientNum,
+			"print \"Use /assault_edit first.\n\""
+		);
+		return;
+	}
+
+	if( ent->client->sess.sessionTeam != TEAM_SPECTATOR ) {
+		trap_SendServerCommand(
+			clientNum,
+			"print \"Point placement requires spectator mode.\n\""
+		);
+		return;
+	}
+
+	if( !AssaultTracePlacement(ent, origin) ) {
+		trap_SendServerCommand(
+			clientNum,
 			"print \"Unable to place a point there.\n\""
 		);
 		return;
 	}
 
-	otherPoint = 1 - point;
+	for( otherPoint = 0;
+		otherPoint < assault.pointCount;
+		otherPoint++ ) {
+		if( otherPoint == point ||
+			!assault.pointSet[otherPoint] ) {
+			continue;
+		}
 
-	if( assault.pointSet[otherPoint] &&
-		DistanceSquared(
+		if( DistanceSquared(
 			origin,
 			assault.points[otherPoint]
 		) <
-		ASSAULT_MIN_POINT_DISTANCE *
-		ASSAULT_MIN_POINT_DISTANCE ) {
-		trap_SendServerCommand(
-			ent - g_entities,
-			"print \"The points are too close together.\n\""
-		);
-		return;
+			ASSAULT_MIN_POINT_DISTANCE *
+			ASSAULT_MIN_POINT_DISTANCE ) {
+			trap_SendServerCommand(
+				clientNum,
+				"print \"The points are too close together.\n\""
+			);
+			return;
+		}
 	}
 
-	area = trap_AAS_PointAreaNum( origin );
+	area = AssaultPointAreaNum( origin );
 
 	VectorCopy( origin, assault.points[point] );
 	assault.pointAreas[point] = area;
@@ -300,7 +380,7 @@ static void AssaultPlacePoint( gentity_t *ent, int point ) {
 
 	if( !area ) {
 		trap_SendServerCommand(
-			ent - g_entities,
+			clientNum,
 			"print \"Warning: the point has no AAS area; bots may not reach it.\n\""
 		);
 	}
@@ -354,7 +434,7 @@ static void AssaultStartRound( team_t attackingTeam ) {
 		/*
 		 * If Red completed the route, Blue must beat Red's time.
 		 */
-		if( assault.redResult.completedPoints == 2 &&
+		if( assault.redResult.completedPoints == assault.pointCount &&
 			assault.redResult.elapsedTime <
 			assault.roundLimit ) {
 			assault.roundLimit =
@@ -400,7 +480,7 @@ static void AssaultFinishMatch( void ) {
 		assault.redResult.completedPoints ) {
 		winner = TEAM_BLUE;
 	}
-	else if( assault.redResult.completedPoints == 2 ) {
+	else if( assault.redResult.completedPoints == assault.pointCount ) {
 		if( assault.redResult.elapsedTime <
 			assault.blueResult.elapsedTime ) {
 			winner = TEAM_RED;
@@ -473,7 +553,7 @@ static void AssaultStoreRoundResult( qboolean completed ) {
 	}
 
 	if( completed ) {
-		result->completedPoints = 2;
+		result->completedPoints = assault.pointCount;
 		result->progress =
 			g_assaultHoldTime.integer * 1000;
 		result->elapsedTime =
@@ -510,7 +590,7 @@ static void AssaultCompletePoint( void ) {
 	assault.captureProgress = 0;
 	assault.announcedQuarter = 0;
 
-	if( assault.activeStage >= 2 ) {
+	if( assault.activeStage >= assault.pointCount ) {
 		AssaultStoreRoundResult( qtrue );
 		return;
 	}
@@ -582,13 +662,21 @@ static void AssaultStartMatch( gentity_t *ent ) {
 		return;
 	}
 
-	if( !assault.pointSet[0] ||
-		!assault.pointSet[1] ) {
-		trap_SendServerCommand(
-			ent - g_entities,
-			"print \"Place both Assault points first.\n\""
-		);
-		return;
+	{
+		int i;
+
+		for( i = 0; i < assault.pointCount; i++ ) {
+			if( !assault.pointSet[i] ) {
+				trap_SendServerCommand(
+					ent - g_entities,
+					va(
+						"print \"Assault: points are invalid. Point %s is missing.\n\"",
+						AssaultPointName(i)
+					)
+				);
+				return;
+			}
+		}
 	}
 
 	if( TeamCount(-1, TEAM_RED) < 1 ||
@@ -617,46 +705,110 @@ static void AssaultStartMatch( gentity_t *ent ) {
 	AssaultStartRound( TEAM_RED );
 }
 
+
+static void AssaultSetPointCount(
+	gentity_t *ent,
+	int pointCount
+) {
+	int i;
+	int clientNum;
+
+	clientNum = ent - g_entities;
+
+	if( assault.phase != ASSAULT_SETUP ) {
+		trap_SendServerCommand(
+			clientNum,
+			"print \"The match has already started.\n\""
+		);
+		return;
+	}
+
+	if( ent->r.svFlags & SVF_BOT ) {
+		return;
+	}
+
+	if( pointCount < 1 ||
+		pointCount > ASSAULT_MAX_POINTS ) {
+		trap_SendServerCommand(
+			clientNum,
+			"print \"Usage: /assault_set 1|2|3\n\""
+		);
+		return;
+	}
+
+	if( assault.editorClient >= 0 &&
+		assault.editorClient != clientNum ) {
+		trap_SendServerCommand(
+			clientNum,
+			"print \"Another player is editing Assault.\n\""
+		);
+		return;
+	}
+
+	for( i = pointCount;
+		i < ASSAULT_MAX_POINTS;
+		i++ ) {
+		if( assault.markers[i] ) {
+			G_FreeEntity( assault.markers[i] );
+			assault.markers[i] = NULL;
+		}
+
+		assault.pointSet[i] = qfalse;
+		assault.pointAreas[i] = 0;
+		VectorClear( assault.points[i] );
+	}
+
+	assault.pointCount = pointCount;
+
+	trap_SendServerCommand(
+		-1,
+		va(
+			"print \"Assault will use %i point%s.\n\"",
+			pointCount,
+			pointCount == 1 ? "" : "s"
+		)
+	);
+}
+
 qboolean G_AssaultClientCommand(
 	gentity_t *ent,
 	const char *cmd
 ) {
 	char arg[MAX_TOKEN_CHARS];
-	int point;
+	int value;
 
 	if( !G_AssaultEnabled() ) {
 		return qfalse;
 	}
 
+	if( !Q_stricmp(cmd, "assault_set") ) {
+		trap_Argv( 1, arg, sizeof(arg) );
+		AssaultSetPointCount( ent, atoi(arg) );
+		return qtrue;
+	}
+
+	if( !Q_stricmp(cmd, "assault_edit") ) {
+		if( assault.phase != ASSAULT_SETUP ) {
+			trap_SendServerCommand(
+				ent - g_entities,
+				"print \"The match has already started.\n\""
+			);
+			return qtrue;
+		}
+
+		AssaultClaimEditor( ent );
+		return qtrue;
+	}
+
 	if( !Q_stricmp(cmd, "assault_place") ) {
 		trap_Argv( 1, arg, sizeof(arg) );
-		point = atoi(arg) - 1;
-		AssaultPlacePoint( ent, point );
+		value = atoi(arg) - 1;
+		AssaultPlacePoint( ent, value );
 		return qtrue;
 	}
 
 	if( !Q_stricmp(cmd, "assault_ready") ) {
 		AssaultStartMatch( ent );
-		return qtrue;
-	}
-
-	if( !Q_stricmp(cmd, "assault_release") ) {
-		if( assault.editorClient == ent - g_entities &&
-			assault.phase == ASSAULT_SETUP ) {
-			assault.editorClient = -1;
-		}
-		return qtrue;
-	}
-
-	if( !Q_stricmp(cmd, "assault_status") ) {
-		trap_SendServerCommand(
-			ent - g_entities,
-			va(
-				"print \"Point A: %s, Point B: %s\n\"",
-				assault.pointSet[0] ? "set" : "not set",
-				assault.pointSet[1] ? "set" : "not set"
-			)
-		);
 		return qtrue;
 	}
 
@@ -667,6 +819,7 @@ void G_AssaultInit( void ) {
 	memset( &assault, 0, sizeof(assault) );
 	assault.editorClient = -1;
 	assault.phase = ASSAULT_SETUP;
+	assault.pointCount = ASSAULT_DEFAULT_POINTS;
 
 	if( !G_AssaultEnabled() ) {
 		return;
