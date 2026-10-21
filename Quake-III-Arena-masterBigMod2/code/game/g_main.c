@@ -38,6 +38,11 @@ typedef struct {
 gentity_t		g_entities[MAX_GENTITIES];
 gclient_t		g_clients[MAX_CLIENTS];
 
+vmCvar_t 	g_assaultMode;
+vmCvar_t 	g_assaultHoldTime;
+vmCvar_t 	g_assaultRoundTime;
+vmCvar_t 	g_assaultRadius;
+
 vmCvar_t 	g_scavengerWeapons;
 vmCvar_t 	g_randomStartWeapon;
 vmCvar_t 	g_playerHealth;
@@ -112,6 +117,12 @@ vmCvar_t	g_proxMineTimeout;
 
 // bk001129 - made static to avoid aliasing
 static cvarTable_t		gameCvarTable[] = {
+	
+	
+	{&g_assaultMode,"g_assaultMode","0",CVAR_SERVERINFO | CVAR_LATCH,0,qfalse},
+	{&g_assaultHoldTime,"g_assaultHoldTime","10",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},
+	{&g_assaultRoundTime,"g_assaultRoundTime","300",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},
+	{&g_assaultRadius,"g_assaultRadius","160",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},	
 	
 	{ &g_noRailgun, "g_noRailgun", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_scavengerWeapons, "g_scavengerWeapons", "0", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qfalse },
@@ -537,6 +548,7 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 	}
 
 	G_RemapTeamShaders();
+	G_AssaultInit();
 
 }
 
@@ -1362,6 +1374,10 @@ void CheckExitRules( void ) {
 #endif
 		return;
 	}
+	
+		if( G_AssaultControlsExitRules() ) {
+			return;
+		}
 
 	/*
 	 * One Life elimination is checked before the ordinary
@@ -1620,6 +1636,10 @@ Once a frame, check for changes in tournement player state
 void CheckTournament( void ) {
 	// check because we run 3 game frames before calling Connect and/or ClientBegin
 	// for clients on a map_restart
+	if( G_AssaultBlocksWarmup() ) {
+		return;
+	}
+	
 	if ( level.numPlayingClients == 0 ) {
 		return;
 	}
@@ -2022,6 +2042,8 @@ start = trap_Milliseconds();
 		}
 	}
 end = trap_Milliseconds();
+
+	G_AssaultRunFrame();
 
 	// see if it is time to do a tournement restart
 	CheckTournament();

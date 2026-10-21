@@ -1045,6 +1045,17 @@ int BotLongTermGoal(bot_state_t *bs, int tfl, int retreat, bot_goal_t *goal) {
 	float squaredist;
 	int areanum;
 	vec3_t dir;
+	
+	if( bs->ltgtype == LTG_ASSAULT_ATTACK ||
+		bs->ltgtype == LTG_ASSAULT_DEFEND ) {
+		memcpy(
+			goal,
+			&bs->teamgoal,
+			sizeof(bot_goal_t)
+		);
+
+		return qtrue;
+	}
 
 	//FIXME: also have air long term goals?
 	//

@@ -31,6 +31,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  *****************************************************************************/
 
 
+#include "ai_assault.h"
 #include "g_local.h"
 #include "botlib.h"
 #include "be_aas.h"
@@ -1324,6 +1325,12 @@ BotTeamGoals
 ==================
 */
 void BotTeamGoals(bot_state_t *bs, int retreat) {
+
+	if( g_assaultMode.integer ) {
+		BotAssaultSeekGoals( bs );
+		bs->order_time = 0;
+		return;
+	}
 
 	if ( retreat ) {
 		if (gametype == GT_CTF) {

@@ -9,6 +9,7 @@ q_math
 q_shared
 ai_dmnet
 ai_dmq3
+ai_assault
 ai_team
 ai_main
 ai_chat
@@ -16,6 +17,7 @@ ai_cmd
 ai_vcmd
 g_active
 g_arenas
+g_assault
 g_bot
 g_client
 g_cmds

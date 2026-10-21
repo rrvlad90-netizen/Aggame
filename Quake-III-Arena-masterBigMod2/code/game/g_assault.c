@@ -1,0 +1,805 @@
+#include "g_local.h"
+
+#define ASSAULT_MIN_POINT_DISTANCE 512.0f
+#define ASSAULT_MARKER_MODEL \
+	"models/powerups/teleporter/tele_exit.md3"
+
+typedef enum {
+	ASSAULT_SETUP,
+	ASSAULT_ROUND_RED,
+	ASSAULT_ROUND_BLUE,
+	ASSAULT_FINISHED
+} assaultPhase_t;
+
+typedef struct {
+	int completedPoints;
+	int progress;
+	int elapsedTime;
+} assaultResult_t;
+
+typedef struct {
+	assaultPhase_t phase;
+
+	vec3_t points[2];
+	int pointAreas[2];
+	qboolean pointSet[2];
+	gentity_t *markers[2];
+
+	int editorClient;
+	int activeStage;
+	int captureProgress;
+	int announcedQuarter;
+
+	int roundStartTime;
+	int roundLimit;
+	int lastFrameTime;
+
+	team_t attackingTeam;
+
+	assaultResult_t redResult;
+	assaultResult_t blueResult;
+} assaultState_t;
+
+static assaultState_t assault;
+
+static char *AssaultPointName( int point ) {
+	return point == 0 ? "A" : "B";
+}
+
+qboolean G_AssaultEnabled( void ) {
+	return g_assaultMode.integer &&
+		g_gametype.integer == GT_TEAM;
+}
+
+static int AssaultActualPoint( void ) {
+	if( assault.attackingTeam == TEAM_RED ) {
+		return assault.activeStage;
+	}
+
+	return 1 - assault.activeStage;
+}
+
+static void AssaultSetMarkerLight(
+	gentity_t *marker,
+	int red,
+	int green,
+	int blue,
+	int intensity
+) {
+	if( !marker ) {
+		return;
+	}
+
+	marker->s.constantLight =
+		red |
+		(green << 8) |
+		(blue << 16) |
+		(intensity << 24);
+}
+
+static void AssaultUpdateMarkers( void ) {
+	int activePoint;
+
+	activePoint = -1;
+
+	if( assault.phase == ASSAULT_ROUND_RED ||
+		assault.phase == ASSAULT_ROUND_BLUE ) {
+		activePoint = AssaultActualPoint();
+	}
+
+	if( assault.markers[0] ) {
+		if( activePoint == 0 ) {
+			AssaultSetMarkerLight(
+				assault.markers[0], 32, 255, 32, 100
+			);
+		}
+		else {
+			AssaultSetMarkerLight(
+				assault.markers[0], 255, 48, 32, 55
+			);
+		}
+	}
+
+	if( assault.markers[1] ) {
+		if( activePoint == 1 ) {
+			AssaultSetMarkerLight(
+				assault.markers[1], 32, 255, 32, 100
+			);
+		}
+		else {
+			AssaultSetMarkerLight(
+				assault.markers[1], 48, 96, 255, 55
+			);
+		}
+	}
+}
+
+static void AssaultCreateOrMoveMarker( int point ) {
+	gentity_t *marker;
+
+	marker = assault.markers[point];
+
+	if( !marker ) {
+		marker = G_Spawn();
+		assault.markers[point] = marker;
+
+		marker->classname = "assault_marker";
+		marker->s.eType = ET_GENERAL;
+		marker->s.modelindex =
+			G_ModelIndex( ASSAULT_MARKER_MODEL );
+
+		marker->s.apos.trType = TR_LINEAR;
+		marker->s.apos.trTime = level.time;
+		VectorSet(
+			marker->s.apos.trDelta,
+			0.0f,
+			45.0f,
+			0.0f
+		);
+
+		marker->r.svFlags |= SVF_BROADCAST;
+		marker->r.contents = 0;
+	}
+
+	G_SetOrigin( marker, assault.points[point] );
+	trap_LinkEntity( marker );
+
+	AssaultUpdateMarkers();
+}
+
+static qboolean AssaultTracePlacement(
+	gentity_t *ent,
+	vec3_t result
+) {
+	trace_t trace;
+	vec3_t start;
+	vec3_t end;
+	vec3_t forward;
+
+	VectorCopy( ent->client->ps.origin, start );
+
+	if( ent->client->ps.viewheight ) {
+		start[2] += ent->client->ps.viewheight;
+	}
+	else {
+		start[2] += 26;
+	}
+
+	AngleVectors(
+		ent->client->ps.viewangles,
+		forward,
+		NULL,
+		NULL
+	);
+
+	VectorMA( start, 8192.0f, forward, end );
+
+	trap_Trace(
+		&trace,
+		start,
+		NULL,
+		NULL,
+		end,
+		ent - g_entities,
+		MASK_SOLID
+	);
+
+	if( trace.startsolid ||
+		trace.allsolid ||
+		trace.fraction == 1.0f ||
+		(trace.surfaceFlags & SURF_SKY) ) {
+		return qfalse;
+	}
+
+	VectorCopy( trace.endpos, result );
+	result[2] += 8.0f;
+
+	return qtrue;
+}
+
+static qboolean AssaultClaimEditor( gentity_t *ent ) {
+	int clientNum;
+
+	clientNum = ent - g_entities;
+
+	if( ent->r.svFlags & SVF_BOT ) {
+		return qfalse;
+	}
+
+	if( ent->client->sess.sessionTeam != TEAM_SPECTATOR ) {
+		trap_SendServerCommand(
+			clientNum,
+			"print \"Point placement requires spectator mode.\n\""
+		);
+		return qfalse;
+	}
+
+	if( assault.editorClient == -1 ) {
+		assault.editorClient = clientNum;
+
+		trap_SendServerCommand(
+			-1,
+			va(
+				"print \"%s is placing Assault points.\n\"",
+				ent->client->pers.netname
+			)
+		);
+	}
+
+	if( assault.editorClient != clientNum ) {
+		trap_SendServerCommand(
+			clientNum,
+			"print \"Another player is placing the points.\n\""
+		);
+		return qfalse;
+	}
+
+	return qtrue;
+}
+
+static void AssaultPlacePoint( gentity_t *ent, int point ) {
+	vec3_t origin;
+	int otherPoint;
+	int area;
+
+	if( assault.phase != ASSAULT_SETUP ) {
+		trap_SendServerCommand(
+			ent - g_entities,
+			"print \"The match has already started.\n\""
+		);
+		return;
+	}
+
+	if( point < 0 || point > 1 ) {
+		return;
+	}
+
+	if( !AssaultClaimEditor( ent ) ) {
+		return;
+	}
+
+	if( !AssaultTracePlacement( ent, origin ) ) {
+		trap_SendServerCommand(
+			ent - g_entities,
+			"print \"Unable to place a point there.\n\""
+		);
+		return;
+	}
+
+	otherPoint = 1 - point;
+
+	if( assault.pointSet[otherPoint] &&
+		DistanceSquared(
+			origin,
+			assault.points[otherPoint]
+		) <
+		ASSAULT_MIN_POINT_DISTANCE *
+		ASSAULT_MIN_POINT_DISTANCE ) {
+		trap_SendServerCommand(
+			ent - g_entities,
+			"print \"The points are too close together.\n\""
+		);
+		return;
+	}
+
+	area = trap_AAS_PointAreaNum( origin );
+
+	VectorCopy( origin, assault.points[point] );
+	assault.pointAreas[point] = area;
+	assault.pointSet[point] = qtrue;
+
+	AssaultCreateOrMoveMarker( point );
+
+	trap_SendServerCommand(
+		-1,
+		va(
+			"cp \"Assault point %s placed\"",
+			AssaultPointName(point)
+		)
+	);
+
+	if( !area ) {
+		trap_SendServerCommand(
+			ent - g_entities,
+			"print \"Warning: the point has no AAS area; bots may not reach it.\n\""
+		);
+	}
+}
+
+static void AssaultRespawnTeams( void ) {
+	int i;
+	gentity_t *ent;
+
+	for( i = 0; i < level.maxclients; i++ ) {
+		ent = &g_entities[i];
+
+		if( !ent->client ||
+			ent->client->pers.connected != CON_CONNECTED ) {
+			continue;
+		}
+
+		if( ent->client->sess.sessionTeam != TEAM_RED &&
+			ent->client->sess.sessionTeam != TEAM_BLUE ) {
+			continue;
+		}
+
+		ClientSpawn( ent );
+	}
+}
+
+static void AssaultStartRound( team_t attackingTeam ) {
+	int normalLimit;
+
+	assault.attackingTeam = attackingTeam;
+	assault.activeStage = 0;
+	assault.captureProgress = 0;
+	assault.announcedQuarter = 0;
+	assault.roundStartTime = level.time;
+	assault.lastFrameTime = level.time;
+
+	normalLimit = g_assaultRoundTime.integer * 1000;
+
+	if( normalLimit < 30000 ) {
+		normalLimit = 30000;
+	}
+
+	assault.roundLimit = normalLimit;
+
+	if( attackingTeam == TEAM_RED ) {
+		assault.phase = ASSAULT_ROUND_RED;
+	}
+	else {
+		assault.phase = ASSAULT_ROUND_BLUE;
+
+		/*
+		 * If Red completed the route, Blue must beat Red's time.
+		 */
+		if( assault.redResult.completedPoints == 2 &&
+			assault.redResult.elapsedTime <
+			assault.roundLimit ) {
+			assault.roundLimit =
+				assault.redResult.elapsedTime;
+		}
+	}
+
+	level.teamScores[TEAM_RED] = 0;
+	level.teamScores[TEAM_BLUE] = 0;
+
+	trap_SetConfigstring( CS_SCORES1, "0" );
+	trap_SetConfigstring( CS_SCORES2, "0" );
+
+	level.startTime = level.time;
+	trap_SetConfigstring(
+		CS_LEVEL_START_TIME,
+		va("%i", level.startTime)
+	);
+
+	AssaultRespawnTeams();
+	AssaultUpdateMarkers();
+
+	trap_SendServerCommand(
+		-1,
+		va(
+			"cp \"%s attacks point %s\"",
+			attackingTeam == TEAM_RED ? "Red" : "Blue",
+			AssaultPointName(AssaultActualPoint())
+		)
+	);
+}
+
+static void AssaultFinishMatch( void ) {
+	int winner;
+
+	winner = TEAM_FREE;
+
+	if( assault.redResult.completedPoints >
+		assault.blueResult.completedPoints ) {
+		winner = TEAM_RED;
+	}
+	else if( assault.blueResult.completedPoints >
+		assault.redResult.completedPoints ) {
+		winner = TEAM_BLUE;
+	}
+	else if( assault.redResult.completedPoints == 2 ) {
+		if( assault.redResult.elapsedTime <
+			assault.blueResult.elapsedTime ) {
+			winner = TEAM_RED;
+		}
+		else if( assault.blueResult.elapsedTime <
+			assault.redResult.elapsedTime ) {
+			winner = TEAM_BLUE;
+		}
+	}
+	else {
+		if( assault.redResult.progress >
+			assault.blueResult.progress ) {
+			winner = TEAM_RED;
+		}
+		else if( assault.blueResult.progress >
+			assault.redResult.progress ) {
+			winner = TEAM_BLUE;
+		}
+	}
+
+	assault.phase = ASSAULT_FINISHED;
+
+	level.teamScores[TEAM_RED] =
+		winner == TEAM_RED ? 1 : 0;
+	level.teamScores[TEAM_BLUE] =
+		winner == TEAM_BLUE ? 1 : 0;
+
+	trap_SetConfigstring(
+		CS_SCORES1,
+		va("%i", level.teamScores[TEAM_RED])
+	);
+	trap_SetConfigstring(
+		CS_SCORES2,
+		va("%i", level.teamScores[TEAM_BLUE])
+	);
+
+	CalculateRanks();
+
+	if( winner == TEAM_RED ) {
+		trap_SendServerCommand(
+			-1,
+			"cp \"Red team wins Assault\""
+		);
+		LogExit( "Red team won Assault." );
+	}
+	else if( winner == TEAM_BLUE ) {
+		trap_SendServerCommand(
+			-1,
+			"cp \"Blue team wins Assault\""
+		);
+		LogExit( "Blue team won Assault." );
+	}
+	else {
+		trap_SendServerCommand(
+			-1,
+			"cp \"Assault ended in a draw\""
+		);
+		LogExit( "Assault draw." );
+	}
+}
+
+static void AssaultStoreRoundResult( qboolean completed ) {
+	assaultResult_t *result;
+
+	if( assault.attackingTeam == TEAM_RED ) {
+		result = &assault.redResult;
+	}
+	else {
+		result = &assault.blueResult;
+	}
+
+	if( completed ) {
+		result->completedPoints = 2;
+		result->progress =
+			g_assaultHoldTime.integer * 1000;
+		result->elapsedTime =
+			level.time - assault.roundStartTime;
+	}
+	else {
+		result->completedPoints = assault.activeStage;
+		result->progress = assault.captureProgress;
+		result->elapsedTime = assault.roundLimit;
+	}
+
+	if( assault.attackingTeam == TEAM_RED ) {
+		AssaultStartRound( TEAM_BLUE );
+	}
+	else {
+		AssaultFinishMatch();
+	}
+}
+
+static void AssaultCompletePoint( void ) {
+	int completedPoint;
+
+	completedPoint = AssaultActualPoint();
+
+	trap_SendServerCommand(
+		-1,
+		va(
+			"cp \"Point %s captured\"",
+			AssaultPointName(completedPoint)
+		)
+	);
+
+	assault.activeStage++;
+	assault.captureProgress = 0;
+	assault.announcedQuarter = 0;
+
+	if( assault.activeStage >= 2 ) {
+		AssaultStoreRoundResult( qtrue );
+		return;
+	}
+
+	AssaultUpdateMarkers();
+
+	trap_SendServerCommand(
+		-1,
+		va(
+			"cp \"Attack point %s\"",
+			AssaultPointName(AssaultActualPoint())
+		)
+	);
+}
+
+static void AssaultCountPlayers(
+	int point,
+	int *attackers,
+	int *defenders
+) {
+	int i;
+	float radiusSquared;
+	gentity_t *ent;
+
+	*attackers = 0;
+	*defenders = 0;
+
+	radiusSquared =
+		g_assaultRadius.value *
+		g_assaultRadius.value;
+
+	for( i = 0; i < level.maxclients; i++ ) {
+		ent = &g_entities[i];
+
+		if( !ent->client ||
+			ent->client->pers.connected != CON_CONNECTED ||
+			ent->client->ps.stats[STAT_HEALTH] <= 0 ) {
+			continue;
+		}
+
+		if( ent->client->sess.sessionTeam != TEAM_RED &&
+			ent->client->sess.sessionTeam != TEAM_BLUE ) {
+			continue;
+		}
+
+		if( DistanceSquared(
+			ent->client->ps.origin,
+			assault.points[point]
+		) > radiusSquared ) {
+			continue;
+		}
+
+		if( ent->client->sess.sessionTeam ==
+			assault.attackingTeam ) {
+			(*attackers)++;
+		}
+		else {
+			(*defenders)++;
+		}
+	}
+}
+
+static void AssaultStartMatch( gentity_t *ent ) {
+	if( assault.editorClient != ent - g_entities ) {
+		trap_SendServerCommand(
+			ent - g_entities,
+			"print \"Only the point editor can start the match.\n\""
+		);
+		return;
+	}
+
+	if( !assault.pointSet[0] ||
+		!assault.pointSet[1] ) {
+		trap_SendServerCommand(
+			ent - g_entities,
+			"print \"Place both Assault points first.\n\""
+		);
+		return;
+	}
+
+	if( TeamCount(-1, TEAM_RED) < 1 ||
+		TeamCount(-1, TEAM_BLUE) < 1 ) {
+		trap_SendServerCommand(
+			ent - g_entities,
+			"print \"Both teams need at least one player.\n\""
+		);
+		return;
+	}
+
+	level.warmupTime = 0;
+	trap_SetConfigstring( CS_WARMUP, "0" );
+
+	memset(
+		&assault.redResult,
+		0,
+		sizeof(assault.redResult)
+	);
+	memset(
+		&assault.blueResult,
+		0,
+		sizeof(assault.blueResult)
+	);
+
+	AssaultStartRound( TEAM_RED );
+}
+
+qboolean G_AssaultClientCommand(
+	gentity_t *ent,
+	const char *cmd
+) {
+	char arg[MAX_TOKEN_CHARS];
+	int point;
+
+	if( !G_AssaultEnabled() ) {
+		return qfalse;
+	}
+
+	if( !Q_stricmp(cmd, "assault_place") ) {
+		trap_Argv( 1, arg, sizeof(arg) );
+		point = atoi(arg) - 1;
+		AssaultPlacePoint( ent, point );
+		return qtrue;
+	}
+
+	if( !Q_stricmp(cmd, "assault_ready") ) {
+		AssaultStartMatch( ent );
+		return qtrue;
+	}
+
+	if( !Q_stricmp(cmd, "assault_release") ) {
+		if( assault.editorClient == ent - g_entities &&
+			assault.phase == ASSAULT_SETUP ) {
+			assault.editorClient = -1;
+		}
+		return qtrue;
+	}
+
+	if( !Q_stricmp(cmd, "assault_status") ) {
+		trap_SendServerCommand(
+			ent - g_entities,
+			va(
+				"print \"Point A: %s, Point B: %s\n\"",
+				assault.pointSet[0] ? "set" : "not set",
+				assault.pointSet[1] ? "set" : "not set"
+			)
+		);
+		return qtrue;
+	}
+
+	return qfalse;
+}
+
+void G_AssaultInit( void ) {
+	memset( &assault, 0, sizeof(assault) );
+	assault.editorClient = -1;
+	assault.phase = ASSAULT_SETUP;
+
+	if( !G_AssaultEnabled() ) {
+		return;
+	}
+
+	level.warmupTime = -1;
+	trap_SetConfigstring( CS_WARMUP, "-1" );
+
+	G_Printf(
+		"Assault: waiting for point placement.\n"
+	);
+}
+
+qboolean G_AssaultBlocksWarmup( void ) {
+	return G_AssaultEnabled() &&
+		assault.phase == ASSAULT_SETUP;
+}
+
+qboolean G_AssaultControlsExitRules( void ) {
+	return G_AssaultEnabled();
+}
+
+qboolean G_AssaultGetActiveGoal(
+	vec3_t origin,
+	int *area,
+	team_t *attackingTeam
+) {
+	int point;
+
+	if( !G_AssaultEnabled() ||
+		(assault.phase != ASSAULT_ROUND_RED &&
+		 assault.phase != ASSAULT_ROUND_BLUE) ) {
+		return qfalse;
+	}
+
+	point = AssaultActualPoint();
+
+	VectorCopy( assault.points[point], origin );
+	*area = assault.pointAreas[point];
+	*attackingTeam = assault.attackingTeam;
+
+	return qtrue;
+}
+
+void G_AssaultRunFrame( void ) {
+	int point;
+	int attackers;
+	int defenders;
+	int frameTime;
+	int holdTime;
+	int quarter;
+
+	if( !G_AssaultEnabled() ) {
+		return;
+	}
+
+	if( assault.phase == ASSAULT_SETUP ) {
+		if( assault.editorClient >= 0 &&
+			level.clients[assault.editorClient].
+				pers.connected != CON_CONNECTED ) {
+			assault.editorClient = -1;
+		}
+		return;
+	}
+
+	if( assault.phase != ASSAULT_ROUND_RED &&
+		assault.phase != ASSAULT_ROUND_BLUE ) {
+		return;
+	}
+
+	if( level.time - assault.roundStartTime >=
+		assault.roundLimit ) {
+		trap_SendServerCommand(
+			-1,
+			"cp \"Assault round time expired\""
+		);
+		AssaultStoreRoundResult( qfalse );
+		return;
+	}
+
+	frameTime = level.time - assault.lastFrameTime;
+	assault.lastFrameTime = level.time;
+
+	if( frameTime < 0 ) {
+		frameTime = 0;
+	}
+	else if( frameTime > 200 ) {
+		frameTime = 200;
+	}
+
+	point = AssaultActualPoint();
+
+	AssaultCountPlayers(
+		point,
+		&attackers,
+		&defenders
+	);
+
+	if( attackers > 0 && defenders == 0 ) {
+		assault.captureProgress += frameTime;
+	}
+	else if( attackers == 0 ) {
+		assault.captureProgress -= frameTime / 2;
+
+		if( assault.captureProgress < 0 ) {
+			assault.captureProgress = 0;
+		}
+	}
+
+	holdTime = g_assaultHoldTime.integer * 1000;
+
+	if( holdTime < 1000 ) {
+		holdTime = 1000;
+	}
+
+	quarter =
+		(assault.captureProgress * 4) / holdTime;
+
+	if( quarter > assault.announcedQuarter &&
+		quarter < 4 ) {
+		assault.announcedQuarter = quarter;
+
+		trap_SendServerCommand(
+			-1,
+			va(
+				"cp \"Point %s: %i%%\"",
+				AssaultPointName(point),
+				quarter * 25
+			)
+		);
+	}
+
+	if( assault.captureProgress >= holdTime ) {
+		AssaultCompletePoint();
+	}
+}

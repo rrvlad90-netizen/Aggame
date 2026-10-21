@@ -715,6 +715,32 @@ extern	gentity_t		g_entities[MAX_GENTITIES];
 
 #define	FOFS(x) ((int)&(((gentity_t *)0)->x))
 
+//
+// g_assault.c
+//
+qboolean G_AssaultEnabled( void );
+qboolean G_AssaultBlocksWarmup( void );
+qboolean G_AssaultControlsExitRules( void );
+
+void G_AssaultInit( void );
+void G_AssaultRunFrame( void );
+
+qboolean G_AssaultClientCommand(
+	gentity_t *ent,
+	const char *cmd
+);
+
+qboolean G_AssaultGetActiveGoal(
+	vec3_t origin,
+	int *area,
+	team_t *attackingTeam
+);
+
+extern vmCvar_t g_assaultMode;
+extern vmCvar_t g_assaultHoldTime;
+extern vmCvar_t g_assaultRoundTime;
+extern vmCvar_t g_assaultRadius;
+
 extern 	vmCvar_t 	g_scavengerWeapons;
 extern 	vmCvar_t 	g_randomStartWeapon;
 extern 	vmCvar_t 	g_playerHealth;
@@ -780,6 +806,11 @@ extern	vmCvar_t	g_enableDust;
 extern	vmCvar_t	g_enableBreath;
 extern	vmCvar_t	g_singlePlayer;
 extern	vmCvar_t	g_proxMineTimeout;
+
+extern 	vmCvar_t 	g_assaultMode;
+extern 	vmCvar_t 	g_assaultHoldTime;
+extern 	vmCvar_t 	g_assaultRoundTime;
+extern 	vmCvar_t 	g_assaultRadius;
 
 void	trap_Printf( const char *fmt );
 void	trap_Error( const char *fmt );

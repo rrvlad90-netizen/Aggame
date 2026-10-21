@@ -1932,8 +1932,12 @@ void BotTeamAI(bot_state_t *bs) {
 	char netname[MAX_NETNAME];
 
 	//
-	if ( gametype < GT_TEAM  )
-		return;
+	if ( gametype < GT_TEAM )
+			return;
+
+		if( g_assaultMode.integer ) {
+			return;
+		}
 	// make sure we've got a valid team leader
 	if (!BotValidTeamLeader(bs)) {
 		//

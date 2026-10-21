@@ -1685,6 +1685,10 @@ void ClientCommand( int clientNum ) {
 		Cmd_Score_f (ent);
 		return;
 	}
+	
+	if( G_AssaultClientCommand(ent, cmd) ) {
+		return;
+	}
 
 	// ignore all other commands when at intermission
 	if (level.intermissiontime) {

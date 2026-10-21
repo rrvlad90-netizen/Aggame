@@ -4904,6 +4904,17 @@ import g_noHealth
 import g_playerHealth
 import g_randomStartWeapon
 import g_scavengerWeapons
+import g_assaultRadius
+import g_assaultRoundTime
+import g_assaultHoldTime
+import g_assaultMode
+import G_AssaultGetActiveGoal
+import G_AssaultClientCommand
+import G_AssaultRunFrame
+import G_AssaultInit
+import G_AssaultControlsExitRules
+import G_AssaultBlocksWarmup
+import G_AssaultEnabled
 import g_entities
 import level
 import Pickup_Team

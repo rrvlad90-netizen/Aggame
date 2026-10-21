@@ -88,6 +88,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #define PRESENCE_CROUCH				4
 //
 #define MAX_PROXMINES				64
+//
+#define LTG_ASSAULT_ATTACK 16
+#define LTG_ASSAULT_DEFEND 17
 
 //check points
 typedef struct bot_waypoint_s

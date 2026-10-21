@@ -18,6 +18,7 @@ $CC  ../q_shared.c
 $CC  ../ai_vcmd.c
 $CC  ../ai_dmnet.c
 $CC  ../ai_dmq3.c
+$CC ../ai_assault.c
 $CC  ../ai_main.c
 $CC  ../ai_chat.c
 $CC  ../ai_cmd.c
@@ -25,6 +26,7 @@ $CC  ../ai_team.c
 
 $CC  ../g_active.c
 $CC  ../g_arenas.c
+$CC ../g_assault.c
 $CC  ../g_bot.c
 $CC  ../g_client.c
 $CC  ../g_cmds.c
