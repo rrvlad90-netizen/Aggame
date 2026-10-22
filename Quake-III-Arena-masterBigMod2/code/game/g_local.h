@@ -736,10 +736,13 @@ qboolean G_AssaultGetActiveGoal(
 	team_t *attackingTeam
 );
 
+extern vmCvar_t g_respawnTime;
+
 extern vmCvar_t g_assaultMode;
 extern vmCvar_t g_assaultHoldTime;
 extern vmCvar_t g_assaultRoundTime;
 extern vmCvar_t g_assaultRadius;
+extern vmCvar_t g_assaultMiddleItem;
 
 extern 	vmCvar_t 	g_scavengerWeapons;
 extern 	vmCvar_t 	g_randomStartWeapon;
@@ -807,10 +810,6 @@ extern	vmCvar_t	g_enableBreath;
 extern	vmCvar_t	g_singlePlayer;
 extern	vmCvar_t	g_proxMineTimeout;
 
-extern 	vmCvar_t 	g_assaultMode;
-extern 	vmCvar_t 	g_assaultHoldTime;
-extern 	vmCvar_t 	g_assaultRoundTime;
-extern 	vmCvar_t 	g_assaultRadius;
 
 void	trap_Printf( const char *fmt );
 void	trap_Error( const char *fmt );

@@ -38,11 +38,14 @@ typedef struct {
 gentity_t		g_entities[MAX_GENTITIES];
 gclient_t		g_clients[MAX_CLIENTS];
 
+vmCvar_t 	g_respawnTime;
+
 vmCvar_t 	g_assaultMode;
 vmCvar_t 	g_assaultHoldTime;
 vmCvar_t 	g_assaultRoundTime;
 vmCvar_t 	g_assaultRadius;
 
+vmCvar_t	g_assaultMiddleItem;
 vmCvar_t 	g_scavengerWeapons;
 vmCvar_t 	g_randomStartWeapon;
 vmCvar_t 	g_playerHealth;
@@ -118,11 +121,13 @@ vmCvar_t	g_proxMineTimeout;
 // bk001129 - made static to avoid aliasing
 static cvarTable_t		gameCvarTable[] = {
 	
+	{&g_respawnTime,"g_respawnTime","0",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},
 	
 	{&g_assaultMode,"g_assaultMode","0",CVAR_SERVERINFO | CVAR_LATCH,0,qfalse},
-	{&g_assaultHoldTime,"g_assaultHoldTime","10",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},
+	{&g_assaultHoldTime,"g_assaultHoldTime","30",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},
 	{&g_assaultRoundTime,"g_assaultRoundTime","300",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},
-	{&g_assaultRadius,"g_assaultRadius","160",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},	
+	{&g_assaultRadius,"g_assaultRadius","160",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},
+	{&g_assaultMiddleItem,"g_assaultMiddleItem","0",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},
 	
 	{ &g_noRailgun, "g_noRailgun", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_scavengerWeapons, "g_scavengerWeapons", "0", CVAR_ARCHIVE | CVAR_SERVERINFO, 0, qfalse },

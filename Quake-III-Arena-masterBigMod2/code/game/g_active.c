@@ -1154,6 +1154,18 @@ void ClientThink_real( gentity_t *ent ) {
 
 			return;
 		}
+		
+		/*
+		 * A positive g_respawnTime enables automatic respawning.
+		 * One Life has already returned above.
+		 */
+		if( g_respawnTime.value > 0.0f ) {
+			if( level.time >= client->respawnTime ) {
+				respawn( ent );
+			}
+
+			return;
+		}
 
 		// wait for the attack button to be pressed
 		if( level.time > client->respawnTime ) {

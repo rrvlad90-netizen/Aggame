@@ -4,6 +4,10 @@
 #define ASSAULT_MARKER_MODEL "models/powerups/teleporter/tele_exit.md3"
 #define ASSAULT_MAX_POINTS 3
 #define ASSAULT_DEFAULT_POINTS 2
+#define ASSAULT_MODE_BASE 1
+#define ASSAULT_MODE_EDITOR 2
+#define ASSAULT_AUTO_START_DELAY 2000
+#define ASSAULT_MIDDLE_ITEM_COUNT 13
 
 typedef enum {
 	ASSAULT_SETUP,
@@ -25,7 +29,7 @@ typedef struct {
 	int pointAreas[ASSAULT_MAX_POINTS];
 	qboolean pointSet[ASSAULT_MAX_POINTS];
 	gentity_t *markers[ASSAULT_MAX_POINTS];
-	qboolean instructionsShown[MAX_CLIENTS]
+	qboolean instructionsShown[MAX_CLIENTS];
 
 	int pointCount;
 
@@ -37,6 +41,7 @@ typedef struct {
 	int roundStartTime;
 	int roundLimit;
 	int lastFrameTime;
+	int autoStartTime;
 
 	team_t attackingTeam;
 
@@ -45,6 +50,42 @@ typedef struct {
 } assaultState_t;
 
 static assaultState_t assault;
+
+static char *assaultMiddleClassnames[
+	ASSAULT_MIDDLE_ITEM_COUNT
+] = {
+	"item_armor_body",
+	"item_armor_combat",
+	"item_health_mega",
+	"holdable_medkit",
+	"item_haste",
+	"weapon_bfg",
+	"weapon_railgun",
+	"weapon_shotgun",
+	"weapon_rocketlauncher",
+	"weapon_grenadelauncher",
+	"weapon_lightning",
+	"holdable_teleporter",
+	"weapon_plasmagun"
+};
+
+static char *assaultMiddleNames[
+	ASSAULT_MIDDLE_ITEM_COUNT
+] = {
+	"Heavy Armor",
+	"Armor",
+	"Mega Health",
+	"Medkit",
+	"Haste",
+	"BFG",
+	"Railgun",
+	"Shotgun",
+	"Rocket Launcher",
+	"Grenade Launcher",
+	"Lightning Gun",
+	"Personal Teleporter",
+	"Plasma Gun"
+};
 
 static char *AssaultPointName( int point ) {
 	switch( point ) {
@@ -60,7 +101,11 @@ static char *AssaultPointName( int point ) {
 }
 
 qboolean G_AssaultEnabled( void ) {
-	return g_assaultMode.integer &&
+	return
+		(
+			g_assaultMode.integer == ASSAULT_MODE_BASE ||
+			g_assaultMode.integer == ASSAULT_MODE_EDITOR
+		) &&
 		g_gametype.integer == GT_TEAM;
 }
 
@@ -198,6 +243,304 @@ static int AssaultPointAreaNum( vec3_t origin ) {
 	}
 
 	return 0;
+}
+
+static void AssaultGroundOrigin(
+	vec3_t source,
+	vec3_t result
+) {
+	trace_t trace;
+	vec3_t start;
+	vec3_t end;
+
+	VectorCopy( source, start );
+	VectorCopy( source, end );
+
+	start[2] += 32.0f;
+	end[2] -= 256.0f;
+
+	trap_Trace(
+		&trace,
+		start,
+		NULL,
+		NULL,
+		end,
+		ENTITYNUM_NONE,
+		MASK_SOLID
+	);
+
+	if( !trace.startsolid &&
+		!trace.allsolid &&
+		trace.fraction < 1.0f ) {
+		VectorCopy( trace.endpos, result );
+	}
+	else {
+		VectorCopy( source, result );
+	}
+
+	result[2] += 8.0f;
+}
+
+static void AssaultConsiderClassname(
+	const char *classname,
+	int itemIndex,
+	int *seen,
+	vec3_t selectedOrigin,
+	int *selectedArea,
+	int *selectedItem
+) {
+	gentity_t *ent;
+	vec3_t origin;
+	int area;
+
+	ent = NULL;
+
+	while( (ent = G_Find(
+		ent,
+		FOFS(classname),
+		classname
+	)) != NULL ) {
+		AssaultGroundOrigin(
+			ent->s.origin,
+			origin
+		);
+
+		area = AssaultPointAreaNum( origin );
+
+		if( !area ) {
+			continue;
+		}
+
+		(*seen)++;
+
+		if( rand() % (*seen) != 0 ) {
+			continue;
+		}
+
+		VectorCopy( origin, selectedOrigin );
+		*selectedArea = area;
+		*selectedItem = itemIndex;
+	}
+}
+
+static qboolean AssaultPickClassname(
+	const char *classname,
+	int itemIndex,
+	vec3_t origin,
+	int *area,
+	int *selectedItem
+) {
+	int seen;
+
+	seen = 0;
+	*area = 0;
+	*selectedItem = -1;
+
+	AssaultConsiderClassname(
+		classname,
+		itemIndex,
+		&seen,
+		origin,
+		area,
+		selectedItem
+	);
+
+	return seen > 0;
+}
+
+static qboolean AssaultSelectMiddlePoint(
+	vec3_t origin,
+	int *area,
+	int *selectedItem
+) {
+	int choice;
+	int seen;
+	int i;
+	vec3_t midpoint;
+
+	choice = g_assaultMiddleItem.integer;
+
+	if( choice < 0 ||
+		choice > ASSAULT_MIDDLE_ITEM_COUNT ) {
+		choice = 0;
+	}
+
+	/*
+	 * All: select uniformly from every supported entity.
+	 */
+	if( choice == 0 ) {
+		seen = 0;
+		*area = 0;
+		*selectedItem = -1;
+
+		for( i = 0;
+			i < ASSAULT_MIDDLE_ITEM_COUNT;
+			i++ ) {
+			AssaultConsiderClassname(
+				assaultMiddleClassnames[i],
+				i,
+				&seen,
+				origin,
+				area,
+				selectedItem
+			);
+		}
+
+		if( seen > 0 ) {
+			return qtrue;
+		}
+	}
+	else {
+		/*
+		 * Explicitly selected entity.
+		 */
+		if( AssaultPickClassname(
+			assaultMiddleClassnames[choice - 1],
+			choice - 1,
+			origin,
+			area,
+			selectedItem
+		) ) {
+			return qtrue;
+		}
+
+		/*
+		 * Selected entity is absent. Try the fallback list.
+		 */
+		for( i = 0;
+			i < ASSAULT_MIDDLE_ITEM_COUNT;
+			i++ ) {
+			if( AssaultPickClassname(
+				assaultMiddleClassnames[i],
+				i,
+				origin,
+				area,
+				selectedItem
+			) ) {
+				return qtrue;
+			}
+		}
+	}
+
+	/*
+	 * Last fallback: midpoint between the flags.
+	 */
+	VectorAdd(
+		assault.points[0],
+		assault.points[2],
+		midpoint
+	);
+	VectorScale( midpoint, 0.5f, midpoint );
+
+	AssaultGroundOrigin( midpoint, origin );
+	*area = AssaultPointAreaNum( origin );
+	*selectedItem = -1;
+
+	return *area != 0;
+}
+
+static void AssaultRemoveMapClass(
+	const char *classname
+) {
+	gentity_t *ent;
+
+	ent = NULL;
+
+	while( (ent = G_Find(
+		ent,
+		FOFS(classname),
+		classname
+	)) != NULL ) {
+		G_FreeEntity( ent );
+	}
+}
+
+static qboolean AssaultSetupBasePoints( void ) {
+	int selectedItem;
+	int unusedItem;
+	int i;
+
+	assault.pointCount = 3;
+
+	/*
+	 * A: blue flag.
+	 */
+	if( !AssaultPickClassname(
+		"team_CTF_blueflag",
+		-1,
+		assault.points[0],
+		&assault.pointAreas[0],
+		&unusedItem
+	) ) {
+		G_Printf(
+			"Assault: blue flag position not found.\n"
+		);
+		return qfalse;
+	}
+
+	assault.pointSet[0] = qtrue;
+
+	/*
+	 * C: red flag.
+	 */
+	if( !AssaultPickClassname(
+		"team_CTF_redflag",
+		-1,
+		assault.points[2],
+		&assault.pointAreas[2],
+		&unusedItem
+	) ) {
+		G_Printf(
+			"Assault: red flag position not found.\n"
+		);
+		return qfalse;
+	}
+
+	assault.pointSet[2] = qtrue;
+
+	/*
+	 * B: selected item or automatic fallback.
+	 */
+	if( !AssaultSelectMiddlePoint(
+		assault.points[1],
+		&assault.pointAreas[1],
+		&selectedItem
+	) ) {
+		G_Printf(
+			"Assault: unable to create point B.\n"
+		);
+		return qfalse;
+	}
+
+	assault.pointSet[1] = qtrue;
+
+	/*
+	 * Flags are anchors only; remove their normal entities.
+	 */
+	AssaultRemoveMapClass(
+		"team_CTF_blueflag"
+	);
+	AssaultRemoveMapClass(
+		"team_CTF_redflag"
+	);
+
+	for( i = 0; i < assault.pointCount; i++ ) {
+		AssaultCreateOrMoveMarker( i );
+	}
+
+	if( selectedItem >= 0 ) {
+		G_Printf(
+			"Assault: point B placed at %s.\n",
+			assaultMiddleNames[selectedItem]
+		);
+	}
+	else {
+		G_Printf(
+			"Assault: point B placed at map midpoint.\n"
+		);
+	}
+
+	return qtrue;
 }
 
 static qboolean AssaultTracePlacement(
@@ -418,7 +761,13 @@ static void AssaultStartRound( team_t attackingTeam ) {
 	assault.roundStartTime = level.time;
 	assault.lastFrameTime = level.time;
 
-	normalLimit = g_assaultRoundTime.integer * 1000;
+	if( g_timelimit.value > 0.0f ) {
+		normalLimit =
+			(int)(g_timelimit.value * 60000.0f);
+	}
+	else {
+		normalLimit = 7 * 60 * 1000;
+	}
 
 	if( normalLimit < 30000 ) {
 		normalLimit = 30000;
@@ -443,12 +792,6 @@ static void AssaultStartRound( team_t attackingTeam ) {
 		}
 	}
 
-	level.teamScores[TEAM_RED] = 0;
-	level.teamScores[TEAM_BLUE] = 0;
-
-	trap_SetConfigstring( CS_SCORES1, "0" );
-	trap_SetConfigstring( CS_SCORES2, "0" );
-
 	level.startTime = level.time;
 	trap_SetConfigstring(
 		CS_LEVEL_START_TIME,
@@ -466,6 +809,28 @@ static void AssaultStartRound( team_t attackingTeam ) {
 			AssaultPointName(AssaultActualPoint())
 		)
 	);
+}
+
+static void AssaultUpdateScores( void ) {
+	level.teamScores[TEAM_RED] =
+		assault.redResult.completedPoints ==
+		assault.pointCount ? 1 : 0;
+
+	level.teamScores[TEAM_BLUE] =
+		assault.blueResult.completedPoints ==
+		assault.pointCount ? 1 : 0;
+
+	trap_SetConfigstring(
+		CS_SCORES1,
+		va("%i", level.teamScores[TEAM_RED])
+	);
+
+	trap_SetConfigstring(
+		CS_SCORES2,
+		va("%i", level.teamScores[TEAM_BLUE])
+	);
+
+	CalculateRanks();
 }
 
 static void AssaultFinishMatch( void ) {
@@ -504,20 +869,6 @@ static void AssaultFinishMatch( void ) {
 
 	assault.phase = ASSAULT_FINISHED;
 
-	level.teamScores[TEAM_RED] =
-		winner == TEAM_RED ? 1 : 0;
-	level.teamScores[TEAM_BLUE] =
-		winner == TEAM_BLUE ? 1 : 0;
-
-	trap_SetConfigstring(
-		CS_SCORES1,
-		va("%i", level.teamScores[TEAM_RED])
-	);
-	trap_SetConfigstring(
-		CS_SCORES2,
-		va("%i", level.teamScores[TEAM_BLUE])
-	);
-
 	CalculateRanks();
 
 	if( winner == TEAM_RED ) {
@@ -546,6 +897,7 @@ static void AssaultFinishMatch( void ) {
 static void AssaultStoreRoundResult( qboolean completed ) {
 	assaultResult_t *result;
 
+	AssaultUpdateScores();
 	if( assault.attackingTeam == TEAM_RED ) {
 		result = &assault.redResult;
 	}
@@ -555,8 +907,7 @@ static void AssaultStoreRoundResult( qboolean completed ) {
 
 	if( completed ) {
 		result->completedPoints = assault.pointCount;
-		result->progress =
-			g_assaultHoldTime.integer * 1000;
+		result->progress = (int)(g_assaultHoldTime.value * 1000.0f);
 		result->elapsedTime =
 			level.time - assault.roundStartTime;
 	}
@@ -655,35 +1006,40 @@ static void AssaultCountPlayers(
 }
 
 static void AssaultStartMatch( gentity_t *ent ) {
-	if( assault.editorClient != ent - g_entities ) {
-		trap_SendServerCommand(
-			ent - g_entities,
-			"print \"Only the point editor can start the match.\n\""
-		);
-		return;
+	int clientNum;
+	int i;
+
+	clientNum = ent ? ent - g_entities : -1;
+
+	if( g_assaultMode.integer ==
+		ASSAULT_MODE_EDITOR ) {
+		if( !ent ||
+			assault.editorClient != clientNum ) {
+			trap_SendServerCommand(
+				clientNum,
+				"print \"Only the point editor can start the match.\n\""
+			);
+			return;
+		}
 	}
 
-	{
-		int i;
-
-		for( i = 0; i < assault.pointCount; i++ ) {
-			if( !assault.pointSet[i] ) {
-				trap_SendServerCommand(
-					ent - g_entities,
-					va(
-						"print \"Assault: points are invalid. Point %s is missing.\n\"",
-						AssaultPointName(i)
-					)
-				);
-				return;
-			}
+	for( i = 0; i < assault.pointCount; i++ ) {
+		if( !assault.pointSet[i] ) {
+			trap_SendServerCommand(
+				clientNum,
+				va(
+					"print \"Assault: points are invalid. Point %s is missing.\n\"",
+					AssaultPointName(i)
+				)
+			);
+			return;
 		}
 	}
 
 	if( TeamCount(-1, TEAM_RED) < 1 ||
 		TeamCount(-1, TEAM_BLUE) < 1 ) {
 		trap_SendServerCommand(
-			ent - g_entities,
+			clientNum,
 			"print \"Both teams need at least one player.\n\""
 		);
 		return;
@@ -702,6 +1058,12 @@ static void AssaultStartMatch( gentity_t *ent ) {
 		0,
 		sizeof(assault.blueResult)
 	);
+	
+	level.teamScores[TEAM_RED] = 0;
+	level.teamScores[TEAM_BLUE] = 0;
+
+	trap_SetConfigstring( CS_SCORES1, "0" );
+	trap_SetConfigstring( CS_SCORES2, "0" );
 
 	AssaultStartRound( TEAM_RED );
 }
@@ -818,9 +1180,9 @@ qboolean G_AssaultClientCommand(
 
 void G_AssaultInit( void ) {
 	memset( &assault, 0, sizeof(assault) );
+
 	assault.editorClient = -1;
 	assault.phase = ASSAULT_SETUP;
-	assault.pointCount = ASSAULT_DEFAULT_POINTS;
 
 	if( !G_AssaultEnabled() ) {
 		return;
@@ -829,8 +1191,28 @@ void G_AssaultInit( void ) {
 	level.warmupTime = -1;
 	trap_SetConfigstring( CS_WARMUP, "-1" );
 
+	if( g_assaultMode.integer ==
+		ASSAULT_MODE_BASE ) {
+		assault.pointCount = 3;
+
+		if( AssaultSetupBasePoints() ) {
+			G_Printf(
+				"Assault: automatic points ready; waiting for teams.\n"
+			);
+		}
+		else {
+			G_Printf(
+				"Assault: automatic setup failed.\n"
+			);
+		}
+
+		return;
+	}
+
+	assault.pointCount = ASSAULT_DEFAULT_POINTS;
+
 	G_Printf(
-		"Assault: waiting for point placement.\n"
+		"Assault Editor: waiting for point placement.\n"
 	);
 }
 
@@ -923,6 +1305,25 @@ static void AssaultShowInstructions( void ) {
 	}
 }
 
+static int AssaultCurrentHoldTime( void ) {
+	int holdTime;
+	int multiplier;
+
+	multiplier = 1 << assault.activeStage;
+
+	holdTime = (int)(
+		g_assaultHoldTime.value *
+		1000.0f *
+		multiplier
+	);
+
+	if( holdTime < 1000 ) {
+		holdTime = 1000;
+	}
+
+	return holdTime;
+}
+
 void G_AssaultRunFrame( void ) {
 	int point;
 	int attackers;
@@ -935,15 +1336,50 @@ void G_AssaultRunFrame( void ) {
 		return;
 	}
 
-	if( assault.phase == ASSAULT_SETUP ) {
+if( assault.phase == ASSAULT_SETUP ) {
+	if( g_assaultMode.integer ==
+		ASSAULT_MODE_EDITOR ) {
 		AssaultShowInstructions();
+
 		if( assault.editorClient >= 0 &&
 			level.clients[assault.editorClient].
 				pers.connected != CON_CONNECTED ) {
 			assault.editorClient = -1;
 		}
+
 		return;
 	}
+
+	if( !assault.pointSet[0] ||
+		!assault.pointSet[1] ||
+		!assault.pointSet[2] ) {
+		return;
+	}
+
+	if( TeamCount(-1, TEAM_RED) < 1 ||
+		TeamCount(-1, TEAM_BLUE) < 1 ) {
+		assault.autoStartTime = 0;
+		return;
+	}
+
+	if( !assault.autoStartTime ) {
+		assault.autoStartTime =
+			level.time + ASSAULT_AUTO_START_DELAY;
+
+		trap_SendServerCommand(
+			-1,
+			"cp \"Base Assault starts in 2 seconds\""
+		);
+		return;
+	}
+
+	if( level.time >= assault.autoStartTime ) {
+		assault.autoStartTime = 0;
+		AssaultStartMatch( NULL );
+	}
+
+	return;
+}
 
 	if( assault.phase != ASSAULT_ROUND_RED &&
 		assault.phase != ASSAULT_ROUND_BLUE ) {
@@ -989,11 +1425,7 @@ void G_AssaultRunFrame( void ) {
 		}
 	}
 
-	holdTime = g_assaultHoldTime.integer * 1000;
-
-	if( holdTime < 1000 ) {
-		holdTime = 1000;
-	}
+	holdTime = AssaultCurrentHoldTime();
 
 	quarter =
 		(assault.captureProgress * 4) / holdTime;

@@ -100,7 +100,7 @@ static const char *gametype_items[] = {
 	"Base TDM",
 	"TDM One Life",
 	"One Life on CTF",
-	"Assault",
+	"Base Assault",
 	"Tournament",
 	"Capture the Flag",
 	0
@@ -708,6 +708,8 @@ typedef struct {
 	menuradiobutton_s	noGrenadeRocket;
 	menuradiobutton_s 	noRailgun;
 	menuradiobutton_s	enableBlaster;
+	menulist_s 			assaultMiddleItem;
+	menulist_s 			respawnTime;
 
 	menutext_s			player0;
 	menulist_s			playerType[PLAYER_SLOTS];
@@ -762,6 +764,47 @@ static const char *botSkill_list[] = {
 };
 
 
+static const char *assaultMiddleItem_list[] = {
+	"All",
+	"Heavy Armor",
+	"Armor",
+	"Mega Health",
+	"Medkit",
+	"Haste",
+	"BFG",
+	"Railgun",
+	"Shotgun",
+	"Rocket Launcher",
+	"Grenade Launcher",
+	"Lightning Gun",
+	"Personal Teleporter",
+	"Plasma Gun",
+	0
+};
+
+static const char *respawnTime_list[] = {
+	"Default",
+	"2 seconds",
+	"3 seconds",
+	"5 seconds",
+	"7 seconds",
+	"10 seconds",
+	"15 seconds",
+	"20 seconds",
+	0
+};
+
+static int respawnTime_values[] = {
+	0,
+	2,
+	3,
+	5,
+	7,
+	10,
+	15,
+	20
+};
+
 /*
 =================
 BotAlreadySelected
@@ -804,6 +847,34 @@ static void ServerOptions_Start( void ) {
 	int		skill;
 	int		n;
 	char		buf[64];
+	
+	trap_Cvar_SetValue(
+		"g_respawnTime",
+		respawnTime_values[
+			s_serveroptions.respawnTime.curvalue
+		]
+	);
+	
+	trap_Cmd_ExecuteText(
+		EXEC_APPEND,
+		va(
+			"seta ui_respawnTime \"%i\"\n",
+			s_serveroptions.respawnTime.curvalue
+		)
+	);
+	
+	trap_Cvar_SetValue(
+		"g_assaultMiddleItem",
+		s_serveroptions.assaultMiddleItem.curvalue
+	);
+
+	trap_Cmd_ExecuteText(
+		EXEC_APPEND,
+		va(
+			"seta ui_assaultMiddleItem \"%i\"\n",
+			s_serveroptions.assaultMiddleItem.curvalue
+		)
+	);
 
 	timelimit =
 		atoi( s_serveroptions.timelimit.field.buffer );
@@ -1563,6 +1634,24 @@ ServerOptions_SetMenuItems
 */
 static void ServerOptions_SetMenuItems( void ) {
 	static char picname[64];
+	
+	s_serveroptions.respawnTime.curvalue =
+	(int)Com_Clamp(
+		0,
+		7,
+		trap_Cvar_VariableValue(
+			"ui_respawnTime"
+		)
+	);
+	
+	s_serveroptions.assaultMiddleItem.curvalue =
+	(int)Com_Clamp(
+		0,
+		13,
+		trap_Cvar_VariableValue(
+			"ui_assaultMiddleItem"
+		)
+	);
 
 	s_serveroptions.noHealth.curvalue =
 			trap_Cvar_VariableValue( "ui_noHealth" ) != 0;
@@ -1740,8 +1829,23 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 	s_serveroptions.picframe.width  			= 320;
 	s_serveroptions.picframe.height  			= 320;
 	s_serveroptions.picframe.focuspic			= GAMESERVER_SELECT;
-
+	
+	s_serveroptions.respawnTime.generic.type = MTYPE_SPINCONTROL;
+	s_serveroptions.respawnTime.generic.name ="Respawn Time:";
+	s_serveroptions.respawnTime.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_serveroptions.respawnTime.generic.x = OPTIONS_X;
+	s_serveroptions.respawnTime.generic.y = 252;
+	s_serveroptions.respawnTime.itemnames = respawnTime_list;
+	
+	s_serveroptions.assaultMiddleItem.generic.type = MTYPE_SPINCONTROL;
+	s_serveroptions.assaultMiddleItem.generic.name = "Point B(Base Assault):";
+	s_serveroptions.assaultMiddleItem.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_serveroptions.assaultMiddleItem.generic.x = OPTIONS_X;
+	s_serveroptions.assaultMiddleItem.generic.y = 268;
+	s_serveroptions.assaultMiddleItem.itemnames = assaultMiddleItem_list;
+	
 	y = 282;
+	
 	if( s_serveroptions.gametype != GT_CTF ) {
 		s_serveroptions.fraglimit.generic.type       = MTYPE_FIELD;
 		s_serveroptions.fraglimit.generic.name       = "Frag Limit:";
@@ -1916,7 +2020,7 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 	s_serveroptions.noPersonalTeleporter.generic.x = 240;
 	s_serveroptions.noPersonalTeleporter.generic.y = y;
 	
-	y=350;
+	y=368;
 	y += BIGCHAR_HEIGHT + 1;
 	s_serveroptions.noPlasmaBFG.generic.type = MTYPE_RADIOBUTTON;
 	s_serveroptions.noPlasmaBFG.generic.name = "No Energy Guns:";
@@ -1979,9 +2083,10 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 	s_serveroptions.go.height  		    = 64;
 	s_serveroptions.go.focuspic         = GAMESERVER_FIGHT1;
 
+	Menu_AddItem( &s_serveroptions.menu,&s_serveroptions.respawnTime );
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.banner );
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.noMegaHealth );
-	Menu_AddItem(&s_serveroptions.menu, &s_serveroptions.noPersonalTeleporter);
+	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.noPersonalTeleporter );
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.enableBlaster);
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.mappic );
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.picframe );
@@ -2006,6 +2111,11 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.noGrenadeRocket);
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.noRailgun);
 	
+	if( trap_Cvar_VariableValue("g_assaultMode") == 1 ) {
+		Menu_AddItem(&s_serveroptions.menu, &s_serveroptions.assaultMiddleItem
+		);
+	}
+		
 	if( s_serveroptions.gametype != GT_CTF ) {
 		Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.fraglimit );
 	}

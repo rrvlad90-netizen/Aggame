@@ -986,7 +986,8 @@ if( g_blasterMode.integer ) {
 	}
 
 	if( g_gametype.integer == GT_TEAM &&
-		item->giType == IT_TEAM ) {
+		item->giType == IT_TEAM &&
+		g_assaultMode.integer != 1 ) {
 		G_FreeEntity( ent );
 		return;
 	}
