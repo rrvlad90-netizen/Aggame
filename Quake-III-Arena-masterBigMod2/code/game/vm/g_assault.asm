@@ -3840,52 +3840,47 @@ line 992
 line 995
 ;993:	assaultResult_t *result;
 ;994:
-;995:	AssaultUpdateScores();
-ADDRGP4 AssaultUpdateScores
-CALLV
-pop
-line 996
-;996:	if( assault.attackingTeam == TEAM_RED ) {
+;995:	if( assault.attackingTeam == TEAM_RED ) {
 ADDRGP4 assault+368
 INDIRI4
 CNSTI4 1
 NEI4 $491
-line 997
-;997:		result = &assault.redResult;
+line 996
+;996:		result = &assault.redResult;
 ADDRLP4 0
 ADDRGP4 assault+372
 ASGNP4
-line 998
-;998:	}
+line 997
+;997:	}
 ADDRGP4 $492
 JUMPV
 LABELV $491
+line 998
+;998:	else {
 line 999
-;999:	else {
-line 1000
-;1000:		result = &assault.blueResult;
+;999:		result = &assault.blueResult;
 ADDRLP4 0
 ADDRGP4 assault+384
 ASGNP4
-line 1001
-;1001:	}
+line 1000
+;1000:	}
 LABELV $492
-line 1003
-;1002:
-;1003:	if( completed ) {
+line 1002
+;1001:
+;1002:	if( completed ) {
 ADDRFP4 0
 INDIRI4
 CNSTI4 0
 EQI4 $496
-line 1004
-;1004:		result->completedPoints = assault.pointCount;
+line 1003
+;1003:		result->completedPoints = assault.pointCount;
 ADDRLP4 0
 INDIRP4
 ADDRGP4 assault+332
 INDIRI4
 ASGNI4
-line 1005
-;1005:		result->progress = (int)(g_assaultHoldTime.value * 1000.0f);
+line 1004
+;1004:		result->progress = (int)(g_assaultHoldTime.value * 1000.0f);
 ADDRLP4 0
 INDIRP4
 CNSTI4 4
@@ -3896,8 +3891,8 @@ INDIRF4
 MULF4
 CVFI4 4
 ASGNI4
-line 1006
-;1006:		result->elapsedTime =
+line 1005
+;1005:		result->elapsedTime =
 ADDRLP4 0
 INDIRP4
 CNSTI4 8
@@ -3908,23 +3903,23 @@ ADDRGP4 assault+352
 INDIRI4
 SUBI4
 ASGNI4
-line 1008
-;1007:			level.time - assault.roundStartTime;
-;1008:	}
+line 1007
+;1006:			level.time - assault.roundStartTime;
+;1007:	}
 ADDRGP4 $497
 JUMPV
 LABELV $496
+line 1008
+;1008:	else {
 line 1009
-;1009:	else {
-line 1010
-;1010:		result->completedPoints = assault.activeStage;
+;1009:		result->completedPoints = assault.activeStage;
 ADDRLP4 0
 INDIRP4
 ADDRGP4 assault+340
 INDIRI4
 ASGNI4
-line 1011
-;1011:		result->progress = assault.captureProgress;
+line 1010
+;1010:		result->progress = assault.captureProgress;
 ADDRLP4 0
 INDIRP4
 CNSTI4 4
@@ -3932,8 +3927,8 @@ ADDP4
 ADDRGP4 assault+344
 INDIRI4
 ASGNI4
-line 1012
-;1012:		result->elapsedTime = assault.roundLimit;
+line 1011
+;1011:		result->elapsedTime = assault.roundLimit;
 ADDRLP4 0
 INDIRP4
 CNSTI4 8
@@ -3941,50 +3936,59 @@ ADDP4
 ADDRGP4 assault+356
 INDIRI4
 ASGNI4
-line 1013
-;1013:	}
+line 1012
+;1012:	}
 LABELV $497
-line 1015
-;1014:
-;1015:	if( assault.attackingTeam == TEAM_RED ) {
+line 1017
+;1013:
+;1014:	/*
+;1015:	 * Update team scores only after storing the round result.
+;1016:	 */
+;1017:	AssaultUpdateScores();
+ADDRGP4 AssaultUpdateScores
+CALLV
+pop
+line 1019
+;1018:
+;1019:	if( assault.attackingTeam == TEAM_RED ) {
 ADDRGP4 assault+368
 INDIRI4
 CNSTI4 1
 NEI4 $505
-line 1016
-;1016:		AssaultStartRound( TEAM_BLUE );
+line 1020
+;1020:		AssaultStartRound( TEAM_BLUE );
 CNSTI4 2
 ARGI4
 ADDRGP4 AssaultStartRound
 CALLV
 pop
-line 1017
-;1017:	}
+line 1021
+;1021:	}
 ADDRGP4 $506
 JUMPV
 LABELV $505
-line 1018
-;1018:	else {
-line 1019
-;1019:		AssaultFinishMatch();
+line 1022
+;1022:	else {
+line 1023
+;1023:		AssaultFinishMatch();
 ADDRGP4 AssaultFinishMatch
 CALLV
 pop
-line 1020
-;1020:	}
+line 1024
+;1024:	}
 LABELV $506
-line 1021
-;1021:}
+line 1025
+;1025:}
 LABELV $490
 endproc AssaultStoreRoundResult 4 4
 proc AssaultCompletePoint 32 8
-line 1023
-;1022:
-;1023:static void AssaultCompletePoint( void ) {
-line 1026
-;1024:	int completedPoint;
-;1025:
-;1026:	completedPoint = AssaultActualPoint();
+line 1027
+;1026:
+;1027:static void AssaultCompletePoint( void ) {
+line 1030
+;1028:	int completedPoint;
+;1029:
+;1030:	completedPoint = AssaultActualPoint();
 ADDRLP4 4
 ADDRGP4 AssaultActualPoint
 CALLI4
@@ -3993,9 +3997,9 @@ ADDRLP4 0
 ADDRLP4 4
 INDIRI4
 ASGNI4
-line 1028
-;1027:
-;1028:	trap_SendServerCommand(
+line 1032
+;1031:
+;1032:	trap_SendServerCommand(
 ADDRLP4 0
 INDIRI4
 ARGI4
@@ -4020,15 +4024,15 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1036
-;1029:		-1,
-;1030:		va(
-;1031:			"cp \"Point %s captured\"",
-;1032:			AssaultPointName(completedPoint)
-;1033:		)
-;1034:	);
-;1035:
-;1036:	assault.activeStage++;
+line 1040
+;1033:		-1,
+;1034:		va(
+;1035:			"cp \"Point %s captured\"",
+;1036:			AssaultPointName(completedPoint)
+;1037:		)
+;1038:	);
+;1039:
+;1040:	assault.activeStage++;
 ADDRLP4 16
 ADDRGP4 assault+340
 ASGNP4
@@ -4040,46 +4044,46 @@ INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-line 1037
-;1037:	assault.captureProgress = 0;
+line 1041
+;1041:	assault.captureProgress = 0;
 ADDRGP4 assault+344
 CNSTI4 0
 ASGNI4
-line 1038
-;1038:	assault.announcedQuarter = 0;
+line 1042
+;1042:	assault.announcedQuarter = 0;
 ADDRGP4 assault+348
 CNSTI4 0
 ASGNI4
-line 1040
-;1039:
-;1040:	if( assault.activeStage >= assault.pointCount ) {
+line 1044
+;1043:
+;1044:	if( assault.activeStage >= assault.pointCount ) {
 ADDRGP4 assault+340
 INDIRI4
 ADDRGP4 assault+332
 INDIRI4
 LTI4 $513
-line 1041
-;1041:		AssaultStoreRoundResult( qtrue );
+line 1045
+;1045:		AssaultStoreRoundResult( qtrue );
 CNSTI4 1
 ARGI4
 ADDRGP4 AssaultStoreRoundResult
 CALLV
 pop
-line 1042
-;1042:		return;
+line 1046
+;1046:		return;
 ADDRGP4 $508
 JUMPV
 LABELV $513
-line 1045
-;1043:	}
-;1044:
-;1045:	AssaultUpdateMarkers();
+line 1049
+;1047:	}
+;1048:
+;1049:	AssaultUpdateMarkers();
 ADDRGP4 AssaultUpdateMarkers
 CALLV
 pop
-line 1047
-;1046:
-;1047:	trap_SendServerCommand(
+line 1051
+;1050:
+;1051:	trap_SendServerCommand(
 ADDRLP4 20
 ADDRGP4 AssaultActualPoint
 CALLI4
@@ -4108,43 +4112,43 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1054
-;1048:		-1,
-;1049:		va(
-;1050:			"cp \"Attack point %s\"",
-;1051:			AssaultPointName(AssaultActualPoint())
-;1052:		)
-;1053:	);
-;1054:}
+line 1058
+;1052:		-1,
+;1053:		va(
+;1054:			"cp \"Attack point %s\"",
+;1055:			AssaultPointName(AssaultActualPoint())
+;1056:		)
+;1057:	);
+;1058:}
 LABELV $508
 endproc AssaultCompletePoint 32 8
 proc AssaultCountPlayers 28 8
-line 1060
-;1055:
-;1056:static void AssaultCountPlayers(
-;1057:	int point,
-;1058:	int *attackers,
-;1059:	int *defenders
-;1060:) {
-line 1065
-;1061:	int i;
-;1062:	float radiusSquared;
-;1063:	gentity_t *ent;
-;1064:
-;1065:	*attackers = 0;
+line 1064
+;1059:
+;1060:static void AssaultCountPlayers(
+;1061:	int point,
+;1062:	int *attackers,
+;1063:	int *defenders
+;1064:) {
+line 1069
+;1065:	int i;
+;1066:	float radiusSquared;
+;1067:	gentity_t *ent;
+;1068:
+;1069:	*attackers = 0;
 ADDRFP4 4
 INDIRP4
 CNSTI4 0
 ASGNI4
-line 1066
-;1066:	*defenders = 0;
+line 1070
+;1070:	*defenders = 0;
 ADDRFP4 8
 INDIRP4
 CNSTI4 0
 ASGNI4
-line 1068
-;1067:
-;1068:	radiusSquared =
+line 1072
+;1071:
+;1072:	radiusSquared =
 ADDRLP4 8
 ADDRGP4 g_assaultRadius+8
 INDIRF4
@@ -4152,19 +4156,19 @@ ADDRGP4 g_assaultRadius+8
 INDIRF4
 MULF4
 ASGNF4
-line 1072
-;1069:		g_assaultRadius.value *
-;1070:		g_assaultRadius.value;
-;1071:
-;1072:	for( i = 0; i < level.maxclients; i++ ) {
+line 1076
+;1073:		g_assaultRadius.value *
+;1074:		g_assaultRadius.value;
+;1075:
+;1076:	for( i = 0; i < level.maxclients; i++ ) {
 ADDRLP4 4
 CNSTI4 0
 ASGNI4
 ADDRGP4 $524
 JUMPV
 LABELV $521
-line 1073
-;1073:		ent = &g_entities[i];
+line 1077
+;1077:		ent = &g_entities[i];
 ADDRLP4 0
 CNSTI4 808
 ADDRLP4 4
@@ -4173,9 +4177,9 @@ MULI4
 ADDRGP4 g_entities
 ADDP4
 ASGNP4
-line 1075
-;1074:
-;1075:		if( !ent->client ||
+line 1079
+;1078:
+;1079:		if( !ent->client ||
 ADDRLP4 12
 ADDRLP4 0
 INDIRP4
@@ -4203,18 +4207,18 @@ INDIRI4
 CNSTI4 0
 GTI4 $526
 LABELV $529
-line 1077
-;1076:			ent->client->pers.connected != CON_CONNECTED ||
-;1077:			ent->client->ps.stats[STAT_HEALTH] <= 0 ) {
-line 1078
-;1078:			continue;
+line 1081
+;1080:			ent->client->pers.connected != CON_CONNECTED ||
+;1081:			ent->client->ps.stats[STAT_HEALTH] <= 0 ) {
+line 1082
+;1082:			continue;
 ADDRGP4 $522
 JUMPV
 LABELV $526
-line 1081
-;1079:		}
-;1080:
-;1081:		if( ent->client->sess.sessionTeam != TEAM_RED &&
+line 1085
+;1083:		}
+;1084:
+;1085:		if( ent->client->sess.sessionTeam != TEAM_RED &&
 ADDRLP4 16
 ADDRLP4 0
 INDIRP4
@@ -4233,17 +4237,17 @@ ADDRLP4 16
 INDIRI4
 CNSTI4 2
 EQI4 $530
-line 1082
-;1082:			ent->client->sess.sessionTeam != TEAM_BLUE ) {
-line 1083
-;1083:			continue;
+line 1086
+;1086:			ent->client->sess.sessionTeam != TEAM_BLUE ) {
+line 1087
+;1087:			continue;
 ADDRGP4 $522
 JUMPV
 LABELV $530
-line 1086
-;1084:		}
-;1085:
-;1086:		if( DistanceSquared(
+line 1090
+;1088:		}
+;1089:
+;1090:		if( DistanceSquared(
 ADDRLP4 0
 INDIRP4
 CNSTI4 516
@@ -4268,19 +4272,19 @@ INDIRF4
 ADDRLP4 8
 INDIRF4
 LEF4 $532
-line 1089
-;1087:			ent->client->ps.origin,
-;1088:			assault.points[point]
-;1089:		) > radiusSquared ) {
-line 1090
-;1090:			continue;
+line 1093
+;1091:			ent->client->ps.origin,
+;1092:			assault.points[point]
+;1093:		) > radiusSquared ) {
+line 1094
+;1094:			continue;
 ADDRGP4 $522
 JUMPV
 LABELV $532
-line 1093
-;1091:		}
-;1092:
-;1093:		if( ent->client->sess.sessionTeam ==
+line 1097
+;1095:		}
+;1096:
+;1097:		if( ent->client->sess.sessionTeam ==
 ADDRLP4 0
 INDIRP4
 CNSTI4 516
@@ -4292,10 +4296,10 @@ INDIRI4
 ADDRGP4 assault+368
 INDIRI4
 NEI4 $535
-line 1094
-;1094:			assault.attackingTeam ) {
-line 1095
-;1095:			(*attackers)++;
+line 1098
+;1098:			assault.attackingTeam ) {
+line 1099
+;1099:			(*attackers)++;
 ADDRLP4 24
 ADDRFP4 4
 INDIRP4
@@ -4308,15 +4312,15 @@ INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-line 1096
-;1096:		}
+line 1100
+;1100:		}
 ADDRGP4 $536
 JUMPV
 LABELV $535
-line 1097
-;1097:		else {
-line 1098
-;1098:			(*defenders)++;
+line 1101
+;1101:		else {
+line 1102
+;1102:			(*defenders)++;
 ADDRLP4 24
 ADDRFP4 8
 INDIRP4
@@ -4329,13 +4333,13 @@ INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-line 1099
-;1099:		}
+line 1103
+;1103:		}
 LABELV $536
-line 1100
-;1100:	}
+line 1104
+;1104:	}
 LABELV $522
-line 1072
+line 1076
 ADDRLP4 4
 ADDRLP4 4
 INDIRI4
@@ -4348,19 +4352,19 @@ INDIRI4
 ADDRGP4 level+24
 INDIRI4
 LTI4 $521
-line 1101
-;1101:}
+line 1105
+;1105:}
 LABELV $518
 endproc AssaultCountPlayers 28 8
 proc AssaultStartMatch 20 12
-line 1103
-;1102:
-;1103:static void AssaultStartMatch( gentity_t *ent ) {
 line 1107
-;1104:	int clientNum;
-;1105:	int i;
 ;1106:
-;1107:	clientNum = ent ? ent - g_entities : -1;
+;1107:static void AssaultStartMatch( gentity_t *ent ) {
+line 1111
+;1108:	int clientNum;
+;1109:	int i;
+;1110:
+;1111:	clientNum = ent ? ent - g_entities : -1;
 ADDRFP4 0
 INDIRP4
 CVPU4 4
@@ -4388,17 +4392,17 @@ ADDRLP4 4
 ADDRLP4 8
 INDIRI4
 ASGNI4
-line 1109
-;1108:
-;1109:	if( g_assaultMode.integer ==
+line 1113
+;1112:
+;1113:	if( g_assaultMode.integer ==
 ADDRGP4 g_assaultMode+12
 INDIRI4
 CNSTI4 2
 NEI4 $542
-line 1110
-;1110:		ASSAULT_MODE_EDITOR ) {
-line 1111
-;1111:		if( !ent ||
+line 1114
+;1114:		ASSAULT_MODE_EDITOR ) {
+line 1115
+;1115:		if( !ent ||
 ADDRFP4 0
 INDIRP4
 CVPU4 4
@@ -4410,10 +4414,10 @@ ADDRLP4 4
 INDIRI4
 EQI4 $545
 LABELV $548
-line 1112
-;1112:			assault.editorClient != clientNum ) {
-line 1113
-;1113:			trap_SendServerCommand(
+line 1116
+;1116:			assault.editorClient != clientNum ) {
+line 1117
+;1117:			trap_SendServerCommand(
 ADDRLP4 4
 INDIRI4
 ARGI4
@@ -4422,29 +4426,29 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1117
-;1114:				clientNum,
-;1115:				"print \"Only the point editor can start the match.\n\""
-;1116:			);
-;1117:			return;
+line 1121
+;1118:				clientNum,
+;1119:				"print \"Only the point editor can start the match.\n\""
+;1120:			);
+;1121:			return;
 ADDRGP4 $538
 JUMPV
 LABELV $545
-line 1119
-;1118:		}
-;1119:	}
+line 1123
+;1122:		}
+;1123:	}
 LABELV $542
-line 1121
-;1120:
-;1121:	for( i = 0; i < assault.pointCount; i++ ) {
+line 1125
+;1124:
+;1125:	for( i = 0; i < assault.pointCount; i++ ) {
 ADDRLP4 0
 CNSTI4 0
 ASGNI4
 ADDRGP4 $553
 JUMPV
 LABELV $550
-line 1122
-;1122:		if( !assault.pointSet[i] ) {
+line 1126
+;1126:		if( !assault.pointSet[i] ) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
@@ -4454,8 +4458,8 @@ ADDP4
 INDIRI4
 CNSTI4 0
 NEI4 $555
-line 1123
-;1123:			trap_SendServerCommand(
+line 1127
+;1127:			trap_SendServerCommand(
 ADDRLP4 0
 INDIRI4
 ARGI4
@@ -4481,22 +4485,22 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1130
-;1124:				clientNum,
-;1125:				va(
-;1126:					"print \"Assault: points are invalid. Point %s is missing.\n\"",
-;1127:					AssaultPointName(i)
-;1128:				)
-;1129:			);
-;1130:			return;
+line 1134
+;1128:				clientNum,
+;1129:				va(
+;1130:					"print \"Assault: points are invalid. Point %s is missing.\n\"",
+;1131:					AssaultPointName(i)
+;1132:				)
+;1133:			);
+;1134:			return;
 ADDRGP4 $538
 JUMPV
 LABELV $555
-line 1132
-;1131:		}
-;1132:	}
+line 1136
+;1135:		}
+;1136:	}
 LABELV $551
-line 1121
+line 1125
 ADDRLP4 0
 ADDRLP4 0
 INDIRI4
@@ -4509,9 +4513,9 @@ INDIRI4
 ADDRGP4 assault+332
 INDIRI4
 LTI4 $550
-line 1134
-;1133:
-;1134:	if( TeamCount(-1, TEAM_RED) < 1 ||
+line 1138
+;1137:
+;1138:	if( TeamCount(-1, TEAM_RED) < 1 ||
 CNSTI4 -1
 ARGI4
 CNSTI4 1
@@ -4537,10 +4541,10 @@ INDIRI4
 CNSTI4 1
 GEI4 $559
 LABELV $561
-line 1135
-;1135:		TeamCount(-1, TEAM_BLUE) < 1 ) {
-line 1136
-;1136:		trap_SendServerCommand(
+line 1139
+;1139:		TeamCount(-1, TEAM_BLUE) < 1 ) {
+line 1140
+;1140:		trap_SendServerCommand(
 ADDRLP4 4
 INDIRI4
 ARGI4
@@ -4549,23 +4553,23 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1140
-;1137:			clientNum,
-;1138:			"print \"Both teams need at least one player.\n\""
-;1139:		);
-;1140:		return;
+line 1144
+;1141:			clientNum,
+;1142:			"print \"Both teams need at least one player.\n\""
+;1143:		);
+;1144:		return;
 ADDRGP4 $538
 JUMPV
 LABELV $559
-line 1143
-;1141:	}
-;1142:
-;1143:	level.warmupTime = 0;
+line 1147
+;1145:	}
+;1146:
+;1147:	level.warmupTime = 0;
 ADDRGP4 level+16
 CNSTI4 0
 ASGNI4
-line 1144
-;1144:	trap_SetConfigstring( CS_WARMUP, "0" );
+line 1148
+;1148:	trap_SetConfigstring( CS_WARMUP, "0" );
 CNSTI4 5
 ARGI4
 ADDRGP4 $564
@@ -4573,9 +4577,9 @@ ARGP4
 ADDRGP4 trap_SetConfigstring
 CALLV
 pop
-line 1146
-;1145:
-;1146:	memset(
+line 1150
+;1149:
+;1150:	memset(
 ADDRGP4 assault+372
 ARGP4
 CNSTI4 0
@@ -4585,12 +4589,12 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 1151
-;1147:		&assault.redResult,
-;1148:		0,
-;1149:		sizeof(assault.redResult)
-;1150:	);
-;1151:	memset(
+line 1155
+;1151:		&assault.redResult,
+;1152:		0,
+;1153:		sizeof(assault.redResult)
+;1154:	);
+;1155:	memset(
 ADDRGP4 assault+384
 ARGP4
 CNSTI4 0
@@ -4600,24 +4604,24 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 1157
-;1152:		&assault.blueResult,
-;1153:		0,
-;1154:		sizeof(assault.blueResult)
-;1155:	);
-;1156:	
-;1157:	level.teamScores[TEAM_RED] = 0;
+line 1161
+;1156:		&assault.blueResult,
+;1157:		0,
+;1158:		sizeof(assault.blueResult)
+;1159:	);
+;1160:	
+;1161:	level.teamScores[TEAM_RED] = 0;
 ADDRGP4 level+44+4
 CNSTI4 0
 ASGNI4
-line 1158
-;1158:	level.teamScores[TEAM_BLUE] = 0;
+line 1162
+;1162:	level.teamScores[TEAM_BLUE] = 0;
 ADDRGP4 level+44+8
 CNSTI4 0
 ASGNI4
-line 1160
-;1159:
-;1160:	trap_SetConfigstring( CS_SCORES1, "0" );
+line 1164
+;1163:
+;1164:	trap_SetConfigstring( CS_SCORES1, "0" );
 CNSTI4 6
 ARGI4
 ADDRGP4 $564
@@ -4625,8 +4629,8 @@ ARGP4
 ADDRGP4 trap_SetConfigstring
 CALLV
 pop
-line 1161
-;1161:	trap_SetConfigstring( CS_SCORES2, "0" );
+line 1165
+;1165:	trap_SetConfigstring( CS_SCORES2, "0" );
 CNSTI4 7
 ARGI4
 ADDRGP4 $564
@@ -4634,31 +4638,31 @@ ARGP4
 ADDRGP4 trap_SetConfigstring
 CALLV
 pop
-line 1163
-;1162:
-;1163:	AssaultStartRound( TEAM_RED );
+line 1167
+;1166:
+;1167:	AssaultStartRound( TEAM_RED );
 CNSTI4 1
 ARGI4
 ADDRGP4 AssaultStartRound
 CALLV
 pop
-line 1164
-;1164:}
+line 1168
+;1168:}
 LABELV $538
 endproc AssaultStartMatch 20 12
 proc AssaultSetPointCount 24 12
-line 1170
-;1165:
-;1166:
-;1167:static void AssaultSetPointCount(
-;1168:	gentity_t *ent,
-;1169:	int pointCount
-;1170:) {
 line 1174
-;1171:	int i;
-;1172:	int clientNum;
-;1173:
-;1174:	clientNum = ent - g_entities;
+;1169:
+;1170:
+;1171:static void AssaultSetPointCount(
+;1172:	gentity_t *ent,
+;1173:	int pointCount
+;1174:) {
+line 1178
+;1175:	int i;
+;1176:	int clientNum;
+;1177:
+;1178:	clientNum = ent - g_entities;
 ADDRLP4 4
 ADDRFP4 0
 INDIRP4
@@ -4670,15 +4674,15 @@ CVUI4 4
 CNSTI4 808
 DIVI4
 ASGNI4
-line 1176
-;1175:
-;1176:	if( assault.phase != ASSAULT_SETUP ) {
+line 1180
+;1179:
+;1180:	if( assault.phase != ASSAULT_SETUP ) {
 ADDRGP4 assault
 INDIRI4
 CNSTI4 0
 EQI4 $574
-line 1177
-;1177:		trap_SendServerCommand(
+line 1181
+;1181:		trap_SendServerCommand(
 ADDRLP4 4
 INDIRI4
 ARGI4
@@ -4687,18 +4691,18 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1181
-;1178:			clientNum,
-;1179:			"print \"The match has already started.\n\""
-;1180:		);
-;1181:		return;
+line 1185
+;1182:			clientNum,
+;1183:			"print \"The match has already started.\n\""
+;1184:		);
+;1185:		return;
 ADDRGP4 $573
 JUMPV
 LABELV $574
-line 1184
-;1182:	}
-;1183:
-;1184:	if( ent->r.svFlags & SVF_BOT ) {
+line 1188
+;1186:	}
+;1187:
+;1188:	if( ent->r.svFlags & SVF_BOT ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 424
@@ -4708,15 +4712,15 @@ CNSTI4 8
 BANDI4
 CNSTI4 0
 EQI4 $576
-line 1185
-;1185:		return;
+line 1189
+;1189:		return;
 ADDRGP4 $573
 JUMPV
 LABELV $576
-line 1188
-;1186:	}
-;1187:
-;1188:	if( pointCount < 1 ||
+line 1192
+;1190:	}
+;1191:
+;1192:	if( pointCount < 1 ||
 ADDRLP4 8
 ADDRFP4 4
 INDIRI4
@@ -4730,10 +4734,10 @@ INDIRI4
 CNSTI4 3
 LEI4 $578
 LABELV $580
-line 1189
-;1189:		pointCount > ASSAULT_MAX_POINTS ) {
-line 1190
-;1190:		trap_SendServerCommand(
+line 1193
+;1193:		pointCount > ASSAULT_MAX_POINTS ) {
+line 1194
+;1194:		trap_SendServerCommand(
 ADDRLP4 4
 INDIRI4
 ARGI4
@@ -4742,18 +4746,18 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1194
-;1191:			clientNum,
-;1192:			"print \"Usage: /assault_set 1|2|3\n\""
-;1193:		);
-;1194:		return;
+line 1198
+;1195:			clientNum,
+;1196:			"print \"Usage: /assault_set 1|2|3\n\""
+;1197:		);
+;1198:		return;
 ADDRGP4 $573
 JUMPV
 LABELV $578
-line 1197
-;1195:	}
-;1196:
-;1197:	if( assault.editorClient >= 0 &&
+line 1201
+;1199:	}
+;1200:
+;1201:	if( assault.editorClient >= 0 &&
 ADDRGP4 assault+336
 INDIRI4
 CNSTI4 0
@@ -4763,10 +4767,10 @@ INDIRI4
 ADDRLP4 4
 INDIRI4
 EQI4 $582
-line 1198
-;1198:		assault.editorClient != clientNum ) {
-line 1199
-;1199:		trap_SendServerCommand(
+line 1202
+;1202:		assault.editorClient != clientNum ) {
+line 1203
+;1203:		trap_SendServerCommand(
 ADDRLP4 4
 INDIRI4
 ARGI4
@@ -4775,18 +4779,18 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1203
-;1200:			clientNum,
-;1201:			"print \"Another player is editing Assault.\n\""
-;1202:		);
-;1203:		return;
+line 1207
+;1204:			clientNum,
+;1205:			"print \"Another player is editing Assault.\n\""
+;1206:		);
+;1207:		return;
 ADDRGP4 $573
 JUMPV
 LABELV $582
-line 1206
-;1204:	}
-;1205:
-;1206:	for( i = pointCount;
+line 1210
+;1208:	}
+;1209:
+;1210:	for( i = pointCount;
 ADDRLP4 0
 ADDRFP4 4
 INDIRI4
@@ -4794,11 +4798,11 @@ ASGNI4
 ADDRGP4 $590
 JUMPV
 LABELV $587
-line 1208
-;1207:		i < ASSAULT_MAX_POINTS;
-;1208:		i++ ) {
-line 1209
-;1209:		if( assault.markers[i] ) {
+line 1212
+;1211:		i < ASSAULT_MAX_POINTS;
+;1212:		i++ ) {
+line 1213
+;1213:		if( assault.markers[i] ) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
@@ -4809,8 +4813,8 @@ INDIRP4
 CVPU4 4
 CNSTU4 0
 EQU4 $591
-line 1210
-;1210:			G_FreeEntity( assault.markers[i] );
+line 1214
+;1214:			G_FreeEntity( assault.markers[i] );
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
@@ -4822,8 +4826,8 @@ ARGP4
 ADDRGP4 G_FreeEntity
 CALLV
 pop
-line 1211
-;1211:			assault.markers[i] = NULL;
+line 1215
+;1215:			assault.markers[i] = NULL;
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
@@ -4832,12 +4836,12 @@ ADDRGP4 assault+64
 ADDP4
 CNSTP4 0
 ASGNP4
-line 1212
-;1212:		}
+line 1216
+;1216:		}
 LABELV $591
-line 1214
-;1213:
-;1214:		assault.pointSet[i] = qfalse;
+line 1218
+;1217:
+;1218:		assault.pointSet[i] = qfalse;
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
@@ -4846,8 +4850,8 @@ ADDRGP4 assault+52
 ADDP4
 CNSTI4 0
 ASGNI4
-line 1215
-;1215:		assault.pointAreas[i] = 0;
+line 1219
+;1219:		assault.pointAreas[i] = 0;
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
@@ -4856,8 +4860,8 @@ ADDRGP4 assault+40
 ADDP4
 CNSTI4 0
 ASGNI4
-line 1216
-;1216:		VectorClear( assault.points[i] );
+line 1220
+;1220:		VectorClear( assault.points[i] );
 ADDRLP4 12
 CNSTI4 12
 ADDRLP4 0
@@ -4888,10 +4892,10 @@ ADDP4
 ADDRLP4 16
 INDIRF4
 ASGNF4
-line 1217
-;1217:	}
+line 1221
+;1221:	}
 LABELV $588
-line 1208
+line 1212
 ADDRLP4 0
 ADDRLP4 0
 INDIRI4
@@ -4899,21 +4903,21 @@ CNSTI4 1
 ADDI4
 ASGNI4
 LABELV $590
-line 1207
+line 1211
 ADDRLP4 0
 INDIRI4
 CNSTI4 3
 LTI4 $587
-line 1219
-;1218:
-;1219:	assault.pointCount = pointCount;
+line 1223
+;1222:
+;1223:	assault.pointCount = pointCount;
 ADDRGP4 assault+332
 ADDRFP4 4
 INDIRI4
 ASGNI4
-line 1221
-;1220:
-;1221:	trap_SendServerCommand(
+line 1225
+;1224:
+;1225:	trap_SendServerCommand(
 ADDRGP4 $604
 ARGP4
 ADDRLP4 16
@@ -4952,30 +4956,30 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1229
-;1222:		-1,
-;1223:		va(
-;1224:			"print \"Assault will use %i point%s.\n\"",
-;1225:			pointCount,
-;1226:			pointCount == 1 ? "" : "s"
-;1227:		)
-;1228:	);
-;1229:}
+line 1233
+;1226:		-1,
+;1227:		va(
+;1228:			"print \"Assault will use %i point%s.\n\"",
+;1229:			pointCount,
+;1230:			pointCount == 1 ? "" : "s"
+;1231:		)
+;1232:	);
+;1233:}
 LABELV $573
 endproc AssaultSetPointCount 24 12
 export G_AssaultClientCommand
 proc G_AssaultClientCommand 1048 12
-line 1234
-;1230:
-;1231:qboolean G_AssaultClientCommand(
-;1232:	gentity_t *ent,
-;1233:	const char *cmd
-;1234:) {
 line 1238
-;1235:	char arg[MAX_TOKEN_CHARS];
-;1236:	int value;
-;1237:
-;1238:	if( !G_AssaultEnabled() ) {
+;1234:
+;1235:qboolean G_AssaultClientCommand(
+;1236:	gentity_t *ent,
+;1237:	const char *cmd
+;1238:) {
+line 1242
+;1239:	char arg[MAX_TOKEN_CHARS];
+;1240:	int value;
+;1241:
+;1242:	if( !G_AssaultEnabled() ) {
 ADDRLP4 1028
 ADDRGP4 G_AssaultEnabled
 CALLI4
@@ -4984,17 +4988,17 @@ ADDRLP4 1028
 INDIRI4
 CNSTI4 0
 NEI4 $611
-line 1239
-;1239:		return qfalse;
+line 1243
+;1243:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $610
 JUMPV
 LABELV $611
-line 1242
-;1240:	}
-;1241:
-;1242:	if( !Q_stricmp(cmd, "assault_set") ) {
+line 1246
+;1244:	}
+;1245:
+;1246:	if( !Q_stricmp(cmd, "assault_set") ) {
 ADDRFP4 4
 INDIRP4
 ARGP4
@@ -5008,8 +5012,8 @@ ADDRLP4 1032
 INDIRI4
 CNSTI4 0
 NEI4 $613
-line 1243
-;1243:		trap_Argv( 1, arg, sizeof(arg) );
+line 1247
+;1247:		trap_Argv( 1, arg, sizeof(arg) );
 CNSTI4 1
 ARGI4
 ADDRLP4 0
@@ -5019,8 +5023,8 @@ ARGI4
 ADDRGP4 trap_Argv
 CALLV
 pop
-line 1244
-;1244:		AssaultSetPointCount( ent, atoi(arg) );
+line 1248
+;1248:		AssaultSetPointCount( ent, atoi(arg) );
 ADDRLP4 0
 ARGP4
 ADDRLP4 1036
@@ -5036,17 +5040,17 @@ ARGI4
 ADDRGP4 AssaultSetPointCount
 CALLV
 pop
-line 1245
-;1245:		return qtrue;
+line 1249
+;1249:		return qtrue;
 CNSTI4 1
 RETI4
 ADDRGP4 $610
 JUMPV
 LABELV $613
-line 1248
-;1246:	}
-;1247:
-;1248:	if( !Q_stricmp(cmd, "assault_edit") ) {
+line 1252
+;1250:	}
+;1251:
+;1252:	if( !Q_stricmp(cmd, "assault_edit") ) {
 ADDRFP4 4
 INDIRP4
 ARGP4
@@ -5060,14 +5064,14 @@ ADDRLP4 1036
 INDIRI4
 CNSTI4 0
 NEI4 $616
-line 1249
-;1249:		if( assault.phase != ASSAULT_SETUP ) {
+line 1253
+;1253:		if( assault.phase != ASSAULT_SETUP ) {
 ADDRGP4 assault
 INDIRI4
 CNSTI4 0
 EQI4 $619
-line 1250
-;1250:			trap_SendServerCommand(
+line 1254
+;1254:			trap_SendServerCommand(
 ADDRFP4 0
 INDIRP4
 CVPU4 4
@@ -5083,37 +5087,37 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1254
-;1251:				ent - g_entities,
-;1252:				"print \"The match has already started.\n\""
-;1253:			);
-;1254:			return qtrue;
+line 1258
+;1255:				ent - g_entities,
+;1256:				"print \"The match has already started.\n\""
+;1257:			);
+;1258:			return qtrue;
 CNSTI4 1
 RETI4
 ADDRGP4 $610
 JUMPV
 LABELV $619
-line 1257
-;1255:		}
-;1256:
-;1257:		AssaultClaimEditor( ent );
+line 1261
+;1259:		}
+;1260:
+;1261:		AssaultClaimEditor( ent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 AssaultClaimEditor
 CALLI4
 pop
-line 1258
-;1258:		return qtrue;
+line 1262
+;1262:		return qtrue;
 CNSTI4 1
 RETI4
 ADDRGP4 $610
 JUMPV
 LABELV $616
-line 1261
-;1259:	}
-;1260:
-;1261:	if( !Q_stricmp(cmd, "assault_place") ) {
+line 1265
+;1263:	}
+;1264:
+;1265:	if( !Q_stricmp(cmd, "assault_place") ) {
 ADDRFP4 4
 INDIRP4
 ARGP4
@@ -5127,8 +5131,8 @@ ADDRLP4 1040
 INDIRI4
 CNSTI4 0
 NEI4 $621
-line 1262
-;1262:		trap_Argv( 1, arg, sizeof(arg) );
+line 1266
+;1266:		trap_Argv( 1, arg, sizeof(arg) );
 CNSTI4 1
 ARGI4
 ADDRLP4 0
@@ -5138,8 +5142,8 @@ ARGI4
 ADDRGP4 trap_Argv
 CALLV
 pop
-line 1263
-;1263:		value = atoi(arg) - 1;
+line 1267
+;1267:		value = atoi(arg) - 1;
 ADDRLP4 0
 ARGP4
 ADDRLP4 1044
@@ -5152,8 +5156,8 @@ INDIRI4
 CNSTI4 1
 SUBI4
 ASGNI4
-line 1264
-;1264:		AssaultPlacePoint( ent, value );
+line 1268
+;1268:		AssaultPlacePoint( ent, value );
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -5163,17 +5167,17 @@ ARGI4
 ADDRGP4 AssaultPlacePoint
 CALLV
 pop
-line 1265
-;1265:		return qtrue;
+line 1269
+;1269:		return qtrue;
 CNSTI4 1
 RETI4
 ADDRGP4 $610
 JUMPV
 LABELV $621
-line 1268
-;1266:	}
-;1267:
-;1268:	if( !Q_stricmp(cmd, "assault_ready") ) {
+line 1272
+;1270:	}
+;1271:
+;1272:	if( !Q_stricmp(cmd, "assault_ready") ) {
 ADDRFP4 4
 INDIRP4
 ARGP4
@@ -5187,37 +5191,37 @@ ADDRLP4 1044
 INDIRI4
 CNSTI4 0
 NEI4 $624
-line 1269
-;1269:		AssaultStartMatch( ent );
+line 1273
+;1273:		AssaultStartMatch( ent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 AssaultStartMatch
 CALLV
 pop
-line 1270
-;1270:		return qtrue;
+line 1274
+;1274:		return qtrue;
 CNSTI4 1
 RETI4
 ADDRGP4 $610
 JUMPV
 LABELV $624
-line 1273
-;1271:	}
-;1272:
-;1273:	return qfalse;
+line 1277
+;1275:	}
+;1276:
+;1277:	return qfalse;
 CNSTI4 0
 RETI4
 LABELV $610
 endproc G_AssaultClientCommand 1048 12
 export G_AssaultInit
 proc G_AssaultInit 12 12
-line 1276
-;1274:}
-;1275:
-;1276:void G_AssaultInit( void ) {
-line 1277
-;1277:	memset( &assault, 0, sizeof(assault) );
+line 1280
+;1278:}
+;1279:
+;1280:void G_AssaultInit( void ) {
+line 1281
+;1281:	memset( &assault, 0, sizeof(assault) );
 ADDRGP4 assault
 ARGP4
 CNSTI4 0
@@ -5227,20 +5231,20 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 1279
-;1278:
-;1279:	assault.editorClient = -1;
+line 1283
+;1282:
+;1283:	assault.editorClient = -1;
 ADDRGP4 assault+336
 CNSTI4 -1
 ASGNI4
-line 1280
-;1280:	assault.phase = ASSAULT_SETUP;
+line 1284
+;1284:	assault.phase = ASSAULT_SETUP;
 ADDRGP4 assault
 CNSTI4 0
 ASGNI4
-line 1282
-;1281:
-;1282:	if( !G_AssaultEnabled() ) {
+line 1286
+;1285:
+;1286:	if( !G_AssaultEnabled() ) {
 ADDRLP4 0
 ADDRGP4 G_AssaultEnabled
 CALLI4
@@ -5249,20 +5253,20 @@ ADDRLP4 0
 INDIRI4
 CNSTI4 0
 NEI4 $629
-line 1283
-;1283:		return;
+line 1287
+;1287:		return;
 ADDRGP4 $627
 JUMPV
 LABELV $629
-line 1286
-;1284:	}
-;1285:
-;1286:	level.warmupTime = -1;
+line 1290
+;1288:	}
+;1289:
+;1290:	level.warmupTime = -1;
 ADDRGP4 level+16
 CNSTI4 -1
 ASGNI4
-line 1287
-;1287:	trap_SetConfigstring( CS_WARMUP, "-1" );
+line 1291
+;1291:	trap_SetConfigstring( CS_WARMUP, "-1" );
 CNSTI4 5
 ARGI4
 ADDRGP4 $632
@@ -5270,9 +5274,9 @@ ARGP4
 ADDRGP4 trap_SetConfigstring
 CALLV
 pop
-line 1289
-;1288:
-;1289:if( g_assaultMode.integer == ASSAULT_MODE_BASE ||
+line 1293
+;1292:
+;1293:if( g_assaultMode.integer == ASSAULT_MODE_BASE ||
 ADDRGP4 g_assaultMode+12
 INDIRI4
 CNSTI4 1
@@ -5282,26 +5286,26 @@ INDIRI4
 CNSTI4 3
 NEI4 $633
 LABELV $637
-line 1290
-;1290:	g_assaultMode.integer == ASSAULT_MODE_TDM_BASE ) {
-line 1293
-;1291:	qboolean setupResult;
-;1292:
-;1293:	assault.pointCount = 3;
+line 1294
+;1294:	g_assaultMode.integer == ASSAULT_MODE_TDM_BASE ) {
+line 1297
+;1295:	qboolean setupResult;
+;1296:
+;1297:	assault.pointCount = 3;
 ADDRGP4 assault+332
 CNSTI4 3
 ASGNI4
-line 1295
-;1294:
-;1295:	if( g_assaultMode.integer ==
+line 1299
+;1298:
+;1299:	if( g_assaultMode.integer ==
 ADDRGP4 g_assaultMode+12
 INDIRI4
 CNSTI4 3
 NEI4 $639
-line 1296
-;1296:		ASSAULT_MODE_TDM_BASE ) {
-line 1297
-;1297:		setupResult =
+line 1300
+;1300:		ASSAULT_MODE_TDM_BASE ) {
+line 1301
+;1301:		setupResult =
 ADDRLP4 8
 ADDRGP4 AssaultSetupTDMBasePoints
 CALLI4
@@ -5310,16 +5314,16 @@ ADDRLP4 4
 ADDRLP4 8
 INDIRI4
 ASGNI4
-line 1299
-;1298:			AssaultSetupTDMBasePoints();
-;1299:	}
+line 1303
+;1302:			AssaultSetupTDMBasePoints();
+;1303:	}
 ADDRGP4 $640
 JUMPV
 LABELV $639
-line 1300
-;1300:	else {
-line 1301
-;1301:		setupResult =
+line 1304
+;1304:	else {
+line 1305
+;1305:		setupResult =
 ADDRLP4 8
 ADDRGP4 AssaultSetupBasePoints
 CALLI4
@@ -5328,78 +5332,78 @@ ADDRLP4 4
 ADDRLP4 8
 INDIRI4
 ASGNI4
-line 1303
-;1302:			AssaultSetupBasePoints();
-;1303:	}
+line 1307
+;1306:			AssaultSetupBasePoints();
+;1307:	}
 LABELV $640
-line 1305
-;1304:
-;1305:	if( setupResult ) {
+line 1309
+;1308:
+;1309:	if( setupResult ) {
 ADDRLP4 4
 INDIRI4
 CNSTI4 0
 EQI4 $642
-line 1306
-;1306:		G_Printf(
+line 1310
+;1310:		G_Printf(
 ADDRGP4 $644
 ARGP4
 ADDRGP4 G_Printf
 CALLV
 pop
-line 1309
-;1307:			"Assault: automatic points ready; waiting for teams.\n"
-;1308:		);
-;1309:	}
+line 1313
+;1311:			"Assault: automatic points ready; waiting for teams.\n"
+;1312:		);
+;1313:	}
 ADDRGP4 $627
 JUMPV
 LABELV $642
-line 1310
-;1310:	else {
-line 1311
-;1311:		G_Printf(
+line 1314
+;1314:	else {
+line 1315
+;1315:		G_Printf(
 ADDRGP4 $645
 ARGP4
 ADDRGP4 G_Printf
 CALLV
 pop
-line 1314
-;1312:			"Assault: automatic setup failed.\n"
-;1313:		);
-;1314:	}
-line 1316
-;1315:
-;1316:	return;
+line 1318
+;1316:			"Assault: automatic setup failed.\n"
+;1317:		);
+;1318:	}
+line 1320
+;1319:
+;1320:	return;
 ADDRGP4 $627
 JUMPV
 LABELV $633
-line 1319
-;1317:}
-;1318:
-;1319:	assault.pointCount = ASSAULT_DEFAULT_POINTS;
+line 1323
+;1321:}
+;1322:
+;1323:	assault.pointCount = ASSAULT_DEFAULT_POINTS;
 ADDRGP4 assault+332
 CNSTI4 2
 ASGNI4
-line 1321
-;1320:
-;1321:	G_Printf(
+line 1325
+;1324:
+;1325:	G_Printf(
 ADDRGP4 $647
 ARGP4
 ADDRGP4 G_Printf
 CALLV
 pop
-line 1324
-;1322:		"Assault Editor: waiting for point placement.\n"
-;1323:	);
-;1324:}
+line 1328
+;1326:		"Assault Editor: waiting for point placement.\n"
+;1327:	);
+;1328:}
 LABELV $627
 endproc G_AssaultInit 12 12
 export G_AssaultBlocksWarmup
 proc G_AssaultBlocksWarmup 12 0
-line 1326
-;1325:
-;1326:qboolean G_AssaultBlocksWarmup( void ) {
-line 1327
-;1327:	return G_AssaultEnabled() &&
+line 1330
+;1329:
+;1330:qboolean G_AssaultBlocksWarmup( void ) {
+line 1331
+;1331:	return G_AssaultEnabled() &&
 ADDRLP4 4
 ADDRGP4 G_AssaultEnabled
 CALLI4
@@ -5434,13 +5438,13 @@ LABELV $648
 endproc G_AssaultBlocksWarmup 12 0
 export G_AssaultControlsExitRules
 proc G_AssaultControlsExitRules 4 0
-line 1331
-;1328:		assault.phase == ASSAULT_SETUP;
-;1329:}
-;1330:
-;1331:qboolean G_AssaultControlsExitRules( void ) {
-line 1332
-;1332:	return G_AssaultEnabled();
+line 1335
+;1332:		assault.phase == ASSAULT_SETUP;
+;1333:}
+;1334:
+;1335:qboolean G_AssaultControlsExitRules( void ) {
+line 1336
+;1336:	return G_AssaultEnabled();
 ADDRLP4 0
 ADDRGP4 G_AssaultEnabled
 CALLI4
@@ -5452,18 +5456,18 @@ LABELV $652
 endproc G_AssaultControlsExitRules 4 0
 export G_AssaultGetActiveGoal
 proc G_AssaultGetActiveGoal 16 0
-line 1339
-;1333:}
-;1334:
-;1335:qboolean G_AssaultGetActiveGoal(
-;1336:	vec3_t origin,
-;1337:	int *area,
-;1338:	team_t *attackingTeam
-;1339:) {
-line 1342
-;1340:	int point;
-;1341:
-;1342:	if( !G_AssaultEnabled() ||
+line 1343
+;1337:}
+;1338:
+;1339:qboolean G_AssaultGetActiveGoal(
+;1340:	vec3_t origin,
+;1341:	int *area,
+;1342:	team_t *attackingTeam
+;1343:) {
+line 1346
+;1344:	int point;
+;1345:
+;1346:	if( !G_AssaultEnabled() ||
 ADDRLP4 4
 ADDRGP4 G_AssaultEnabled
 CALLI4
@@ -5485,20 +5489,20 @@ INDIRI4
 CNSTI4 2
 EQI4 $654
 LABELV $656
-line 1344
-;1343:		(assault.phase != ASSAULT_ROUND_RED &&
-;1344:		 assault.phase != ASSAULT_ROUND_BLUE) ) {
-line 1345
-;1345:		return qfalse;
+line 1348
+;1347:		(assault.phase != ASSAULT_ROUND_RED &&
+;1348:		 assault.phase != ASSAULT_ROUND_BLUE) ) {
+line 1349
+;1349:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $653
 JUMPV
 LABELV $654
-line 1348
-;1346:	}
-;1347:
-;1348:	point = AssaultActualPoint();
+line 1352
+;1350:	}
+;1351:
+;1352:	point = AssaultActualPoint();
 ADDRLP4 12
 ADDRGP4 AssaultActualPoint
 CALLI4
@@ -5507,9 +5511,9 @@ ADDRLP4 0
 ADDRLP4 12
 INDIRI4
 ASGNI4
-line 1350
-;1349:
-;1350:	VectorCopy( assault.points[point], origin );
+line 1354
+;1353:
+;1354:	VectorCopy( assault.points[point], origin );
 ADDRFP4 0
 INDIRP4
 CNSTI4 12
@@ -5520,8 +5524,8 @@ ADDRGP4 assault+4
 ADDP4
 INDIRB
 ASGNB 12
-line 1351
-;1351:	*area = assault.pointAreas[point];
+line 1355
+;1355:	*area = assault.pointAreas[point];
 ADDRFP4 4
 INDIRP4
 ADDRLP4 0
@@ -5532,38 +5536,38 @@ ADDRGP4 assault+40
 ADDP4
 INDIRI4
 ASGNI4
-line 1352
-;1352:	*attackingTeam = assault.attackingTeam;
+line 1356
+;1356:	*attackingTeam = assault.attackingTeam;
 ADDRFP4 8
 INDIRP4
 ADDRGP4 assault+368
 INDIRI4
 ASGNI4
-line 1354
-;1353:
-;1354:	return qtrue;
+line 1358
+;1357:
+;1358:	return qtrue;
 CNSTI4 1
 RETI4
 LABELV $653
 endproc G_AssaultGetActiveGoal 16 0
 proc AssaultShowInstructions 12 8
-line 1357
-;1355:}
-;1356:
-;1357:static void AssaultShowInstructions( void ) {
 line 1361
-;1358:	int i;
-;1359:	gentity_t *ent;
+;1359:}
 ;1360:
-;1361:	for( i = 0; i < level.maxclients; i++ ) {
+;1361:static void AssaultShowInstructions( void ) {
+line 1365
+;1362:	int i;
+;1363:	gentity_t *ent;
+;1364:
+;1365:	for( i = 0; i < level.maxclients; i++ ) {
 ADDRLP4 0
 CNSTI4 0
 ASGNI4
 ADDRGP4 $664
 JUMPV
 LABELV $661
-line 1362
-;1362:		ent = &g_entities[i];
+line 1366
+;1366:		ent = &g_entities[i];
 ADDRLP4 4
 CNSTI4 808
 ADDRLP4 0
@@ -5572,9 +5576,9 @@ MULI4
 ADDRGP4 g_entities
 ADDP4
 ASGNP4
-line 1364
-;1363:
-;1364:		if( !ent->client ||
+line 1368
+;1367:
+;1368:		if( !ent->client ||
 ADDRLP4 8
 ADDRLP4 4
 INDIRP4
@@ -5595,10 +5599,10 @@ INDIRI4
 CNSTI4 2
 EQI4 $666
 LABELV $668
-line 1365
-;1365:			ent->client->pers.connected != CON_CONNECTED ) {
-line 1366
-;1366:			assault.instructionsShown[i] = qfalse;
+line 1369
+;1369:			ent->client->pers.connected != CON_CONNECTED ) {
+line 1370
+;1370:			assault.instructionsShown[i] = qfalse;
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
@@ -5607,15 +5611,15 @@ ADDRGP4 assault+76
 ADDP4
 CNSTI4 0
 ASGNI4
-line 1367
-;1367:			continue;
+line 1371
+;1371:			continue;
 ADDRGP4 $662
 JUMPV
 LABELV $666
-line 1370
-;1368:		}
-;1369:
-;1370:		if( ent->r.svFlags & SVF_BOT ) {
+line 1374
+;1372:		}
+;1373:
+;1374:		if( ent->r.svFlags & SVF_BOT ) {
 ADDRLP4 4
 INDIRP4
 CNSTI4 424
@@ -5625,15 +5629,15 @@ CNSTI4 8
 BANDI4
 CNSTI4 0
 EQI4 $670
-line 1371
-;1371:			continue;
+line 1375
+;1375:			continue;
 ADDRGP4 $662
 JUMPV
 LABELV $670
-line 1374
-;1372:		}
-;1373:
-;1374:		if( assault.instructionsShown[i] ) {
+line 1378
+;1376:		}
+;1377:
+;1378:		if( assault.instructionsShown[i] ) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
@@ -5643,15 +5647,15 @@ ADDP4
 INDIRI4
 CNSTI4 0
 EQI4 $672
-line 1375
-;1375:			continue;
+line 1379
+;1379:			continue;
 ADDRGP4 $662
 JUMPV
 LABELV $672
-line 1378
-;1376:		}
-;1377:
-;1378:		assault.instructionsShown[i] = qtrue;
+line 1382
+;1380:		}
+;1381:
+;1382:		assault.instructionsShown[i] = qtrue;
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
@@ -5660,9 +5664,9 @@ ADDRGP4 assault+76
 ADDP4
 CNSTI4 1
 ASGNI4
-line 1380
-;1379:
-;1380:		trap_SendServerCommand(
+line 1384
+;1383:
+;1384:		trap_SendServerCommand(
 ADDRLP4 0
 INDIRI4
 ARGI4
@@ -5671,11 +5675,11 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1384
-;1381:			i,
-;1382:			"print \"\n=== ASSAULT SETUP ===\n\""
-;1383:		);
-;1384:		trap_SendServerCommand(
+line 1388
+;1385:			i,
+;1386:			"print \"\n=== ASSAULT SETUP ===\n\""
+;1387:		);
+;1388:		trap_SendServerCommand(
 ADDRLP4 0
 INDIRI4
 ARGI4
@@ -5684,11 +5688,11 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1388
-;1385:			i,
-;1386:			"print \"Set point count: /assault_set 1, 2 or 3\n\""
-;1387:		);
-;1388:		trap_SendServerCommand(
+line 1392
+;1389:			i,
+;1390:			"print \"Set point count: /assault_set 1, 2 or 3\n\""
+;1391:		);
+;1392:		trap_SendServerCommand(
 ADDRLP4 0
 INDIRI4
 ARGI4
@@ -5697,11 +5701,11 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1392
-;1389:			i,
-;1390:			"print \"Enter spectator mode: /team spectator\n\""
-;1391:		);
-;1392:		trap_SendServerCommand(
+line 1396
+;1393:			i,
+;1394:			"print \"Enter spectator mode: /team spectator\n\""
+;1395:		);
+;1396:		trap_SendServerCommand(
 ADDRLP4 0
 INDIRI4
 ARGI4
@@ -5710,11 +5714,11 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1396
-;1393:			i,
-;1394:			"print \"Begin editing: /assault_edit\n\""
-;1395:		);
-;1396:		trap_SendServerCommand(
+line 1400
+;1397:			i,
+;1398:			"print \"Begin editing: /assault_edit\n\""
+;1399:		);
+;1400:		trap_SendServerCommand(
 ADDRLP4 0
 INDIRI4
 ARGI4
@@ -5723,11 +5727,11 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1400
-;1397:			i,
-;1398:			"print \"Aim and place points: /assault_place 1|2|3\n\""
-;1399:		);
-;1400:		trap_SendServerCommand(
+line 1404
+;1401:			i,
+;1402:			"print \"Aim and place points: /assault_place 1|2|3\n\""
+;1403:		);
+;1404:		trap_SendServerCommand(
 ADDRLP4 0
 INDIRI4
 ARGI4
@@ -5736,11 +5740,11 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1404
-;1401:			i,
-;1402:			"print \"After placement, join Red or Blue team.\n\""
-;1403:		);
-;1404:		trap_SendServerCommand(
+line 1408
+;1405:			i,
+;1406:			"print \"After placement, join Red or Blue team.\n\""
+;1407:		);
+;1408:		trap_SendServerCommand(
 ADDRLP4 0
 INDIRI4
 ARGI4
@@ -5749,11 +5753,11 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1408
-;1405:			i,
-;1406:			"print \"IMPORTANT: add bots before starting the match.\n\""
-;1407:		);
-;1408:		trap_SendServerCommand(
+line 1412
+;1409:			i,
+;1410:			"print \"IMPORTANT: add bots before starting the match.\n\""
+;1411:		);
+;1412:		trap_SendServerCommand(
 ADDRLP4 0
 INDIRI4
 ARGI4
@@ -5762,13 +5766,13 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1412
-;1409:			i,
-;1410:			"print \"Start the match: /assault_ready\n\n\""
-;1411:		);
-;1412:	}
+line 1416
+;1413:			i,
+;1414:			"print \"Start the match: /assault_ready\n\n\""
+;1415:		);
+;1416:	}
 LABELV $662
-line 1361
+line 1365
 ADDRLP4 0
 ADDRLP4 0
 INDIRI4
@@ -5781,28 +5785,28 @@ INDIRI4
 ADDRGP4 level+24
 INDIRI4
 LTI4 $661
-line 1413
-;1413:}
+line 1417
+;1417:}
 LABELV $660
 endproc AssaultShowInstructions 12 8
 proc AssaultCurrentHoldTime 8 0
-line 1415
-;1414:
-;1415:static int AssaultCurrentHoldTime( void ) {
 line 1419
-;1416:	int holdTime;
-;1417:	int multiplier;
 ;1418:
-;1419:	multiplier = 1 << assault.activeStage;
+;1419:static int AssaultCurrentHoldTime( void ) {
+line 1423
+;1420:	int holdTime;
+;1421:	int multiplier;
+;1422:
+;1423:	multiplier = 1 << assault.activeStage;
 ADDRLP4 4
 CNSTI4 1
 ADDRGP4 assault+340
 INDIRI4
 LSHI4
 ASGNI4
-line 1421
-;1420:
-;1421:	holdTime = (int)(
+line 1425
+;1424:
+;1425:	holdTime = (int)(
 ADDRLP4 0
 CNSTF4 1148846080
 ADDRGP4 g_assaultHoldTime+8
@@ -5814,28 +5818,28 @@ CVIF4 4
 MULF4
 CVFI4 4
 ASGNI4
-line 1427
-;1422:		g_assaultHoldTime.value *
-;1423:		1000.0f *
-;1424:		multiplier
-;1425:	);
-;1426:
-;1427:	if( holdTime < 1000 ) {
+line 1431
+;1426:		g_assaultHoldTime.value *
+;1427:		1000.0f *
+;1428:		multiplier
+;1429:	);
+;1430:
+;1431:	if( holdTime < 1000 ) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 1000
 GEI4 $687
-line 1428
-;1428:		holdTime = 1000;
+line 1432
+;1432:		holdTime = 1000;
 ADDRLP4 0
 CNSTI4 1000
 ASGNI4
-line 1429
-;1429:	}
+line 1433
+;1433:	}
 LABELV $687
-line 1431
-;1430:
-;1431:	return holdTime;
+line 1435
+;1434:
+;1435:	return holdTime;
 ADDRLP4 0
 INDIRI4
 RETI4
@@ -5843,19 +5847,19 @@ LABELV $684
 endproc AssaultCurrentHoldTime 8 0
 export G_AssaultRunFrame
 proc G_AssaultRunFrame 56 12
-line 1434
-;1432:}
-;1433:
-;1434:void G_AssaultRunFrame( void ) {
-line 1442
-;1435:	int point;
-;1436:	int attackers;
-;1437:	int defenders;
-;1438:	int frameTime;
-;1439:	int holdTime;
-;1440:	int quarter;
-;1441:
-;1442:	if( !G_AssaultEnabled() ) {
+line 1438
+;1436:}
+;1437:
+;1438:void G_AssaultRunFrame( void ) {
+line 1446
+;1439:	int point;
+;1440:	int attackers;
+;1441:	int defenders;
+;1442:	int frameTime;
+;1443:	int holdTime;
+;1444:	int quarter;
+;1445:
+;1446:	if( !G_AssaultEnabled() ) {
 ADDRLP4 24
 ADDRGP4 G_AssaultEnabled
 CALLI4
@@ -5864,35 +5868,35 @@ ADDRLP4 24
 INDIRI4
 CNSTI4 0
 NEI4 $690
-line 1443
-;1443:		return;
+line 1447
+;1447:		return;
 ADDRGP4 $689
 JUMPV
 LABELV $690
-line 1446
-;1444:	}
-;1445:
-;1446:if( assault.phase == ASSAULT_SETUP ) {
+line 1450
+;1448:	}
+;1449:
+;1450:if( assault.phase == ASSAULT_SETUP ) {
 ADDRGP4 assault
 INDIRI4
 CNSTI4 0
 NEI4 $692
-line 1447
-;1447:	if( g_assaultMode.integer ==
+line 1451
+;1451:	if( g_assaultMode.integer ==
 ADDRGP4 g_assaultMode+12
 INDIRI4
 CNSTI4 2
 NEI4 $694
-line 1448
-;1448:		ASSAULT_MODE_EDITOR ) {
-line 1449
-;1449:		AssaultShowInstructions();
+line 1452
+;1452:		ASSAULT_MODE_EDITOR ) {
+line 1453
+;1453:		AssaultShowInstructions();
 ADDRGP4 AssaultShowInstructions
 CALLV
 pop
-line 1451
-;1450:
-;1451:		if( assault.editorClient >= 0 &&
+line 1455
+;1454:
+;1455:		if( assault.editorClient >= 0 &&
 ADDRGP4 assault+336
 INDIRI4
 CNSTI4 0
@@ -5909,26 +5913,26 @@ ADDP4
 INDIRI4
 CNSTI4 2
 EQI4 $689
-line 1453
-;1452:			level.clients[assault.editorClient].
-;1453:				pers.connected != CON_CONNECTED ) {
-line 1454
-;1454:			assault.editorClient = -1;
+line 1457
+;1456:			level.clients[assault.editorClient].
+;1457:				pers.connected != CON_CONNECTED ) {
+line 1458
+;1458:			assault.editorClient = -1;
 ADDRGP4 assault+336
 CNSTI4 -1
 ASGNI4
-line 1455
-;1455:		}
-line 1457
-;1456:
-;1457:		return;
+line 1459
+;1459:		}
+line 1461
+;1460:
+;1461:		return;
 ADDRGP4 $689
 JUMPV
 LABELV $694
-line 1460
-;1458:	}
-;1459:
-;1460:	if( !assault.pointSet[0] ||
+line 1464
+;1462:	}
+;1463:
+;1464:	if( !assault.pointSet[0] ||
 ADDRLP4 28
 CNSTI4 0
 ASGNI4
@@ -5948,18 +5952,18 @@ ADDRLP4 28
 INDIRI4
 NEI4 $702
 LABELV $710
-line 1462
-;1461:		!assault.pointSet[1] ||
-;1462:		!assault.pointSet[2] ) {
-line 1463
-;1463:		return;
+line 1466
+;1465:		!assault.pointSet[1] ||
+;1466:		!assault.pointSet[2] ) {
+line 1467
+;1467:		return;
 ADDRGP4 $689
 JUMPV
 LABELV $702
-line 1466
-;1464:	}
-;1465:
-;1466:	if( TeamCount(-1, TEAM_RED) < 1 ||
+line 1470
+;1468:	}
+;1469:
+;1470:	if( TeamCount(-1, TEAM_RED) < 1 ||
 CNSTI4 -1
 ARGI4
 CNSTI4 1
@@ -5985,38 +5989,38 @@ INDIRI4
 CNSTI4 1
 GEI4 $711
 LABELV $713
-line 1467
-;1467:		TeamCount(-1, TEAM_BLUE) < 1 ) {
-line 1468
-;1468:		assault.autoStartTime = 0;
+line 1471
+;1471:		TeamCount(-1, TEAM_BLUE) < 1 ) {
+line 1472
+;1472:		assault.autoStartTime = 0;
 ADDRGP4 assault+364
 CNSTI4 0
 ASGNI4
-line 1469
-;1469:		return;
+line 1473
+;1473:		return;
 ADDRGP4 $689
 JUMPV
 LABELV $711
-line 1472
-;1470:	}
-;1471:
-;1472:	if( !assault.autoStartTime ) {
+line 1476
+;1474:	}
+;1475:
+;1476:	if( !assault.autoStartTime ) {
 ADDRGP4 assault+364
 INDIRI4
 CNSTI4 0
 NEI4 $715
-line 1473
-;1473:		assault.autoStartTime =
+line 1477
+;1477:		assault.autoStartTime =
 ADDRGP4 assault+364
 ADDRGP4 level+32
 INDIRI4
 CNSTI4 2000
 ADDI4
 ASGNI4
-line 1476
-;1474:			level.time + ASSAULT_AUTO_START_DELAY;
-;1475:
-;1476:		trap_SendServerCommand(
+line 1480
+;1478:			level.time + ASSAULT_AUTO_START_DELAY;
+;1479:
+;1480:		trap_SendServerCommand(
 CNSTI4 -1
 ARGI4
 ADDRGP4 $720
@@ -6024,47 +6028,47 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1480
-;1477:			-1,
-;1478:			"cp \"Base Assault starts in 2 seconds\""
-;1479:		);
-;1480:		return;
+line 1484
+;1481:			-1,
+;1482:			"cp \"Base Assault starts in 2 seconds\""
+;1483:		);
+;1484:		return;
 ADDRGP4 $689
 JUMPV
 LABELV $715
-line 1483
-;1481:	}
-;1482:
-;1483:	if( level.time >= assault.autoStartTime ) {
+line 1487
+;1485:	}
+;1486:
+;1487:	if( level.time >= assault.autoStartTime ) {
 ADDRGP4 level+32
 INDIRI4
 ADDRGP4 assault+364
 INDIRI4
 LTI4 $689
-line 1484
-;1484:		assault.autoStartTime = 0;
+line 1488
+;1488:		assault.autoStartTime = 0;
 ADDRGP4 assault+364
 CNSTI4 0
 ASGNI4
-line 1485
-;1485:		AssaultStartMatch( NULL );
+line 1489
+;1489:		AssaultStartMatch( NULL );
 CNSTP4 0
 ARGP4
 ADDRGP4 AssaultStartMatch
 CALLV
 pop
-line 1486
-;1486:	}
-line 1488
-;1487:
-;1488:	return;
+line 1490
+;1490:	}
+line 1492
+;1491:
+;1492:	return;
 ADDRGP4 $689
 JUMPV
 LABELV $692
-line 1491
-;1489:}
-;1490:
-;1491:	if( assault.phase != ASSAULT_ROUND_RED &&
+line 1495
+;1493:}
+;1494:
+;1495:	if( assault.phase != ASSAULT_ROUND_RED &&
 ADDRLP4 28
 ADDRGP4 assault
 INDIRI4
@@ -6077,17 +6081,17 @@ ADDRLP4 28
 INDIRI4
 CNSTI4 2
 EQI4 $726
-line 1492
-;1492:		assault.phase != ASSAULT_ROUND_BLUE ) {
-line 1493
-;1493:		return;
+line 1496
+;1496:		assault.phase != ASSAULT_ROUND_BLUE ) {
+line 1497
+;1497:		return;
 ADDRGP4 $689
 JUMPV
 LABELV $726
-line 1496
-;1494:	}
-;1495:
-;1496:	if( level.time - assault.roundStartTime >=
+line 1500
+;1498:	}
+;1499:
+;1500:	if( level.time - assault.roundStartTime >=
 ADDRGP4 level+32
 INDIRI4
 ADDRGP4 assault+352
@@ -6096,10 +6100,10 @@ SUBI4
 ADDRGP4 assault+356
 INDIRI4
 LTI4 $728
-line 1497
-;1497:		assault.roundLimit ) {
-line 1498
-;1498:		trap_SendServerCommand(
+line 1501
+;1501:		assault.roundLimit ) {
+line 1502
+;1502:		trap_SendServerCommand(
 CNSTI4 -1
 ARGI4
 ADDRGP4 $733
@@ -6107,25 +6111,25 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1502
-;1499:			-1,
-;1500:			"cp \"Assault round time expired\""
-;1501:		);
-;1502:		AssaultStoreRoundResult( qfalse );
+line 1506
+;1503:			-1,
+;1504:			"cp \"Assault round time expired\""
+;1505:		);
+;1506:		AssaultStoreRoundResult( qfalse );
 CNSTI4 0
 ARGI4
 ADDRGP4 AssaultStoreRoundResult
 CALLV
 pop
-line 1503
-;1503:		return;
+line 1507
+;1507:		return;
 ADDRGP4 $689
 JUMPV
 LABELV $728
-line 1506
-;1504:	}
-;1505:
-;1506:	frameTime = level.time - assault.lastFrameTime;
+line 1510
+;1508:	}
+;1509:
+;1510:	frameTime = level.time - assault.lastFrameTime;
 ADDRLP4 0
 ADDRGP4 level+32
 INDIRI4
@@ -6133,47 +6137,47 @@ ADDRGP4 assault+360
 INDIRI4
 SUBI4
 ASGNI4
-line 1507
-;1507:	assault.lastFrameTime = level.time;
+line 1511
+;1511:	assault.lastFrameTime = level.time;
 ADDRGP4 assault+360
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 1509
-;1508:
-;1509:	if( frameTime < 0 ) {
+line 1513
+;1512:
+;1513:	if( frameTime < 0 ) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 0
 GEI4 $738
-line 1510
-;1510:		frameTime = 0;
+line 1514
+;1514:		frameTime = 0;
 ADDRLP4 0
 CNSTI4 0
 ASGNI4
-line 1511
-;1511:	}
+line 1515
+;1515:	}
 ADDRGP4 $739
 JUMPV
 LABELV $738
-line 1512
-;1512:	else if( frameTime > 200 ) {
+line 1516
+;1516:	else if( frameTime > 200 ) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 200
 LEI4 $740
-line 1513
-;1513:		frameTime = 200;
+line 1517
+;1517:		frameTime = 200;
 ADDRLP4 0
 CNSTI4 200
 ASGNI4
-line 1514
-;1514:	}
+line 1518
+;1518:	}
 LABELV $740
 LABELV $739
-line 1516
-;1515:
-;1516:	point = AssaultActualPoint();
+line 1520
+;1519:
+;1520:	point = AssaultActualPoint();
 ADDRLP4 32
 ADDRGP4 AssaultActualPoint
 CALLI4
@@ -6182,9 +6186,9 @@ ADDRLP4 12
 ADDRLP4 32
 INDIRI4
 ASGNI4
-line 1518
-;1517:
-;1518:	AssaultCountPlayers(
+line 1522
+;1521:
+;1522:	AssaultCountPlayers(
 ADDRLP4 12
 INDIRI4
 ARGI4
@@ -6195,13 +6199,13 @@ ARGP4
 ADDRGP4 AssaultCountPlayers
 CALLV
 pop
-line 1524
-;1519:		point,
-;1520:		&attackers,
-;1521:		&defenders
-;1522:	);
-;1523:
-;1524:	if( attackers > 0 && defenders == 0 ) {
+line 1528
+;1523:		point,
+;1524:		&attackers,
+;1525:		&defenders
+;1526:	);
+;1527:
+;1528:	if( attackers > 0 && defenders == 0 ) {
 ADDRLP4 36
 CNSTI4 0
 ASGNI4
@@ -6215,8 +6219,8 @@ INDIRI4
 ADDRLP4 36
 INDIRI4
 NEI4 $742
-line 1525
-;1525:		assault.captureProgress += frameTime;
+line 1529
+;1529:		assault.captureProgress += frameTime;
 ADDRLP4 40
 ADDRGP4 assault+344
 ASGNP4
@@ -6229,19 +6233,19 @@ ADDRLP4 0
 INDIRI4
 ADDI4
 ASGNI4
-line 1526
-;1526:	}
+line 1530
+;1530:	}
 ADDRGP4 $743
 JUMPV
 LABELV $742
-line 1527
-;1527:	else if( attackers == 0 ) {
+line 1531
+;1531:	else if( attackers == 0 ) {
 ADDRLP4 16
 INDIRI4
 CNSTI4 0
 NEI4 $745
-line 1528
-;1528:		assault.captureProgress -= frameTime / 2;
+line 1532
+;1532:		assault.captureProgress -= frameTime / 2;
 ADDRLP4 40
 ADDRGP4 assault+344
 ASGNP4
@@ -6256,28 +6260,28 @@ CNSTI4 2
 DIVI4
 SUBI4
 ASGNI4
-line 1530
-;1529:
-;1530:		if( assault.captureProgress < 0 ) {
+line 1534
+;1533:
+;1534:		if( assault.captureProgress < 0 ) {
 ADDRGP4 assault+344
 INDIRI4
 CNSTI4 0
 GEI4 $748
-line 1531
-;1531:			assault.captureProgress = 0;
+line 1535
+;1535:			assault.captureProgress = 0;
 ADDRGP4 assault+344
 CNSTI4 0
 ASGNI4
-line 1532
-;1532:		}
+line 1536
+;1536:		}
 LABELV $748
-line 1533
-;1533:	}
+line 1537
+;1537:	}
 LABELV $745
 LABELV $743
-line 1535
-;1534:
-;1535:	holdTime = AssaultCurrentHoldTime();
+line 1539
+;1538:
+;1539:	holdTime = AssaultCurrentHoldTime();
 ADDRLP4 40
 ADDRGP4 AssaultCurrentHoldTime
 CALLI4
@@ -6286,9 +6290,9 @@ ADDRLP4 8
 ADDRLP4 40
 INDIRI4
 ASGNI4
-line 1537
-;1536:
-;1537:	quarter =
+line 1541
+;1540:
+;1541:	quarter =
 ADDRLP4 4
 ADDRGP4 assault+344
 INDIRI4
@@ -6298,10 +6302,10 @@ ADDRLP4 8
 INDIRI4
 DIVI4
 ASGNI4
-line 1540
-;1538:		(assault.captureProgress * 4) / holdTime;
-;1539:
-;1540:	if( quarter > assault.announcedQuarter &&
+line 1544
+;1542:		(assault.captureProgress * 4) / holdTime;
+;1543:
+;1544:	if( quarter > assault.announcedQuarter &&
 ADDRLP4 4
 INDIRI4
 ADDRGP4 assault+348
@@ -6311,17 +6315,17 @@ ADDRLP4 4
 INDIRI4
 CNSTI4 4
 GEI4 $753
-line 1541
-;1541:		quarter < 4 ) {
-line 1542
-;1542:		assault.announcedQuarter = quarter;
+line 1545
+;1545:		quarter < 4 ) {
+line 1546
+;1546:		assault.announcedQuarter = quarter;
 ADDRGP4 assault+348
 ADDRLP4 4
 INDIRI4
 ASGNI4
-line 1544
-;1543:
-;1544:		trap_SendServerCommand(
+line 1548
+;1547:
+;1548:		trap_SendServerCommand(
 ADDRLP4 12
 INDIRI4
 ARGI4
@@ -6351,34 +6355,34 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1552
-;1545:			-1,
-;1546:			va(
-;1547:				"cp \"Point %s: %i%%\"",
-;1548:				AssaultPointName(point),
-;1549:				quarter * 25
-;1550:			)
-;1551:		);
-;1552:	}
+line 1556
+;1549:			-1,
+;1550:			va(
+;1551:				"cp \"Point %s: %i%%\"",
+;1552:				AssaultPointName(point),
+;1553:				quarter * 25
+;1554:			)
+;1555:		);
+;1556:	}
 LABELV $753
-line 1554
-;1553:
-;1554:	if( assault.captureProgress >= holdTime ) {
+line 1558
+;1557:
+;1558:	if( assault.captureProgress >= holdTime ) {
 ADDRGP4 assault+344
 INDIRI4
 ADDRLP4 8
 INDIRI4
 LTI4 $758
-line 1555
-;1555:		AssaultCompletePoint();
+line 1559
+;1559:		AssaultCompletePoint();
 ADDRGP4 AssaultCompletePoint
 CALLV
 pop
-line 1556
-;1556:	}
+line 1560
+;1560:	}
 LABELV $758
-line 1557
-;1557:}
+line 1561
+;1561:}
 LABELV $689
 endproc G_AssaultRunFrame 56 12
 import LogExit

@@ -992,7 +992,6 @@ static void AssaultFinishMatch( void ) {
 static void AssaultStoreRoundResult( qboolean completed ) {
 	assaultResult_t *result;
 
-	AssaultUpdateScores();
 	if( assault.attackingTeam == TEAM_RED ) {
 		result = &assault.redResult;
 	}
@@ -1011,6 +1010,11 @@ static void AssaultStoreRoundResult( qboolean completed ) {
 		result->progress = assault.captureProgress;
 		result->elapsedTime = assault.roundLimit;
 	}
+
+	/*
+	 * Update team scores only after storing the round result.
+	 */
+	AssaultUpdateScores();
 
 	if( assault.attackingTeam == TEAM_RED ) {
 		AssaultStartRound( TEAM_BLUE );
