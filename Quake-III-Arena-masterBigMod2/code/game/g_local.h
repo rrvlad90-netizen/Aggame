@@ -738,6 +738,7 @@ qboolean G_AssaultGetActiveGoal(
 
 extern vmCvar_t g_respawnTime;
 
+extern vmCvar_t g_autoCTF;
 extern vmCvar_t g_assaultMode;
 extern vmCvar_t g_assaultHoldTime;
 extern vmCvar_t g_assaultRoundTime;
@@ -1014,4 +1015,5 @@ void	trap_BotResetWeaponState(int weaponstate);
 int		trap_GeneticParentsAndChildSelection(int numranks, float *ranks, int *parent1, int *parent2, int *child);
 
 void	trap_SnapVector( float *v );
+void 	G_AutoCTFInit( void );
 

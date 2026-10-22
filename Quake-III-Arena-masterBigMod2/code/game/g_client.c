@@ -272,6 +272,148 @@ gentity_t *SelectSpawnPoint ( vec3_t avoidPoint, vec3_t origin, vec3_t angles ) 
 
 #define MAX_BASE_SPAWN_POINTS 128
 
+
+static qboolean FindAutomaticBaseSpots(
+	gentity_t **redSpot,
+	gentity_t **blueSpot
+) {
+	gentity_t *spot;
+	gentity_t *spots[MAX_BASE_SPAWN_POINTS];
+	int numSpots;
+	int redBase;
+	int blueBase;
+	int i;
+	int j;
+	float dx;
+	float dy;
+	float distance;
+	float bestDistance;
+
+	numSpots = 0;
+	spot = NULL;
+
+	while( (spot = G_Find(
+		spot,
+		FOFS(classname),
+		"info_player_deathmatch"
+	)) != NULL ) {
+		spots[numSpots++] = spot;
+
+		if( numSpots == MAX_BASE_SPAWN_POINTS ) {
+			break;
+		}
+	}
+
+	if( numSpots < 2 ) {
+		*redSpot = NULL;
+		*blueSpot = NULL;
+		return qfalse;
+	}
+
+	redBase = 0;
+	blueBase = 1;
+	bestDistance = -1.0f;
+
+	for( i = 0; i < numSpots; i++ ) {
+		for( j = i + 1; j < numSpots; j++ ) {
+			dx = spots[i]->s.origin[0] -
+				spots[j]->s.origin[0];
+
+			dy = spots[i]->s.origin[1] -
+				spots[j]->s.origin[1];
+
+			distance = dx * dx + dy * dy;
+
+			if( distance > bestDistance ) {
+				bestDistance = distance;
+				redBase = i;
+				blueBase = j;
+			}
+		}
+	}
+
+	*redSpot = spots[redBase];
+	*blueSpot = spots[blueBase];
+
+	return qtrue;
+}
+
+static void SpawnAutomaticCTFFlag(
+	const char *pickupName,
+	gentity_t *baseSpot
+) {
+	gitem_t *item;
+	gentity_t *flag;
+
+	item = BG_FindItem( pickupName );
+
+	if( !item || !baseSpot ) {
+		return;
+	}
+
+	flag = G_Spawn();
+	flag->classname = item->classname;
+
+	VectorCopy(
+		baseSpot->s.origin,
+		flag->s.origin
+	);
+
+	G_SpawnItem( flag, item );
+}
+
+void G_AutoCTFInit( void ) {
+	gentity_t *redSpot;
+	gentity_t *blueSpot;
+	gentity_t *existingRed;
+	gentity_t *existingBlue;
+
+	if( !g_autoCTF.integer ||
+		g_gametype.integer != GT_CTF ) {
+		return;
+	}
+
+	if( !FindAutomaticBaseSpots(
+		&redSpot,
+		&blueSpot
+	) ) {
+		G_Printf(
+			"Auto CTF: map needs at least two deathmatch spawn points.\n"
+		);
+		return;
+	}
+
+	existingRed = G_Find(
+		NULL,
+		FOFS(classname),
+		"team_CTF_redflag"
+	);
+
+	existingBlue = G_Find(
+		NULL,
+		FOFS(classname),
+		"team_CTF_blueflag"
+	);
+
+	if( !existingRed ) {
+		SpawnAutomaticCTFFlag(
+			"Red Flag",
+			redSpot
+		);
+	}
+
+	if( !existingBlue ) {
+		SpawnAutomaticCTFFlag(
+			"Blue Flag",
+			blueSpot
+		);
+	}
+
+	G_Printf(
+		"Auto CTF: automatic bases and flags created.\n"
+	);
+}
+
 /*
 ========================
 SelectBaseTeamSpawnPoint
@@ -1367,6 +1509,14 @@ void ClientSpawn(gentity_t *ent) {
 	if ( client->sess.sessionTeam == TEAM_SPECTATOR ) {
 		spawnPoint = SelectSpectatorSpawnPoint ( 
 						spawn_origin, spawn_angles);
+	}
+	else if( g_gametype.integer == GT_CTF &&
+		g_autoCTF.integer ) {
+		spawnPoint = SelectBaseTeamSpawnPoint(
+			client->sess.sessionTeam,
+			spawn_origin,
+			spawn_angles
+		);
 	}
 	else if( g_gametype.integer == GT_TEAM ) {
 		if( g_baseTDM.integer ) {

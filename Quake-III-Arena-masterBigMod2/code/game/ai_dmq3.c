@@ -5438,6 +5438,136 @@ int BotGoalForBSPEntity( char *classname, bot_goal_t *goal ) {
 }
 
 /*
+========================
+BotAutoCTFFindReachableArea
+========================
+*/
+static int BotAutoCTFFindReachableArea(
+	vec3_t origin
+) {
+	int area;
+	int areas[16];
+	int numAreas;
+	int i;
+	vec3_t start;
+	vec3_t end;
+
+	area = trap_AAS_PointAreaNum( origin );
+
+	if( area &&
+		trap_AAS_AreaReachability(area) ) {
+		return area;
+	}
+
+	VectorCopy( origin, start );
+	VectorCopy( origin, end );
+
+	start[2] -= 64.0f;
+	end[2] += 64.0f;
+
+	numAreas = trap_AAS_TraceAreas(
+		start,
+		end,
+		areas,
+		NULL,
+		16
+	);
+
+	for( i = 0; i < numAreas; i++ ) {
+		if( trap_AAS_AreaReachability(areas[i]) ) {
+			return areas[i];
+		}
+	}
+
+	return 0;
+}
+
+/*
+========================
+BotSetupAutoCTFFlagGoal
+========================
+*/
+static qboolean BotSetupAutoCTFFlagGoal(
+	const char *classname,
+	bot_goal_t *goal,
+	int goalNumber
+) {
+	gentity_t *flag;
+	int area;
+
+	flag = NULL;
+
+	while( (flag = G_Find(
+		flag,
+		FOFS(classname),
+		classname
+	)) != NULL ) {
+		if( !(flag->flags & FL_DROPPED_ITEM) ) {
+			break;
+		}
+	}
+
+	if( !flag ) {
+		return qfalse;
+	}
+
+	area = BotAutoCTFFindReachableArea(
+		flag->r.currentOrigin
+	);
+
+	if( !area ) {
+		area = BotAutoCTFFindReachableArea(
+			flag->s.origin
+		);
+	}
+
+	if( !area ) {
+		return qfalse;
+	}
+
+	memset( goal, 0, sizeof(*goal) );
+
+	VectorCopy(
+		flag->r.currentOrigin,
+		goal->origin
+	);
+
+	/*
+	 * During early initialization currentOrigin can still
+	 * contain zeroes. In that case use the entity origin.
+	 */
+	if( VectorLengthSquared(goal->origin) < 1.0f ) {
+		VectorCopy(
+			flag->s.origin,
+			goal->origin
+		);
+	}
+
+	goal->areanum = area;
+
+	VectorSet(
+		goal->mins,
+		-24.0f,
+		-24.0f,
+		-24.0f
+	);
+
+	VectorSet(
+		goal->maxs,
+		24.0f,
+		24.0f,
+		40.0f
+	);
+
+	goal->entitynum = flag - g_entities;
+	goal->number = goalNumber;
+	goal->flags = 0;
+	goal->iteminfo = 0;
+
+	return qtrue;
+}
+
+/*
 ==================
 BotSetupDeathmatchAI
 ==================
@@ -5458,11 +5588,58 @@ void BotSetupDeathmatchAI(void) {
 	trap_Cvar_Register(&bot_predictobstacles, "bot_predictobstacles", "1", 0);
 	trap_Cvar_Register(&g_spSkill, "g_spSkill", "2", 0);
 	//
-	if (gametype == GT_CTF) {
-		if (trap_BotGetLevelItemGoal(-1, "Red Flag", &ctf_redflag) < 0)
-			BotAI_Print(PRT_WARNING, "CTF without Red Flag\n");
-		if (trap_BotGetLevelItemGoal(-1, "Blue Flag", &ctf_blueflag) < 0)
-			BotAI_Print(PRT_WARNING, "CTF without Blue Flag\n");
+	if( gametype == GT_CTF ) {
+		if( trap_BotGetLevelItemGoal(
+			-1,
+			"Red Flag",
+			&ctf_redflag
+		) < 0 ) {
+			if( trap_Cvar_VariableIntegerValue(
+				"g_autoCTF"
+			) &&
+				BotSetupAutoCTFFlagGoal(
+					"team_CTF_redflag",
+					&ctf_redflag,
+					10001
+				) ) {
+				BotAI_Print(
+					PRT_MESSAGE,
+					"Auto CTF: Red Flag bot goal created.\n"
+				);
+			}
+			else {
+				BotAI_Print(
+					PRT_WARNING,
+					"CTF without reachable Red Flag\n"
+				);
+			}
+		}
+
+		if( trap_BotGetLevelItemGoal(
+			-1,
+			"Blue Flag",
+			&ctf_blueflag
+		) < 0 ) {
+			if( trap_Cvar_VariableIntegerValue(
+				"g_autoCTF"
+			) &&
+				BotSetupAutoCTFFlagGoal(
+					"team_CTF_blueflag",
+					&ctf_blueflag,
+					10002
+				) ) {
+				BotAI_Print(
+					PRT_MESSAGE,
+					"Auto CTF: Blue Flag bot goal created.\n"
+				);
+			}
+			else {
+				BotAI_Print(
+					PRT_WARNING,
+					"CTF without reachable Blue Flag\n"
+				);
+			}
+		}
 	}
 #ifdef MISSIONPACK
 	else if (gametype == GT_1FCTF) {

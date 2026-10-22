@@ -101,11 +101,11 @@ static const char *gametype_items[] = {
 	"TDM One Life",
 	"One Life on CTF",
 	"Base Assault",
+	"CTF on TDM Maps",
 	"Tournament",
 	"Capture the Flag",
 	0
 };
-
 
 static int gametype_remap[] = {
 	GT_FFA,
@@ -115,17 +115,17 @@ static int gametype_remap[] = {
 	GT_TEAM,
 	GT_TEAM,
 	GT_TEAM,
+	GT_CTF,
 	GT_TOURNAMENT,
 	GT_CTF
 };
 
-
 static int gametype_remap2[] = {
 	0,
-	7,
+	8,
 	0,
 	1,
-	8
+	9
 };
 
 // use ui_servers2.c definition
@@ -280,23 +280,33 @@ static void StartServer_GametypeEvent( void* ptr, int event ) {
 
 	count = UI_GetNumArenas();
 	s_startserver.nummaps = 0;
-	if( s_startserver.gametype.curvalue == 2 ||
+	if( s_startserver.gametype.curvalue == 7 ) {
+		/*
+		 * CTF on TDM Maps launches GT_CTF,
+		 * but displays ordinary team maps.
+		 */
+		matchbits = 1 << GT_TEAM;
+	}
+	else if( s_startserver.gametype.curvalue == 2 ||
 		s_startserver.gametype.curvalue == 5 ||
 		s_startserver.gametype.curvalue == 6 ) {
-			/*
-			 * TDM on CTF Maps shows CTF maps but launches GT_TEAM.
-			 */
-			matchbits = 1 << GT_CTF;
-		}
-		else {
-			matchbits =
-				1 << gametype_remap[s_startserver.gametype.curvalue];
+		/*
+		 * These modes use CTF maps but launch GT_TEAM.
+		 */
+		matchbits = 1 << GT_CTF;
+	}
+	else {
+		matchbits =
+			1 << gametype_remap[
+				s_startserver.gametype.curvalue
+			];
 
-			if( gametype_remap[s_startserver.gametype.curvalue] ==
-				GT_FFA ) {
-				matchbits |= 1 << GT_SINGLE_PLAYER;
-			}
+		if( gametype_remap[
+			s_startserver.gametype.curvalue
+		] == GT_FFA ) {
+			matchbits |= 1 << GT_SINGLE_PLAYER;
 		}
+	}
 	for( i = 0; i < count; i++ ) {
 		info = UI_GetArenaInfoByNumber( i );
 
@@ -365,6 +375,11 @@ static void StartServer_MenuEvent( void* ptr, int event ) {
 		trap_Cvar_SetValue(
 			"g_assaultMode",
 			s_startserver.gametype.curvalue == 6
+		);
+		
+		trap_Cvar_SetValue(
+			"g_autoCTF",
+			s_startserver.gametype.curvalue == 7
 		);
 
 		UI_ServerOptionsMenu(
@@ -1515,25 +1530,36 @@ static void ServerOptions_LevelshotDraw( void *self ) {
 
 	y += SMALLCHAR_HEIGHT;
 	if( trap_Cvar_VariableValue("g_assaultMode") != 0 ) {
-	UI_DrawString(
-		x,
-		y,
-		"Assault",
-		UI_CENTER | UI_SMALLFONT,
-		color_orange
-	);
-}
-else {
-	UI_DrawString(
-		x,
-		y,
-		gametype_items[
-			gametype_remap2[s_serveroptions.gametype]
-		],
-		UI_CENTER | UI_SMALLFONT,
-		color_orange
-	);
-}
+		UI_DrawString(
+			x,
+			y,
+			"Base Assault",
+			UI_CENTER | UI_SMALLFONT,
+			color_orange
+		);
+	}
+	else if( trap_Cvar_VariableValue("g_autoCTF") != 0 ) {
+		UI_DrawString(
+			x,
+			y,
+			"CTF on TDM Maps",
+			UI_CENTER | UI_SMALLFONT,
+			color_orange
+		);
+	}
+	else {
+		UI_DrawString(
+			x,
+			y,
+			gametype_items[
+				gametype_remap2[
+					s_serveroptions.gametype
+				]
+			],
+			UI_CENTER | UI_SMALLFONT,
+			color_orange
+		);
+	}
 }
 
 

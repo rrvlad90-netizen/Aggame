@@ -40,6 +40,7 @@ gclient_t		g_clients[MAX_CLIENTS];
 
 vmCvar_t 	g_respawnTime;
 
+vmCvar_t 	g_autoCTF;
 vmCvar_t 	g_assaultMode;
 vmCvar_t 	g_assaultHoldTime;
 vmCvar_t 	g_assaultRoundTime;
@@ -123,6 +124,7 @@ static cvarTable_t		gameCvarTable[] = {
 	
 	{&g_respawnTime,"g_respawnTime","0",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},
 	
+	{&g_autoCTF,"g_autoCTF","0",CVAR_SERVERINFO | CVAR_LATCH,0,qfalse},
 	{&g_assaultMode,"g_assaultMode","0",CVAR_SERVERINFO | CVAR_LATCH,0,qfalse},
 	{&g_assaultHoldTime,"g_assaultHoldTime","30",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},
 	{&g_assaultRoundTime,"g_assaultRoundTime","300",CVAR_ARCHIVE | CVAR_SERVERINFO,0,qfalse},
@@ -530,6 +532,11 @@ void G_InitGame( int levelTime, int randomSeed, int restart ) {
 
 	// general initialization
 	G_FindTeams();
+
+	/*
+	 * Create automatic flags before validating CTF items.
+	 */
+	G_AutoCTFInit();
 
 	// make sure we have flags for CTF, etc
 	if( g_gametype.integer >= GT_TEAM ) {

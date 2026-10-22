@@ -4580,6 +4580,7 @@ skip 12
 align 4
 LABELV s_quadFactor
 skip 4
+import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection
 import trap_BotResetWeaponState
@@ -4827,6 +4828,7 @@ import g_assaultRadius
 import g_assaultRoundTime
 import g_assaultHoldTime
 import g_assaultMode
+import g_autoCTF
 import g_respawnTime
 import G_AssaultGetActiveGoal
 import G_AssaultClientCommand
