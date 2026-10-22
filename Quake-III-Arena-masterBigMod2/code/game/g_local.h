@@ -1017,3 +1017,8 @@ int		trap_GeneticParentsAndChildSelection(int numranks, float *ranks, int *paren
 void	trap_SnapVector( float *v );
 void 	G_AutoCTFInit( void );
 
+qboolean G_FindAutomaticBaseSpots(
+	gentity_t **redSpot,
+	gentity_t **blueSpot
+);
+

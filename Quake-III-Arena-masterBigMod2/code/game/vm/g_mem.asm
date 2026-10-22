@@ -183,6 +183,7 @@ skip 4
 align 1
 LABELV memoryPool
 skip 262144
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

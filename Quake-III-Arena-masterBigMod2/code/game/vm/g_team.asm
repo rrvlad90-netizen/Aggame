@@ -6709,6 +6709,7 @@ export teamgame
 align 4
 LABELV teamgame
 skip 36
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

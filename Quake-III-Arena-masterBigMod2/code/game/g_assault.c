@@ -6,6 +6,7 @@
 #define ASSAULT_DEFAULT_POINTS 2
 #define ASSAULT_MODE_BASE 1
 #define ASSAULT_MODE_EDITOR 2
+#define ASSAULT_MODE_TDM_BASE 3
 #define ASSAULT_AUTO_START_DELAY 2000
 #define ASSAULT_MIDDLE_ITEM_COUNT 13
 
@@ -104,7 +105,8 @@ qboolean G_AssaultEnabled( void ) {
 	return
 		(
 			g_assaultMode.integer == ASSAULT_MODE_BASE ||
-			g_assaultMode.integer == ASSAULT_MODE_EDITOR
+			g_assaultMode.integer == ASSAULT_MODE_EDITOR ||
+			g_assaultMode.integer == ASSAULT_MODE_TDM_BASE
 		) &&
 		g_gametype.integer == GT_TEAM;
 }
@@ -537,6 +539,99 @@ static qboolean AssaultSetupBasePoints( void ) {
 	else {
 		G_Printf(
 			"Assault: point B placed at map midpoint.\n"
+		);
+	}
+
+	return qtrue;
+}
+
+static qboolean AssaultSetupTDMBasePoints( void ) {
+	gentity_t *redSpot;
+	gentity_t *blueSpot;
+	int selectedItem;
+	int i;
+
+	assault.pointCount = 3;
+
+	if( !G_FindAutomaticBaseSpots(
+		&redSpot,
+		&blueSpot
+	) ) {
+		G_Printf(
+			"Assault TDM: map needs at least two spawn points.\n"
+		);
+		return qfalse;
+	}
+
+	/*
+	 * A: blue team's automatic base.
+	 */
+	AssaultGroundOrigin(
+		blueSpot->s.origin,
+		assault.points[0]
+	);
+
+	assault.pointAreas[0] =
+		AssaultPointAreaNum(assault.points[0]);
+
+	if( !assault.pointAreas[0] ) {
+		G_Printf(
+			"Assault TDM: point A has no reachable AAS area.\n"
+		);
+		return qfalse;
+	}
+
+	assault.pointSet[0] = qtrue;
+
+	/*
+	 * C: red team's automatic base.
+	 */
+	AssaultGroundOrigin(
+		redSpot->s.origin,
+		assault.points[2]
+	);
+
+	assault.pointAreas[2] =
+		AssaultPointAreaNum(assault.points[2]);
+
+	if( !assault.pointAreas[2] ) {
+		G_Printf(
+			"Assault TDM: point C has no reachable AAS area.\n"
+		);
+		return qfalse;
+	}
+
+	assault.pointSet[2] = qtrue;
+
+	/*
+	 * B: selected map item or automatic fallback.
+	 */
+	if( !AssaultSelectMiddlePoint(
+		assault.points[1],
+		&assault.pointAreas[1],
+		&selectedItem
+	) ) {
+		G_Printf(
+			"Assault TDM: unable to create point B.\n"
+		);
+		return qfalse;
+	}
+
+	assault.pointSet[1] = qtrue;
+
+	for( i = 0; i < assault.pointCount; i++ ) {
+		AssaultCreateOrMoveMarker( i );
+	}
+
+	if( selectedItem >= 0 ) {
+		G_Printf(
+			"Assault TDM: point B placed at %s.\n",
+			assaultMiddleNames[selectedItem]
+		);
+	}
+	else {
+		G_Printf(
+			"Assault TDM: point B placed at map midpoint.\n"
 		);
 	}
 
@@ -1191,23 +1286,35 @@ void G_AssaultInit( void ) {
 	level.warmupTime = -1;
 	trap_SetConfigstring( CS_WARMUP, "-1" );
 
+if( g_assaultMode.integer == ASSAULT_MODE_BASE ||
+	g_assaultMode.integer == ASSAULT_MODE_TDM_BASE ) {
+	qboolean setupResult;
+
+	assault.pointCount = 3;
+
 	if( g_assaultMode.integer ==
-		ASSAULT_MODE_BASE ) {
-		assault.pointCount = 3;
-
-		if( AssaultSetupBasePoints() ) {
-			G_Printf(
-				"Assault: automatic points ready; waiting for teams.\n"
-			);
-		}
-		else {
-			G_Printf(
-				"Assault: automatic setup failed.\n"
-			);
-		}
-
-		return;
+		ASSAULT_MODE_TDM_BASE ) {
+		setupResult =
+			AssaultSetupTDMBasePoints();
 	}
+	else {
+		setupResult =
+			AssaultSetupBasePoints();
+	}
+
+	if( setupResult ) {
+		G_Printf(
+			"Assault: automatic points ready; waiting for teams.\n"
+		);
+	}
+	else {
+		G_Printf(
+			"Assault: automatic setup failed.\n"
+		);
+	}
+
+	return;
+}
 
 	assault.pointCount = ASSAULT_DEFAULT_POINTS;
 

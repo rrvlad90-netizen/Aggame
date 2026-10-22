@@ -1788,6 +1788,7 @@ line 337
 ;337:}
 LABELV $118
 endproc SP_shooter_grenade 0 8
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

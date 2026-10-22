@@ -3508,6 +3508,7 @@ INDIRP4
 RETP4
 LABELV $147
 endproc fire_grapple 20 4
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

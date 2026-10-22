@@ -5555,6 +5555,7 @@ export itemRegistered
 align 4
 LABELV itemRegistered
 skip 1024
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

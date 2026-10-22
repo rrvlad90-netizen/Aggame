@@ -694,6 +694,7 @@ line 193
 ;193:}
 LABELV $87
 endproc G_WriteSessionData 8 8
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

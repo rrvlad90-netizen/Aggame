@@ -6335,6 +6335,7 @@ INDIRI4
 RETI4
 LABELV $407
 endproc G_RadiusDamage 4196 32
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

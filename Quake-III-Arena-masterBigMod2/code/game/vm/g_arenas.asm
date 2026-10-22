@@ -2656,6 +2656,7 @@ export podium1
 align 4
 LABELV podium1
 skip 4
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

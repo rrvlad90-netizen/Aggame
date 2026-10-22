@@ -2716,6 +2716,7 @@ line 466
 ;466:}
 LABELV $205
 endproc SP_target_location 4 8
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

@@ -5550,6 +5550,7 @@ skip 4096
 align 4
 LABELV g_numBots
 skip 4
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

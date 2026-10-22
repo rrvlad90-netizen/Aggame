@@ -1187,7 +1187,8 @@ INDIRP4
 RETP4
 LABELV $125
 endproc SelectSpawnPoint 4 12
-proc FindAutomaticBaseSpots 580 12
+export G_FindAutomaticBaseSpots
+proc G_FindAutomaticBaseSpots 580 12
 line 279
 ;243:
 ;244:	/*
@@ -1222,7 +1223,7 @@ line 279
 ;273:#define MAX_BASE_SPAWN_POINTS 128
 ;274:
 ;275:
-;276:static qboolean FindAutomaticBaseSpots(
+;276:qboolean G_FindAutomaticBaseSpots(
 ;277:	gentity_t **redSpot,
 ;278:	gentity_t **blueSpot
 ;279:) {
@@ -1561,7 +1562,7 @@ line 338
 CNSTI4 1
 RETI4
 LABELV $126
-endproc FindAutomaticBaseSpots 580 12
+endproc G_FindAutomaticBaseSpots 580 12
 proc SpawnAutomaticCTFFlag 24 8
 line 344
 ;339:}
@@ -1700,13 +1701,13 @@ LABELV $149
 line 376
 ;374:	}
 ;375:
-;376:	if( !FindAutomaticBaseSpots(
+;376:	if( !G_FindAutomaticBaseSpots(
 ADDRLP4 8
 ARGP4
 ADDRLP4 12
 ARGP4
 ADDRLP4 16
-ADDRGP4 FindAutomaticBaseSpots
+ADDRGP4 G_FindAutomaticBaseSpots
 CALLI4
 ASGNI4
 ADDRLP4 16

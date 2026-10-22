@@ -2383,6 +2383,7 @@ line 463
 ;463:}
 LABELV $168
 endproc SP_func_timer 12 12
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

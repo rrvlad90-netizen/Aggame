@@ -2565,6 +2565,7 @@ import SP_info_firstplace
 import SP_info_player_intermission
 import SP_info_player_deathmatch
 import SP_info_player_start
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

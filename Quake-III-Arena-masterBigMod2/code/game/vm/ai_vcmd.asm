@@ -2734,6 +2734,7 @@ import EA_Command
 import EA_SayTeam
 import EA_Say
 import GetBotLibAPI
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

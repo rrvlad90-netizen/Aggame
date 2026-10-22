@@ -273,7 +273,7 @@ gentity_t *SelectSpawnPoint ( vec3_t avoidPoint, vec3_t origin, vec3_t angles ) 
 #define MAX_BASE_SPAWN_POINTS 128
 
 
-static qboolean FindAutomaticBaseSpots(
+qboolean G_FindAutomaticBaseSpots(
 	gentity_t **redSpot,
 	gentity_t **blueSpot
 ) {
@@ -373,7 +373,7 @@ void G_AutoCTFInit( void ) {
 		return;
 	}
 
-	if( !FindAutomaticBaseSpots(
+	if( !G_FindAutomaticBaseSpots(
 		&redSpot,
 		&blueSpot
 	) ) {

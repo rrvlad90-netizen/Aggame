@@ -9313,6 +9313,7 @@ export g_clients
 align 4
 LABELV g_clients
 skip 49920
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

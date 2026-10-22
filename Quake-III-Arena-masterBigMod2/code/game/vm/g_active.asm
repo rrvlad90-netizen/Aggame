@@ -6342,6 +6342,7 @@ line 1458
 LABELV $417
 endproc ClientEndFrame 28 16
 import BotTestSolid
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

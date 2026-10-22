@@ -100,7 +100,8 @@ static const char *gametype_items[] = {
 	"Base TDM",
 	"TDM One Life",
 	"One Life on CTF",
-	"Base Assault",
+	"Base Assault on CTF",
+	"Base Assault on TDM",
 	"CTF on TDM Maps",
 	"Tournament",
 	"Capture the Flag",
@@ -115,6 +116,7 @@ static int gametype_remap[] = {
 	GT_TEAM,
 	GT_TEAM,
 	GT_TEAM,
+	GT_TEAM,
 	GT_CTF,
 	GT_TOURNAMENT,
 	GT_CTF
@@ -122,10 +124,10 @@ static int gametype_remap[] = {
 
 static int gametype_remap2[] = {
 	0,
-	8,
+	9,
 	0,
 	1,
-	9
+	10
 };
 
 // use ui_servers2.c definition
@@ -280,7 +282,7 @@ static void StartServer_GametypeEvent( void* ptr, int event ) {
 
 	count = UI_GetNumArenas();
 	s_startserver.nummaps = 0;
-	if( s_startserver.gametype.curvalue == 7 ) {
+	if( s_startserver.gametype.curvalue == 8 ) {
 		/*
 		 * CTF on TDM Maps launches GT_CTF,
 		 * but displays ordinary team maps.
@@ -363,7 +365,8 @@ static void StartServer_MenuEvent( void* ptr, int event ) {
 
 		trap_Cvar_SetValue(
 			"g_baseTDM",
-			s_startserver.gametype.curvalue == 3
+			s_startserver.gametype.curvalue == 3 ||
+			s_startserver.gametype.curvalue == 7
 		);
 
 		trap_Cvar_SetValue(
@@ -372,14 +375,28 @@ static void StartServer_MenuEvent( void* ptr, int event ) {
 			s_startserver.gametype.curvalue == 5
 		);
 
-		trap_Cvar_SetValue(
-			"g_assaultMode",
-			s_startserver.gametype.curvalue == 6
-		);
-		
+		if( s_startserver.gametype.curvalue == 6 ) {
+			trap_Cvar_SetValue(
+				"g_assaultMode",
+				1
+			);
+		}
+		else if( s_startserver.gametype.curvalue == 7 ) {
+			trap_Cvar_SetValue(
+				"g_assaultMode",
+				3
+			);
+		}
+		else {
+			trap_Cvar_SetValue(
+				"g_assaultMode",
+				0
+			);
+		}
+
 		trap_Cvar_SetValue(
 			"g_autoCTF",
-			s_startserver.gametype.curvalue == 7
+			s_startserver.gametype.curvalue == 8
 		);
 
 		UI_ServerOptionsMenu(

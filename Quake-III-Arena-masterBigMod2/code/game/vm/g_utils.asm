@@ -3230,6 +3230,7 @@ export remappedShaders
 align 4
 LABELV remappedShaders
 skip 16896
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

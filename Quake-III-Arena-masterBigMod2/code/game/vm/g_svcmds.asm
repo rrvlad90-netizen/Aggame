@@ -2409,6 +2409,7 @@ skip 4
 align 4
 LABELV ipFilters
 skip 8192
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection

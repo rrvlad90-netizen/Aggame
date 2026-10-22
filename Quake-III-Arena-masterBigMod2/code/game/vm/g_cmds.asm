@@ -10993,6 +10993,7 @@ line 1739
 ;1739:}
 LABELV $851
 endproc ClientCommand 1156 16
+import G_FindAutomaticBaseSpots
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection
