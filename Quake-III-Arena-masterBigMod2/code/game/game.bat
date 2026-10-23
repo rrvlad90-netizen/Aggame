@@ -37,6 +37,9 @@ if errorlevel 1 goto failed_vm
 %cc% ../bg_misc.c
 if errorlevel 1 goto failed_vm
 
+%cc% ../bg_monster.c
+if errorlevel 1 goto failed_vm
+
 %cc% ../bg_lib.c
 if errorlevel 1 goto failed_vm
 
