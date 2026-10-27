@@ -1018,10 +1018,30 @@ address $119
 address $120
 address $121
 address $122
+address $123
+address $124
+address $125
+address $126
+address $127
+address $127
+address $128
+address $129
+address $130
+address $131
+address $132
+address $133
+address $134
+address $135
+address $136
+address $137
+address $138
+address $139
+address $140
+address $141
 byte 4 0
 code
-proc CG_LoadMonsterShader 9588 16
-line 219
+proc CG_LoadMonsterShader 9592 16
+line 239
 ;197:
 ;198:/*
 ;199:==================
@@ -1039,20 +1059,40 @@ line 219
 ;211:	"models/monsters/D3Imp/monster.cfg",
 ;212:	"models/monsters/Gross/monster.cfg",
 ;213:	"models/monsters/Mancubus/monster.cfg",
-;214:	NULL
-;215:};
-;216:
-;217:static void CG_LoadMonsterShader(
-;218:	const char *filename
-;219:) {
-line 226
-;220:	fileHandle_t file;
-;221:	char text[MAX_MONSTER_CONFIG_TEXT];
-;222:	char error[256];
-;223:	monsterDef_t def;
-;224:	int length;
-;225:
-;226:	length = trap_FS_FOpenFile(
+;214:	"models/monsters/Mancubus2/monster.cfg",
+;215:	"models/monsters/Mancubus3/monster.cfg",
+;216:	"models/monsters/Mancubus4/monster.cfg",
+;217:	"models/monsters/Mancubus5/monster.cfg",	
+;218:	"models/monsters/MongGrunt/monster.cfg",
+;219:	"models/monsters/MongGrunt/monster.cfg",
+;220:	"models/monsters/MongGruntShotgun/monster.cfg",
+;221:	"models/monsters/MongGruntRifle/monster.cfg",
+;222:	"models/monsters/Faust/monster.cfg",
+;223:	"models/monsters/Stratos/monster.cfg",
+;224:	"models/monsters/Mincer/monster.cfg",
+;225:	"models/monsters/Forgotten/monster.cfg",
+;226:	"models/monsters/Ghost/monster.cfg",
+;227:	"models/monsters/Ghost2/monster.cfg",
+;228:	"models/monsters/Ghost3/monster.cfg",
+;229:	"models/monsters/MongGrunt2/monster.cfg",
+;230:	"models/monsters/MongGruntShotgun2/monster.cfg",
+;231:	"models/monsters/MongGruntRifle2/monster.cfg",
+;232:	"models/monsters/Stratos2/monster.cfg",
+;233:	"models/monsters/Faust2/monster.cfg",	
+;234:	NULL
+;235:};
+;236:
+;237:static void CG_LoadMonsterShader(
+;238:	const char *filename
+;239:) {
+line 246
+;240:	fileHandle_t file;
+;241:	char text[MAX_MONSTER_CONFIG_TEXT];
+;242:	char error[256];
+;243:	monsterDef_t def;
+;244:	int length;
+;245:
+;246:	length = trap_FS_FOpenFile(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -1068,20 +1108,20 @@ ADDRLP4 1108
 ADDRLP4 9564
 INDIRI4
 ASGNI4
-line 232
-;227:		filename,
-;228:		&file,
-;229:		FS_READ
-;230:	);
-;231:
-;232:	if( !file ) {
+line 252
+;247:		filename,
+;248:		&file,
+;249:		FS_READ
+;250:	);
+;251:
+;252:	if( !file ) {
 ADDRLP4 1112
 INDIRI4
 CNSTI4 0
-NEI4 $124
-line 233
-;233:		CG_Printf(
-ADDRGP4 $126
+NEI4 $143
+line 253
+;253:		CG_Printf(
+ADDRGP4 $145
 ARGP4
 ADDRFP4 0
 INDIRP4
@@ -1089,33 +1129,33 @@ ARGP4
 ADDRGP4 CG_Printf
 CALLV
 pop
-line 237
-;234:			"Monster config not found: %s\n",
-;235:			filename
-;236:		);
-;237:		return;
-ADDRGP4 $123
+line 257
+;254:			"Monster config not found: %s\n",
+;255:			filename
+;256:		);
+;257:		return;
+ADDRGP4 $142
 JUMPV
-LABELV $124
-line 240
-;238:	}
-;239:
-;240:	if( length <= 0 ||
+LABELV $143
+line 260
+;258:	}
+;259:
+;260:	if( length <= 0 ||
 ADDRLP4 1108
 INDIRI4
 CNSTI4 0
-LEI4 $129
+LEI4 $148
 ADDRLP4 1108
 INDIRI4
 CVIU4 4
 CNSTU4 8192
-LTU4 $127
-LABELV $129
-line 241
-;241:		length >= sizeof(text) ) {
-line 242
-;242:		CG_Printf(
-ADDRGP4 $130
+LTU4 $146
+LABELV $148
+line 261
+;261:		length >= sizeof(text) ) {
+line 262
+;262:		CG_Printf(
+ADDRGP4 $149
 ARGP4
 ADDRFP4 0
 INDIRP4
@@ -1123,27 +1163,27 @@ ARGP4
 ADDRGP4 CG_Printf
 CALLV
 pop
-line 247
-;243:			"Invalid monster config size: %s\n",
-;244:			filename
-;245:		);
-;246:
-;247:		trap_FS_FCloseFile(file);
+line 267
+;263:			"Invalid monster config size: %s\n",
+;264:			filename
+;265:		);
+;266:
+;267:		trap_FS_FCloseFile(file);
 ADDRLP4 1112
 INDIRI4
 ARGI4
 ADDRGP4 trap_FS_FCloseFile
 CALLV
 pop
-line 248
-;248:		return;
-ADDRGP4 $123
+line 268
+;268:		return;
+ADDRGP4 $142
 JUMPV
-LABELV $127
-line 251
-;249:	}
-;250:
-;251:	trap_FS_Read(text, length, file);
+LABELV $146
+line 271
+;269:	}
+;270:
+;271:	trap_FS_Read(text, length, file);
 ADDRLP4 1116
 ARGP4
 ADDRLP4 1108
@@ -1155,25 +1195,25 @@ ARGI4
 ADDRGP4 trap_FS_Read
 CALLV
 pop
-line 252
-;252:	text[length] = '\0';
+line 272
+;272:	text[length] = '\0';
 ADDRLP4 1108
 INDIRI4
 ADDRLP4 1116
 ADDP4
 CNSTI1 0
 ASGNI1
-line 253
-;253:	trap_FS_FCloseFile(file);
+line 273
+;273:	trap_FS_FCloseFile(file);
 ADDRLP4 1112
 INDIRI4
 ARGI4
 ADDRGP4 trap_FS_FCloseFile
 CALLV
 pop
-line 255
-;254:
-;255:	if( !BG_ParseMonsterConfig(
+line 275
+;274:
+;275:	if( !BG_ParseMonsterConfig(
 ADDRLP4 1116
 ARGP4
 ADDRLP4 0
@@ -1189,16 +1229,16 @@ ASGNI4
 ADDRLP4 9572
 INDIRI4
 CNSTI4 0
-NEI4 $131
-line 260
-;256:		text,
-;257:		&def,
-;258:		error,
-;259:		sizeof(error)
-;260:	) ) {
-line 261
-;261:		CG_Printf(
-ADDRGP4 $133
+NEI4 $150
+line 280
+;276:		text,
+;277:		&def,
+;278:		error,
+;279:		sizeof(error)
+;280:	) ) {
+line 281
+;281:		CG_Printf(
+ADDRGP4 $152
 ARGP4
 ADDRFP4 0
 INDIRP4
@@ -1208,19 +1248,19 @@ ARGP4
 ADDRGP4 CG_Printf
 CALLV
 pop
-line 266
-;262:			"Monster config error in %s: %s\n",
-;263:			filename,
-;264:			error
-;265:		);
-;266:		return;
-ADDRGP4 $123
+line 286
+;282:			"Monster config error in %s: %s\n",
+;283:			filename,
+;284:			error
+;285:		);
+;286:		return;
+ADDRGP4 $142
 JUMPV
-LABELV $131
-line 269
-;267:	}
-;268:
-;269:	if( def.monsterType <= MONSTER_TYPE_OFF ||
+LABELV $150
+line 289
+;287:	}
+;288:
+;289:	if( def.monsterType <= MONSTER_TYPE_OFF ||
 ADDRLP4 9576
 CNSTI4 0
 ASGNI4
@@ -1228,29 +1268,29 @@ ADDRLP4 0+576
 INDIRI4
 ADDRLP4 9576
 INDIRI4
-LEI4 $142
+LEI4 $161
 ADDRLP4 0+576
 INDIRI4
 CNSTI4 6
-GEI4 $142
+GEI4 $161
 ADDRLP4 0+580
 INDIRI4
 ADDRLP4 9576
 INDIRI4
-LTI4 $142
+LTI4 $161
 ADDRLP4 0+580
 INDIRI4
 CNSTI4 5
-LTI4 $134
-LABELV $142
-line 273
-;270:		def.monsterType >= MONSTER_TYPE_RANDOM ||
-;271:		def.monsterSlot < 0 ||
-;272:		def.monsterSlot >=
-;273:			MAX_MONSTERS_PER_TYPE ) {
-line 274
-;274:		CG_Printf(
-ADDRGP4 $143
+LTI4 $153
+LABELV $161
+line 293
+;290:		def.monsterType >= MONSTER_TYPE_RANDOM ||
+;291:		def.monsterSlot < 0 ||
+;292:		def.monsterSlot >=
+;293:			MAX_MONSTERS_PER_TYPE ) {
+line 294
+;294:		CG_Printf(
+ADDRGP4 $162
 ARGP4
 ADDRFP4 0
 INDIRP4
@@ -1258,26 +1298,26 @@ ARGP4
 ADDRGP4 CG_Printf
 CALLV
 pop
-line 278
-;275:			"Invalid monster definition in %s\n",
-;276:			filename
-;277:		);
-;278:		return;
-ADDRGP4 $123
+line 298
+;295:			"Invalid monster definition in %s\n",
+;296:			filename
+;297:		);
+;298:		return;
+ADDRGP4 $142
 JUMPV
-LABELV $134
-line 281
-;279:	}
-;280:
-;281:	if( !def.shader[0] ||
+LABELV $153
+line 301
+;299:	}
+;300:
+;301:	if( !def.shader[0] ||
 ADDRLP4 0+320
 INDIRI1
 CVII4 1
 CNSTI4 0
-EQI4 $149
+EQI4 $168
 ADDRLP4 0+320
 ARGP4
-ADDRGP4 $148
+ADDRGP4 $167
 ARGP4
 ADDRLP4 9580
 ADDRGP4 Q_stricmp
@@ -1286,19 +1326,19 @@ ASGNI4
 ADDRLP4 9580
 INDIRI4
 CNSTI4 0
-NEI4 $144
-LABELV $149
-line 282
-;282:		!Q_stricmp(def.shader, "none") ) {
-line 283
-;283:		return;
-ADDRGP4 $123
+NEI4 $163
+LABELV $168
+line 302
+;302:		!Q_stricmp(def.shader, "none") ) {
+line 303
+;303:		return;
+ADDRGP4 $142
 JUMPV
-LABELV $144
-line 286
-;284:	}
-;285:
-;286:	cg_monsterShaders
+LABELV $163
+line 306
+;304:	}
+;305:
+;306:	cg_monsterShaders
 ADDRLP4 0+320
 ARGP4
 ADDRLP4 9584
@@ -1319,22 +1359,46 @@ ADDP4
 ADDRLP4 9584
 INDIRI4
 ASGNI4
-line 290
-;287:		[def.monsterType]
-;288:		[def.monsterSlot] =
-;289:		trap_R_RegisterShader(def.shader);
-;290:}
-LABELV $123
-endproc CG_LoadMonsterShader 9588 16
+line 311
+;307:		[def.monsterType]
+;308:		[def.monsterSlot] =
+;309:		trap_R_RegisterShader(def.shader);
+;310:		
+;311:	cg_monsterShaders[def.monsterType][def.monsterSlot] =
+ADDRLP4 0+320
+ARGP4
+ADDRLP4 9588
+ADDRGP4 trap_R_RegisterShader
+CALLI4
+ASGNI4
+ADDRLP4 0+580
+INDIRI4
+CNSTI4 2
+LSHI4
+CNSTI4 20
+ADDRLP4 0+576
+INDIRI4
+MULI4
+ADDRGP4 cg_monsterShaders
+ADDP4
+ADDP4
+ADDRLP4 9588
+INDIRI4
+ASGNI4
+line 313
+;312:		trap_R_RegisterShader(def.shader);
+;313:}
+LABELV $142
+endproc CG_LoadMonsterShader 9592 16
 export CG_InitMonsterShaders
 proc CG_InitMonsterShaders 4 12
-line 292
-;291:
-;292:void CG_InitMonsterShaders( void ) {
-line 295
-;293:	int i;
-;294:
-;295:	memset(
+line 315
+;314:
+;315:void CG_InitMonsterShaders( void ) {
+line 318
+;316:	int i;
+;317:
+;318:	memset(
 ADDRGP4 cg_monsterShaders
 ARGP4
 CNSTI4 0
@@ -1344,24 +1408,24 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 301
-;296:		cg_monsterShaders,
-;297:		0,
-;298:		sizeof(cg_monsterShaders)
-;299:	);
-;300:
-;301:	for( i = 0;
+line 324
+;319:		cg_monsterShaders,
+;320:		0,
+;321:		sizeof(cg_monsterShaders)
+;322:	);
+;323:
+;324:	for( i = 0;
 ADDRLP4 0
 CNSTI4 0
 ASGNI4
-ADDRGP4 $157
+ADDRGP4 $179
 JUMPV
-LABELV $154
-line 303
-;302:		cg_monsterConfigFiles[i];
-;303:		i++ ) {
-line 304
-;304:		CG_LoadMonsterShader(
+LABELV $176
+line 326
+;325:		cg_monsterConfigFiles[i];
+;326:		i++ ) {
+line 327
+;327:		CG_LoadMonsterShader(
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
@@ -1373,20 +1437,20 @@ ARGP4
 ADDRGP4 CG_LoadMonsterShader
 CALLV
 pop
-line 307
-;305:			cg_monsterConfigFiles[i]
-;306:		);
-;307:	}
-LABELV $155
-line 303
+line 330
+;328:			cg_monsterConfigFiles[i]
+;329:		);
+;330:	}
+LABELV $177
+line 326
 ADDRLP4 0
 ADDRLP4 0
 INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-LABELV $157
-line 302
+LABELV $179
+line 325
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
@@ -1396,30 +1460,30 @@ ADDP4
 INDIRP4
 CVPU4 4
 CNSTU4 0
-NEU4 $154
-line 308
-;308:}
-LABELV $153
+NEU4 $176
+line 331
+;331:}
+LABELV $175
 endproc CG_InitMonsterShaders 4 12
 proc CG_Monster 196 12
-line 315
-;309:
-;310:/*
-;311:==================
-;312:Monster
-;313:==================
-;314:*/
-;315:static void CG_Monster( centity_t *cent ) {
-line 324
-;316:	refEntity_t renderEntity;
-;317:	qhandle_t customShader;
-;318:	int monsterType;
-;319:	int monsterSlot;
-;320:	int packedDefinition;
-;321:	int models[4];
-;322:	int i;
-;323:
-;324:	packedDefinition =
+line 338
+;332:
+;333:/*
+;334:==================
+;335:Monster
+;336:==================
+;337:*/
+;338:static void CG_Monster( centity_t *cent ) {
+line 347
+;339:	refEntity_t renderEntity;
+;340:	qhandle_t customShader;
+;341:	int monsterType;
+;342:	int monsterSlot;
+;343:	int packedDefinition;
+;344:	int models[4];
+;345:	int i;
+;346:
+;347:	packedDefinition =
 ADDRLP4 172
 ADDRFP4 0
 INDIRP4
@@ -1427,20 +1491,20 @@ CNSTI4 204
 ADDP4
 INDIRI4
 ASGNI4
-line 327
-;325:		cent->currentState.generic1;
-;326:
-;327:	monsterType =
+line 350
+;348:		cent->currentState.generic1;
+;349:
+;350:	monsterType =
 ADDRLP4 164
 ADDRLP4 172
 INDIRI4
 CNSTI4 255
 BANDI4
 ASGNI4
-line 330
-;328:		packedDefinition & 255;
-;329:
-;330:	monsterSlot =
+line 353
+;351:		packedDefinition & 255;
+;352:
+;353:	monsterSlot =
 ADDRLP4 168
 ADDRLP4 172
 INDIRI4
@@ -1449,16 +1513,16 @@ RSHI4
 CNSTI4 255
 BANDI4
 ASGNI4
-line 333
-;331:		(packedDefinition >> 8) & 255;
-;332:
-;333:	customShader = 0;
+line 356
+;354:		(packedDefinition >> 8) & 255;
+;355:
+;356:	customShader = 0;
 ADDRLP4 160
 CNSTI4 0
 ASGNI4
-line 335
-;334:
-;335:	if( monsterType > MONSTER_TYPE_OFF &&
+line 358
+;357:
+;358:	if( monsterType > MONSTER_TYPE_OFF &&
 ADDRLP4 180
 CNSTI4 0
 ASGNI4
@@ -1466,27 +1530,27 @@ ADDRLP4 164
 INDIRI4
 ADDRLP4 180
 INDIRI4
-LEI4 $159
+LEI4 $181
 ADDRLP4 164
 INDIRI4
 CNSTI4 6
-GEI4 $159
+GEI4 $181
 ADDRLP4 168
 INDIRI4
 ADDRLP4 180
 INDIRI4
-LTI4 $159
+LTI4 $181
 ADDRLP4 168
 INDIRI4
 CNSTI4 5
-GEI4 $159
-line 339
-;336:		monsterType < MONSTER_TYPE_RANDOM &&
-;337:		monsterSlot >= 0 &&
-;338:		monsterSlot <
-;339:			MAX_MONSTERS_PER_TYPE ) {
-line 340
-;340:		customShader =
+GEI4 $181
+line 362
+;359:		monsterType < MONSTER_TYPE_RANDOM &&
+;360:		monsterSlot >= 0 &&
+;361:		monsterSlot <
+;362:			MAX_MONSTERS_PER_TYPE ) {
+line 363
+;363:		customShader =
 ADDRLP4 160
 ADDRLP4 168
 INDIRI4
@@ -1501,15 +1565,15 @@ ADDP4
 ADDP4
 INDIRI4
 ASGNI4
-line 344
-;341:			cg_monsterShaders
-;342:				[monsterType]
-;343:				[monsterSlot];
-;344:	}
-LABELV $159
-line 346
-;345:
-;346:	models[0] =
+line 367
+;364:			cg_monsterShaders
+;365:				[monsterType]
+;366:				[monsterSlot];
+;367:	}
+LABELV $181
+line 369
+;368:
+;369:	models[0] =
 ADDRLP4 144
 ADDRFP4 0
 INDIRP4
@@ -1517,10 +1581,10 @@ CNSTI4 160
 ADDP4
 INDIRI4
 ASGNI4
-line 349
-;347:		cent->currentState.modelindex;
-;348:
-;349:	models[1] =
+line 372
+;370:		cent->currentState.modelindex;
+;371:
+;372:	models[1] =
 ADDRLP4 144+4
 ADDRFP4 0
 INDIRP4
@@ -1528,10 +1592,10 @@ CNSTI4 164
 ADDP4
 INDIRI4
 ASGNI4
-line 352
-;350:		cent->currentState.modelindex2;
-;351:
-;352:	models[2] =
+line 375
+;373:		cent->currentState.modelindex2;
+;374:
+;375:	models[2] =
 ADDRLP4 144+8
 ADDRFP4 0
 INDIRP4
@@ -1539,10 +1603,10 @@ CNSTI4 140
 ADDP4
 INDIRI4
 ASGNI4
-line 355
-;353:		cent->currentState.otherEntityNum;
-;354:
-;355:	models[3] =
+line 378
+;376:		cent->currentState.otherEntityNum;
+;377:
+;378:	models[3] =
 ADDRLP4 144+12
 ADDRFP4 0
 INDIRP4
@@ -1550,16 +1614,16 @@ CNSTI4 144
 ADDP4
 INDIRI4
 ASGNI4
-line 358
-;356:		cent->currentState.otherEntityNum2;
-;357:
-;358:	for( i = 0; i < 4; i++ ) {
+line 381
+;379:		cent->currentState.otherEntityNum2;
+;380:
+;381:	for( i = 0; i < 4; i++ ) {
 ADDRLP4 140
 CNSTI4 0
 ASGNI4
-LABELV $164
-line 359
-;359:		if( models[i] <= 0 ) {
+LABELV $186
+line 382
+;382:		if( models[i] <= 0 ) {
 ADDRLP4 140
 INDIRI4
 CNSTI4 2
@@ -1568,16 +1632,16 @@ ADDRLP4 144
 ADDP4
 INDIRI4
 CNSTI4 0
-GTI4 $168
-line 360
-;360:			continue;
-ADDRGP4 $165
+GTI4 $190
+line 383
+;383:			continue;
+ADDRGP4 $187
 JUMPV
-LABELV $168
-line 363
-;361:		}
-;362:
-;363:		memset(
+LABELV $190
+line 386
+;384:		}
+;385:
+;386:		memset(
 ADDRLP4 0
 ARGP4
 CNSTI4 0
@@ -1587,19 +1651,19 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 369
-;364:			&renderEntity,
-;365:			0,
-;366:			sizeof(renderEntity)
-;367:		);
-;368:
-;369:		renderEntity.reType = RT_MODEL;
+line 392
+;387:			&renderEntity,
+;388:			0,
+;389:			sizeof(renderEntity)
+;390:		);
+;391:
+;392:		renderEntity.reType = RT_MODEL;
 ADDRLP4 0
 CNSTI4 0
 ASGNI4
-line 371
-;370:
-;371:		renderEntity.hModel =
+line 394
+;393:
+;394:		renderEntity.hModel =
 ADDRLP4 188
 CNSTI4 2
 ASGNI4
@@ -1619,39 +1683,39 @@ ADDRGP4 cgs+34824
 ADDP4
 INDIRI4
 ASGNI4
-line 374
-;372:			cgs.gameModels[models[i]];
-;373:
-;374:		renderEntity.customShader =
+line 397
+;395:			cgs.gameModels[models[i]];
+;396:
+;397:		renderEntity.customShader =
 ADDRLP4 0+112
 ADDRLP4 160
 INDIRI4
 ASGNI4
-line 377
-;375:			customShader;
-;376:
-;377:		renderEntity.shaderRGBA[0] = 255;
+line 400
+;398:			customShader;
+;399:
+;400:		renderEntity.shaderRGBA[0] = 255;
 ADDRLP4 0+116
 CNSTU1 255
 ASGNU1
-line 378
-;378:		renderEntity.shaderRGBA[1] = 255;
+line 401
+;401:		renderEntity.shaderRGBA[1] = 255;
 ADDRLP4 0+116+1
 CNSTU1 255
 ASGNU1
-line 379
-;379:		renderEntity.shaderRGBA[2] = 255;
+line 402
+;402:		renderEntity.shaderRGBA[2] = 255;
 ADDRLP4 0+116+2
 CNSTU1 255
 ASGNU1
-line 380
-;380:		renderEntity.shaderRGBA[3] = 255;
+line 403
+;403:		renderEntity.shaderRGBA[3] = 255;
 ADDRLP4 0+116+3
 CNSTU1 255
 ASGNU1
-line 382
-;381:
-;382:		renderEntity.oldframe =
+line 405
+;404:
+;405:		renderEntity.oldframe =
 ADDRLP4 0+96
 ADDRFP4 0
 INDIRP4
@@ -1659,10 +1723,10 @@ CNSTI4 172
 ADDP4
 INDIRI4
 ASGNI4
-line 385
-;383:			cent->currentState.frame;
-;384:
-;385:		renderEntity.frame =
+line 408
+;406:			cent->currentState.frame;
+;407:
+;408:		renderEntity.frame =
 ADDRLP4 0+80
 ADDRFP4 0
 INDIRP4
@@ -1670,16 +1734,16 @@ CNSTI4 172
 ADDP4
 INDIRI4
 ASGNI4
-line 388
-;386:			cent->currentState.frame;
-;387:
-;388:		renderEntity.backlerp = 0;
+line 411
+;409:			cent->currentState.frame;
+;410:
+;411:		renderEntity.backlerp = 0;
 ADDRLP4 0+100
 CNSTF4 0
 ASGNF4
-line 390
-;389:
-;390:		if( cent->interpolate &&
+line 413
+;412:
+;413:		if( cent->interpolate &&
 ADDRLP4 192
 ADDRFP4 0
 INDIRP4
@@ -1690,19 +1754,19 @@ CNSTI4 416
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $183
+EQI4 $205
 ADDRLP4 192
 INDIRP4
 CNSTI4 212
 ADDP4
 INDIRI4
 CNSTI4 13
-NEI4 $183
-line 392
-;391:			cent->nextState.eType ==
-;392:				ET_MONSTER ) {
-line 393
-;393:			renderEntity.frame =
+NEI4 $205
+line 415
+;414:			cent->nextState.eType ==
+;415:				ET_MONSTER ) {
+line 416
+;416:			renderEntity.frame =
 ADDRLP4 0+80
 ADDRFP4 0
 INDIRP4
@@ -1710,24 +1774,24 @@ CNSTI4 380
 ADDP4
 INDIRI4
 ASGNI4
-line 396
-;394:				cent->nextState.frame;
-;395:
-;396:			renderEntity.backlerp =
+line 419
+;417:				cent->nextState.frame;
+;418:
+;419:			renderEntity.backlerp =
 ADDRLP4 0+100
 CNSTF4 1065353216
 ADDRGP4 cg+107588
 INDIRF4
 SUBF4
 ASGNF4
-line 399
-;397:				1.0f -
-;398:				cg.frameInterpolation;
-;399:		}
-LABELV $183
-line 401
-;400:
-;401:		VectorCopy(
+line 422
+;420:				1.0f -
+;421:				cg.frameInterpolation;
+;422:		}
+LABELV $205
+line 424
+;423:
+;424:		VectorCopy(
 ADDRLP4 0+68
 ADDRFP4 0
 INDIRP4
@@ -1735,12 +1799,12 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 406
-;402:			cent->lerpOrigin,
-;403:			renderEntity.origin
-;404:		);
-;405:
-;406:		VectorCopy(
+line 429
+;425:			cent->lerpOrigin,
+;426:			renderEntity.origin
+;427:		);
+;428:
+;429:		VectorCopy(
 ADDRLP4 0+84
 ADDRFP4 0
 INDIRP4
@@ -1748,12 +1812,12 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 411
-;407:			cent->lerpOrigin,
-;408:			renderEntity.oldorigin
-;409:		);
-;410:
-;411:		AnglesToAxis(
+line 434
+;430:			cent->lerpOrigin,
+;431:			renderEntity.oldorigin
+;432:		);
+;433:
+;434:		AnglesToAxis(
 ADDRFP4 0
 INDIRP4
 CNSTI4 716
@@ -1764,23 +1828,23 @@ ARGP4
 ADDRGP4 AnglesToAxis
 CALLV
 pop
-line 416
-;412:			cent->lerpAngles,
-;413:			renderEntity.axis
-;414:		);
-;415:
-;416:		trap_R_AddRefEntityToScene(
+line 439
+;435:			cent->lerpAngles,
+;436:			renderEntity.axis
+;437:		);
+;438:
+;439:		trap_R_AddRefEntityToScene(
 ADDRLP4 0
 ARGP4
 ADDRGP4 trap_R_AddRefEntityToScene
 CALLV
 pop
-line 419
-;417:			&renderEntity
-;418:		);
-;419:	}
-LABELV $165
-line 358
+line 442
+;440:			&renderEntity
+;441:		);
+;442:	}
+LABELV $187
+line 381
 ADDRLP4 140
 ADDRLP4 140
 INDIRI4
@@ -1790,40 +1854,40 @@ ASGNI4
 ADDRLP4 140
 INDIRI4
 CNSTI4 4
-LTI4 $164
-line 420
-;420:}
-LABELV $158
+LTI4 $186
+line 443
+;443:}
+LABELV $180
 endproc CG_Monster 196 12
 proc CG_Speaker 16 16
-line 429
-;421:
-;422:/*
-;423:==================
-;424:CG_Speaker
-;425:
-;426:Speaker entities can automatically play sounds
-;427:==================
-;428:*/
-;429:static void CG_Speaker( centity_t *cent ) {
-line 430
-;430:	if ( ! cent->currentState.clientNum ) {	// FIXME: use something other than clientNum...
+line 452
+;444:
+;445:/*
+;446:==================
+;447:CG_Speaker
+;448:
+;449:Speaker entities can automatically play sounds
+;450:==================
+;451:*/
+;452:static void CG_Speaker( centity_t *cent ) {
+line 453
+;453:	if ( ! cent->currentState.clientNum ) {	// FIXME: use something other than clientNum...
 ADDRFP4 0
 INDIRP4
 CNSTI4 168
 ADDP4
 INDIRI4
 CNSTI4 0
-NEI4 $192
-line 431
-;431:		return;		// not auto triggering
-ADDRGP4 $191
+NEI4 $214
+line 454
+;454:		return;		// not auto triggering
+ADDRGP4 $213
 JUMPV
-LABELV $192
-line 434
-;432:	}
-;433:
-;434:	if ( cg.time < cent->miscTime ) {
+LABELV $214
+line 457
+;455:	}
+;456:
+;457:	if ( cg.time < cent->miscTime ) {
 ADDRGP4 cg+107604
 INDIRI4
 ADDRFP4 0
@@ -1831,16 +1895,16 @@ INDIRP4
 CNSTI4 444
 ADDP4
 INDIRI4
-GEI4 $194
-line 435
-;435:		return;
-ADDRGP4 $191
+GEI4 $216
+line 458
+;458:		return;
+ADDRGP4 $213
 JUMPV
-LABELV $194
-line 438
-;436:	}
-;437:
-;438:	trap_S_StartSound (NULL, cent->currentState.number, CHAN_ITEM, cgs.gameSounds[cent->currentState.eventParm] );
+LABELV $216
+line 461
+;459:	}
+;460:
+;461:	trap_S_StartSound (NULL, cent->currentState.number, CHAN_ITEM, cgs.gameSounds[cent->currentState.eventParm] );
 CNSTP4 0
 ARGP4
 ADDRLP4 0
@@ -1867,11 +1931,11 @@ ARGI4
 ADDRGP4 trap_S_StartSound
 CALLV
 pop
-line 442
-;439:
-;440:	//	ent->s.frame = ent->wait * 10;
-;441:	//	ent->s.clientNum = ent->random * 10;
-;442:	cent->miscTime = cg.time + cent->currentState.frame * 100 + cent->currentState.clientNum * 100 * crandom();
+line 465
+;462:
+;463:	//	ent->s.frame = ent->wait * 10;
+;464:	//	ent->s.clientNum = ent->random * 10;
+;465:	cent->miscTime = cg.time + cent->currentState.frame * 100 + cent->currentState.clientNum * 100 * crandom();
 ADDRLP4 4
 ADDRGP4 rand
 CALLI4
@@ -1923,36 +1987,36 @@ MULF4
 ADDF4
 CVFI4 4
 ASGNI4
-line 443
-;443:}
-LABELV $191
+line 466
+;466:}
+LABELV $213
 endproc CG_Speaker 16 16
 proc CG_Item 204 12
-line 450
-;444:
-;445:/*
-;446:==================
-;447:CG_Item
-;448:==================
-;449:*/
-;450:static void CG_Item( centity_t *cent ) {
-line 459
-;451:	refEntity_t	ent;
-;452:	entityState_t	*es;
-;453:	gitem_t		*item;
-;454:	int		msec;
-;455:	float		frac;
-;456:	float		scale;
-;457:	weaponInfo_t	*wi;
-;458:
-;459:	es = &cent->currentState;
+line 473
+;467:
+;468:/*
+;469:==================
+;470:CG_Item
+;471:==================
+;472:*/
+;473:static void CG_Item( centity_t *cent ) {
+line 482
+;474:	refEntity_t	ent;
+;475:	entityState_t	*es;
+;476:	gitem_t		*item;
+;477:	int		msec;
+;478:	float		frac;
+;479:	float		scale;
+;480:	weaponInfo_t	*wi;
+;481:
+;482:	es = &cent->currentState;
 ADDRLP4 144
 ADDRFP4 0
 INDIRP4
 ASGNP4
-line 461
-;460:
-;461:	if( es->modelindex >= bg_numItems ) {
+line 484
+;483:
+;484:	if( es->modelindex >= bg_numItems ) {
 ADDRLP4 144
 INDIRP4
 CNSTI4 160
@@ -1960,10 +2024,10 @@ ADDP4
 INDIRI4
 ADDRGP4 bg_numItems
 INDIRI4
-LTI4 $200
-line 462
-;462:		CG_Error(
-ADDRGP4 $202
+LTI4 $222
+line 485
+;485:		CG_Error(
+ADDRGP4 $224
 ARGP4
 ADDRLP4 144
 INDIRP4
@@ -1974,16 +2038,16 @@ ARGI4
 ADDRGP4 CG_Error
 CALLV
 pop
-line 466
-;463:			"Bad item index %i on entity",
-;464:			es->modelindex
-;465:		);
-;466:	}
-LABELV $200
-line 469
-;467:
-;468:	// if set to invisible, skip
-;469:	if( !es->modelindex ||
+line 489
+;486:			"Bad item index %i on entity",
+;487:			es->modelindex
+;488:		);
+;489:	}
+LABELV $222
+line 492
+;490:
+;491:	// if set to invisible, skip
+;492:	if( !es->modelindex ||
 ADDRLP4 168
 CNSTI4 0
 ASGNI4
@@ -1994,7 +2058,7 @@ ADDP4
 INDIRI4
 ADDRLP4 168
 INDIRI4
-EQI4 $205
+EQI4 $227
 ADDRLP4 144
 INDIRP4
 CNSTI4 8
@@ -2004,19 +2068,19 @@ CNSTI4 128
 BANDI4
 ADDRLP4 168
 INDIRI4
-EQI4 $203
-LABELV $205
-line 470
-;470:		(es->eFlags & EF_NODRAW) ) {
-line 471
-;471:		return;
-ADDRGP4 $199
+EQI4 $225
+LABELV $227
+line 493
+;493:		(es->eFlags & EF_NODRAW) ) {
+line 494
+;494:		return;
+ADDRGP4 $221
 JUMPV
-LABELV $203
-line 474
-;472:	}
-;473:
-;474:	item = &bg_itemlist[es->modelindex];
+LABELV $225
+line 497
+;495:	}
+;496:
+;497:	item = &bg_itemlist[es->modelindex];
 ADDRLP4 140
 CNSTI4 52
 ADDRLP4 144
@@ -2028,24 +2092,24 @@ MULI4
 ADDRGP4 bg_itemlist
 ADDP4
 ASGNP4
-line 476
-;475:
-;476:	if( cg_simpleItems.integer &&
+line 499
+;498:
+;499:	if( cg_simpleItems.integer &&
 ADDRGP4 cg_simpleItems+12
 INDIRI4
 CNSTI4 0
-EQI4 $206
+EQI4 $228
 ADDRLP4 140
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 8
-EQI4 $206
-line 477
-;477:		item->giType != IT_TEAM ) {
-line 478
-;478:		memset( &ent, 0, sizeof(ent) );
+EQI4 $228
+line 500
+;500:		item->giType != IT_TEAM ) {
+line 501
+;501:		memset( &ent, 0, sizeof(ent) );
 ADDRLP4 0
 ARGP4
 CNSTI4 0
@@ -2055,14 +2119,14 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 480
-;479:
-;480:		ent.reType = RT_SPRITE;
+line 503
+;502:
+;503:		ent.reType = RT_SPRITE;
 ADDRLP4 0
 CNSTI4 2
 ASGNI4
-line 481
-;481:		VectorCopy(
+line 504
+;504:		VectorCopy(
 ADDRLP4 0+68
 ADDRFP4 0
 INDIRP4
@@ -2070,16 +2134,16 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 485
-;482:			cent->lerpOrigin,
-;483:			ent.origin
-;484:		);
-;485:		ent.radius = 14;
+line 508
+;505:			cent->lerpOrigin,
+;506:			ent.origin
+;507:		);
+;508:		ent.radius = 14;
 ADDRLP4 0+132
 CNSTF4 1096810496
 ASGNF4
-line 486
-;486:		ent.customShader =
+line 509
+;509:		ent.customShader =
 ADDRLP4 0+112
 CNSTI4 24
 ADDRLP4 144
@@ -2092,54 +2156,54 @@ ADDRGP4 cg_items+20
 ADDP4
 INDIRI4
 ASGNI4
-line 488
-;487:			cg_items[es->modelindex].icon;
-;488:		ent.shaderRGBA[0] = 255;
+line 511
+;510:			cg_items[es->modelindex].icon;
+;511:		ent.shaderRGBA[0] = 255;
 ADDRLP4 0+116
 CNSTU1 255
 ASGNU1
-line 489
-;489:		ent.shaderRGBA[1] = 255;
+line 512
+;512:		ent.shaderRGBA[1] = 255;
 ADDRLP4 0+116+1
 CNSTU1 255
 ASGNU1
-line 490
-;490:		ent.shaderRGBA[2] = 255;
+line 513
+;513:		ent.shaderRGBA[2] = 255;
 ADDRLP4 0+116+2
 CNSTU1 255
 ASGNU1
-line 491
-;491:		ent.shaderRGBA[3] = 255;
+line 514
+;514:		ent.shaderRGBA[3] = 255;
 ADDRLP4 0+116+3
 CNSTU1 255
 ASGNU1
-line 493
-;492:
-;493:		trap_R_AddRefEntityToScene( &ent );
+line 516
+;515:
+;516:		trap_R_AddRefEntityToScene( &ent );
 ADDRLP4 0
 ARGP4
 ADDRGP4 trap_R_AddRefEntityToScene
 CALLV
 pop
-line 494
-;494:		return;
-ADDRGP4 $199
+line 517
+;517:		return;
+ADDRGP4 $221
 JUMPV
-LABELV $206
-line 501
-;495:	}
-;496:
-;497:	/*
-;498:	 * Normal items continuously bob up and down.
-;499:	 * Static items retain their original map position.
-;500:	 */
-;501:	if( !cg_staticItems.integer ) {
+LABELV $228
+line 524
+;518:	}
+;519:
+;520:	/*
+;521:	 * Normal items continuously bob up and down.
+;522:	 * Static items retain their original map position.
+;523:	 */
+;524:	if( !cg_staticItems.integer ) {
 ADDRGP4 cg_staticItems+12
 INDIRI4
 CNSTI4 0
-NEI4 $220
-line 502
-;502:		scale =
+NEI4 $242
+line 525
+;525:		scale =
 ADDRLP4 160
 CNSTF4 925353388
 ADDRFP4 0
@@ -2150,11 +2214,11 @@ MULF4
 CNSTF4 1000593162
 ADDF4
 ASGNF4
-line 506
-;503:			0.005 +
-;504:			cent->currentState.number * 0.00001;
-;505:
-;506:		cent->lerpOrigin[2] +=
+line 529
+;526:			0.005 +
+;527:			cent->currentState.number * 0.00001;
+;528:
+;529:		cent->lerpOrigin[2] +=
 ADDRGP4 cg+107604
 INDIRI4
 CNSTI4 1000
@@ -2187,14 +2251,14 @@ CNSTF4 1082130432
 ADDF4
 ADDF4
 ASGNF4
-line 509
-;507:			4 +
-;508:			cos((cg.time + 1000) * scale) * 4;
-;509:	}
-LABELV $220
-line 511
-;510:
-;511:	memset( &ent, 0, sizeof(ent) );
+line 532
+;530:			4 +
+;531:			cos((cg.time + 1000) * scale) * 4;
+;532:	}
+LABELV $242
+line 534
+;533:
+;534:	memset( &ent, 0, sizeof(ent) );
 ADDRLP4 0
 ARGP4
 CNSTI4 0
@@ -2204,19 +2268,19 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 517
-;512:
-;513:	/*
-;514:	 * Static items use a fixed identity axis.
-;515:	 * Normal items use the original automatic rotation.
-;516:	 */
-;517:	if( cg_staticItems.integer ) {
+line 540
+;535:
+;536:	/*
+;537:	 * Static items use a fixed identity axis.
+;538:	 * Normal items use the original automatic rotation.
+;539:	 */
+;540:	if( cg_staticItems.integer ) {
 ADDRGP4 cg_staticItems+12
 INDIRI4
 CNSTI4 0
-EQI4 $224
-line 518
-;518:		VectorClear( cent->lerpAngles );
+EQI4 $246
+line 541
+;541:		VectorClear( cent->lerpAngles );
 ADDRLP4 172
 ADDRFP4 0
 INDIRP4
@@ -2245,29 +2309,29 @@ ADDP4
 ADDRLP4 176
 INDIRF4
 ASGNF4
-line 519
-;519:		AxisClear( ent.axis );
+line 542
+;542:		AxisClear( ent.axis );
 ADDRLP4 0+28
 ARGP4
 ADDRGP4 AxisClear
 CALLV
 pop
-line 520
-;520:	}
-ADDRGP4 $225
+line 543
+;543:	}
+ADDRGP4 $247
 JUMPV
-LABELV $224
-line 521
-;521:	else if( item->giType == IT_HEALTH ) {
+LABELV $246
+line 544
+;544:	else if( item->giType == IT_HEALTH ) {
 ADDRLP4 140
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 4
-NEI4 $228
-line 522
-;522:		VectorCopy(
+NEI4 $250
+line 545
+;545:		VectorCopy(
 ADDRFP4 0
 INDIRP4
 CNSTI4 716
@@ -2275,11 +2339,11 @@ ADDP4
 ADDRGP4 cg+108996
 INDIRB
 ASGNB 12
-line 526
-;523:			cg.autoAnglesFast,
-;524:			cent->lerpAngles
-;525:		);
-;526:		AxisCopy(
+line 549
+;546:			cg.autoAnglesFast,
+;547:			cent->lerpAngles
+;548:		);
+;549:		AxisCopy(
 ADDRGP4 cg+109008
 ARGP4
 ADDRLP4 0+28
@@ -2287,18 +2351,18 @@ ARGP4
 ADDRGP4 AxisCopy
 CALLV
 pop
-line 530
-;527:			cg.autoAxisFast,
-;528:			ent.axis
-;529:		);
-;530:	}
-ADDRGP4 $229
+line 553
+;550:			cg.autoAxisFast,
+;551:			ent.axis
+;552:		);
+;553:	}
+ADDRGP4 $251
 JUMPV
-LABELV $228
-line 531
-;531:	else {
-line 532
-;532:		VectorCopy(
+LABELV $250
+line 554
+;554:	else {
+line 555
+;555:		VectorCopy(
 ADDRFP4 0
 INDIRP4
 CNSTI4 716
@@ -2306,11 +2370,11 @@ ADDP4
 ADDRGP4 cg+108948
 INDIRB
 ASGNB 12
-line 536
-;533:			cg.autoAngles,
-;534:			cent->lerpAngles
-;535:		);
-;536:		AxisCopy(
+line 559
+;556:			cg.autoAngles,
+;557:			cent->lerpAngles
+;558:		);
+;559:		AxisCopy(
 ADDRGP4 cg+108960
 ARGP4
 ADDRLP4 0+28
@@ -2318,35 +2382,35 @@ ARGP4
 ADDRGP4 AxisCopy
 CALLV
 pop
-line 540
-;537:			cg.autoAxis,
-;538:			ent.axis
-;539:		);
-;540:	}
-LABELV $229
-LABELV $225
-line 542
-;541:
-;542:	wi = NULL;
+line 563
+;560:			cg.autoAxis,
+;561:			ent.axis
+;562:		);
+;563:	}
+LABELV $251
+LABELV $247
+line 565
+;564:
+;565:	wi = NULL;
 ADDRLP4 152
 CNSTP4 0
 ASGNP4
-line 548
-;543:
-;544:	/*
-;545:	 * Weapon models have their origin at the attachment point,
-;546:	 * so compensate using the weapon midpoint.
-;547:	 */
-;548:	if( item->giType == IT_WEAPON ) {
+line 571
+;566:
+;567:	/*
+;568:	 * Weapon models have their origin at the attachment point,
+;569:	 * so compensate using the weapon midpoint.
+;570:	 */
+;571:	if( item->giType == IT_WEAPON ) {
 ADDRLP4 140
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $236
-line 549
-;549:		wi = &cg_weapons[item->giTag];
+NEI4 $258
+line 572
+;572:		wi = &cg_weapons[item->giTag];
 ADDRLP4 152
 CNSTI4 136
 ADDRLP4 140
@@ -2358,9 +2422,9 @@ MULI4
 ADDRGP4 cg_weapons
 ADDP4
 ASGNP4
-line 551
-;550:
-;551:		cent->lerpOrigin[0] -=
+line 574
+;573:
+;574:		cent->lerpOrigin[0] -=
 ADDRLP4 172
 ADDRFP4 0
 INDIRP4
@@ -2400,12 +2464,12 @@ MULF4
 ADDF4
 SUBF4
 ASGNF4
-line 556
-;552:			wi->weaponMidpoint[0] * ent.axis[0][0] +
-;553:			wi->weaponMidpoint[1] * ent.axis[1][0] +
-;554:			wi->weaponMidpoint[2] * ent.axis[2][0];
-;555:
-;556:		cent->lerpOrigin[1] -=
+line 579
+;575:			wi->weaponMidpoint[0] * ent.axis[0][0] +
+;576:			wi->weaponMidpoint[1] * ent.axis[1][0] +
+;577:			wi->weaponMidpoint[2] * ent.axis[2][0];
+;578:
+;579:		cent->lerpOrigin[1] -=
 ADDRLP4 180
 ADDRFP4 0
 INDIRP4
@@ -2445,12 +2509,12 @@ MULF4
 ADDF4
 SUBF4
 ASGNF4
-line 561
-;557:			wi->weaponMidpoint[0] * ent.axis[0][1] +
-;558:			wi->weaponMidpoint[1] * ent.axis[1][1] +
-;559:			wi->weaponMidpoint[2] * ent.axis[2][1];
-;560:
-;561:		cent->lerpOrigin[2] -=
+line 584
+;580:			wi->weaponMidpoint[0] * ent.axis[0][1] +
+;581:			wi->weaponMidpoint[1] * ent.axis[1][1] +
+;582:			wi->weaponMidpoint[2] * ent.axis[2][1];
+;583:
+;584:		cent->lerpOrigin[2] -=
 ADDRLP4 188
 ADDRFP4 0
 INDIRP4
@@ -2490,12 +2554,12 @@ MULF4
 ADDF4
 SUBF4
 ASGNF4
-line 566
-;562:			wi->weaponMidpoint[0] * ent.axis[0][2] +
-;563:			wi->weaponMidpoint[1] * ent.axis[1][2] +
-;564:			wi->weaponMidpoint[2] * ent.axis[2][2];
-;565:
-;566:		cent->lerpOrigin[2] += 8;
+line 589
+;585:			wi->weaponMidpoint[0] * ent.axis[0][2] +
+;586:			wi->weaponMidpoint[1] * ent.axis[1][2] +
+;587:			wi->weaponMidpoint[2] * ent.axis[2][2];
+;588:
+;589:		cent->lerpOrigin[2] += 8;
 ADDRLP4 196
 ADDRFP4 0
 INDIRP4
@@ -2510,12 +2574,12 @@ INDIRF4
 CNSTF4 1090519040
 ADDF4
 ASGNF4
-line 567
-;567:	}
-LABELV $236
-line 569
-;568:
-;569:	ent.hModel =
+line 590
+;590:	}
+LABELV $258
+line 592
+;591:
+;592:	ent.hModel =
 ADDRLP4 0+8
 CNSTI4 24
 ADDRLP4 144
@@ -2528,10 +2592,10 @@ ADDRGP4 cg_items+4
 ADDP4
 INDIRI4
 ASGNI4
-line 572
-;570:		cg_items[es->modelindex].models[0];
-;571:
-;572:	VectorCopy(
+line 595
+;593:		cg_items[es->modelindex].models[0];
+;594:
+;595:	VectorCopy(
 ADDRLP4 0+68
 ADDRFP4 0
 INDIRP4
@@ -2539,11 +2603,11 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 576
-;573:		cent->lerpOrigin,
-;574:		ent.origin
-;575:	);
-;576:	VectorCopy(
+line 599
+;596:		cent->lerpOrigin,
+;597:		ent.origin
+;598:	);
+;599:	VectorCopy(
 ADDRLP4 0+84
 ADDRFP4 0
 INDIRP4
@@ -2551,22 +2615,22 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 581
-;577:		cent->lerpOrigin,
-;578:		ent.oldorigin
-;579:	);
-;580:
-;581:	ent.nonNormalizedAxes = qfalse;
+line 604
+;600:		cent->lerpOrigin,
+;601:		ent.oldorigin
+;602:	);
+;603:
+;604:	ent.nonNormalizedAxes = qfalse;
 ADDRLP4 0+64
 CNSTI4 0
 ASGNI4
-line 587
-;582:
-;583:	/*
-;584:	 * Static items appear immediately at full size.
-;585:	 * Normal items retain the respawn scale animation.
-;586:	 */
-;587:	msec = cg.time - cent->miscTime;
+line 610
+;605:
+;606:	/*
+;607:	 * Static items appear immediately at full size.
+;608:	 * Normal items retain the respawn scale animation.
+;609:	 */
+;610:	msec = cg.time - cent->miscTime;
 ADDRLP4 156
 ADDRGP4 cg+107604
 INDIRI4
@@ -2577,9 +2641,9 @@ ADDP4
 INDIRI4
 SUBI4
 ASGNI4
-line 589
-;588:
-;589:	if( !cg_staticItems.integer &&
+line 612
+;611:
+;612:	if( !cg_staticItems.integer &&
 ADDRLP4 172
 CNSTI4 0
 ASGNI4
@@ -2587,21 +2651,21 @@ ADDRGP4 cg_staticItems+12
 INDIRI4
 ADDRLP4 172
 INDIRI4
-NEI4 $265
+NEI4 $287
 ADDRLP4 156
 INDIRI4
 ADDRLP4 172
 INDIRI4
-LTI4 $265
+LTI4 $287
 ADDRLP4 156
 INDIRI4
 CNSTI4 1000
-GEI4 $265
-line 591
-;590:		msec >= 0 &&
-;591:		msec < ITEM_SCALEUP_TIME ) {
-line 592
-;592:		frac = (float)msec /
+GEI4 $287
+line 614
+;613:		msec >= 0 &&
+;614:		msec < ITEM_SCALEUP_TIME ) {
+line 615
+;615:		frac = (float)msec /
 ADDRLP4 148
 ADDRLP4 156
 INDIRI4
@@ -2609,10 +2673,10 @@ CVIF4 4
 CNSTF4 1148846080
 DIVF4
 ASGNF4
-line 595
-;593:			ITEM_SCALEUP_TIME;
-;594:
-;595:		VectorScale(
+line 618
+;616:			ITEM_SCALEUP_TIME;
+;617:
+;618:		VectorScale(
 ADDRLP4 0+28
 ADDRLP4 0+28
 INDIRF4
@@ -2634,12 +2698,12 @@ ADDRLP4 148
 INDIRF4
 MULF4
 ASGNF4
-line 600
-;596:			ent.axis[0],
-;597:			frac,
-;598:			ent.axis[0]
-;599:		);
-;600:		VectorScale(
+line 623
+;619:			ent.axis[0],
+;620:			frac,
+;621:			ent.axis[0]
+;622:		);
+;623:		VectorScale(
 ADDRLP4 0+28+12
 ADDRLP4 0+28+12
 INDIRF4
@@ -2661,12 +2725,12 @@ ADDRLP4 148
 INDIRF4
 MULF4
 ASGNF4
-line 605
-;601:			ent.axis[1],
-;602:			frac,
-;603:			ent.axis[1]
-;604:		);
-;605:		VectorScale(
+line 628
+;624:			ent.axis[1],
+;625:			frac,
+;626:			ent.axis[1]
+;627:		);
+;628:		VectorScale(
 ADDRLP4 0+28+24
 ADDRLP4 0+28+24
 INDIRF4
@@ -2688,37 +2752,37 @@ ADDRLP4 148
 INDIRF4
 MULF4
 ASGNF4
-line 611
-;606:			ent.axis[2],
-;607:			frac,
-;608:			ent.axis[2]
-;609:		);
-;610:
-;611:		ent.nonNormalizedAxes = qtrue;
+line 634
+;629:			ent.axis[2],
+;630:			frac,
+;631:			ent.axis[2]
+;632:		);
+;633:
+;634:		ent.nonNormalizedAxes = qtrue;
 ADDRLP4 0+64
 CNSTI4 1
 ASGNI4
-line 612
-;612:	}
-ADDRGP4 $266
+line 635
+;635:	}
+ADDRGP4 $288
 JUMPV
-LABELV $265
-line 613
-;613:	else {
-line 614
-;614:		frac = 1.0f;
+LABELV $287
+line 636
+;636:	else {
+line 637
+;637:		frac = 1.0f;
 ADDRLP4 148
 CNSTF4 1065353216
 ASGNF4
-line 615
-;615:	}
-LABELV $266
-line 620
-;616:
-;617:	/*
-;618:	 * Items without glow textures need a minimum light value.
-;619:	 */
-;620:	if( item->giType == IT_WEAPON ||
+line 638
+;638:	}
+LABELV $288
+line 643
+;639:
+;640:	/*
+;641:	 * Items without glow textures need a minimum light value.
+;642:	 */
+;643:	if( item->giType == IT_WEAPON ||
 ADDRLP4 180
 ADDRLP4 140
 INDIRP4
@@ -2729,38 +2793,38 @@ ASGNI4
 ADDRLP4 180
 INDIRI4
 CNSTI4 1
-EQI4 $313
+EQI4 $335
 ADDRLP4 180
 INDIRI4
 CNSTI4 3
-NEI4 $311
-LABELV $313
-line 621
-;621:		item->giType == IT_ARMOR ) {
-line 622
-;622:		ent.renderfx |= RF_MINLIGHT;
+NEI4 $333
+LABELV $335
+line 644
+;644:		item->giType == IT_ARMOR ) {
+line 645
+;645:		ent.renderfx |= RF_MINLIGHT;
 ADDRLP4 0+4
 ADDRLP4 0+4
 INDIRI4
 CNSTI4 1
 BORI4
 ASGNI4
-line 623
-;623:	}
-LABELV $311
-line 626
-;624:
-;625:	// increase the size of weapon pickup models
-;626:	if( item->giType == IT_WEAPON ) {
+line 646
+;646:	}
+LABELV $333
+line 649
+;647:
+;648:	// increase the size of weapon pickup models
+;649:	if( item->giType == IT_WEAPON ) {
 ADDRLP4 140
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $315
-line 627
-;627:		VectorScale(
+NEI4 $337
+line 650
+;650:		VectorScale(
 ADDRLP4 0+28
 CNSTF4 1069547520
 ADDRLP4 0+28
@@ -2779,12 +2843,12 @@ ADDRLP4 0+28+8
 INDIRF4
 MULF4
 ASGNF4
-line 632
-;628:			ent.axis[0],
-;629:			1.5f,
-;630:			ent.axis[0]
-;631:		);
-;632:		VectorScale(
+line 655
+;651:			ent.axis[0],
+;652:			1.5f,
+;653:			ent.axis[0]
+;654:		);
+;655:		VectorScale(
 ADDRLP4 0+28+12
 CNSTF4 1069547520
 ADDRLP4 0+28+12
@@ -2803,12 +2867,12 @@ ADDRLP4 0+28+12+8
 INDIRF4
 MULF4
 ASGNF4
-line 637
-;633:			ent.axis[1],
-;634:			1.5f,
-;635:			ent.axis[1]
-;636:		);
-;637:		VectorScale(
+line 660
+;656:			ent.axis[1],
+;657:			1.5f,
+;658:			ent.axis[1]
+;659:		);
+;660:		VectorScale(
 ADDRLP4 0+28+24
 CNSTF4 1069547520
 ADDRLP4 0+28+24
@@ -2827,118 +2891,118 @@ ADDRLP4 0+28+24+8
 INDIRF4
 MULF4
 ASGNF4
-line 643
-;638:			ent.axis[2],
-;639:			1.5f,
-;640:			ent.axis[2]
-;641:		);
-;642:
-;643:		ent.nonNormalizedAxes = qtrue;
+line 666
+;661:			ent.axis[2],
+;662:			1.5f,
+;663:			ent.axis[2]
+;664:		);
+;665:
+;666:		ent.nonNormalizedAxes = qtrue;
 ADDRLP4 0+64
 CNSTI4 1
 ASGNI4
-line 655
-;644:
-;645:#ifdef MISSIONPACK
-;646:		if( !cg_staticItems.integer ) {
-;647:			trap_S_AddLoopingSound(
-;648:				cent->currentState.number,
-;649:				cent->lerpOrigin,
-;650:				vec3_origin,
-;651:				cgs.media.weaponHoverSound
-;652:			);
-;653:		}
-;654:#endif
-;655:	}
-LABELV $315
-line 681
-;656:
-;657:#ifdef MISSIONPACK
-;658:	if( item->giType == IT_HOLDABLE &&
-;659:		item->giTag == HI_KAMIKAZE ) {
-;660:		VectorScale(
-;661:			ent.axis[0],
-;662:			2,
-;663:			ent.axis[0]
-;664:		);
-;665:		VectorScale(
-;666:			ent.axis[1],
-;667:			2,
-;668:			ent.axis[1]
-;669:		);
-;670:		VectorScale(
-;671:			ent.axis[2],
-;672:			2,
-;673:			ent.axis[2]
-;674:		);
-;675:
-;676:		ent.nonNormalizedAxes = qtrue;
-;677:	}
-;678:#endif
+line 678
+;667:
+;668:#ifdef MISSIONPACK
+;669:		if( !cg_staticItems.integer ) {
+;670:			trap_S_AddLoopingSound(
+;671:				cent->currentState.number,
+;672:				cent->lerpOrigin,
+;673:				vec3_origin,
+;674:				cgs.media.weaponHoverSound
+;675:			);
+;676:		}
+;677:#endif
+;678:	}
+LABELV $337
+line 704
 ;679:
-;680:	// add main model
-;681:	trap_R_AddRefEntityToScene( &ent );
+;680:#ifdef MISSIONPACK
+;681:	if( item->giType == IT_HOLDABLE &&
+;682:		item->giTag == HI_KAMIKAZE ) {
+;683:		VectorScale(
+;684:			ent.axis[0],
+;685:			2,
+;686:			ent.axis[0]
+;687:		);
+;688:		VectorScale(
+;689:			ent.axis[1],
+;690:			2,
+;691:			ent.axis[1]
+;692:		);
+;693:		VectorScale(
+;694:			ent.axis[2],
+;695:			2,
+;696:			ent.axis[2]
+;697:		);
+;698:
+;699:		ent.nonNormalizedAxes = qtrue;
+;700:	}
+;701:#endif
+;702:
+;703:	// add main model
+;704:	trap_R_AddRefEntityToScene( &ent );
 ADDRLP4 0
 ARGP4
 ADDRGP4 trap_R_AddRefEntityToScene
 CALLV
 pop
-line 728
-;682:
-;683:#ifdef MISSIONPACK
-;684:	if( item->giType == IT_WEAPON &&
-;685:		wi->barrelModel ) {
-;686:		refEntity_t barrel;
-;687:
-;688:		memset(
-;689:			&barrel,
-;690:			0,
-;691:			sizeof(barrel)
-;692:		);
-;693:
-;694:		barrel.hModel = wi->barrelModel;
-;695:
-;696:		VectorCopy(
-;697:			ent.lightingOrigin,
-;698:			barrel.lightingOrigin
-;699:		);
-;700:
-;701:		barrel.shadowPlane =
-;702:			ent.shadowPlane;
-;703:		barrel.renderfx =
-;704:			ent.renderfx;
+line 751
 ;705:
-;706:		CG_PositionRotatedEntityOnTag(
-;707:			&barrel,
-;708:			&ent,
-;709:			wi->weaponModel,
-;710:			"tag_barrel"
-;711:		);
-;712:
-;713:		AxisCopy(
-;714:			ent.axis,
-;715:			barrel.axis
-;716:		);
-;717:
-;718:		barrel.nonNormalizedAxes =
-;719:			ent.nonNormalizedAxes;
-;720:
-;721:		trap_R_AddRefEntityToScene(
-;722:			&barrel
-;723:		);
-;724:	}
-;725:#endif
-;726:
-;727:	// accompanying rings and spheres for powerups
-;728:	if( !cg_simpleItems.integer ) {
+;706:#ifdef MISSIONPACK
+;707:	if( item->giType == IT_WEAPON &&
+;708:		wi->barrelModel ) {
+;709:		refEntity_t barrel;
+;710:
+;711:		memset(
+;712:			&barrel,
+;713:			0,
+;714:			sizeof(barrel)
+;715:		);
+;716:
+;717:		barrel.hModel = wi->barrelModel;
+;718:
+;719:		VectorCopy(
+;720:			ent.lightingOrigin,
+;721:			barrel.lightingOrigin
+;722:		);
+;723:
+;724:		barrel.shadowPlane =
+;725:			ent.shadowPlane;
+;726:		barrel.renderfx =
+;727:			ent.renderfx;
+;728:
+;729:		CG_PositionRotatedEntityOnTag(
+;730:			&barrel,
+;731:			&ent,
+;732:			wi->weaponModel,
+;733:			"tag_barrel"
+;734:		);
+;735:
+;736:		AxisCopy(
+;737:			ent.axis,
+;738:			barrel.axis
+;739:		);
+;740:
+;741:		barrel.nonNormalizedAxes =
+;742:			ent.nonNormalizedAxes;
+;743:
+;744:		trap_R_AddRefEntityToScene(
+;745:			&barrel
+;746:		);
+;747:	}
+;748:#endif
+;749:
+;750:	// accompanying rings and spheres for powerups
+;751:	if( !cg_simpleItems.integer ) {
 ADDRGP4 cg_simpleItems+12
 INDIRI4
 CNSTI4 0
-NEI4 $360
-line 731
-;729:		vec3_t spinAngles;
-;730:
-;731:		VectorClear( spinAngles );
+NEI4 $382
+line 754
+;752:		vec3_t spinAngles;
+;753:
+;754:		VectorClear( spinAngles );
 ADDRLP4 196
 CNSTF4 0
 ASGNF4
@@ -2954,9 +3018,9 @@ ADDRLP4 184
 ADDRLP4 196
 INDIRF4
 ASGNF4
-line 733
-;732:
-;733:		if( item->giType == IT_HEALTH ||
+line 756
+;755:
+;756:		if( item->giType == IT_HEALTH ||
 ADDRLP4 200
 ADDRLP4 140
 INDIRP4
@@ -2967,16 +3031,16 @@ ASGNI4
 ADDRLP4 200
 INDIRI4
 CNSTI4 4
-EQI4 $367
+EQI4 $389
 ADDRLP4 200
 INDIRI4
 CNSTI4 5
-NEI4 $365
-LABELV $367
-line 734
-;734:			item->giType == IT_POWERUP ) {
-line 735
-;735:			ent.hModel =
+NEI4 $387
+LABELV $389
+line 757
+;757:			item->giType == IT_POWERUP ) {
+line 758
+;758:			ent.hModel =
 ADDRLP4 0+8
 CNSTI4 24
 ADDRLP4 144
@@ -2989,44 +3053,44 @@ ADDRGP4 cg_items+4+4
 ADDP4
 INDIRI4
 ASGNI4
-line 740
-;736:				cg_items[
-;737:					es->modelindex
-;738:				].models[1];
-;739:
-;740:			if( ent.hModel ) {
+line 763
+;759:				cg_items[
+;760:					es->modelindex
+;761:				].models[1];
+;762:
+;763:			if( ent.hModel ) {
 ADDRLP4 0+8
 INDIRI4
 CNSTI4 0
-EQI4 $371
-line 741
-;741:				if( item->giType ==
+EQI4 $393
+line 764
+;764:				if( item->giType ==
 ADDRLP4 140
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 5
-NEI4 $374
-line 742
-;742:					IT_POWERUP ) {
-line 743
-;743:					ent.origin[2] += 12;
+NEI4 $396
+line 765
+;765:					IT_POWERUP ) {
+line 766
+;766:					ent.origin[2] += 12;
 ADDRLP4 0+68+8
 ADDRLP4 0+68+8
 INDIRF4
 CNSTF4 1094713344
 ADDF4
 ASGNF4
-line 745
-;744:
-;745:					if( !cg_staticItems.integer ) {
+line 768
+;767:
+;768:					if( !cg_staticItems.integer ) {
 ADDRGP4 cg_staticItems+12
 INDIRI4
 CNSTI4 0
-NEI4 $378
-line 746
-;746:						spinAngles[1] =
+NEI4 $400
+line 769
+;769:						spinAngles[1] =
 ADDRLP4 184+4
 CNSTI4 360
 ADDRGP4 cg+107604
@@ -3038,18 +3102,18 @@ CVIF4 4
 CNSTF4 3296722944
 DIVF4
 ASGNF4
-line 750
-;747:							(cg.time & 1023) *
-;748:							360 /
-;749:							-1024.0f;
-;750:					}
-LABELV $378
-line 751
-;751:				}
-LABELV $374
-line 753
-;752:
-;753:				AnglesToAxis(
+line 773
+;770:							(cg.time & 1023) *
+;771:							360 /
+;772:							-1024.0f;
+;773:					}
+LABELV $400
+line 774
+;774:				}
+LABELV $396
+line 776
+;775:
+;776:				AnglesToAxis(
 ADDRLP4 184
 ARGP4
 ADDRLP4 0+28
@@ -3057,18 +3121,18 @@ ARGP4
 ADDRGP4 AnglesToAxis
 CALLV
 pop
-line 758
-;754:					spinAngles,
-;755:					ent.axis
-;756:				);
-;757:
-;758:				if( frac != 1.0f ) {
+line 781
+;777:					spinAngles,
+;778:					ent.axis
+;779:				);
+;780:
+;781:				if( frac != 1.0f ) {
 ADDRLP4 148
 INDIRF4
 CNSTF4 1065353216
-EQF4 $384
-line 759
-;759:					VectorScale(
+EQF4 $406
+line 782
+;782:					VectorScale(
 ADDRLP4 0+28
 ADDRLP4 0+28
 INDIRF4
@@ -3090,12 +3154,12 @@ ADDRLP4 148
 INDIRF4
 MULF4
 ASGNF4
-line 764
-;760:						ent.axis[0],
-;761:						frac,
-;762:						ent.axis[0]
-;763:					);
-;764:					VectorScale(
+line 787
+;783:						ent.axis[0],
+;784:						frac,
+;785:						ent.axis[0]
+;786:					);
+;787:					VectorScale(
 ADDRLP4 0+28+12
 ADDRLP4 0+28+12
 INDIRF4
@@ -3117,12 +3181,12 @@ ADDRLP4 148
 INDIRF4
 MULF4
 ASGNF4
-line 769
-;765:						ent.axis[1],
-;766:						frac,
-;767:						ent.axis[1]
-;768:					);
-;769:					VectorScale(
+line 792
+;788:						ent.axis[1],
+;789:						frac,
+;790:						ent.axis[1]
+;791:					);
+;792:					VectorScale(
 ADDRLP4 0+28+24
 ADDRLP4 0+28+24
 INDIRF4
@@ -3144,104 +3208,104 @@ ADDRLP4 148
 INDIRF4
 MULF4
 ASGNF4
-line 775
-;770:						ent.axis[2],
-;771:						frac,
-;772:						ent.axis[2]
-;773:					);
-;774:
-;775:					ent.nonNormalizedAxes =
+line 798
+;793:						ent.axis[2],
+;794:						frac,
+;795:						ent.axis[2]
+;796:					);
+;797:
+;798:					ent.nonNormalizedAxes =
 ADDRLP4 0+64
 CNSTI4 1
 ASGNI4
-line 777
-;776:						qtrue;
-;777:				}
-ADDRGP4 $385
+line 800
+;799:						qtrue;
+;800:				}
+ADDRGP4 $407
 JUMPV
-LABELV $384
-line 778
-;778:				else {
-line 779
-;779:					ent.nonNormalizedAxes =
+LABELV $406
+line 801
+;801:				else {
+line 802
+;802:					ent.nonNormalizedAxes =
 ADDRLP4 0+64
 CNSTI4 0
 ASGNI4
-line 781
-;780:						qfalse;
-;781:				}
-LABELV $385
-line 783
-;782:
-;783:				trap_R_AddRefEntityToScene(
+line 804
+;803:						qfalse;
+;804:				}
+LABELV $407
+line 806
+;805:
+;806:				trap_R_AddRefEntityToScene(
 ADDRLP4 0
 ARGP4
 ADDRGP4 trap_R_AddRefEntityToScene
 CALLV
 pop
-line 786
-;784:					&ent
-;785:				);
-;786:			}
-LABELV $371
-line 787
-;787:		}
-LABELV $365
-line 788
-;788:	}
-LABELV $360
-line 789
-;789:}
-LABELV $199
+line 809
+;807:					&ent
+;808:				);
+;809:			}
+LABELV $393
+line 810
+;810:		}
+LABELV $387
+line 811
+;811:	}
+LABELV $382
+line 812
+;812:}
+LABELV $221
 endproc CG_Item 204 12
 proc CG_Missile 172 20
-line 798
-;790:
-;791://============================================================================
-;792:
-;793:/*
-;794:===============
-;795:CG_Missile
-;796:===============
-;797:*/
-;798:static void CG_Missile( centity_t *cent ) {
-line 804
-;799:	refEntity_t			ent;
-;800:	entityState_t		*s1;
-;801:	const weaponInfo_t		*weapon;
-;802://	int	col;
-;803:
-;804:	s1 = &cent->currentState;
+line 821
+;813:
+;814://============================================================================
+;815:
+;816:/*
+;817:===============
+;818:CG_Missile
+;819:===============
+;820:*/
+;821:static void CG_Missile( centity_t *cent ) {
+line 827
+;822:	refEntity_t			ent;
+;823:	entityState_t		*s1;
+;824:	const weaponInfo_t		*weapon;
+;825://	int	col;
+;826:
+;827:	s1 = &cent->currentState;
 ADDRLP4 140
 ADDRFP4 0
 INDIRP4
 ASGNP4
-line 805
-;805:	if ( s1->weapon > WP_NUM_WEAPONS ) {
+line 828
+;828:	if ( s1->weapon > WP_NUM_WEAPONS ) {
 ADDRLP4 140
 INDIRP4
 CNSTI4 192
 ADDP4
 INDIRI4
 CNSTI4 12
-LEI4 $431
-line 806
-;806:		s1->weapon = 0;
+LEI4 $453
+line 829
+;829:		s1->weapon = 0;
 ADDRLP4 140
 INDIRP4
 CNSTI4 192
 ADDP4
 CNSTI4 0
 ASGNI4
-line 807
-;807:	}
-LABELV $431
-line 812
-;808:	/*
-;809:	 * Lazy weapon registration: monster projectiles may
-;810:	 * arrive for a weapon the local player never picked up
-;811:	 */
-;812:	if ( s1->weapon > WP_NONE &&
+line 830
+;830:	}
+LABELV $453
+line 835
+;831:	/*
+;832:	 * Lazy weapon registration: monster projectiles may
+;833:	 * arrive for a weapon the local player never picked up
+;834:	 */
+;835:	if ( s1->weapon > WP_NONE &&
 ADDRLP4 148
 ADDRLP4 140
 INDIRP4
@@ -3256,11 +3320,11 @@ ADDRLP4 148
 INDIRI4
 ADDRLP4 152
 INDIRI4
-LEI4 $433
+LEI4 $455
 ADDRLP4 148
 INDIRI4
 CNSTI4 12
-GEI4 $433
+GEI4 $455
 CNSTI4 136
 ADDRLP4 148
 INDIRI4
@@ -3270,12 +3334,12 @@ ADDP4
 INDIRI4
 ADDRLP4 152
 INDIRI4
-NEI4 $433
-line 814
-;813:		s1->weapon < WP_NUM_WEAPONS &&
-;814:		!cg_weapons[s1->weapon].missileModel ) {
-line 815
-;815:		CG_RegisterWeapon( s1->weapon );
+NEI4 $455
+line 837
+;836:		s1->weapon < WP_NUM_WEAPONS &&
+;837:		!cg_weapons[s1->weapon].missileModel ) {
+line 838
+;838:		CG_RegisterWeapon( s1->weapon );
 ADDRLP4 140
 INDIRP4
 CNSTI4 192
@@ -3285,12 +3349,12 @@ ARGI4
 ADDRGP4 CG_RegisterWeapon
 CALLV
 pop
-line 816
-;816:	}
-LABELV $433
-line 818
-;817:
-;818:	weapon = &cg_weapons[s1->weapon];
+line 839
+;839:	}
+LABELV $455
+line 841
+;840:
+;841:	weapon = &cg_weapons[s1->weapon];
 ADDRLP4 144
 CNSTI4 136
 ADDRLP4 140
@@ -3302,10 +3366,10 @@ MULI4
 ADDRGP4 cg_weapons
 ADDP4
 ASGNP4
-line 821
-;819:
-;820:	// calculate the axis
-;821:	VectorCopy( s1->angles, cent->lerpAngles);
+line 844
+;842:
+;843:	// calculate the axis
+;844:	VectorCopy( s1->angles, cent->lerpAngles);
 ADDRFP4 0
 INDIRP4
 CNSTI4 716
@@ -3316,10 +3380,10 @@ CNSTI4 116
 ADDP4
 INDIRB
 ASGNB 12
-line 824
-;822:
-;823:	// add trails
-;824:	if ( weapon->missileTrailFunc ) 
+line 847
+;845:
+;846:	// add trails
+;847:	if ( weapon->missileTrailFunc ) 
 ADDRLP4 144
 INDIRP4
 CNSTI4 88
@@ -3327,11 +3391,11 @@ ADDP4
 INDIRP4
 CVPU4 4
 CNSTU4 0
-EQU4 $436
-line 825
-;825:	{
-line 826
-;826:		weapon->missileTrailFunc( cent, weapon );
+EQU4 $458
+line 848
+;848:	{
+line 849
+;849:		weapon->missileTrailFunc( cent, weapon );
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -3345,38 +3409,38 @@ ADDP4
 INDIRP4
 CALLV
 pop
-line 827
-;827:	}
-LABELV $436
-line 846
-;828:/*
-;829:	if ( cent->currentState.modelindex == TEAM_RED ) {
-;830:		col = 1;
-;831:	}
-;832:	else if ( cent->currentState.modelindex == TEAM_BLUE ) {
-;833:		col = 2;
-;834:	}
-;835:	else {
-;836:		col = 0;
-;837:	}
-;838:
-;839:	// add dynamic light
-;840:	if ( weapon->missileDlight ) {
-;841:		trap_R_AddLightToScene(cent->lerpOrigin, weapon->missileDlight, 
-;842:			weapon->missileDlightColor[col][0], weapon->missileDlightColor[col][1], weapon->missileDlightColor[col][2] );
-;843:	}
-;844:*/
-;845:	// add dynamic light
-;846:	if ( weapon->missileDlight ) {
+line 850
+;850:	}
+LABELV $458
+line 869
+;851:/*
+;852:	if ( cent->currentState.modelindex == TEAM_RED ) {
+;853:		col = 1;
+;854:	}
+;855:	else if ( cent->currentState.modelindex == TEAM_BLUE ) {
+;856:		col = 2;
+;857:	}
+;858:	else {
+;859:		col = 0;
+;860:	}
+;861:
+;862:	// add dynamic light
+;863:	if ( weapon->missileDlight ) {
+;864:		trap_R_AddLightToScene(cent->lerpOrigin, weapon->missileDlight, 
+;865:			weapon->missileDlightColor[col][0], weapon->missileDlightColor[col][1], weapon->missileDlightColor[col][2] );
+;866:	}
+;867:*/
+;868:	// add dynamic light
+;869:	if ( weapon->missileDlight ) {
 ADDRLP4 144
 INDIRP4
 CNSTI4 92
 ADDP4
 INDIRF4
 CNSTF4 0
-EQF4 $438
-line 847
-;847:		trap_R_AddLightToScene(cent->lerpOrigin, weapon->missileDlight, 
+EQF4 $460
+line 870
+;870:		trap_R_AddLightToScene(cent->lerpOrigin, weapon->missileDlight, 
 ADDRFP4 0
 INDIRP4
 CNSTI4 704
@@ -3409,25 +3473,25 @@ ARGF4
 ADDRGP4 trap_R_AddLightToScene
 CALLV
 pop
-line 849
-;848:			weapon->missileDlightColor[0], weapon->missileDlightColor[1], weapon->missileDlightColor[2] );
-;849:	}
-LABELV $438
-line 852
-;850:
-;851:	// add missile sound
-;852:	if ( weapon->missileSound ) {
+line 872
+;871:			weapon->missileDlightColor[0], weapon->missileDlightColor[1], weapon->missileDlightColor[2] );
+;872:	}
+LABELV $460
+line 875
+;873:
+;874:	// add missile sound
+;875:	if ( weapon->missileSound ) {
 ADDRLP4 144
 INDIRP4
 CNSTI4 84
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $440
-line 855
-;853:		vec3_t	velocity;
-;854:
-;855:		BG_EvaluateTrajectoryDelta( &cent->currentState.pos, cg.time, velocity );
+EQI4 $462
+line 878
+;876:		vec3_t	velocity;
+;877:
+;878:		BG_EvaluateTrajectoryDelta( &cent->currentState.pos, cg.time, velocity );
 ADDRFP4 0
 INDIRP4
 CNSTI4 12
@@ -3441,9 +3505,9 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectoryDelta
 CALLV
 pop
-line 857
-;856:
-;857:		trap_S_AddLoopingSound( cent->currentState.number, cent->lerpOrigin, velocity, weapon->missileSound );
+line 880
+;879:
+;880:		trap_S_AddLoopingSound( cent->currentState.number, cent->lerpOrigin, velocity, weapon->missileSound );
 ADDRLP4 168
 ADDRFP4 0
 INDIRP4
@@ -3468,13 +3532,13 @@ ARGI4
 ADDRGP4 trap_S_AddLoopingSound
 CALLV
 pop
-line 858
-;858:	}
-LABELV $440
-line 861
-;859:
-;860:	// create the render entity
-;861:	memset (&ent, 0, sizeof(ent));
+line 881
+;881:	}
+LABELV $462
+line 884
+;882:
+;883:	// create the render entity
+;884:	memset (&ent, 0, sizeof(ent));
 ADDRLP4 0
 ARGP4
 CNSTI4 0
@@ -3484,8 +3548,8 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 862
-;862:	VectorCopy( cent->lerpOrigin, ent.origin);
+line 885
+;885:	VectorCopy( cent->lerpOrigin, ent.origin);
 ADDRLP4 0+68
 ADDRFP4 0
 INDIRP4
@@ -3493,8 +3557,8 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 863
-;863:	VectorCopy( cent->lerpOrigin, ent.oldorigin);
+line 886
+;886:	VectorCopy( cent->lerpOrigin, ent.oldorigin);
 ADDRLP4 0+84
 ADDRFP4 0
 INDIRP4
@@ -3502,62 +3566,62 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 865
-;864:
-;865:	if ( cent->currentState.weapon == WP_PLASMAGUN ) {
+line 888
+;887:
+;888:	if ( cent->currentState.weapon == WP_PLASMAGUN ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 192
 ADDP4
 INDIRI4
 CNSTI4 8
-NEI4 $445
-line 866
-;866:		ent.reType = RT_SPRITE;
+NEI4 $467
+line 889
+;889:		ent.reType = RT_SPRITE;
 ADDRLP4 0
 CNSTI4 2
 ASGNI4
-line 867
-;867:		ent.radius = 16;
+line 890
+;890:		ent.radius = 16;
 ADDRLP4 0+132
 CNSTF4 1098907648
 ASGNF4
-line 868
-;868:		ent.rotation = 0;
+line 891
+;891:		ent.rotation = 0;
 ADDRLP4 0+136
 CNSTF4 0
 ASGNF4
-line 869
-;869:		ent.customShader = cgs.media.plasmaBallShader;
+line 892
+;892:		ent.customShader = cgs.media.plasmaBallShader;
 ADDRLP4 0+112
 ADDRGP4 cgs+152340+288
 INDIRI4
 ASGNI4
-line 870
-;870:		trap_R_AddRefEntityToScene( &ent );
+line 893
+;893:		trap_R_AddRefEntityToScene( &ent );
 ADDRLP4 0
 ARGP4
 ADDRGP4 trap_R_AddRefEntityToScene
 CALLV
 pop
-line 871
-;871:		return;
-ADDRGP4 $430
+line 894
+;894:		return;
+ADDRGP4 $452
 JUMPV
-LABELV $445
-line 875
-;872:	}
-;873:
-;874:	// flicker between two skins
-;875:	ent.skinNum = cg.clientFrame & 1;
+LABELV $467
+line 898
+;895:	}
+;896:
+;897:	// flicker between two skins
+;898:	ent.skinNum = cg.clientFrame & 1;
 ADDRLP4 0+104
 ADDRGP4 cg
 INDIRI4
 CNSTI4 1
 BANDI4
 ASGNI4
-line 876
-;876:	ent.hModel = weapon->missileModel;
+line 899
+;899:	ent.hModel = weapon->missileModel;
 ADDRLP4 0+8
 ADDRLP4 144
 INDIRP4
@@ -3565,8 +3629,8 @@ CNSTI4 80
 ADDP4
 INDIRI4
 ASGNI4
-line 877
-;877:	ent.renderfx = weapon->missileRenderfx | RF_NOSHADOW;
+line 900
+;900:	ent.renderfx = weapon->missileRenderfx | RF_NOSHADOW;
 ADDRLP4 0+4
 ADDRLP4 144
 INDIRP4
@@ -3576,18 +3640,18 @@ INDIRI4
 CNSTI4 64
 BORI4
 ASGNI4
-line 888
-;878:
-;879:#ifdef MISSIONPACK
-;880:	if ( cent->currentState.weapon == WP_PROX_LAUNCHER ) {
-;881:		if (s1->generic1 == TEAM_BLUE) {
-;882:			ent.hModel = cgs.media.blueProxMine;
-;883:		}
-;884:	}
-;885:#endif
-;886:
-;887:	// convert direction of travel into axis
-;888:	if ( VectorNormalize2( s1->pos.trDelta, ent.axis[0] ) == 0 ) {
+line 911
+;901:
+;902:#ifdef MISSIONPACK
+;903:	if ( cent->currentState.weapon == WP_PROX_LAUNCHER ) {
+;904:		if (s1->generic1 == TEAM_BLUE) {
+;905:			ent.hModel = cgs.media.blueProxMine;
+;906:		}
+;907:	}
+;908:#endif
+;909:
+;910:	// convert direction of travel into axis
+;911:	if ( VectorNormalize2( s1->pos.trDelta, ent.axis[0] ) == 0 ) {
 ADDRLP4 140
 INDIRP4
 CNSTI4 36
@@ -3602,28 +3666,28 @@ ASGNF4
 ADDRLP4 156
 INDIRF4
 CNSTF4 0
-NEF4 $455
-line 889
-;889:		ent.axis[0][2] = 1;
+NEF4 $477
+line 912
+;912:		ent.axis[0][2] = 1;
 ADDRLP4 0+28+8
 CNSTF4 1065353216
 ASGNF4
-line 890
-;890:	}
-LABELV $455
-line 893
-;891:
-;892:	// spin as it moves
-;893:	if ( s1->pos.trType != TR_STATIONARY ) {
+line 913
+;913:	}
+LABELV $477
+line 916
+;914:
+;915:	// spin as it moves
+;916:	if ( s1->pos.trType != TR_STATIONARY ) {
 ADDRLP4 140
 INDIRP4
 CNSTI4 12
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $460
-line 894
-;894:		RotateAroundDirection( ent.axis, cg.time / 4 );
+EQI4 $482
+line 917
+;917:		RotateAroundDirection( ent.axis, cg.time / 4 );
 ADDRLP4 0+28
 ARGP4
 ADDRGP4 cg+107604
@@ -3635,21 +3699,21 @@ ARGF4
 ADDRGP4 RotateAroundDirection
 CALLV
 pop
-line 895
-;895:	} else {
-ADDRGP4 $461
+line 918
+;918:	} else {
+ADDRGP4 $483
 JUMPV
-LABELV $460
-line 902
-;896:#ifdef MISSIONPACK
-;897:		if ( s1->weapon == WP_PROX_LAUNCHER ) {
-;898:			AnglesToAxis( cent->lerpAngles, ent.axis );
-;899:		}
-;900:		else
-;901:#endif
-;902:		{
-line 903
-;903:			RotateAroundDirection( ent.axis, s1->time );
+LABELV $482
+line 925
+;919:#ifdef MISSIONPACK
+;920:		if ( s1->weapon == WP_PROX_LAUNCHER ) {
+;921:			AnglesToAxis( cent->lerpAngles, ent.axis );
+;922:		}
+;923:		else
+;924:#endif
+;925:		{
+line 926
+;926:			RotateAroundDirection( ent.axis, s1->time );
 ADDRLP4 0+28
 ARGP4
 ADDRLP4 140
@@ -3662,15 +3726,15 @@ ARGF4
 ADDRGP4 RotateAroundDirection
 CALLV
 pop
-line 904
-;904:		}
-line 905
-;905:	}
-LABELV $461
-line 908
-;906:
-;907:	// add to refresh list, possibly with quad glow
-;908:	CG_AddRefEntityWithPowerups( &ent, s1, TEAM_FREE );
+line 927
+;927:		}
+line 928
+;928:	}
+LABELV $483
+line 931
+;929:
+;930:	// add to refresh list, possibly with quad glow
+;931:	CG_AddRefEntityWithPowerups( &ent, s1, TEAM_FREE );
 ADDRLP4 0
 ARGP4
 ADDRLP4 140
@@ -3681,53 +3745,53 @@ ARGI4
 ADDRGP4 CG_AddRefEntityWithPowerups
 CALLV
 pop
-line 909
-;909:}
-LABELV $430
+line 932
+;932:}
+LABELV $452
 endproc CG_Missile 172 20
 proc CG_Grapple 152 12
-line 918
-;910:
-;911:/*
-;912:===============
-;913:CG_Grapple
-;914:
-;915:This is called when the grapple is sitting up against the wall
-;916:===============
-;917:*/
-;918:static void CG_Grapple( centity_t *cent ) {
-line 923
-;919:	refEntity_t			ent;
-;920:	entityState_t		*s1;
-;921:	const weaponInfo_t		*weapon;
-;922:
-;923:	s1 = &cent->currentState;
+line 941
+;933:
+;934:/*
+;935:===============
+;936:CG_Grapple
+;937:
+;938:This is called when the grapple is sitting up against the wall
+;939:===============
+;940:*/
+;941:static void CG_Grapple( centity_t *cent ) {
+line 946
+;942:	refEntity_t			ent;
+;943:	entityState_t		*s1;
+;944:	const weaponInfo_t		*weapon;
+;945:
+;946:	s1 = &cent->currentState;
 ADDRLP4 140
 ADDRFP4 0
 INDIRP4
 ASGNP4
-line 924
-;924:	if ( s1->weapon > WP_NUM_WEAPONS ) {
+line 947
+;947:	if ( s1->weapon > WP_NUM_WEAPONS ) {
 ADDRLP4 140
 INDIRP4
 CNSTI4 192
 ADDP4
 INDIRI4
 CNSTI4 12
-LEI4 $466
-line 925
-;925:		s1->weapon = 0;
+LEI4 $488
+line 948
+;948:		s1->weapon = 0;
 ADDRLP4 140
 INDIRP4
 CNSTI4 192
 ADDP4
 CNSTI4 0
 ASGNI4
-line 926
-;926:	}
-LABELV $466
-line 927
-;927:	weapon = &cg_weapons[s1->weapon];
+line 949
+;949:	}
+LABELV $488
+line 950
+;950:	weapon = &cg_weapons[s1->weapon];
 ADDRLP4 144
 CNSTI4 136
 ADDRLP4 140
@@ -3739,10 +3803,10 @@ MULI4
 ADDRGP4 cg_weapons
 ADDP4
 ASGNP4
-line 930
-;928:
-;929:	// calculate the axis
-;930:	VectorCopy( s1->angles, cent->lerpAngles);
+line 953
+;951:
+;952:	// calculate the axis
+;953:	VectorCopy( s1->angles, cent->lerpAngles);
 ADDRFP4 0
 INDIRP4
 CNSTI4 716
@@ -3753,17 +3817,17 @@ CNSTI4 116
 ADDP4
 INDIRB
 ASGNB 12
-line 940
-;931:
-;932:#if 0 // FIXME add grapple pull sound here..?
-;933:	// add missile sound
-;934:	if ( weapon->missileSound ) {
-;935:		trap_S_AddLoopingSound( cent->currentState.number, cent->lerpOrigin, vec3_origin, weapon->missileSound );
-;936:	}
-;937:#endif
-;938:
-;939:	// Will draw cable if needed
-;940:	CG_GrappleTrail ( cent, weapon );
+line 963
+;954:
+;955:#if 0 // FIXME add grapple pull sound here..?
+;956:	// add missile sound
+;957:	if ( weapon->missileSound ) {
+;958:		trap_S_AddLoopingSound( cent->currentState.number, cent->lerpOrigin, vec3_origin, weapon->missileSound );
+;959:	}
+;960:#endif
+;961:
+;962:	// Will draw cable if needed
+;963:	CG_GrappleTrail ( cent, weapon );
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -3773,10 +3837,10 @@ ARGP4
 ADDRGP4 CG_GrappleTrail
 CALLV
 pop
-line 943
-;941:
-;942:	// create the render entity
-;943:	memset (&ent, 0, sizeof(ent));
+line 966
+;964:
+;965:	// create the render entity
+;966:	memset (&ent, 0, sizeof(ent));
 ADDRLP4 0
 ARGP4
 CNSTI4 0
@@ -3786,8 +3850,8 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 944
-;944:	VectorCopy( cent->lerpOrigin, ent.origin);
+line 967
+;967:	VectorCopy( cent->lerpOrigin, ent.origin);
 ADDRLP4 0+68
 ADDRFP4 0
 INDIRP4
@@ -3795,8 +3859,8 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 945
-;945:	VectorCopy( cent->lerpOrigin, ent.oldorigin);
+line 968
+;968:	VectorCopy( cent->lerpOrigin, ent.oldorigin);
 ADDRLP4 0+84
 ADDRFP4 0
 INDIRP4
@@ -3804,18 +3868,18 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 948
-;946:
-;947:	// flicker between two skins
-;948:	ent.skinNum = cg.clientFrame & 1;
+line 971
+;969:
+;970:	// flicker between two skins
+;971:	ent.skinNum = cg.clientFrame & 1;
 ADDRLP4 0+104
 ADDRGP4 cg
 INDIRI4
 CNSTI4 1
 BANDI4
 ASGNI4
-line 949
-;949:	ent.hModel = weapon->missileModel;
+line 972
+;972:	ent.hModel = weapon->missileModel;
 ADDRLP4 0+8
 ADDRLP4 144
 INDIRP4
@@ -3823,8 +3887,8 @@ CNSTI4 80
 ADDP4
 INDIRI4
 ASGNI4
-line 950
-;950:	ent.renderfx = weapon->missileRenderfx | RF_NOSHADOW;
+line 973
+;973:	ent.renderfx = weapon->missileRenderfx | RF_NOSHADOW;
 ADDRLP4 0+4
 ADDRLP4 144
 INDIRP4
@@ -3834,10 +3898,10 @@ INDIRI4
 CNSTI4 64
 BORI4
 ASGNI4
-line 953
-;951:
-;952:	// convert direction of travel into axis
-;953:	if ( VectorNormalize2( s1->pos.trDelta, ent.axis[0] ) == 0 ) {
+line 976
+;974:
+;975:	// convert direction of travel into axis
+;976:	if ( VectorNormalize2( s1->pos.trDelta, ent.axis[0] ) == 0 ) {
 ADDRLP4 140
 INDIRP4
 CNSTI4 36
@@ -3852,49 +3916,49 @@ ASGNF4
 ADDRLP4 148
 INDIRF4
 CNSTF4 0
-NEF4 $473
-line 954
-;954:		ent.axis[0][2] = 1;
+NEF4 $495
+line 977
+;977:		ent.axis[0][2] = 1;
 ADDRLP4 0+28+8
 CNSTF4 1065353216
 ASGNF4
-line 955
-;955:	}
-LABELV $473
-line 957
-;956:
-;957:	trap_R_AddRefEntityToScene( &ent );
+line 978
+;978:	}
+LABELV $495
+line 980
+;979:
+;980:	trap_R_AddRefEntityToScene( &ent );
 ADDRLP4 0
 ARGP4
 ADDRGP4 trap_R_AddRefEntityToScene
 CALLV
 pop
-line 958
-;958:}
-LABELV $465
+line 981
+;981:}
+LABELV $487
 endproc CG_Grapple 152 12
 proc CG_Mover 144 12
-line 965
-;959:
-;960:/*
-;961:===============
-;962:CG_Mover
-;963:===============
-;964:*/
-;965:static void CG_Mover( centity_t *cent ) {
-line 969
-;966:	refEntity_t			ent;
-;967:	entityState_t		*s1;
-;968:
-;969:	s1 = &cent->currentState;
+line 988
+;982:
+;983:/*
+;984:===============
+;985:CG_Mover
+;986:===============
+;987:*/
+;988:static void CG_Mover( centity_t *cent ) {
+line 992
+;989:	refEntity_t			ent;
+;990:	entityState_t		*s1;
+;991:
+;992:	s1 = &cent->currentState;
 ADDRLP4 140
 ADDRFP4 0
 INDIRP4
 ASGNP4
-line 972
-;970:
-;971:	// create the render entity
-;972:	memset (&ent, 0, sizeof(ent));
+line 995
+;993:
+;994:	// create the render entity
+;995:	memset (&ent, 0, sizeof(ent));
 ADDRLP4 0
 ARGP4
 CNSTI4 0
@@ -3904,8 +3968,8 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 973
-;973:	VectorCopy( cent->lerpOrigin, ent.origin);
+line 996
+;996:	VectorCopy( cent->lerpOrigin, ent.origin);
 ADDRLP4 0+68
 ADDRFP4 0
 INDIRP4
@@ -3913,8 +3977,8 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 974
-;974:	VectorCopy( cent->lerpOrigin, ent.oldorigin);
+line 997
+;997:	VectorCopy( cent->lerpOrigin, ent.oldorigin);
 ADDRLP4 0+84
 ADDRFP4 0
 INDIRP4
@@ -3922,8 +3986,8 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 975
-;975:	AnglesToAxis( cent->lerpAngles, ent.axis );
+line 998
+;998:	AnglesToAxis( cent->lerpAngles, ent.axis );
 ADDRFP4 0
 INDIRP4
 CNSTI4 716
@@ -3934,16 +3998,16 @@ ARGP4
 ADDRGP4 AnglesToAxis
 CALLV
 pop
-line 977
-;976:
-;977:	ent.renderfx = RF_NOSHADOW;
+line 1000
+;999:
+;1000:	ent.renderfx = RF_NOSHADOW;
 ADDRLP4 0+4
 CNSTI4 64
 ASGNI4
-line 980
-;978:
-;979:	// flicker between two skins (FIXME?)
-;980:	ent.skinNum = ( cg.time >> 6 ) & 1;
+line 1003
+;1001:
+;1002:	// flicker between two skins (FIXME?)
+;1003:	ent.skinNum = ( cg.time >> 6 ) & 1;
 ADDRLP4 0+104
 ADDRGP4 cg+107604
 INDIRI4
@@ -3952,19 +4016,19 @@ RSHI4
 CNSTI4 1
 BANDI4
 ASGNI4
-line 983
-;981:
-;982:	// get the model, either as a bmodel or a modelindex
-;983:	if ( s1->solid == SOLID_BMODEL ) {
+line 1006
+;1004:
+;1005:	// get the model, either as a bmodel or a modelindex
+;1006:	if ( s1->solid == SOLID_BMODEL ) {
 ADDRLP4 140
 INDIRP4
 CNSTI4 176
 ADDP4
 INDIRI4
 CNSTI4 16777215
-NEI4 $485
-line 984
-;984:		ent.hModel = cgs.inlineDrawModel[s1->modelindex];
+NEI4 $507
+line 1007
+;1007:		ent.hModel = cgs.inlineDrawModel[s1->modelindex];
 ADDRLP4 0+8
 ADDRLP4 140
 INDIRP4
@@ -3977,13 +4041,13 @@ ADDRGP4 cgs+36876
 ADDP4
 INDIRI4
 ASGNI4
-line 985
-;985:	} else {
-ADDRGP4 $486
+line 1008
+;1008:	} else {
+ADDRGP4 $508
 JUMPV
-LABELV $485
-line 986
-;986:		ent.hModel = cgs.gameModels[s1->modelindex];
+LABELV $507
+line 1009
+;1009:		ent.hModel = cgs.gameModels[s1->modelindex];
 ADDRLP4 0+8
 ADDRLP4 140
 INDIRP4
@@ -3996,36 +4060,36 @@ ADDRGP4 cgs+34824
 ADDP4
 INDIRI4
 ASGNI4
-line 987
-;987:	}
-LABELV $486
-line 990
-;988:
-;989:	// add to refresh list
-;990:	trap_R_AddRefEntityToScene(&ent);
+line 1010
+;1010:	}
+LABELV $508
+line 1013
+;1011:
+;1012:	// add to refresh list
+;1013:	trap_R_AddRefEntityToScene(&ent);
 ADDRLP4 0
 ARGP4
 ADDRGP4 trap_R_AddRefEntityToScene
 CALLV
 pop
-line 993
-;991:
-;992:	// add the secondary model
-;993:	if ( s1->modelindex2 ) {
+line 1016
+;1014:
+;1015:	// add the secondary model
+;1016:	if ( s1->modelindex2 ) {
 ADDRLP4 140
 INDIRP4
 CNSTI4 164
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $491
-line 994
-;994:		ent.skinNum = 0;
+EQI4 $513
+line 1017
+;1017:		ent.skinNum = 0;
 ADDRLP4 0+104
 CNSTI4 0
 ASGNI4
-line 995
-;995:		ent.hModel = cgs.gameModels[s1->modelindex2];
+line 1018
+;1018:		ent.hModel = cgs.gameModels[s1->modelindex2];
 ADDRLP4 0+8
 ADDRLP4 140
 INDIRP4
@@ -4038,46 +4102,46 @@ ADDRGP4 cgs+34824
 ADDP4
 INDIRI4
 ASGNI4
-line 996
-;996:		trap_R_AddRefEntityToScene(&ent);
+line 1019
+;1019:		trap_R_AddRefEntityToScene(&ent);
 ADDRLP4 0
 ARGP4
 ADDRGP4 trap_R_AddRefEntityToScene
 CALLV
 pop
-line 997
-;997:	}
-LABELV $491
-line 999
-;998:
-;999:}
-LABELV $478
+line 1020
+;1020:	}
+LABELV $513
+line 1022
+;1021:
+;1022:}
+LABELV $500
 endproc CG_Mover 144 12
 export CG_Beam
 proc CG_Beam 144 12
-line 1008
-;1000:
-;1001:/*
-;1002:===============
-;1003:CG_Beam
-;1004:
-;1005:Also called as an event
-;1006:===============
-;1007:*/
-;1008:void CG_Beam( centity_t *cent ) {
-line 1012
-;1009:	refEntity_t			ent;
-;1010:	entityState_t		*s1;
-;1011:
-;1012:	s1 = &cent->currentState;
+line 1031
+;1023:
+;1024:/*
+;1025:===============
+;1026:CG_Beam
+;1027:
+;1028:Also called as an event
+;1029:===============
+;1030:*/
+;1031:void CG_Beam( centity_t *cent ) {
+line 1035
+;1032:	refEntity_t			ent;
+;1033:	entityState_t		*s1;
+;1034:
+;1035:	s1 = &cent->currentState;
 ADDRLP4 140
 ADDRFP4 0
 INDIRP4
 ASGNP4
-line 1015
-;1013:
-;1014:	// create the render entity
-;1015:	memset (&ent, 0, sizeof(ent));
+line 1038
+;1036:
+;1037:	// create the render entity
+;1038:	memset (&ent, 0, sizeof(ent));
 ADDRLP4 0
 ARGP4
 CNSTI4 0
@@ -4087,8 +4151,8 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 1016
-;1016:	VectorCopy( s1->pos.trBase, ent.origin );
+line 1039
+;1039:	VectorCopy( s1->pos.trBase, ent.origin );
 ADDRLP4 0+68
 ADDRLP4 140
 INDIRP4
@@ -4096,8 +4160,8 @@ CNSTI4 24
 ADDP4
 INDIRB
 ASGNB 12
-line 1017
-;1017:	VectorCopy( s1->origin2, ent.oldorigin );
+line 1040
+;1040:	VectorCopy( s1->origin2, ent.oldorigin );
 ADDRLP4 0+84
 ADDRLP4 140
 INDIRP4
@@ -4105,60 +4169,60 @@ CNSTI4 104
 ADDP4
 INDIRB
 ASGNB 12
-line 1018
-;1018:	AxisClear( ent.axis );
+line 1041
+;1041:	AxisClear( ent.axis );
 ADDRLP4 0+28
 ARGP4
 ADDRGP4 AxisClear
 CALLV
 pop
-line 1019
-;1019:	ent.reType = RT_BEAM;
+line 1042
+;1042:	ent.reType = RT_BEAM;
 ADDRLP4 0
 CNSTI4 3
 ASGNI4
-line 1021
-;1020:
-;1021:	ent.renderfx = RF_NOSHADOW;
+line 1044
+;1043:
+;1044:	ent.renderfx = RF_NOSHADOW;
 ADDRLP4 0+4
 CNSTI4 64
 ASGNI4
-line 1024
-;1022:
-;1023:	// add to refresh list
-;1024:	trap_R_AddRefEntityToScene(&ent);
+line 1047
+;1045:
+;1046:	// add to refresh list
+;1047:	trap_R_AddRefEntityToScene(&ent);
 ADDRLP4 0
 ARGP4
 ADDRGP4 trap_R_AddRefEntityToScene
 CALLV
 pop
-line 1025
-;1025:}
-LABELV $496
+line 1048
+;1048:}
+LABELV $518
 endproc CG_Beam 144 12
 proc CG_Portal 144 12
-line 1033
-;1026:
-;1027:
-;1028:/*
-;1029:===============
-;1030:CG_Portal
-;1031:===============
-;1032:*/
-;1033:static void CG_Portal( centity_t *cent ) {
-line 1037
-;1034:	refEntity_t			ent;
-;1035:	entityState_t		*s1;
-;1036:
-;1037:	s1 = &cent->currentState;
+line 1056
+;1049:
+;1050:
+;1051:/*
+;1052:===============
+;1053:CG_Portal
+;1054:===============
+;1055:*/
+;1056:static void CG_Portal( centity_t *cent ) {
+line 1060
+;1057:	refEntity_t			ent;
+;1058:	entityState_t		*s1;
+;1059:
+;1060:	s1 = &cent->currentState;
 ADDRLP4 140
 ADDRFP4 0
 INDIRP4
 ASGNP4
-line 1040
-;1038:
-;1039:	// create the render entity
-;1040:	memset (&ent, 0, sizeof(ent));
+line 1063
+;1061:
+;1062:	// create the render entity
+;1063:	memset (&ent, 0, sizeof(ent));
 ADDRLP4 0
 ARGP4
 CNSTI4 0
@@ -4168,8 +4232,8 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 1041
-;1041:	VectorCopy( cent->lerpOrigin, ent.origin );
+line 1064
+;1064:	VectorCopy( cent->lerpOrigin, ent.origin );
 ADDRLP4 0+68
 ADDRFP4 0
 INDIRP4
@@ -4177,8 +4241,8 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 1042
-;1042:	VectorCopy( s1->origin2, ent.oldorigin );
+line 1065
+;1065:	VectorCopy( s1->origin2, ent.oldorigin );
 ADDRLP4 0+84
 ADDRLP4 140
 INDIRP4
@@ -4186,8 +4250,8 @@ CNSTI4 104
 ADDP4
 INDIRB
 ASGNB 12
-line 1043
-;1043:	ByteToDir( s1->eventParm, ent.axis[0] );
+line 1066
+;1066:	ByteToDir( s1->eventParm, ent.axis[0] );
 ADDRLP4 140
 INDIRP4
 CNSTI4 184
@@ -4199,8 +4263,8 @@ ARGP4
 ADDRGP4 ByteToDir
 CALLV
 pop
-line 1044
-;1044:	PerpendicularVector( ent.axis[1], ent.axis[0] );
+line 1067
+;1067:	PerpendicularVector( ent.axis[1], ent.axis[0] );
 ADDRLP4 0+28+12
 ARGP4
 ADDRLP4 0+28
@@ -4208,11 +4272,11 @@ ARGP4
 ADDRGP4 PerpendicularVector
 CALLV
 pop
-line 1048
-;1045:
-;1046:	// negating this tends to get the directions like they want
-;1047:	// we really should have a camera roll value
-;1048:	VectorSubtract( vec3_origin, ent.axis[1], ent.axis[1] );
+line 1071
+;1068:
+;1069:	// negating this tends to get the directions like they want
+;1070:	// we really should have a camera roll value
+;1071:	VectorSubtract( vec3_origin, ent.axis[1], ent.axis[1] );
 ADDRLP4 0+28+12
 ADDRGP4 vec3_origin
 INDIRF4
@@ -4234,9 +4298,9 @@ ADDRLP4 0+28+12+8
 INDIRF4
 SUBF4
 ASGNF4
-line 1050
-;1049:
-;1050:	CrossProduct( ent.axis[0], ent.axis[1], ent.axis[2] );
+line 1073
+;1072:
+;1073:	CrossProduct( ent.axis[0], ent.axis[1], ent.axis[2] );
 ADDRLP4 0+28
 ARGP4
 ADDRLP4 0+28+12
@@ -4246,13 +4310,13 @@ ARGP4
 ADDRGP4 CrossProduct
 CALLV
 pop
-line 1051
-;1051:	ent.reType = RT_PORTALSURFACE;
+line 1074
+;1074:	ent.reType = RT_PORTALSURFACE;
 ADDRLP4 0
 CNSTI4 7
 ASGNI4
-line 1052
-;1052:	ent.oldframe = s1->powerups;
+line 1075
+;1075:	ent.oldframe = s1->powerups;
 ADDRLP4 0+96
 ADDRLP4 140
 INDIRP4
@@ -4260,8 +4324,8 @@ CNSTI4 188
 ADDP4
 INDIRI4
 ASGNI4
-line 1053
-;1053:	ent.frame = s1->frame;		// rotation speed
+line 1076
+;1076:	ent.frame = s1->frame;		// rotation speed
 ADDRLP4 0+80
 ADDRLP4 140
 INDIRP4
@@ -4269,8 +4333,8 @@ CNSTI4 172
 ADDP4
 INDIRI4
 ASGNI4
-line 1054
-;1054:	ent.skinNum = s1->clientNum/256.0 * 360;	// roll offset
+line 1077
+;1077:	ent.skinNum = s1->clientNum/256.0 * 360;	// roll offset
 ADDRLP4 0+104
 CNSTF4 1135869952
 ADDRLP4 140
@@ -4284,38 +4348,38 @@ DIVF4
 MULF4
 CVFI4 4
 ASGNI4
-line 1057
-;1055:
-;1056:	// add to refresh list
-;1057:	trap_R_AddRefEntityToScene(&ent);
+line 1080
+;1078:
+;1079:	// add to refresh list
+;1080:	trap_R_AddRefEntityToScene(&ent);
 ADDRLP4 0
 ARGP4
 ADDRGP4 trap_R_AddRefEntityToScene
 CALLV
 pop
-line 1058
-;1058:}
-LABELV $501
+line 1081
+;1081:}
+LABELV $523
 endproc CG_Portal 144 12
 export CG_AdjustPositionForMover
 proc CG_AdjustPositionForMover 92 12
-line 1068
-;1059:
-;1060:
-;1061:/*
-;1062:=========================
-;1063:CG_AdjustPositionForMover
-;1064:
-;1065:Also called by client movement prediction code
-;1066:=========================
-;1067:*/
-;1068:void CG_AdjustPositionForMover( const vec3_t in, int moverNum, int fromTime, int toTime, vec3_t out ) {
-line 1073
-;1069:	centity_t	*cent;
-;1070:	vec3_t	oldOrigin, origin, deltaOrigin;
-;1071:	vec3_t	oldAngles, angles, deltaAngles;
-;1072:
-;1073:	if ( moverNum <= 0 || moverNum >= ENTITYNUM_MAX_NORMAL ) {
+line 1091
+;1082:
+;1083:
+;1084:/*
+;1085:=========================
+;1086:CG_AdjustPositionForMover
+;1087:
+;1088:Also called by client movement prediction code
+;1089:=========================
+;1090:*/
+;1091:void CG_AdjustPositionForMover( const vec3_t in, int moverNum, int fromTime, int toTime, vec3_t out ) {
+line 1096
+;1092:	centity_t	*cent;
+;1093:	vec3_t	oldOrigin, origin, deltaOrigin;
+;1094:	vec3_t	oldAngles, angles, deltaAngles;
+;1095:
+;1096:	if ( moverNum <= 0 || moverNum >= ENTITYNUM_MAX_NORMAL ) {
 ADDRLP4 76
 ADDRFP4 4
 INDIRI4
@@ -4323,29 +4387,29 @@ ASGNI4
 ADDRLP4 76
 INDIRI4
 CNSTI4 0
-LEI4 $537
+LEI4 $559
 ADDRLP4 76
 INDIRI4
 CNSTI4 1022
-LTI4 $535
-LABELV $537
-line 1074
-;1074:		VectorCopy( in, out );
+LTI4 $557
+LABELV $559
+line 1097
+;1097:		VectorCopy( in, out );
 ADDRFP4 16
 INDIRP4
 ADDRFP4 0
 INDIRP4
 INDIRB
 ASGNB 12
-line 1075
-;1075:		return;
-ADDRGP4 $534
+line 1098
+;1098:		return;
+ADDRGP4 $556
 JUMPV
-LABELV $535
-line 1078
-;1076:	}
-;1077:
-;1078:	cent = &cg_entities[ moverNum ];
+LABELV $557
+line 1101
+;1099:	}
+;1100:
+;1101:	cent = &cg_entities[ moverNum ];
 ADDRLP4 0
 CNSTI4 728
 ADDRFP4 4
@@ -4354,8 +4418,8 @@ MULI4
 ADDRGP4 cg_entities
 ADDP4
 ASGNP4
-line 1079
-;1079:	if ( cent->currentState.eType != ET_MOVER ) {
+line 1102
+;1102:	if ( cent->currentState.eType != ET_MOVER ) {
 ADDRLP4 80
 CNSTI4 4
 ASGNI4
@@ -4367,24 +4431,24 @@ ADDP4
 INDIRI4
 ADDRLP4 80
 INDIRI4
-EQI4 $538
-line 1080
-;1080:		VectorCopy( in, out );
+EQI4 $560
+line 1103
+;1103:		VectorCopy( in, out );
 ADDRFP4 16
 INDIRP4
 ADDRFP4 0
 INDIRP4
 INDIRB
 ASGNB 12
-line 1081
-;1081:		return;
-ADDRGP4 $534
+line 1104
+;1104:		return;
+ADDRGP4 $556
 JUMPV
-LABELV $538
-line 1084
-;1082:	}
-;1083:
-;1084:	BG_EvaluateTrajectory( &cent->currentState.pos, fromTime, oldOrigin );
+LABELV $560
+line 1107
+;1105:	}
+;1106:
+;1107:	BG_EvaluateTrajectory( &cent->currentState.pos, fromTime, oldOrigin );
 ADDRLP4 0
 INDIRP4
 CNSTI4 12
@@ -4398,8 +4462,8 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectory
 CALLV
 pop
-line 1085
-;1085:	BG_EvaluateTrajectory( &cent->currentState.apos, fromTime, oldAngles );
+line 1108
+;1108:	BG_EvaluateTrajectory( &cent->currentState.apos, fromTime, oldAngles );
 ADDRLP4 0
 INDIRP4
 CNSTI4 48
@@ -4413,9 +4477,9 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectory
 CALLV
 pop
-line 1087
-;1086:
-;1087:	BG_EvaluateTrajectory( &cent->currentState.pos, toTime, origin );
+line 1110
+;1109:
+;1110:	BG_EvaluateTrajectory( &cent->currentState.pos, toTime, origin );
 ADDRLP4 0
 INDIRP4
 CNSTI4 12
@@ -4429,8 +4493,8 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectory
 CALLV
 pop
-line 1088
-;1088:	BG_EvaluateTrajectory( &cent->currentState.apos, toTime, angles );
+line 1111
+;1111:	BG_EvaluateTrajectory( &cent->currentState.apos, toTime, angles );
 ADDRLP4 0
 INDIRP4
 CNSTI4 48
@@ -4444,9 +4508,9 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectory
 CALLV
 pop
-line 1090
-;1089:
-;1090:	VectorSubtract( origin, oldOrigin, deltaOrigin );
+line 1113
+;1112:
+;1113:	VectorSubtract( origin, oldOrigin, deltaOrigin );
 ADDRLP4 4
 ADDRLP4 28
 INDIRF4
@@ -4468,8 +4532,8 @@ ADDRLP4 16+8
 INDIRF4
 SUBF4
 ASGNF4
-line 1091
-;1091:	VectorSubtract( angles, oldAngles, deltaAngles );
+line 1114
+;1114:	VectorSubtract( angles, oldAngles, deltaAngles );
 ADDRLP4 64
 ADDRLP4 52
 INDIRF4
@@ -4491,9 +4555,9 @@ ADDRLP4 40+8
 INDIRF4
 SUBF4
 ASGNF4
-line 1093
-;1092:
-;1093:	VectorAdd( in, deltaOrigin, out );
+line 1116
+;1115:
+;1116:	VectorAdd( in, deltaOrigin, out );
 ADDRFP4 16
 INDIRP4
 ADDRFP4 0
@@ -4539,56 +4603,56 @@ ADDRLP4 4+8
 INDIRF4
 ADDF4
 ASGNF4
-line 1096
-;1094:
-;1095:	// FIXME: origin change when on a rotating object
-;1096:}
-LABELV $534
+line 1119
+;1117:
+;1118:	// FIXME: origin change when on a rotating object
+;1119:}
+LABELV $556
 endproc CG_AdjustPositionForMover 92 12
 proc CG_InterpolateEntityPosition 44 12
-line 1104
-;1097:
-;1098:
-;1099:/*
-;1100:=============================
-;1101:CG_InterpolateEntityPosition
-;1102:=============================
-;1103:*/
-;1104:static void CG_InterpolateEntityPosition( centity_t *cent ) {
-line 1110
-;1105:	vec3_t		current, next;
-;1106:	float		f;
-;1107:
-;1108:	// it would be an internal error to find an entity that interpolates without
-;1109:	// a snapshot ahead of the current one
-;1110:	if ( cg.nextSnap == NULL ) {
+line 1127
+;1120:
+;1121:
+;1122:/*
+;1123:=============================
+;1124:CG_InterpolateEntityPosition
+;1125:=============================
+;1126:*/
+;1127:static void CG_InterpolateEntityPosition( centity_t *cent ) {
+line 1133
+;1128:	vec3_t		current, next;
+;1129:	float		f;
+;1130:
+;1131:	// it would be an internal error to find an entity that interpolates without
+;1132:	// a snapshot ahead of the current one
+;1133:	if ( cg.nextSnap == NULL ) {
 ADDRGP4 cg+40
 INDIRP4
 CVPU4 4
 CNSTU4 0
-NEU4 $555
-line 1111
-;1111:		CG_Error( "CG_InterpoateEntityPosition: cg.nextSnap == NULL" );
-ADDRGP4 $558
+NEU4 $577
+line 1134
+;1134:		CG_Error( "CG_InterpoateEntityPosition: cg.nextSnap == NULL" );
+ADDRGP4 $580
 ARGP4
 ADDRGP4 CG_Error
 CALLV
 pop
-line 1112
-;1112:	}
-LABELV $555
-line 1114
-;1113:
-;1114:	f = cg.frameInterpolation;
+line 1135
+;1135:	}
+LABELV $577
+line 1137
+;1136:
+;1137:	f = cg.frameInterpolation;
 ADDRLP4 24
 ADDRGP4 cg+107588
 INDIRF4
 ASGNF4
-line 1118
-;1115:
-;1116:	// this will linearize a sine or parabolic curve, but it is important
-;1117:	// to not extrapolate player positions if more recent data is available
-;1118:	BG_EvaluateTrajectory( &cent->currentState.pos, cg.snap->serverTime, current );
+line 1141
+;1138:
+;1139:	// this will linearize a sine or parabolic curve, but it is important
+;1140:	// to not extrapolate player positions if more recent data is available
+;1141:	BG_EvaluateTrajectory( &cent->currentState.pos, cg.snap->serverTime, current );
 ADDRFP4 0
 INDIRP4
 CNSTI4 12
@@ -4605,8 +4669,8 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectory
 CALLV
 pop
-line 1119
-;1119:	BG_EvaluateTrajectory( &cent->nextState.pos, cg.nextSnap->serverTime, next );
+line 1142
+;1142:	BG_EvaluateTrajectory( &cent->nextState.pos, cg.nextSnap->serverTime, next );
 ADDRFP4 0
 INDIRP4
 CNSTI4 220
@@ -4623,9 +4687,9 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectory
 CALLV
 pop
-line 1121
-;1120:
-;1121:	cent->lerpOrigin[0] = current[0] + f * ( next[0] - current[0] );
+line 1144
+;1143:
+;1144:	cent->lerpOrigin[0] = current[0] + f * ( next[0] - current[0] );
 ADDRLP4 28
 ADDRLP4 0
 INDIRF4
@@ -4646,8 +4710,8 @@ SUBF4
 MULF4
 ADDF4
 ASGNF4
-line 1122
-;1122:	cent->lerpOrigin[1] = current[1] + f * ( next[1] - current[1] );
+line 1145
+;1145:	cent->lerpOrigin[1] = current[1] + f * ( next[1] - current[1] );
 ADDRFP4 0
 INDIRP4
 CNSTI4 708
@@ -4664,8 +4728,8 @@ SUBF4
 MULF4
 ADDF4
 ASGNF4
-line 1123
-;1123:	cent->lerpOrigin[2] = current[2] + f * ( next[2] - current[2] );
+line 1146
+;1146:	cent->lerpOrigin[2] = current[2] + f * ( next[2] - current[2] );
 ADDRFP4 0
 INDIRP4
 CNSTI4 712
@@ -4682,9 +4746,9 @@ SUBF4
 MULF4
 ADDF4
 ASGNF4
-line 1125
-;1124:
-;1125:	BG_EvaluateTrajectory( &cent->currentState.apos, cg.snap->serverTime, current );
+line 1148
+;1147:
+;1148:	BG_EvaluateTrajectory( &cent->currentState.apos, cg.snap->serverTime, current );
 ADDRFP4 0
 INDIRP4
 CNSTI4 48
@@ -4701,8 +4765,8 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectory
 CALLV
 pop
-line 1126
-;1126:	BG_EvaluateTrajectory( &cent->nextState.apos, cg.nextSnap->serverTime, next );
+line 1149
+;1149:	BG_EvaluateTrajectory( &cent->nextState.apos, cg.nextSnap->serverTime, next );
 ADDRFP4 0
 INDIRP4
 CNSTI4 256
@@ -4719,9 +4783,9 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectory
 CALLV
 pop
-line 1128
-;1127:
-;1128:	cent->lerpAngles[0] = LerpAngle( current[0], next[0], f );
+line 1151
+;1150:
+;1151:	cent->lerpAngles[0] = LerpAngle( current[0], next[0], f );
 ADDRLP4 0
 INDIRF4
 ARGF4
@@ -4742,8 +4806,8 @@ ADDP4
 ADDRLP4 32
 INDIRF4
 ASGNF4
-line 1129
-;1129:	cent->lerpAngles[1] = LerpAngle( current[1], next[1], f );
+line 1152
+;1152:	cent->lerpAngles[1] = LerpAngle( current[1], next[1], f );
 ADDRLP4 0+4
 INDIRF4
 ARGF4
@@ -4764,8 +4828,8 @@ ADDP4
 ADDRLP4 36
 INDIRF4
 ASGNF4
-line 1130
-;1130:	cent->lerpAngles[2] = LerpAngle( current[2], next[2], f );
+line 1153
+;1153:	cent->lerpAngles[2] = LerpAngle( current[2], next[2], f );
 ADDRLP4 0+8
 INDIRF4
 ARGF4
@@ -4786,62 +4850,62 @@ ADDP4
 ADDRLP4 40
 INDIRF4
 ASGNF4
-line 1132
-;1131:
-;1132:}
-LABELV $554
+line 1155
+;1154:
+;1155:}
+LABELV $576
 endproc CG_InterpolateEntityPosition 44 12
 proc CG_CalcEntityLerpPositions 24 20
-line 1140
-;1133:
-;1134:/*
-;1135:===============
-;1136:CG_CalcEntityLerpPositions
-;1137:
-;1138:===============
-;1139:*/
-;1140:static void CG_CalcEntityLerpPositions( centity_t *cent ) {
-line 1143
-;1141:
-;1142:	// if this player does not want to see extrapolated players
-;1143:	if ( !cg_smoothClients.integer ) {
+line 1163
+;1156:
+;1157:/*
+;1158:===============
+;1159:CG_CalcEntityLerpPositions
+;1160:
+;1161:===============
+;1162:*/
+;1163:static void CG_CalcEntityLerpPositions( centity_t *cent ) {
+line 1166
+;1164:
+;1165:	// if this player does not want to see extrapolated players
+;1166:	if ( !cg_smoothClients.integer ) {
 ADDRGP4 cg_smoothClients+12
 INDIRI4
 CNSTI4 0
-NEI4 $575
-line 1145
-;1144:		// make sure the clients use TR_INTERPOLATE
-;1145:		if ( cent->currentState.number < MAX_CLIENTS ) {
+NEI4 $597
+line 1168
+;1167:		// make sure the clients use TR_INTERPOLATE
+;1168:		if ( cent->currentState.number < MAX_CLIENTS ) {
 ADDRFP4 0
 INDIRP4
 INDIRI4
 CNSTI4 64
-GEI4 $578
-line 1146
-;1146:			cent->currentState.pos.trType = TR_INTERPOLATE;
+GEI4 $600
+line 1169
+;1169:			cent->currentState.pos.trType = TR_INTERPOLATE;
 ADDRFP4 0
 INDIRP4
 CNSTI4 12
 ADDP4
 CNSTI4 1
 ASGNI4
-line 1147
-;1147:			cent->nextState.pos.trType = TR_INTERPOLATE;
+line 1170
+;1170:			cent->nextState.pos.trType = TR_INTERPOLATE;
 ADDRFP4 0
 INDIRP4
 CNSTI4 220
 ADDP4
 CNSTI4 1
 ASGNI4
-line 1148
-;1148:		}
-LABELV $578
-line 1149
-;1149:	}
-LABELV $575
-line 1151
-;1150:
-;1151:	if ( cent->interpolate && cent->currentState.pos.trType == TR_INTERPOLATE ) {
+line 1171
+;1171:		}
+LABELV $600
+line 1172
+;1172:	}
+LABELV $597
+line 1174
+;1173:
+;1174:	if ( cent->interpolate && cent->currentState.pos.trType == TR_INTERPOLATE ) {
 ADDRLP4 0
 ADDRFP4 0
 INDIRP4
@@ -4852,33 +4916,33 @@ CNSTI4 416
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $580
+EQI4 $602
 ADDRLP4 0
 INDIRP4
 CNSTI4 12
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $580
-line 1152
-;1152:		CG_InterpolateEntityPosition( cent );
+NEI4 $602
+line 1175
+;1175:		CG_InterpolateEntityPosition( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_InterpolateEntityPosition
 CALLV
 pop
-line 1153
-;1153:		return;
-ADDRGP4 $574
+line 1176
+;1176:		return;
+ADDRGP4 $596
 JUMPV
-LABELV $580
-line 1158
-;1154:	}
-;1155:
-;1156:	// first see if we can interpolate between two snaps for
-;1157:	// linear extrapolated clients
-;1158:	if ( cent->interpolate && cent->currentState.pos.trType == TR_LINEAR_STOP &&
+LABELV $602
+line 1181
+;1177:	}
+;1178:
+;1179:	// first see if we can interpolate between two snaps for
+;1180:	// linear extrapolated clients
+;1181:	if ( cent->interpolate && cent->currentState.pos.trType == TR_LINEAR_STOP &&
 ADDRLP4 4
 ADDRFP4 0
 INDIRP4
@@ -4889,39 +4953,39 @@ CNSTI4 416
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $582
+EQI4 $604
 ADDRLP4 4
 INDIRP4
 CNSTI4 12
 ADDP4
 INDIRI4
 CNSTI4 3
-NEI4 $582
+NEI4 $604
 ADDRLP4 4
 INDIRP4
 INDIRI4
 CNSTI4 64
-GEI4 $582
-line 1159
-;1159:											cent->currentState.number < MAX_CLIENTS) {
-line 1160
-;1160:		CG_InterpolateEntityPosition( cent );
+GEI4 $604
+line 1182
+;1182:											cent->currentState.number < MAX_CLIENTS) {
+line 1183
+;1183:		CG_InterpolateEntityPosition( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_InterpolateEntityPosition
 CALLV
 pop
-line 1161
-;1161:		return;
-ADDRGP4 $574
+line 1184
+;1184:		return;
+ADDRGP4 $596
 JUMPV
-LABELV $582
-line 1165
-;1162:	}
-;1163:
-;1164:	// just use the current frame and evaluate as best we can
-;1165:	BG_EvaluateTrajectory( &cent->currentState.pos, cg.time, cent->lerpOrigin );
+LABELV $604
+line 1188
+;1185:	}
+;1186:
+;1187:	// just use the current frame and evaluate as best we can
+;1188:	BG_EvaluateTrajectory( &cent->currentState.pos, cg.time, cent->lerpOrigin );
 ADDRLP4 8
 ADDRFP4 0
 INDIRP4
@@ -4942,8 +5006,8 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectory
 CALLV
 pop
-line 1166
-;1166:	BG_EvaluateTrajectory( &cent->currentState.apos, cg.time, cent->lerpAngles );
+line 1189
+;1189:	BG_EvaluateTrajectory( &cent->currentState.apos, cg.time, cent->lerpAngles );
 ADDRLP4 12
 ADDRFP4 0
 INDIRP4
@@ -4964,19 +5028,19 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectory
 CALLV
 pop
-line 1170
-;1167:
-;1168:	// adjust for riding a mover if it wasn't rolled into the predicted
-;1169:	// player state
-;1170:	if ( cent != &cg.predictedPlayerEntity ) {
+line 1193
+;1190:
+;1191:	// adjust for riding a mover if it wasn't rolled into the predicted
+;1192:	// player state
+;1193:	if ( cent != &cg.predictedPlayerEntity ) {
 ADDRFP4 0
 INDIRP4
 CVPU4 4
 ADDRGP4 cg+108104
 CVPU4 4
-EQU4 $586
-line 1171
-;1171:		CG_AdjustPositionForMover( cent->lerpOrigin, cent->currentState.groundEntityNum, 
+EQU4 $608
+line 1194
+;1194:		CG_AdjustPositionForMover( cent->lerpOrigin, cent->currentState.groundEntityNum, 
 ADDRLP4 16
 ADDRFP4 0
 INDIRP4
@@ -5011,41 +5075,41 @@ ARGP4
 ADDRGP4 CG_AdjustPositionForMover
 CALLV
 pop
-line 1173
-;1172:		cg.snap->serverTime, cg.time, cent->lerpOrigin );
-;1173:	}
-LABELV $586
-line 1174
-;1174:}
-LABELV $574
+line 1196
+;1195:		cg.snap->serverTime, cg.time, cent->lerpOrigin );
+;1196:	}
+LABELV $608
+line 1197
+;1197:}
+LABELV $596
 endproc CG_CalcEntityLerpPositions 24 20
 proc CG_TeamBase 140 12
-line 1181
-;1175:
-;1176:/*
-;1177:===============
-;1178:CG_TeamBase
-;1179:===============
-;1180:*/
-;1181:static void CG_TeamBase( centity_t *cent ) {
-line 1190
-;1182:	refEntity_t model;
-;1183:#ifdef MISSIONPACK
-;1184:	vec3_t angles;
-;1185:	int t, h;
-;1186:	float c;
-;1187:
-;1188:	if ( cgs.gametype == GT_CTF || cgs.gametype == GT_1FCTF ) {
-;1189:#else
-;1190:	if ( cgs.gametype == GT_CTF) {
+line 1204
+;1198:
+;1199:/*
+;1200:===============
+;1201:CG_TeamBase
+;1202:===============
+;1203:*/
+;1204:static void CG_TeamBase( centity_t *cent ) {
+line 1213
+;1205:	refEntity_t model;
+;1206:#ifdef MISSIONPACK
+;1207:	vec3_t angles;
+;1208:	int t, h;
+;1209:	float c;
+;1210:
+;1211:	if ( cgs.gametype == GT_CTF || cgs.gametype == GT_1FCTF ) {
+;1212:#else
+;1213:	if ( cgs.gametype == GT_CTF) {
 ADDRGP4 cgs+31456
 INDIRI4
 CNSTI4 4
-NEI4 $592
-line 1193
-;1191:#endif
-;1192:		// show the flag base
-;1193:		memset(&model, 0, sizeof(model));
+NEI4 $614
+line 1216
+;1214:#endif
+;1215:		// show the flag base
+;1216:		memset(&model, 0, sizeof(model));
 ADDRLP4 0
 ARGP4
 CNSTI4 0
@@ -5055,13 +5119,13 @@ ARGI4
 ADDRGP4 memset
 CALLP4
 pop
-line 1194
-;1194:		model.reType = RT_MODEL;
+line 1217
+;1217:		model.reType = RT_MODEL;
 ADDRLP4 0
 CNSTI4 0
 ASGNI4
-line 1195
-;1195:		VectorCopy( cent->lerpOrigin, model.lightingOrigin );
+line 1218
+;1218:		VectorCopy( cent->lerpOrigin, model.lightingOrigin );
 ADDRLP4 0+12
 ADDRFP4 0
 INDIRP4
@@ -5069,8 +5133,8 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 1196
-;1196:		VectorCopy( cent->lerpOrigin, model.origin );
+line 1219
+;1219:		VectorCopy( cent->lerpOrigin, model.origin );
 ADDRLP4 0+68
 ADDRFP4 0
 INDIRP4
@@ -5078,8 +5142,8 @@ CNSTI4 704
 ADDP4
 INDIRB
 ASGNB 12
-line 1197
-;1197:		AnglesToAxis( cent->currentState.angles, model.axis );
+line 1220
+;1220:		AnglesToAxis( cent->currentState.angles, model.axis );
 ADDRFP4 0
 INDIRP4
 CNSTI4 116
@@ -5090,239 +5154,239 @@ ARGP4
 ADDRGP4 AnglesToAxis
 CALLV
 pop
-line 1198
-;1198:		if ( cent->currentState.modelindex == TEAM_RED ) {
+line 1221
+;1221:		if ( cent->currentState.modelindex == TEAM_RED ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 160
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $598
-line 1199
-;1199:			model.hModel = cgs.media.redFlagBaseModel;
+NEI4 $620
+line 1222
+;1222:			model.hModel = cgs.media.redFlagBaseModel;
 ADDRLP4 0+8
 ADDRGP4 cgs+152340+108
 INDIRI4
 ASGNI4
-line 1200
-;1200:		}
-ADDRGP4 $599
+line 1223
+;1223:		}
+ADDRGP4 $621
 JUMPV
-LABELV $598
-line 1201
-;1201:		else if ( cent->currentState.modelindex == TEAM_BLUE ) {
+LABELV $620
+line 1224
+;1224:		else if ( cent->currentState.modelindex == TEAM_BLUE ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 160
 ADDP4
 INDIRI4
 CNSTI4 2
-NEI4 $603
-line 1202
-;1202:			model.hModel = cgs.media.blueFlagBaseModel;
+NEI4 $625
+line 1225
+;1225:			model.hModel = cgs.media.blueFlagBaseModel;
 ADDRLP4 0+8
 ADDRGP4 cgs+152340+112
 INDIRI4
 ASGNI4
-line 1203
-;1203:		}
-ADDRGP4 $604
+line 1226
+;1226:		}
+ADDRGP4 $626
 JUMPV
-LABELV $603
-line 1204
-;1204:		else {
-line 1205
-;1205:			model.hModel = cgs.media.neutralFlagBaseModel;
+LABELV $625
+line 1227
+;1227:		else {
+line 1228
+;1228:			model.hModel = cgs.media.neutralFlagBaseModel;
 ADDRLP4 0+8
 ADDRGP4 cgs+152340+116
 INDIRI4
 ASGNI4
-line 1206
-;1206:		}
-LABELV $604
-LABELV $599
-line 1207
-;1207:		trap_R_AddRefEntityToScene( &model );
+line 1229
+;1229:		}
+LABELV $626
+LABELV $621
+line 1230
+;1230:		trap_R_AddRefEntityToScene( &model );
 ADDRLP4 0
 ARGP4
 ADDRGP4 trap_R_AddRefEntityToScene
 CALLV
 pop
-line 1208
-;1208:	}
-LABELV $592
-line 1327
-;1209:#ifdef MISSIONPACK
-;1210:	else if ( cgs.gametype == GT_OBELISK ) {
-;1211:		// show the obelisk
-;1212:		memset(&model, 0, sizeof(model));
-;1213:		model.reType = RT_MODEL;
-;1214:		VectorCopy( cent->lerpOrigin, model.lightingOrigin );
-;1215:		VectorCopy( cent->lerpOrigin, model.origin );
-;1216:		AnglesToAxis( cent->currentState.angles, model.axis );
-;1217:
-;1218:		model.hModel = cgs.media.overloadBaseModel;
-;1219:		trap_R_AddRefEntityToScene( &model );
-;1220:		// if hit
-;1221:		if ( cent->currentState.frame == 1) {
-;1222:			// show hit model
-;1223:			// modelindex2 is the health value of the obelisk
-;1224:			c = cent->currentState.modelindex2;
-;1225:			model.shaderRGBA[0] = 0xff;
-;1226:			model.shaderRGBA[1] = c;
-;1227:			model.shaderRGBA[2] = c;
-;1228:			model.shaderRGBA[3] = 0xff;
-;1229:			//
-;1230:			model.hModel = cgs.media.overloadEnergyModel;
-;1231:			trap_R_AddRefEntityToScene( &model );
-;1232:		}
-;1233:		// if respawning
-;1234:		if ( cent->currentState.frame == 2) {
-;1235:			if ( !cent->miscTime ) {
-;1236:				cent->miscTime = cg.time;
-;1237:			}
-;1238:			t = cg.time - cent->miscTime;
-;1239:			h = (cg_obeliskRespawnDelay.integer - 5) * 1000;
-;1240:			//
-;1241:			if (t > h) {
-;1242:				c = (float) (t - h) / h;
-;1243:				if (c > 1)
-;1244:					c = 1;
-;1245:			}
-;1246:			else {
-;1247:				c = 0;
-;1248:			}
-;1249:			// show the lights
-;1250:			AnglesToAxis( cent->currentState.angles, model.axis );
-;1251:			//
-;1252:			model.shaderRGBA[0] = c * 0xff;
-;1253:			model.shaderRGBA[1] = c * 0xff;
-;1254:			model.shaderRGBA[2] = c * 0xff;
-;1255:			model.shaderRGBA[3] = c * 0xff;
-;1256:
-;1257:			model.hModel = cgs.media.overloadLightsModel;
-;1258:			trap_R_AddRefEntityToScene( &model );
-;1259:			// show the target
-;1260:			if (t > h) {
-;1261:				if ( !cent->muzzleFlashTime ) {
-;1262:					trap_S_StartSound (cent->lerpOrigin, ENTITYNUM_NONE, CHAN_BODY,  cgs.media.obeliskRespawnSound);
-;1263:					cent->muzzleFlashTime = 1;
-;1264:				}
-;1265:				VectorCopy(cent->currentState.angles, angles);
-;1266:				angles[YAW] += (float) 16 * acos(1-c) * 180 / M_PI;
-;1267:				AnglesToAxis( angles, model.axis );
-;1268:
-;1269:				VectorScale( model.axis[0], c, model.axis[0]);
-;1270:				VectorScale( model.axis[1], c, model.axis[1]);
-;1271:				VectorScale( model.axis[2], c, model.axis[2]);
-;1272:
-;1273:				model.shaderRGBA[0] = 0xff;
-;1274:				model.shaderRGBA[1] = 0xff;
-;1275:				model.shaderRGBA[2] = 0xff;
-;1276:				model.shaderRGBA[3] = 0xff;
-;1277:				//
-;1278:				model.origin[2] += 56;
-;1279:				model.hModel = cgs.media.overloadTargetModel;
-;1280:				trap_R_AddRefEntityToScene( &model );
-;1281:			}
-;1282:			else {
-;1283:				//FIXME: show animated smoke
-;1284:			}
-;1285:		}
-;1286:		else {
-;1287:			cent->miscTime = 0;
-;1288:			cent->muzzleFlashTime = 0;
-;1289:			// modelindex2 is the health value of the obelisk
-;1290:			c = cent->currentState.modelindex2;
-;1291:			model.shaderRGBA[0] = 0xff;
-;1292:			model.shaderRGBA[1] = c;
-;1293:			model.shaderRGBA[2] = c;
-;1294:			model.shaderRGBA[3] = 0xff;
-;1295:			// show the lights
-;1296:			model.hModel = cgs.media.overloadLightsModel;
-;1297:			trap_R_AddRefEntityToScene( &model );
-;1298:			// show the target
-;1299:			model.origin[2] += 56;
-;1300:			model.hModel = cgs.media.overloadTargetModel;
-;1301:			trap_R_AddRefEntityToScene( &model );
-;1302:		}
-;1303:	}
-;1304:	else if ( cgs.gametype == GT_HARVESTER ) {
-;1305:		// show harvester model
-;1306:		memset(&model, 0, sizeof(model));
-;1307:		model.reType = RT_MODEL;
-;1308:		VectorCopy( cent->lerpOrigin, model.lightingOrigin );
-;1309:		VectorCopy( cent->lerpOrigin, model.origin );
-;1310:		AnglesToAxis( cent->currentState.angles, model.axis );
-;1311:
-;1312:		if ( cent->currentState.modelindex == TEAM_RED ) {
-;1313:			model.hModel = cgs.media.harvesterModel;
-;1314:			model.customSkin = cgs.media.harvesterRedSkin;
-;1315:		}
-;1316:		else if ( cent->currentState.modelindex == TEAM_BLUE ) {
-;1317:			model.hModel = cgs.media.harvesterModel;
-;1318:			model.customSkin = cgs.media.harvesterBlueSkin;
-;1319:		}
-;1320:		else {
-;1321:			model.hModel = cgs.media.harvesterNeutralModel;
-;1322:			model.customSkin = 0;
-;1323:		}
-;1324:		trap_R_AddRefEntityToScene( &model );
-;1325:	}
-;1326:#endif
-;1327:}
-LABELV $591
+line 1231
+;1231:	}
+LABELV $614
+line 1350
+;1232:#ifdef MISSIONPACK
+;1233:	else if ( cgs.gametype == GT_OBELISK ) {
+;1234:		// show the obelisk
+;1235:		memset(&model, 0, sizeof(model));
+;1236:		model.reType = RT_MODEL;
+;1237:		VectorCopy( cent->lerpOrigin, model.lightingOrigin );
+;1238:		VectorCopy( cent->lerpOrigin, model.origin );
+;1239:		AnglesToAxis( cent->currentState.angles, model.axis );
+;1240:
+;1241:		model.hModel = cgs.media.overloadBaseModel;
+;1242:		trap_R_AddRefEntityToScene( &model );
+;1243:		// if hit
+;1244:		if ( cent->currentState.frame == 1) {
+;1245:			// show hit model
+;1246:			// modelindex2 is the health value of the obelisk
+;1247:			c = cent->currentState.modelindex2;
+;1248:			model.shaderRGBA[0] = 0xff;
+;1249:			model.shaderRGBA[1] = c;
+;1250:			model.shaderRGBA[2] = c;
+;1251:			model.shaderRGBA[3] = 0xff;
+;1252:			//
+;1253:			model.hModel = cgs.media.overloadEnergyModel;
+;1254:			trap_R_AddRefEntityToScene( &model );
+;1255:		}
+;1256:		// if respawning
+;1257:		if ( cent->currentState.frame == 2) {
+;1258:			if ( !cent->miscTime ) {
+;1259:				cent->miscTime = cg.time;
+;1260:			}
+;1261:			t = cg.time - cent->miscTime;
+;1262:			h = (cg_obeliskRespawnDelay.integer - 5) * 1000;
+;1263:			//
+;1264:			if (t > h) {
+;1265:				c = (float) (t - h) / h;
+;1266:				if (c > 1)
+;1267:					c = 1;
+;1268:			}
+;1269:			else {
+;1270:				c = 0;
+;1271:			}
+;1272:			// show the lights
+;1273:			AnglesToAxis( cent->currentState.angles, model.axis );
+;1274:			//
+;1275:			model.shaderRGBA[0] = c * 0xff;
+;1276:			model.shaderRGBA[1] = c * 0xff;
+;1277:			model.shaderRGBA[2] = c * 0xff;
+;1278:			model.shaderRGBA[3] = c * 0xff;
+;1279:
+;1280:			model.hModel = cgs.media.overloadLightsModel;
+;1281:			trap_R_AddRefEntityToScene( &model );
+;1282:			// show the target
+;1283:			if (t > h) {
+;1284:				if ( !cent->muzzleFlashTime ) {
+;1285:					trap_S_StartSound (cent->lerpOrigin, ENTITYNUM_NONE, CHAN_BODY,  cgs.media.obeliskRespawnSound);
+;1286:					cent->muzzleFlashTime = 1;
+;1287:				}
+;1288:				VectorCopy(cent->currentState.angles, angles);
+;1289:				angles[YAW] += (float) 16 * acos(1-c) * 180 / M_PI;
+;1290:				AnglesToAxis( angles, model.axis );
+;1291:
+;1292:				VectorScale( model.axis[0], c, model.axis[0]);
+;1293:				VectorScale( model.axis[1], c, model.axis[1]);
+;1294:				VectorScale( model.axis[2], c, model.axis[2]);
+;1295:
+;1296:				model.shaderRGBA[0] = 0xff;
+;1297:				model.shaderRGBA[1] = 0xff;
+;1298:				model.shaderRGBA[2] = 0xff;
+;1299:				model.shaderRGBA[3] = 0xff;
+;1300:				//
+;1301:				model.origin[2] += 56;
+;1302:				model.hModel = cgs.media.overloadTargetModel;
+;1303:				trap_R_AddRefEntityToScene( &model );
+;1304:			}
+;1305:			else {
+;1306:				//FIXME: show animated smoke
+;1307:			}
+;1308:		}
+;1309:		else {
+;1310:			cent->miscTime = 0;
+;1311:			cent->muzzleFlashTime = 0;
+;1312:			// modelindex2 is the health value of the obelisk
+;1313:			c = cent->currentState.modelindex2;
+;1314:			model.shaderRGBA[0] = 0xff;
+;1315:			model.shaderRGBA[1] = c;
+;1316:			model.shaderRGBA[2] = c;
+;1317:			model.shaderRGBA[3] = 0xff;
+;1318:			// show the lights
+;1319:			model.hModel = cgs.media.overloadLightsModel;
+;1320:			trap_R_AddRefEntityToScene( &model );
+;1321:			// show the target
+;1322:			model.origin[2] += 56;
+;1323:			model.hModel = cgs.media.overloadTargetModel;
+;1324:			trap_R_AddRefEntityToScene( &model );
+;1325:		}
+;1326:	}
+;1327:	else if ( cgs.gametype == GT_HARVESTER ) {
+;1328:		// show harvester model
+;1329:		memset(&model, 0, sizeof(model));
+;1330:		model.reType = RT_MODEL;
+;1331:		VectorCopy( cent->lerpOrigin, model.lightingOrigin );
+;1332:		VectorCopy( cent->lerpOrigin, model.origin );
+;1333:		AnglesToAxis( cent->currentState.angles, model.axis );
+;1334:
+;1335:		if ( cent->currentState.modelindex == TEAM_RED ) {
+;1336:			model.hModel = cgs.media.harvesterModel;
+;1337:			model.customSkin = cgs.media.harvesterRedSkin;
+;1338:		}
+;1339:		else if ( cent->currentState.modelindex == TEAM_BLUE ) {
+;1340:			model.hModel = cgs.media.harvesterModel;
+;1341:			model.customSkin = cgs.media.harvesterBlueSkin;
+;1342:		}
+;1343:		else {
+;1344:			model.hModel = cgs.media.harvesterNeutralModel;
+;1345:			model.customSkin = 0;
+;1346:		}
+;1347:		trap_R_AddRefEntityToScene( &model );
+;1348:	}
+;1349:#endif
+;1350:}
+LABELV $613
 endproc CG_TeamBase 140 12
 proc CG_AddCEntity 8 8
-line 1335
-;1328:
-;1329:/*
-;1330:===============
-;1331:CG_AddCEntity
-;1332:
-;1333:===============
-;1334:*/
-;1335:static void CG_AddCEntity( centity_t *cent ) {
-line 1337
-;1336:	// event-only entities will have been dealt with already
-;1337:	if ( cent->currentState.eType >= ET_EVENTS ) {
+line 1358
+;1351:
+;1352:/*
+;1353:===============
+;1354:CG_AddCEntity
+;1355:
+;1356:===============
+;1357:*/
+;1358:static void CG_AddCEntity( centity_t *cent ) {
+line 1360
+;1359:	// event-only entities will have been dealt with already
+;1360:	if ( cent->currentState.eType >= ET_EVENTS ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 4
 ADDP4
 INDIRI4
 CNSTI4 14
-LTI4 $612
-line 1338
-;1338:		return;
-ADDRGP4 $611
+LTI4 $634
+line 1361
+;1361:		return;
+ADDRGP4 $633
 JUMPV
-LABELV $612
-line 1342
-;1339:	}
-;1340:
-;1341:	// calculate the current origin
-;1342:	CG_CalcEntityLerpPositions( cent );
+LABELV $634
+line 1365
+;1362:	}
+;1363:
+;1364:	// calculate the current origin
+;1365:	CG_CalcEntityLerpPositions( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_CalcEntityLerpPositions
 CALLV
 pop
-line 1345
-;1343:
-;1344:	// add automatic effects
-;1345:	CG_EntityEffects( cent );
+line 1368
+;1366:
+;1367:	// add automatic effects
+;1368:	CG_EntityEffects( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_EntityEffects
 CALLV
 pop
-line 1347
-;1346:
-;1347:	switch ( cent->currentState.eType ) {
+line 1370
+;1369:
+;1370:	switch ( cent->currentState.eType ) {
 ADDRLP4 0
 ADDRFP4 0
 INDIRP4
@@ -5333,42 +5397,42 @@ ASGNI4
 ADDRLP4 0
 INDIRI4
 CNSTI4 0
-LTI4 $614
+LTI4 $636
 ADDRLP4 0
 INDIRI4
 CNSTI4 13
-GTI4 $614
+GTI4 $636
 ADDRLP4 0
 INDIRI4
 CNSTI4 2
 LSHI4
-ADDRGP4 $630
+ADDRGP4 $652
 ADDP4
 INDIRP4
 JUMPV
 lit
 align 4
-LABELV $630
-address $619
-address $620
-address $621
-address $622
-address $623
-address $624
-address $625
-address $626
-address $615
-address $615
-address $615
-address $627
-address $628
-address $629
+LABELV $652
+address $641
+address $642
+address $643
+address $644
+address $645
+address $646
+address $647
+address $648
+address $637
+address $637
+address $637
+address $649
+address $650
+address $651
 code
-LABELV $614
-line 1349
-;1348:	default:
-;1349:		CG_Error( "Bad entity type: %i\n", cent->currentState.eType );
-ADDRGP4 $617
+LABELV $636
+line 1372
+;1371:	default:
+;1372:		CG_Error( "Bad entity type: %i\n", cent->currentState.eType );
+ADDRGP4 $639
 ARGP4
 ADDRFP4 0
 INDIRP4
@@ -5379,200 +5443,200 @@ ARGI4
 ADDRGP4 CG_Error
 CALLV
 pop
-line 1350
-;1350:		break;
-ADDRGP4 $615
+line 1373
+;1373:		break;
+ADDRGP4 $637
 JUMPV
-line 1354
-;1351:	case ET_INVISIBLE:
-;1352:	case ET_PUSH_TRIGGER:
-;1353:	case ET_TELEPORT_TRIGGER:
-;1354:		break;
-LABELV $619
-line 1356
-;1355:	case ET_GENERAL:
-;1356:		CG_General( cent );
+line 1377
+;1374:	case ET_INVISIBLE:
+;1375:	case ET_PUSH_TRIGGER:
+;1376:	case ET_TELEPORT_TRIGGER:
+;1377:		break;
+LABELV $641
+line 1379
+;1378:	case ET_GENERAL:
+;1379:		CG_General( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_General
 CALLV
 pop
-line 1357
-;1357:		break;
-ADDRGP4 $615
+line 1380
+;1380:		break;
+ADDRGP4 $637
 JUMPV
-LABELV $620
-line 1359
-;1358:	case ET_PLAYER:
-;1359:		CG_Player( cent );
+LABELV $642
+line 1382
+;1381:	case ET_PLAYER:
+;1382:		CG_Player( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_Player
 CALLV
 pop
-line 1360
-;1360:		break;
-ADDRGP4 $615
+line 1383
+;1383:		break;
+ADDRGP4 $637
 JUMPV
-LABELV $621
-line 1362
-;1361:	case ET_ITEM:
-;1362:		CG_Item( cent );
+LABELV $643
+line 1385
+;1384:	case ET_ITEM:
+;1385:		CG_Item( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_Item
 CALLV
 pop
-line 1363
-;1363:		break;
-ADDRGP4 $615
+line 1386
+;1386:		break;
+ADDRGP4 $637
 JUMPV
-LABELV $622
-line 1365
-;1364:	case ET_MISSILE:
-;1365:		CG_Missile( cent );
+LABELV $644
+line 1388
+;1387:	case ET_MISSILE:
+;1388:		CG_Missile( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_Missile
 CALLV
 pop
-line 1366
-;1366:		break;
-ADDRGP4 $615
+line 1389
+;1389:		break;
+ADDRGP4 $637
 JUMPV
-LABELV $623
-line 1368
-;1367:	case ET_MOVER:
-;1368:		CG_Mover( cent );
+LABELV $645
+line 1391
+;1390:	case ET_MOVER:
+;1391:		CG_Mover( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_Mover
 CALLV
 pop
-line 1369
-;1369:		break;
-ADDRGP4 $615
+line 1392
+;1392:		break;
+ADDRGP4 $637
 JUMPV
-LABELV $624
-line 1371
-;1370:	case ET_BEAM:
-;1371:		CG_Beam( cent );
+LABELV $646
+line 1394
+;1393:	case ET_BEAM:
+;1394:		CG_Beam( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_Beam
 CALLV
 pop
-line 1372
-;1372:		break;
-ADDRGP4 $615
+line 1395
+;1395:		break;
+ADDRGP4 $637
 JUMPV
-LABELV $625
-line 1374
-;1373:	case ET_PORTAL:
-;1374:		CG_Portal( cent );
+LABELV $647
+line 1397
+;1396:	case ET_PORTAL:
+;1397:		CG_Portal( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_Portal
 CALLV
 pop
-line 1375
-;1375:		break;
-ADDRGP4 $615
+line 1398
+;1398:		break;
+ADDRGP4 $637
 JUMPV
-LABELV $626
-line 1377
-;1376:	case ET_SPEAKER:
-;1377:		CG_Speaker( cent );
+LABELV $648
+line 1400
+;1399:	case ET_SPEAKER:
+;1400:		CG_Speaker( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_Speaker
 CALLV
 pop
-line 1378
-;1378:		break;
-ADDRGP4 $615
+line 1401
+;1401:		break;
+ADDRGP4 $637
 JUMPV
-LABELV $627
-line 1380
-;1379:	case ET_GRAPPLE:
-;1380:		CG_Grapple( cent );
+LABELV $649
+line 1403
+;1402:	case ET_GRAPPLE:
+;1403:		CG_Grapple( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_Grapple
 CALLV
 pop
-line 1381
-;1381:		break;
-ADDRGP4 $615
+line 1404
+;1404:		break;
+ADDRGP4 $637
 JUMPV
-LABELV $628
-line 1383
-;1382:	case ET_TEAM:
-;1383:		CG_TeamBase( cent );
+LABELV $650
+line 1406
+;1405:	case ET_TEAM:
+;1406:		CG_TeamBase( cent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_TeamBase
 CALLV
 pop
-line 1384
-;1384:		break;
-ADDRGP4 $615
+line 1407
+;1407:		break;
+ADDRGP4 $637
 JUMPV
-LABELV $629
-line 1386
-;1385:	case ET_MONSTER:
-;1386:		CG_Monster(cent);
+LABELV $651
+line 1409
+;1408:	case ET_MONSTER:
+;1409:		CG_Monster(cent);
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 CG_Monster
 CALLV
 pop
-line 1387
-;1387:		break;	
-LABELV $615
-line 1389
-;1388:	}
-;1389:}
-LABELV $611
+line 1410
+;1410:		break;	
+LABELV $637
+line 1412
+;1411:	}
+;1412:}
+LABELV $633
 endproc CG_AddCEntity 8 8
 export CG_AddPacketEntities
 proc CG_AddPacketEntities 20 12
-line 1397
-;1390:
-;1391:/*
-;1392:===============
-;1393:CG_AddPacketEntities
-;1394:
-;1395:===============
-;1396:*/
-;1397:void CG_AddPacketEntities( void ) {
-line 1403
-;1398:	int					num;
-;1399:	centity_t			*cent;
-;1400:	playerState_t		*ps;
-;1401:
-;1402:	// set cg.frameInterpolation
-;1403:	if ( cg.nextSnap ) {
+line 1420
+;1413:
+;1414:/*
+;1415:===============
+;1416:CG_AddPacketEntities
+;1417:
+;1418:===============
+;1419:*/
+;1420:void CG_AddPacketEntities( void ) {
+line 1426
+;1421:	int					num;
+;1422:	centity_t			*cent;
+;1423:	playerState_t		*ps;
+;1424:
+;1425:	// set cg.frameInterpolation
+;1426:	if ( cg.nextSnap ) {
 ADDRGP4 cg+40
 INDIRP4
 CVPU4 4
 CNSTU4 0
-EQU4 $632
-line 1406
-;1404:		int		delta;
-;1405:
-;1406:		delta = (cg.nextSnap->serverTime - cg.snap->serverTime);
+EQU4 $654
+line 1429
+;1427:		int		delta;
+;1428:
+;1429:		delta = (cg.nextSnap->serverTime - cg.snap->serverTime);
 ADDRLP4 16
 CNSTI4 8
 ASGNI4
@@ -5591,24 +5655,24 @@ ADDP4
 INDIRI4
 SUBI4
 ASGNI4
-line 1407
-;1407:		if ( delta == 0 ) {
+line 1430
+;1430:		if ( delta == 0 ) {
 ADDRLP4 12
 INDIRI4
 CNSTI4 0
-NEI4 $637
-line 1408
-;1408:			cg.frameInterpolation = 0;
+NEI4 $659
+line 1431
+;1431:			cg.frameInterpolation = 0;
 ADDRGP4 cg+107588
 CNSTF4 0
 ASGNF4
-line 1409
-;1409:		} else {
-ADDRGP4 $633
+line 1432
+;1432:		} else {
+ADDRGP4 $655
 JUMPV
-LABELV $637
-line 1410
-;1410:			cg.frameInterpolation = (float)( cg.time - cg.snap->serverTime ) / delta;
+LABELV $659
+line 1433
+;1433:			cg.frameInterpolation = (float)( cg.time - cg.snap->serverTime ) / delta;
 ADDRGP4 cg+107588
 ADDRGP4 cg+107604
 INDIRI4
@@ -5624,31 +5688,31 @@ INDIRI4
 CVIF4 4
 DIVF4
 ASGNF4
-line 1411
-;1411:		}
-line 1412
-;1412:	} else {
-ADDRGP4 $633
+line 1434
+;1434:		}
+line 1435
+;1435:	} else {
+ADDRGP4 $655
 JUMPV
-LABELV $632
-line 1413
-;1413:		cg.frameInterpolation = 0;	// actually, it should never be used, because 
+LABELV $654
+line 1436
+;1436:		cg.frameInterpolation = 0;	// actually, it should never be used, because 
 ADDRGP4 cg+107588
 CNSTF4 0
 ASGNF4
-line 1415
-;1414:									// no entities should be marked as interpolating
-;1415:	}
-LABELV $633
-line 1418
-;1416:
-;1417:	// the auto-rotating items will all have the same axis
-;1418:	cg.autoAngles[0] = 0;
+line 1438
+;1437:									// no entities should be marked as interpolating
+;1438:	}
+LABELV $655
+line 1441
+;1439:
+;1440:	// the auto-rotating items will all have the same axis
+;1441:	cg.autoAngles[0] = 0;
 ADDRGP4 cg+108948
 CNSTF4 0
 ASGNF4
-line 1419
-;1419:	cg.autoAngles[1] = ( cg.time & 2047 ) * 360 / 2048.0;
+line 1442
+;1442:	cg.autoAngles[1] = ( cg.time & 2047 ) * 360 / 2048.0;
 ADDRGP4 cg+108948+4
 CNSTI4 360
 ADDRGP4 cg+107604
@@ -5660,19 +5724,19 @@ CVIF4 4
 CNSTF4 1157627904
 DIVF4
 ASGNF4
-line 1420
-;1420:	cg.autoAngles[2] = 0;
+line 1443
+;1443:	cg.autoAngles[2] = 0;
 ADDRGP4 cg+108948+8
 CNSTF4 0
 ASGNF4
-line 1422
-;1421:
-;1422:	cg.autoAnglesFast[0] = 0;
+line 1445
+;1444:
+;1445:	cg.autoAnglesFast[0] = 0;
 ADDRGP4 cg+108996
 CNSTF4 0
 ASGNF4
-line 1423
-;1423:	cg.autoAnglesFast[1] = ( cg.time & 1023 ) * 360 / 1024.0f;
+line 1446
+;1446:	cg.autoAnglesFast[1] = ( cg.time & 1023 ) * 360 / 1024.0f;
 ADDRGP4 cg+108996+4
 CNSTI4 360
 ADDRGP4 cg+107604
@@ -5684,14 +5748,14 @@ CVIF4 4
 CNSTF4 1149239296
 DIVF4
 ASGNF4
-line 1424
-;1424:	cg.autoAnglesFast[2] = 0;
+line 1447
+;1447:	cg.autoAnglesFast[2] = 0;
 ADDRGP4 cg+108996+8
 CNSTF4 0
 ASGNF4
-line 1426
-;1425:
-;1426:	AnglesToAxis( cg.autoAngles, cg.autoAxis );
+line 1449
+;1448:
+;1449:	AnglesToAxis( cg.autoAngles, cg.autoAxis );
 ADDRGP4 cg+108948
 ARGP4
 ADDRGP4 cg+108960
@@ -5699,8 +5763,8 @@ ARGP4
 ADDRGP4 AnglesToAxis
 CALLV
 pop
-line 1427
-;1427:	AnglesToAxis( cg.autoAnglesFast, cg.autoAxisFast );
+line 1450
+;1450:	AnglesToAxis( cg.autoAnglesFast, cg.autoAxisFast );
 ADDRGP4 cg+108996
 ARGP4
 ADDRGP4 cg+109008
@@ -5708,15 +5772,15 @@ ARGP4
 ADDRGP4 AnglesToAxis
 CALLV
 pop
-line 1430
-;1428:
-;1429:	// generate and add the entity from the playerstate
-;1430:	ps = &cg.predictedPlayerState;
+line 1453
+;1451:
+;1452:	// generate and add the entity from the playerstate
+;1453:	ps = &cg.predictedPlayerState;
 ADDRLP4 8
 ADDRGP4 cg+107636
 ASGNP4
-line 1431
-;1431:	BG_PlayerStateToEntityState( ps, &cg.predictedPlayerEntity.currentState, qfalse );
+line 1454
+;1454:	BG_PlayerStateToEntityState( ps, &cg.predictedPlayerEntity.currentState, qfalse );
 ADDRLP4 8
 INDIRP4
 ARGP4
@@ -5727,17 +5791,17 @@ ARGI4
 ADDRGP4 BG_PlayerStateToEntityState
 CALLV
 pop
-line 1432
-;1432:	CG_AddCEntity( &cg.predictedPlayerEntity );
+line 1455
+;1455:	CG_AddCEntity( &cg.predictedPlayerEntity );
 ADDRGP4 cg+108104
 ARGP4
 ADDRGP4 CG_AddCEntity
 CALLV
 pop
-line 1435
-;1433:
-;1434:	// lerp the non-predicted value for lightning gun origins
-;1435:	CG_CalcEntityLerpPositions( &cg_entities[ cg.snap->ps.clientNum ] );
+line 1458
+;1456:
+;1457:	// lerp the non-predicted value for lightning gun origins
+;1458:	CG_CalcEntityLerpPositions( &cg_entities[ cg.snap->ps.clientNum ] );
 CNSTI4 728
 ADDRGP4 cg+36
 INDIRP4
@@ -5751,18 +5815,18 @@ ARGP4
 ADDRGP4 CG_CalcEntityLerpPositions
 CALLV
 pop
-line 1438
-;1436:
-;1437:	// add each entity sent over by the server
-;1438:	for ( num = 0 ; num < cg.snap->numEntities ; num++ ) {
+line 1461
+;1459:
+;1460:	// add each entity sent over by the server
+;1461:	for ( num = 0 ; num < cg.snap->numEntities ; num++ ) {
 ADDRLP4 0
 CNSTI4 0
 ASGNI4
-ADDRGP4 $667
+ADDRGP4 $689
 JUMPV
-LABELV $664
-line 1439
-;1439:		cent = &cg_entities[ cg.snap->entities[ num ].number ];
+LABELV $686
+line 1462
+;1462:		cent = &cg_entities[ cg.snap->entities[ num ].number ];
 ADDRLP4 4
 CNSTI4 728
 CNSTI4 208
@@ -5779,25 +5843,25 @@ MULI4
 ADDRGP4 cg_entities
 ADDP4
 ASGNP4
-line 1440
-;1440:		CG_AddCEntity( cent );
+line 1463
+;1463:		CG_AddCEntity( cent );
 ADDRLP4 4
 INDIRP4
 ARGP4
 ADDRGP4 CG_AddCEntity
 CALLV
 pop
-line 1441
-;1441:	}
-LABELV $665
-line 1438
+line 1464
+;1464:	}
+LABELV $687
+line 1461
 ADDRLP4 0
 ADDRLP4 0
 INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-LABELV $667
+LABELV $689
 ADDRLP4 0
 INDIRI4
 ADDRGP4 cg+36
@@ -5805,10 +5869,10 @@ INDIRP4
 CNSTI4 512
 ADDP4
 INDIRI4
-LTI4 $664
-line 1442
-;1442:}
-LABELV $631
+LTI4 $686
+line 1465
+;1465:}
+LABELV $653
 endproc CG_AddPacketEntities 20 12
 bss
 align 4
@@ -6320,7 +6384,7 @@ import srand
 import qsort
 lit
 align 1
-LABELV $617
+LABELV $639
 byte 1 66
 byte 1 97
 byte 1 100
@@ -6343,7 +6407,7 @@ byte 1 105
 byte 1 10
 byte 1 0
 align 1
-LABELV $558
+LABELV $580
 byte 1 67
 byte 1 71
 byte 1 95
@@ -6394,7 +6458,7 @@ byte 1 76
 byte 1 76
 byte 1 0
 align 1
-LABELV $202
+LABELV $224
 byte 1 66
 byte 1 97
 byte 1 100
@@ -6424,14 +6488,14 @@ byte 1 116
 byte 1 121
 byte 1 0
 align 1
-LABELV $148
+LABELV $167
 byte 1 110
 byte 1 111
 byte 1 110
 byte 1 101
 byte 1 0
 align 1
-LABELV $143
+LABELV $162
 byte 1 73
 byte 1 110
 byte 1 118
@@ -6467,7 +6531,7 @@ byte 1 115
 byte 1 10
 byte 1 0
 align 1
-LABELV $133
+LABELV $152
 byte 1 77
 byte 1 111
 byte 1 110
@@ -6501,7 +6565,7 @@ byte 1 115
 byte 1 10
 byte 1 0
 align 1
-LABELV $130
+LABELV $149
 byte 1 73
 byte 1 110
 byte 1 118
@@ -6536,7 +6600,7 @@ byte 1 115
 byte 1 10
 byte 1 0
 align 1
-LABELV $126
+LABELV $145
 byte 1 77
 byte 1 111
 byte 1 110
@@ -6566,6 +6630,770 @@ byte 1 32
 byte 1 37
 byte 1 115
 byte 1 10
+byte 1 0
+align 1
+LABELV $141
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 70
+byte 1 97
+byte 1 117
+byte 1 115
+byte 1 116
+byte 1 50
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $140
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 83
+byte 1 116
+byte 1 114
+byte 1 97
+byte 1 116
+byte 1 111
+byte 1 115
+byte 1 50
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $139
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 77
+byte 1 111
+byte 1 110
+byte 1 103
+byte 1 71
+byte 1 114
+byte 1 117
+byte 1 110
+byte 1 116
+byte 1 82
+byte 1 105
+byte 1 102
+byte 1 108
+byte 1 101
+byte 1 50
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $138
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 77
+byte 1 111
+byte 1 110
+byte 1 103
+byte 1 71
+byte 1 114
+byte 1 117
+byte 1 110
+byte 1 116
+byte 1 83
+byte 1 104
+byte 1 111
+byte 1 116
+byte 1 103
+byte 1 117
+byte 1 110
+byte 1 50
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $137
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 77
+byte 1 111
+byte 1 110
+byte 1 103
+byte 1 71
+byte 1 114
+byte 1 117
+byte 1 110
+byte 1 116
+byte 1 50
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $136
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 71
+byte 1 104
+byte 1 111
+byte 1 115
+byte 1 116
+byte 1 51
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $135
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 71
+byte 1 104
+byte 1 111
+byte 1 115
+byte 1 116
+byte 1 50
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $134
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 71
+byte 1 104
+byte 1 111
+byte 1 115
+byte 1 116
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $133
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 70
+byte 1 111
+byte 1 114
+byte 1 103
+byte 1 111
+byte 1 116
+byte 1 116
+byte 1 101
+byte 1 110
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $132
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 77
+byte 1 105
+byte 1 110
+byte 1 99
+byte 1 101
+byte 1 114
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $131
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 83
+byte 1 116
+byte 1 114
+byte 1 97
+byte 1 116
+byte 1 111
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $130
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 70
+byte 1 97
+byte 1 117
+byte 1 115
+byte 1 116
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $129
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 77
+byte 1 111
+byte 1 110
+byte 1 103
+byte 1 71
+byte 1 114
+byte 1 117
+byte 1 110
+byte 1 116
+byte 1 82
+byte 1 105
+byte 1 102
+byte 1 108
+byte 1 101
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $128
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 77
+byte 1 111
+byte 1 110
+byte 1 103
+byte 1 71
+byte 1 114
+byte 1 117
+byte 1 110
+byte 1 116
+byte 1 83
+byte 1 104
+byte 1 111
+byte 1 116
+byte 1 103
+byte 1 117
+byte 1 110
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $127
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 77
+byte 1 111
+byte 1 110
+byte 1 103
+byte 1 71
+byte 1 114
+byte 1 117
+byte 1 110
+byte 1 116
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $126
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 77
+byte 1 97
+byte 1 110
+byte 1 99
+byte 1 117
+byte 1 98
+byte 1 117
+byte 1 115
+byte 1 53
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $125
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 77
+byte 1 97
+byte 1 110
+byte 1 99
+byte 1 117
+byte 1 98
+byte 1 117
+byte 1 115
+byte 1 52
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $124
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 77
+byte 1 97
+byte 1 110
+byte 1 99
+byte 1 117
+byte 1 98
+byte 1 117
+byte 1 115
+byte 1 51
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $123
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 115
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 115
+byte 1 47
+byte 1 77
+byte 1 97
+byte 1 110
+byte 1 99
+byte 1 117
+byte 1 98
+byte 1 117
+byte 1 115
+byte 1 50
+byte 1 47
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
 byte 1 0
 align 1
 LABELV $122

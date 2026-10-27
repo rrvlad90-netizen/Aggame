@@ -106,7 +106,25 @@ static const char *monsterConfigFiles[] = {
 	"models/monsters/D3Imp/monster.cfg",
 	"models/monsters/Gross/monster.cfg",
 	"models/monsters/Mancubus/monster.cfg",
+	"models/monsters/Mancubus2/monster.cfg",
+	"models/monsters/Mancubus3/monster.cfg",
+	"models/monsters/Mancubus4/monster.cfg",
+	"models/monsters/Mancubus5/monster.cfg",	
 	"models/monsters/MongGrunt/monster.cfg",
+	"models/monsters/MongGruntShotgun/monster.cfg",
+	"models/monsters/MongGruntRifle/monster.cfg",
+	"models/monsters/Faust/monster.cfg",
+	"models/monsters/Stratos/monster.cfg",	
+	"models/monsters/Mincer/monster.cfg",
+	"models/monsters/Forgotten/monster.cfg",
+	"models/monsters/Ghost/monster.cfg",
+	"models/monsters/Ghost2/monster.cfg",
+	"models/monsters/Ghost3/monster.cfg",
+	"models/monsters/MongGrunt2/monster.cfg",
+	"models/monsters/MongGruntShotgun2/monster.cfg",
+	"models/monsters/MongGruntRifle2/monster.cfg",
+	"models/monsters/Stratos2/monster.cfg",
+	"models/monsters/Faust2/monster.cfg",	
 	NULL
 };
 
@@ -1828,7 +1846,7 @@ static void G_MonsterMove(
 		return;
 	}
 
-	VectorAdd(
+VectorAdd(
 		monster->r.currentOrigin,
 		move,
 		destination
@@ -1844,7 +1862,129 @@ static void G_MonsterMove(
 		MASK_PLAYERSOLID
 	);
 
+	/*
+	 * Step-up: if horizontal move was blocked,
+	 * try to climb a stair. Q3 player step size
+	 * is 18 units; use the same for monsters.
+	 */
+	if( trace.fraction < 1.0f &&
+		!trace.startsolid &&
+		!trace.allsolid ) {
+		vec3_t stepUp;
+		vec3_t stepDest;
+		vec3_t downDest;
+		trace_t stepTrace;
+		trace_t downTrace;
+		const float stepHeight = 18.0f;
+
+		VectorCopy(
+			monster->r.currentOrigin,
+			stepUp
+		);
+
+		stepUp[2] += stepHeight;
+
+		trap_Trace(
+			&stepTrace,
+			monster->r.currentOrigin,
+			monster->r.mins,
+			monster->r.maxs,
+			stepUp,
+			monster->s.number,
+			MASK_PLAYERSOLID
+		);
+
+		if( !stepTrace.startsolid &&
+			!stepTrace.allsolid &&
+			stepTrace.fraction > 0.9f ) {
+
+			VectorCopy(
+				destination,
+				stepDest
+			);
+
+			stepDest[2] = stepUp[2];
+
+			trap_Trace(
+				&stepTrace,
+				stepUp,
+				monster->r.mins,
+				monster->r.maxs,
+				stepDest,
+				monster->s.number,
+				MASK_PLAYERSOLID
+			);
+
+			if( !stepTrace.startsolid &&
+				!stepTrace.allsolid ) {
+
+				VectorCopy(
+					stepTrace.endpos,
+					downDest
+				);
+
+				downDest[2] -= stepHeight;
+
+				trap_Trace(
+					&downTrace,
+					stepTrace.endpos,
+					monster->r.mins,
+					monster->r.maxs,
+					downDest,
+					monster->s.number,
+					MASK_PLAYERSOLID
+				);
+
+				if( !downTrace.startsolid &&
+					!downTrace.allsolid &&
+					downTrace.fraction < 1.0f ) {
+
+					G_MonsterSetOrigin(
+						monster,
+						downTrace.endpos
+					);
+
+					monster->s.groundEntityNum =
+						downTrace.entityNum;
+
+					vectoangles(
+						direction,
+						angles
+					);
+
+					angles[PITCH] = 0;
+					angles[ROLL] = 0;
+
+					VectorCopy(
+						angles,
+						monster->s.angles
+					);
+
+					VectorCopy(
+						angles,
+						monster->s.apos.trBase
+					);
+
+					VectorCopy(
+						angles,
+						monster->r.currentAngles
+					);
+
+					trap_LinkEntity(monster);
+
+					return;
+				}
+			}
+		}
+	}
+
 	G_MonsterSetOrigin(monster, trace.endpos);
+
+	if (trace.fraction < 1.0f &&
+		!trace.startsolid &&
+		!trace.allsolid) {
+		/* slide logic ... (без изменений) */
+	}
 
 	if (trace.fraction < 1.0f &&
 		!trace.startsolid &&
@@ -1982,6 +2122,11 @@ static void G_MonsterHitscan(
 		spread = 0.0f;
 		mod = MOD_MACHINEGUN;
 	}
+	else if( !Q_stricmp( weaponType, "lightning" ) ) {
+		pellets = 1;
+		spread = 0.0f;
+		mod = MOD_LIGHTNING;
+	}
 	else {
 		/* "hitscan" / machinegun */
 		pellets = 1;
@@ -2002,7 +2147,13 @@ static void G_MonsterHitscan(
 			VectorNormalize( dir );
 		}
 
-		VectorMA( start, 8192.0f, dir, end );
+		//VectorMA( start, 8192.0f, dir, end );
+		if( !Q_stricmp( weaponType, "lightning" ) ) {
+			VectorMA( start, 768.0f, dir, end );
+		}
+		else {
+			VectorMA( start, 8192.0f, dir, end );
+		}
 
 		trap_Trace(
 			&trace,
@@ -2078,7 +2229,8 @@ static void G_MonsterFireProjectile(
 	if( projectile &&
 		( !Q_stricmp(projectile, "hitscan") ||
 		  !Q_stricmp(projectile, "rifle") ||
-		  !Q_stricmp(projectile, "shotgun") ) ) {
+		  !Q_stricmp(projectile, "shotgun") ||
+		  !Q_stricmp(projectile, "lightning") ) ) {
 		G_MonsterHitscan(
 			monster,
 			target,

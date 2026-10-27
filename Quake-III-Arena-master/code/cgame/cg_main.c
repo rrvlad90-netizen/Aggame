@@ -1092,6 +1092,7 @@ static void CG_RegisterGraphics( void ) {
 
 #endif
 	CG_ClearParticles ();
+	CG_InitMonsterShaders();
 /*
 	for (i=1; i<MAX_PARTICLES_AREAS; i++)
 	{

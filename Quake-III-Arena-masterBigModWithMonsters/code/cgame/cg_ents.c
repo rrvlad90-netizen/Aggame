@@ -211,7 +211,26 @@ static const char *cg_monsterConfigFiles[] = {
 	"models/monsters/D3Imp/monster.cfg",
 	"models/monsters/Gross/monster.cfg",
 	"models/monsters/Mancubus/monster.cfg",
+	"models/monsters/Mancubus2/monster.cfg",
+	"models/monsters/Mancubus3/monster.cfg",
+	"models/monsters/Mancubus4/monster.cfg",
+	"models/monsters/Mancubus5/monster.cfg",	
 	"models/monsters/MongGrunt/monster.cfg",
+	"models/monsters/MongGrunt/monster.cfg",
+	"models/monsters/MongGruntShotgun/monster.cfg",
+	"models/monsters/MongGruntRifle/monster.cfg",
+	"models/monsters/Faust/monster.cfg",
+	"models/monsters/Stratos/monster.cfg",
+	"models/monsters/Mincer/monster.cfg",
+	"models/monsters/Forgotten/monster.cfg",
+	"models/monsters/Ghost/monster.cfg",
+	"models/monsters/Ghost2/monster.cfg",
+	"models/monsters/Ghost3/monster.cfg",
+	"models/monsters/MongGrunt2/monster.cfg",
+	"models/monsters/MongGruntShotgun2/monster.cfg",
+	"models/monsters/MongGruntRifle2/monster.cfg",
+	"models/monsters/Stratos2/monster.cfg",
+	"models/monsters/Faust2/monster.cfg",	
 	NULL
 };
 
@@ -287,6 +306,9 @@ static void CG_LoadMonsterShader(
 	cg_monsterShaders
 		[def.monsterType]
 		[def.monsterSlot] =
+		trap_R_RegisterShader(def.shader);
+		
+	cg_monsterShaders[def.monsterType][def.monsterSlot] =
 		trap_R_RegisterShader(def.shader);
 }
 
