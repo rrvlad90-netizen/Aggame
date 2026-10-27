@@ -845,6 +845,7 @@ static const char *assaultMiddleItem_list[] = {
 	"Lightning Gun",
 	"Personal Teleporter",
 	"Plasma Gun",
+	"Middle Point",
 	0
 };
 
@@ -1744,13 +1745,13 @@ static void ServerOptions_SetMenuItems( void ) {
 	);
 	
 	s_serveroptions.assaultMiddleItem.curvalue =
-	(int)Com_Clamp(
-		0,
-		13,
-		trap_Cvar_VariableValue(
-			"ui_assaultMiddleItem"
-		)
-	);
+		(int)Com_Clamp(
+			0,
+			14,
+			trap_Cvar_VariableValue(
+				"ui_assaultMiddleItem"
+			)
+		);
 
 	s_serveroptions.noHealth.curvalue =
 			trap_Cvar_VariableValue( "ui_noHealth" ) != 0;
@@ -2243,8 +2244,11 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.noGrenadeRocket);
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.noRailgun);
 	
-	if( trap_Cvar_VariableValue("g_assaultMode") == 1 ) {
-		Menu_AddItem(&s_serveroptions.menu, &s_serveroptions.assaultMiddleItem
+	if( trap_Cvar_VariableValue("g_assaultMode") == 1 ||
+		trap_Cvar_VariableValue("g_assaultMode") == 3 ) {
+		Menu_AddItem(
+			&s_serveroptions.menu,
+			&s_serveroptions.assaultMiddleItem
 		);
 	}
 		

@@ -9,6 +9,7 @@
 #define ASSAULT_MODE_TDM_BASE 3
 #define ASSAULT_AUTO_START_DELAY 2000
 #define ASSAULT_MIDDLE_ITEM_COUNT 13
+#define ASSAULT_MIDDLE_POINT_CHOICE (ASSAULT_MIDDLE_ITEM_COUNT + 1)
 
 typedef enum {
 	ASSAULT_SETUP,
@@ -362,9 +363,38 @@ static qboolean AssaultSelectMiddlePoint(
 
 	choice = g_assaultMiddleItem.integer;
 
-	if( choice < 0 ||
-		choice > ASSAULT_MIDDLE_ITEM_COUNT ) {
+	if( choice < 0 || choice > ASSAULT_MIDDLE_POINT_CHOICE ) 
+	{ 
 		choice = 0;
+	}
+	
+	/*
+	 * Explicit middle point between A and C.
+	 */
+	if( choice == ASSAULT_MIDDLE_POINT_CHOICE ) {
+		VectorAdd(
+			assault.points[0],
+			assault.points[2],
+			midpoint
+		);
+
+		VectorScale(
+			midpoint,
+			0.5f,
+			midpoint
+		);
+
+		AssaultGroundOrigin(
+			midpoint,
+			origin
+		);
+
+		*area =
+			AssaultPointAreaNum(origin);
+
+		*selectedItem = -1;
+
+		return *area != 0;
 	}
 
 	/*
