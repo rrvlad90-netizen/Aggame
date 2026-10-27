@@ -3468,6 +3468,7 @@ import g_noPowerups
 import g_noMedkit
 import g_noMegaHealth
 import g_noGrenadeRocket
+import g_noLightning
 import g_noPlasmaBFG
 import g_noRailgun
 import g_noPersonalTeleporter

@@ -786,6 +786,7 @@ extern 	vmCvar_t	g_blasterMode;
 extern 	vmCvar_t	g_noPersonalTeleporter;
 extern 	vmCvar_t 	g_noRailgun;
 extern 	vmCvar_t	g_noPlasmaBFG;
+extern 	vmCvar_t 	g_noLightning;
 extern 	vmCvar_t	g_noGrenadeRocket;
 extern  vmCvar_t	g_noMegaHealth;
 extern  vmCvar_t	g_noMedkit;

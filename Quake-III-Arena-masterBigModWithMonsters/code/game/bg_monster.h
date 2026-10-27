@@ -72,6 +72,7 @@ typedef struct {
 	int talkMaxDelay;
 		
 	int respawnTime;
+	int corpseTime;
 
 	animation_t idleAnimation;
 	animation_t moveAnimation;

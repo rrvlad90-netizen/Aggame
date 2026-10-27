@@ -234,6 +234,7 @@ qboolean BG_ParseMonsterConfig(
 	def->health = 100;
 	def->scoreValue = 1;
 	def->respawnTime = 20000;
+	def->corpseTime = 3000;
 	def->speed = 160.0f;
 	def->hoverHeight = 48.0f;
 	def->attackCooldown = 1800;
@@ -393,6 +394,14 @@ qboolean BG_ParseMonsterConfig(
 			if (!MonsterReadInt(
 				&text, &def->respawnTime,
 				error, errorSize
+			)) return qfalse;
+		}
+		else if (!Q_stricmp(key, "corpseTime")) {
+			if (!MonsterReadInt(
+				&text,
+				&def->corpseTime,
+				error,
+				errorSize
 			)) return qfalse;
 		}
 		else if (!Q_stricmp(key, "speed")) {
@@ -661,6 +670,10 @@ qboolean BG_ParseMonsterConfig(
 			"Invalid monster health or speed"
 		);
 		return qfalse;
+	}
+	
+	if (def->corpseTime < 0) {
+		def->corpseTime = 0;
 	}
 
 	return qtrue;

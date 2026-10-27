@@ -4029,7 +4029,7 @@ RETI4
 LABELV $256
 endproc G_ItemDisabled 132 16
 export G_SpawnItem
-proc G_SpawnItem 28 12
+proc G_SpawnItem 40 12
 line 884
 ;872:}
 ;873:
@@ -4283,28 +4283,34 @@ line 937
 ADDRGP4 $258
 JUMPV
 LABELV $277
-line 939
+line 942
 ;938:		}	
-;939:	if( g_noPlasmaBFG.integer ) {
+;939:	/*
+;940:	 * Remove Plasma Gun, BFG and their ammunition.
+;941:	 */
+;942:	if( g_noPlasmaBFG.integer &&
 ADDRGP4 g_noPlasmaBFG+12
 INDIRI4
 CNSTI4 0
 EQI4 $280
-line 940
-;940:			if( item->giType == IT_WEAPON &&
 ADDRLP4 12
 ADDRFP4 4
 INDIRP4
-ASGNP4
-ADDRLP4 12
-INDIRP4
 CNSTI4 36
 ADDP4
+INDIRI4
+ASGNI4
+ADDRLP4 12
 INDIRI4
 CNSTI4 1
-NEI4 $283
-ADDRLP4 16
+EQI4 $283
 ADDRLP4 12
+INDIRI4
+CNSTI4 2
+NEI4 $280
+LABELV $283
+ADDRLP4 16
+ADDRFP4 4
 INDIRP4
 CNSTI4 40
 ADDP4
@@ -4312,302 +4318,267 @@ INDIRI4
 ASGNI4
 ADDRLP4 16
 INDIRI4
-CNSTI4 6
-EQI4 $286
-ADDRLP4 16
-INDIRI4
 CNSTI4 8
-EQI4 $286
+EQI4 $284
 ADDRLP4 16
 INDIRI4
 CNSTI4 9
-NEI4 $283
-LABELV $286
-line 943
-;941:				( item->giTag == WP_LIGHTNING ||
-;942:				  item->giTag == WP_PLASMAGUN ||
-;943:				  item->giTag == WP_BFG ) ) {
-line 944
-;944:				return;
+NEI4 $280
+LABELV $284
+line 946
+;943:		(item->giType == IT_WEAPON ||
+;944:		 item->giType == IT_AMMO) &&
+;945:		(item->giTag == WP_PLASMAGUN ||
+;946:		 item->giTag == WP_BFG) ) {
+line 947
+;947:		return;
 ADDRGP4 $258
 JUMPV
-LABELV $283
-line 947
-;945:			}
-;946:
-;947:			if( item->giType == IT_AMMO &&
+LABELV $280
+line 953
+;948:	}
+;949:
+;950:	/*
+;951:	 * Remove Lightning Gun and its ammunition.
+;952:	 */
+;953:	if( g_noLightning.integer &&
+ADDRGP4 g_noLightning+12
+INDIRI4
+CNSTI4 0
+EQI4 $285
 ADDRLP4 20
 ADDRFP4 4
-INDIRP4
-ASGNP4
-ADDRLP4 20
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
-CNSTI4 2
-NEI4 $287
-ADDRLP4 24
+ASGNI4
 ADDRLP4 20
+INDIRI4
+CNSTI4 1
+EQI4 $288
+ADDRLP4 20
+INDIRI4
+CNSTI4 2
+NEI4 $285
+LABELV $288
+ADDRFP4 4
 INDIRP4
 CNSTI4 40
 ADDP4
 INDIRI4
-ASGNI4
-ADDRLP4 24
-INDIRI4
 CNSTI4 6
-EQI4 $290
-ADDRLP4 24
-INDIRI4
-CNSTI4 8
-EQI4 $290
-ADDRLP4 24
-INDIRI4
-CNSTI4 9
-NEI4 $287
-LABELV $290
-line 950
-;948:				( item->giTag == WP_LIGHTNING ||
-;949:				  item->giTag == WP_PLASMAGUN ||
-;950:				  item->giTag == WP_BFG ) ) {
-line 951
-;951:				return;
+NEI4 $285
+line 956
+;954:		(item->giType == IT_WEAPON ||
+;955:		 item->giType == IT_AMMO) &&
+;956:		item->giTag == WP_LIGHTNING ) {
+line 957
+;957:		return;
 ADDRGP4 $258
 JUMPV
-LABELV $287
-line 953
-;952:			}
-;953:		}
-LABELV $280
-line 955
-;954:
-;955:	if( g_noGrenadeRocket.integer ) {
+LABELV $285
+line 960
+;958:	}
+;959:
+;960:	if( g_noGrenadeRocket.integer ) {
 ADDRGP4 g_noGrenadeRocket+12
 INDIRI4
 CNSTI4 0
-EQI4 $291
-line 956
-;956:		if( item->giType == IT_WEAPON &&
-ADDRLP4 12
+EQI4 $289
+line 961
+;961:		if( item->giType == IT_WEAPON &&
+ADDRLP4 24
 ADDRFP4 4
 INDIRP4
 ASGNP4
-ADDRLP4 12
+ADDRLP4 24
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $294
-ADDRLP4 16
-ADDRLP4 12
+NEI4 $292
+ADDRLP4 28
+ADDRLP4 24
 INDIRP4
 CNSTI4 40
 ADDP4
 INDIRI4
 ASGNI4
-ADDRLP4 16
+ADDRLP4 28
 INDIRI4
 CNSTI4 4
-EQI4 $296
-ADDRLP4 16
+EQI4 $294
+ADDRLP4 28
 INDIRI4
 CNSTI4 5
-NEI4 $294
-LABELV $296
-line 958
-;957:			( item->giTag == WP_GRENADE_LAUNCHER ||
-;958:			  item->giTag == WP_ROCKET_LAUNCHER ) ) {
-line 959
-;959:			return;
+NEI4 $292
+LABELV $294
+line 963
+;962:			( item->giTag == WP_GRENADE_LAUNCHER ||
+;963:			  item->giTag == WP_ROCKET_LAUNCHER ) ) {
+line 964
+;964:			return;
 ADDRGP4 $258
 JUMPV
-LABELV $294
-line 962
-;960:		}
-;961:
-;962:		if( item->giType == IT_AMMO &&
-ADDRLP4 20
+LABELV $292
+line 967
+;965:		}
+;966:
+;967:		if( item->giType == IT_AMMO &&
+ADDRLP4 32
 ADDRFP4 4
 INDIRP4
 ASGNP4
-ADDRLP4 20
+ADDRLP4 32
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 2
-NEI4 $297
-ADDRLP4 24
-ADDRLP4 20
+NEI4 $295
+ADDRLP4 36
+ADDRLP4 32
 INDIRP4
 CNSTI4 40
 ADDP4
 INDIRI4
 ASGNI4
-ADDRLP4 24
+ADDRLP4 36
 INDIRI4
 CNSTI4 4
-EQI4 $299
-ADDRLP4 24
+EQI4 $297
+ADDRLP4 36
 INDIRI4
 CNSTI4 5
-NEI4 $297
-LABELV $299
-line 964
-;963:			( item->giTag == WP_GRENADE_LAUNCHER ||
-;964:			  item->giTag == WP_ROCKET_LAUNCHER ) ) {
-line 965
-;965:			return;
+NEI4 $295
+LABELV $297
+line 969
+;968:			( item->giTag == WP_GRENADE_LAUNCHER ||
+;969:			  item->giTag == WP_ROCKET_LAUNCHER ) ) {
+line 970
+;970:			return;
 ADDRGP4 $258
 JUMPV
-LABELV $297
-line 967
-;966:		}
-;967:	}
-LABELV $291
-line 968
-;968:if( g_blasterMode.integer ) {
+LABELV $295
+line 972
+;971:		}
+;972:	}
+LABELV $289
+line 973
+;973:if( g_blasterMode.integer ) {
 ADDRGP4 g_blasterMode+12
 INDIRI4
 CNSTI4 0
-EQI4 $300
-line 970
-;969:		if(
-;970:			item->giType == IT_WEAPON &&
-ADDRLP4 12
+EQI4 $298
+line 975
+;974:		if(
+;975:			item->giType == IT_WEAPON &&
+ADDRLP4 24
 ADDRFP4 4
 INDIRP4
 ASGNP4
-ADDRLP4 12
+ADDRLP4 24
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $303
-ADDRLP4 12
+NEI4 $301
+ADDRLP4 24
 INDIRP4
 CNSTI4 40
 ADDP4
 INDIRI4
 CNSTI4 3
-NEI4 $303
-line 975
-;971:			(
-;972:				item->giTag == WP_SHOTGUN //||
-;973://				item->giTag == WP_PLASMAGUN
-;974:			)
-;975:		) {
-line 976
-;976:			G_FreeEntity( ent );
+NEI4 $301
+line 980
+;976:			(
+;977:				item->giTag == WP_SHOTGUN //||
+;978://				item->giTag == WP_PLASMAGUN
+;979:			)
+;980:		) {
+line 981
+;981:			G_FreeEntity( ent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 G_FreeEntity
 CALLV
 pop
-line 977
-;977:			return;
+line 982
+;982:			return;
 ADDRGP4 $258
 JUMPV
-LABELV $303
-line 981
-;978:		}
-;979:
-;980:		if(
-;981:			item->giType == IT_AMMO &&
-ADDRLP4 16
+LABELV $301
+line 986
+;983:		}
+;984:
+;985:		if(
+;986:			item->giType == IT_AMMO &&
+ADDRLP4 28
 ADDRFP4 4
 INDIRP4
 ASGNP4
-ADDRLP4 16
+ADDRLP4 28
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 2
-NEI4 $305
-ADDRLP4 16
+NEI4 $303
+ADDRLP4 28
 INDIRP4
 CNSTI4 40
 ADDP4
 INDIRI4
 CNSTI4 3
-NEI4 $305
-line 986
-;982:			(
-;983:				item->giTag == WP_SHOTGUN //||
-;984:				//item->giTag == WP_PLASMAGUN
-;985:			)
-;986:		) {
-line 987
-;987:			G_FreeEntity( ent );
+NEI4 $303
+line 991
+;987:			(
+;988:				item->giTag == WP_SHOTGUN //||
+;989:				//item->giTag == WP_PLASMAGUN
+;990:			)
+;991:		) {
+line 992
+;992:			G_FreeEntity( ent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 G_FreeEntity
 CALLV
 pop
-line 988
-;988:			return;
+line 993
+;993:			return;
 ADDRGP4 $258
 JUMPV
-LABELV $305
-line 990
-;989:		}
-;990:	}
-LABELV $300
-line 992
-;991:
-;992:	if( g_gametype.integer == GT_TEAM &&
+LABELV $303
+line 995
+;994:		}
+;995:	}
+LABELV $298
+line 997
+;996:
+;997:	if( g_gametype.integer == GT_TEAM &&
 ADDRGP4 g_gametype+12
 INDIRI4
 CNSTI4 3
-NEI4 $307
+NEI4 $305
 ADDRFP4 4
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 8
-NEI4 $307
+NEI4 $305
 ADDRGP4 g_assaultMode+12
 INDIRI4
 CNSTI4 1
-EQI4 $307
-line 994
-;993:		item->giType == IT_TEAM &&
-;994:		g_assaultMode.integer != 1 ) {
-line 995
-;995:		G_FreeEntity( ent );
-ADDRFP4 0
-INDIRP4
-ARGP4
-ADDRGP4 G_FreeEntity
-CALLV
-pop
-line 996
-;996:		return;
-ADDRGP4 $258
-JUMPV
-LABELV $307
+EQI4 $305
 line 999
-;997:	}
-;998:	
-;999:	if( g_noPowerups.integer && item->giType == IT_POWERUP ) {
-ADDRGP4 g_noPowerups+12
-INDIRI4
-CNSTI4 0
-EQI4 $311
-ADDRFP4 4
-INDIRP4
-CNSTI4 36
-ADDP4
-INDIRI4
-CNSTI4 5
-NEI4 $311
+;998:		item->giType == IT_TEAM &&
+;999:		g_assaultMode.integer != 1 ) {
 line 1000
 ;1000:		G_FreeEntity( ent );
 ADDRFP4 0
@@ -4620,101 +4591,101 @@ line 1001
 ;1001:		return;
 ADDRGP4 $258
 JUMPV
-LABELV $311
+LABELV $305
 line 1004
 ;1002:	}
-;1003:
-;1004:	if( g_noMegaHealth.integer &&
-ADDRGP4 g_noMegaHealth+12
-INDIRI4
-CNSTI4 0
-EQI4 $314
-ADDRFP4 4
-INDIRP4
-INDIRP4
-ARGP4
-ADDRGP4 $317
-ARGP4
-ADDRLP4 12
-ADDRGP4 Q_stricmp
-CALLI4
-ASGNI4
-ADDRLP4 12
-INDIRI4
-CNSTI4 0
-NEI4 $314
-line 1005
-;1005:		Q_stricmp( item->classname, "item_health_mega" ) == 0 ) {
-line 1006
-;1006:		G_FreeEntity( ent );
-ADDRFP4 0
-INDIRP4
-ARGP4
-ADDRGP4 G_FreeEntity
-CALLV
-pop
-line 1007
-;1007:		return;
-ADDRGP4 $258
-JUMPV
-LABELV $314
-line 1010
-;1008:	}
-;1009:
-;1010:	if( g_noMedkit.integer &&
-ADDRGP4 g_noMedkit+12
-INDIRI4
-CNSTI4 0
-EQI4 $318
-ADDRLP4 16
-ADDRFP4 4
-INDIRP4
-ASGNP4
-ADDRLP4 16
-INDIRP4
-CNSTI4 36
-ADDP4
-INDIRI4
-CNSTI4 6
-NEI4 $318
-ADDRLP4 16
-INDIRP4
-CNSTI4 40
-ADDP4
-INDIRI4
-CNSTI4 2
-NEI4 $318
-line 1012
-;1011:		item->giType == IT_HOLDABLE &&
-;1012:		item->giTag == HI_MEDKIT ) {
-line 1013
-;1013:		G_FreeEntity( ent );
-ADDRFP4 0
-INDIRP4
-ARGP4
-ADDRGP4 G_FreeEntity
-CALLV
-pop
-line 1014
-;1014:		return;
-ADDRGP4 $258
-JUMPV
-LABELV $318
-line 1017
-;1015:	}
-;1016:
-;1017:if( g_noPowerups.integer && item->giType == IT_POWERUP ) {
+;1003:	
+;1004:	if( g_noPowerups.integer && item->giType == IT_POWERUP ) {
 ADDRGP4 g_noPowerups+12
 INDIRI4
 CNSTI4 0
-EQI4 $321
+EQI4 $309
 ADDRFP4 4
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 5
-NEI4 $321
+NEI4 $309
+line 1005
+;1005:		G_FreeEntity( ent );
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 G_FreeEntity
+CALLV
+pop
+line 1006
+;1006:		return;
+ADDRGP4 $258
+JUMPV
+LABELV $309
+line 1009
+;1007:	}
+;1008:
+;1009:	if( g_noMegaHealth.integer &&
+ADDRGP4 g_noMegaHealth+12
+INDIRI4
+CNSTI4 0
+EQI4 $312
+ADDRFP4 4
+INDIRP4
+INDIRP4
+ARGP4
+ADDRGP4 $315
+ARGP4
+ADDRLP4 24
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 24
+INDIRI4
+CNSTI4 0
+NEI4 $312
+line 1010
+;1010:		Q_stricmp( item->classname, "item_health_mega" ) == 0 ) {
+line 1011
+;1011:		G_FreeEntity( ent );
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 G_FreeEntity
+CALLV
+pop
+line 1012
+;1012:		return;
+ADDRGP4 $258
+JUMPV
+LABELV $312
+line 1015
+;1013:	}
+;1014:
+;1015:	if( g_noMedkit.integer &&
+ADDRGP4 g_noMedkit+12
+INDIRI4
+CNSTI4 0
+EQI4 $316
+ADDRLP4 28
+ADDRFP4 4
+INDIRP4
+ASGNP4
+ADDRLP4 28
+INDIRP4
+CNSTI4 36
+ADDP4
+INDIRI4
+CNSTI4 6
+NEI4 $316
+ADDRLP4 28
+INDIRP4
+CNSTI4 40
+ADDP4
+INDIRI4
+CNSTI4 2
+NEI4 $316
+line 1017
+;1016:		item->giType == IT_HOLDABLE &&
+;1017:		item->giTag == HI_MEDKIT ) {
 line 1018
 ;1018:		G_FreeEntity( ent );
 ADDRFP4 0
@@ -4727,38 +4698,66 @@ line 1019
 ;1019:		return;
 ADDRGP4 $258
 JUMPV
-LABELV $321
+LABELV $316
 line 1022
 ;1020:	}
 ;1021:
-;1022:	RegisterItem( item );
+;1022:if( g_noPowerups.integer && item->giType == IT_POWERUP ) {
+ADDRGP4 g_noPowerups+12
+INDIRI4
+CNSTI4 0
+EQI4 $319
+ADDRFP4 4
+INDIRP4
+CNSTI4 36
+ADDP4
+INDIRI4
+CNSTI4 5
+NEI4 $319
+line 1023
+;1023:		G_FreeEntity( ent );
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 G_FreeEntity
+CALLV
+pop
+line 1024
+;1024:		return;
+ADDRGP4 $258
+JUMPV
+LABELV $319
+line 1027
+;1025:	}
+;1026:
+;1027:	RegisterItem( item );
 ADDRFP4 4
 INDIRP4
 ARGP4
 ADDRGP4 RegisterItem
 CALLV
 pop
-line 1023
-;1023:	if ( G_ItemDisabled(item) )
+line 1028
+;1028:	if ( G_ItemDisabled(item) )
 ADDRFP4 4
 INDIRP4
 ARGP4
-ADDRLP4 20
+ADDRLP4 32
 ADDRGP4 G_ItemDisabled
 CALLI4
 ASGNI4
-ADDRLP4 20
+ADDRLP4 32
 INDIRI4
 CNSTI4 0
-EQI4 $324
-line 1024
-;1024:		return;
+EQI4 $322
+line 1029
+;1029:		return;
 ADDRGP4 $258
 JUMPV
-LABELV $324
-line 1026
-;1025:
-;1026:	ent->item = item;
+LABELV $322
+line 1031
+;1030:
+;1031:	ent->item = item;
 ADDRFP4 0
 INDIRP4
 CNSTI4 804
@@ -4766,10 +4765,10 @@ ADDP4
 ADDRFP4 4
 INDIRP4
 ASGNP4
-line 1029
-;1027:	// some movers spawn on the second frame, so delay item
-;1028:	// spawns until the third frame so they can ride trains
-;1029:	ent->nextthink = level.time + FRAMETIME * 2;
+line 1034
+;1032:	// some movers spawn on the second frame, so delay item
+;1033:	// spawns until the third frame so they can ride trains
+;1034:	ent->nextthink = level.time + FRAMETIME * 2;
 ADDRFP4 0
 INDIRP4
 CNSTI4 688
@@ -4779,45 +4778,45 @@ INDIRI4
 CNSTI4 200
 ADDI4
 ASGNI4
-line 1030
-;1030:	ent->think = FinishSpawningItem;
+line 1035
+;1035:	ent->think = FinishSpawningItem;
 ADDRFP4 0
 INDIRP4
 CNSTI4 692
 ADDP4
 ADDRGP4 FinishSpawningItem
 ASGNP4
-line 1032
-;1031:
-;1032:	ent->physicsBounce = 0.50;		// items are bouncy
+line 1037
+;1036:
+;1037:	ent->physicsBounce = 0.50;		// items are bouncy
 ADDRFP4 0
 INDIRP4
 CNSTI4 568
 ADDP4
 CNSTF4 1056964608
 ASGNF4
-line 1034
-;1033:
-;1034:	if ( item->giType == IT_POWERUP ) {
+line 1039
+;1038:
+;1039:	if ( item->giType == IT_POWERUP ) {
 ADDRFP4 4
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 5
-NEI4 $327
-line 1035
-;1035:		G_SoundIndex( "sound/items/poweruprespawn.wav" );
+NEI4 $325
+line 1040
+;1040:		G_SoundIndex( "sound/items/poweruprespawn.wav" );
 ADDRGP4 $146
 ARGP4
 ADDRGP4 G_SoundIndex
 CALLI4
 pop
-line 1036
-;1036:		G_SpawnFloat( "noglobalsound", "0", &ent->speed);
-ADDRGP4 $329
+line 1041
+;1041:		G_SpawnFloat( "noglobalsound", "0", &ent->speed);
+ADDRGP4 $327
 ARGP4
-ADDRGP4 $330
+ADDRGP4 $328
 ARGP4
 ADDRFP4 0
 INDIRP4
@@ -4827,38 +4826,38 @@ ARGP4
 ADDRGP4 G_SpawnFloat
 CALLI4
 pop
-line 1037
-;1037:	}
-LABELV $327
-line 1044
-;1038:
-;1039:#ifdef MISSIONPACK
-;1040:	if ( item->giType == IT_PERSISTANT_POWERUP ) {
-;1041:		ent->s.generic1 = ent->spawnflags;
+line 1042
 ;1042:	}
-;1043:#endif
-;1044:}
+LABELV $325
+line 1049
+;1043:
+;1044:#ifdef MISSIONPACK
+;1045:	if ( item->giType == IT_PERSISTANT_POWERUP ) {
+;1046:		ent->s.generic1 = ent->spawnflags;
+;1047:	}
+;1048:#endif
+;1049:}
 LABELV $258
-endproc G_SpawnItem 28 12
+endproc G_SpawnItem 40 12
 export G_BounceItem
 proc G_BounceItem 64 12
-line 1053
-;1045:
-;1046:
-;1047:/*
-;1048:================
-;1049:G_BounceItem
+line 1058
 ;1050:
-;1051:================
-;1052:*/
-;1053:void G_BounceItem( gentity_t *ent, trace_t *trace ) {
-line 1059
-;1054:	vec3_t	velocity;
-;1055:	float	dot;
-;1056:	int		hitTime;
-;1057:
-;1058:	// reflect the velocity on the trace plane
-;1059:	hitTime = level.previousTime + ( level.time - level.previousTime ) * trace->fraction;
+;1051:
+;1052:/*
+;1053:================
+;1054:G_BounceItem
+;1055:
+;1056:================
+;1057:*/
+;1058:void G_BounceItem( gentity_t *ent, trace_t *trace ) {
+line 1064
+;1059:	vec3_t	velocity;
+;1060:	float	dot;
+;1061:	int		hitTime;
+;1062:
+;1063:	// reflect the velocity on the trace plane
+;1064:	hitTime = level.previousTime + ( level.time - level.previousTime ) * trace->fraction;
 ADDRLP4 16
 ADDRGP4 level+36
 INDIRI4
@@ -4878,8 +4877,8 @@ MULF4
 ADDF4
 CVFI4 4
 ASGNI4
-line 1060
-;1060:	BG_EvaluateTrajectoryDelta( &ent->s.pos, hitTime, velocity );
+line 1065
+;1065:	BG_EvaluateTrajectoryDelta( &ent->s.pos, hitTime, velocity );
 ADDRFP4 0
 INDIRP4
 CNSTI4 12
@@ -4893,8 +4892,8 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectoryDelta
 CALLV
 pop
-line 1061
-;1061:	dot = DotProduct( velocity, trace->plane.normal );
+line 1066
+;1066:	dot = DotProduct( velocity, trace->plane.normal );
 ADDRLP4 20
 ADDRFP4 4
 INDIRP4
@@ -4927,8 +4926,8 @@ INDIRF4
 MULF4
 ADDF4
 ASGNF4
-line 1062
-;1062:	VectorMA( velocity, -2*dot, trace->plane.normal, ent->s.pos.trDelta );
+line 1067
+;1067:	VectorMA( velocity, -2*dot, trace->plane.normal, ent->s.pos.trDelta );
 ADDRFP4 0
 INDIRP4
 CNSTI4 36
@@ -4983,10 +4982,10 @@ MULF4
 MULF4
 ADDF4
 ASGNF4
-line 1065
-;1063:
-;1064:	// cut the velocity to keep from bouncing forever
-;1065:	VectorScale( ent->s.pos.trDelta, ent->physicsBounce, ent->s.pos.trDelta );
+line 1070
+;1068:
+;1069:	// cut the velocity to keep from bouncing forever
+;1070:	VectorScale( ent->s.pos.trDelta, ent->physicsBounce, ent->s.pos.trDelta );
 ADDRLP4 24
 ADDRFP4 0
 INDIRP4
@@ -5053,26 +5052,26 @@ ADDP4
 INDIRF4
 MULF4
 ASGNF4
-line 1068
-;1066:
-;1067:	// check for stop
-;1068:	if ( trace->plane.normal[2] > 0 && ent->s.pos.trDelta[2] < 40 ) {
+line 1073
+;1071:
+;1072:	// check for stop
+;1073:	if ( trace->plane.normal[2] > 0 && ent->s.pos.trDelta[2] < 40 ) {
 ADDRFP4 4
 INDIRP4
 CNSTI4 32
 ADDP4
 INDIRF4
 CNSTF4 0
-LEF4 $339
+LEF4 $337
 ADDRFP4 0
 INDIRP4
 CNSTI4 44
 ADDP4
 INDIRF4
 CNSTF4 1109393408
-GEF4 $339
-line 1069
-;1069:		trace->endpos[2] += 1.0;	// make sure it is off ground
+GEF4 $337
+line 1074
+;1074:		trace->endpos[2] += 1.0;	// make sure it is off ground
 ADDRLP4 48
 ADDRFP4 4
 INDIRP4
@@ -5087,8 +5086,8 @@ INDIRF4
 CNSTF4 1065353216
 ADDF4
 ASGNF4
-line 1070
-;1070:		SnapVector( trace->endpos );
+line 1075
+;1075:		SnapVector( trace->endpos );
 ADDRLP4 52
 ADDRFP4 4
 INDIRP4
@@ -5131,8 +5130,8 @@ INDIRF4
 CVFI4 4
 CVIF4 4
 ASGNF4
-line 1071
-;1071:		G_SetOrigin( ent, trace->endpos );
+line 1076
+;1076:		G_SetOrigin( ent, trace->endpos );
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -5144,8 +5143,8 @@ ARGP4
 ADDRGP4 G_SetOrigin
 CALLV
 pop
-line 1072
-;1072:		ent->s.groundEntityNum = trace->entityNum;
+line 1077
+;1077:		ent->s.groundEntityNum = trace->entityNum;
 ADDRFP4 0
 INDIRP4
 CNSTI4 148
@@ -5156,15 +5155,15 @@ CNSTI4 52
 ADDP4
 INDIRI4
 ASGNI4
-line 1073
-;1073:		return;
-ADDRGP4 $331
+line 1078
+;1078:		return;
+ADDRGP4 $329
 JUMPV
-LABELV $339
-line 1076
-;1074:	}
-;1075:
-;1076:	VectorAdd( ent->r.currentOrigin, trace->plane.normal, ent->r.currentOrigin);
+LABELV $337
+line 1081
+;1079:	}
+;1080:
+;1081:	VectorAdd( ent->r.currentOrigin, trace->plane.normal, ent->r.currentOrigin);
 ADDRLP4 48
 ADDRFP4 0
 INDIRP4
@@ -5219,8 +5218,8 @@ ADDP4
 INDIRF4
 ADDF4
 ASGNF4
-line 1077
-;1077:	VectorCopy( ent->r.currentOrigin, ent->s.pos.trBase );
+line 1082
+;1082:	VectorCopy( ent->r.currentOrigin, ent->s.pos.trBase );
 ADDRLP4 60
 ADDRFP4 0
 INDIRP4
@@ -5235,8 +5234,8 @@ CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 1078
-;1078:	ent->s.pos.trTime = level.time;
+line 1083
+;1083:	ent->s.pos.trTime = level.time;
 ADDRFP4 0
 INDIRP4
 CNSTI4 16
@@ -5244,56 +5243,56 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 1079
-;1079:}
-LABELV $331
+line 1084
+;1084:}
+LABELV $329
 endproc G_BounceItem 64 12
 export G_RunItem
 proc G_RunItem 88 28
-line 1088
-;1080:
-;1081:
-;1082:/*
-;1083:================
-;1084:G_RunItem
+line 1093
 ;1085:
-;1086:================
-;1087:*/
-;1088:void G_RunItem( gentity_t *ent ) {
-line 1095
-;1089:	vec3_t		origin;
-;1090:	trace_t		tr;
-;1091:	int			contents;
-;1092:	int			mask;
-;1093:
-;1094:	// if groundentity has been set to -1, it may have been pushed off an edge
-;1095:	if ( ent->s.groundEntityNum == -1 ) {
+;1086:
+;1087:/*
+;1088:================
+;1089:G_RunItem
+;1090:
+;1091:================
+;1092:*/
+;1093:void G_RunItem( gentity_t *ent ) {
+line 1100
+;1094:	vec3_t		origin;
+;1095:	trace_t		tr;
+;1096:	int			contents;
+;1097:	int			mask;
+;1098:
+;1099:	// if groundentity has been set to -1, it may have been pushed off an edge
+;1100:	if ( ent->s.groundEntityNum == -1 ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 148
 ADDP4
 INDIRI4
 CNSTI4 -1
-NEI4 $343
-line 1096
-;1096:		if ( ent->s.pos.trType != TR_GRAVITY ) {
+NEI4 $341
+line 1101
+;1101:		if ( ent->s.pos.trType != TR_GRAVITY ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 12
 ADDP4
 INDIRI4
 CNSTI4 5
-EQI4 $345
-line 1097
-;1097:			ent->s.pos.trType = TR_GRAVITY;
+EQI4 $343
+line 1102
+;1102:			ent->s.pos.trType = TR_GRAVITY;
 ADDRFP4 0
 INDIRP4
 CNSTI4 12
 ADDP4
 CNSTI4 5
 ASGNI4
-line 1098
-;1098:			ent->s.pos.trTime = level.time;
+line 1103
+;1103:			ent->s.pos.trTime = level.time;
 ADDRFP4 0
 INDIRP4
 CNSTI4 16
@@ -5301,41 +5300,41 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 1099
-;1099:		}
-LABELV $345
-line 1100
-;1100:	}
+line 1104
+;1104:		}
 LABELV $343
-line 1102
-;1101:
-;1102:	if ( ent->s.pos.trType == TR_STATIONARY ) {
+line 1105
+;1105:	}
+LABELV $341
+line 1107
+;1106:
+;1107:	if ( ent->s.pos.trType == TR_STATIONARY ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 12
 ADDP4
 INDIRI4
 CNSTI4 0
-NEI4 $348
-line 1104
-;1103:		// check think function
-;1104:		G_RunThink( ent );
+NEI4 $346
+line 1109
+;1108:		// check think function
+;1109:		G_RunThink( ent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 G_RunThink
 CALLV
 pop
-line 1105
-;1105:		return;
-ADDRGP4 $342
+line 1110
+;1110:		return;
+ADDRGP4 $340
 JUMPV
-LABELV $348
-line 1109
-;1106:	}
-;1107:
-;1108:	// get current position
-;1109:	BG_EvaluateTrajectory( &ent->s.pos, level.time, origin );
+LABELV $346
+line 1114
+;1111:	}
+;1112:
+;1113:	// get current position
+;1114:	BG_EvaluateTrajectory( &ent->s.pos, level.time, origin );
 ADDRFP4 0
 INDIRP4
 CNSTI4 12
@@ -5349,19 +5348,19 @@ ARGP4
 ADDRGP4 BG_EvaluateTrajectory
 CALLV
 pop
-line 1112
-;1110:
-;1111:	// trace a line from the previous position to the current position
-;1112:	if ( ent->clipmask ) {
+line 1117
+;1115:
+;1116:	// trace a line from the previous position to the current position
+;1117:	if ( ent->clipmask ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 572
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $351
-line 1113
-;1113:		mask = ent->clipmask;
+EQI4 $349
+line 1118
+;1118:		mask = ent->clipmask;
 ADDRLP4 72
 ADDRFP4 0
 INDIRP4
@@ -5369,21 +5368,21 @@ CNSTI4 572
 ADDP4
 INDIRI4
 ASGNI4
-line 1114
-;1114:	} else {
-ADDRGP4 $352
+line 1119
+;1119:	} else {
+ADDRGP4 $350
 JUMPV
-LABELV $351
-line 1115
-;1115:		mask = MASK_PLAYERSOLID & ~CONTENTS_BODY;//MASK_SOLID;
+LABELV $349
+line 1120
+;1120:		mask = MASK_PLAYERSOLID & ~CONTENTS_BODY;//MASK_SOLID;
 ADDRLP4 72
 CNSTI4 65537
 ASGNI4
-line 1116
-;1116:	}
-LABELV $352
-line 1117
-;1117:	trap_Trace( &tr, ent->r.currentOrigin, ent->r.mins, ent->r.maxs, origin, 
+line 1121
+;1121:	}
+LABELV $350
+line 1122
+;1122:	trap_Trace( &tr, ent->r.currentOrigin, ent->r.mins, ent->r.maxs, origin, 
 ADDRLP4 0
 ARGP4
 ADDRLP4 76
@@ -5419,10 +5418,10 @@ ARGI4
 ADDRGP4 trap_Trace
 CALLV
 pop
-line 1120
-;1118:		ent->r.ownerNum, mask );
-;1119:
-;1120:	VectorCopy( tr.endpos, ent->r.currentOrigin );
+line 1125
+;1123:		ent->r.ownerNum, mask );
+;1124:
+;1125:	VectorCopy( tr.endpos, ent->r.currentOrigin );
 ADDRFP4 0
 INDIRP4
 CNSTI4 488
@@ -5430,57 +5429,57 @@ ADDP4
 ADDRLP4 0+12
 INDIRB
 ASGNB 12
-line 1122
-;1121:
-;1122:	if ( tr.startsolid ) {
+line 1127
+;1126:
+;1127:	if ( tr.startsolid ) {
 ADDRLP4 0+4
 INDIRI4
 CNSTI4 0
-EQI4 $354
-line 1123
-;1123:		tr.fraction = 0;
+EQI4 $352
+line 1128
+;1128:		tr.fraction = 0;
 ADDRLP4 0+8
 CNSTF4 0
 ASGNF4
-line 1124
-;1124:	}
-LABELV $354
-line 1126
-;1125:
-;1126:	trap_LinkEntity( ent );	// FIXME: avoid this for stationary?
+line 1129
+;1129:	}
+LABELV $352
+line 1131
+;1130:
+;1131:	trap_LinkEntity( ent );	// FIXME: avoid this for stationary?
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 trap_LinkEntity
 CALLV
 pop
-line 1129
-;1127:
-;1128:	// check think function
-;1129:	G_RunThink( ent );
+line 1134
+;1132:
+;1133:	// check think function
+;1134:	G_RunThink( ent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 G_RunThink
 CALLV
 pop
-line 1131
-;1130:
-;1131:	if ( tr.fraction == 1 ) {
+line 1136
+;1135:
+;1136:	if ( tr.fraction == 1 ) {
 ADDRLP4 0+8
 INDIRF4
 CNSTF4 1065353216
-NEF4 $358
-line 1132
-;1132:		return;
-ADDRGP4 $342
+NEF4 $356
+line 1137
+;1137:		return;
+ADDRGP4 $340
 JUMPV
-LABELV $358
-line 1136
-;1133:	}
-;1134:
-;1135:	// if it is in a nodrop volume, remove it
-;1136:	contents = trap_PointContents( ent->r.currentOrigin, -1 );
+LABELV $356
+line 1141
+;1138:	}
+;1139:
+;1140:	// if it is in a nodrop volume, remove it
+;1141:	contents = trap_PointContents( ent->r.currentOrigin, -1 );
 ADDRFP4 0
 INDIRP4
 CNSTI4 488
@@ -5496,17 +5495,17 @@ ADDRLP4 68
 ADDRLP4 80
 INDIRI4
 ASGNI4
-line 1137
-;1137:	if ( contents & CONTENTS_NODROP ) {
+line 1142
+;1142:	if ( contents & CONTENTS_NODROP ) {
 ADDRLP4 68
 INDIRI4
 CVIU4 4
 CNSTU4 2147483648
 BANDU4
 CNSTU4 0
-EQU4 $361
-line 1138
-;1138:		if (ent->item && ent->item->giType == IT_TEAM) {
+EQU4 $359
+line 1143
+;1143:		if (ent->item && ent->item->giType == IT_TEAM) {
 ADDRLP4 84
 ADDRFP4 0
 INDIRP4
@@ -5518,46 +5517,46 @@ ADDRLP4 84
 INDIRP4
 CVPU4 4
 CNSTU4 0
-EQU4 $363
+EQU4 $361
 ADDRLP4 84
 INDIRP4
 CNSTI4 36
 ADDP4
 INDIRI4
 CNSTI4 8
-NEI4 $363
-line 1139
-;1139:			Team_FreeEntity(ent);
+NEI4 $361
+line 1144
+;1144:			Team_FreeEntity(ent);
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 Team_FreeEntity
 CALLV
 pop
-line 1140
-;1140:		} else {
-ADDRGP4 $342
+line 1145
+;1145:		} else {
+ADDRGP4 $340
 JUMPV
-LABELV $363
-line 1141
-;1141:			G_FreeEntity( ent );
+LABELV $361
+line 1146
+;1146:			G_FreeEntity( ent );
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 G_FreeEntity
 CALLV
 pop
-line 1142
-;1142:		}
-line 1143
-;1143:		return;
-ADDRGP4 $342
+line 1147
+;1147:		}
+line 1148
+;1148:		return;
+ADDRGP4 $340
 JUMPV
-LABELV $361
-line 1146
-;1144:	}
-;1145:
-;1146:	G_BounceItem( ent, &tr );
+LABELV $359
+line 1151
+;1149:	}
+;1150:
+;1151:	G_BounceItem( ent, &tr );
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -5566,9 +5565,9 @@ ARGP4
 ADDRGP4 G_BounceItem
 CALLV
 pop
-line 1147
-;1147:}
-LABELV $342
+line 1152
+;1152:}
+LABELV $340
 endproc G_RunItem 88 28
 bss
 export itemRegistered
@@ -5813,6 +5812,7 @@ import g_noPowerups
 import g_noMedkit
 import g_noMegaHealth
 import g_noGrenadeRocket
+import g_noLightning
 import g_noPlasmaBFG
 import g_noRailgun
 import g_noPersonalTeleporter
@@ -6160,11 +6160,11 @@ import srand
 import qsort
 lit
 align 1
-LABELV $330
+LABELV $328
 byte 1 48
 byte 1 0
 align 1
-LABELV $329
+LABELV $327
 byte 1 110
 byte 1 111
 byte 1 103
@@ -6180,7 +6180,7 @@ byte 1 110
 byte 1 100
 byte 1 0
 align 1
-LABELV $317
+LABELV $315
 byte 1 105
 byte 1 116
 byte 1 101

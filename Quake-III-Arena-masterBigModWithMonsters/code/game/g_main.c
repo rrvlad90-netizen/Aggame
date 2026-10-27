@@ -60,6 +60,7 @@ vmCvar_t	g_baseTDM;
 vmCvar_t	g_blasterMode;
 vmCvar_t	g_noPersonalTeleporter;
 vmCvar_t	g_noPlasmaBFG;
+vmCvar_t 	g_noLightning;
 vmCvar_t	g_noGrenadeRocket;
 vmCvar_t	g_noMegaHealth;
 vmCvar_t	g_noMedkit;
@@ -145,6 +146,7 @@ static cvarTable_t		gameCvarTable[] = {
 	{ &g_noPersonalTeleporter, "g_noPersonalTeleporter", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_blasterMode, "g_blasterMode", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_noPlasmaBFG, "g_noPlasmaBFG", "0", CVAR_SERVERINFO, 0, qfalse },
+	{ &g_noLightning, "g_noLightning", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_noGrenadeRocket, "g_noGrenadeRocket", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_noPowerups, "g_noPowerups", "0", CVAR_SERVERINFO, 0, qfalse },
 	{ &g_noMegaHealth, "g_noMegaHealth", "0", CVAR_SERVERINFO, 0, qfalse },

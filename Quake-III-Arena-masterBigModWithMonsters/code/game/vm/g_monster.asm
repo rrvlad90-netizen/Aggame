@@ -6,7 +6,7 @@ address $60
 address $61
 byte 4 0
 code
-proc G_LoadMonsterConfig 9568 16
+proc G_LoadMonsterConfig 9572 16
 file "../g_monster.c"
 line 109
 ;1:#include "g_local.h"
@@ -129,22 +129,22 @@ line 116
 ADDRFP4 0
 INDIRP4
 ARGP4
-ADDRLP4 1104
+ADDRLP4 1108
 ARGP4
 CNSTI4 0
 ARGI4
-ADDRLP4 9556
+ADDRLP4 9560
 ADDRGP4 trap_FS_FOpenFile
 CALLI4
 ASGNI4
-ADDRLP4 1100
-ADDRLP4 9556
+ADDRLP4 1104
+ADDRLP4 9560
 INDIRI4
 ASGNI4
 line 118
 ;117:
 ;118:	if (!file) {
-ADDRLP4 1104
+ADDRLP4 1108
 INDIRI4
 CNSTI4 0
 NEI4 $63
@@ -172,11 +172,11 @@ line 126
 ;124:	}
 ;125:
 ;126:	if (length <= 0 || length >= sizeof(text)) {
-ADDRLP4 1100
+ADDRLP4 1104
 INDIRI4
 CNSTI4 0
 LEI4 $68
-ADDRLP4 1100
+ADDRLP4 1104
 INDIRI4
 CVIU4 4
 CNSTU4 8192
@@ -197,7 +197,7 @@ line 131
 ;129:			filename
 ;130:		);
 ;131:		trap_FS_FCloseFile(file);
-ADDRLP4 1104
+ADDRLP4 1108
 INDIRI4
 ARGI4
 ADDRGP4 trap_FS_FCloseFile
@@ -214,12 +214,12 @@ line 135
 ;133:	}
 ;134:
 ;135:	trap_FS_Read(text, length, file);
-ADDRLP4 1108
+ADDRLP4 1112
 ARGP4
-ADDRLP4 1100
+ADDRLP4 1104
 INDIRI4
 ARGI4
-ADDRLP4 1104
+ADDRLP4 1108
 INDIRI4
 ARGI4
 ADDRGP4 trap_FS_Read
@@ -227,15 +227,15 @@ CALLV
 pop
 line 136
 ;136:	text[length] = '\0';
-ADDRLP4 1100
+ADDRLP4 1104
 INDIRI4
-ADDRLP4 1108
+ADDRLP4 1112
 ADDP4
 CNSTI1 0
 ASGNI1
 line 137
 ;137:	trap_FS_FCloseFile(file);
-ADDRLP4 1104
+ADDRLP4 1108
 INDIRI4
 ARGI4
 ADDRGP4 trap_FS_FCloseFile
@@ -244,19 +244,19 @@ pop
 line 139
 ;138:
 ;139:	if (!BG_ParseMonsterConfig(
-ADDRLP4 1108
+ADDRLP4 1112
 ARGP4
 ADDRLP4 0
 ARGP4
-ADDRLP4 9300
+ADDRLP4 9304
 ARGP4
 CNSTI4 256
 ARGI4
-ADDRLP4 9564
+ADDRLP4 9568
 ADDRGP4 BG_ParseMonsterConfig
 CALLI4
 ASGNI4
-ADDRLP4 9564
+ADDRLP4 9568
 INDIRI4
 CNSTI4 0
 NEI4 $70
@@ -273,7 +273,7 @@ ARGP4
 ADDRFP4 0
 INDIRP4
 ARGP4
-ADDRLP4 9300
+ADDRLP4 9304
 ARGP4
 ADDRGP4 G_Printf
 CALLV
@@ -363,11 +363,11 @@ line 171
 ;169:	}
 ;170:
 ;171:	g_monsterDefs[def.monsterType][def.monsterSlot] = def;
-CNSTI4 1100
+CNSTI4 1104
 ADDRLP4 0+580
 INDIRI4
 MULI4
-CNSTI4 5500
+CNSTI4 5520
 ADDRLP4 0+576
 INDIRI4
 MULI4
@@ -376,7 +376,7 @@ ADDP4
 ADDP4
 ADDRLP4 0
 INDIRB
-ASGNB 1100
+ASGNB 1104
 line 172
 ;172:	g_monsterDefLoaded[def.monsterType][def.monsterSlot] = qtrue;
 ADDRLP4 0+580
@@ -420,7 +420,7 @@ line 182
 CNSTI4 1
 RETI4
 LABELV $62
-endproc G_LoadMonsterConfig 9568 16
+endproc G_LoadMonsterConfig 9572 16
 proc G_MonsterWaveReadInt 12 4
 line 189
 ;183:}
@@ -538,11 +538,11 @@ line 220
 ;218:			}
 ;219:
 ;220:			if( !Q_stricmp(
-CNSTI4 1100
+CNSTI4 1104
 ADDRLP4 0
 INDIRI4
 MULI4
-CNSTI4 5500
+CNSTI4 5520
 ADDRLP4 4
 INDIRI4
 MULI4
@@ -2036,7 +2036,7 @@ ADDRGP4 g_monsterDefs
 ARGP4
 CNSTI4 0
 ARGI4
-CNSTI4 33000
+CNSTI4 33120
 ARGI4
 ADDRGP4 memset
 CALLP4
@@ -2101,17 +2101,20 @@ line 602
 ADDRGP4 monsterWavesLoaded
 CNSTI4 0
 ASGNI4
-line 604
+line 607
 ;603:
-;604:	if( g_monsterHunt.integer ==
+;604:	/*
+;605:	 * Both Monster Hunt modes use monsterwaves.cfg.
+;606:	 */
+;607:	if( g_monsterHunt.integer !=
 ADDRGP4 g_monsterHunt+12
 INDIRI4
-CNSTI4 2
-NEI4 $227
-line 605
-;605:		MONSTER_HUNT_ONE_LIFE ) {
-line 606
-;606:		monsterWavesLoaded =
+CNSTI4 0
+EQI4 $227
+line 608
+;608:		MONSTER_HUNT_OFF ) {
+line 609
+;609:		monsterWavesLoaded =
 ADDRGP4 $230
 ARGP4
 ADDRLP4 4
@@ -2122,22 +2125,22 @@ ADDRGP4 monsterWavesLoaded
 ADDRLP4 4
 INDIRI4
 ASGNI4
-line 610
-;607:			G_LoadMonsterWaveConfig(
-;608:				"monsterwaves.cfg"
-;609:			);
-;610:	}
+line 613
+;610:			G_LoadMonsterWaveConfig(
+;611:				"monsterwaves.cfg"
+;612:			);
+;613:	}
 LABELV $227
-line 611
-;611:}
+line 614
+;614:}
 LABELV $222
 endproc G_MonsterInitDefinitions 8 12
 proc G_MonsterEligibleItem 24 0
-line 613
-;612:
-;613:static qboolean G_MonsterEligibleItem(gentity_t *item) {
-line 614
-;614:	if (!item || !item->item) {
+line 616
+;615:
+;616:static qboolean G_MonsterEligibleItem(gentity_t *item) {
+line 617
+;617:	if (!item || !item->item) {
 ADDRLP4 0
 ADDRFP4 0
 INDIRP4
@@ -2161,17 +2164,17 @@ ADDRLP4 4
 INDIRU4
 NEU4 $232
 LABELV $234
-line 615
-;615:		return qfalse;
+line 618
+;618:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $231
 JUMPV
 LABELV $232
-line 618
-;616:	}
-;617:
-;618:	if (item->flags & FL_DROPPED_ITEM) {
+line 621
+;619:	}
+;620:
+;621:	if (item->flags & FL_DROPPED_ITEM) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 536
@@ -2181,17 +2184,17 @@ CNSTI4 4096
 BANDI4
 CNSTI4 0
 EQI4 $235
-line 619
-;619:		return qfalse;
+line 622
+;622:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $231
 JUMPV
 LABELV $235
-line 622
-;620:	}
-;621:
-;622:	if (item->team || item->targetname || item->wait == -1) {
+line 625
+;623:	}
+;624:
+;625:	if (item->team || item->targetname || item->wait == -1) {
 ADDRLP4 8
 ADDRFP4 0
 INDIRP4
@@ -2225,17 +2228,17 @@ INDIRF4
 CNSTF4 3212836864
 NEF4 $237
 LABELV $240
-line 623
-;623:		return qfalse;
+line 626
+;626:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $231
 JUMPV
 LABELV $237
-line 626
-;624:	}
-;625:
-;626:	switch (item->item->giType) {
+line 629
+;627:	}
+;628:
+;629:	switch (item->item->giType) {
 ADDRLP4 16
 ADDRFP4 0
 INDIRP4
@@ -2272,37 +2275,37 @@ address $244
 address $244
 code
 LABELV $244
-line 632
-;627:	case IT_WEAPON:
-;628:	case IT_AMMO:
-;629:	case IT_ARMOR:
-;630:	case IT_HEALTH:
-;631:	case IT_POWERUP:
-;632:		return qtrue;
+line 635
+;630:	case IT_WEAPON:
+;631:	case IT_AMMO:
+;632:	case IT_ARMOR:
+;633:	case IT_HEALTH:
+;634:	case IT_POWERUP:
+;635:		return qtrue;
 CNSTI4 1
 RETI4
 ADDRGP4 $231
 JUMPV
 LABELV $241
-line 635
-;633:
-;634:	default:
-;635:		return qfalse;
+line 638
+;636:
+;637:	default:
+;638:		return qfalse;
 CNSTI4 0
 RETI4
 LABELV $231
 endproc G_MonsterEligibleItem 24 0
 proc G_MonsterSetOrigin 0 8
-line 642
-;636:	}
-;637:}
-;638:
-;639:static void G_MonsterSetOrigin(
-;640:	gentity_t *monster,
-;641:	const vec3_t origin
-;642:) {
-line 643
-;643:	G_SetOrigin(monster, (float *)origin);
+line 645
+;639:	}
+;640:}
+;641:
+;642:static void G_MonsterSetOrigin(
+;643:	gentity_t *monster,
+;644:	const vec3_t origin
+;645:) {
+line 646
+;646:	G_SetOrigin(monster, (float *)origin);
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -2312,21 +2315,21 @@ ARGP4
 ADDRGP4 G_SetOrigin
 CALLV
 pop
-line 649
-;644:
-;645:	/*
-;646:	 * The client interpolates monsters between snapshots.
-;647:	 * G_SetOrigin resets trType to TR_STATIONARY.
-;648:	 */
-;649:	monster->s.pos.trType = TR_INTERPOLATE;
+line 652
+;647:
+;648:	/*
+;649:	 * The client interpolates monsters between snapshots.
+;650:	 * G_SetOrigin resets trType to TR_STATIONARY.
+;651:	 */
+;652:	monster->s.pos.trType = TR_INTERPOLATE;
 ADDRFP4 0
 INDIRP4
 CNSTI4 12
 ADDP4
 CNSTI4 1
 ASGNI4
-line 650
-;650:	monster->s.pos.trTime = level.time;
+line 653
+;653:	monster->s.pos.trTime = level.time;
 ADDRFP4 0
 INDIRP4
 CNSTI4 16
@@ -2334,81 +2337,81 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 651
-;651:}
+line 654
+;654:}
 LABELV $247
 endproc G_MonsterSetOrigin 0 8
 proc G_MonsterSpawnAtOrigin 52 12
-line 658
-;652:
-;653:static qboolean G_MonsterSpawnAtOrigin(
-;654:	gentity_t *item,
-;655:	monsterDef_t *def,
-;656:	vec3_t spawnOrigin,
-;657:	qboolean waveSpawn
-;658:) {
-line 662
-;659:	gentity_t *monster;
-;660:	vec3_t origin;
-;661:
-;662:	if( waveSpawn ) {
+line 661
+;655:
+;656:static qboolean G_MonsterSpawnAtOrigin(
+;657:	gentity_t *item,
+;658:	monsterDef_t *def,
+;659:	vec3_t spawnOrigin,
+;660:	qboolean waveSpawn
+;661:) {
+line 665
+;662:	gentity_t *monster;
+;663:	vec3_t origin;
+;664:
+;665:	if( waveSpawn ) {
 ADDRFP4 12
 INDIRI4
 CNSTI4 0
 EQI4 $250
-line 663
-;663:		if( monsterActiveCount >=
+line 666
+;666:		if( monsterActiveCount >=
 ADDRGP4 monsterActiveCount
 INDIRI4
 ADDRGP4 monsterWaveMaxActive
 INDIRI4
 LTI4 $251
-line 664
-;664:			monsterWaveMaxActive ) {
-line 665
-;665:			return qfalse;
+line 667
+;667:			monsterWaveMaxActive ) {
+line 668
+;668:			return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $249
 JUMPV
-line 667
-;666:		}
-;667:	}
+line 670
+;669:		}
+;670:	}
 LABELV $250
-line 668
-;668:	else if( monsterActiveCount >= 8 ) {
+line 671
+;671:	else if( monsterActiveCount >= 8 ) {
 ADDRGP4 monsterActiveCount
 INDIRI4
 CNSTI4 8
 LTI4 $254
-line 669
-;669:		return qfalse;
+line 672
+;672:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $249
 JUMPV
 LABELV $254
 LABELV $251
-line 672
-;670:	}
-;671:
-;672:	if( !def ) {
+line 675
+;673:	}
+;674:
+;675:	if( !def ) {
 ADDRFP4 4
 INDIRP4
 CVPU4 4
 CNSTU4 0
 NEU4 $256
-line 673
-;673:		return qfalse;
+line 676
+;676:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $249
 JUMPV
 LABELV $256
-line 676
-;674:	}
-;675:
-;676:	monster = G_Spawn();
+line 679
+;677:	}
+;678:
+;679:	monster = G_Spawn();
 ADDRLP4 16
 ADDRGP4 G_Spawn
 CALLP4
@@ -2417,26 +2420,26 @@ ADDRLP4 0
 ADDRLP4 16
 INDIRP4
 ASGNP4
-line 678
-;677:
-;678:	monster->classname = "monster";
+line 681
+;680:
+;681:	monster->classname = "monster";
 ADDRLP4 0
 INDIRP4
 CNSTI4 524
 ADDP4
 ADDRGP4 $129
 ASGNP4
-line 679
-;679:	monster->s.eType = ET_MONSTER;
+line 682
+;682:	monster->s.eType = ET_MONSTER;
 ADDRLP4 0
 INDIRP4
 CNSTI4 4
 ADDP4
 CNSTI4 13
 ASGNI4
-line 681
-;680:
-;681:	if( def->models[0][0] ) {
+line 684
+;683:
+;684:	if( def->models[0][0] ) {
 ADDRFP4 4
 INDIRP4
 CNSTI4 64
@@ -2445,8 +2448,8 @@ INDIRI1
 CVII4 1
 CNSTI4 0
 EQI4 $258
-line 682
-;682:		monster->s.modelindex =
+line 685
+;685:		monster->s.modelindex =
 ADDRFP4 4
 INDIRP4
 CNSTI4 64
@@ -2463,13 +2466,13 @@ ADDP4
 ADDRLP4 20
 INDIRI4
 ASGNI4
-line 684
-;683:			G_ModelIndex(def->models[0]);
-;684:	}
+line 687
+;686:			G_ModelIndex(def->models[0]);
+;687:	}
 LABELV $258
-line 686
-;685:
-;686:	if( def->models[1][0] ) {
+line 689
+;688:
+;689:	if( def->models[1][0] ) {
 ADDRFP4 4
 INDIRP4
 CNSTI4 128
@@ -2478,8 +2481,8 @@ INDIRI1
 CVII4 1
 CNSTI4 0
 EQI4 $260
-line 687
-;687:		monster->s.modelindex2 =
+line 690
+;690:		monster->s.modelindex2 =
 ADDRFP4 4
 INDIRP4
 CNSTI4 128
@@ -2496,13 +2499,13 @@ ADDP4
 ADDRLP4 20
 INDIRI4
 ASGNI4
-line 689
-;688:			G_ModelIndex(def->models[1]);
-;689:	}
+line 692
+;691:			G_ModelIndex(def->models[1]);
+;692:	}
 LABELV $260
-line 691
-;690:
-;691:	if( def->models[2][0] ) {
+line 694
+;693:
+;694:	if( def->models[2][0] ) {
 ADDRFP4 4
 INDIRP4
 CNSTI4 192
@@ -2511,8 +2514,8 @@ INDIRI1
 CVII4 1
 CNSTI4 0
 EQI4 $262
-line 692
-;692:		monster->s.otherEntityNum =
+line 695
+;695:		monster->s.otherEntityNum =
 ADDRFP4 4
 INDIRP4
 CNSTI4 192
@@ -2529,13 +2532,13 @@ ADDP4
 ADDRLP4 20
 INDIRI4
 ASGNI4
-line 694
-;693:			G_ModelIndex(def->models[2]);
-;694:	}
+line 697
+;696:			G_ModelIndex(def->models[2]);
+;697:	}
 LABELV $262
-line 696
-;695:
-;696:	if( def->models[3][0] ) {
+line 699
+;698:
+;699:	if( def->models[3][0] ) {
 ADDRFP4 4
 INDIRP4
 CNSTI4 256
@@ -2544,8 +2547,8 @@ INDIRI1
 CVII4 1
 CNSTI4 0
 EQI4 $264
-line 697
-;697:		monster->s.otherEntityNum2 =
+line 700
+;700:		monster->s.otherEntityNum2 =
 ADDRFP4 4
 INDIRP4
 CNSTI4 256
@@ -2562,47 +2565,47 @@ ADDP4
 ADDRLP4 20
 INDIRI4
 ASGNI4
-line 699
-;698:			G_ModelIndex(def->models[3]);
-;699:	}
+line 702
+;701:			G_ModelIndex(def->models[3]);
+;702:	}
 LABELV $264
-line 701
-;700:
-;701:	monster->s.frame =
+line 704
+;703:
+;704:	monster->s.frame =
 ADDRLP4 0
 INDIRP4
 CNSTI4 172
 ADDP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 736
+CNSTI4 740
 ADDP4
 INDIRI4
 ASGNI4
-line 704
-;702:		def->moveAnimation.firstFrame;
-;703:
-;704:	monster->s.groundEntityNum =
+line 707
+;705:		def->moveAnimation.firstFrame;
+;706:
+;707:	monster->s.groundEntityNum =
 ADDRLP4 0
 INDIRP4
 CNSTI4 148
 ADDP4
 CNSTI4 1023
 ASGNI4
-line 707
-;705:		ENTITYNUM_NONE;
-;706:
-;707:	monster->s.apos.trType =
+line 710
+;708:		ENTITYNUM_NONE;
+;709:
+;710:	monster->s.apos.trType =
 ADDRLP4 0
 INDIRP4
 CNSTI4 48
 ADDP4
 CNSTI4 0
 ASGNI4
-line 710
-;708:		TR_STATIONARY;
-;709:
-;710:	monster->monsterType =
+line 713
+;711:		TR_STATIONARY;
+;712:
+;713:	monster->monsterType =
 ADDRLP4 0
 INDIRP4
 CNSTI4 808
@@ -2613,10 +2616,10 @@ CNSTI4 576
 ADDP4
 INDIRI4
 ASGNI4
-line 713
-;711:		def->monsterType;
-;712:
-;713:	monster->monsterSlot =
+line 716
+;714:		def->monsterType;
+;715:
+;716:	monster->monsterSlot =
 ADDRLP4 0
 INDIRP4
 CNSTI4 812
@@ -2627,14 +2630,14 @@ CNSTI4 580
 ADDP4
 INDIRI4
 ASGNI4
-line 720
-;714:		def->monsterSlot;
-;715:		
-;716:	/*
-;717:	 * Send monster definition identity to cgame.
-;718:	 * Low byte: type, high byte: slot.
-;719:	 */
-;720:	monster->s.generic1 =
+line 723
+;717:		def->monsterSlot;
+;718:		
+;719:	/*
+;720:	 * Send monster definition identity to cgame.
+;721:	 * Low byte: type, high byte: slot.
+;722:	 */
+;723:	monster->s.generic1 =
 ADDRLP4 20
 ADDRFP4 4
 INDIRP4
@@ -2666,11 +2669,11 @@ CNSTI4 8
 LSHI4
 BORI4
 ASGNI4
-line 724
-;721:		(def->monsterType & 255) |
-;722:		((def->monsterSlot & 255) << 8);	
-;723:
-;724:	monster->monsterItem = item;
+line 727
+;724:		(def->monsterType & 255) |
+;725:		((def->monsterSlot & 255) << 8);	
+;726:
+;727:	monster->monsterItem = item;
 ADDRLP4 0
 INDIRP4
 CNSTI4 868
@@ -2678,8 +2681,8 @@ ADDP4
 ADDRFP4 0
 INDIRP4
 ASGNP4
-line 725
-;725:	monster->monsterWaveSpawn = waveSpawn;
+line 728
+;728:	monster->monsterWaveSpawn = waveSpawn;
 ADDRLP4 0
 INDIRP4
 CNSTI4 864
@@ -2687,17 +2690,17 @@ ADDP4
 ADDRFP4 12
 INDIRI4
 ASGNI4
-line 726
-;726:	monster->monsterDead = qfalse;
+line 729
+;729:	monster->monsterDead = qfalse;
 ADDRLP4 0
 INDIRP4
 CNSTI4 860
 ADDP4
 CNSTI4 0
 ASGNI4
-line 728
-;727:
-;728:	monster->health = def->health;
+line 731
+;730:
+;731:	monster->health = def->health;
 ADDRLP4 0
 INDIRP4
 CNSTI4 732
@@ -2708,33 +2711,33 @@ CNSTI4 592
 ADDP4
 INDIRI4
 ASGNI4
-line 729
-;729:	monster->takedamage = qtrue;
+line 732
+;732:	monster->takedamage = qtrue;
 ADDRLP4 0
 INDIRP4
 CNSTI4 736
 ADDP4
 CNSTI4 1
 ASGNI4
-line 730
-;730:	monster->pain = G_MonsterPain;
+line 733
+;733:	monster->pain = G_MonsterPain;
 ADDRLP4 0
 INDIRP4
 CNSTI4 712
 ADDP4
 ADDRGP4 G_MonsterPain
 ASGNP4
-line 731
-;731:	monster->die = G_MonsterDie;
+line 734
+;734:	monster->die = G_MonsterDie;
 ADDRLP4 0
 INDIRP4
 CNSTI4 716
 ADDP4
 ADDRGP4 G_MonsterDie
 ASGNP4
-line 733
-;732:
-;733:	monster->monsterNextAttack =
+line 736
+;735:
+;736:	monster->monsterNextAttack =
 ADDRLP4 0
 INDIRP4
 CNSTI4 872
@@ -2744,27 +2747,27 @@ INDIRI4
 CNSTI4 500
 ADDI4
 ASGNI4
-line 736
-;734:		level.time + 500;
-;735:
-;736:	monster->monsterNextShot = 0;
+line 739
+;737:		level.time + 500;
+;738:
+;739:	monster->monsterNextShot = 0;
 ADDRLP4 0
 INDIRP4
 CNSTI4 876
 ADDP4
 CNSTI4 0
 ASGNI4
-line 737
-;737:	monster->monsterShotsRemaining = 0;
+line 740
+;740:	monster->monsterShotsRemaining = 0;
 ADDRLP4 0
 INDIRP4
 CNSTI4 880
 ADDP4
 CNSTI4 0
 ASGNI4
-line 739
-;738:
-;739:	G_MonsterSetAnimation(
+line 742
+;741:
+;742:	G_MonsterSetAnimation(
 ADDRLP4 0
 INDIRP4
 ARGP4
@@ -2780,13 +2783,13 @@ ARGI4
 ADDRGP4 G_MonsterSetAnimation
 CALLV
 pop
-line 745
-;740:		monster,
-;741:		MONSTER_STATE_IDLE,
-;742:		0
-;743:	);
-;744:
-;745:	monster->monsterNextTalk =
+line 748
+;743:		monster,
+;744:		MONSTER_STATE_IDLE,
+;745:		0
+;746:	);
+;747:
+;748:	monster->monsterNextTalk =
 ADDRFP4 4
 INDIRP4
 ARGP4
@@ -2804,11 +2807,11 @@ ADDRLP4 32
 INDIRI4
 ADDI4
 ASGNI4
-line 749
-;746:		level.time +
-;747:		G_MonsterTalkDelay(def);
-;748:
-;749:	VectorCopy(
+line 752
+;749:		level.time +
+;750:		G_MonsterTalkDelay(def);
+;751:
+;752:	VectorCopy(
 ADDRLP4 0
 INDIRP4
 CNSTI4 436
@@ -2819,12 +2822,12 @@ CNSTI4 608
 ADDP4
 INDIRB
 ASGNB 12
-line 754
-;750:		def->mins,
-;751:		monster->r.mins
-;752:	);
-;753:
-;754:	VectorCopy(
+line 757
+;753:		def->mins,
+;754:		monster->r.mins
+;755:	);
+;756:
+;757:	VectorCopy(
 ADDRLP4 0
 INDIRP4
 CNSTI4 448
@@ -2835,36 +2838,36 @@ CNSTI4 620
 ADDP4
 INDIRB
 ASGNB 12
-line 759
-;755:		def->maxs,
-;756:		monster->r.maxs
-;757:	);
-;758:
-;759:	monster->r.contents = CONTENTS_BODY;
+line 762
+;758:		def->maxs,
+;759:		monster->r.maxs
+;760:	);
+;761:
+;762:	monster->r.contents = CONTENTS_BODY;
 ADDRLP4 0
 INDIRP4
 CNSTI4 460
 ADDP4
 CNSTI4 33554432
 ASGNI4
-line 760
-;760:	monster->clipmask = MASK_PLAYERSOLID;
+line 763
+;763:	monster->clipmask = MASK_PLAYERSOLID;
 ADDRLP4 0
 INDIRP4
 CNSTI4 572
 ADDP4
 CNSTI4 33619969
 ASGNI4
-line 762
-;761:
-;762:	VectorCopy(spawnOrigin, origin);
+line 765
+;764:
+;765:	VectorCopy(spawnOrigin, origin);
 ADDRLP4 4
 ADDRFP4 8
 INDIRP4
 INDIRB
 ASGNB 12
-line 763
-;763:	origin[2] += def->hoverHeight;
+line 766
+;766:	origin[2] += def->hoverHeight;
 ADDRLP4 4+8
 ADDRLP4 4+8
 INDIRF4
@@ -2875,9 +2878,9 @@ ADDP4
 INDIRF4
 ADDF4
 ASGNF4
-line 765
-;764:
-;765:	G_MonsterSetOrigin(
+line 768
+;767:
+;768:	G_MonsterSetOrigin(
 ADDRLP4 0
 INDIRP4
 ARGP4
@@ -2886,12 +2889,12 @@ ARGP4
 ADDRGP4 G_MonsterSetOrigin
 CALLV
 pop
-line 770
-;766:		monster,
-;767:		origin
-;768:	);
-;769:	
-;770:	monster->monsterProgressTime =
+line 773
+;769:		monster,
+;770:		origin
+;771:	);
+;772:	
+;773:	monster->monsterProgressTime =
 ADDRLP4 0
 INDIRP4
 CNSTI4 820
@@ -2899,10 +2902,10 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 773
-;771:	level.time;
-;772:
-;773:	VectorCopy(
+line 776
+;774:	level.time;
+;775:
+;776:	VectorCopy(
 ADDRLP4 0
 INDIRP4
 CNSTI4 824
@@ -2913,12 +2916,12 @@ CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 778
-;774:		monster->r.currentOrigin,
-;775:		monster->monsterProgressOrigin
-;776:	);
-;777:
-;778:	monster->monsterLastThink =
+line 781
+;777:		monster->r.currentOrigin,
+;778:		monster->monsterProgressOrigin
+;779:	);
+;780:
+;781:	monster->monsterLastThink =
 ADDRLP4 0
 INDIRP4
 CNSTI4 816
@@ -2926,10 +2929,10 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 781
-;779:		level.time;
-;780:
-;781:	monster->monsterDriftPhase =
+line 784
+;782:		level.time;
+;783:
+;784:	monster->monsterDriftPhase =
 ADDRLP4 0
 INDIRP4
 CNSTI4 840
@@ -2941,18 +2944,18 @@ INDIRI4
 CVIF4 4
 MULF4
 ASGNF4
-line 784
-;782:		monster->s.number * 0.73f;
-;783:
-;784:	monster->think = G_MonsterThink;
+line 787
+;785:		monster->s.number * 0.73f;
+;786:
+;787:	monster->think = G_MonsterThink;
 ADDRLP4 0
 INDIRP4
 CNSTI4 692
 ADDP4
 ADDRGP4 G_MonsterThink
 ASGNP4
-line 785
-;785:	monster->nextthink = level.time + 50;
+line 788
+;788:	monster->nextthink = level.time + 50;
 ADDRLP4 0
 INDIRP4
 CNSTI4 688
@@ -2962,22 +2965,22 @@ INDIRI4
 CNSTI4 50
 ADDI4
 ASGNI4
-line 787
-;786:
-;787:	trap_LinkEntity(monster);
+line 790
+;789:
+;790:	trap_LinkEntity(monster);
 ADDRLP4 0
 INDIRP4
 ARGP4
 ADDRGP4 trap_LinkEntity
 CALLV
 pop
-line 793
-;788:
-;789:	/*
-;790:	 * Classic Monster Hunt replaces and hides a map item.
-;791:	 * Wave monsters are independent from map items.
-;792:	 */
-;793:	if( item && !waveSpawn ) {
+line 796
+;791:
+;792:	/*
+;793:	 * Classic Monster Hunt replaces and hides a map item.
+;794:	 * Wave monsters are independent from map items.
+;795:	 */
+;796:	if( item && !waveSpawn ) {
 ADDRFP4 0
 INDIRP4
 CVPU4 4
@@ -2987,8 +2990,8 @@ ADDRFP4 12
 INDIRI4
 CNSTI4 0
 NEI4 $272
-line 794
-;794:		item->monsterType =
+line 797
+;797:		item->monsterType =
 ADDRFP4 0
 INDIRP4
 CNSTI4 808
@@ -2999,10 +3002,10 @@ CNSTI4 576
 ADDP4
 INDIRI4
 ASGNI4
-line 797
-;795:			def->monsterType;
-;796:
-;797:		item->monsterSlot =
+line 800
+;798:			def->monsterType;
+;799:
+;800:		item->monsterSlot =
 ADDRFP4 0
 INDIRP4
 CNSTI4 812
@@ -3013,10 +3016,10 @@ CNSTI4 580
 ADDP4
 INDIRI4
 ASGNI4
-line 800
-;798:			def->monsterSlot;
-;799:
-;800:		item->s.eFlags |= EF_NODRAW;
+line 803
+;801:			def->monsterSlot;
+;802:
+;803:		item->s.eFlags |= EF_NODRAW;
 ADDRLP4 44
 ADDRFP4 0
 INDIRP4
@@ -3031,8 +3034,8 @@ INDIRI4
 CNSTI4 128
 BORI4
 ASGNI4
-line 801
-;801:		item->r.svFlags |= SVF_NOCLIENT;
+line 804
+;804:		item->r.svFlags |= SVF_NOCLIENT;
 ADDRLP4 48
 ADDRFP4 0
 INDIRP4
@@ -3047,53 +3050,53 @@ INDIRI4
 CNSTI4 1
 BORI4
 ASGNI4
-line 802
-;802:		item->r.contents = 0;
+line 805
+;805:		item->r.contents = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 460
 ADDP4
 CNSTI4 0
 ASGNI4
-line 803
-;803:		item->touch = 0;
+line 806
+;806:		item->touch = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 704
 ADDP4
 CNSTP4 0
 ASGNP4
-line 804
-;804:		item->think = 0;
+line 807
+;807:		item->think = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 692
 ADDP4
 CNSTP4 0
 ASGNP4
-line 805
-;805:		item->nextthink = 0;
+line 808
+;808:		item->nextthink = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 688
 ADDP4
 CNSTI4 0
 ASGNI4
-line 807
-;806:
-;807:		trap_UnlinkEntity(item);
+line 810
+;809:
+;810:		trap_UnlinkEntity(item);
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 trap_UnlinkEntity
 CALLV
 pop
-line 808
-;808:	}
+line 811
+;811:	}
 LABELV $272
-line 810
-;809:
-;810:	monsterActiveCount++;
+line 813
+;812:
+;813:	monsterActiveCount++;
 ADDRLP4 44
 ADDRGP4 monsterActiveCount
 ASGNP4
@@ -3105,30 +3108,30 @@ INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-line 819
-;811:
-;812:/*	G_Printf(
-;813:		"Spawned %smonster %s at %s\n",
-;814:		waveSpawn ? "wave " : "",
-;815:		def->name,
-;816:		vtos(origin)
-;817:	);*/
-;818:
-;819:	return qtrue;
+line 822
+;814:
+;815:/*	G_Printf(
+;816:		"Spawned %smonster %s at %s\n",
+;817:		waveSpawn ? "wave " : "",
+;818:		def->name,
+;819:		vtos(origin)
+;820:	);*/
+;821:
+;822:	return qtrue;
 CNSTI4 1
 RETI4
 LABELV $249
 endproc G_MonsterSpawnAtOrigin 52 12
 proc G_MonsterSpawnFromItem 12 16
-line 825
-;820:}
-;821:
-;822:static qboolean G_MonsterSpawnFromItem(
-;823:	gentity_t *item,
-;824:	monsterDef_t *def
-;825:) {
-line 826
-;826:	if( !item || !def ) {
+line 828
+;823:}
+;824:
+;825:static qboolean G_MonsterSpawnFromItem(
+;826:	gentity_t *item,
+;827:	monsterDef_t *def
+;828:) {
+line 829
+;829:	if( !item || !def ) {
 ADDRLP4 0
 CNSTU4 0
 ASGNU4
@@ -3145,17 +3148,17 @@ ADDRLP4 0
 INDIRU4
 NEU4 $275
 LABELV $277
-line 827
-;827:		return qfalse;
+line 830
+;830:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $274
 JUMPV
 LABELV $275
-line 830
-;828:	}
-;829:
-;830:	return G_MonsterSpawnAtOrigin(
+line 833
+;831:	}
+;832:
+;833:	return G_MonsterSpawnAtOrigin(
 ADDRLP4 4
 ADDRFP4 0
 INDIRP4
@@ -3183,19 +3186,19 @@ RETI4
 LABELV $274
 endproc G_MonsterSpawnFromItem 12 16
 proc G_MonsterRespawnThink 32 8
-line 838
-;831:		item,
-;832:		def,
-;833:		item->s.pos.trBase,
-;834:		qfalse
-;835:	);
-;836:}
-;837:
-;838:static void G_MonsterRespawnThink(gentity_t *item) {
 line 841
-;839:	monsterDef_t *def;
+;834:		item,
+;835:		def,
+;836:		item->s.pos.trBase,
+;837:		qfalse
+;838:	);
+;839:}
 ;840:
-;841:	if (item->monsterType <= MONSTER_TYPE_OFF ||
+;841:static void G_MonsterRespawnThink(gentity_t *item) {
+line 844
+;842:	monsterDef_t *def;
+;843:
+;844:	if (item->monsterType <= MONSTER_TYPE_OFF ||
 ADDRLP4 4
 ADDRFP4 0
 INDIRP4
@@ -3236,35 +3239,35 @@ INDIRI4
 CNSTI4 5
 LTI4 $279
 LABELV $283
-line 844
-;842:		item->monsterType >= MONSTER_TYPE_RANDOM ||
-;843:		item->monsterSlot < 0 ||
-;844:		item->monsterSlot >= MAX_MONSTERS_PER_TYPE) {
-line 845
-;845:		item->think = 0;
+line 847
+;845:		item->monsterType >= MONSTER_TYPE_RANDOM ||
+;846:		item->monsterSlot < 0 ||
+;847:		item->monsterSlot >= MAX_MONSTERS_PER_TYPE) {
+line 848
+;848:		item->think = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 692
 ADDP4
 CNSTP4 0
 ASGNP4
-line 846
-;846:		item->nextthink = 0;
+line 849
+;849:		item->nextthink = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 688
 ADDP4
 CNSTI4 0
 ASGNI4
-line 847
-;847:		return;
+line 850
+;850:		return;
 ADDRGP4 $278
 JUMPV
 LABELV $279
-line 850
-;848:	}
-;849:
-;850:	if (!g_monsterDefLoaded
+line 853
+;851:	}
+;852:
+;853:	if (!g_monsterDefLoaded
 ADDRLP4 20
 ADDRFP4 0
 INDIRP4
@@ -3289,40 +3292,40 @@ ADDP4
 INDIRI4
 CNSTI4 0
 NEI4 $284
-line 852
-;851:		[item->monsterType]
-;852:		[item->monsterSlot]) {
-line 853
-;853:		item->think = 0;
+line 855
+;854:		[item->monsterType]
+;855:		[item->monsterSlot]) {
+line 856
+;856:		item->think = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 692
 ADDP4
 CNSTP4 0
 ASGNP4
-line 854
-;854:		item->nextthink = 0;
+line 857
+;857:		item->nextthink = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 688
 ADDP4
 CNSTI4 0
 ASGNI4
-line 855
-;855:		return;
+line 858
+;858:		return;
 ADDRGP4 $278
 JUMPV
 LABELV $284
-line 858
-;856:	}
-;857:
-;858:	if (monsterActiveCount >= 8) {
+line 861
+;859:	}
+;860:
+;861:	if (monsterActiveCount >= 8) {
 ADDRGP4 monsterActiveCount
 INDIRI4
 CNSTI4 8
 LTI4 $286
-line 859
-;859:		item->nextthink = level.time + 1000;
+line 862
+;862:		item->nextthink = level.time + 1000;
 ADDRFP4 0
 INDIRP4
 CNSTI4 688
@@ -3332,28 +3335,28 @@ INDIRI4
 CNSTI4 1000
 ADDI4
 ASGNI4
-line 860
-;860:		return;
+line 863
+;863:		return;
 ADDRGP4 $278
 JUMPV
 LABELV $286
-line 863
-;861:	}
-;862:
-;863:	def = &g_monsterDefs
+line 866
+;864:	}
+;865:
+;866:	def = &g_monsterDefs
 ADDRLP4 24
 ADDRFP4 0
 INDIRP4
 ASGNP4
 ADDRLP4 0
-CNSTI4 1100
+CNSTI4 1104
 ADDRLP4 24
 INDIRP4
 CNSTI4 812
 ADDP4
 INDIRI4
 MULI4
-CNSTI4 5500
+CNSTI4 5520
 ADDRLP4 24
 INDIRP4
 CNSTI4 808
@@ -3364,11 +3367,11 @@ ADDRGP4 g_monsterDefs
 ADDP4
 ADDP4
 ASGNP4
-line 867
-;864:		[item->monsterType]
-;865:		[item->monsterSlot];
-;866:
-;867:	if (!G_MonsterSpawnFromItem(item, def)) {
+line 870
+;867:		[item->monsterType]
+;868:		[item->monsterSlot];
+;869:
+;870:	if (!G_MonsterSpawnFromItem(item, def)) {
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -3383,8 +3386,8 @@ ADDRLP4 28
 INDIRI4
 CNSTI4 0
 NEI4 $289
-line 868
-;868:		item->nextthink = level.time + 1000;
+line 871
+;871:		item->nextthink = level.time + 1000;
 ADDRFP4 0
 INDIRP4
 CNSTI4 688
@@ -3394,30 +3397,30 @@ INDIRI4
 CNSTI4 1000
 ADDI4
 ASGNI4
-line 869
-;869:	}
+line 872
+;872:	}
 LABELV $289
-line 870
-;870:}
+line 873
+;873:}
 LABELV $278
 endproc G_MonsterRespawnThink 32 8
 proc G_MonsterWaveHasPlayers 8 0
-line 872
-;871:
-;872:static qboolean G_MonsterWaveHasPlayers( void ) {
-line 876
-;873:	gclient_t *client;
-;874:	int i;
-;875:
-;876:	for( i = 0; i < level.maxclients; i++ ) {
+line 875
+;874:
+;875:static qboolean G_MonsterWaveHasPlayers( void ) {
+line 879
+;876:	gclient_t *client;
+;877:	int i;
+;878:
+;879:	for( i = 0; i < level.maxclients; i++ ) {
 ADDRLP4 4
 CNSTI4 0
 ASGNI4
 ADDRGP4 $296
 JUMPV
 LABELV $293
-line 877
-;877:		client = &level.clients[i];
+line 880
+;880:		client = &level.clients[i];
 ADDRLP4 0
 CNSTI4 780
 ADDRLP4 4
@@ -3427,9 +3430,9 @@ ADDRGP4 level
 INDIRP4
 ADDP4
 ASGNP4
-line 879
-;878:
-;879:		if( client->pers.connected !=
+line 882
+;881:
+;882:		if( client->pers.connected !=
 ADDRLP4 0
 INDIRP4
 CNSTI4 468
@@ -3437,17 +3440,17 @@ ADDP4
 INDIRI4
 CNSTI4 2
 EQI4 $298
-line 880
-;880:			CON_CONNECTED ) {
-line 881
-;881:			continue;
+line 883
+;883:			CON_CONNECTED ) {
+line 884
+;884:			continue;
 ADDRGP4 $294
 JUMPV
 LABELV $298
-line 884
-;882:		}
-;883:
-;884:		if( client->sess.sessionTeam ==
+line 887
+;885:		}
+;886:
+;887:		if( client->sess.sessionTeam ==
 ADDRLP4 0
 INDIRP4
 CNSTI4 616
@@ -3455,17 +3458,17 @@ ADDP4
 INDIRI4
 CNSTI4 3
 NEI4 $300
-line 885
-;885:			TEAM_SPECTATOR ) {
-line 886
-;886:			continue;
+line 888
+;888:			TEAM_SPECTATOR ) {
+line 889
+;889:			continue;
 ADDRGP4 $294
 JUMPV
 LABELV $300
-line 889
-;887:		}
-;888:
-;889:		if( client->oneLifeEliminated ) {
+line 892
+;890:		}
+;891:
+;892:		if( client->oneLifeEliminated ) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 652
@@ -3473,15 +3476,15 @@ ADDP4
 INDIRI4
 CNSTI4 0
 EQI4 $302
-line 890
-;890:			continue;
+line 893
+;893:			continue;
 ADDRGP4 $294
 JUMPV
 LABELV $302
-line 893
-;891:		}
-;892:
-;893:		if( client->ps.stats[STAT_HEALTH] <= 0 ) {
+line 896
+;894:		}
+;895:
+;896:		if( client->ps.stats[STAT_HEALTH] <= 0 ) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 184
@@ -3489,21 +3492,21 @@ ADDP4
 INDIRI4
 CNSTI4 0
 GTI4 $304
-line 894
-;894:			continue;
+line 897
+;897:			continue;
 ADDRGP4 $294
 JUMPV
 LABELV $304
-line 897
-;895:		}
-;896:
-;897:		return qtrue;
+line 900
+;898:		}
+;899:
+;900:		return qtrue;
 CNSTI4 1
 RETI4
 ADDRGP4 $292
 JUMPV
 LABELV $294
-line 876
+line 879
 ADDRLP4 4
 ADDRLP4 4
 INDIRI4
@@ -3516,42 +3519,42 @@ INDIRI4
 ADDRGP4 level+24
 INDIRI4
 LTI4 $293
-line 900
-;898:	}
-;899:
-;900:	return qfalse;
+line 903
+;901:	}
+;902:
+;903:	return qfalse;
 CNSTI4 0
 RETI4
 LABELV $292
 endproc G_MonsterWaveHasPlayers 8 0
 proc G_MonsterWaveLivingCount 12 0
-line 903
-;901:}
-;902:
-;903:static int G_MonsterWaveLivingCount( void ) {
-line 908
-;904:	gentity_t *ent;
-;905:	int count;
-;906:	int i;
-;907:
-;908:	count = 0;
+line 906
+;904:}
+;905:
+;906:static int G_MonsterWaveLivingCount( void ) {
+line 911
+;907:	gentity_t *ent;
+;908:	int count;
+;909:	int i;
+;910:
+;911:	count = 0;
 ADDRLP4 8
 CNSTI4 0
 ASGNI4
-line 910
-;909:
-;910:	for( i = MAX_CLIENTS;
+line 913
+;912:
+;913:	for( i = MAX_CLIENTS;
 ADDRLP4 4
 CNSTI4 64
 ASGNI4
 ADDRGP4 $310
 JUMPV
 LABELV $307
-line 912
-;911:		i < level.num_entities;
-;912:		i++ ) {
-line 913
-;913:		ent = &g_entities[i];
+line 915
+;914:		i < level.num_entities;
+;915:		i++ ) {
+line 916
+;916:		ent = &g_entities[i];
 ADDRLP4 0
 CNSTI4 884
 ADDRLP4 4
@@ -3560,9 +3563,9 @@ MULI4
 ADDRGP4 g_entities
 ADDP4
 ASGNP4
-line 915
-;914:
-;915:		if( !ent->inuse ) {
+line 918
+;917:
+;918:		if( !ent->inuse ) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 520
@@ -3570,15 +3573,15 @@ ADDP4
 INDIRI4
 CNSTI4 0
 NEI4 $312
-line 916
-;916:			continue;
+line 919
+;919:			continue;
 ADDRGP4 $308
 JUMPV
 LABELV $312
-line 919
-;917:		}
-;918:
-;919:		if( ent->s.eType != ET_MONSTER ) {
+line 922
+;920:		}
+;921:
+;922:		if( ent->s.eType != ET_MONSTER ) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 4
@@ -3586,15 +3589,15 @@ ADDP4
 INDIRI4
 CNSTI4 13
 EQI4 $314
-line 920
-;920:			continue;
+line 923
+;923:			continue;
 ADDRGP4 $308
 JUMPV
 LABELV $314
-line 923
-;921:		}
-;922:
-;923:		if( !ent->monsterWaveSpawn ) {
+line 926
+;924:		}
+;925:
+;926:		if( !ent->monsterWaveSpawn ) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 864
@@ -3602,15 +3605,15 @@ ADDP4
 INDIRI4
 CNSTI4 0
 NEI4 $316
-line 924
-;924:			continue;
+line 927
+;927:			continue;
 ADDRGP4 $308
 JUMPV
 LABELV $316
-line 927
-;925:		}
-;926:
-;927:		if( ent->monsterDead ) {
+line 930
+;928:		}
+;929:
+;930:		if( ent->monsterDead ) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 860
@@ -3618,25 +3621,25 @@ ADDP4
 INDIRI4
 CNSTI4 0
 EQI4 $318
-line 928
-;928:			continue;
+line 931
+;931:			continue;
 ADDRGP4 $308
 JUMPV
 LABELV $318
-line 931
-;929:		}
-;930:
-;931:		count++;
+line 934
+;932:		}
+;933:
+;934:		count++;
 ADDRLP4 8
 ADDRLP4 8
 INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-line 932
-;932:	}
+line 935
+;935:	}
 LABELV $308
-line 912
+line 915
 ADDRLP4 4
 ADDRLP4 4
 INDIRI4
@@ -3644,36 +3647,36 @@ CNSTI4 1
 ADDI4
 ASGNI4
 LABELV $310
-line 911
+line 914
 ADDRLP4 4
 INDIRI4
 ADDRGP4 level+12
 INDIRI4
 LTI4 $307
-line 934
-;933:
-;934:	return count;
+line 937
+;936:
+;937:	return count;
 ADDRLP4 8
 INDIRI4
 RETI4
 LABELV $306
 endproc G_MonsterWaveLivingCount 12 0
 proc G_MonsterWaveSpotSafe 96 28
-line 941
-;935:}
-;936:
-;937:static qboolean G_MonsterWaveSpotSafe(
-;938:	gentity_t *spot,
-;939:	monsterDef_t *def,
-;940:	qboolean requireDistance
-;941:) {
-line 947
-;942:	gentity_t *player;
-;943:	trace_t trace;
-;944:	vec3_t origin;
-;945:	int i;
-;946:
-;947:	if( !spot || !def ) {
+line 944
+;938:}
+;939:
+;940:static qboolean G_MonsterWaveSpotSafe(
+;941:	gentity_t *spot,
+;942:	monsterDef_t *def,
+;943:	qboolean requireDistance
+;944:) {
+line 950
+;945:	gentity_t *player;
+;946:	trace_t trace;
+;947:	vec3_t origin;
+;948:	int i;
+;949:
+;950:	if( !spot || !def ) {
 ADDRLP4 76
 CNSTU4 0
 ASGNU4
@@ -3690,17 +3693,17 @@ ADDRLP4 76
 INDIRU4
 NEU4 $321
 LABELV $323
-line 948
-;948:		return qfalse;
+line 951
+;951:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $320
 JUMPV
 LABELV $321
-line 951
-;949:	}
-;950:
-;951:	if( SpotWouldTelefrag(spot) ) {
+line 954
+;952:	}
+;953:
+;954:	if( SpotWouldTelefrag(spot) ) {
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -3712,17 +3715,17 @@ ADDRLP4 80
 INDIRI4
 CNSTI4 0
 EQI4 $324
-line 952
-;952:		return qfalse;
+line 955
+;955:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $320
 JUMPV
 LABELV $324
-line 955
-;953:	}
-;954:
-;955:	VectorCopy(spot->s.origin, origin);
+line 958
+;956:	}
+;957:
+;958:	VectorCopy(spot->s.origin, origin);
 ADDRLP4 8
 ADDRFP4 0
 INDIRP4
@@ -3730,8 +3733,8 @@ CNSTI4 92
 ADDP4
 INDIRB
 ASGNB 12
-line 956
-;956:	origin[2] += 9 + def->hoverHeight;
+line 959
+;959:	origin[2] += 9 + def->hoverHeight;
 ADDRLP4 8+8
 ADDRLP4 8+8
 INDIRF4
@@ -3744,9 +3747,9 @@ CNSTF4 1091567616
 ADDF4
 ADDF4
 ASGNF4
-line 958
-;957:
-;958:	trap_Trace(
+line 961
+;960:
+;961:	trap_Trace(
 ADDRLP4 20
 ARGP4
 ADDRLP4 8
@@ -3774,17 +3777,17 @@ ARGI4
 ADDRGP4 trap_Trace
 CALLV
 pop
-line 968
-;959:		&trace,
-;960:		origin,
-;961:		def->mins,
-;962:		def->maxs,
+line 971
+;962:		&trace,
 ;963:		origin,
-;964:		ENTITYNUM_NONE,
-;965:		MASK_PLAYERSOLID
-;966:	);
-;967:
-;968:	if( trace.startsolid || trace.allsolid ) {
+;964:		def->mins,
+;965:		def->maxs,
+;966:		origin,
+;967:		ENTITYNUM_NONE,
+;968:		MASK_PLAYERSOLID
+;969:	);
+;970:
+;971:	if( trace.startsolid || trace.allsolid ) {
 ADDRLP4 88
 CNSTI4 0
 ASGNI4
@@ -3799,40 +3802,40 @@ ADDRLP4 88
 INDIRI4
 EQI4 $327
 LABELV $330
-line 969
-;969:		return qfalse;
+line 972
+;972:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $320
 JUMPV
 LABELV $327
-line 972
-;970:	}
-;971:
-;972:	if( !requireDistance ) {
+line 975
+;973:	}
+;974:
+;975:	if( !requireDistance ) {
 ADDRFP4 8
 INDIRI4
 CNSTI4 0
 NEI4 $331
-line 973
-;973:		return qtrue;
+line 976
+;976:		return qtrue;
 CNSTI4 1
 RETI4
 ADDRGP4 $320
 JUMPV
 LABELV $331
-line 976
-;974:	}
-;975:
-;976:	for( i = 0; i < level.maxclients; i++ ) {
+line 979
+;977:	}
+;978:
+;979:	for( i = 0; i < level.maxclients; i++ ) {
 ADDRLP4 4
 CNSTI4 0
 ASGNI4
 ADDRGP4 $336
 JUMPV
 LABELV $333
-line 977
-;977:		player = &g_entities[i];
+line 980
+;980:		player = &g_entities[i];
 ADDRLP4 0
 CNSTI4 884
 ADDRLP4 4
@@ -3841,9 +3844,9 @@ MULI4
 ADDRGP4 g_entities
 ADDP4
 ASGNP4
-line 979
-;978:
-;979:		if( !player->client ) {
+line 982
+;981:
+;982:		if( !player->client ) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 516
@@ -3852,15 +3855,15 @@ INDIRP4
 CVPU4 4
 CNSTU4 0
 NEU4 $338
-line 980
-;980:			continue;
+line 983
+;983:			continue;
 ADDRGP4 $334
 JUMPV
 LABELV $338
-line 983
-;981:		}
-;982:
-;983:		if( player->client->pers.connected !=
+line 986
+;984:		}
+;985:
+;986:		if( player->client->pers.connected !=
 ADDRLP4 0
 INDIRP4
 CNSTI4 516
@@ -3871,17 +3874,17 @@ ADDP4
 INDIRI4
 CNSTI4 2
 EQI4 $340
-line 984
-;984:			CON_CONNECTED ) {
-line 985
-;985:			continue;
+line 987
+;987:			CON_CONNECTED ) {
+line 988
+;988:			continue;
 ADDRGP4 $334
 JUMPV
 LABELV $340
-line 988
-;986:		}
-;987:
-;988:		if( player->client->sess.sessionTeam ==
+line 991
+;989:		}
+;990:
+;991:		if( player->client->sess.sessionTeam ==
 ADDRLP4 0
 INDIRP4
 CNSTI4 516
@@ -3892,17 +3895,17 @@ ADDP4
 INDIRI4
 CNSTI4 3
 NEI4 $342
-line 989
-;989:			TEAM_SPECTATOR ) {
-line 990
-;990:			continue;
+line 992
+;992:			TEAM_SPECTATOR ) {
+line 993
+;993:			continue;
 ADDRGP4 $334
 JUMPV
 LABELV $342
-line 993
-;991:		}
-;992:
-;993:		if( player->health <= 0 ) {
+line 996
+;994:		}
+;995:
+;996:		if( player->health <= 0 ) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 732
@@ -3910,15 +3913,15 @@ ADDP4
 INDIRI4
 CNSTI4 0
 GTI4 $344
-line 994
-;994:			continue;
+line 997
+;997:			continue;
 ADDRGP4 $334
 JUMPV
 LABELV $344
-line 997
-;995:		}
-;996:
-;997:		if( DistanceSquared(
+line 1000
+;998:		}
+;999:
+;1000:		if( DistanceSquared(
 ADDRFP4 0
 INDIRP4
 CNSTI4 92
@@ -3937,22 +3940,22 @@ ADDRLP4 92
 INDIRF4
 CNSTF4 1199570944
 GEF4 $346
-line 1000
-;998:			spot->s.origin,
-;999:			player->r.currentOrigin
-;1000:		) < 256.0f * 256.0f ) {
-line 1001
-;1001:			return qfalse;
+line 1003
+;1001:			spot->s.origin,
+;1002:			player->r.currentOrigin
+;1003:		) < 256.0f * 256.0f ) {
+line 1004
+;1004:			return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $320
 JUMPV
 LABELV $346
-line 1003
-;1002:		}
-;1003:	}
+line 1006
+;1005:		}
+;1006:	}
 LABELV $334
-line 976
+line 979
 ADDRLP4 4
 ADDRLP4 4
 INDIRI4
@@ -3965,54 +3968,54 @@ INDIRI4
 ADDRGP4 level+24
 INDIRI4
 LTI4 $333
-line 1005
-;1004:
-;1005:	return qtrue;
+line 1008
+;1007:
+;1008:	return qtrue;
 CNSTI4 1
 RETI4
 LABELV $320
 endproc G_MonsterWaveSpotSafe 96 28
 proc G_MonsterWaveChooseSpawn 536 12
-line 1011
-;1006:}
-;1007:
-;1008:static qboolean G_MonsterWaveChooseSpawn(
-;1009:	monsterDef_t *def,
-;1010:	vec3_t origin
-;1011:) {
-line 1017
-;1012:	gentity_t *spots[128];
-;1013:	gentity_t *spot;
-;1014:	int count;
-;1015:	int pass;
-;1016:
-;1017:	for( pass = 0; pass < 2; pass++ ) {
+line 1014
+;1009:}
+;1010:
+;1011:static qboolean G_MonsterWaveChooseSpawn(
+;1012:	monsterDef_t *def,
+;1013:	vec3_t origin
+;1014:) {
+line 1020
+;1015:	gentity_t *spots[128];
+;1016:	gentity_t *spot;
+;1017:	int count;
+;1018:	int pass;
+;1019:
+;1020:	for( pass = 0; pass < 2; pass++ ) {
 ADDRLP4 8
 CNSTI4 0
 ASGNI4
 LABELV $349
-line 1018
-;1018:		count = 0;
+line 1021
+;1021:		count = 0;
 ADDRLP4 4
 CNSTI4 0
 ASGNI4
-line 1019
-;1019:		spot = NULL;
+line 1022
+;1022:		spot = NULL;
 ADDRLP4 0
 CNSTP4 0
 ASGNP4
 ADDRGP4 $354
 JUMPV
 LABELV $353
-line 1025
-;1020:
-;1021:		while( (spot = G_Find(
-;1022:			spot,
-;1023:			FOFS(classname),
-;1024:			"info_player_deathmatch"
-;1025:		)) != NULL ) {
-line 1026
-;1026:			if( !G_MonsterWaveSpotSafe(
+line 1028
+;1023:
+;1024:		while( (spot = G_Find(
+;1025:			spot,
+;1026:			FOFS(classname),
+;1027:			"info_player_deathmatch"
+;1028:		)) != NULL ) {
+line 1029
+;1029:			if( !G_MonsterWaveSpotSafe(
 ADDRLP4 0
 INDIRP4
 ARGP4
@@ -4044,20 +4047,20 @@ ADDRLP4 528
 INDIRI4
 CNSTI4 0
 NEI4 $357
-line 1030
-;1027:				spot,
-;1028:				def,
-;1029:				pass == 0
-;1030:			) ) {
-line 1031
-;1031:				continue;
+line 1033
+;1030:				spot,
+;1031:				def,
+;1032:				pass == 0
+;1033:			) ) {
+line 1034
+;1034:				continue;
 ADDRGP4 $354
 JUMPV
 LABELV $357
-line 1034
-;1032:			}
-;1033:
-;1034:			spots[count++] = spot;
+line 1037
+;1035:			}
+;1036:
+;1037:			spots[count++] = spot;
 ADDRLP4 532
 ADDRLP4 4
 INDIRI4
@@ -4077,23 +4080,23 @@ ADDP4
 ADDRLP4 0
 INDIRP4
 ASGNP4
-line 1036
-;1035:
-;1036:			if( count >= 128 ) {
+line 1039
+;1038:
+;1039:			if( count >= 128 ) {
 ADDRLP4 4
 INDIRI4
 CNSTI4 128
 LTI4 $362
-line 1037
-;1037:				break;
+line 1040
+;1040:				break;
 ADDRGP4 $355
 JUMPV
 LABELV $362
-line 1039
-;1038:			}
-;1039:		}
+line 1042
+;1041:			}
+;1042:		}
 LABELV $354
-line 1021
+line 1024
 ADDRLP4 0
 INDIRP4
 ARGP4
@@ -4115,15 +4118,15 @@ CVPU4 4
 CNSTU4 0
 NEU4 $353
 LABELV $355
-line 1041
-;1040:
-;1041:		if( count > 0 ) {
+line 1044
+;1043:
+;1044:		if( count > 0 ) {
 ADDRLP4 4
 INDIRI4
 CNSTI4 0
 LEI4 $364
-line 1042
-;1042:			spot = spots[rand() % count];
+line 1045
+;1045:			spot = spots[rand() % count];
 ADDRLP4 528
 ADDRGP4 rand
 CALLI4
@@ -4140,9 +4143,9 @@ ADDRLP4 12
 ADDP4
 INDIRP4
 ASGNP4
-line 1044
-;1043:
-;1044:			VectorCopy(
+line 1047
+;1046:
+;1047:			VectorCopy(
 ADDRFP4 4
 INDIRP4
 ADDRLP4 0
@@ -4151,12 +4154,12 @@ CNSTI4 92
 ADDP4
 INDIRB
 ASGNB 12
-line 1049
-;1045:				spot->s.origin,
-;1046:				origin
-;1047:			);
-;1048:
-;1049:			origin[2] += 9;
+line 1052
+;1048:				spot->s.origin,
+;1049:				origin
+;1050:			);
+;1051:
+;1052:			origin[2] += 9;
 ADDRLP4 532
 ADDRFP4 4
 INDIRP4
@@ -4171,18 +4174,18 @@ INDIRF4
 CNSTF4 1091567616
 ADDF4
 ASGNF4
-line 1050
-;1050:			return qtrue;
+line 1053
+;1053:			return qtrue;
 CNSTI4 1
 RETI4
 ADDRGP4 $348
 JUMPV
 LABELV $364
-line 1052
-;1051:		}
-;1052:	}
+line 1055
+;1054:		}
+;1055:	}
 LABELV $350
-line 1017
+line 1020
 ADDRLP4 8
 ADDRLP4 8
 INDIRI4
@@ -4193,53 +4196,53 @@ ADDRLP4 8
 INDIRI4
 CNSTI4 2
 LTI4 $349
-line 1054
-;1053:
-;1054:	return qfalse;
+line 1057
+;1056:
+;1057:	return qfalse;
 CNSTI4 0
 RETI4
 LABELV $348
 endproc G_MonsterWaveChooseSpawn 536 12
 proc G_MonsterWaveBegin 8 8
-line 1057
-;1055:}
-;1056:
-;1057:static void G_MonsterWaveBegin( void ) {
-line 1058
-;1058:	monsterWaveActive = qtrue;
+line 1060
+;1058:}
+;1059:
+;1060:static void G_MonsterWaveBegin( void ) {
+line 1061
+;1061:	monsterWaveActive = qtrue;
 ADDRGP4 monsterWaveActive
 CNSTI4 1
 ASGNI4
-line 1059
-;1059:	monsterWaveCombatStarted = qtrue;
+line 1062
+;1062:	monsterWaveCombatStarted = qtrue;
 ADDRGP4 monsterWaveCombatStarted
 CNSTI4 1
 ASGNI4
-line 1060
-;1060:	monsterWaveEntry = 0;
+line 1063
+;1063:	monsterWaveEntry = 0;
 ADDRGP4 monsterWaveEntry
 CNSTI4 0
 ASGNI4
-line 1061
-;1061:	monsterWaveEntrySpawned = 0;
+line 1064
+;1064:	monsterWaveEntrySpawned = 0;
 ADDRGP4 monsterWaveEntrySpawned
 CNSTI4 0
 ASGNI4
-line 1062
-;1062:	monsterWaveNextSpawn = level.time;
+line 1065
+;1065:	monsterWaveNextSpawn = level.time;
 ADDRGP4 monsterWaveNextSpawn
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 1063
-;1063:	monsterWaveLastProgress = level.time;
+line 1066
+;1066:	monsterWaveLastProgress = level.time;
 ADDRGP4 monsterWaveLastProgress
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 1065
-;1064:
-;1065:	trap_SendServerCommand(
+line 1068
+;1067:
+;1068:	trap_SendServerCommand(
 ADDRGP4 $369
 ARGP4
 ADDRGP4 monsterCurrentWave
@@ -4257,15 +4260,15 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1073
-;1066:		-1,
-;1067:		va(
-;1068:			"cp \"Wave %i\n\"",
-;1069:			monsterCurrentWave
-;1070:		)
-;1071:	);
-;1072:
-;1073:	trap_SendServerCommand(
+line 1076
+;1069:		-1,
+;1070:		va(
+;1071:			"cp \"Wave %i\n\"",
+;1072:			monsterCurrentWave
+;1073:		)
+;1074:	);
+;1075:
+;1076:	trap_SendServerCommand(
 ADDRGP4 $370
 ARGP4
 ADDRGP4 monsterCurrentWave
@@ -4283,15 +4286,15 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1081
-;1074:		-1,
-;1075:		va(
-;1076:			"print \"Monster Hunt: wave %i started.\n\"",
-;1077:			monsterCurrentWave
-;1078:		)
-;1079:	);
-;1080:
-;1081:	G_Printf(
+line 1084
+;1077:		-1,
+;1078:		va(
+;1079:			"print \"Monster Hunt: wave %i started.\n\"",
+;1080:			monsterCurrentWave
+;1081:		)
+;1082:	);
+;1083:
+;1084:	G_Printf(
 ADDRGP4 $371
 ARGP4
 ADDRGP4 monsterCurrentWave
@@ -4300,19 +4303,19 @@ ARGI4
 ADDRGP4 G_Printf
 CALLV
 pop
-line 1085
-;1082:		"Monster Hunt: wave %i started.\n",
-;1083:		monsterCurrentWave
-;1084:	);
-;1085:}
+line 1088
+;1085:		"Monster Hunt: wave %i started.\n",
+;1086:		monsterCurrentWave
+;1087:	);
+;1088:}
 LABELV $366
 endproc G_MonsterWaveBegin 8 8
 proc G_MonsterWaveComplete 8 8
-line 1087
-;1086:
-;1087:static void G_MonsterWaveComplete( void ) {
-line 1088
-;1088:	trap_SendServerCommand(
+line 1090
+;1089:
+;1090:static void G_MonsterWaveComplete( void ) {
+line 1091
+;1091:	trap_SendServerCommand(
 ADDRGP4 $373
 ARGP4
 ADDRGP4 monsterCurrentWave
@@ -4330,30 +4333,30 @@ ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1096
-;1089:		-1,
-;1090:		va(
-;1091:			"print \"Monster Hunt: wave %i cleared.\n\"",
-;1092:			monsterCurrentWave
-;1093:		)
-;1094:	);
-;1095:
-;1096:	monsterWaveActive = qfalse;
+line 1099
+;1092:		-1,
+;1093:		va(
+;1094:			"print \"Monster Hunt: wave %i cleared.\n\"",
+;1095:			monsterCurrentWave
+;1096:		)
+;1097:	);
+;1098:
+;1099:	monsterWaveActive = qfalse;
 ADDRGP4 monsterWaveActive
 CNSTI4 0
 ASGNI4
-line 1098
-;1097:
-;1098:	if( monsterCurrentWave <
+line 1101
+;1100:
+;1101:	if( monsterCurrentWave <
 ADDRGP4 monsterCurrentWave
 INDIRI4
 ADDRGP4 monsterWaveFinal
 INDIRI4
 GEI4 $374
-line 1099
-;1099:		monsterWaveFinal ) {
-line 1100
-;1100:		monsterCurrentWave++;
+line 1102
+;1102:		monsterWaveFinal ) {
+line 1103
+;1103:		monsterCurrentWave++;
 ADDRLP4 4
 ADDRGP4 monsterCurrentWave
 ASGNP4
@@ -4365,9 +4368,9 @@ INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-line 1102
-;1101:
-;1102:		monsterWaveNextStart =
+line 1105
+;1104:
+;1105:		monsterWaveNextStart =
 ADDRGP4 monsterWaveNextStart
 ADDRGP4 level+32
 INDIRI4
@@ -4375,94 +4378,137 @@ ADDRGP4 monsterWaveDelay
 INDIRI4
 ADDI4
 ASGNI4
-line 1106
-;1103:			level.time +
-;1104:			monsterWaveDelay;
-;1105:
-;1106:		return;
+line 1109
+;1106:			level.time +
+;1107:			monsterWaveDelay;
+;1108:
+;1109:		return;
 ADDRGP4 $372
 JUMPV
 LABELV $374
-line 1113
-;1107:	}
-;1108:
-;1109:	/*
-;1110:	 * Clearing the configured final wave is a
-;1111:	 * collective Monster Hunt victory.
-;1112:	 */
-;1113:	monsterWaveFinished = qtrue;
+line 1116
+;1110:	}
+;1111:
+;1112:	/*
+;1113:	 * Classic Monster Hunt repeats the final wave until
+;1114:	 * fraglimit or timelimit ends the match.
+;1115:	 */
+;1116:	if( g_monsterHunt.integer ==
+ADDRGP4 g_monsterHunt+12
+INDIRI4
+CNSTI4 1
+NEI4 $377
+line 1117
+;1117:		MONSTER_HUNT_CLASSIC ) {
+line 1118
+;1118:		monsterWaveNextStart =
+ADDRGP4 monsterWaveNextStart
+ADDRGP4 level+32
+INDIRI4
+ADDRGP4 monsterWaveDelay
+INDIRI4
+ADDI4
+ASGNI4
+line 1122
+;1119:			level.time +
+;1120:			monsterWaveDelay;
+;1121:
+;1122:		trap_SendServerCommand(
+CNSTI4 -1
+ARGI4
+ADDRGP4 $381
+ARGP4
+ADDRGP4 trap_SendServerCommand
+CALLV
+pop
+line 1127
+;1123:			-1,
+;1124:			"print \"Monster Hunt: final wave restarting.\n\""
+;1125:		);
+;1126:
+;1127:		return;
+ADDRGP4 $372
+JUMPV
+LABELV $377
+line 1133
+;1128:	}
+;1129:
+;1130:	/*
+;1131:	 * One Life ends after clearing the final wave.
+;1132:	 */
+;1133:	monsterWaveFinished = qtrue;
 ADDRGP4 monsterWaveFinished
 CNSTI4 1
 ASGNI4
-line 1115
-;1114:
-;1115:	trap_SendServerCommand(
+line 1135
+;1134:
+;1135:	trap_SendServerCommand(
 CNSTI4 -1
 ARGI4
-ADDRGP4 $377
+ADDRGP4 $382
 ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1120
-;1116:		-1,
-;1117:		"cp \"Monster Hunt completed!\n\""
-;1118:	);
-;1119:
-;1120:	trap_SendServerCommand(
+line 1140
+;1136:		-1,
+;1137:		"cp \"Monster Hunt completed!\n\""
+;1138:	);
+;1139:
+;1140:	trap_SendServerCommand(
 CNSTI4 -1
 ARGI4
-ADDRGP4 $378
+ADDRGP4 $383
 ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1125
-;1121:		-1,
-;1122:		"print \"Monster Hunt: all waves cleared.\n\""
-;1123:	);
-;1124:
-;1125:	LogExit(
-ADDRGP4 $379
+line 1145
+;1141:		-1,
+;1142:		"print \"Monster Hunt: all waves cleared.\n\""
+;1143:	);
+;1144:
+;1145:	LogExit(
+ADDRGP4 $384
 ARGP4
 ADDRGP4 LogExit
 CALLV
 pop
-line 1128
-;1126:		"Monster Hunt completed."
-;1127:	);
-;1128:}
+line 1148
+;1146:		"Monster Hunt completed."
+;1147:	);
+;1148:}
 LABELV $372
 endproc G_MonsterWaveComplete 8 8
 proc G_MonsterWaveRelocateStuck 48 12
-line 1130
-;1129:
-;1130:static int G_MonsterWaveRelocateStuck( void ) {
-line 1137
-;1131:	gentity_t *monster;
-;1132:	monsterDef_t *def;
-;1133:	vec3_t origin;
-;1134:	int relocated;
-;1135:	int i;
-;1136:
-;1137:	relocated = 0;
+line 1150
+;1149:
+;1150:static int G_MonsterWaveRelocateStuck( void ) {
+line 1157
+;1151:	gentity_t *monster;
+;1152:	monsterDef_t *def;
+;1153:	vec3_t origin;
+;1154:	int relocated;
+;1155:	int i;
+;1156:
+;1157:	relocated = 0;
 ADDRLP4 24
 CNSTI4 0
 ASGNI4
-line 1139
-;1138:
-;1139:	for( i = MAX_CLIENTS;
+line 1159
+;1158:
+;1159:	for( i = MAX_CLIENTS;
 ADDRLP4 4
 CNSTI4 64
 ASGNI4
-ADDRGP4 $384
+ADDRGP4 $389
 JUMPV
-LABELV $381
-line 1141
-;1140:		i < level.num_entities;
-;1141:		i++ ) {
-line 1142
-;1142:		monster = &g_entities[i];
+LABELV $386
+line 1161
+;1160:		i < level.num_entities;
+;1161:		i++ ) {
+line 1162
+;1162:		monster = &g_entities[i];
 ADDRLP4 0
 CNSTI4 884
 ADDRLP4 4
@@ -4471,41 +4517,41 @@ MULI4
 ADDRGP4 g_entities
 ADDP4
 ASGNP4
-line 1144
-;1143:
-;1144:		if( !monster->inuse ) {
+line 1164
+;1163:
+;1164:		if( !monster->inuse ) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 520
 ADDP4
 INDIRI4
 CNSTI4 0
-NEI4 $386
-line 1145
-;1145:			continue;
-ADDRGP4 $382
+NEI4 $391
+line 1165
+;1165:			continue;
+ADDRGP4 $387
 JUMPV
-LABELV $386
-line 1148
-;1146:		}
-;1147:
-;1148:		if( monster->s.eType != ET_MONSTER ) {
+LABELV $391
+line 1168
+;1166:		}
+;1167:
+;1168:		if( monster->s.eType != ET_MONSTER ) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 4
 ADDP4
 INDIRI4
 CNSTI4 13
-EQI4 $388
-line 1149
-;1149:			continue;
-ADDRGP4 $382
+EQI4 $393
+line 1169
+;1169:			continue;
+ADDRGP4 $387
 JUMPV
-LABELV $388
-line 1152
-;1150:		}
-;1151:
-;1152:		if( !monster->monsterWaveSpawn ||
+LABELV $393
+line 1172
+;1170:		}
+;1171:
+;1172:		if( !monster->monsterWaveSpawn ||
 ADDRLP4 32
 CNSTI4 0
 ASGNI4
@@ -4516,7 +4562,7 @@ ADDP4
 INDIRI4
 ADDRLP4 32
 INDIRI4
-EQI4 $392
+EQI4 $397
 ADDRLP4 0
 INDIRP4
 CNSTI4 860
@@ -4524,23 +4570,23 @@ ADDP4
 INDIRI4
 ADDRLP4 32
 INDIRI4
-EQI4 $390
-LABELV $392
-line 1153
-;1153:			monster->monsterDead ) {
-line 1154
-;1154:			continue;
-ADDRGP4 $382
+EQI4 $395
+LABELV $397
+line 1173
+;1173:			monster->monsterDead ) {
+line 1174
+;1174:			continue;
+ADDRGP4 $387
 JUMPV
-LABELV $390
-line 1161
-;1155:		}
-;1156:
-;1157:		/*
-;1158:		 * Relocate only monsters that have neither moved,
-;1159:		 * fired nor received damage for the timeout period.
-;1160:		 */
-;1161:		if( level.time -
+LABELV $395
+line 1181
+;1175:		}
+;1176:
+;1177:		/*
+;1178:		 * Relocate only monsters that have neither moved,
+;1179:		 * fired nor received damage for the timeout period.
+;1180:		 */
+;1181:		if( level.time -
 ADDRGP4 level+32
 INDIRI4
 ADDRLP4 0
@@ -4551,28 +4597,28 @@ INDIRI4
 SUBI4
 ADDRGP4 monsterWaveTimeout
 INDIRI4
-GEI4 $393
-line 1163
-;1162:			monster->monsterProgressTime <
-;1163:			monsterWaveTimeout ) {
-line 1164
-;1164:			continue;
-ADDRGP4 $382
+GEI4 $398
+line 1183
+;1182:			monster->monsterProgressTime <
+;1183:			monsterWaveTimeout ) {
+line 1184
+;1184:			continue;
+ADDRGP4 $387
 JUMPV
-LABELV $393
-line 1167
-;1165:		}
-;1166:
-;1167:		def = &g_monsterDefs
+LABELV $398
+line 1187
+;1185:		}
+;1186:
+;1187:		def = &g_monsterDefs
 ADDRLP4 8
-CNSTI4 1100
+CNSTI4 1104
 ADDRLP4 0
 INDIRP4
 CNSTI4 812
 ADDP4
 INDIRI4
 MULI4
-CNSTI4 5500
+CNSTI4 5520
 ADDRLP4 0
 INDIRP4
 CNSTI4 808
@@ -4583,11 +4629,11 @@ ADDRGP4 g_monsterDefs
 ADDP4
 ADDP4
 ASGNP4
-line 1171
-;1168:			[monster->monsterType]
-;1169:			[monster->monsterSlot];
-;1170:
-;1171:		if( !G_MonsterWaveChooseSpawn(
+line 1191
+;1188:			[monster->monsterType]
+;1189:			[monster->monsterSlot];
+;1190:
+;1191:		if( !G_MonsterWaveChooseSpawn(
 ADDRLP4 8
 INDIRP4
 ARGP4
@@ -4600,24 +4646,24 @@ ASGNI4
 ADDRLP4 40
 INDIRI4
 CNSTI4 0
-NEI4 $396
-line 1174
-;1172:			def,
-;1173:			origin
-;1174:		) ) {
-line 1175
-;1175:			continue;
-ADDRGP4 $382
+NEI4 $401
+line 1194
+;1192:			def,
+;1193:			origin
+;1194:		) ) {
+line 1195
+;1195:			continue;
+ADDRGP4 $387
 JUMPV
-LABELV $396
-line 1182
-;1176:		}
-;1177:
-;1178:		/*
-;1179:		 * ChooseSpawn returns the base position.
-;1180:		 * Apply the monster's configured hovering height.
-;1181:		 */
-;1182:		origin[2] += def->hoverHeight;
+LABELV $401
+line 1202
+;1196:		}
+;1197:
+;1198:		/*
+;1199:		 * ChooseSpawn returns the base position.
+;1200:		 * Apply the monster's configured hovering height.
+;1201:		 */
+;1202:		origin[2] += def->hoverHeight;
 ADDRLP4 12+8
 ADDRLP4 12+8
 INDIRF4
@@ -4628,9 +4674,9 @@ ADDP4
 INDIRF4
 ADDF4
 ASGNF4
-line 1184
-;1183:
-;1184:		G_MonsterSetOrigin(
+line 1204
+;1203:
+;1204:		G_MonsterSetOrigin(
 ADDRLP4 0
 INDIRP4
 ARGP4
@@ -4639,12 +4685,12 @@ ARGP4
 ADDRGP4 G_MonsterSetOrigin
 CALLV
 pop
-line 1189
-;1185:			monster,
-;1186:			origin
-;1187:		);
-;1188:
-;1189:		monster->monsterProgressTime =
+line 1209
+;1205:			monster,
+;1206:			origin
+;1207:		);
+;1208:
+;1209:		monster->monsterProgressTime =
 ADDRLP4 0
 INDIRP4
 CNSTI4 820
@@ -4652,10 +4698,10 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 1192
-;1190:			level.time;
-;1191:
-;1192:		VectorCopy(
+line 1212
+;1210:			level.time;
+;1211:
+;1212:		VectorCopy(
 ADDRLP4 0
 INDIRP4
 CNSTI4 824
@@ -4666,28 +4712,28 @@ CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 1197
-;1193:			monster->r.currentOrigin,
-;1194:			monster->monsterProgressOrigin
-;1195:		);
-;1196:
-;1197:		monster->enemy = NULL;
+line 1217
+;1213:			monster->r.currentOrigin,
+;1214:			monster->monsterProgressOrigin
+;1215:		);
+;1216:
+;1217:		monster->enemy = NULL;
 ADDRLP4 0
 INDIRP4
 CNSTI4 768
 ADDP4
 CNSTP4 0
 ASGNP4
-line 1198
-;1198:		monster->monsterShotsRemaining = 0;
+line 1218
+;1218:		monster->monsterShotsRemaining = 0;
 ADDRLP4 0
 INDIRP4
 CNSTI4 880
 ADDP4
 CNSTI4 0
 ASGNI4
-line 1199
-;1199:		monster->monsterNextAttack =
+line 1219
+;1219:		monster->monsterNextAttack =
 ADDRLP4 0
 INDIRP4
 CNSTI4 872
@@ -4697,9 +4743,9 @@ INDIRI4
 CNSTI4 500
 ADDI4
 ASGNI4
-line 1201
-;1200:			level.time + 500;
-;1201:		monster->monsterLastThink =
+line 1221
+;1220:			level.time + 500;
+;1221:		monster->monsterLastThink =
 ADDRLP4 0
 INDIRP4
 CNSTI4 816
@@ -4707,10 +4753,10 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 1204
-;1202:			level.time;
-;1203:
-;1204:		G_MonsterSetAnimation(
+line 1224
+;1222:			level.time;
+;1223:
+;1224:		G_MonsterSetAnimation(
 ADDRLP4 0
 INDIRP4
 ARGP4
@@ -4721,81 +4767,81 @@ ARGI4
 ADDRGP4 G_MonsterSetAnimation
 CALLV
 pop
-line 1210
-;1205:			monster,
-;1206:			MONSTER_STATE_MOVE,
-;1207:			0
-;1208:		);
-;1209:
-;1210:		trap_LinkEntity(monster);
+line 1230
+;1225:			monster,
+;1226:			MONSTER_STATE_MOVE,
+;1227:			0
+;1228:		);
+;1229:
+;1230:		trap_LinkEntity(monster);
 ADDRLP4 0
 INDIRP4
 ARGP4
 ADDRGP4 trap_LinkEntity
 CALLV
 pop
-line 1211
-;1211:		relocated++;
+line 1231
+;1231:		relocated++;
 ADDRLP4 24
 ADDRLP4 24
 INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-line 1212
-;1212:	}
-LABELV $382
-line 1141
+line 1232
+;1232:	}
+LABELV $387
+line 1161
 ADDRLP4 4
 ADDRLP4 4
 INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-LABELV $384
-line 1140
+LABELV $389
+line 1160
 ADDRLP4 4
 INDIRI4
 ADDRGP4 level+12
 INDIRI4
-LTI4 $381
-line 1214
-;1213:
-;1214:	return relocated;
+LTI4 $386
+line 1234
+;1233:
+;1234:	return relocated;
 ADDRLP4 24
 INDIRI4
 RETI4
-LABELV $380
+LABELV $385
 endproc G_MonsterWaveRelocateStuck 48 12
 export G_MonsterRunFrame
 proc G_MonsterRunFrame 60 16
-line 1217
-;1215:}
-;1216:
-;1217:void G_MonsterRunFrame( void ) {
-line 1224
-;1218:	monsterWaveDef_t *wave;
-;1219:	monsterWaveEntry_t *entry;
-;1220:	monsterDef_t *def;
-;1221:	vec3_t origin;
-;1222:	int living;
-;1223:
-;1224:	if( g_monsterHunt.integer !=
+line 1237
+;1235:}
+;1236:
+;1237:void G_MonsterRunFrame( void ) {
+line 1244
+;1238:	monsterWaveDef_t *wave;
+;1239:	monsterWaveEntry_t *entry;
+;1240:	monsterDef_t *def;
+;1241:	vec3_t origin;
+;1242:	int living;
+;1243:
+;1244:	if( g_monsterHunt.integer ==
 ADDRGP4 g_monsterHunt+12
 INDIRI4
-CNSTI4 2
-EQI4 $403
-line 1225
-;1225:		MONSTER_HUNT_ONE_LIFE ) {
-line 1226
-;1226:		return;
-ADDRGP4 $402
+CNSTI4 0
+NEI4 $408
+line 1245
+;1245:		MONSTER_HUNT_OFF ) {
+line 1246
+;1246:		return;
+ADDRGP4 $407
 JUMPV
-LABELV $403
-line 1229
-;1227:	}
-;1228:
-;1229:	if( !monsterWavesLoaded ||
+LABELV $408
+line 1249
+;1247:	}
+;1248:
+;1249:	if( !monsterWavesLoaded ||
 ADDRLP4 28
 CNSTI4 0
 ASGNI4
@@ -4803,24 +4849,24 @@ ADDRGP4 monsterWavesLoaded
 INDIRI4
 ADDRLP4 28
 INDIRI4
-EQI4 $408
+EQI4 $413
 ADDRGP4 monsterWaveFinished
 INDIRI4
 ADDRLP4 28
 INDIRI4
-EQI4 $406
-LABELV $408
-line 1230
-;1230:		monsterWaveFinished ) {
-line 1231
-;1231:		return;
-ADDRGP4 $402
+EQI4 $411
+LABELV $413
+line 1250
+;1250:		monsterWaveFinished ) {
+line 1251
+;1251:		return;
+ADDRGP4 $407
 JUMPV
-LABELV $406
-line 1234
-;1232:	}
-;1233:
-;1234:	if( level.intermissiontime ||
+LABELV $411
+line 1254
+;1252:	}
+;1253:
+;1254:	if( level.intermissiontime ||
 ADDRLP4 32
 CNSTI4 0
 ASGNI4
@@ -4828,30 +4874,30 @@ ADDRGP4 level+9128
 INDIRI4
 ADDRLP4 32
 INDIRI4
-NEI4 $415
+NEI4 $420
 ADDRGP4 level+9124
 INDIRI4
 ADDRLP4 32
 INDIRI4
-NEI4 $415
+NEI4 $420
 ADDRGP4 level+16
 INDIRI4
 ADDRLP4 32
 INDIRI4
-EQI4 $409
-LABELV $415
-line 1236
-;1235:		level.intermissionQueued ||
-;1236:		level.warmupTime ) {
-line 1237
-;1237:		return;
-ADDRGP4 $402
+EQI4 $414
+LABELV $420
+line 1256
+;1255:		level.intermissionQueued ||
+;1256:		level.warmupTime ) {
+line 1257
+;1257:		return;
+ADDRGP4 $407
 JUMPV
-LABELV $409
-line 1240
-;1238:	}
-;1239:
-;1240:	if( !G_MonsterWaveHasPlayers() ) {
+LABELV $414
+line 1260
+;1258:	}
+;1259:
+;1260:	if( !G_MonsterWaveHasPlayers() ) {
 ADDRLP4 36
 ADDRGP4 G_MonsterWaveHasPlayers
 CALLI4
@@ -4859,32 +4905,32 @@ ASGNI4
 ADDRLP4 36
 INDIRI4
 CNSTI4 0
-NEI4 $416
-line 1241
-;1241:		return;
-ADDRGP4 $402
+NEI4 $421
+line 1261
+;1261:		return;
+ADDRGP4 $407
 JUMPV
-LABELV $416
-line 1244
-;1242:	}
-;1243:
-;1244:	if( !monsterWaveStarted ) {
+LABELV $421
+line 1264
+;1262:	}
+;1263:
+;1264:	if( !monsterWaveStarted ) {
 ADDRGP4 monsterWaveStarted
 INDIRI4
 CNSTI4 0
-NEI4 $418
-line 1245
-;1245:		monsterWaveStarted = qtrue;
+NEI4 $423
+line 1265
+;1265:		monsterWaveStarted = qtrue;
 ADDRGP4 monsterWaveStarted
 CNSTI4 1
 ASGNI4
-line 1246
-;1246:		monsterCurrentWave = 1;
+line 1266
+;1266:		monsterCurrentWave = 1;
 ADDRGP4 monsterCurrentWave
 CNSTI4 1
 ASGNI4
-line 1247
-;1247:		monsterWaveNextStart =
+line 1267
+;1267:		monsterWaveNextStart =
 ADDRGP4 monsterWaveNextStart
 ADDRGP4 level+32
 INDIRI4
@@ -4892,58 +4938,58 @@ ADDRGP4 monsterWaveDelay
 INDIRI4
 ADDI4
 ASGNI4
-line 1250
-;1248:			level.time + monsterWaveDelay;
-;1249:
-;1250:		trap_SendServerCommand(
+line 1270
+;1268:			level.time + monsterWaveDelay;
+;1269:
+;1270:		trap_SendServerCommand(
 CNSTI4 -1
 ARGI4
-ADDRGP4 $421
+ADDRGP4 $426
 ARGP4
 ADDRGP4 trap_SendServerCommand
 CALLV
 pop
-line 1255
-;1251:			-1,
-;1252:			"print \"Monster Hunt begins.\n\""
-;1253:		);
-;1254:
-;1255:		return;
-ADDRGP4 $402
+line 1275
+;1271:			-1,
+;1272:			"print \"Monster Hunt begins.\n\""
+;1273:		);
+;1274:
+;1275:		return;
+ADDRGP4 $407
 JUMPV
-LABELV $418
-line 1258
-;1256:	}
-;1257:
-;1258:	if( !monsterWaveActive ) {
+LABELV $423
+line 1278
+;1276:	}
+;1277:
+;1278:	if( !monsterWaveActive ) {
 ADDRGP4 monsterWaveActive
 INDIRI4
 CNSTI4 0
-NEI4 $422
-line 1259
-;1259:		if( level.time >= monsterWaveNextStart ) {
+NEI4 $427
+line 1279
+;1279:		if( level.time >= monsterWaveNextStart ) {
 ADDRGP4 level+32
 INDIRI4
 ADDRGP4 monsterWaveNextStart
 INDIRI4
-LTI4 $402
-line 1260
-;1260:			G_MonsterWaveBegin();
+LTI4 $407
+line 1280
+;1280:			G_MonsterWaveBegin();
 ADDRGP4 G_MonsterWaveBegin
 CALLV
 pop
-line 1261
-;1261:		}
-line 1263
-;1262:
-;1263:		return;
-ADDRGP4 $402
+line 1281
+;1281:		}
+line 1283
+;1282:
+;1283:		return;
+ADDRGP4 $407
 JUMPV
-LABELV $422
-line 1266
-;1264:	}
-;1265:
-;1266:	wave =
+LABELV $427
+line 1286
+;1284:	}
+;1285:
+;1286:	wave =
 ADDRLP4 0
 CNSTI4 104
 ADDRGP4 monsterCurrentWave
@@ -4952,16 +4998,16 @@ MULI4
 ADDRGP4 monsterWaves-104
 ADDP4
 ASGNP4
-ADDRGP4 $429
+ADDRGP4 $434
 JUMPV
-LABELV $428
-line 1270
-;1267:		&monsterWaves[monsterCurrentWave - 1];
-;1268:
-;1269:	while( monsterWaveEntry <
-;1270:		wave->numEntries ) {
-line 1271
-;1271:		entry =
+LABELV $433
+line 1290
+;1287:		&monsterWaves[monsterCurrentWave - 1];
+;1288:
+;1289:	while( monsterWaveEntry <
+;1290:		wave->numEntries ) {
+line 1291
+;1291:		entry =
 ADDRLP4 4
 CNSTI4 12
 ADDRGP4 monsterWaveEntry
@@ -4971,10 +5017,10 @@ ADDRLP4 0
 INDIRP4
 ADDP4
 ASGNP4
-line 1274
-;1272:			&wave->entries[monsterWaveEntry];
-;1273:
-;1274:		if( monsterWaveEntrySpawned <
+line 1294
+;1292:			&wave->entries[monsterWaveEntry];
+;1293:
+;1294:		if( monsterWaveEntrySpawned <
 ADDRGP4 monsterWaveEntrySpawned
 INDIRI4
 ADDRLP4 4
@@ -4982,18 +5028,18 @@ INDIRP4
 CNSTI4 8
 ADDP4
 INDIRI4
-GEI4 $431
-line 1275
-;1275:			entry->count ) {
-line 1276
-;1276:			break;
-ADDRGP4 $430
+GEI4 $436
+line 1295
+;1295:			entry->count ) {
+line 1296
+;1296:			break;
+ADDRGP4 $435
 JUMPV
-LABELV $431
-line 1279
-;1277:		}
-;1278:
-;1279:		monsterWaveEntry++;
+LABELV $436
+line 1299
+;1297:		}
+;1298:
+;1299:		monsterWaveEntry++;
 ADDRLP4 40
 ADDRGP4 monsterWaveEntry
 ASGNP4
@@ -5005,42 +5051,15 @@ INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-line 1280
-;1280:		monsterWaveEntrySpawned = 0;
+line 1300
+;1300:		monsterWaveEntrySpawned = 0;
 ADDRGP4 monsterWaveEntrySpawned
 CNSTI4 0
 ASGNI4
-line 1281
-;1281:	}
-LABELV $429
-line 1269
-ADDRGP4 monsterWaveEntry
-INDIRI4
-ADDRLP4 0
-INDIRP4
-CNSTI4 96
-ADDP4
-INDIRI4
-LTI4 $428
-LABELV $430
-line 1283
-;1282:
-;1283:	living = G_MonsterWaveLivingCount();
-ADDRLP4 40
-ADDRGP4 G_MonsterWaveLivingCount
-CALLI4
-ASGNI4
-ADDRLP4 12
-ADDRLP4 40
-INDIRI4
-ASGNI4
+line 1301
+;1301:	}
+LABELV $434
 line 1289
-;1284:
-;1285:	/*
-;1286:	 * Every configured monster has been spawned.
-;1287:	 * Complete the wave after the last living monster dies.
-;1288:	 */
-;1289:	if( monsterWaveEntry >=
 ADDRGP4 monsterWaveEntry
 INDIRI4
 ADDRLP4 0
@@ -5049,28 +5068,55 @@ CNSTI4 96
 ADDP4
 INDIRI4
 LTI4 $433
-line 1290
-;1290:		wave->numEntries ) {
-line 1291
-;1291:		if( living == 0 ) {
+LABELV $435
+line 1303
+;1302:
+;1303:	living = G_MonsterWaveLivingCount();
+ADDRLP4 40
+ADDRGP4 G_MonsterWaveLivingCount
+CALLI4
+ASGNI4
+ADDRLP4 12
+ADDRLP4 40
+INDIRI4
+ASGNI4
+line 1309
+;1304:
+;1305:	/*
+;1306:	 * Every configured monster has been spawned.
+;1307:	 * Complete the wave after the last living monster dies.
+;1308:	 */
+;1309:	if( monsterWaveEntry >=
+ADDRGP4 monsterWaveEntry
+INDIRI4
+ADDRLP4 0
+INDIRP4
+CNSTI4 96
+ADDP4
+INDIRI4
+LTI4 $438
+line 1310
+;1310:		wave->numEntries ) {
+line 1311
+;1311:		if( living == 0 ) {
 ADDRLP4 12
 INDIRI4
 CNSTI4 0
-NEI4 $435
-line 1292
-;1292:			G_MonsterWaveComplete();
+NEI4 $440
+line 1312
+;1312:			G_MonsterWaveComplete();
 ADDRGP4 G_MonsterWaveComplete
 CALLV
 pop
-line 1293
-;1293:			return;
-ADDRGP4 $402
+line 1313
+;1313:			return;
+ADDRGP4 $407
 JUMPV
-LABELV $435
-line 1296
-;1294:		}
-;1295:
-;1296:		if( level.time - monsterWaveLastProgress >=
+LABELV $440
+line 1316
+;1314:		}
+;1315:
+;1316:		if( level.time - monsterWaveLastProgress >=
 ADDRGP4 level+32
 INDIRI4
 ADDRGP4 monsterWaveLastProgress
@@ -5078,13 +5124,13 @@ INDIRI4
 SUBI4
 ADDRGP4 monsterWaveTimeout
 INDIRI4
-LTI4 $402
-line 1297
-;1297:			monsterWaveTimeout ) {
-line 1300
-;1298:			int relocated;
-;1299:
-;1300:			relocated =
+LTI4 $407
+line 1317
+;1317:			monsterWaveTimeout ) {
+line 1320
+;1318:			int relocated;
+;1319:
+;1320:			relocated =
 ADDRLP4 48
 ADDRGP4 G_MonsterWaveRelocateStuck
 CALLI4
@@ -5093,69 +5139,69 @@ ADDRLP4 44
 ADDRLP4 48
 INDIRI4
 ASGNI4
-line 1303
-;1301:				G_MonsterWaveRelocateStuck();
-;1302:
-;1303:			monsterWaveLastProgress = level.time;
+line 1323
+;1321:				G_MonsterWaveRelocateStuck();
+;1322:
+;1323:			monsterWaveLastProgress = level.time;
 ADDRGP4 monsterWaveLastProgress
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 1319
-;1304:
-;1305:			/*trap_SendServerCommand(
-;1306:				-1,
-;1307:				va(
-;1308:					"print \"Monster Hunt: relocated %i lost monsters.\n\"",
-;1309:					relocated
-;1310:				)
-;1311:			);
-;1312:
-;1313:			G_Printf(
-;1314:				"Monster Hunt: wave %i still has %i living monsters; relocated %i.\n",
-;1315:				monsterCurrentWave,
-;1316:				living,
-;1317:				relocated
-;1318:			);*/
-;1319:		}
-line 1321
-;1320:
-;1321:		return;
-ADDRGP4 $402
+line 1339
+;1324:
+;1325:			/*trap_SendServerCommand(
+;1326:				-1,
+;1327:				va(
+;1328:					"print \"Monster Hunt: relocated %i lost monsters.\n\"",
+;1329:					relocated
+;1330:				)
+;1331:			);
+;1332:
+;1333:			G_Printf(
+;1334:				"Monster Hunt: wave %i still has %i living monsters; relocated %i.\n",
+;1335:				monsterCurrentWave,
+;1336:				living,
+;1337:				relocated
+;1338:			);*/
+;1339:		}
+line 1341
+;1340:
+;1341:		return;
+ADDRGP4 $407
 JUMPV
-LABELV $433
-line 1324
-;1322:	}
-;1323:
-;1324:	if( living >= monsterWaveMaxActive ) {
+LABELV $438
+line 1344
+;1342:	}
+;1343:
+;1344:	if( living >= monsterWaveMaxActive ) {
 ADDRLP4 12
 INDIRI4
 ADDRGP4 monsterWaveMaxActive
 INDIRI4
-LTI4 $441
-line 1325
-;1325:		return;
-ADDRGP4 $402
+LTI4 $446
+line 1345
+;1345:		return;
+ADDRGP4 $407
 JUMPV
-LABELV $441
-line 1328
-;1326:	}
-;1327:
-;1328:	if( level.time < monsterWaveNextSpawn ) {
+LABELV $446
+line 1348
+;1346:	}
+;1347:
+;1348:	if( level.time < monsterWaveNextSpawn ) {
 ADDRGP4 level+32
 INDIRI4
 ADDRGP4 monsterWaveNextSpawn
 INDIRI4
-GEI4 $443
-line 1329
-;1329:		return;
-ADDRGP4 $402
+GEI4 $448
+line 1349
+;1349:		return;
+ADDRGP4 $407
 JUMPV
-LABELV $443
-line 1332
-;1330:	}
-;1331:
-;1332:	entry = &wave->entries[monsterWaveEntry];
+LABELV $448
+line 1352
+;1350:	}
+;1351:
+;1352:	entry = &wave->entries[monsterWaveEntry];
 ADDRLP4 4
 CNSTI4 12
 ADDRGP4 monsterWaveEntry
@@ -5165,18 +5211,18 @@ ADDRLP4 0
 INDIRP4
 ADDP4
 ASGNP4
-line 1334
-;1333:
-;1334:	def = &g_monsterDefs
+line 1354
+;1353:
+;1354:	def = &g_monsterDefs
 ADDRLP4 8
-CNSTI4 1100
+CNSTI4 1104
 ADDRLP4 4
 INDIRP4
 CNSTI4 4
 ADDP4
 INDIRI4
 MULI4
-CNSTI4 5500
+CNSTI4 5520
 ADDRLP4 4
 INDIRP4
 INDIRI4
@@ -5185,11 +5231,11 @@ ADDRGP4 g_monsterDefs
 ADDP4
 ADDP4
 ASGNP4
-line 1338
-;1335:		[entry->monsterType]
-;1336:		[entry->monsterSlot];
-;1337:
-;1338:	if( !G_MonsterWaveChooseSpawn(
+line 1358
+;1355:		[entry->monsterType]
+;1356:		[entry->monsterSlot];
+;1357:
+;1358:	if( !G_MonsterWaveChooseSpawn(
 ADDRLP4 8
 INDIRP4
 ARGP4
@@ -5202,29 +5248,29 @@ ASGNI4
 ADDRLP4 48
 INDIRI4
 CNSTI4 0
-NEI4 $446
-line 1341
-;1339:		def,
-;1340:		origin
-;1341:	) ) {
-line 1342
-;1342:		monsterWaveNextSpawn =
+NEI4 $451
+line 1361
+;1359:		def,
+;1360:		origin
+;1361:	) ) {
+line 1362
+;1362:		monsterWaveNextSpawn =
 ADDRGP4 monsterWaveNextSpawn
 ADDRGP4 level+32
 INDIRI4
 CNSTI4 1000
 ADDI4
 ASGNI4
-line 1344
-;1343:			level.time + 1000;
-;1344:		return;
-ADDRGP4 $402
+line 1364
+;1363:			level.time + 1000;
+;1364:		return;
+ADDRGP4 $407
 JUMPV
-LABELV $446
-line 1347
-;1345:	}
-;1346:
-;1347:	if( G_MonsterSpawnAtOrigin(
+LABELV $451
+line 1367
+;1365:	}
+;1366:
+;1367:	if( G_MonsterSpawnAtOrigin(
 CNSTP4 0
 ARGP4
 ADDRLP4 8
@@ -5241,15 +5287,15 @@ ASGNI4
 ADDRLP4 52
 INDIRI4
 CNSTI4 0
-EQI4 $449
-line 1352
-;1348:		NULL,
-;1349:		def,
-;1350:		origin,
-;1351:		qtrue
-;1352:	) ) {
-line 1353
-;1353:	monsterWaveEntrySpawned++;
+EQI4 $454
+line 1372
+;1368:		NULL,
+;1369:		def,
+;1370:		origin,
+;1371:		qtrue
+;1372:	) ) {
+line 1373
+;1373:	monsterWaveEntrySpawned++;
 ADDRLP4 56
 ADDRGP4 monsterWaveEntrySpawned
 ASGNP4
@@ -5261,15 +5307,15 @@ INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-line 1354
-;1354:	monsterWaveLastProgress = level.time;
+line 1374
+;1374:	monsterWaveLastProgress = level.time;
 ADDRGP4 monsterWaveLastProgress
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 1356
-;1355:
-;1356:	monsterWaveNextSpawn =
+line 1376
+;1375:
+;1376:	monsterWaveNextSpawn =
 ADDRGP4 monsterWaveNextSpawn
 ADDRGP4 level+32
 INDIRI4
@@ -5277,184 +5323,81 @@ ADDRGP4 monsterWaveSpawnInterval
 INDIRI4
 ADDI4
 ASGNI4
-line 1359
-;1357:		level.time +
-;1358:			monsterWaveSpawnInterval;
-;1359:	}
-ADDRGP4 $450
+line 1379
+;1377:		level.time +
+;1378:			monsterWaveSpawnInterval;
+;1379:	}
+ADDRGP4 $455
 JUMPV
-LABELV $449
-line 1360
-;1360:	else {
-line 1361
-;1361:		monsterWaveNextSpawn =
+LABELV $454
+line 1380
+;1380:	else {
+line 1381
+;1381:		monsterWaveNextSpawn =
 ADDRGP4 monsterWaveNextSpawn
 ADDRGP4 level+32
 INDIRI4
 CNSTI4 500
 ADDI4
 ASGNI4
-line 1363
-;1362:			level.time + 500;
-;1363:	}
-LABELV $450
-line 1364
-;1364:}
-LABELV $402
+line 1383
+;1382:			level.time + 500;
+;1383:	}
+LABELV $455
+line 1384
+;1384:}
+LABELV $407
 endproc G_MonsterRunFrame 60 16
 export G_MonsterTryReplaceItem
-proc G_MonsterTryReplaceItem 16 8
-line 1366
-;1365:
-;1366:qboolean G_MonsterTryReplaceItem(gentity_t *item) {
-line 1374
-;1367:
-;1368:	monsterDef_t *def;
-;1369:	
-;1370:	/*
-;1371:	 * Item-bound monsters belong only to Classic mode.
-;1372:	 * One Life receives monsters exclusively from waves.
-;1373:	 */
-;1374:	if( g_monsterHunt.integer !=
-ADDRGP4 g_monsterHunt+12
-INDIRI4
-CNSTI4 1
-EQI4 $455
-line 1375
-;1375:		MONSTER_HUNT_CLASSIC ) {
-line 1376
-;1376:		return qfalse;
-CNSTI4 0
-RETI4
-ADDRGP4 $454
-JUMPV
-LABELV $455
-line 1379
-;1377:	}
-;1378:
-;1379:	if (!g_monsterDefLoaded[MONSTER_TYPE_MAGIC][0]) {
-ADDRGP4 g_monsterDefLoaded+20
-INDIRI4
-CNSTI4 0
-NEI4 $458
-line 1380
-;1380:		return qfalse;
-CNSTI4 0
-RETI4
-ADDRGP4 $454
-JUMPV
-LABELV $458
-line 1383
-;1381:	}
-;1382:
-;1383:	if (!G_MonsterEligibleItem(item)) {
-ADDRFP4 0
-INDIRP4
-ARGP4
-ADDRLP4 4
-ADDRGP4 G_MonsterEligibleItem
-CALLI4
-ASGNI4
-ADDRLP4 4
-INDIRI4
-CNSTI4 0
-NEI4 $461
-line 1384
-;1384:		return qfalse;
-CNSTI4 0
-RETI4
-ADDRGP4 $454
-JUMPV
-LABELV $461
-line 1387
-;1385:	}
-;1386:
-;1387:	monsterItemCounter++;
-ADDRLP4 8
-ADDRGP4 monsterItemCounter
-ASGNP4
-ADDRLP4 8
-INDIRP4
-ADDRLP4 8
-INDIRP4
-INDIRI4
-CNSTI4 1
-ADDI4
-ASGNI4
-line 1389
-;1388:
-;1389:	if (monsterItemCounter % 3 != 0) {
-ADDRGP4 monsterItemCounter
-INDIRI4
-CNSTI4 3
-MODI4
-CNSTI4 0
-EQI4 $463
-line 1390
-;1390:		return qfalse;
-CNSTI4 0
-RETI4
-ADDRGP4 $454
-JUMPV
-LABELV $463
+proc G_MonsterTryReplaceItem 0 0
+line 1388
+;1385:
+;1386:qboolean G_MonsterTryReplaceItem(
+;1387:	gentity_t *item
+;1388:) {
 line 1393
-;1391:	}
-;1392:
-;1393:	def = &g_monsterDefs[MONSTER_TYPE_MAGIC][0];
-ADDRLP4 0
-ADDRGP4 g_monsterDefs+5500
-ASGNP4
-line 1395
-;1394:
-;1395:	return G_MonsterSpawnFromItem(item, def);
-ADDRFP4 0
-INDIRP4
-ARGP4
-ADDRLP4 0
-INDIRP4
-ARGP4
-ADDRLP4 12
-ADDRGP4 G_MonsterSpawnFromItem
-CALLI4
-ASGNI4
-ADDRLP4 12
-INDIRI4
+;1389:	/*
+;1390:	 * Both Monster Hunt modes now receive monsters
+;1391:	 * exclusively from the wave controller.
+;1392:	 */
+;1393:	return qfalse;
+CNSTI4 0
 RETI4
-LABELV $454
-endproc G_MonsterTryReplaceItem 16 8
+LABELV $459
+endproc G_MonsterTryReplaceItem 0 0
 proc G_MonsterFindTarget 28 8
-line 1398
-;1396:}
-;1397:
-;1398:static gentity_t *G_MonsterFindTarget(gentity_t *monster) {
-line 1404
-;1399:	gentity_t *player;
-;1400:	gentity_t *best;
-;1401:	float bestDistance;
-;1402:	int i;
-;1403:
-;1404:	best = NULL;
+line 1396
+;1394:}
+;1395:
+;1396:static gentity_t *G_MonsterFindTarget(gentity_t *monster) {
+line 1402
+;1397:	gentity_t *player;
+;1398:	gentity_t *best;
+;1399:	float bestDistance;
+;1400:	int i;
+;1401:
+;1402:	best = NULL;
 ADDRLP4 12
 CNSTP4 0
 ASGNP4
-line 1405
-;1405:	bestDistance = 99999999.0f;
+line 1403
+;1403:	bestDistance = 99999999.0f;
 ADDRLP4 8
 CNSTF4 1287568416
 ASGNF4
-line 1407
-;1406:
-;1407:	for (i = 0; i < level.maxclients; i++) {
+line 1405
+;1404:
+;1405:	for (i = 0; i < level.maxclients; i++) {
 ADDRLP4 4
 CNSTI4 0
 ASGNI4
-ADDRGP4 $470
+ADDRGP4 $464
 JUMPV
-LABELV $467
-line 1410
-;1408:		float distance;
-;1409:
-;1410:		player = &g_entities[i];
+LABELV $461
+line 1408
+;1406:		float distance;
+;1407:
+;1408:		player = &g_entities[i];
 ADDRLP4 0
 CNSTI4 884
 ADDRLP4 4
@@ -5463,9 +5406,9 @@ MULI4
 ADDRGP4 g_entities
 ADDP4
 ASGNP4
-line 1412
-;1411:
-;1412:		if (!player->client) {
+line 1410
+;1409:
+;1410:		if (!player->client) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 516
@@ -5473,16 +5416,16 @@ ADDP4
 INDIRP4
 CVPU4 4
 CNSTU4 0
-NEU4 $472
-line 1413
-;1413:			continue;
-ADDRGP4 $468
+NEU4 $466
+line 1411
+;1411:			continue;
+ADDRGP4 $462
 JUMPV
-LABELV $472
-line 1416
-;1414:		}
-;1415:
-;1416:		if (player->client->pers.connected != CON_CONNECTED) {
+LABELV $466
+line 1414
+;1412:		}
+;1413:
+;1414:		if (player->client->pers.connected != CON_CONNECTED) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 516
@@ -5492,16 +5435,16 @@ CNSTI4 468
 ADDP4
 INDIRI4
 CNSTI4 2
-EQI4 $474
-line 1417
-;1417:			continue;
-ADDRGP4 $468
+EQI4 $468
+line 1415
+;1415:			continue;
+ADDRGP4 $462
 JUMPV
-LABELV $474
-line 1420
-;1418:		}
-;1419:
-;1420:		if (player->client->sess.sessionTeam == TEAM_SPECTATOR) {
+LABELV $468
+line 1418
+;1416:		}
+;1417:
+;1418:		if (player->client->sess.sessionTeam == TEAM_SPECTATOR) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 516
@@ -5511,32 +5454,32 @@ CNSTI4 616
 ADDP4
 INDIRI4
 CNSTI4 3
-NEI4 $476
-line 1421
-;1421:			continue;
-ADDRGP4 $468
+NEI4 $470
+line 1419
+;1419:			continue;
+ADDRGP4 $462
 JUMPV
-LABELV $476
-line 1424
-;1422:		}
-;1423:
-;1424:		if (player->health <= 0) {
+LABELV $470
+line 1422
+;1420:		}
+;1421:
+;1422:		if (player->health <= 0) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 732
 ADDP4
 INDIRI4
 CNSTI4 0
-GTI4 $478
-line 1425
-;1425:			continue;
-ADDRGP4 $468
+GTI4 $472
+line 1423
+;1423:			continue;
+ADDRGP4 $462
 JUMPV
-LABELV $478
-line 1428
-;1426:		}
-;1427:
-;1428:		distance = DistanceSquared(
+LABELV $472
+line 1426
+;1424:		}
+;1425:
+;1426:		distance = DistanceSquared(
 ADDRLP4 20
 CNSTI4 488
 ASGNI4
@@ -5560,68 +5503,68 @@ ADDRLP4 16
 ADDRLP4 24
 INDIRF4
 ASGNF4
-line 1433
-;1429:			monster->r.currentOrigin,
-;1430:			player->r.currentOrigin
-;1431:		);
-;1432:
-;1433:		if (distance < bestDistance) {
+line 1431
+;1427:			monster->r.currentOrigin,
+;1428:			player->r.currentOrigin
+;1429:		);
+;1430:
+;1431:		if (distance < bestDistance) {
 ADDRLP4 16
 INDIRF4
 ADDRLP4 8
 INDIRF4
-GEF4 $480
-line 1434
-;1434:			bestDistance = distance;
+GEF4 $474
+line 1432
+;1432:			bestDistance = distance;
 ADDRLP4 8
 ADDRLP4 16
 INDIRF4
 ASGNF4
-line 1435
-;1435:			best = player;
+line 1433
+;1433:			best = player;
 ADDRLP4 12
 ADDRLP4 0
 INDIRP4
 ASGNP4
-line 1436
-;1436:		}
-LABELV $480
-line 1437
-;1437:	}
-LABELV $468
-line 1407
+line 1434
+;1434:		}
+LABELV $474
+line 1435
+;1435:	}
+LABELV $462
+line 1405
 ADDRLP4 4
 ADDRLP4 4
 INDIRI4
 CNSTI4 1
 ADDI4
 ASGNI4
-LABELV $470
+LABELV $464
 ADDRLP4 4
 INDIRI4
 ADDRGP4 level+24
 INDIRI4
-LTI4 $467
-line 1439
-;1438:
-;1439:	return best;
+LTI4 $461
+line 1437
+;1436:
+;1437:	return best;
 ADDRLP4 12
 INDIRP4
 RETP4
-LABELV $466
+LABELV $460
 endproc G_MonsterFindTarget 28 8
 proc G_MonsterAnimation 16 0
-line 1445
-;1440:}
-;1441:
-;1442:static animation_t *G_MonsterAnimation(
-;1443:	gentity_t *monster,
-;1444:	monsterDef_t *def
-;1445:) {
-line 1448
-;1446:	int variant;
-;1447:
-;1448:	variant = monster->monsterAnimationVariant;
+line 1443
+;1438:}
+;1439:
+;1440:static animation_t *G_MonsterAnimation(
+;1441:	gentity_t *monster,
+;1442:	monsterDef_t *def
+;1443:) {
+line 1446
+;1444:	int variant;
+;1445:
+;1446:	variant = monster->monsterAnimationVariant;
 ADDRLP4 0
 ADDRFP4 0
 INDIRP4
@@ -5629,29 +5572,29 @@ CNSTI4 848
 ADDP4
 INDIRI4
 ASGNI4
-line 1450
-;1449:
-;1450:	if (variant < 0 || variant >= MAX_MONSTER_VARIANTS) {
+line 1448
+;1447:
+;1448:	if (variant < 0 || variant >= MAX_MONSTER_VARIANTS) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 0
-LTI4 $485
+LTI4 $479
 ADDRLP4 0
 INDIRI4
 CNSTI4 3
-LTI4 $483
-LABELV $485
-line 1451
-;1451:		variant = 0;
+LTI4 $477
+LABELV $479
+line 1449
+;1449:		variant = 0;
 ADDRLP4 0
 CNSTI4 0
 ASGNI4
+line 1450
+;1450:	}
+LABELV $477
 line 1452
-;1452:	}
-LABELV $483
-line 1454
-;1453:
-;1454:	switch (monster->monsterAnimation) {
+;1451:
+;1452:	switch (monster->monsterAnimation) {
 ADDRLP4 8
 ADDRFP4 0
 INDIRP4
@@ -5662,144 +5605,144 @@ ASGNI4
 ADDRLP4 8
 INDIRI4
 CNSTI4 0
-LTI4 $486
+LTI4 $480
 ADDRLP4 8
 INDIRI4
 CNSTI4 5
-GTI4 $486
+GTI4 $480
 ADDRLP4 8
 INDIRI4
 CNSTI4 2
 LSHI4
-ADDRGP4 $495
+ADDRGP4 $489
 ADDP4
 INDIRP4
 JUMPV
 lit
 align 4
-LABELV $495
-address $489
-address $490
-address $491
-address $492
-address $493
-address $494
-code
 LABELV $489
-line 1456
-;1455:	case MONSTER_STATE_IDLE:
-;1456:		return &def->idleAnimation;
+address $483
+address $484
+address $485
+address $486
+address $487
+address $488
+code
+LABELV $483
+line 1454
+;1453:	case MONSTER_STATE_IDLE:
+;1454:		return &def->idleAnimation;
 ADDRFP4 4
 INDIRP4
-CNSTI4 708
+CNSTI4 712
 ADDP4
 RETP4
-ADDRGP4 $482
+ADDRGP4 $476
 JUMPV
-LABELV $490
-line 1459
-;1457:
-;1458:	case MONSTER_STATE_MOVE:
-;1459:		return &def->moveAnimation;
+LABELV $484
+line 1457
+;1455:
+;1456:	case MONSTER_STATE_MOVE:
+;1457:		return &def->moveAnimation;
 ADDRFP4 4
 INDIRP4
-CNSTI4 736
+CNSTI4 740
 ADDP4
 RETP4
-ADDRGP4 $482
+ADDRGP4 $476
 JUMPV
-LABELV $491
-line 1462
-;1460:
-;1461:	case MONSTER_STATE_MELEE:
-;1462:		return &def->meleeAnimations[variant];
+LABELV $485
+line 1460
+;1458:
+;1459:	case MONSTER_STATE_MELEE:
+;1460:		return &def->meleeAnimations[variant];
 CNSTI4 28
 ADDRLP4 0
 INDIRI4
 MULI4
 ADDRFP4 4
 INDIRP4
-CNSTI4 764
+CNSTI4 768
 ADDP4
 ADDP4
 RETP4
-ADDRGP4 $482
-JUMPV
-LABELV $492
-line 1465
-;1463:
-;1464:	case MONSTER_STATE_RANGED:
-;1465:		return &def->rangedAnimations[variant];
-CNSTI4 28
-ADDRLP4 0
-INDIRI4
-MULI4
-ADDRFP4 4
-INDIRP4
-CNSTI4 848
-ADDP4
-ADDP4
-RETP4
-ADDRGP4 $482
-JUMPV
-LABELV $493
-line 1468
-;1466:
-;1467:	case MONSTER_STATE_PAIN:
-;1468:		return &def->painAnimations[variant];
-CNSTI4 28
-ADDRLP4 0
-INDIRI4
-MULI4
-ADDRFP4 4
-INDIRP4
-CNSTI4 932
-ADDP4
-ADDP4
-RETP4
-ADDRGP4 $482
-JUMPV
-LABELV $494
-line 1471
-;1469:
-;1470:	case MONSTER_STATE_DEATH:
-;1471:		return &def->deathAnimations[variant];
-CNSTI4 28
-ADDRLP4 0
-INDIRI4
-MULI4
-ADDRFP4 4
-INDIRP4
-CNSTI4 1016
-ADDP4
-ADDP4
-RETP4
-ADDRGP4 $482
+ADDRGP4 $476
 JUMPV
 LABELV $486
-line 1474
-;1472:
-;1473:	default:
-;1474:		return &def->idleAnimation;
+line 1463
+;1461:
+;1462:	case MONSTER_STATE_RANGED:
+;1463:		return &def->rangedAnimations[variant];
+CNSTI4 28
+ADDRLP4 0
+INDIRI4
+MULI4
 ADDRFP4 4
 INDIRP4
-CNSTI4 708
+CNSTI4 852
+ADDP4
 ADDP4
 RETP4
-LABELV $482
+ADDRGP4 $476
+JUMPV
+LABELV $487
+line 1466
+;1464:
+;1465:	case MONSTER_STATE_PAIN:
+;1466:		return &def->painAnimations[variant];
+CNSTI4 28
+ADDRLP4 0
+INDIRI4
+MULI4
+ADDRFP4 4
+INDIRP4
+CNSTI4 936
+ADDP4
+ADDP4
+RETP4
+ADDRGP4 $476
+JUMPV
+LABELV $488
+line 1469
+;1467:
+;1468:	case MONSTER_STATE_DEATH:
+;1469:		return &def->deathAnimations[variant];
+CNSTI4 28
+ADDRLP4 0
+INDIRI4
+MULI4
+ADDRFP4 4
+INDIRP4
+CNSTI4 1020
+ADDP4
+ADDP4
+RETP4
+ADDRGP4 $476
+JUMPV
+LABELV $480
+line 1472
+;1470:
+;1471:	default:
+;1472:		return &def->idleAnimation;
+ADDRFP4 4
+INDIRP4
+CNSTI4 712
+ADDP4
+RETP4
+LABELV $476
 endproc G_MonsterAnimation 16 0
 proc G_MonsterSetAnimation 0 0
-line 1482
-;1475:	}
-;1476:}
-;1477:
-;1478:static void G_MonsterSetAnimation(
-;1479:	gentity_t *monster,
-;1480:	int animation,
-;1481:	int variant
-;1482:) {
-line 1483
-;1483:	monster->monsterAnimation = animation;
+line 1480
+;1473:	}
+;1474:}
+;1475:
+;1476:static void G_MonsterSetAnimation(
+;1477:	gentity_t *monster,
+;1478:	int animation,
+;1479:	int variant
+;1480:) {
+line 1481
+;1481:	monster->monsterAnimation = animation;
 ADDRFP4 0
 INDIRP4
 CNSTI4 844
@@ -5807,8 +5750,8 @@ ADDP4
 ADDRFP4 4
 INDIRI4
 ASGNI4
-line 1484
-;1484:	monster->monsterAnimationVariant = variant;
+line 1482
+;1482:	monster->monsterAnimationVariant = variant;
 ADDRFP4 0
 INDIRP4
 CNSTI4 848
@@ -5816,8 +5759,8 @@ ADDP4
 ADDRFP4 8
 INDIRI4
 ASGNI4
-line 1485
-;1485:	monster->monsterAnimationStart = level.time;
+line 1483
+;1483:	monster->monsterAnimationStart = level.time;
 ADDRFP4 0
 INDIRP4
 CNSTI4 836
@@ -5825,23 +5768,23 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 1486
-;1486:}
-LABELV $496
+line 1484
+;1484:}
+LABELV $490
 endproc G_MonsterSetAnimation 0 0
 proc G_MonsterUpdateAnimation 36 12
-line 1491
-;1487:
-;1488:static void G_MonsterUpdateAnimation(
-;1489:	gentity_t *monster,
-;1490:	monsterDef_t *def
-;1491:) {
-line 1496
-;1492:	animation_t *animation;
-;1493:	int elapsed;
-;1494:	int frame;
-;1495:
-;1496:	animation = G_MonsterAnimation(monster, def);
+line 1489
+;1485:
+;1486:static void G_MonsterUpdateAnimation(
+;1487:	gentity_t *monster,
+;1488:	monsterDef_t *def
+;1489:) {
+line 1494
+;1490:	animation_t *animation;
+;1491:	int elapsed;
+;1492:	int frame;
+;1493:
+;1494:	animation = G_MonsterAnimation(monster, def);
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -5856,9 +5799,9 @@ ADDRLP4 0
 ADDRLP4 12
 INDIRP4
 ASGNP4
-line 1498
-;1497:
-;1498:	if (animation->numFrames <= 0 ||
+line 1496
+;1495:
+;1496:	if (animation->numFrames <= 0 ||
 ADDRLP4 20
 CNSTI4 0
 ASGNI4
@@ -5869,7 +5812,7 @@ ADDP4
 INDIRI4
 ADDRLP4 20
 INDIRI4
-LEI4 $501
+LEI4 $495
 ADDRLP4 0
 INDIRP4
 CNSTI4 12
@@ -5877,19 +5820,19 @@ ADDP4
 INDIRI4
 ADDRLP4 20
 INDIRI4
-GTI4 $499
-LABELV $501
-line 1499
-;1499:		animation->frameLerp <= 0) {
-line 1500
-;1500:		return;
-ADDRGP4 $498
+GTI4 $493
+LABELV $495
+line 1497
+;1497:		animation->frameLerp <= 0) {
+line 1498
+;1498:		return;
+ADDRGP4 $492
 JUMPV
-LABELV $499
-line 1503
-;1501:	}
-;1502:
-;1503:	elapsed = level.time - monster->monsterAnimationStart;
+LABELV $493
+line 1501
+;1499:	}
+;1500:
+;1501:	elapsed = level.time - monster->monsterAnimationStart;
 ADDRLP4 8
 ADDRGP4 level+32
 INDIRI4
@@ -5900,8 +5843,8 @@ ADDP4
 INDIRI4
 SUBI4
 ASGNI4
-line 1504
-;1504:	frame = elapsed / animation->frameLerp;
+line 1502
+;1502:	frame = elapsed / animation->frameLerp;
 ADDRLP4 4
 ADDRLP4 8
 INDIRI4
@@ -5912,9 +5855,9 @@ ADDP4
 INDIRI4
 DIVI4
 ASGNI4
-line 1506
-;1505:
-;1506:	if (frame >= animation->numFrames) {
+line 1504
+;1503:
+;1504:	if (frame >= animation->numFrames) {
 ADDRLP4 4
 INDIRI4
 ADDRLP4 0
@@ -5922,18 +5865,18 @@ INDIRP4
 CNSTI4 4
 ADDP4
 INDIRI4
-LTI4 $503
-line 1507
-;1507:		if (animation->loopFrames > 0) {
+LTI4 $497
+line 1505
+;1505:		if (animation->loopFrames > 0) {
 ADDRLP4 0
 INDIRP4
 CNSTI4 8
 ADDP4
 INDIRI4
 CNSTI4 0
-LEI4 $505
-line 1508
-;1508:			frame =
+LEI4 $499
+line 1506
+;1506:			frame =
 ADDRLP4 28
 ADDRLP4 0
 INDIRP4
@@ -5964,19 +5907,19 @@ INDIRI4
 MODI4
 ADDI4
 ASGNI4
-line 1513
-;1509:				animation->numFrames -
-;1510:				animation->loopFrames +
-;1511:				(frame - animation->numFrames) %
-;1512:				animation->loopFrames;
-;1513:		}
-ADDRGP4 $506
+line 1511
+;1507:				animation->numFrames -
+;1508:				animation->loopFrames +
+;1509:				(frame - animation->numFrames) %
+;1510:				animation->loopFrames;
+;1511:		}
+ADDRGP4 $500
 JUMPV
-LABELV $505
-line 1514
-;1514:		else {
-line 1515
-;1515:			frame = animation->numFrames - 1;
+LABELV $499
+line 1512
+;1512:		else {
+line 1513
+;1513:			frame = animation->numFrames - 1;
 ADDRLP4 4
 ADDRLP4 0
 INDIRP4
@@ -5986,9 +5929,9 @@ INDIRI4
 CNSTI4 1
 SUBI4
 ASGNI4
-line 1517
-;1516:
-;1517:		if( monster->monsterAnimation ==
+line 1515
+;1514:
+;1515:		if( monster->monsterAnimation ==
 ADDRLP4 24
 ADDRFP4 0
 INDIRP4
@@ -5999,33 +5942,33 @@ ASGNI4
 ADDRLP4 24
 INDIRI4
 CNSTI4 4
-EQI4 $509
+EQI4 $503
 ADDRLP4 24
 INDIRI4
 CNSTI4 3
-EQI4 $510
+EQI4 $504
 ADDRLP4 24
 INDIRI4
 CNSTI4 2
-NEI4 $507
-LABELV $510
+NEI4 $501
+LABELV $504
 ADDRFP4 0
 INDIRP4
 CNSTI4 880
 ADDP4
 INDIRI4
 CNSTI4 0
-GTI4 $507
-LABELV $509
-line 1523
-;1518:				MONSTER_STATE_PAIN ||
-;1519:			((monster->monsterAnimation ==
-;1520:					MONSTER_STATE_RANGED ||
-;1521:			  monster->monsterAnimation ==
-;1522:					MONSTER_STATE_MELEE) &&
-;1523:			 monster->monsterShotsRemaining <= 0) ) {
-line 1524
-;1524:				G_MonsterSetAnimation(
+GTI4 $501
+LABELV $503
+line 1521
+;1516:				MONSTER_STATE_PAIN ||
+;1517:			((monster->monsterAnimation ==
+;1518:					MONSTER_STATE_RANGED ||
+;1519:			  monster->monsterAnimation ==
+;1520:					MONSTER_STATE_MELEE) &&
+;1521:			 monster->monsterShotsRemaining <= 0) ) {
+line 1522
+;1522:				G_MonsterSetAnimation(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -6041,36 +5984,36 @@ ARGI4
 ADDRGP4 G_MonsterSetAnimation
 CALLV
 pop
-line 1530
-;1525:					monster,
-;1526:					MONSTER_STATE_IDLE,
-;1527:					0
-;1528:				);
-;1529:
-;1530:				animation = &def->idleAnimation;
+line 1528
+;1523:					monster,
+;1524:					MONSTER_STATE_IDLE,
+;1525:					0
+;1526:				);
+;1527:
+;1528:				animation = &def->idleAnimation;
 ADDRLP4 0
 ADDRFP4 4
 INDIRP4
-CNSTI4 708
+CNSTI4 712
 ADDP4
 ASGNP4
-line 1531
-;1531:				frame = 0;
+line 1529
+;1529:				frame = 0;
 ADDRLP4 4
 CNSTI4 0
 ASGNI4
+line 1530
+;1530:			}
+LABELV $501
+line 1531
+;1531:		}
+LABELV $500
 line 1532
-;1532:			}
-LABELV $507
-line 1533
-;1533:		}
-LABELV $506
+;1532:	}
+LABELV $497
 line 1534
-;1534:	}
-LABELV $503
-line 1536
-;1535:
-;1536:	monster->s.frame =
+;1533:
+;1534:	monster->s.frame =
 ADDRFP4 0
 INDIRP4
 CNSTI4 172
@@ -6082,43 +6025,43 @@ ADDRLP4 4
 INDIRI4
 ADDI4
 ASGNI4
-line 1538
-;1537:		animation->firstFrame + frame;
-;1538:}
-LABELV $498
+line 1536
+;1535:		animation->firstFrame + frame;
+;1536:}
+LABELV $492
 endproc G_MonsterUpdateAnimation 36 12
 proc G_MonsterGroundWalker 88 28
-line 1544
-;1539:
-;1540:static void G_MonsterGroundWalker(
-;1541:	gentity_t *monster,
-;1542:	monsterDef_t *def,
-;1543:	int msec
-;1544:) {
-line 1549
-;1545:	trace_t trace;
-;1546:	vec3_t destination;
-;1547:	float fallDistance;
-;1548:
-;1549:	if( def->movementType !=
+line 1542
+;1537:
+;1538:static void G_MonsterGroundWalker(
+;1539:	gentity_t *monster,
+;1540:	monsterDef_t *def,
+;1541:	int msec
+;1542:) {
+line 1547
+;1543:	trace_t trace;
+;1544:	vec3_t destination;
+;1545:	float fallDistance;
+;1546:
+;1547:	if( def->movementType !=
 ADDRFP4 4
 INDIRP4
 CNSTI4 584
 ADDP4
 INDIRI4
 CNSTI4 1
-EQI4 $512
-line 1550
-;1550:		MONSTER_MOVEMENT_WALKING ) {
-line 1551
-;1551:		return;
-ADDRGP4 $511
+EQI4 $506
+line 1548
+;1548:		MONSTER_MOVEMENT_WALKING ) {
+line 1549
+;1549:		return;
+ADDRGP4 $505
 JUMPV
-LABELV $512
-line 1554
-;1552:	}
-;1553:
-;1554:	VectorCopy(
+LABELV $506
+line 1552
+;1550:	}
+;1551:
+;1552:	VectorCopy(
 ADDRLP4 56
 ADDRFP4 0
 INDIRP4
@@ -6126,21 +6069,21 @@ CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 1559
-;1555:		monster->r.currentOrigin,
-;1556:		destination
-;1557:	);
-;1558:
-;1559:	destination[2] -= 64;
+line 1557
+;1553:		monster->r.currentOrigin,
+;1554:		destination
+;1555:	);
+;1556:
+;1557:	destination[2] -= 64;
 ADDRLP4 56+8
 ADDRLP4 56+8
 INDIRF4
 CNSTF4 1115684864
 SUBF4
 ASGNF4
-line 1561
-;1560:
-;1561:	trap_Trace(
+line 1559
+;1558:
+;1559:	trap_Trace(
 ADDRLP4 0
 ARGP4
 ADDRLP4 72
@@ -6173,17 +6116,17 @@ ARGI4
 ADDRGP4 trap_Trace
 CALLV
 pop
-line 1571
-;1562:		&trace,
-;1563:		monster->r.currentOrigin,
-;1564:		monster->r.mins,
-;1565:		monster->r.maxs,
-;1566:		destination,
-;1567:		monster->s.number,
-;1568:		MASK_PLAYERSOLID
-;1569:	);
-;1570:
-;1571:	if( !trace.startsolid &&
+line 1569
+;1560:		&trace,
+;1561:		monster->r.currentOrigin,
+;1562:		monster->r.mins,
+;1563:		monster->r.maxs,
+;1564:		destination,
+;1565:		monster->s.number,
+;1566:		MASK_PLAYERSOLID
+;1567:	);
+;1568:
+;1569:	if( !trace.startsolid &&
 ADDRLP4 76
 CNSTI4 0
 ASGNI4
@@ -6191,21 +6134,21 @@ ADDRLP4 0+4
 INDIRI4
 ADDRLP4 76
 INDIRI4
-NEI4 $515
+NEI4 $509
 ADDRLP4 0
 INDIRI4
 ADDRLP4 76
 INDIRI4
-NEI4 $515
+NEI4 $509
 ADDRLP4 0+8
 INDIRF4
 CNSTF4 1065353216
-GEF4 $515
-line 1573
-;1572:		!trace.allsolid &&
-;1573:		trace.fraction < 1.0f ) {
-line 1574
-;1574:		G_MonsterSetOrigin(
+GEF4 $509
+line 1571
+;1570:		!trace.allsolid &&
+;1571:		trace.fraction < 1.0f ) {
+line 1572
+;1572:		G_MonsterSetOrigin(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -6214,12 +6157,12 @@ ARGP4
 ADDRGP4 G_MonsterSetOrigin
 CALLV
 pop
-line 1579
-;1575:			monster,
-;1576:			trace.endpos
-;1577:		);
-;1578:
-;1579:		monster->s.groundEntityNum =
+line 1577
+;1573:			monster,
+;1574:			trace.endpos
+;1575:		);
+;1576:
+;1577:		monster->s.groundEntityNum =
 ADDRFP4 0
 INDIRP4
 CNSTI4 148
@@ -6227,20 +6170,20 @@ ADDP4
 ADDRLP4 0+52
 INDIRI4
 ASGNI4
-line 1582
-;1580:			trace.entityNum;
-;1581:
-;1582:		return;
-ADDRGP4 $511
+line 1580
+;1578:			trace.entityNum;
+;1579:
+;1580:		return;
+ADDRGP4 $505
 JUMPV
-LABELV $515
-line 1588
-;1583:	}
-;1584:
-;1585:	/*
-;1586:	 * No nearby floor: apply simple falling movement.
-;1587:	 */
-;1588:	fallDistance =
+LABELV $509
+line 1586
+;1581:	}
+;1582:
+;1583:	/*
+;1584:	 * No nearby floor: apply simple falling movement.
+;1585:	 */
+;1586:	fallDistance =
 ADDRLP4 68
 CNSTF4 1137180672
 ADDRFP4 8
@@ -6250,10 +6193,10 @@ MULF4
 CNSTF4 1148846080
 DIVF4
 ASGNF4
-line 1591
-;1589:		400.0f * msec / 1000.0f;
-;1590:
-;1591:	VectorCopy(
+line 1589
+;1587:		400.0f * msec / 1000.0f;
+;1588:
+;1589:	VectorCopy(
 ADDRLP4 56
 ADDRFP4 0
 INDIRP4
@@ -6261,12 +6204,12 @@ CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 1596
-;1592:		monster->r.currentOrigin,
-;1593:		destination
-;1594:	);
-;1595:
-;1596:	destination[2] -= fallDistance;
+line 1594
+;1590:		monster->r.currentOrigin,
+;1591:		destination
+;1592:	);
+;1593:
+;1594:	destination[2] -= fallDistance;
 ADDRLP4 56+8
 ADDRLP4 56+8
 INDIRF4
@@ -6274,9 +6217,9 @@ ADDRLP4 68
 INDIRF4
 SUBF4
 ASGNF4
-line 1598
-;1597:
-;1598:	trap_Trace(
+line 1596
+;1595:
+;1596:	trap_Trace(
 ADDRLP4 0
 ARGP4
 ADDRLP4 80
@@ -6309,17 +6252,17 @@ ARGI4
 ADDRGP4 trap_Trace
 CALLV
 pop
-line 1608
-;1599:		&trace,
-;1600:		monster->r.currentOrigin,
-;1601:		monster->r.mins,
-;1602:		monster->r.maxs,
-;1603:		destination,
-;1604:		monster->s.number,
-;1605:		MASK_PLAYERSOLID
-;1606:	);
-;1607:
-;1608:	if( !trace.startsolid &&
+line 1606
+;1597:		&trace,
+;1598:		monster->r.currentOrigin,
+;1599:		monster->r.mins,
+;1600:		monster->r.maxs,
+;1601:		destination,
+;1602:		monster->s.number,
+;1603:		MASK_PLAYERSOLID
+;1604:	);
+;1605:
+;1606:	if( !trace.startsolid &&
 ADDRLP4 84
 CNSTI4 0
 ASGNI4
@@ -6327,16 +6270,16 @@ ADDRLP4 0+4
 INDIRI4
 ADDRLP4 84
 INDIRI4
-NEI4 $522
+NEI4 $516
 ADDRLP4 0
 INDIRI4
 ADDRLP4 84
 INDIRI4
-NEI4 $522
-line 1609
-;1609:		!trace.allsolid ) {
-line 1610
-;1610:		G_MonsterSetOrigin(
+NEI4 $516
+line 1607
+;1607:		!trace.allsolid ) {
+line 1608
+;1608:		G_MonsterSetOrigin(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -6345,21 +6288,21 @@ ARGP4
 ADDRGP4 G_MonsterSetOrigin
 CALLV
 pop
+line 1612
+;1609:			monster,
+;1610:			trace.endpos
+;1611:		);
+;1612:	}
+LABELV $516
 line 1614
-;1611:			monster,
-;1612:			trace.endpos
-;1613:		);
-;1614:	}
-LABELV $522
-line 1616
-;1615:
-;1616:	if( trace.fraction < 1.0f ) {
+;1613:
+;1614:	if( trace.fraction < 1.0f ) {
 ADDRLP4 0+8
 INDIRF4
 CNSTF4 1065353216
-GEF4 $526
-line 1617
-;1617:		monster->s.groundEntityNum =
+GEF4 $520
+line 1615
+;1615:		monster->s.groundEntityNum =
 ADDRFP4 0
 INDIRP4
 CNSTI4 148
@@ -6367,42 +6310,42 @@ ADDP4
 ADDRLP4 0+52
 INDIRI4
 ASGNI4
-line 1619
-;1618:			trace.entityNum;
-;1619:	}
-ADDRGP4 $527
+line 1617
+;1616:			trace.entityNum;
+;1617:	}
+ADDRGP4 $521
 JUMPV
-LABELV $526
-line 1620
-;1620:	else {
-line 1621
-;1621:		monster->s.groundEntityNum =
+LABELV $520
+line 1618
+;1618:	else {
+line 1619
+;1619:		monster->s.groundEntityNum =
 ADDRFP4 0
 INDIRP4
 CNSTI4 148
 ADDP4
 CNSTI4 1023
 ASGNI4
-line 1623
-;1622:			ENTITYNUM_NONE;
-;1623:	}
-LABELV $527
-line 1624
-;1624:}
-LABELV $511
+line 1621
+;1620:			ENTITYNUM_NONE;
+;1621:	}
+LABELV $521
+line 1622
+;1622:}
+LABELV $505
 endproc G_MonsterGroundWalker 88 28
 proc G_MonsterFaceTarget 52 8
-line 1629
-;1625:
-;1626:static void G_MonsterFaceTarget(
-;1627:	gentity_t *monster,
-;1628:	gentity_t *target
-;1629:) {
-line 1633
-;1630:	vec3_t direction;
-;1631:	vec3_t angles;
-;1632:
-;1633:	if( !monster || !target ) {
+line 1627
+;1623:
+;1624:static void G_MonsterFaceTarget(
+;1625:	gentity_t *monster,
+;1626:	gentity_t *target
+;1627:) {
+line 1631
+;1628:	vec3_t direction;
+;1629:	vec3_t angles;
+;1630:
+;1631:	if( !monster || !target ) {
 ADDRLP4 24
 CNSTU4 0
 ASGNU4
@@ -6411,23 +6354,23 @@ INDIRP4
 CVPU4 4
 ADDRLP4 24
 INDIRU4
-EQU4 $533
+EQU4 $527
 ADDRFP4 4
 INDIRP4
 CVPU4 4
 ADDRLP4 24
 INDIRU4
-NEU4 $531
-LABELV $533
-line 1634
-;1634:		return;
-ADDRGP4 $530
+NEU4 $525
+LABELV $527
+line 1632
+;1632:		return;
+ADDRGP4 $524
 JUMPV
-LABELV $531
-line 1637
-;1635:	}
-;1636:
-;1637:	VectorSubtract(
+LABELV $525
+line 1635
+;1633:	}
+;1634:
+;1635:	VectorSubtract(
 ADDRLP4 28
 ADDRFP4 4
 INDIRP4
@@ -6490,13 +6433,13 @@ ADDP4
 INDIRF4
 SUBF4
 ASGNF4
-line 1643
-;1638:		target->r.currentOrigin,
-;1639:		monster->r.currentOrigin,
-;1640:		direction
-;1641:	);
-;1642:
-;1643:	if( VectorNormalize(direction) <= 0.0f ) {
+line 1641
+;1636:		target->r.currentOrigin,
+;1637:		monster->r.currentOrigin,
+;1638:		direction
+;1639:	);
+;1640:
+;1641:	if( VectorNormalize(direction) <= 0.0f ) {
 ADDRLP4 12
 ARGP4
 ADDRLP4 48
@@ -6506,16 +6449,16 @@ ASGNF4
 ADDRLP4 48
 INDIRF4
 CNSTF4 0
-GTF4 $536
-line 1644
-;1644:		return;
-ADDRGP4 $530
+GTF4 $530
+line 1642
+;1642:		return;
+ADDRGP4 $524
 JUMPV
-LABELV $536
-line 1647
-;1645:	}
-;1646:
-;1647:	vectoangles(direction, angles);
+LABELV $530
+line 1645
+;1643:	}
+;1644:
+;1645:	vectoangles(direction, angles);
 ADDRLP4 12
 ARGP4
 ADDRLP4 0
@@ -6523,19 +6466,19 @@ ARGP4
 ADDRGP4 vectoangles
 CALLV
 pop
-line 1648
-;1648:	angles[PITCH] = 0;
+line 1646
+;1646:	angles[PITCH] = 0;
 ADDRLP4 0
 CNSTF4 0
 ASGNF4
-line 1649
-;1649:	angles[ROLL] = 0;
+line 1647
+;1647:	angles[ROLL] = 0;
 ADDRLP4 0+8
 CNSTF4 0
 ASGNF4
-line 1651
-;1650:
-;1651:	VectorCopy(angles, monster->s.angles);
+line 1649
+;1648:
+;1649:	VectorCopy(angles, monster->s.angles);
 ADDRFP4 0
 INDIRP4
 CNSTI4 116
@@ -6543,8 +6486,8 @@ ADDP4
 ADDRLP4 0
 INDIRB
 ASGNB 12
-line 1652
-;1652:	VectorCopy(angles, monster->s.apos.trBase);
+line 1650
+;1650:	VectorCopy(angles, monster->s.apos.trBase);
 ADDRFP4 0
 INDIRP4
 CNSTI4 60
@@ -6552,8 +6495,8 @@ ADDP4
 ADDRLP4 0
 INDIRB
 ASGNB 12
-line 1653
-;1653:	VectorCopy(angles, monster->r.currentAngles);
+line 1651
+;1651:	VectorCopy(angles, monster->r.currentAngles);
 ADDRFP4 0
 INDIRP4
 CNSTI4 500
@@ -6561,40 +6504,40 @@ ADDP4
 ADDRLP4 0
 INDIRB
 ASGNB 12
-line 1654
-;1654:}
-LABELV $530
+line 1652
+;1652:}
+LABELV $524
 endproc G_MonsterFaceTarget 52 8
 proc G_MonsterMove 324 28
-line 1662
-;1655:
-;1656:
-;1657:static void G_MonsterMove(
-;1658:	gentity_t *monster,
-;1659:	gentity_t *target,
-;1660:	monsterDef_t *def,
-;1661:	int msec
-;1662:) {
-line 1681
-;1663:	trace_t trace;
-;1664:	trace_t slideTrace;
-;1665:	vec3_t targetOrigin;
-;1666:	vec3_t direction;
-;1667:	vec3_t right;
-;1668:	vec3_t wishDirection;
-;1669:	vec3_t velocity;
-;1670:	vec3_t move;
-;1671:	vec3_t destination;
-;1672:	vec3_t slideMove;
-;1673:	vec3_t slideDestination;
-;1674:	vec3_t angles;
-;1675:	float phase;
-;1676:	float drift;
-;1677:	float distance;
-;1678:	float dot;
-;1679:	qboolean shouldMove;
-;1680:
-;1681:	VectorCopy(
+line 1660
+;1653:
+;1654:
+;1655:static void G_MonsterMove(
+;1656:	gentity_t *monster,
+;1657:	gentity_t *target,
+;1658:	monsterDef_t *def,
+;1659:	int msec
+;1660:) {
+line 1679
+;1661:	trace_t trace;
+;1662:	trace_t slideTrace;
+;1663:	vec3_t targetOrigin;
+;1664:	vec3_t direction;
+;1665:	vec3_t right;
+;1666:	vec3_t wishDirection;
+;1667:	vec3_t velocity;
+;1668:	vec3_t move;
+;1669:	vec3_t destination;
+;1670:	vec3_t slideMove;
+;1671:	vec3_t slideDestination;
+;1672:	vec3_t angles;
+;1673:	float phase;
+;1674:	float drift;
+;1675:	float distance;
+;1676:	float dot;
+;1677:	qboolean shouldMove;
+;1678:
+;1679:	VectorCopy(
 ADDRLP4 128
 ADDRFP4 4
 INDIRP4
@@ -6602,26 +6545,26 @@ CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 1686
-;1682:		target->r.currentOrigin,
-;1683:		targetOrigin
-;1684:	);
-;1685:
-;1686:	if( def->movementType ==
+line 1684
+;1680:		target->r.currentOrigin,
+;1681:		targetOrigin
+;1682:	);
+;1683:
+;1684:	if( def->movementType ==
 ADDRFP4 8
 INDIRP4
 CNSTI4 584
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $540
-line 1687
-;1687:		MONSTER_MOVEMENT_WALKING ) {
-line 1691
-;1688:		/*
-;1689:		 * Walking monsters chase only horizontally.
-;1690:		 */
-;1691:		targetOrigin[2] =
+NEI4 $534
+line 1685
+;1685:		MONSTER_MOVEMENT_WALKING ) {
+line 1689
+;1686:		/*
+;1687:		 * Walking monsters chase only horizontally.
+;1688:		 */
+;1689:		targetOrigin[2] =
 ADDRLP4 128+8
 ADDRFP4 0
 INDIRP4
@@ -6629,28 +6572,28 @@ CNSTI4 496
 ADDP4
 INDIRF4
 ASGNF4
-line 1693
-;1692:			monster->r.currentOrigin[2];
-;1693:	}
-ADDRGP4 $541
+line 1691
+;1690:			monster->r.currentOrigin[2];
+;1691:	}
+ADDRGP4 $535
 JUMPV
-LABELV $540
-line 1694
-;1694:	else {
-line 1695
-;1695:		targetOrigin[2] += 16;
+LABELV $534
+line 1692
+;1692:	else {
+line 1693
+;1693:		targetOrigin[2] += 16;
 ADDRLP4 128+8
 ADDRLP4 128+8
 INDIRF4
 CNSTF4 1098907648
 ADDF4
 ASGNF4
+line 1694
+;1694:	}
+LABELV $535
 line 1696
-;1696:	}
-LABELV $541
-line 1698
-;1697:
-;1698:	VectorSubtract(
+;1695:
+;1696:	VectorSubtract(
 ADDRLP4 252
 ADDRFP4 0
 INDIRP4
@@ -6685,13 +6628,13 @@ ADDP4
 INDIRF4
 SUBF4
 ASGNF4
-line 1704
-;1699:		targetOrigin,
-;1700:		monster->r.currentOrigin,
-;1701:		direction
-;1702:	);
-;1703:
-;1704:	distance = VectorNormalize(direction);
+line 1702
+;1697:		targetOrigin,
+;1698:		monster->r.currentOrigin,
+;1699:		direction
+;1700:	);
+;1701:
+;1702:	distance = VectorNormalize(direction);
 ADDRLP4 80
 ARGP4
 ADDRLP4 256
@@ -6702,25 +6645,25 @@ ADDRLP4 168
 ADDRLP4 256
 INDIRF4
 ASGNF4
-line 1706
-;1705:
-;1706:	if (distance <= 0.0f) {
+line 1704
+;1703:
+;1704:	if (distance <= 0.0f) {
 ADDRLP4 168
 INDIRF4
 CNSTF4 0
-GTF4 $548
-line 1707
-;1707:		return;
-ADDRGP4 $539
+GTF4 $542
+line 1705
+;1705:		return;
+ADDRGP4 $533
 JUMPV
-LABELV $548
-line 1713
-;1708:	}
-;1709:	/*
-;1710:	 * A nearby target behind a wall is not yet a valid
-;1711:	 * firing position, so continue moving toward it.
-;1712:	 */
-;1713:	shouldMove =
+LABELV $542
+line 1711
+;1706:	}
+;1707:	/*
+;1708:	 * A nearby target behind a wall is not yet a valid
+;1709:	 * firing position, so continue moving toward it.
+;1710:	 */
+;1711:	shouldMove =
 ADDRLP4 168
 INDIRF4
 ADDRFP4 8
@@ -6728,7 +6671,7 @@ INDIRP4
 CNSTI4 648
 ADDP4
 INDIRF4
-GTF4 $553
+GTF4 $547
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -6742,34 +6685,34 @@ ASGNI4
 ADDRLP4 264
 INDIRI4
 CNSTI4 0
-NEI4 $551
-LABELV $553
+NEI4 $545
+LABELV $547
 ADDRLP4 260
 CNSTI4 1
 ASGNI4
-ADDRGP4 $552
+ADDRGP4 $546
 JUMPV
-LABELV $551
+LABELV $545
 ADDRLP4 260
 CNSTI4 0
 ASGNI4
-LABELV $552
+LABELV $546
 ADDRLP4 172
 ADDRLP4 260
 INDIRI4
 ASGNI4
-line 1724
-;1714:		distance > def->attackRange ||
-;1715:		!G_MonsterCanSeeTarget(
-;1716:			monster,
-;1717:			target
-;1718:		);
-;1719:	
-;1720:	/*
-;1721:	 * Switch between standing and movement animations
-;1722:	 * without interrupting attacks, pain or death.
-;1723:	 */
-;1724:	if( monster->monsterAnimation ==
+line 1722
+;1712:		distance > def->attackRange ||
+;1713:		!G_MonsterCanSeeTarget(
+;1714:			monster,
+;1715:			target
+;1716:		);
+;1717:	
+;1718:	/*
+;1719:	 * Switch between standing and movement animations
+;1720:	 * without interrupting attacks, pain or death.
+;1721:	 */
+;1722:	if( monster->monsterAnimation ==
 ADDRLP4 268
 ADDRFP4 0
 INDIRP4
@@ -6780,46 +6723,46 @@ ASGNI4
 ADDRLP4 268
 INDIRI4
 CNSTI4 0
-EQI4 $556
+EQI4 $550
 ADDRLP4 268
 INDIRI4
 CNSTI4 1
-NEI4 $554
-LABELV $556
-line 1727
-;1725:			MONSTER_STATE_IDLE ||
-;1726:		monster->monsterAnimation ==
-;1727:			MONSTER_STATE_MOVE ) {
-line 1728
-;1728:		if( shouldMove ||
+NEI4 $548
+LABELV $550
+line 1725
+;1723:			MONSTER_STATE_IDLE ||
+;1724:		monster->monsterAnimation ==
+;1725:			MONSTER_STATE_MOVE ) {
+line 1726
+;1726:		if( shouldMove ||
 ADDRLP4 172
 INDIRI4
 CNSTI4 0
-NEI4 $559
+NEI4 $553
 ADDRFP4 8
 INDIRP4
 CNSTI4 588
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $557
-LABELV $559
-line 1730
-;1729:			def->movePattern ==
-;1730:				MONSTER_PATTERN_DRIFT ) {
-line 1731
-;1731:			if( monster->monsterAnimation !=
+NEI4 $551
+LABELV $553
+line 1728
+;1727:			def->movePattern ==
+;1728:				MONSTER_PATTERN_DRIFT ) {
+line 1729
+;1729:			if( monster->monsterAnimation !=
 ADDRFP4 0
 INDIRP4
 CNSTI4 844
 ADDP4
 INDIRI4
 CNSTI4 1
-EQI4 $558
-line 1732
-;1732:				MONSTER_STATE_MOVE ) {
-line 1733
-;1733:				G_MonsterSetAnimation(
+EQI4 $552
+line 1730
+;1730:				MONSTER_STATE_MOVE ) {
+line 1731
+;1731:				G_MonsterSetAnimation(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -6830,30 +6773,30 @@ ARGI4
 ADDRGP4 G_MonsterSetAnimation
 CALLV
 pop
-line 1738
-;1734:					monster,
-;1735:					MONSTER_STATE_MOVE,
-;1736:					0
-;1737:				);
-;1738:			}
-line 1739
-;1739:		}
-ADDRGP4 $558
+line 1736
+;1732:					monster,
+;1733:					MONSTER_STATE_MOVE,
+;1734:					0
+;1735:				);
+;1736:			}
+line 1737
+;1737:		}
+ADDRGP4 $552
 JUMPV
-LABELV $557
-line 1740
-;1740:		else if( monster->monsterAnimation !=
+LABELV $551
+line 1738
+;1738:		else if( monster->monsterAnimation !=
 ADDRFP4 0
 INDIRP4
 CNSTI4 844
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $562
-line 1741
-;1741:			MONSTER_STATE_IDLE ) {
-line 1742
-;1742:			G_MonsterSetAnimation(
+EQI4 $556
+line 1739
+;1739:			MONSTER_STATE_IDLE ) {
+line 1740
+;1740:			G_MonsterSetAnimation(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -6869,20 +6812,20 @@ ARGI4
 ADDRGP4 G_MonsterSetAnimation
 CALLV
 pop
-line 1747
-;1743:				monster,
-;1744:				MONSTER_STATE_IDLE,
-;1745:				0
-;1746:			);
-;1747:		}
-LABELV $562
-LABELV $558
+line 1745
+;1741:				monster,
+;1742:				MONSTER_STATE_IDLE,
+;1743:				0
+;1744:			);
+;1745:		}
+LABELV $556
+LABELV $552
+line 1746
+;1746:	}
+LABELV $548
 line 1748
-;1748:	}
-LABELV $554
-line 1750
-;1749:
-;1750:	VectorSet(
+;1747:
+;1748:	VectorSet(
 ADDRLP4 104
 ADDRLP4 80+4
 INDIRF4
@@ -6895,14 +6838,14 @@ ASGNF4
 ADDRLP4 104+8
 CNSTF4 0
 ASGNF4
-line 1757
-;1751:		right,
-;1752:		-direction[1],
-;1753:		direction[0],
-;1754:		0
-;1755:	);
-;1756:
-;1757:	if (VectorNormalize(right) <= 0.0f) {
+line 1755
+;1749:		right,
+;1750:		-direction[1],
+;1751:		direction[0],
+;1752:		0
+;1753:	);
+;1754:
+;1755:	if (VectorNormalize(right) <= 0.0f) {
 ADDRLP4 104
 ARGP4
 ADDRLP4 272
@@ -6912,9 +6855,9 @@ ASGNF4
 ADDRLP4 272
 INDIRF4
 CNSTF4 0
-GTF4 $567
-line 1758
-;1758:		VectorSet(right, 1, 0, 0);
+GTF4 $561
+line 1756
+;1756:		VectorSet(right, 1, 0, 0);
 ADDRLP4 104
 CNSTF4 1065353216
 ASGNF4
@@ -6924,18 +6867,18 @@ ASGNF4
 ADDRLP4 104+8
 CNSTF4 0
 ASGNF4
+line 1757
+;1757:	}
+LABELV $561
 line 1759
-;1759:	}
-LABELV $567
-line 1761
-;1760:
-;1761:	drift = 0.0f;
+;1758:
+;1759:	drift = 0.0f;
 ADDRLP4 164
 CNSTF4 0
 ASGNF4
-line 1763
-;1762:
-;1763:	if (def->movePattern == MONSTER_PATTERN_DRIFT &&
+line 1761
+;1760:
+;1761:	if (def->movePattern == MONSTER_PATTERN_DRIFT &&
 ADDRLP4 276
 ADDRFP4 8
 INDIRP4
@@ -6946,18 +6889,18 @@ CNSTI4 588
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $571
+NEI4 $565
 ADDRLP4 276
 INDIRP4
 CNSTI4 636
 ADDP4
 INDIRI4
 CNSTI4 0
-LEI4 $571
-line 1764
-;1764:		def->driftPeriod > 0) {
-line 1765
-;1765:		phase =
+LEI4 $565
+line 1762
+;1762:		def->driftPeriod > 0) {
+line 1763
+;1763:		phase =
 ADDRLP4 280
 ADDRFP4 8
 INDIRP4
@@ -6977,19 +6920,19 @@ INDIRI4
 CVIF4 4
 DIVF4
 ASGNF4
-line 1769
-;1766:			(level.time % def->driftPeriod) /
-;1767:			(float)def->driftPeriod;
-;1768:
-;1769:		phase *= 6.2831853f;
+line 1767
+;1764:			(level.time % def->driftPeriod) /
+;1765:			(float)def->driftPeriod;
+;1766:
+;1767:		phase *= 6.2831853f;
 ADDRLP4 176
 CNSTF4 1086918619
 ADDRLP4 176
 INDIRF4
 MULF4
 ASGNF4
-line 1770
-;1770:		phase += monster->monsterDriftPhase;
+line 1768
+;1768:		phase += monster->monsterDriftPhase;
 ADDRLP4 176
 ADDRLP4 176
 INDIRF4
@@ -7000,9 +6943,9 @@ ADDP4
 INDIRF4
 ADDF4
 ASGNF4
-line 1772
-;1771:
-;1772:		drift =
+line 1770
+;1769:
+;1770:		drift =
 ADDRLP4 176
 INDIRF4
 ARGF4
@@ -7020,14 +6963,14 @@ ADDP4
 INDIRF4
 MULF4
 ASGNF4
+line 1773
+;1771:			sin(phase) *
+;1772:			def->driftAmount;
+;1773:	}
+LABELV $565
 line 1775
-;1773:			sin(phase) *
-;1774:			def->driftAmount;
-;1775:	}
-LABELV $571
-line 1777
-;1776:
-;1777:	VectorClear(velocity);
+;1774:
+;1775:	VectorClear(velocity);
 ADDRLP4 280
 CNSTF4 0
 ASGNF4
@@ -7043,33 +6986,33 @@ ADDRLP4 68
 ADDRLP4 280
 INDIRF4
 ASGNF4
-line 1779
-;1778:
-;1779:	if (shouldMove) {
+line 1777
+;1776:
+;1777:	if (shouldMove) {
 ADDRLP4 172
 INDIRI4
 CNSTI4 0
-EQI4 $576
-line 1780
-;1780:		VectorCopy(direction, wishDirection);
+EQI4 $570
+line 1778
+;1778:		VectorCopy(direction, wishDirection);
 ADDRLP4 140
 ADDRLP4 80
 INDIRB
 ASGNB 12
-line 1782
-;1781:
-;1782:		if (def->movePattern ==
+line 1780
+;1779:
+;1780:		if (def->movePattern ==
 ADDRFP4 8
 INDIRP4
 CNSTI4 588
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $578
-line 1783
-;1783:			MONSTER_PATTERN_DRIFT) {
-line 1784
-;1784:			VectorMA(
+NEI4 $572
+line 1781
+;1781:			MONSTER_PATTERN_DRIFT) {
+line 1782
+;1782:			VectorMA(
 ADDRLP4 140
 ADDRLP4 140
 INDIRF4
@@ -7100,17 +7043,17 @@ INDIRF4
 MULF4
 ADDF4
 ASGNF4
+line 1788
+;1783:				wishDirection,
+;1784:				drift,
+;1785:				right,
+;1786:				wishDirection
+;1787:			);
+;1788:		}
+LABELV $572
 line 1790
-;1785:				wishDirection,
-;1786:				drift,
-;1787:				right,
-;1788:				wishDirection
-;1789:			);
-;1790:		}
-LABELV $578
-line 1792
-;1791:
-;1792:		if (VectorNormalize(wishDirection) <= 0.0f) {
+;1789:
+;1790:		if (VectorNormalize(wishDirection) <= 0.0f) {
 ADDRLP4 140
 ARGP4
 ADDRLP4 284
@@ -7120,16 +7063,16 @@ ASGNF4
 ADDRLP4 284
 INDIRF4
 CNSTF4 0
-GTF4 $586
-line 1793
-;1793:			return;
-ADDRGP4 $539
+GTF4 $580
+line 1791
+;1791:			return;
+ADDRGP4 $533
 JUMPV
-LABELV $586
-line 1796
-;1794:		}
-;1795:
-;1796:		VectorScale(
+LABELV $580
+line 1794
+;1792:		}
+;1793:
+;1794:		VectorScale(
 ADDRLP4 288
 ADDRFP4 8
 INDIRP4
@@ -7162,33 +7105,33 @@ ADDP4
 INDIRF4
 MULF4
 ASGNF4
-line 1801
-;1797:			wishDirection,
-;1798:			def->speed,
-;1799:			velocity
-;1800:		);
-;1801:	}
-ADDRGP4 $577
+line 1799
+;1795:			wishDirection,
+;1796:			def->speed,
+;1797:			velocity
+;1798:		);
+;1799:	}
+ADDRGP4 $571
 JUMPV
-LABELV $576
-line 1802
-;1802:	else if (def->movePattern ==
+LABELV $570
+line 1800
+;1800:	else if (def->movePattern ==
 ADDRFP4 8
 INDIRP4
 CNSTI4 588
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $539
-line 1803
-;1803:		MONSTER_PATTERN_DRIFT) {
-line 1809
-;1804:		/*
-;1805:		 * Inside attack range, smoothly strafe.
-;1806:		 * Do not normalize this vector: driftAmount must
-;1807:		 * affect the actual lateral speed.
-;1808:		 */
-;1809:		VectorScale(
+NEI4 $533
+line 1801
+;1801:		MONSTER_PATTERN_DRIFT) {
+line 1807
+;1802:		/*
+;1803:		 * Inside attack range, smoothly strafe.
+;1804:		 * Do not normalize this vector: driftAmount must
+;1805:		 * affect the actual lateral speed.
+;1806:		 */
+;1807:		VectorScale(
 ADDRLP4 288
 ADDRFP4 8
 INDIRP4
@@ -7230,22 +7173,22 @@ INDIRF4
 MULF4
 MULF4
 ASGNF4
+line 1812
+;1808:			right,
+;1809:			drift * def->speed,
+;1810:			velocity
+;1811:		);
+;1812:	}
+line 1813
+;1813:	else {
 line 1814
-;1810:			right,
-;1811:			drift * def->speed,
-;1812:			velocity
-;1813:		);
-;1814:	}
-line 1815
-;1815:	else {
-line 1816
-;1816:		return;
-LABELV $593
-LABELV $577
-line 1819
-;1817:	}
-;1818:
-;1819:	VectorScale(
+;1814:		return;
+LABELV $587
+LABELV $571
+line 1817
+;1815:	}
+;1816:
+;1817:	VectorScale(
 ADDRLP4 284
 ADDRFP4 12
 INDIRI4
@@ -7277,13 +7220,13 @@ CNSTF4 1148846080
 DIVF4
 MULF4
 ASGNF4
-line 1825
-;1820:		velocity,
-;1821:		msec / 1000.0f,
-;1822:		move
-;1823:	);
-;1824:
-;1825:	if (VectorLengthSquared(move) <= 0.0001f) {
+line 1823
+;1818:		velocity,
+;1819:		msec / 1000.0f,
+;1820:		move
+;1821:	);
+;1822:
+;1823:	if (VectorLengthSquared(move) <= 0.0001f) {
 ADDRLP4 56
 ARGP4
 ADDRLP4 288
@@ -7293,16 +7236,16 @@ ASGNF4
 ADDRLP4 288
 INDIRF4
 CNSTF4 953267991
-GTF4 $602
-line 1826
-;1826:		return;
-ADDRGP4 $539
+GTF4 $596
+line 1824
+;1824:		return;
+ADDRGP4 $533
 JUMPV
-LABELV $602
-line 1829
-;1827:	}
-;1828:
-;1829:	VectorAdd(
+LABELV $596
+line 1827
+;1825:	}
+;1826:
+;1827:	VectorAdd(
 ADDRLP4 292
 ADDRFP4 0
 INDIRP4
@@ -7337,13 +7280,13 @@ ADDRLP4 56+8
 INDIRF4
 ADDF4
 ASGNF4
-line 1835
-;1830:		monster->r.currentOrigin,
-;1831:		move,
-;1832:		destination
-;1833:	);
-;1834:
-;1835:	trap_Trace(
+line 1833
+;1828:		monster->r.currentOrigin,
+;1829:		move,
+;1830:		destination
+;1831:	);
+;1832:
+;1833:	trap_Trace(
 ADDRLP4 0
 ARGP4
 ADDRLP4 296
@@ -7376,17 +7319,17 @@ ARGI4
 ADDRGP4 trap_Trace
 CALLV
 pop
-line 1845
-;1836:		&trace,
-;1837:		monster->r.currentOrigin,
-;1838:		monster->r.mins,
-;1839:		monster->r.maxs,
-;1840:		destination,
-;1841:		monster->s.number,
-;1842:		MASK_PLAYERSOLID
-;1843:	);
-;1844:
-;1845:	G_MonsterSetOrigin(monster, trace.endpos);
+line 1843
+;1834:		&trace,
+;1835:		monster->r.currentOrigin,
+;1836:		monster->r.mins,
+;1837:		monster->r.maxs,
+;1838:		destination,
+;1839:		monster->s.number,
+;1840:		MASK_PLAYERSOLID
+;1841:	);
+;1842:
+;1843:	G_MonsterSetOrigin(monster, trace.endpos);
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -7395,13 +7338,13 @@ ARGP4
 ADDRGP4 G_MonsterSetOrigin
 CALLV
 pop
-line 1847
-;1846:
-;1847:	if (trace.fraction < 1.0f &&
+line 1845
+;1844:
+;1845:	if (trace.fraction < 1.0f &&
 ADDRLP4 0+8
 INDIRF4
 CNSTF4 1065353216
-GEF4 $609
+GEF4 $603
 ADDRLP4 300
 CNSTI4 0
 ASGNI4
@@ -7409,20 +7352,20 @@ ADDRLP4 0+4
 INDIRI4
 ADDRLP4 300
 INDIRI4
-NEI4 $609
+NEI4 $603
 ADDRLP4 0
 INDIRI4
 ADDRLP4 300
 INDIRI4
-NEI4 $609
-line 1849
-;1848:		!trace.startsolid &&
-;1849:		!trace.allsolid) {
-line 1853
-;1850:		/*
-;1851:		 * Slide only for the uncompleted part of movement.
-;1852:		 */
-;1853:		VectorScale(
+NEI4 $603
+line 1847
+;1846:		!trace.startsolid &&
+;1847:		!trace.allsolid) {
+line 1851
+;1848:		/*
+;1849:		 * Slide only for the uncompleted part of movement.
+;1850:		 */
+;1851:		VectorScale(
 ADDRLP4 304
 CNSTF4 1065353216
 ASGNF4
@@ -7455,13 +7398,13 @@ INDIRF4
 SUBF4
 MULF4
 ASGNF4
-line 1859
-;1854:			move,
-;1855:			1.0f - trace.fraction,
-;1856:			slideMove
-;1857:		);
-;1858:
-;1859:		dot = DotProduct(
+line 1857
+;1852:			move,
+;1853:			1.0f - trace.fraction,
+;1854:			slideMove
+;1855:		);
+;1856:
+;1857:		dot = DotProduct(
 ADDRLP4 180
 ADDRLP4 92
 INDIRF4
@@ -7481,12 +7424,12 @@ INDIRF4
 MULF4
 ADDF4
 ASGNF4
-line 1864
-;1860:			slideMove,
-;1861:			trace.plane.normal
-;1862:		);
-;1863:
-;1864:		VectorMA(
+line 1862
+;1858:			slideMove,
+;1859:			trace.plane.normal
+;1860:		);
+;1861:
+;1862:		VectorMA(
 ADDRLP4 308
 ADDRLP4 180
 INDIRF4
@@ -7523,14 +7466,14 @@ NEGF4
 MULF4
 ADDF4
 ASGNF4
-line 1871
-;1865:			slideMove,
-;1866:			-dot,
-;1867:			trace.plane.normal,
-;1868:			slideMove
-;1869:		);
-;1870:
-;1871:		if (VectorLengthSquared(slideMove) > 0.0001f) {
+line 1869
+;1863:			slideMove,
+;1864:			-dot,
+;1865:			trace.plane.normal,
+;1866:			slideMove
+;1867:		);
+;1868:
+;1869:		if (VectorLengthSquared(slideMove) > 0.0001f) {
 ADDRLP4 92
 ARGP4
 ADDRLP4 312
@@ -7540,9 +7483,9 @@ ASGNF4
 ADDRLP4 312
 INDIRF4
 CNSTF4 953267991
-LEF4 $636
-line 1872
-;1872:			VectorAdd(
+LEF4 $630
+line 1870
+;1870:			VectorAdd(
 ADDRLP4 316
 ADDRFP4 0
 INDIRP4
@@ -7577,13 +7520,13 @@ ADDRLP4 92+8
 INDIRF4
 ADDF4
 ASGNF4
-line 1878
-;1873:				monster->r.currentOrigin,
-;1874:				slideMove,
-;1875:				slideDestination
-;1876:			);
-;1877:
-;1878:			trap_Trace(
+line 1876
+;1871:				monster->r.currentOrigin,
+;1872:				slideMove,
+;1873:				slideDestination
+;1874:			);
+;1875:
+;1876:			trap_Trace(
 ADDRLP4 196
 ARGP4
 ADDRLP4 320
@@ -7616,17 +7559,17 @@ ARGI4
 ADDRGP4 trap_Trace
 CALLV
 pop
-line 1888
-;1879:				&slideTrace,
-;1880:				monster->r.currentOrigin,
-;1881:				monster->r.mins,
-;1882:				monster->r.maxs,
-;1883:				slideDestination,
-;1884:				monster->s.number,
-;1885:				MASK_PLAYERSOLID
-;1886:			);
-;1887:
-;1888:			G_MonsterSetOrigin(
+line 1886
+;1877:				&slideTrace,
+;1878:				monster->r.currentOrigin,
+;1879:				monster->r.mins,
+;1880:				monster->r.maxs,
+;1881:				slideDestination,
+;1882:				monster->s.number,
+;1883:				MASK_PLAYERSOLID
+;1884:			);
+;1885:
+;1886:			G_MonsterSetOrigin(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -7635,18 +7578,18 @@ ARGP4
 ADDRGP4 G_MonsterSetOrigin
 CALLV
 pop
-line 1892
-;1889:				monster,
-;1890:				slideTrace.endpos
-;1891:			);
-;1892:		}
-LABELV $636
+line 1890
+;1887:				monster,
+;1888:				slideTrace.endpos
+;1889:			);
+;1890:		}
+LABELV $630
+line 1891
+;1891:	}
+LABELV $603
 line 1893
-;1893:	}
-LABELV $609
-line 1895
-;1894:
-;1895:	vectoangles(direction, angles);
+;1892:
+;1893:	vectoangles(direction, angles);
 ADDRLP4 80
 ARGP4
 ADDRLP4 116
@@ -7654,19 +7597,19 @@ ARGP4
 ADDRGP4 vectoangles
 CALLV
 pop
-line 1896
-;1896:	angles[PITCH] = 0;
+line 1894
+;1894:	angles[PITCH] = 0;
 ADDRLP4 116
 CNSTF4 0
 ASGNF4
-line 1897
-;1897:	angles[ROLL] = 0;
+line 1895
+;1895:	angles[ROLL] = 0;
 ADDRLP4 116+8
 CNSTF4 0
 ASGNF4
-line 1899
-;1898:
-;1899:	VectorCopy(angles, monster->s.angles);
+line 1897
+;1896:
+;1897:	VectorCopy(angles, monster->s.angles);
 ADDRFP4 0
 INDIRP4
 CNSTI4 116
@@ -7674,8 +7617,8 @@ ADDP4
 ADDRLP4 116
 INDIRB
 ASGNB 12
-line 1900
-;1900:	VectorCopy(angles, monster->s.apos.trBase);
+line 1898
+;1898:	VectorCopy(angles, monster->s.apos.trBase);
 ADDRFP4 0
 INDIRP4
 CNSTI4 60
@@ -7683,8 +7626,8 @@ ADDP4
 ADDRLP4 116
 INDIRB
 ASGNB 12
-line 1901
-;1901:	VectorCopy(angles, monster->r.currentAngles);
+line 1899
+;1899:	VectorCopy(angles, monster->r.currentAngles);
 ADDRFP4 0
 INDIRP4
 CNSTI4 500
@@ -7692,25 +7635,25 @@ ADDP4
 ADDRLP4 116
 INDIRB
 ASGNB 12
-line 1903
-;1902:
-;1903:	trap_LinkEntity(monster);
+line 1901
+;1900:
+;1901:	trap_LinkEntity(monster);
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 trap_LinkEntity
 CALLV
 pop
-line 1904
-;1904:}
-LABELV $539
+line 1902
+;1902:}
+LABELV $533
 endproc G_MonsterMove 324 28
 proc G_MonsterValidTarget 8 0
-line 1906
-;1905:
-;1906:static qboolean G_MonsterValidTarget(gentity_t *target) {
-line 1907
-;1907:	if (!target || !target->client) {
+line 1904
+;1903:
+;1904:static qboolean G_MonsterValidTarget(gentity_t *target) {
+line 1905
+;1905:	if (!target || !target->client) {
 ADDRLP4 0
 ADDRFP4 0
 INDIRP4
@@ -7723,7 +7666,7 @@ INDIRP4
 CVPU4 4
 ADDRLP4 4
 INDIRU4
-EQU4 $647
+EQU4 $641
 ADDRLP4 0
 INDIRP4
 CNSTI4 516
@@ -7732,19 +7675,19 @@ INDIRP4
 CVPU4 4
 ADDRLP4 4
 INDIRU4
-NEU4 $645
-LABELV $647
-line 1908
-;1908:		return qfalse;
+NEU4 $639
+LABELV $641
+line 1906
+;1906:		return qfalse;
 CNSTI4 0
 RETI4
-ADDRGP4 $644
+ADDRGP4 $638
 JUMPV
-LABELV $645
-line 1911
-;1909:	}
-;1910:
-;1911:	if (target->client->pers.connected != CON_CONNECTED) {
+LABELV $639
+line 1909
+;1907:	}
+;1908:
+;1909:	if (target->client->pers.connected != CON_CONNECTED) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 516
@@ -7754,18 +7697,18 @@ CNSTI4 468
 ADDP4
 INDIRI4
 CNSTI4 2
-EQI4 $648
-line 1912
-;1912:		return qfalse;
+EQI4 $642
+line 1910
+;1910:		return qfalse;
 CNSTI4 0
 RETI4
-ADDRGP4 $644
+ADDRGP4 $638
 JUMPV
-LABELV $648
-line 1915
-;1913:	}
-;1914:
-;1915:	if (target->client->sess.sessionTeam == TEAM_SPECTATOR) {
+LABELV $642
+line 1913
+;1911:	}
+;1912:
+;1913:	if (target->client->sess.sessionTeam == TEAM_SPECTATOR) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 516
@@ -7775,60 +7718,60 @@ CNSTI4 616
 ADDP4
 INDIRI4
 CNSTI4 3
-NEI4 $650
-line 1916
-;1916:		return qfalse;
+NEI4 $644
+line 1914
+;1914:		return qfalse;
 CNSTI4 0
 RETI4
-ADDRGP4 $644
+ADDRGP4 $638
 JUMPV
-LABELV $650
-line 1919
-;1917:	}
-;1918:
-;1919:	if (target->health <= 0) {
+LABELV $644
+line 1917
+;1915:	}
+;1916:
+;1917:	if (target->health <= 0) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 732
 ADDP4
 INDIRI4
 CNSTI4 0
-GTI4 $652
-line 1920
-;1920:		return qfalse;
+GTI4 $646
+line 1918
+;1918:		return qfalse;
 CNSTI4 0
 RETI4
-ADDRGP4 $644
+ADDRGP4 $638
 JUMPV
-LABELV $652
-line 1923
-;1921:	}
-;1922:
-;1923:	return qtrue;
+LABELV $646
+line 1921
+;1919:	}
+;1920:
+;1921:	return qtrue;
 CNSTI4 1
 RETI4
-LABELV $644
+LABELV $638
 endproc G_MonsterValidTarget 8 0
-proc G_MonsterFireProjectile 72 12
-line 1934
-;1924:}
-;1925:
-;1926:static void G_MonsterFireProjectile(
-;1927:	gentity_t *monster,
-;1928:	gentity_t *target,
-;1929:	monsterDef_t *def,
-;1930:	const char *projectile,
-;1931:	int damage,
-;1932:	int splashDamage,
-;1933:	int splashRadius
-;1934:) {
-line 1940
-;1935:	gentity_t *bolt;
-;1936:	vec3_t start;
-;1937:	vec3_t targetOrigin;
-;1938:	vec3_t direction;
-;1939:
-;1940:	VectorCopy(
+proc G_MonsterFireProjectile 64 12
+line 1932
+;1922:}
+;1923:
+;1924:static void G_MonsterFireProjectile(
+;1925:	gentity_t *monster,
+;1926:	gentity_t *target,
+;1927:	monsterDef_t *def,
+;1928:	const char *projectile,
+;1929:	int damage,
+;1930:	int splashDamage,
+;1931:	int splashRadius
+;1932:) {
+line 1938
+;1933:	gentity_t *bolt;
+;1934:	vec3_t start;
+;1935:	vec3_t targetOrigin;
+;1936:	vec3_t direction;
+;1937:
+;1938:	VectorCopy(
 ADDRLP4 4
 ADDRFP4 0
 INDIRP4
@@ -7836,50 +7779,50 @@ CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 1945
-;1941:		monster->r.currentOrigin,
-;1942:		start
-;1943:	);
-;1944:
-;1945:	if( def->movementType ==
+line 1943
+;1939:		monster->r.currentOrigin,
+;1940:		start
+;1941:	);
+;1942:
+;1943:	if( def->movementType ==
 ADDRFP4 8
 INDIRP4
 CNSTI4 584
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $655
-line 1946
-;1946:		MONSTER_MOVEMENT_WALKING ) {
-line 1947
-;1947:		start[2] += 36;
+NEI4 $649
+line 1944
+;1944:		MONSTER_MOVEMENT_WALKING ) {
+line 1945
+;1945:		start[2] += 36;
 ADDRLP4 4+8
 ADDRLP4 4+8
 INDIRF4
 CNSTF4 1108344832
 ADDF4
 ASGNF4
-line 1948
-;1948:	}
-ADDRGP4 $656
+line 1946
+;1946:	}
+ADDRGP4 $650
 JUMPV
-LABELV $655
-line 1949
-;1949:	else {
-line 1950
-;1950:		start[2] += 8;
+LABELV $649
+line 1947
+;1947:	else {
+line 1948
+;1948:		start[2] += 8;
 ADDRLP4 4+8
 ADDRLP4 4+8
 INDIRF4
 CNSTF4 1090519040
 ADDF4
 ASGNF4
+line 1949
+;1949:	}
+LABELV $650
 line 1951
-;1951:	}
-LABELV $656
-line 1953
-;1952:
-;1953:	VectorCopy(
+;1950:
+;1951:	VectorCopy(
 ADDRLP4 28
 ADDRFP4 4
 INDIRP4
@@ -7887,22 +7830,22 @@ CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 1958
-;1954:		target->r.currentOrigin,
-;1955:		targetOrigin
-;1956:	);
-;1957:
-;1958:	targetOrigin[2] +=
+line 1956
+;1952:		target->r.currentOrigin,
+;1953:		targetOrigin
+;1954:	);
+;1955:
+;1956:	targetOrigin[2] +=
 ADDRLP4 28+8
 ADDRLP4 28+8
 INDIRF4
 CNSTF4 1095761920
 ADDF4
 ASGNF4
-line 1961
-;1959:		DEFAULT_VIEWHEIGHT * 0.5f;
-;1960:
-;1961:	VectorSubtract(
+line 1959
+;1957:		DEFAULT_VIEWHEIGHT * 0.5f;
+;1958:
+;1959:	VectorSubtract(
 ADDRLP4 16
 ADDRLP4 28
 INDIRF4
@@ -7924,21 +7867,21 @@ ADDRLP4 4+8
 INDIRF4
 SUBF4
 ASGNF4
-line 1967
-;1962:		targetOrigin,
-;1963:		start,
-;1964:		direction
-;1965:	);
-;1966:
-;1967:	VectorNormalize(direction);
+line 1965
+;1960:		targetOrigin,
+;1961:		start,
+;1962:		direction
+;1963:	);
+;1964:
+;1965:	VectorNormalize(direction);
 ADDRLP4 16
 ARGP4
 ADDRGP4 VectorNormalize
 CALLF4
 pop
-line 1969
-;1968:
-;1969:	VectorMA(
+line 1967
+;1966:
+;1967:	VectorMA(
 ADDRLP4 40
 CNSTF4 1103101952
 ASGNF4
@@ -7971,14 +7914,14 @@ INDIRF4
 MULF4
 ADDF4
 ASGNF4
-line 1976
-;1970:		start,
-;1971:		24,
-;1972:		direction,
-;1973:		start
-;1974:	);
-;1975:
-;1976:	if( projectile &&
+line 1974
+;1968:		start,
+;1969:		24,
+;1970:		direction,
+;1971:		start
+;1972:	);
+;1973:
+;1974:	if( projectile &&
 ADDRLP4 44
 ADDRFP4 12
 INDIRP4
@@ -7987,11 +7930,11 @@ ADDRLP4 44
 INDIRP4
 CVPU4 4
 CNSTU4 0
-EQU4 $672
+EQU4 $666
 ADDRLP4 44
 INDIRP4
 ARGP4
-ADDRGP4 $674
+ADDRGP4 $668
 ARGP4
 ADDRLP4 48
 ADDRGP4 Q_stricmp
@@ -8000,11 +7943,11 @@ ASGNI4
 ADDRLP4 48
 INDIRI4
 CNSTI4 0
-NEI4 $672
-line 1977
-;1977:		!Q_stricmp(projectile, "rocket") ) {
-line 1978
-;1978:		bolt = fire_rocket(
+NEI4 $666
+line 1975
+;1975:		!Q_stricmp(projectile, "rocket") ) {
+line 1976
+;1976:		bolt = fire_rocket(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -8020,43 +7963,19 @@ ADDRLP4 0
 ADDRLP4 52
 INDIRP4
 ASGNP4
+line 1981
+;1977:			monster,
+;1978:			start,
+;1979:			direction
+;1980:		);
+;1981:	}
+ADDRGP4 $667
+JUMPV
+LABELV $666
+line 1982
+;1982:	else {
 line 1983
-;1979:			monster,
-;1980:			start,
-;1981:			direction
-;1982:		);
-;1983:	}
-ADDRGP4 $673
-JUMPV
-LABELV $672
-line 1984
-;1984:	else if( projectile &&
-ADDRLP4 52
-ADDRFP4 12
-INDIRP4
-ASGNP4
-ADDRLP4 52
-INDIRP4
-CVPU4 4
-CNSTU4 0
-EQU4 $675
-ADDRLP4 52
-INDIRP4
-ARGP4
-ADDRGP4 $677
-ARGP4
-ADDRLP4 56
-ADDRGP4 Q_stricmp
-CALLI4
-ASGNI4
-ADDRLP4 56
-INDIRI4
-CNSTI4 0
-NEI4 $675
-line 1985
-;1985:		!Q_stricmp(projectile, "blaster") ) {
-line 1986
-;1986:		bolt = fire_blaster(
+;1983:		bolt = fire_plasma(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -8064,53 +7983,24 @@ ADDRLP4 4
 ARGP4
 ADDRLP4 16
 ARGP4
-ADDRLP4 60
-ADDRGP4 fire_blaster
-CALLP4
-ASGNP4
-ADDRLP4 0
-ADDRLP4 60
-INDIRP4
-ASGNP4
-line 1991
-;1987:			monster,
-;1988:			start,
-;1989:			direction
-;1990:		);
-;1991:	}
-ADDRGP4 $676
-JUMPV
-LABELV $675
-line 1992
-;1992:	else {
-line 1993
-;1993:		bolt = fire_plasma(
-ADDRFP4 0
-INDIRP4
-ARGP4
-ADDRLP4 4
-ARGP4
-ADDRLP4 16
-ARGP4
-ADDRLP4 60
+ADDRLP4 52
 ADDRGP4 fire_plasma
 CALLP4
 ASGNP4
 ADDRLP4 0
-ADDRLP4 60
+ADDRLP4 52
 INDIRP4
 ASGNP4
-line 1998
-;1994:			monster,
-;1995:			start,
-;1996:			direction
-;1997:		);
-;1998:	}
-LABELV $676
-LABELV $673
-line 2000
-;1999:
-;2000:	bolt->damage = damage;
+line 1988
+;1984:			monster,
+;1985:			start,
+;1986:			direction
+;1987:		);
+;1988:	}
+LABELV $667
+line 1990
+;1989:
+;1990:	bolt->damage = damage;
 ADDRLP4 0
 INDIRP4
 CNSTI4 740
@@ -8118,8 +8008,8 @@ ADDP4
 ADDRFP4 16
 INDIRI4
 ASGNI4
-line 2001
-;2001:	bolt->splashDamage = splashDamage;
+line 1991
+;1991:	bolt->splashDamage = splashDamage;
 ADDRLP4 0
 INDIRP4
 CNSTI4 744
@@ -8127,8 +8017,8 @@ ADDP4
 ADDRFP4 20
 INDIRI4
 ASGNI4
-line 2002
-;2002:	bolt->splashRadius = splashRadius;
+line 1992
+;1992:	bolt->splashRadius = splashRadius;
 ADDRLP4 0
 INDIRP4
 CNSTI4 748
@@ -8136,9 +8026,9 @@ ADDP4
 ADDRFP4 24
 INDIRI4
 ASGNI4
-line 2004
-;2003:
-;2004:	VectorScale(
+line 1994
+;1993:
+;1994:	VectorScale(
 ADDRLP4 0
 INDIRP4
 CNSTI4 36
@@ -8178,67 +8068,67 @@ ADDP4
 INDIRF4
 MULF4
 ASGNF4
-line 2010
-;2005:		direction,
-;2006:		def->projectileSpeed,
-;2007:		bolt->s.pos.trDelta
-;2008:	);
-;2009:
-;2010:	SnapVector(bolt->s.pos.trDelta);
-ADDRLP4 60
+line 2000
+;1995:		direction,
+;1996:		def->projectileSpeed,
+;1997:		bolt->s.pos.trDelta
+;1998:	);
+;1999:
+;2000:	SnapVector(bolt->s.pos.trDelta);
+ADDRLP4 52
 ADDRLP4 0
 INDIRP4
 CNSTI4 36
 ADDP4
 ASGNP4
-ADDRLP4 60
+ADDRLP4 52
 INDIRP4
-ADDRLP4 60
+ADDRLP4 52
 INDIRP4
 INDIRF4
 CVFI4 4
 CVIF4 4
 ASGNF4
-ADDRLP4 64
+ADDRLP4 56
 ADDRLP4 0
 INDIRP4
 CNSTI4 40
 ADDP4
 ASGNP4
-ADDRLP4 64
+ADDRLP4 56
 INDIRP4
-ADDRLP4 64
+ADDRLP4 56
 INDIRP4
 INDIRF4
 CVFI4 4
 CVIF4 4
 ASGNF4
-ADDRLP4 68
+ADDRLP4 60
 ADDRLP4 0
 INDIRP4
 CNSTI4 44
 ADDP4
 ASGNP4
-ADDRLP4 68
+ADDRLP4 60
 INDIRP4
-ADDRLP4 68
+ADDRLP4 60
 INDIRP4
 INDIRF4
 CVFI4 4
 CVIF4 4
 ASGNF4
-line 2012
-;2011:
-;2012:	if( monster->monsterWaveSpawn ) {
+line 2002
+;2001:
+;2002:	if( monster->monsterWaveSpawn ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 864
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $680
-line 2013
-;2013:		monster->monsterProgressTime =
+EQI4 $671
+line 2003
+;2003:		monster->monsterProgressTime =
 ADDRFP4 0
 INDIRP4
 CNSTI4 820
@@ -8246,51 +8136,51 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 2016
-;2014:			level.time;
-;2015:
-;2016:		VectorCopy(
-ADDRLP4 60
+line 2006
+;2004:			level.time;
+;2005:
+;2006:		VectorCopy(
+ADDRLP4 52
 ADDRFP4 0
 INDIRP4
 ASGNP4
-ADDRLP4 60
+ADDRLP4 52
 INDIRP4
 CNSTI4 824
 ADDP4
-ADDRLP4 60
+ADDRLP4 52
 INDIRP4
 CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 2020
-;2017:			monster->r.currentOrigin,
-;2018:			monster->monsterProgressOrigin
-;2019:		);
-;2020:	}
-LABELV $680
-line 2021
-;2021:}
-LABELV $654
-endproc G_MonsterFireProjectile 72 12
-proc G_MonsterStartRangedAttack 72 16
-line 2027
-;2022:
-;2023:static void G_MonsterStartRangedAttack(
-;2024:	gentity_t *monster,
-;2025:	gentity_t *target,
-;2026:	monsterDef_t *def
-;2027:) {
-line 2035
-;2028:	animation_t *animation;
-;2029:	int variant;
-;2030:	int fireFrame;
-;2031:	int windup;
-;2032:	vec3_t direction;
-;2033:	vec3_t angles;
-;2034:
-;2035:	variant = rand() % MAX_MONSTER_VARIANTS;
+line 2010
+;2007:			monster->r.currentOrigin,
+;2008:			monster->monsterProgressOrigin
+;2009:		);
+;2010:	}
+LABELV $671
+line 2011
+;2011:}
+LABELV $648
+endproc G_MonsterFireProjectile 64 12
+proc G_MonsterStartRangedAttack 72 12
+line 2017
+;2012:
+;2013:static void G_MonsterStartRangedAttack(
+;2014:	gentity_t *monster,
+;2015:	gentity_t *target,
+;2016:	monsterDef_t *def
+;2017:) {
+line 2025
+;2018:	animation_t *animation;
+;2019:	int variant;
+;2020:	int fireFrame;
+;2021:	int windup;
+;2022:	vec3_t direction;
+;2023:	vec3_t angles;
+;2024:
+;2025:	variant = rand() % MAX_MONSTER_VARIANTS;
 ADDRLP4 40
 ADDRGP4 rand
 CALLI4
@@ -8301,8 +8191,8 @@ INDIRI4
 CNSTI4 3
 MODI4
 ASGNI4
-line 2036
-;2036:	animation = &def->rangedAnimations[variant];
+line 2026
+;2026:	animation = &def->rangedAnimations[variant];
 ADDRLP4 4
 CNSTI4 28
 ADDRLP4 20
@@ -8310,13 +8200,13 @@ INDIRI4
 MULI4
 ADDRFP4 8
 INDIRP4
-CNSTI4 848
+CNSTI4 852
 ADDP4
 ADDP4
 ASGNP4
-line 2038
-;2037:
-;2038:	fireFrame = def->attackFireFrame;
+line 2028
+;2027:
+;2028:	fireFrame = def->attackFireFrame;
 ADDRLP4 0
 ADDRFP4 8
 INDIRP4
@@ -8324,24 +8214,24 @@ CNSTI4 656
 ADDP4
 INDIRI4
 ASGNI4
-line 2040
-;2039:
-;2040:	if (fireFrame < 0) {
+line 2030
+;2029:
+;2030:	if (fireFrame < 0) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 0
-GEI4 $684
-line 2041
-;2041:		fireFrame = 0;
+GEI4 $675
+line 2031
+;2031:		fireFrame = 0;
 ADDRLP4 0
 CNSTI4 0
 ASGNI4
-line 2042
-;2042:	}
-LABELV $684
-line 2044
-;2043:
-;2044:	if (animation->numFrames > 0 &&
+line 2032
+;2032:	}
+LABELV $675
+line 2034
+;2033:
+;2034:	if (animation->numFrames > 0 &&
 ADDRLP4 44
 ADDRLP4 4
 INDIRP4
@@ -8352,16 +8242,16 @@ ASGNI4
 ADDRLP4 44
 INDIRI4
 CNSTI4 0
-LEI4 $686
+LEI4 $677
 ADDRLP4 0
 INDIRI4
 ADDRLP4 44
 INDIRI4
-LTI4 $686
-line 2045
-;2045:		fireFrame >= animation->numFrames) {
-line 2046
-;2046:		fireFrame = animation->numFrames - 1;
+LTI4 $677
+line 2035
+;2035:		fireFrame >= animation->numFrames) {
+line 2036
+;2036:		fireFrame = animation->numFrames - 1;
 ADDRLP4 0
 ADDRLP4 4
 INDIRP4
@@ -8371,12 +8261,12 @@ INDIRI4
 CNSTI4 1
 SUBI4
 ASGNI4
-line 2047
-;2047:	}
-LABELV $686
-line 2049
-;2048:
-;2049:	windup = fireFrame * animation->frameLerp;
+line 2037
+;2037:	}
+LABELV $677
+line 2039
+;2038:
+;2039:	windup = fireFrame * animation->frameLerp;
 ADDRLP4 36
 ADDRLP4 0
 INDIRI4
@@ -8387,12 +8277,12 @@ ADDP4
 INDIRI4
 MULI4
 ASGNI4
-line 2054
-;2050:
-;2051:	/*
-;2052:	 * Face the target when the attack animation begins.
-;2053:	 */
-;2054:	VectorSubtract(
+line 2044
+;2040:
+;2041:	/*
+;2042:	 * Face the target when the attack animation begins.
+;2043:	 */
+;2044:	VectorSubtract(
 ADDRLP4 48
 ADDRFP4 4
 INDIRP4
@@ -8455,13 +8345,13 @@ ADDP4
 INDIRF4
 SUBF4
 ASGNF4
-line 2060
-;2055:		target->r.currentOrigin,
-;2056:		monster->r.currentOrigin,
-;2057:		direction
-;2058:	);
-;2059:
-;2060:	if( VectorNormalize(direction) > 0.0f ) {
+line 2050
+;2045:		target->r.currentOrigin,
+;2046:		monster->r.currentOrigin,
+;2047:		direction
+;2048:	);
+;2049:
+;2050:	if( VectorNormalize(direction) > 0.0f ) {
 ADDRLP4 8
 ARGP4
 ADDRLP4 68
@@ -8471,9 +8361,9 @@ ASGNF4
 ADDRLP4 68
 INDIRF4
 CNSTF4 0
-LEF4 $690
-line 2061
-;2061:		vectoangles(direction, angles);
+LEF4 $681
+line 2051
+;2051:		vectoangles(direction, angles);
 ADDRLP4 8
 ARGP4
 ADDRLP4 24
@@ -8481,20 +8371,20 @@ ARGP4
 ADDRGP4 vectoangles
 CALLV
 pop
-line 2063
-;2062:
-;2063:		angles[PITCH] = 0;
+line 2053
+;2052:
+;2053:		angles[PITCH] = 0;
 ADDRLP4 24
 CNSTF4 0
 ASGNF4
-line 2064
-;2064:		angles[ROLL] = 0;
+line 2054
+;2054:		angles[ROLL] = 0;
 ADDRLP4 24+8
 CNSTF4 0
 ASGNF4
-line 2066
-;2065:
-;2066:		VectorCopy(
+line 2056
+;2055:
+;2056:		VectorCopy(
 ADDRFP4 0
 INDIRP4
 CNSTI4 116
@@ -8502,12 +8392,12 @@ ADDP4
 ADDRLP4 24
 INDIRB
 ASGNB 12
-line 2071
-;2067:			angles,
-;2068:			monster->s.angles
-;2069:		);
-;2070:
-;2071:		VectorCopy(
+line 2061
+;2057:			angles,
+;2058:			monster->s.angles
+;2059:		);
+;2060:
+;2061:		VectorCopy(
 ADDRFP4 0
 INDIRP4
 CNSTI4 60
@@ -8515,12 +8405,12 @@ ADDP4
 ADDRLP4 24
 INDIRB
 ASGNB 12
-line 2076
-;2072:			angles,
-;2073:			monster->s.apos.trBase
-;2074:		);
-;2075:
-;2076:		VectorCopy(
+line 2066
+;2062:			angles,
+;2063:			monster->s.apos.trBase
+;2064:		);
+;2065:
+;2066:		VectorCopy(
 ADDRFP4 0
 INDIRP4
 CNSTI4 500
@@ -8528,15 +8418,15 @@ ADDP4
 ADDRLP4 24
 INDIRB
 ASGNB 12
-line 2080
-;2077:			angles,
-;2078:			monster->r.currentAngles
-;2079:		);
-;2080:	}
-LABELV $690
-line 2082
-;2081:
-;2082:	monster->enemy = target;
+line 2070
+;2067:			angles,
+;2068:			monster->r.currentAngles
+;2069:		);
+;2070:	}
+LABELV $681
+line 2072
+;2071:
+;2072:	monster->enemy = target;
 ADDRFP4 0
 INDIRP4
 CNSTI4 768
@@ -8544,8 +8434,8 @@ ADDP4
 ADDRFP4 4
 INDIRP4
 ASGNP4
-line 2083
-;2083:	monster->monsterShotsRemaining = def->burstCount;
+line 2073
+;2073:	monster->monsterShotsRemaining = def->burstCount;
 ADDRFP4 0
 INDIRP4
 CNSTI4 880
@@ -8556,8 +8446,8 @@ CNSTI4 672
 ADDP4
 INDIRI4
 ASGNI4
-line 2084
-;2084:	monster->monsterNextShot = level.time + windup;
+line 2074
+;2074:	monster->monsterNextShot = level.time + windup;
 ADDRFP4 0
 INDIRP4
 CNSTI4 876
@@ -8568,9 +8458,9 @@ ADDRLP4 36
 INDIRI4
 ADDI4
 ASGNI4
-line 2086
-;2085:
-;2086:	G_MonsterSetAnimation(
+line 2076
+;2075:
+;2076:	G_MonsterSetAnimation(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -8582,51 +8472,29 @@ ARGI4
 ADDRGP4 G_MonsterSetAnimation
 CALLV
 pop
-line 2092
-;2087:		monster,
-;2088:		MONSTER_STATE_RANGED,
-;2089:		variant
-;2090:	);
-;2091:
-;2092:	G_MonsterSound(
-ADDRFP4 0
-INDIRP4
-ARGP4
-ADDRFP4 8
-INDIRP4
-ARGP4
-ADDRGP4 $694
-ARGP4
-ADDRLP4 20
-INDIRI4
-ARGI4
-ADDRGP4 G_MonsterSound
-CALLV
-pop
-line 2098
-;2093:		monster,
-;2094:		def,
-;2095:		"ranged",
-;2096:		variant
-;2097:	);
-;2098:}
-LABELV $683
-endproc G_MonsterStartRangedAttack 72 16
-proc G_MonsterStartMeleeAttack 24 16
-line 2104
-;2099:
-;2100:static void G_MonsterStartMeleeAttack(
-;2101:	gentity_t *monster,
-;2102:	gentity_t *target,
-;2103:	monsterDef_t *def
-;2104:) {
-line 2110
-;2105:	animation_t *animation;
-;2106:	int variant;
-;2107:	int fireFrame;
-;2108:	int windup;
-;2109:
-;2110:	variant =
+line 2081
+;2077:		monster,
+;2078:		MONSTER_STATE_RANGED,
+;2079:		variant
+;2080:	);
+;2081:}
+LABELV $674
+endproc G_MonsterStartRangedAttack 72 12
+proc G_MonsterStartMeleeAttack 24 12
+line 2087
+;2082:
+;2083:static void G_MonsterStartMeleeAttack(
+;2084:	gentity_t *monster,
+;2085:	gentity_t *target,
+;2086:	monsterDef_t *def
+;2087:) {
+line 2093
+;2088:	animation_t *animation;
+;2089:	int variant;
+;2090:	int fireFrame;
+;2091:	int windup;
+;2092:
+;2093:	variant =
 ADDRLP4 16
 ADDRGP4 rand
 CALLI4
@@ -8637,10 +8505,10 @@ INDIRI4
 CNSTI4 3
 MODI4
 ASGNI4
-line 2113
-;2111:		rand() % MAX_MONSTER_VARIANTS;
-;2112:
-;2113:	animation =
+line 2096
+;2094:		rand() % MAX_MONSTER_VARIANTS;
+;2095:
+;2096:	animation =
 ADDRLP4 4
 CNSTI4 28
 ADDRLP4 8
@@ -8648,14 +8516,14 @@ INDIRI4
 MULI4
 ADDRFP4 8
 INDIRP4
-CNSTI4 764
+CNSTI4 768
 ADDP4
 ADDP4
 ASGNP4
-line 2116
-;2114:		&def->meleeAnimations[variant];
-;2115:
-;2116:	fireFrame = def->meleeFireFrame;
+line 2099
+;2097:		&def->meleeAnimations[variant];
+;2098:
+;2099:	fireFrame = def->meleeFireFrame;
 ADDRLP4 0
 ADDRFP4 8
 INDIRP4
@@ -8663,24 +8531,24 @@ CNSTI4 664
 ADDP4
 INDIRI4
 ASGNI4
-line 2118
-;2117:
-;2118:	if( fireFrame < 0 ) {
+line 2101
+;2100:
+;2101:	if( fireFrame < 0 ) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 0
-GEI4 $696
-line 2119
-;2119:		fireFrame = 0;
+GEI4 $686
+line 2102
+;2102:		fireFrame = 0;
 ADDRLP4 0
 CNSTI4 0
 ASGNI4
-line 2120
-;2120:	}
-LABELV $696
-line 2122
-;2121:
-;2122:	if( animation->numFrames > 0 &&
+line 2103
+;2103:	}
+LABELV $686
+line 2105
+;2104:
+;2105:	if( animation->numFrames > 0 &&
 ADDRLP4 20
 ADDRLP4 4
 INDIRP4
@@ -8691,16 +8559,16 @@ ASGNI4
 ADDRLP4 20
 INDIRI4
 CNSTI4 0
-LEI4 $698
+LEI4 $688
 ADDRLP4 0
 INDIRI4
 ADDRLP4 20
 INDIRI4
-LTI4 $698
-line 2123
-;2123:		fireFrame >= animation->numFrames ) {
-line 2124
-;2124:		fireFrame =
+LTI4 $688
+line 2106
+;2106:		fireFrame >= animation->numFrames ) {
+line 2107
+;2107:		fireFrame =
 ADDRLP4 0
 ADDRLP4 4
 INDIRP4
@@ -8710,13 +8578,13 @@ INDIRI4
 CNSTI4 1
 SUBI4
 ASGNI4
-line 2126
-;2125:			animation->numFrames - 1;
-;2126:	}
-LABELV $698
-line 2128
-;2127:
-;2128:	windup =
+line 2109
+;2108:			animation->numFrames - 1;
+;2109:	}
+LABELV $688
+line 2111
+;2110:
+;2111:	windup =
 ADDRLP4 12
 ADDRLP4 0
 INDIRI4
@@ -8727,11 +8595,11 @@ ADDP4
 INDIRI4
 MULI4
 ASGNI4
-line 2132
-;2129:		fireFrame *
-;2130:		animation->frameLerp;
-;2131:
-;2132:	monster->enemy = target;
+line 2115
+;2112:		fireFrame *
+;2113:		animation->frameLerp;
+;2114:
+;2115:	monster->enemy = target;
 ADDRFP4 0
 INDIRP4
 CNSTI4 768
@@ -8739,16 +8607,16 @@ ADDP4
 ADDRFP4 4
 INDIRP4
 ASGNP4
-line 2133
-;2133:	monster->monsterShotsRemaining = 1;
+line 2116
+;2116:	monster->monsterShotsRemaining = 1;
 ADDRFP4 0
 INDIRP4
 CNSTI4 880
 ADDP4
 CNSTI4 1
 ASGNI4
-line 2134
-;2134:	monster->monsterNextShot =
+line 2117
+;2117:	monster->monsterNextShot =
 ADDRFP4 0
 INDIRP4
 CNSTI4 876
@@ -8759,10 +8627,10 @@ ADDRLP4 12
 INDIRI4
 ADDI4
 ASGNI4
-line 2137
-;2135:		level.time + windup;
-;2136:
-;2137:	G_MonsterSetAnimation(
+line 2120
+;2118:		level.time + windup;
+;2119:
+;2120:	G_MonsterSetAnimation(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -8774,53 +8642,27 @@ ARGI4
 ADDRGP4 G_MonsterSetAnimation
 CALLV
 pop
-line 2147
-;2138:		monster,
-;2139:		MONSTER_STATE_MELEE,
-;2140:		variant
-;2141:	);
-;2142:
-;2143:	/*
-;2144:	 * Melee temporarily reuses the monster's
-;2145:	 * ranged attack sound group.
-;2146:	 */
-;2147:	G_MonsterSound(
-ADDRFP4 0
-INDIRP4
-ARGP4
-ADDRFP4 8
-INDIRP4
-ARGP4
-ADDRGP4 $694
-ARGP4
-ADDRLP4 8
-INDIRI4
-ARGI4
-ADDRGP4 G_MonsterSound
-CALLV
-pop
-line 2153
-;2148:		monster,
-;2149:		def,
-;2150:		"ranged",
-;2151:		variant
-;2152:	);
-;2153:}
-LABELV $695
-endproc G_MonsterStartMeleeAttack 24 16
+line 2125
+;2121:		monster,
+;2122:		MONSTER_STATE_MELEE,
+;2123:		variant
+;2124:	);
+;2125:}
+LABELV $685
+endproc G_MonsterStartMeleeAttack 24 12
 proc G_MonsterCanSeeTarget 92 28
-line 2158
-;2154:
-;2155:static qboolean G_MonsterCanSeeTarget(
-;2156:	gentity_t *monster,
-;2157:	gentity_t *target
-;2158:) {
-line 2163
-;2159:	trace_t trace;
-;2160:	vec3_t start;
-;2161:	vec3_t end;
-;2162:
-;2163:	if (!G_MonsterValidTarget(target)) {
+line 2130
+;2126:
+;2127:static qboolean G_MonsterCanSeeTarget(
+;2128:	gentity_t *monster,
+;2129:	gentity_t *target
+;2130:) {
+line 2135
+;2131:	trace_t trace;
+;2132:	vec3_t start;
+;2133:	vec3_t end;
+;2134:
+;2135:	if (!G_MonsterValidTarget(target)) {
 ADDRFP4 4
 INDIRP4
 ARGP4
@@ -8831,18 +8673,18 @@ ASGNI4
 ADDRLP4 80
 INDIRI4
 CNSTI4 0
-NEI4 $702
-line 2164
-;2164:		return qfalse;
+NEI4 $692
+line 2136
+;2136:		return qfalse;
 CNSTI4 0
 RETI4
-ADDRGP4 $701
+ADDRGP4 $691
 JUMPV
-LABELV $702
-line 2167
-;2165:	}
-;2166:
-;2167:	VectorCopy(monster->r.currentOrigin, start);
+LABELV $692
+line 2139
+;2137:	}
+;2138:
+;2139:	VectorCopy(monster->r.currentOrigin, start);
 ADDRLP4 56
 ADDRFP4 0
 INDIRP4
@@ -8850,17 +8692,17 @@ CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 2168
-;2168:	start[2] += 8;
+line 2140
+;2140:	start[2] += 8;
 ADDRLP4 56+8
 ADDRLP4 56+8
 INDIRF4
 CNSTF4 1090519040
 ADDF4
 ASGNF4
-line 2170
-;2169:
-;2170:	VectorCopy(target->r.currentOrigin, end);
+line 2142
+;2141:
+;2142:	VectorCopy(target->r.currentOrigin, end);
 ADDRLP4 68
 ADDRFP4 4
 INDIRP4
@@ -8868,17 +8710,17 @@ CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 2171
-;2171:	end[2] += DEFAULT_VIEWHEIGHT * 0.5f;
+line 2143
+;2143:	end[2] += DEFAULT_VIEWHEIGHT * 0.5f;
 ADDRLP4 68+8
 ADDRLP4 68+8
 INDIRF4
 CNSTF4 1095761920
 ADDF4
 ASGNF4
-line 2173
-;2172:
-;2173:	trap_Trace(
+line 2145
+;2144:
+;2145:	trap_Trace(
 ADDRLP4 0
 ARGP4
 ADDRLP4 56
@@ -8903,72 +8745,72 @@ ARGI4
 ADDRGP4 trap_Trace
 CALLV
 pop
-line 2183
-;2174:		&trace,
-;2175:		start,
-;2176:		NULL,
-;2177:		NULL,
-;2178:		end,
-;2179:		monster->s.number,
-;2180:		MASK_SHOT
-;2181:	);
-;2182:
-;2183:	return trace.fraction == 1.0f ||
+line 2155
+;2146:		&trace,
+;2147:		start,
+;2148:		NULL,
+;2149:		NULL,
+;2150:		end,
+;2151:		monster->s.number,
+;2152:		MASK_SHOT
+;2153:	);
+;2154:
+;2155:	return trace.fraction == 1.0f ||
 ADDRLP4 0+8
 INDIRF4
 CNSTF4 1065353216
-EQF4 $711
+EQF4 $701
 ADDRLP4 0+52
 INDIRI4
 ADDRFP4 4
 INDIRP4
 INDIRI4
-NEI4 $709
-LABELV $711
+NEI4 $699
+LABELV $701
 ADDRLP4 88
 CNSTI4 1
 ASGNI4
-ADDRGP4 $710
+ADDRGP4 $700
 JUMPV
-LABELV $709
+LABELV $699
 ADDRLP4 88
 CNSTI4 0
 ASGNI4
-LABELV $710
+LABELV $700
 ADDRLP4 88
 INDIRI4
 RETI4
-LABELV $701
+LABELV $691
 endproc G_MonsterCanSeeTarget 92 28
-proc G_MonsterRunAttack 32 28
-line 2190
-;2184:		trace.entityNum == target->s.number;
-;2185:}
-;2186:
-;2187:static void G_MonsterRunAttack(
-;2188:	gentity_t *monster,
-;2189:	monsterDef_t *def
-;2190:) {
-line 2193
-;2191:	qboolean meleeAttack;
-;2192:
-;2193:	if( monster->monsterShotsRemaining <= 0 ) {
+proc G_MonsterRunAttack 36 28
+line 2162
+;2156:		trace.entityNum == target->s.number;
+;2157:}
+;2158:
+;2159:static void G_MonsterRunAttack(
+;2160:	gentity_t *monster,
+;2161:	monsterDef_t *def
+;2162:) {
+line 2165
+;2163:	qboolean meleeAttack;
+;2164:
+;2165:	if( monster->monsterShotsRemaining <= 0 ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 880
 ADDP4
 INDIRI4
 CNSTI4 0
-GTI4 $713
-line 2194
-;2194:		return;
-ADDRGP4 $712
+GTI4 $703
+line 2166
+;2166:		return;
+ADDRGP4 $702
 JUMPV
-LABELV $713
-line 2197
-;2195:	}
-;2196:
-;2197:	if( !G_MonsterValidTarget(monster->enemy) ||
+LABELV $703
+line 2169
+;2167:	}
+;2168:
+;2169:	if( !G_MonsterValidTarget(monster->enemy) ||
 ADDRFP4 0
 INDIRP4
 CNSTI4 768
@@ -8982,7 +8824,7 @@ ASGNI4
 ADDRLP4 4
 INDIRI4
 CNSTI4 0
-EQI4 $717
+EQI4 $707
 ADDRLP4 8
 ADDRFP4 0
 INDIRP4
@@ -9003,24 +8845,24 @@ ASGNI4
 ADDRLP4 12
 INDIRI4
 CNSTI4 0
-NEI4 $715
-LABELV $717
-line 2201
-;2198:		!G_MonsterCanSeeTarget(
-;2199:			monster,
-;2200:			monster->enemy
-;2201:		) ) {
-line 2202
-;2202:		monster->monsterShotsRemaining = 0;
+NEI4 $705
+LABELV $707
+line 2173
+;2170:		!G_MonsterCanSeeTarget(
+;2171:			monster,
+;2172:			monster->enemy
+;2173:		) ) {
+line 2174
+;2174:		monster->monsterShotsRemaining = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 880
 ADDP4
 CNSTI4 0
 ASGNI4
-line 2204
-;2203:
-;2204:		monster->monsterNextAttack =
+line 2176
+;2175:
+;2176:		monster->monsterNextAttack =
 ADDRFP4 0
 INDIRP4
 CNSTI4 872
@@ -9034,18 +8876,18 @@ ADDP4
 INDIRI4
 ADDI4
 ASGNI4
-line 2208
-;2205:			level.time +
-;2206:			def->attackCooldown;
-;2207:
-;2208:		return;
-ADDRGP4 $712
+line 2180
+;2177:			level.time +
+;2178:			def->attackCooldown;
+;2179:
+;2180:		return;
+ADDRGP4 $702
 JUMPV
-LABELV $715
-line 2211
-;2209:	}
-;2210:
-;2211:	if( level.time <
+LABELV $705
+line 2183
+;2181:	}
+;2182:
+;2183:	if( level.time <
 ADDRGP4 level+32
 INDIRI4
 ADDRFP4 0
@@ -9053,50 +8895,50 @@ INDIRP4
 CNSTI4 876
 ADDP4
 INDIRI4
-GEI4 $719
-line 2212
-;2212:		monster->monsterNextShot ) {
-line 2213
-;2213:		return;
-ADDRGP4 $712
+GEI4 $709
+line 2184
+;2184:		monster->monsterNextShot ) {
+line 2185
+;2185:		return;
+ADDRGP4 $702
 JUMPV
-LABELV $719
-line 2216
-;2214:	}
-;2215:
-;2216:	meleeAttack =
+LABELV $709
+line 2188
+;2186:	}
+;2187:
+;2188:	meleeAttack =
 ADDRFP4 0
 INDIRP4
 CNSTI4 844
 ADDP4
 INDIRI4
 CNSTI4 2
-NEI4 $723
+NEI4 $713
 ADDRLP4 16
 CNSTI4 1
 ASGNI4
-ADDRGP4 $724
+ADDRGP4 $714
 JUMPV
-LABELV $723
+LABELV $713
 ADDRLP4 16
 CNSTI4 0
 ASGNI4
-LABELV $724
+LABELV $714
 ADDRLP4 0
 ADDRLP4 16
 INDIRI4
 ASGNI4
-line 2220
-;2217:		monster->monsterAnimation ==
-;2218:		MONSTER_STATE_MELEE;
-;2219:
-;2220:	if( meleeAttack ) {
+line 2192
+;2189:		monster->monsterAnimation ==
+;2190:		MONSTER_STATE_MELEE;
+;2191:
+;2192:	if( meleeAttack ) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 0
-EQI4 $725
-line 2221
-;2221:		G_MonsterFireProjectile(
+EQI4 $715
+line 2193
+;2193:		G_MonsterSound(
 ADDRLP4 20
 ADDRFP4 0
 INDIRP4
@@ -9104,14 +8946,30 @@ ASGNP4
 ADDRLP4 20
 INDIRP4
 ARGP4
-ADDRLP4 20
-INDIRP4
-CNSTI4 768
-ADDP4
+ADDRFP4 4
 INDIRP4
 ARGP4
+ADDRGP4 $717
+ARGP4
+ADDRLP4 20
+INDIRP4
+CNSTI4 848
+ADDP4
+INDIRI4
+ARGI4
+ADDRGP4 G_MonsterSound
+CALLV
+pop
+line 2200
+;2194:			monster,
+;2195:			def,
+;2196:			"melee",
+;2197:			monster->monsterAnimationVariant
+;2198:		);
+;2199:
+;2200:		G_MonsterFireProjectile(
 ADDRLP4 24
-ADDRFP4 4
+ADDRFP4 0
 INDIRP4
 ASGNP4
 ADDRLP4 24
@@ -9119,44 +8977,57 @@ INDIRP4
 ARGP4
 ADDRLP4 24
 INDIRP4
+CNSTI4 768
+ADDP4
+INDIRP4
+ARGP4
+ADDRLP4 28
+ADDRFP4 4
+INDIRP4
+ASGNP4
+ADDRLP4 28
+INDIRP4
+ARGP4
+ADDRLP4 28
+INDIRP4
 CNSTI4 512
 ADDP4
 ARGP4
-ADDRLP4 24
+ADDRLP4 28
 INDIRP4
 CNSTI4 668
 ADDP4
 INDIRI4
 ARGI4
-ADDRLP4 28
+ADDRLP4 32
 CNSTI4 0
 ASGNI4
-ADDRLP4 28
+ADDRLP4 32
 INDIRI4
 ARGI4
-ADDRLP4 28
+ADDRLP4 32
 INDIRI4
 ARGI4
 ADDRGP4 G_MonsterFireProjectile
 CALLV
 pop
-line 2230
-;2222:			monster,
-;2223:			monster->enemy,
-;2224:			def,
-;2225:			def->meleeProjectile,
-;2226:			def->meleeDamage,
-;2227:			0,
-;2228:			0
-;2229:		);
-;2230:	}
-ADDRGP4 $726
+line 2209
+;2201:			monster,
+;2202:			monster->enemy,
+;2203:			def,
+;2204:			def->meleeProjectile,
+;2205:			def->meleeDamage,
+;2206:			0,
+;2207:			0
+;2208:		);
+;2209:	}
+ADDRGP4 $716
 JUMPV
-LABELV $725
-line 2231
-;2231:	else {
-line 2232
-;2232:		G_MonsterFireProjectile(
+LABELV $715
+line 2210
+;2210:	else {
+line 2211
+;2211:		G_MonsterSound(
 ADDRLP4 20
 ADDRFP4 0
 INDIRP4
@@ -9164,14 +9035,30 @@ ASGNP4
 ADDRLP4 20
 INDIRP4
 ARGP4
-ADDRLP4 20
-INDIRP4
-CNSTI4 768
-ADDP4
+ADDRFP4 4
 INDIRP4
 ARGP4
+ADDRGP4 $718
+ARGP4
+ADDRLP4 20
+INDIRP4
+CNSTI4 848
+ADDP4
+INDIRI4
+ARGI4
+ADDRGP4 G_MonsterSound
+CALLV
+pop
+line 2218
+;2212:			monster,
+;2213:			def,
+;2214:			"ranged",
+;2215:			monster->monsterAnimationVariant
+;2216:		);
+;2217:
+;2218:		G_MonsterFireProjectile(
 ADDRLP4 24
-ADDRFP4 4
+ADDRFP4 0
 INDIRP4
 ASGNP4
 ADDRLP4 24
@@ -9179,22 +9066,35 @@ INDIRP4
 ARGP4
 ADDRLP4 24
 INDIRP4
+CNSTI4 768
+ADDP4
+INDIRP4
+ARGP4
+ADDRLP4 28
+ADDRFP4 4
+INDIRP4
+ASGNP4
+ADDRLP4 28
+INDIRP4
+ARGP4
+ADDRLP4 28
+INDIRP4
 CNSTI4 448
 ADDP4
 ARGP4
-ADDRLP4 24
+ADDRLP4 28
 INDIRP4
 CNSTI4 684
 ADDP4
 INDIRI4
 ARGI4
-ADDRLP4 24
+ADDRLP4 28
 INDIRP4
 CNSTI4 688
 ADDP4
 INDIRI4
 ARGI4
-ADDRLP4 24
+ADDRLP4 28
 INDIRP4
 CNSTI4 692
 ADDP4
@@ -9203,20 +9103,20 @@ ARGI4
 ADDRGP4 G_MonsterFireProjectile
 CALLV
 pop
-line 2241
-;2233:			monster,
-;2234:			monster->enemy,
-;2235:			def,
-;2236:			def->projectile,
-;2237:			def->projectileDamage,
-;2238:			def->splashDamage,
-;2239:			def->splashRadius
-;2240:		);
-;2241:	}
-LABELV $726
-line 2243
-;2242:
-;2243:	monster->monsterShotsRemaining--;
+line 2227
+;2219:			monster,
+;2220:			monster->enemy,
+;2221:			def,
+;2222:			def->projectile,
+;2223:			def->projectileDamage,
+;2224:			def->splashDamage,
+;2225:			def->splashRadius
+;2226:		);
+;2227:	}
+LABELV $716
+line 2229
+;2228:
+;2229:	monster->monsterShotsRemaining--;
 ADDRLP4 20
 ADDRFP4 0
 INDIRP4
@@ -9231,18 +9131,18 @@ INDIRI4
 CNSTI4 1
 SUBI4
 ASGNI4
-line 2245
-;2244:
-;2245:	if( monster->monsterShotsRemaining > 0 ) {
+line 2231
+;2230:
+;2231:	if( monster->monsterShotsRemaining > 0 ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 880
 ADDP4
 INDIRI4
 CNSTI4 0
-LEI4 $727
-line 2246
-;2246:		monster->monsterNextShot =
+LEI4 $719
+line 2232
+;2232:		monster->monsterNextShot =
 ADDRFP4 0
 INDIRP4
 CNSTI4 876
@@ -9256,17 +9156,17 @@ ADDP4
 INDIRI4
 ADDI4
 ASGNI4
-line 2249
-;2247:			level.time +
-;2248:			def->burstInterval;
-;2249:	}
-ADDRGP4 $728
+line 2235
+;2233:			level.time +
+;2234:			def->burstInterval;
+;2235:	}
+ADDRGP4 $720
 JUMPV
-LABELV $727
-line 2250
-;2250:	else {
-line 2251
-;2251:		monster->monsterNextAttack =
+LABELV $719
+line 2236
+;2236:	else {
+line 2237
+;2237:		monster->monsterNextAttack =
 ADDRFP4 0
 INDIRP4
 CNSTI4 872
@@ -9280,36 +9180,36 @@ ADDP4
 INDIRI4
 ADDI4
 ASGNI4
-line 2254
-;2252:			level.time +
-;2253:			def->attackCooldown;
-;2254:	}
-LABELV $728
-line 2255
-;2255:}
-LABELV $712
-endproc G_MonsterRunAttack 32 28
+line 2240
+;2238:			level.time +
+;2239:			def->attackCooldown;
+;2240:	}
+LABELV $720
+line 2241
+;2241:}
+LABELV $702
+endproc G_MonsterRunAttack 36 28
 proc G_MonsterAttack 32 12
-line 2261
-;2256:
-;2257:static void G_MonsterAttack(
-;2258:	gentity_t *monster,
-;2259:	gentity_t *target,
-;2260:	monsterDef_t *def
-;2261:) {
-line 2264
-;2262:	float distanceSquared;
-;2263:
-;2264:	if( monster->monsterShotsRemaining > 0 ) {
+line 2247
+;2242:
+;2243:static void G_MonsterAttack(
+;2244:	gentity_t *monster,
+;2245:	gentity_t *target,
+;2246:	monsterDef_t *def
+;2247:) {
+line 2250
+;2248:	float distanceSquared;
+;2249:
+;2250:	if( monster->monsterShotsRemaining > 0 ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 880
 ADDP4
 INDIRI4
 CNSTI4 0
-LEI4 $732
-line 2265
-;2265:		G_MonsterRunAttack(
+LEI4 $724
+line 2251
+;2251:		G_MonsterRunAttack(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9319,18 +9219,18 @@ ARGP4
 ADDRGP4 G_MonsterRunAttack
 CALLV
 pop
-line 2269
-;2266:			monster,
-;2267:			def
-;2268:		);
-;2269:		return;
-ADDRGP4 $731
+line 2255
+;2252:			monster,
+;2253:			def
+;2254:		);
+;2255:		return;
+ADDRGP4 $723
 JUMPV
-LABELV $732
-line 2272
-;2270:	}
-;2271:
-;2272:	if( monster->monsterAnimation !=
+LABELV $724
+line 2258
+;2256:	}
+;2257:
+;2258:	if( monster->monsterAnimation !=
 ADDRLP4 4
 ADDRFP4 0
 INDIRP4
@@ -9341,24 +9241,24 @@ ASGNI4
 ADDRLP4 4
 INDIRI4
 CNSTI4 1
-EQI4 $734
+EQI4 $726
 ADDRLP4 4
 INDIRI4
 CNSTI4 0
-EQI4 $734
-line 2275
-;2273:			MONSTER_STATE_MOVE &&
-;2274:		monster->monsterAnimation !=
-;2275:			MONSTER_STATE_IDLE ) {
-line 2276
-;2276:		return;
-ADDRGP4 $731
+EQI4 $726
+line 2261
+;2259:			MONSTER_STATE_MOVE &&
+;2260:		monster->monsterAnimation !=
+;2261:			MONSTER_STATE_IDLE ) {
+line 2262
+;2262:		return;
+ADDRGP4 $723
 JUMPV
-LABELV $734
-line 2279
-;2277:	}
-;2278:
-;2279:	if( level.time <
+LABELV $726
+line 2265
+;2263:	}
+;2264:
+;2265:	if( level.time <
 ADDRGP4 level+32
 INDIRI4
 ADDRFP4 0
@@ -9366,18 +9266,18 @@ INDIRP4
 CNSTI4 872
 ADDP4
 INDIRI4
-GEI4 $736
-line 2280
-;2280:		monster->monsterNextAttack ) {
-line 2281
-;2281:		return;
-ADDRGP4 $731
+GEI4 $728
+line 2266
+;2266:		monster->monsterNextAttack ) {
+line 2267
+;2267:		return;
+ADDRGP4 $723
 JUMPV
-LABELV $736
-line 2284
-;2282:	}
-;2283:
-;2284:	distanceSquared = DistanceSquared(
+LABELV $728
+line 2270
+;2268:	}
+;2269:
+;2270:	distanceSquared = DistanceSquared(
 ADDRLP4 8
 CNSTI4 488
 ASGNI4
@@ -9401,12 +9301,12 @@ ADDRLP4 0
 ADDRLP4 12
 INDIRF4
 ASGNF4
-line 2289
-;2285:		monster->r.currentOrigin,
-;2286:		target->r.currentOrigin
-;2287:	);
-;2288:
-;2289:	if( !G_MonsterCanSeeTarget(
+line 2275
+;2271:		monster->r.currentOrigin,
+;2272:		target->r.currentOrigin
+;2273:	);
+;2274:
+;2275:	if( !G_MonsterCanSeeTarget(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9420,23 +9320,23 @@ ASGNI4
 ADDRLP4 16
 INDIRI4
 CNSTI4 0
-NEI4 $739
-line 2292
-;2290:		monster,
-;2291:		target
-;2292:	) ) {
-line 2293
-;2293:		return;
-ADDRGP4 $731
+NEI4 $731
+line 2278
+;2276:		monster,
+;2277:		target
+;2278:	) ) {
+line 2279
+;2279:		return;
+ADDRGP4 $723
 JUMPV
-LABELV $739
-line 2299
-;2294:	}
-;2295:
-;2296:	/*
-;2297:	 * Prefer melee whenever the target is close enough.
-;2298:	 */
-;2299:	if( def->hasMelee &&
+LABELV $731
+line 2285
+;2280:	}
+;2281:
+;2282:	/*
+;2283:	 * Prefer melee whenever the target is close enough.
+;2284:	 */
+;2285:	if( def->hasMelee &&
 ADDRLP4 20
 ADDRFP4 8
 INDIRP4
@@ -9447,7 +9347,7 @@ CNSTI4 644
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $741
+EQI4 $733
 ADDRLP4 24
 ADDRLP4 20
 INDIRP4
@@ -9462,13 +9362,13 @@ INDIRF4
 ADDRLP4 24
 INDIRF4
 MULF4
-GTF4 $741
-line 2302
-;2300:		distanceSquared <=
-;2301:			def->meleeRange *
-;2302:			def->meleeRange ) {
-line 2303
-;2303:		G_MonsterStartMeleeAttack(
+GTF4 $733
+line 2288
+;2286:		distanceSquared <=
+;2287:			def->meleeRange *
+;2288:			def->meleeRange ) {
+line 2289
+;2289:		G_MonsterStartMeleeAttack(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9481,13 +9381,13 @@ ARGP4
 ADDRGP4 G_MonsterStartMeleeAttack
 CALLV
 pop
-line 2309
-;2304:			monster,
-;2305:			target,
-;2306:			def
-;2307:		);
-;2308:
-;2309:		G_MonsterRunAttack(
+line 2295
+;2290:			monster,
+;2291:			target,
+;2292:			def
+;2293:		);
+;2294:
+;2295:		G_MonsterRunAttack(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9497,35 +9397,35 @@ ARGP4
 ADDRGP4 G_MonsterRunAttack
 CALLV
 pop
-line 2314
-;2310:			monster,
-;2311:			def
-;2312:		);
-;2313:
-;2314:		return;
-ADDRGP4 $731
+line 2300
+;2296:			monster,
+;2297:			def
+;2298:		);
+;2299:
+;2300:		return;
+ADDRGP4 $723
 JUMPV
-LABELV $741
-line 2317
-;2315:	}
-;2316:
-;2317:	if( !def->hasRanged ) {
+LABELV $733
+line 2303
+;2301:	}
+;2302:
+;2303:	if( !def->hasRanged ) {
 ADDRFP4 8
 INDIRP4
 CNSTI4 640
 ADDP4
 INDIRI4
 CNSTI4 0
-NEI4 $743
-line 2318
-;2318:		return;
-ADDRGP4 $731
+NEI4 $735
+line 2304
+;2304:		return;
+ADDRGP4 $723
 JUMPV
-LABELV $743
-line 2321
-;2319:	}
-;2320:
-;2321:	if( distanceSquared >
+LABELV $735
+line 2307
+;2305:	}
+;2306:
+;2307:	if( distanceSquared >
 ADDRLP4 28
 ADDRFP4 8
 INDIRP4
@@ -9540,19 +9440,19 @@ INDIRF4
 ADDRLP4 28
 INDIRF4
 MULF4
-LEF4 $745
-line 2323
-;2322:		def->attackRange *
-;2323:		def->attackRange ) {
-line 2324
-;2324:		return;
-ADDRGP4 $731
+LEF4 $737
+line 2309
+;2308:		def->attackRange *
+;2309:		def->attackRange ) {
+line 2310
+;2310:		return;
+ADDRGP4 $723
 JUMPV
-LABELV $745
-line 2327
-;2325:	}
-;2326:
-;2327:	G_MonsterStartRangedAttack(
+LABELV $737
+line 2313
+;2311:	}
+;2312:
+;2313:	G_MonsterStartRangedAttack(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9565,13 +9465,13 @@ ARGP4
 ADDRGP4 G_MonsterStartRangedAttack
 CALLV
 pop
-line 2333
-;2328:		monster,
-;2329:		target,
-;2330:		def
-;2331:	);
-;2332:
-;2333:	G_MonsterRunAttack(
+line 2319
+;2314:		monster,
+;2315:		target,
+;2316:		def
+;2317:	);
+;2318:
+;2319:	G_MonsterRunAttack(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9581,36 +9481,36 @@ ARGP4
 ADDRGP4 G_MonsterRunAttack
 CALLV
 pop
-line 2337
-;2334:		monster,
-;2335:		def
-;2336:	);
-;2337:}
-LABELV $731
+line 2323
+;2320:		monster,
+;2321:		def
+;2322:	);
+;2323:}
+LABELV $723
 endproc G_MonsterAttack 32 12
-proc G_MonsterThink 36 16
-line 2339
-;2338:
-;2339:static void G_MonsterThink(gentity_t *monster) {
-line 2344
-;2340:	monsterDef_t *def;
-;2341:	gentity_t *target;
-;2342:	int msec;
-;2343:
-;2344:	def = &g_monsterDefs
+proc G_MonsterThink 44 16
+line 2325
+;2324:
+;2325:static void G_MonsterThink(gentity_t *monster) {
+line 2330
+;2326:	monsterDef_t *def;
+;2327:	gentity_t *target;
+;2328:	int msec;
+;2329:
+;2330:	def = &g_monsterDefs
 ADDRLP4 12
 ADDRFP4 0
 INDIRP4
 ASGNP4
 ADDRLP4 4
-CNSTI4 1100
+CNSTI4 1104
 ADDRLP4 12
 INDIRP4
 CNSTI4 812
 ADDP4
 INDIRI4
 MULI4
-CNSTI4 5500
+CNSTI4 5520
 ADDRLP4 12
 INDIRP4
 CNSTI4 808
@@ -9621,11 +9521,11 @@ ADDRGP4 g_monsterDefs
 ADDP4
 ADDP4
 ASGNP4
-line 2348
-;2345:		[monster->monsterType]
-;2346:		[monster->monsterSlot];
-;2347:
-;2348:	G_MonsterUpdateAnimation(monster, def);
+line 2334
+;2331:		[monster->monsterType]
+;2332:		[monster->monsterSlot];
+;2333:
+;2334:	G_MonsterUpdateAnimation(monster, def);
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9635,18 +9535,18 @@ ARGP4
 ADDRGP4 G_MonsterUpdateAnimation
 CALLV
 pop
-line 2350
-;2349:
-;2350:	if (monster->monsterDead) {
+line 2336
+;2335:
+;2336:	if (monster->monsterDead) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 860
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $748
-line 2351
-;2351:		if (level.time >= monster->monsterDeathTime) {
+EQI4 $740
+line 2337
+;2337:		if (level.time >= monster->monsterDeathTime) {
 ADDRGP4 level+32
 INDIRI4
 ADDRFP4 0
@@ -9654,15 +9554,15 @@ INDIRP4
 CNSTI4 852
 ADDP4
 INDIRI4
-LTI4 $750
-line 2352
-;2352:			if (monsterActiveCount > 0) {
+LTI4 $742
+line 2338
+;2338:			if (monsterActiveCount > 0) {
 ADDRGP4 monsterActiveCount
 INDIRI4
 CNSTI4 0
-LEI4 $753
-line 2353
-;2353:				monsterActiveCount--;
+LEI4 $745
+line 2339
+;2339:				monsterActiveCount--;
 ADDRLP4 16
 ADDRGP4 monsterActiveCount
 ASGNP4
@@ -9674,27 +9574,27 @@ INDIRI4
 CNSTI4 1
 SUBI4
 ASGNI4
-line 2354
-;2354:			}
-LABELV $753
-line 2356
-;2355:
-;2356:			G_FreeEntity(monster);
+line 2340
+;2340:			}
+LABELV $745
+line 2342
+;2341:
+;2342:			G_FreeEntity(monster);
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 G_FreeEntity
 CALLV
 pop
-line 2357
-;2357:			return;
-ADDRGP4 $747
+line 2343
+;2343:			return;
+ADDRGP4 $739
 JUMPV
-LABELV $750
-line 2360
-;2358:		}
-;2359:
-;2360:		monster->nextthink = level.time + 50;
+LABELV $742
+line 2346
+;2344:		}
+;2345:
+;2346:		monster->nextthink = level.time + 50;
 ADDRFP4 0
 INDIRP4
 CNSTI4 688
@@ -9704,15 +9604,15 @@ INDIRI4
 CNSTI4 50
 ADDI4
 ASGNI4
-line 2361
-;2361:		return;
-ADDRGP4 $747
+line 2347
+;2347:		return;
+ADDRGP4 $739
 JUMPV
-LABELV $748
-line 2364
-;2362:	}
-;2363:
-;2364:	msec = level.time - monster->monsterLastThink;
+LABELV $740
+line 2350
+;2348:	}
+;2349:
+;2350:	msec = level.time - monster->monsterLastThink;
 ADDRLP4 0
 ADDRGP4 level+32
 INDIRI4
@@ -9723,41 +9623,41 @@ ADDP4
 INDIRI4
 SUBI4
 ASGNI4
-line 2366
-;2365:
-;2366:	if (msec < 1) {
+line 2352
+;2351:
+;2352:	if (msec < 1) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 1
-GEI4 $757
-line 2367
-;2367:		msec = 1;
+GEI4 $749
+line 2353
+;2353:		msec = 1;
 ADDRLP4 0
 CNSTI4 1
 ASGNI4
-line 2368
-;2368:	}
-ADDRGP4 $758
+line 2354
+;2354:	}
+ADDRGP4 $750
 JUMPV
-LABELV $757
-line 2369
-;2369:	else if (msec > 100) {
+LABELV $749
+line 2355
+;2355:	else if (msec > 100) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 100
-LEI4 $759
-line 2370
-;2370:		msec = 100;
+LEI4 $751
+line 2356
+;2356:		msec = 100;
 ADDRLP4 0
 CNSTI4 100
 ASGNI4
-line 2371
-;2371:	}
-LABELV $759
-LABELV $758
-line 2373
-;2372:
-;2373:	monster->monsterLastThink = level.time;
+line 2357
+;2357:	}
+LABELV $751
+LABELV $750
+line 2359
+;2358:
+;2359:	monster->monsterLastThink = level.time;
 ADDRFP4 0
 INDIRP4
 CNSTI4 816
@@ -9765,9 +9665,9 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 2375
-;2374:
-;2375:	target = G_MonsterFindTarget(monster);
+line 2361
+;2360:
+;2361:	target = G_MonsterFindTarget(monster);
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9779,16 +9679,70 @@ ADDRLP4 8
 ADDRLP4 16
 INDIRP4
 ASGNP4
-line 2377
-;2376:
-;2377:		if (target) {
+line 2367
+;2362:
+;2363:	/*
+;2364:	 * During an attack, keep facing the target selected
+;2365:	 * at the beginning of the attack.
+;2366:	 */
+;2367:	if ((monster->monsterAnimation ==
+ADDRLP4 20
+ADDRFP4 0
+INDIRP4
+CNSTI4 844
+ADDP4
+INDIRI4
+ASGNI4
+ADDRLP4 20
+INDIRI4
+CNSTI4 3
+EQI4 $756
+ADDRLP4 20
+INDIRI4
+CNSTI4 2
+NEI4 $754
+LABELV $756
+ADDRFP4 0
+INDIRP4
+CNSTI4 768
+ADDP4
+INDIRP4
+ARGP4
+ADDRLP4 24
+ADDRGP4 G_MonsterValidTarget
+CALLI4
+ASGNI4
+ADDRLP4 24
+INDIRI4
+CNSTI4 0
+EQI4 $754
+line 2371
+;2368:			MONSTER_STATE_RANGED ||
+;2369:		 monster->monsterAnimation ==
+;2370:			MONSTER_STATE_MELEE) &&
+;2371:		G_MonsterValidTarget(monster->enemy)) {
+line 2372
+;2372:		target = monster->enemy;
+ADDRLP4 8
+ADDRFP4 0
+INDIRP4
+CNSTI4 768
+ADDP4
+INDIRP4
+ASGNP4
+line 2373
+;2373:	}
+LABELV $754
+line 2375
+;2374:
+;2375:	if (target) {
 ADDRLP4 8
 INDIRP4
 CVPU4 4
 CNSTU4 0
-EQU4 $762
-line 2378
-;2378:			G_MonsterFaceTarget(
+EQU4 $757
+line 2376
+;2376:		G_MonsterFaceTarget(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9798,12 +9752,12 @@ ARGP4
 ADDRGP4 G_MonsterFaceTarget
 CALLV
 pop
-line 2383
-;2379:				monster,
-;2380:				target
-;2381:			);
-;2382:
-;2383:			G_MonsterMove(
+line 2381
+;2377:			monster,
+;2378:			target
+;2379:		);
+;2380:
+;2381:			G_MonsterMove(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9819,13 +9773,13 @@ ARGI4
 ADDRGP4 G_MonsterMove
 CALLV
 pop
-line 2389
-;2384:				monster,
-;2385:				target,
-;2386:				def,
-;2387:				msec
-;2388:			);
-;2389:		G_MonsterAttack(monster, target, def);
+line 2387
+;2382:				monster,
+;2383:				target,
+;2384:				def,
+;2385:				msec
+;2386:			);
+;2387:		G_MonsterAttack(monster, target, def);
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9838,74 +9792,74 @@ ARGP4
 ADDRGP4 G_MonsterAttack
 CALLV
 pop
-line 2391
-;2390:
-;2391:		if (monster->monsterAnimation == MONSTER_STATE_MOVE &&
-ADDRLP4 20
+line 2389
+;2388:
+;2389:		if (monster->monsterAnimation == MONSTER_STATE_MOVE &&
+ADDRLP4 28
 ADDRFP4 0
 INDIRP4
 ASGNP4
-ADDRLP4 20
+ADDRLP4 28
 INDIRP4
 CNSTI4 844
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $763
+NEI4 $758
 ADDRGP4 level+32
 INDIRI4
-ADDRLP4 20
+ADDRLP4 28
 INDIRP4
 CNSTI4 856
 ADDP4
 INDIRI4
-LTI4 $763
-line 2392
-;2392:			level.time >= monster->monsterNextTalk) {
-line 2395
-;2393:			int variant;
-;2394:
-;2395:			variant =
-ADDRLP4 28
+LTI4 $758
+line 2390
+;2390:			level.time >= monster->monsterNextTalk) {
+line 2393
+;2391:			int variant;
+;2392:
+;2393:			variant =
+ADDRLP4 36
 ADDRGP4 rand
 CALLI4
 ASGNI4
-ADDRLP4 24
-ADDRLP4 28
+ADDRLP4 32
+ADDRLP4 36
 INDIRI4
 CNSTI4 3
 MODI4
 ASGNI4
-line 2398
-;2396:				rand() % MAX_MONSTER_VARIANTS;
-;2397:
-;2398:			G_MonsterSound(
+line 2396
+;2394:				rand() % MAX_MONSTER_VARIANTS;
+;2395:
+;2396:			G_MonsterSound(
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRLP4 4
 INDIRP4
 ARGP4
-ADDRGP4 $767
+ADDRGP4 $762
 ARGP4
-ADDRLP4 24
+ADDRLP4 32
 INDIRI4
 ARGI4
 ADDRGP4 G_MonsterSound
 CALLV
 pop
-line 2405
-;2399:				monster,
-;2400:				def,
-;2401:				"talk",
-;2402:				variant
-;2403:			);
-;2404:
-;2405:			monster->monsterNextTalk =
+line 2403
+;2397:				monster,
+;2398:				def,
+;2399:				"talk",
+;2400:				variant
+;2401:			);
+;2402:
+;2403:			monster->monsterNextTalk =
 ADDRLP4 4
 INDIRP4
 ARGP4
-ADDRLP4 32
+ADDRLP4 40
 ADDRGP4 G_MonsterTalkDelay
 CALLI4
 ASGNI4
@@ -9915,63 +9869,63 @@ CNSTI4 856
 ADDP4
 ADDRGP4 level+32
 INDIRI4
-ADDRLP4 32
+ADDRLP4 40
 INDIRI4
 ADDI4
 ASGNI4
-line 2408
-;2406:				level.time +
-;2407:				G_MonsterTalkDelay(def);
-;2408:		}
-line 2409
-;2409:	}
-ADDRGP4 $763
+line 2406
+;2404:				level.time +
+;2405:				G_MonsterTalkDelay(def);
+;2406:		}
+line 2407
+;2407:	}
+ADDRGP4 $758
 JUMPV
-LABELV $762
-line 2411
-;2410:	
-;2411:	else if( monster->monsterAnimation ==
+LABELV $757
+line 2409
+;2408:	
+;2409:	else if( monster->monsterAnimation ==
 ADDRFP4 0
 INDIRP4
 CNSTI4 844
 ADDP4
 INDIRI4
 CNSTI4 1
-NEI4 $769
-line 2412
-;2412:		MONSTER_STATE_MOVE ) {
-line 2413
-;2413:		G_MonsterSetAnimation(
+NEI4 $764
+line 2410
+;2410:		MONSTER_STATE_MOVE ) {
+line 2411
+;2411:		G_MonsterSetAnimation(
 ADDRFP4 0
 INDIRP4
 ARGP4
-ADDRLP4 20
+ADDRLP4 28
 CNSTI4 0
 ASGNI4
-ADDRLP4 20
+ADDRLP4 28
 INDIRI4
 ARGI4
-ADDRLP4 20
+ADDRLP4 28
 INDIRI4
 ARGI4
 ADDRGP4 G_MonsterSetAnimation
 CALLV
 pop
-line 2418
-;2414:			monster,
-;2415:			MONSTER_STATE_IDLE,
-;2416:			0
-;2417:		);
-;2418:	}
-LABELV $769
-LABELV $763
-line 2424
-;2419:
-;2420:	/*
-;2421:	 * Walking monsters remain attached to the floor
-;2422:	 * and fall when moving over an edge.
-;2423:	 */
-;2424:	G_MonsterGroundWalker(
+line 2416
+;2412:			monster,
+;2413:			MONSTER_STATE_IDLE,
+;2414:			0
+;2415:		);
+;2416:	}
+LABELV $764
+LABELV $758
+line 2422
+;2417:
+;2418:	/*
+;2419:	 * Walking monsters remain attached to the floor
+;2420:	 * and fall when moving over an edge.
+;2421:	 */
+;2422:	G_MonsterGroundWalker(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -9984,73 +9938,73 @@ ARGI4
 ADDRGP4 G_MonsterGroundWalker
 CALLV
 pop
-line 2434
-;2425:		monster,
-;2426:		def,
-;2427:		msec
-;2428:	);
-;2429:	
-;2430:	/*
-;2431:	 * Remember meaningful movement so an active monster
-;2432:	 * is not mistaken for a lost one.
-;2433:	 */
-;2434:	if( monster->monsterWaveSpawn &&
-ADDRLP4 20
+line 2432
+;2423:		monster,
+;2424:		def,
+;2425:		msec
+;2426:	);
+;2427:	
+;2428:	/*
+;2429:	 * Remember meaningful movement so an active monster
+;2430:	 * is not mistaken for a lost one.
+;2431:	 */
+;2432:	if( monster->monsterWaveSpawn &&
+ADDRLP4 28
 ADDRFP4 0
 INDIRP4
 ASGNP4
-ADDRLP4 20
+ADDRLP4 28
 INDIRP4
 CNSTI4 864
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $771
-ADDRLP4 20
+EQI4 $766
+ADDRLP4 28
 INDIRP4
 CNSTI4 488
 ADDP4
 ARGP4
-ADDRLP4 20
+ADDRLP4 28
 INDIRP4
 CNSTI4 824
 ADDP4
 ARGP4
-ADDRLP4 24
+ADDRLP4 32
 ADDRGP4 DistanceSquared
 CALLF4
 ASGNF4
-ADDRLP4 24
+ADDRLP4 32
 INDIRF4
 CNSTF4 1149239296
-LTF4 $771
-line 2438
-;2435:		DistanceSquared(
-;2436:			monster->r.currentOrigin,
-;2437:			monster->monsterProgressOrigin
-;2438:		) >= 32.0f * 32.0f ) {
-line 2439
-;2439:		VectorCopy(
-ADDRLP4 28
+LTF4 $766
+line 2436
+;2433:		DistanceSquared(
+;2434:			monster->r.currentOrigin,
+;2435:			monster->monsterProgressOrigin
+;2436:		) >= 32.0f * 32.0f ) {
+line 2437
+;2437:		VectorCopy(
+ADDRLP4 36
 ADDRFP4 0
 INDIRP4
 ASGNP4
-ADDRLP4 28
+ADDRLP4 36
 INDIRP4
 CNSTI4 824
 ADDP4
-ADDRLP4 28
+ADDRLP4 36
 INDIRP4
 CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
-line 2444
-;2440:			monster->r.currentOrigin,
-;2441:			monster->monsterProgressOrigin
-;2442:		);
-;2443:
-;2444:		monster->monsterProgressTime =
+line 2442
+;2438:			monster->r.currentOrigin,
+;2439:			monster->monsterProgressOrigin
+;2440:		);
+;2441:
+;2442:		monster->monsterProgressTime =
 ADDRFP4 0
 INDIRP4
 CNSTI4 820
@@ -10058,22 +10012,22 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
+line 2444
+;2443:			level.time;
+;2444:	}
+LABELV $766
 line 2446
-;2445:			level.time;
-;2446:	}
-LABELV $771
-line 2448
-;2447:
-;2448:	trap_LinkEntity(monster);
+;2445:
+;2446:	trap_LinkEntity(monster);
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 trap_LinkEntity
 CALLV
 pop
-line 2450
-;2449:
-;2450:	monster->nextthink = level.time + 50;
+line 2448
+;2447:
+;2448:	monster->nextthink = level.time + 50;
 ADDRFP4 0
 INDIRP4
 CNSTI4 688
@@ -10083,28 +10037,28 @@ INDIRI4
 CNSTI4 50
 ADDI4
 ASGNI4
-line 2451
-;2451:}
-LABELV $747
-endproc G_MonsterThink 36 16
+line 2449
+;2449:}
+LABELV $739
+endproc G_MonsterThink 44 16
 proc G_MonsterSound 68 24
-line 2458
-;2452:
-;2453:static void G_MonsterSound(
-;2454:	gentity_t *monster,
-;2455:	monsterDef_t *def,
-;2456:	const char *group,
-;2457:	int variant
-;2458:) {
-line 2461
-;2459:	char filename[MAX_QPATH];
-;2460:
-;2461:	Com_sprintf(
+line 2456
+;2450:
+;2451:static void G_MonsterSound(
+;2452:	gentity_t *monster,
+;2453:	monsterDef_t *def,
+;2454:	const char *group,
+;2455:	int variant
+;2456:) {
+line 2459
+;2457:	char filename[MAX_QPATH];
+;2458:
+;2459:	Com_sprintf(
 ADDRLP4 0
 ARGP4
 CNSTI4 64
 ARGI4
-ADDRGP4 $776
+ADDRGP4 $771
 ARGP4
 ADDRFP4 4
 INDIRP4
@@ -10122,16 +10076,16 @@ ARGI4
 ADDRGP4 Com_sprintf
 CALLV
 pop
-line 2470
-;2462:		filename,
-;2463:		sizeof(filename),
-;2464:		"%s/%s%i.wav",
-;2465:		def->soundDir,
-;2466:		group,
-;2467:		variant + 1
-;2468:	);
-;2469:
-;2470:	G_Sound(
+line 2468
+;2460:		filename,
+;2461:		sizeof(filename),
+;2462:		"%s/%s%i.wav",
+;2463:		def->soundDir,
+;2464:		group,
+;2465:		variant + 1
+;2466:	);
+;2467:
+;2468:	G_Sound(
 ADDRLP4 0
 ARGP4
 ADDRLP4 64
@@ -10149,22 +10103,22 @@ ARGI4
 ADDRGP4 G_Sound
 CALLV
 pop
-line 2475
-;2471:		monster,
-;2472:		CHAN_VOICE,
-;2473:		G_SoundIndex(filename)
-;2474:	);
-;2475:}
-LABELV $775
+line 2473
+;2469:		monster,
+;2470:		CHAN_VOICE,
+;2471:		G_SoundIndex(filename)
+;2472:	);
+;2473:}
+LABELV $770
 endproc G_MonsterSound 68 24
 proc G_MonsterTalkDelay 12 0
-line 2477
-;2476:
-;2477:static int G_MonsterTalkDelay(monsterDef_t *def) {
-line 2480
-;2478:	int range;
-;2479:
-;2480:	range = def->talkMaxDelay - def->talkMinDelay;
+line 2475
+;2474:
+;2475:static int G_MonsterTalkDelay(monsterDef_t *def) {
+line 2478
+;2476:	int range;
+;2477:
+;2478:	range = def->talkMaxDelay - def->talkMinDelay;
 ADDRLP4 4
 ADDRFP4 0
 INDIRP4
@@ -10182,28 +10136,28 @@ ADDP4
 INDIRI4
 SUBI4
 ASGNI4
-line 2482
-;2481:
-;2482:	if (range <= 0) {
+line 2480
+;2479:
+;2480:	if (range <= 0) {
 ADDRLP4 0
 INDIRI4
 CNSTI4 0
-GTI4 $778
-line 2483
-;2483:		return def->talkMinDelay;
+GTI4 $773
+line 2481
+;2481:		return def->talkMinDelay;
 ADDRFP4 0
 INDIRP4
 CNSTI4 696
 ADDP4
 INDIRI4
 RETI4
-ADDRGP4 $777
+ADDRGP4 $772
 JUMPV
-LABELV $778
-line 2486
-;2484:	}
-;2485:
-;2486:	return def->talkMinDelay + rand() % (range + 1);
+LABELV $773
+line 2484
+;2482:	}
+;2483:
+;2484:	return def->talkMinDelay + rand() % (range + 1);
 ADDRLP4 8
 ADDRGP4 rand
 CALLI4
@@ -10222,47 +10176,47 @@ ADDI4
 MODI4
 ADDI4
 RETI4
-LABELV $777
+LABELV $772
 endproc G_MonsterTalkDelay 12 0
 proc G_MonsterPain 16 16
-line 2493
-;2487:}
-;2488:
-;2489:static void G_MonsterPain(
-;2490:	gentity_t *self,
-;2491:	gentity_t *attacker,
-;2492:	int damage
-;2493:) {
-line 2497
-;2494:	monsterDef_t *def;
-;2495:	int variant;
-;2496:
-;2497:	if (self->monsterDead) {
+line 2491
+;2485:}
+;2486:
+;2487:static void G_MonsterPain(
+;2488:	gentity_t *self,
+;2489:	gentity_t *attacker,
+;2490:	int damage
+;2491:) {
+line 2495
+;2492:	monsterDef_t *def;
+;2493:	int variant;
+;2494:
+;2495:	if (self->monsterDead) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 860
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $781
-line 2498
-;2498:		return;
-ADDRGP4 $780
+EQI4 $776
+line 2496
+;2496:		return;
+ADDRGP4 $775
 JUMPV
-LABELV $781
-line 2501
-;2499:	}
-;2500:	
-;2501:	if( self->monsterWaveSpawn ) {
+LABELV $776
+line 2499
+;2497:	}
+;2498:	
+;2499:	if( self->monsterWaveSpawn ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 864
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $783
-line 2502
-;2502:	self->monsterProgressTime =
+EQI4 $778
+line 2500
+;2500:	self->monsterProgressTime =
 ADDRFP4 0
 INDIRP4
 CNSTI4 820
@@ -10270,10 +10224,10 @@ ADDP4
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
-line 2505
-;2503:		level.time;
-;2504:
-;2505:	VectorCopy(
+line 2503
+;2501:		level.time;
+;2502:
+;2503:	VectorCopy(
 ADDRLP4 8
 ADDRFP4 0
 INDIRP4
@@ -10288,15 +10242,15 @@ CNSTI4 488
 ADDP4
 INDIRB
 ASGNB 12
+line 2507
+;2504:		self->r.currentOrigin,
+;2505:		self->monsterProgressOrigin
+;2506:	);
+;2507:}
+LABELV $778
 line 2509
-;2506:		self->r.currentOrigin,
-;2507:		self->monsterProgressOrigin
-;2508:	);
-;2509:}
-LABELV $783
-line 2511
-;2510:
-;2511:	if (level.time < self->pain_debounce_time) {
+;2508:
+;2509:	if (level.time < self->pain_debounce_time) {
 ADDRGP4 level+32
 INDIRI4
 ADDRFP4 0
@@ -10304,29 +10258,29 @@ INDIRP4
 CNSTI4 720
 ADDP4
 INDIRI4
-GEI4 $786
-line 2512
-;2512:		return;
-ADDRGP4 $780
+GEI4 $781
+line 2510
+;2510:		return;
+ADDRGP4 $775
 JUMPV
-LABELV $786
-line 2515
-;2513:	}
-;2514:
-;2515:	def = &g_monsterDefs
+LABELV $781
+line 2513
+;2511:	}
+;2512:
+;2513:	def = &g_monsterDefs
 ADDRLP4 8
 ADDRFP4 0
 INDIRP4
 ASGNP4
 ADDRLP4 0
-CNSTI4 1100
+CNSTI4 1104
 ADDRLP4 8
 INDIRP4
 CNSTI4 812
 ADDP4
 INDIRI4
 MULI4
-CNSTI4 5500
+CNSTI4 5520
 ADDRLP4 8
 INDIRP4
 CNSTI4 808
@@ -10337,12 +10291,12 @@ ADDRGP4 g_monsterDefs
 ADDP4
 ADDP4
 ASGNP4
-line 2520
-;2516:		[self->monsterType]
-;2517:		[self->monsterSlot];
-;2518:			
-;2519:
-;2520:	variant = rand() % MAX_MONSTER_VARIANTS;
+line 2518
+;2514:		[self->monsterType]
+;2515:		[self->monsterSlot];
+;2516:			
+;2517:
+;2518:	variant = rand() % MAX_MONSTER_VARIANTS;
 ADDRLP4 12
 ADDRGP4 rand
 CALLI4
@@ -10353,17 +10307,17 @@ INDIRI4
 CNSTI4 3
 MODI4
 ASGNI4
-line 2522
-;2521:
-;2522:	self->monsterShotsRemaining = 0;
+line 2520
+;2519:
+;2520:	self->monsterShotsRemaining = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 880
 ADDP4
 CNSTI4 0
 ASGNI4
-line 2523
-;2523:	self->monsterNextAttack = level.time + def->attackCooldown;
+line 2521
+;2521:	self->monsterNextAttack = level.time + def->attackCooldown;
 ADDRFP4 0
 INDIRP4
 CNSTI4 872
@@ -10377,9 +10331,9 @@ ADDP4
 INDIRI4
 ADDI4
 ASGNI4
-line 2525
-;2524:
-;2525:	G_MonsterSetAnimation(
+line 2523
+;2522:
+;2523:	G_MonsterSetAnimation(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -10391,20 +10345,20 @@ ARGI4
 ADDRGP4 G_MonsterSetAnimation
 CALLV
 pop
-line 2531
-;2526:		self,
-;2527:		MONSTER_STATE_PAIN,
-;2528:		variant
-;2529:	);
-;2530:
-;2531:	G_MonsterSound(
+line 2529
+;2524:		self,
+;2525:		MONSTER_STATE_PAIN,
+;2526:		variant
+;2527:	);
+;2528:
+;2529:	G_MonsterSound(
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRLP4 0
 INDIRP4
 ARGP4
-ADDRGP4 $790
+ADDRGP4 $785
 ARGP4
 ADDRLP4 4
 INDIRI4
@@ -10412,14 +10366,14 @@ ARGI4
 ADDRGP4 G_MonsterSound
 CALLV
 pop
-line 2538
-;2532:		self,
-;2533:		def,
-;2534:		"pain",
-;2535:		variant
-;2536:	);
-;2537:
-;2538:	self->pain_debounce_time = level.time + 700;
+line 2536
+;2530:		self,
+;2531:		def,
+;2532:		"pain",
+;2533:		variant
+;2534:	);
+;2535:
+;2536:	self->pain_debounce_time = level.time + 700;
 ADDRFP4 0
 INDIRP4
 CNSTI4 720
@@ -10429,18 +10383,18 @@ INDIRI4
 CNSTI4 700
 ADDI4
 ASGNI4
-line 2539
-;2539:}
-LABELV $780
+line 2537
+;2537:}
+LABELV $775
 endproc G_MonsterPain 16 16
 proc G_MonsterDropItem 36 12
-line 2541
-;2540:
-;2541:static void G_MonsterDropItem(gentity_t *monster) {
-line 2544
-;2542:	vec3_t velocity;
-;2543:
-;2544:	if (!monster->monsterItem ||
+line 2539
+;2538:
+;2539:static void G_MonsterDropItem(gentity_t *monster) {
+line 2542
+;2540:	vec3_t velocity;
+;2541:
+;2542:	if (!monster->monsterItem ||
 ADDRLP4 12
 ADDRFP4 0
 INDIRP4
@@ -10456,7 +10410,7 @@ INDIRP4
 CVPU4 4
 ADDRLP4 16
 INDIRU4
-EQU4 $795
+EQU4 $790
 ADDRLP4 12
 INDIRP4
 CNSTI4 804
@@ -10465,19 +10419,19 @@ INDIRP4
 CVPU4 4
 ADDRLP4 16
 INDIRU4
-NEU4 $793
-LABELV $795
-line 2545
-;2545:		!monster->monsterItem->item) {
-line 2546
-;2546:		return;
-ADDRGP4 $792
+NEU4 $788
+LABELV $790
+line 2543
+;2543:		!monster->monsterItem->item) {
+line 2544
+;2544:		return;
+ADDRGP4 $787
 JUMPV
-LABELV $793
-line 2549
-;2547:	}
-;2548:
-;2549:	if (rand() % 100 >= 50) {
+LABELV $788
+line 2547
+;2545:	}
+;2546:
+;2547:	if (rand() % 100 >= 50) {
 ADDRLP4 20
 ADDRGP4 rand
 CALLI4
@@ -10487,16 +10441,16 @@ INDIRI4
 CNSTI4 100
 MODI4
 CNSTI4 50
-LTI4 $796
-line 2550
-;2550:		return;
-ADDRGP4 $792
+LTI4 $791
+line 2548
+;2548:		return;
+ADDRGP4 $787
 JUMPV
-LABELV $796
-line 2553
-;2551:	}
-;2552:
-;2553:	VectorSet(
+LABELV $791
+line 2551
+;2549:	}
+;2550:
+;2551:	VectorSet(
 ADDRLP4 24
 ADDRGP4 rand
 CALLI4
@@ -10538,14 +10492,14 @@ ASGNF4
 ADDRLP4 0+8
 CNSTF4 1124859904
 ASGNF4
-line 2560
-;2554:		velocity,
-;2555:		crandom() * 60,
-;2556:		crandom() * 60,
-;2557:		140
-;2558:	);
-;2559:
-;2560:	LaunchItem(
+line 2558
+;2552:		velocity,
+;2553:		crandom() * 60,
+;2554:		crandom() * 60,
+;2555:		140
+;2556:	);
+;2557:
+;2558:	LaunchItem(
 ADDRLP4 32
 ADDRFP4 0
 INDIRP4
@@ -10569,60 +10523,60 @@ ARGP4
 ADDRGP4 LaunchItem
 CALLP4
 pop
-line 2565
-;2561:		monster->monsterItem->item,
-;2562:		monster->r.currentOrigin,
-;2563:		velocity
-;2564:	);
-;2565:}
-LABELV $792
+line 2563
+;2559:		monster->monsterItem->item,
+;2560:		monster->r.currentOrigin,
+;2561:		velocity
+;2562:	);
+;2563:}
+LABELV $787
 endproc G_MonsterDropItem 36 12
 proc G_MonsterDie 56 16
-line 2573
-;2566:
-;2567:static void G_MonsterDie(
-;2568:	gentity_t *self,
-;2569:	gentity_t *inflictor,
-;2570:	gentity_t *attacker,
-;2571:	int damage,
-;2572:	int mod
-;2573:) {
-line 2579
-;2574:	monsterDef_t *def;
-;2575:	animation_t *animation;
-;2576:	int variant;
-;2577:	int duration;
-;2578:
-;2579:	if (self->monsterDead) {
+line 2571
+;2564:
+;2565:static void G_MonsterDie(
+;2566:	gentity_t *self,
+;2567:	gentity_t *inflictor,
+;2568:	gentity_t *attacker,
+;2569:	int damage,
+;2570:	int mod
+;2571:) {
+line 2577
+;2572:	monsterDef_t *def;
+;2573:	animation_t *animation;
+;2574:	int variant;
+;2575:	int duration;
+;2576:
+;2577:	if (self->monsterDead) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 860
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $801
-line 2580
-;2580:		return;
-ADDRGP4 $800
+EQI4 $796
+line 2578
+;2578:		return;
+ADDRGP4 $795
 JUMPV
-LABELV $801
-line 2583
-;2581:	}
-;2582:
-;2583:	def = &g_monsterDefs
+LABELV $796
+line 2581
+;2579:	}
+;2580:
+;2581:	def = &g_monsterDefs
 ADDRLP4 16
 ADDRFP4 0
 INDIRP4
 ASGNP4
 ADDRLP4 0
-CNSTI4 1100
+CNSTI4 1104
 ADDRLP4 16
 INDIRP4
 CNSTI4 812
 ADDP4
 INDIRI4
 MULI4
-CNSTI4 5500
+CNSTI4 5520
 ADDRLP4 16
 INDIRP4
 CNSTI4 808
@@ -10633,11 +10587,11 @@ ADDRGP4 g_monsterDefs
 ADDP4
 ADDP4
 ASGNP4
-line 2587
-;2584:		[self->monsterType]
-;2585:		[self->monsterSlot];
-;2586:
-;2587:	variant = rand() % MAX_MONSTER_VARIANTS;
+line 2585
+;2582:		[self->monsterType]
+;2583:		[self->monsterSlot];
+;2584:
+;2585:	variant = rand() % MAX_MONSTER_VARIANTS;
 ADDRLP4 20
 ADDRGP4 rand
 CALLI4
@@ -10648,36 +10602,36 @@ INDIRI4
 CNSTI4 3
 MODI4
 ASGNI4
-line 2589
-;2588:
-;2589:	self->monsterDead = qtrue;
+line 2587
+;2586:
+;2587:	self->monsterDead = qtrue;
 ADDRFP4 0
 INDIRP4
 CNSTI4 860
 ADDP4
 CNSTI4 1
 ASGNI4
-line 2590
-;2590:	if( self->monsterWaveSpawn ) {
+line 2588
+;2588:	if( self->monsterWaveSpawn ) {
 ADDRFP4 0
 INDIRP4
 CNSTI4 864
 ADDP4
 INDIRI4
 CNSTI4 0
-EQI4 $803
-line 2591
-;2591:		monsterWaveLastProgress = level.time;
+EQI4 $798
+line 2589
+;2589:		monsterWaveLastProgress = level.time;
 ADDRGP4 monsterWaveLastProgress
 ADDRGP4 level+32
 INDIRI4
 ASGNI4
+line 2590
+;2590:	}
+LABELV $798
 line 2592
-;2592:	}
-LABELV $803
-line 2594
-;2593:	
-;2594:	self->s.eFlags |= EF_DEAD;
+;2591:	
+;2592:	self->s.eFlags |= EF_DEAD;
 ADDRLP4 24
 ADDRFP4 0
 INDIRP4
@@ -10692,16 +10646,16 @@ INDIRI4
 CNSTI4 1
 BORI4
 ASGNI4
-line 2595
-;2595:	self->takedamage = qfalse;
+line 2593
+;2593:	self->takedamage = qfalse;
 ADDRFP4 0
 INDIRP4
 CNSTI4 736
 ADDP4
 CNSTI4 0
 ASGNI4
-line 2596
-;2596:	self->enemy = attacker;
+line 2594
+;2594:	self->enemy = attacker;
 ADDRFP4 0
 INDIRP4
 CNSTI4 768
@@ -10709,42 +10663,42 @@ ADDP4
 ADDRFP4 8
 INDIRP4
 ASGNP4
-line 2597
-;2597:	self->monsterShotsRemaining = 0;
+line 2595
+;2595:	self->monsterShotsRemaining = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 880
 ADDP4
 CNSTI4 0
 ASGNI4
-line 2599
-;2598:
-;2599:	self->r.contents = 0;
+line 2597
+;2596:
+;2597:	self->r.contents = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 460
 ADDP4
 CNSTI4 0
 ASGNI4
-line 2600
-;2600:	self->clipmask = 0;
+line 2598
+;2598:	self->clipmask = 0;
 ADDRFP4 0
 INDIRP4
 CNSTI4 572
 ADDP4
 CNSTI4 0
 ASGNI4
-line 2601
-;2601:	trap_LinkEntity(self);
+line 2599
+;2599:	trap_LinkEntity(self);
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRGP4 trap_LinkEntity
 CALLV
 pop
-line 2603
-;2602:
-;2603:	G_MonsterSetAnimation(
+line 2601
+;2600:
+;2601:	G_MonsterSetAnimation(
 ADDRFP4 0
 INDIRP4
 ARGP4
@@ -10756,20 +10710,20 @@ ARGI4
 ADDRGP4 G_MonsterSetAnimation
 CALLV
 pop
-line 2609
-;2604:		self,
-;2605:		MONSTER_STATE_DEATH,
-;2606:		variant
-;2607:	);
-;2608:
-;2609:	G_MonsterSound(
+line 2607
+;2602:		self,
+;2603:		MONSTER_STATE_DEATH,
+;2604:		variant
+;2605:	);
+;2606:
+;2607:	G_MonsterSound(
 ADDRFP4 0
 INDIRP4
 ARGP4
 ADDRLP4 0
 INDIRP4
 ARGP4
-ADDRGP4 $806
+ADDRGP4 $801
 ARGP4
 ADDRLP4 4
 INDIRI4
@@ -10777,14 +10731,14 @@ ARGI4
 ADDRGP4 G_MonsterSound
 CALLV
 pop
-line 2616
-;2610:		self,
-;2611:		def,
-;2612:		"death",
-;2613:		variant
-;2614:	);
-;2615:
-;2616:	animation = &def->deathAnimations[variant];
+line 2614
+;2608:		self,
+;2609:		def,
+;2610:		"death",
+;2611:		variant
+;2612:	);
+;2613:
+;2614:	animation = &def->deathAnimations[variant];
 ADDRLP4 8
 CNSTI4 28
 ADDRLP4 4
@@ -10792,12 +10746,12 @@ INDIRI4
 MULI4
 ADDRLP4 0
 INDIRP4
-CNSTI4 1016
+CNSTI4 1020
 ADDP4
 ADDP4
 ASGNP4
-line 2617
-;2617:	duration = animation->numFrames *
+line 2615
+;2615:	duration = animation->numFrames *
 ADDRLP4 12
 ADDRLP4 8
 INDIRP4
@@ -10811,10 +10765,10 @@ ADDP4
 INDIRI4
 MULI4
 ASGNI4
-line 2620
-;2618:		animation->frameLerp;
-;2619:
-;2620:	self->monsterDeathTime =
+line 2618
+;2616:		animation->frameLerp;
+;2617:
+;2618:	self->monsterDeathTime =
 ADDRFP4 0
 INDIRP4
 CNSTI4 852
@@ -10824,11 +10778,17 @@ INDIRI4
 ADDRLP4 12
 INDIRI4
 ADDI4
-CNSTI4 1000
+ADDRLP4 0
+INDIRP4
+CNSTI4 708
+ADDP4
+INDIRI4
 ADDI4
 ASGNI4
 line 2627
-;2621:		level.time + duration + 1000;
+;2619:		level.time +
+;2620:		duration +
+;2621:		def->corpseTime;
 ;2622:
 ;2623:	/*
 ;2624:	 * Monster Hunt score is awarded only for a monster
@@ -10842,7 +10802,7 @@ ADDRGP4 g_monsterHunt+12
 INDIRI4
 ADDRLP4 32
 INDIRI4
-EQI4 $808
+EQI4 $803
 ADDRLP4 36
 ADDRFP4 8
 INDIRP4
@@ -10855,7 +10815,7 @@ INDIRP4
 CVPU4 4
 ADDRLP4 40
 INDIRU4
-EQU4 $808
+EQU4 $803
 ADDRLP4 36
 INDIRP4
 CNSTI4 516
@@ -10864,7 +10824,7 @@ INDIRP4
 CVPU4 4
 ADDRLP4 40
 INDIRU4
-EQU4 $808
+EQU4 $803
 ADDRLP4 0
 INDIRP4
 CNSTI4 596
@@ -10872,7 +10832,7 @@ ADDP4
 INDIRI4
 ADDRLP4 32
 INDIRI4
-LEI4 $808
+LEI4 $803
 line 2630
 ;2628:		attacker &&
 ;2629:		attacker->client &&
@@ -10902,7 +10862,7 @@ line 2636
 ;2634:			def->scoreValue
 ;2635:		);
 ;2636:	}
-LABELV $808
+LABELV $803
 line 2638
 ;2637:
 ;2638:	G_MonsterDropItem(self);
@@ -10932,7 +10892,7 @@ ADDP4
 INDIRI4
 ADDRLP4 48
 INDIRI4
-NEI4 $811
+NEI4 $806
 ADDRLP4 52
 ADDRLP4 44
 INDIRP4
@@ -10944,7 +10904,7 @@ ADDRLP4 52
 INDIRP4
 CVPU4 4
 CNSTU4 0
-EQU4 $811
+EQU4 $806
 ADDRLP4 52
 INDIRP4
 CNSTI4 520
@@ -10952,7 +10912,7 @@ ADDP4
 INDIRI4
 ADDRLP4 48
 INDIRI4
-EQI4 $811
+EQI4 $806
 ADDRLP4 0
 INDIRP4
 CNSTI4 704
@@ -10960,7 +10920,7 @@ ADDP4
 INDIRI4
 ADDRLP4 48
 INDIRI4
-LEI4 $811
+LEI4 $806
 line 2646
 ;2644:		self->monsterItem &&
 ;2645:		self->monsterItem->inuse &&
@@ -10999,10 +10959,10 @@ ASGNI4
 line 2652
 ;2651:			level.time + def->respawnTime;
 ;2652:	}
-LABELV $811
+LABELV $806
 line 2653
 ;2653:}
-LABELV $800
+LABELV $795
 endproc G_MonsterDie 56 16
 bss
 align 4
@@ -11070,7 +11030,7 @@ skip 120
 export g_monsterDefs
 align 4
 LABELV g_monsterDefs
-skip 33000
+skip 33120
 import G_AutoCTFInit
 import trap_SnapVector
 import trap_GeneticParentsAndChildSelection
@@ -11303,6 +11263,7 @@ import g_noPowerups
 import g_noMedkit
 import g_noMegaHealth
 import g_noGrenadeRocket
+import g_noLightning
 import g_noPlasmaBFG
 import g_noRailgun
 import g_noPersonalTeleporter
@@ -11662,7 +11623,7 @@ import srand
 import qsort
 lit
 align 1
-LABELV $806
+LABELV $801
 byte 1 100
 byte 1 101
 byte 1 97
@@ -11670,14 +11631,14 @@ byte 1 116
 byte 1 104
 byte 1 0
 align 1
-LABELV $790
+LABELV $785
 byte 1 112
 byte 1 97
 byte 1 105
 byte 1 110
 byte 1 0
 align 1
-LABELV $776
+LABELV $771
 byte 1 37
 byte 1 115
 byte 1 47
@@ -11691,14 +11652,14 @@ byte 1 97
 byte 1 118
 byte 1 0
 align 1
-LABELV $767
+LABELV $762
 byte 1 116
 byte 1 97
 byte 1 108
 byte 1 107
 byte 1 0
 align 1
-LABELV $694
+LABELV $718
 byte 1 114
 byte 1 97
 byte 1 110
@@ -11707,17 +11668,15 @@ byte 1 101
 byte 1 100
 byte 1 0
 align 1
-LABELV $677
-byte 1 98
-byte 1 108
-byte 1 97
-byte 1 115
-byte 1 116
+LABELV $717
+byte 1 109
 byte 1 101
-byte 1 114
+byte 1 108
+byte 1 101
+byte 1 101
 byte 1 0
 align 1
-LABELV $674
+LABELV $668
 byte 1 114
 byte 1 111
 byte 1 99
@@ -11726,7 +11685,7 @@ byte 1 101
 byte 1 116
 byte 1 0
 align 1
-LABELV $421
+LABELV $426
 byte 1 112
 byte 1 114
 byte 1 105
@@ -11758,7 +11717,7 @@ byte 1 10
 byte 1 34
 byte 1 0
 align 1
-LABELV $379
+LABELV $384
 byte 1 77
 byte 1 111
 byte 1 110
@@ -11784,7 +11743,7 @@ byte 1 100
 byte 1 46
 byte 1 0
 align 1
-LABELV $378
+LABELV $383
 byte 1 112
 byte 1 114
 byte 1 105
@@ -11828,7 +11787,7 @@ byte 1 10
 byte 1 34
 byte 1 0
 align 1
-LABELV $377
+LABELV $382
 byte 1 99
 byte 1 112
 byte 1 32
@@ -11856,6 +11815,54 @@ byte 1 116
 byte 1 101
 byte 1 100
 byte 1 33
+byte 1 10
+byte 1 34
+byte 1 0
+align 1
+LABELV $381
+byte 1 112
+byte 1 114
+byte 1 105
+byte 1 110
+byte 1 116
+byte 1 32
+byte 1 34
+byte 1 77
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 32
+byte 1 72
+byte 1 117
+byte 1 110
+byte 1 116
+byte 1 58
+byte 1 32
+byte 1 102
+byte 1 105
+byte 1 110
+byte 1 97
+byte 1 108
+byte 1 32
+byte 1 119
+byte 1 97
+byte 1 118
+byte 1 101
+byte 1 32
+byte 1 114
+byte 1 101
+byte 1 115
+byte 1 116
+byte 1 97
+byte 1 114
+byte 1 116
+byte 1 105
+byte 1 110
+byte 1 103
+byte 1 46
 byte 1 10
 byte 1 34
 byte 1 0

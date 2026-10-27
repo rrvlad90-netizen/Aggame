@@ -906,7 +906,7 @@ RETI4
 LABELV $104
 endproc MonsterParsePattern 8 8
 export BG_ParseMonsterConfig
-proc BG_ParseMonsterConfig 348 20
+proc BG_ParseMonsterConfig 352 20
 line 227
 ;220:}
 ;221:
@@ -926,7 +926,7 @@ INDIRP4
 ARGP4
 CNSTI4 0
 ARGI4
-CNSTI4 1100
+CNSTI4 1104
 ARGI4
 ADDRGP4 memset
 CALLP4
@@ -963,65 +963,73 @@ ADDP4
 CNSTI4 20000
 ASGNI4
 line 237
-;237:	def->speed = 160.0f;
+;237:	def->corpseTime = 3000;
+ADDRFP4 4
+INDIRP4
+CNSTI4 708
+ADDP4
+CNSTI4 3000
+ASGNI4
+line 238
+;238:	def->speed = 160.0f;
 ADDRFP4 4
 INDIRP4
 CNSTI4 600
 ADDP4
 CNSTF4 1126170624
 ASGNF4
-line 238
-;238:	def->hoverHeight = 48.0f;
+line 239
+;239:	def->hoverHeight = 48.0f;
 ADDRFP4 4
 INDIRP4
 CNSTI4 604
 ADDP4
 CNSTF4 1111490560
 ASGNF4
-line 239
-;239:	def->attackCooldown = 1800;
+line 240
+;240:	def->attackCooldown = 1800;
 ADDRFP4 4
 INDIRP4
 CNSTI4 652
 ADDP4
 CNSTI4 1800
 ASGNI4
-line 240
-;240:	def->attackFireFrame = 0;
+line 241
+;241:	def->attackFireFrame = 0;
 ADDRFP4 4
 INDIRP4
 CNSTI4 656
 ADDP4
 CNSTI4 0
 ASGNI4
-line 242
-;241:	
-;242:	def->meleeRange = 96.0f;
+line 243
+;242:	
+;243:	def->meleeRange = 96.0f;
 ADDRFP4 4
 INDIRP4
 CNSTI4 660
 ADDP4
 CNSTF4 1119879168
 ASGNF4
-line 243
-;243:	def->meleeFireFrame = 0;
+line 244
+;244:	def->meleeFireFrame = 0;
 ADDRFP4 4
 INDIRP4
 CNSTI4 664
 ADDP4
 CNSTI4 0
 ASGNI4
-line 244
-;244:	def->meleeDamage = 10;
+line 245
+;245:	def->meleeDamage = 10;
 ADDRFP4 4
 INDIRP4
 CNSTI4 668
 ADDP4
 CNSTI4 10
 ASGNI4
-line 246
-;245:
-;246:	Q_strncpyz(
+line 247
+;246:
+;247:	Q_strncpyz(
 ADDRFP4 4
 INDIRP4
 CNSTI4 512
@@ -1034,46 +1042,46 @@ ARGI4
 ADDRGP4 Q_strncpyz
 CALLV
 pop
-line 252
-;247:		def->meleeProjectile,
-;248:		"plasma",
-;249:		sizeof(def->meleeProjectile)
-;250:	);	
-;251:	
-;252:	def->burstCount = 1;
+line 253
+;248:		def->meleeProjectile,
+;249:		"plasma",
+;250:		sizeof(def->meleeProjectile)
+;251:	);	
+;252:	
+;253:	def->burstCount = 1;
 ADDRFP4 4
 INDIRP4
 CNSTI4 672
 ADDP4
 CNSTI4 1
 ASGNI4
-line 253
-;253:	def->burstInterval = 120;
+line 254
+;254:	def->burstInterval = 120;
 ADDRFP4 4
 INDIRP4
 CNSTI4 676
 ADDP4
 CNSTI4 120
 ASGNI4
-line 254
-;254:	def->talkMinDelay = 5000;
+line 255
+;255:	def->talkMinDelay = 5000;
 ADDRFP4 4
 INDIRP4
 CNSTI4 696
 ADDP4
 CNSTI4 5000
 ASGNI4
-line 255
-;255:	def->talkMaxDelay = 12000;
+line 256
+;256:	def->talkMaxDelay = 12000;
 ADDRFP4 4
 INDIRP4
 CNSTI4 700
 ADDP4
 CNSTI4 12000
 ASGNI4
-line 257
-;256:
-;257:	VectorSet(def->mins, -15, -15, -24);
+line 258
+;257:
+;258:	VectorSet(def->mins, -15, -15, -24);
 ADDRFP4 4
 INDIRP4
 CNSTI4 608
@@ -1092,8 +1100,8 @@ CNSTI4 616
 ADDP4
 CNSTF4 3250585600
 ASGNF4
-line 258
-;258:	VectorSet(def->maxs, 15, 15, 32);
+line 259
+;259:	VectorSet(def->maxs, 15, 15, 32);
 ADDRFP4 4
 INDIRP4
 CNSTI4 620
@@ -1115,13 +1123,13 @@ ASGNF4
 ADDRGP4 $114
 JUMPV
 LABELV $113
-line 260
-;259:
-;260:	while (1) {
-line 263
-;261:		char *token;
-;262:
-;263:		token = COM_Parse(&text);
+line 261
+;260:
+;261:	while (1) {
+line 264
+;262:		char *token;
+;263:
+;264:		token = COM_Parse(&text);
 ADDRFP4 0
 ARGP4
 ADDRLP4 132
@@ -1132,23 +1140,23 @@ ADDRLP4 128
 ADDRLP4 132
 INDIRP4
 ASGNP4
-line 264
-;264:		if (!token[0]) {
+line 265
+;265:		if (!token[0]) {
 ADDRLP4 128
 INDIRP4
 INDIRI1
 CVII4 1
 CNSTI4 0
 NEI4 $116
-line 265
-;265:			break;
+line 266
+;266:			break;
 ADDRGP4 $115
 JUMPV
 LABELV $116
-line 268
-;266:		}
-;267:
-;268:		Q_strncpyz(key, token, sizeof(key));
+line 269
+;267:		}
+;268:
+;269:		Q_strncpyz(key, token, sizeof(key));
 ADDRLP4 0
 ARGP4
 ADDRLP4 128
@@ -1159,9 +1167,9 @@ ARGI4
 ADDRGP4 Q_strncpyz
 CALLV
 pop
-line 270
-;269:
-;270:		if (!Q_stricmp(key, "name")) {
+line 271
+;270:
+;271:		if (!Q_stricmp(key, "name")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $120
@@ -1174,8 +1182,8 @@ ADDRLP4 136
 INDIRI4
 CNSTI4 0
 NEI4 $118
-line 271
-;271:			if (!MonsterReadString(
+line 272
+;272:			if (!MonsterReadString(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -1197,19 +1205,19 @@ ADDRLP4 140
 INDIRI4
 CNSTI4 0
 NEI4 $119
-line 274
-;272:				&text, def->name, sizeof(def->name),
-;273:				error, errorSize
-;274:			)) return qfalse;
+line 275
+;273:				&text, def->name, sizeof(def->name),
+;274:				error, errorSize
+;275:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 275
-;275:		}
-LABELV $118
 line 276
-;276:		else if (!Q_stricmp(key, "model1")) {
+;276:		}
+LABELV $118
+line 277
+;277:		else if (!Q_stricmp(key, "model1")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $125
@@ -1222,8 +1230,8 @@ ADDRLP4 140
 INDIRI4
 CNSTI4 0
 NEI4 $123
-line 277
-;277:			if (!MonsterReadString(
+line 278
+;278:			if (!MonsterReadString(
 ADDRFP4 0
 ARGP4
 ADDRLP4 144
@@ -1252,19 +1260,19 @@ ADDRLP4 148
 INDIRI4
 CNSTI4 0
 NEI4 $124
-line 280
-;278:				&text, def->models[0], MAX_QPATH,
-;279:				error, errorSize
-;280:			)) return qfalse;
+line 281
+;279:				&text, def->models[0], MAX_QPATH,
+;280:				error, errorSize
+;281:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 281
-;281:		}
-LABELV $123
 line 282
-;282:		else if (!Q_stricmp(key, "model2")) {
+;282:		}
+LABELV $123
+line 283
+;283:		else if (!Q_stricmp(key, "model2")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $130
@@ -1277,8 +1285,8 @@ ADDRLP4 144
 INDIRI4
 CNSTI4 0
 NEI4 $128
-line 283
-;283:			if (!MonsterReadString(
+line 284
+;284:			if (!MonsterReadString(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -1302,19 +1310,19 @@ ADDRLP4 148
 INDIRI4
 CNSTI4 0
 NEI4 $129
-line 286
-;284:				&text, def->models[1], MAX_QPATH,
-;285:				error, errorSize
-;286:			)) return qfalse;
+line 287
+;285:				&text, def->models[1], MAX_QPATH,
+;286:				error, errorSize
+;287:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 287
-;287:		}
-LABELV $128
 line 288
-;288:		else if (!Q_stricmp(key, "model3")) {
+;288:		}
+LABELV $128
+line 289
+;289:		else if (!Q_stricmp(key, "model3")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $135
@@ -1327,8 +1335,8 @@ ADDRLP4 148
 INDIRI4
 CNSTI4 0
 NEI4 $133
-line 289
-;289:			if (!MonsterReadString(
+line 290
+;290:			if (!MonsterReadString(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -1352,19 +1360,19 @@ ADDRLP4 152
 INDIRI4
 CNSTI4 0
 NEI4 $134
-line 292
-;290:				&text, def->models[2], MAX_QPATH,
-;291:				error, errorSize
-;292:			)) return qfalse;
+line 293
+;291:				&text, def->models[2], MAX_QPATH,
+;292:				error, errorSize
+;293:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 293
-;293:		}
-LABELV $133
 line 294
-;294:		else if (!Q_stricmp(key, "model4")) {
+;294:		}
+LABELV $133
+line 295
+;295:		else if (!Q_stricmp(key, "model4")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $140
@@ -1377,8 +1385,8 @@ ADDRLP4 152
 INDIRI4
 CNSTI4 0
 NEI4 $138
-line 295
-;295:			if (!MonsterReadString(
+line 296
+;296:			if (!MonsterReadString(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -1402,19 +1410,19 @@ ADDRLP4 156
 INDIRI4
 CNSTI4 0
 NEI4 $139
-line 298
-;296:				&text, def->models[3], MAX_QPATH,
-;297:				error, errorSize
-;298:			)) return qfalse;
+line 299
+;297:				&text, def->models[3], MAX_QPATH,
+;298:				error, errorSize
+;299:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 299
-;299:		}
-LABELV $138
 line 300
-;300:		else if (!Q_stricmp(key, "shader")) {
+;300:		}
+LABELV $138
+line 301
+;301:		else if (!Q_stricmp(key, "shader")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $145
@@ -1427,8 +1435,8 @@ ADDRLP4 156
 INDIRI4
 CNSTI4 0
 NEI4 $143
-line 301
-;301:			if (!MonsterReadString(
+line 302
+;302:			if (!MonsterReadString(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -1452,19 +1460,19 @@ ADDRLP4 160
 INDIRI4
 CNSTI4 0
 NEI4 $144
-line 304
-;302:				&text, def->shader, MAX_QPATH,
-;303:				error, errorSize
-;304:			)) return qfalse;
+line 305
+;303:				&text, def->shader, MAX_QPATH,
+;304:				error, errorSize
+;305:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 305
-;305:		}
-LABELV $143
 line 306
-;306:		else if (!Q_stricmp(key, "soundDir")) {
+;306:		}
+LABELV $143
+line 307
+;307:		else if (!Q_stricmp(key, "soundDir")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $150
@@ -1477,8 +1485,8 @@ ADDRLP4 160
 INDIRI4
 CNSTI4 0
 NEI4 $148
-line 307
-;307:			if (!MonsterReadString(
+line 308
+;308:			if (!MonsterReadString(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -1502,19 +1510,19 @@ ADDRLP4 164
 INDIRI4
 CNSTI4 0
 NEI4 $149
-line 310
-;308:				&text, def->soundDir, MAX_QPATH,
-;309:				error, errorSize
-;310:			)) return qfalse;
+line 311
+;309:				&text, def->soundDir, MAX_QPATH,
+;310:				error, errorSize
+;311:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 311
-;311:		}
-LABELV $148
 line 312
-;312:		else if (!Q_stricmp(key, "projectile")) {
+;312:		}
+LABELV $148
+line 313
+;313:		else if (!Q_stricmp(key, "projectile")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $155
@@ -1527,8 +1535,8 @@ ADDRLP4 164
 INDIRI4
 CNSTI4 0
 NEI4 $153
-line 313
-;313:			if (!MonsterReadString(
+line 314
+;314:			if (!MonsterReadString(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -1552,20 +1560,20 @@ ADDRLP4 168
 INDIRI4
 CNSTI4 0
 NEI4 $154
-line 316
-;314:				&text, def->projectile, MAX_QPATH,
-;315:				error, errorSize
-;316:			)) return qfalse;
+line 317
+;315:				&text, def->projectile, MAX_QPATH,
+;316:				error, errorSize
+;317:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 317
-;317:		}
+line 318
+;318:		}
 LABELV $153
-line 319
-;318:		
-;319:		else if (!Q_stricmp(key, "meleeProjectile")) {
+line 320
+;319:		
+;320:		else if (!Q_stricmp(key, "meleeProjectile")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $160
@@ -1578,8 +1586,8 @@ ADDRLP4 168
 INDIRI4
 CNSTI4 0
 NEI4 $158
-line 320
-;320:			if (!MonsterReadString(
+line 321
+;321:			if (!MonsterReadString(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -1603,23 +1611,23 @@ ADDRLP4 172
 INDIRI4
 CNSTI4 0
 NEI4 $159
-line 326
-;321:				&text,
-;322:				def->meleeProjectile,
-;323:				MAX_QPATH,
-;324:				error,
-;325:				errorSize
-;326:			)) return qfalse;
+line 327
+;322:				&text,
+;323:				def->meleeProjectile,
+;324:				MAX_QPATH,
+;325:				error,
+;326:				errorSize
+;327:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 327
-;327:		}
+line 328
+;328:		}
 LABELV $158
-line 329
-;328:		
-;329:		else if (!Q_stricmp(key, "monsterType")) {
+line 330
+;329:		
+;330:		else if (!Q_stricmp(key, "monsterType")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $165
@@ -1632,8 +1640,8 @@ ADDRLP4 172
 INDIRI4
 CNSTI4 0
 NEI4 $163
-line 330
-;330:			if (!MonsterReadToken(
+line 331
+;331:			if (!MonsterReadToken(
 ADDRFP4 0
 ARGP4
 ADDRLP4 64
@@ -1654,18 +1662,18 @@ ADDRLP4 176
 INDIRI4
 CNSTI4 0
 NEI4 $166
-line 333
-;331:				&text, value, sizeof(value),
-;332:				error, errorSize
-;333:			)) return qfalse;
+line 334
+;332:				&text, value, sizeof(value),
+;333:				error, errorSize
+;334:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
 LABELV $166
-line 335
-;334:
-;335:			def->monsterType = MonsterParseType(value);
+line 336
+;335:
+;336:			def->monsterType = MonsterParseType(value);
 ADDRLP4 64
 ARGP4
 ADDRLP4 180
@@ -1679,8 +1687,8 @@ ADDP4
 ADDRLP4 180
 INDIRI4
 ASGNI4
-line 336
-;336:			if (def->monsterType < 0) {
+line 337
+;337:			if (def->monsterType < 0) {
 ADDRFP4 4
 INDIRP4
 CNSTI4 576
@@ -1688,8 +1696,8 @@ ADDP4
 INDIRI4
 CNSTI4 0
 GEI4 $164
-line 337
-;337:				MonsterParseError(
+line 338
+;338:				MonsterParseError(
 ADDRFP4 8
 INDIRP4
 ARGP4
@@ -1701,21 +1709,21 @@ ARGP4
 ADDRGP4 MonsterParseError
 CALLV
 pop
-line 341
-;338:					error, errorSize,
-;339:					"Unknown monsterType"
-;340:				);
-;341:				return qfalse;
+line 342
+;339:					error, errorSize,
+;340:					"Unknown monsterType"
+;341:				);
+;342:				return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 343
-;342:			}
-;343:		}
-LABELV $163
 line 344
-;344:		else if (!Q_stricmp(key, "movementType")) {
+;343:			}
+;344:		}
+LABELV $163
+line 345
+;345:		else if (!Q_stricmp(key, "movementType")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $173
@@ -1728,8 +1736,8 @@ ADDRLP4 176
 INDIRI4
 CNSTI4 0
 NEI4 $171
-line 345
-;345:			if (!MonsterReadToken(
+line 346
+;346:			if (!MonsterReadToken(
 ADDRFP4 0
 ARGP4
 ADDRLP4 64
@@ -1750,18 +1758,18 @@ ADDRLP4 180
 INDIRI4
 CNSTI4 0
 NEI4 $174
-line 348
-;346:				&text, value, sizeof(value),
-;347:				error, errorSize
-;348:			)) return qfalse;
+line 349
+;347:				&text, value, sizeof(value),
+;348:				error, errorSize
+;349:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
 LABELV $174
-line 350
-;349:
-;350:			def->movementType = MonsterParseMovement(value);
+line 351
+;350:
+;351:			def->movementType = MonsterParseMovement(value);
 ADDRLP4 64
 ARGP4
 ADDRLP4 184
@@ -1775,8 +1783,8 @@ ADDP4
 ADDRLP4 184
 INDIRI4
 ASGNI4
-line 351
-;351:			if (def->movementType < 0) {
+line 352
+;352:			if (def->movementType < 0) {
 ADDRFP4 4
 INDIRP4
 CNSTI4 584
@@ -1784,8 +1792,8 @@ ADDP4
 INDIRI4
 CNSTI4 0
 GEI4 $172
-line 352
-;352:				MonsterParseError(
+line 353
+;353:				MonsterParseError(
 ADDRFP4 8
 INDIRP4
 ARGP4
@@ -1797,21 +1805,21 @@ ARGP4
 ADDRGP4 MonsterParseError
 CALLV
 pop
-line 356
-;353:					error, errorSize,
-;354:					"Unknown movementType"
-;355:				);
-;356:				return qfalse;
+line 357
+;354:					error, errorSize,
+;355:					"Unknown movementType"
+;356:				);
+;357:				return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 358
-;357:			}
-;358:		}
-LABELV $171
 line 359
-;359:		else if (!Q_stricmp(key, "movePattern")) {
+;358:			}
+;359:		}
+LABELV $171
+line 360
+;360:		else if (!Q_stricmp(key, "movePattern")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $181
@@ -1824,8 +1832,8 @@ ADDRLP4 180
 INDIRI4
 CNSTI4 0
 NEI4 $179
-line 360
-;360:			if (!MonsterReadToken(
+line 361
+;361:			if (!MonsterReadToken(
 ADDRFP4 0
 ARGP4
 ADDRLP4 64
@@ -1846,18 +1854,18 @@ ADDRLP4 184
 INDIRI4
 CNSTI4 0
 NEI4 $182
-line 363
-;361:				&text, value, sizeof(value),
-;362:				error, errorSize
-;363:			)) return qfalse;
+line 364
+;362:				&text, value, sizeof(value),
+;363:				error, errorSize
+;364:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
 LABELV $182
-line 365
-;364:
-;365:			def->movePattern = MonsterParsePattern(value);
+line 366
+;365:
+;366:			def->movePattern = MonsterParsePattern(value);
 ADDRLP4 64
 ARGP4
 ADDRLP4 188
@@ -1871,8 +1879,8 @@ ADDP4
 ADDRLP4 188
 INDIRI4
 ASGNI4
-line 366
-;366:			if (def->movePattern < 0) {
+line 367
+;367:			if (def->movePattern < 0) {
 ADDRFP4 4
 INDIRP4
 CNSTI4 588
@@ -1880,8 +1888,8 @@ ADDP4
 INDIRI4
 CNSTI4 0
 GEI4 $180
-line 367
-;367:				MonsterParseError(
+line 368
+;368:				MonsterParseError(
 ADDRFP4 8
 INDIRP4
 ARGP4
@@ -1893,21 +1901,21 @@ ARGP4
 ADDRGP4 MonsterParseError
 CALLV
 pop
-line 371
-;368:					error, errorSize,
-;369:					"Unknown movePattern"
-;370:				);
-;371:				return qfalse;
+line 372
+;369:					error, errorSize,
+;370:					"Unknown movePattern"
+;371:				);
+;372:				return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 373
-;372:			}
-;373:		}
-LABELV $179
 line 374
-;374:		else if (!Q_stricmp(key, "monsterSlot")) {
+;373:			}
+;374:		}
+LABELV $179
+line 375
+;375:		else if (!Q_stricmp(key, "monsterSlot")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $189
@@ -1920,8 +1928,8 @@ ADDRLP4 184
 INDIRI4
 CNSTI4 0
 NEI4 $187
-line 375
-;375:			if (!MonsterReadInt(
+line 376
+;376:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -1943,19 +1951,19 @@ ADDRLP4 188
 INDIRI4
 CNSTI4 0
 NEI4 $188
-line 378
-;376:				&text, &def->monsterSlot,
-;377:				error, errorSize
-;378:			)) return qfalse;
+line 379
+;377:				&text, &def->monsterSlot,
+;378:				error, errorSize
+;379:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 379
-;379:		}
-LABELV $187
 line 380
-;380:		else if (!Q_stricmp(key, "health")) {
+;380:		}
+LABELV $187
+line 381
+;381:		else if (!Q_stricmp(key, "health")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $194
@@ -1968,8 +1976,8 @@ ADDRLP4 188
 INDIRI4
 CNSTI4 0
 NEI4 $192
-line 381
-;381:			if (!MonsterReadInt(
+line 382
+;382:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -1991,19 +1999,19 @@ ADDRLP4 192
 INDIRI4
 CNSTI4 0
 NEI4 $193
-line 384
-;382:				&text, &def->health,
-;383:				error, errorSize
-;384:			)) return qfalse;
+line 385
+;383:				&text, &def->health,
+;384:				error, errorSize
+;385:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 385
-;385:		}
-LABELV $192
 line 386
-;386:		else if (!Q_stricmp(key, "scoreValue")) {
+;386:		}
+LABELV $192
+line 387
+;387:		else if (!Q_stricmp(key, "scoreValue")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $199
@@ -2016,8 +2024,8 @@ ADDRLP4 192
 INDIRI4
 CNSTI4 0
 NEI4 $197
-line 387
-;387:			if (!MonsterReadInt(
+line 388
+;388:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -2039,19 +2047,19 @@ ADDRLP4 196
 INDIRI4
 CNSTI4 0
 NEI4 $198
-line 390
-;388:				&text, &def->scoreValue,
-;389:				error, errorSize
-;390:			)) return qfalse;
+line 391
+;389:				&text, &def->scoreValue,
+;390:				error, errorSize
+;391:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 391
-;391:		}
-LABELV $197
 line 392
-;392:		else if (!Q_stricmp(key, "respawnTime")) {
+;392:		}
+LABELV $197
+line 393
+;393:		else if (!Q_stricmp(key, "respawnTime")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $204
@@ -2064,8 +2072,8 @@ ADDRLP4 196
 INDIRI4
 CNSTI4 0
 NEI4 $202
-line 393
-;393:			if (!MonsterReadInt(
+line 394
+;394:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -2087,19 +2095,19 @@ ADDRLP4 200
 INDIRI4
 CNSTI4 0
 NEI4 $203
-line 396
-;394:				&text, &def->respawnTime,
-;395:				error, errorSize
-;396:			)) return qfalse;
+line 397
+;395:				&text, &def->respawnTime,
+;396:				error, errorSize
+;397:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 397
-;397:		}
-LABELV $202
 line 398
-;398:		else if (!Q_stricmp(key, "speed")) {
+;398:		}
+LABELV $202
+line 399
+;399:		else if (!Q_stricmp(key, "corpseTime")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $209
@@ -2112,13 +2120,13 @@ ADDRLP4 200
 INDIRI4
 CNSTI4 0
 NEI4 $207
-line 399
-;399:			if (!MonsterReadFloat(
+line 400
+;400:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 600
+CNSTI4 708
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -2128,26 +2136,28 @@ ADDRFP4 12
 INDIRI4
 ARGI4
 ADDRLP4 204
-ADDRGP4 MonsterReadFloat
+ADDRGP4 MonsterReadInt
 CALLI4
 ASGNI4
 ADDRLP4 204
 INDIRI4
 CNSTI4 0
 NEI4 $208
-line 402
-;400:				&text, &def->speed,
-;401:				error, errorSize
-;402:			)) return qfalse;
+line 405
+;401:				&text,
+;402:				&def->corpseTime,
+;403:				error,
+;404:				errorSize
+;405:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 403
-;403:		}
+line 406
+;406:		}
 LABELV $207
-line 404
-;404:		else if (!Q_stricmp(key, "hoverHeight")) {
+line 407
+;407:		else if (!Q_stricmp(key, "speed")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $214
@@ -2160,13 +2170,13 @@ ADDRLP4 204
 INDIRI4
 CNSTI4 0
 NEI4 $212
-line 405
-;405:			if (!MonsterReadFloat(
+line 408
+;408:			if (!MonsterReadFloat(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 604
+CNSTI4 600
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -2183,19 +2193,19 @@ ADDRLP4 208
 INDIRI4
 CNSTI4 0
 NEI4 $213
-line 408
-;406:				&text, &def->hoverHeight,
-;407:				error, errorSize
-;408:			)) return qfalse;
+line 411
+;409:				&text, &def->speed,
+;410:				error, errorSize
+;411:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 409
-;409:		}
+line 412
+;412:		}
 LABELV $212
-line 410
-;410:		else if (!Q_stricmp(key, "mins")) {
+line 413
+;413:		else if (!Q_stricmp(key, "hoverHeight")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $219
@@ -2208,13 +2218,13 @@ ADDRLP4 208
 INDIRI4
 CNSTI4 0
 NEI4 $217
-line 411
-;411:			if (!MonsterReadVector(
+line 414
+;414:			if (!MonsterReadFloat(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 608
+CNSTI4 604
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -2224,26 +2234,26 @@ ADDRFP4 12
 INDIRI4
 ARGI4
 ADDRLP4 212
-ADDRGP4 MonsterReadVector
+ADDRGP4 MonsterReadFloat
 CALLI4
 ASGNI4
 ADDRLP4 212
 INDIRI4
 CNSTI4 0
 NEI4 $218
-line 414
-;412:				&text, def->mins,
-;413:				error, errorSize
-;414:			)) return qfalse;
+line 417
+;415:				&text, &def->hoverHeight,
+;416:				error, errorSize
+;417:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 415
-;415:		}
+line 418
+;418:		}
 LABELV $217
-line 416
-;416:		else if (!Q_stricmp(key, "maxs")) {
+line 419
+;419:		else if (!Q_stricmp(key, "mins")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $224
@@ -2256,13 +2266,13 @@ ADDRLP4 212
 INDIRI4
 CNSTI4 0
 NEI4 $222
-line 417
-;417:			if (!MonsterReadVector(
+line 420
+;420:			if (!MonsterReadVector(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 620
+CNSTI4 608
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -2279,19 +2289,19 @@ ADDRLP4 216
 INDIRI4
 CNSTI4 0
 NEI4 $223
-line 420
-;418:				&text, def->maxs,
-;419:				error, errorSize
-;420:			)) return qfalse;
+line 423
+;421:				&text, def->mins,
+;422:				error, errorSize
+;423:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 421
-;421:		}
+line 424
+;424:		}
 LABELV $222
-line 422
-;422:		else if (!Q_stricmp(key, "driftAmount")) {
+line 425
+;425:		else if (!Q_stricmp(key, "maxs")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $229
@@ -2304,8 +2314,56 @@ ADDRLP4 216
 INDIRI4
 CNSTI4 0
 NEI4 $227
-line 423
-;423:			if (!MonsterReadFloat(
+line 426
+;426:			if (!MonsterReadVector(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 620
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 220
+ADDRGP4 MonsterReadVector
+CALLI4
+ASGNI4
+ADDRLP4 220
+INDIRI4
+CNSTI4 0
+NEI4 $228
+line 429
+;427:				&text, def->maxs,
+;428:				error, errorSize
+;429:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 430
+;430:		}
+LABELV $227
+line 431
+;431:		else if (!Q_stricmp(key, "driftAmount")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $234
+ARGP4
+ADDRLP4 220
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 220
+INDIRI4
+CNSTI4 0
+NEI4 $232
+line 432
+;432:			if (!MonsterReadFloat(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -2319,75 +2377,27 @@ ARGP4
 ADDRFP4 12
 INDIRI4
 ARGI4
-ADDRLP4 220
-ADDRGP4 MonsterReadFloat
-CALLI4
-ASGNI4
-ADDRLP4 220
-INDIRI4
-CNSTI4 0
-NEI4 $228
-line 426
-;424:				&text, &def->driftAmount,
-;425:				error, errorSize
-;426:			)) return qfalse;
-CNSTI4 0
-RETI4
-ADDRGP4 $111
-JUMPV
-line 427
-;427:		}
-LABELV $227
-line 428
-;428:		else if (!Q_stricmp(key, "driftPeriod")) {
-ADDRLP4 0
-ARGP4
-ADDRGP4 $234
-ARGP4
-ADDRLP4 220
-ADDRGP4 Q_stricmp
-CALLI4
-ASGNI4
-ADDRLP4 220
-INDIRI4
-CNSTI4 0
-NEI4 $232
-line 429
-;429:			if (!MonsterReadInt(
-ADDRFP4 0
-ARGP4
-ADDRFP4 4
-INDIRP4
-CNSTI4 636
-ADDP4
-ARGP4
-ADDRFP4 8
-INDIRP4
-ARGP4
-ADDRFP4 12
-INDIRI4
-ARGI4
 ADDRLP4 224
-ADDRGP4 MonsterReadInt
+ADDRGP4 MonsterReadFloat
 CALLI4
 ASGNI4
 ADDRLP4 224
 INDIRI4
 CNSTI4 0
 NEI4 $233
-line 432
-;430:				&text, &def->driftPeriod,
-;431:				error, errorSize
-;432:			)) return qfalse;
+line 435
+;433:				&text, &def->driftAmount,
+;434:				error, errorSize
+;435:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 433
-;433:		}
+line 436
+;436:		}
 LABELV $232
-line 434
-;434:		else if (!Q_stricmp(key, "hasRanged")) {
+line 437
+;437:		else if (!Q_stricmp(key, "driftPeriod")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $239
@@ -2400,13 +2410,13 @@ ADDRLP4 224
 INDIRI4
 CNSTI4 0
 NEI4 $237
-line 435
-;435:			if (!MonsterReadInt(
+line 438
+;438:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 640
+CNSTI4 636
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -2423,19 +2433,19 @@ ADDRLP4 228
 INDIRI4
 CNSTI4 0
 NEI4 $238
-line 438
-;436:				&text, &def->hasRanged,
-;437:				error, errorSize
-;438:			)) return qfalse;
+line 441
+;439:				&text, &def->driftPeriod,
+;440:				error, errorSize
+;441:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 439
-;439:		}
+line 442
+;442:		}
 LABELV $237
-line 440
-;440:		else if (!Q_stricmp(key, "hasMelee")) {
+line 443
+;443:		else if (!Q_stricmp(key, "hasRanged")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $244
@@ -2448,13 +2458,13 @@ ADDRLP4 228
 INDIRI4
 CNSTI4 0
 NEI4 $242
-line 441
-;441:			if (!MonsterReadInt(
+line 444
+;444:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 644
+CNSTI4 640
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -2471,19 +2481,19 @@ ADDRLP4 232
 INDIRI4
 CNSTI4 0
 NEI4 $243
-line 444
-;442:				&text, &def->hasMelee,
-;443:				error, errorSize
-;444:			)) return qfalse;
+line 447
+;445:				&text, &def->hasRanged,
+;446:				error, errorSize
+;447:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 445
-;445:		}
+line 448
+;448:		}
 LABELV $242
-line 446
-;446:		else if (!Q_stricmp(key, "attackRange")) {
+line 449
+;449:		else if (!Q_stricmp(key, "hasMelee")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $249
@@ -2496,8 +2506,56 @@ ADDRLP4 232
 INDIRI4
 CNSTI4 0
 NEI4 $247
-line 447
-;447:			if (!MonsterReadFloat(
+line 450
+;450:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 644
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 236
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 236
+INDIRI4
+CNSTI4 0
+NEI4 $248
+line 453
+;451:				&text, &def->hasMelee,
+;452:				error, errorSize
+;453:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 454
+;454:		}
+LABELV $247
+line 455
+;455:		else if (!Q_stricmp(key, "attackRange")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $254
+ARGP4
+ADDRLP4 236
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 236
+INDIRI4
+CNSTI4 0
+NEI4 $252
+line 456
+;456:			if (!MonsterReadFloat(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -2511,75 +2569,27 @@ ARGP4
 ADDRFP4 12
 INDIRI4
 ARGI4
-ADDRLP4 236
-ADDRGP4 MonsterReadFloat
-CALLI4
-ASGNI4
-ADDRLP4 236
-INDIRI4
-CNSTI4 0
-NEI4 $248
-line 450
-;448:				&text, &def->attackRange,
-;449:				error, errorSize
-;450:			)) return qfalse;
-CNSTI4 0
-RETI4
-ADDRGP4 $111
-JUMPV
-line 451
-;451:		}
-LABELV $247
-line 452
-;452:		else if (!Q_stricmp(key, "attackCooldown")) {
-ADDRLP4 0
-ARGP4
-ADDRGP4 $254
-ARGP4
-ADDRLP4 236
-ADDRGP4 Q_stricmp
-CALLI4
-ASGNI4
-ADDRLP4 236
-INDIRI4
-CNSTI4 0
-NEI4 $252
-line 453
-;453:			if (!MonsterReadInt(
-ADDRFP4 0
-ARGP4
-ADDRFP4 4
-INDIRP4
-CNSTI4 652
-ADDP4
-ARGP4
-ADDRFP4 8
-INDIRP4
-ARGP4
-ADDRFP4 12
-INDIRI4
-ARGI4
 ADDRLP4 240
-ADDRGP4 MonsterReadInt
+ADDRGP4 MonsterReadFloat
 CALLI4
 ASGNI4
 ADDRLP4 240
 INDIRI4
 CNSTI4 0
 NEI4 $253
-line 456
-;454:				&text, &def->attackCooldown,
-;455:				error, errorSize
-;456:			)) return qfalse;
+line 459
+;457:				&text, &def->attackRange,
+;458:				error, errorSize
+;459:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 457
-;457:		}
+line 460
+;460:		}
 LABELV $252
-line 458
-;458:		else if (!Q_stricmp(key, "attackFireFrame")) {
+line 461
+;461:		else if (!Q_stricmp(key, "attackCooldown")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $259
@@ -2592,13 +2602,13 @@ ADDRLP4 240
 INDIRI4
 CNSTI4 0
 NEI4 $257
-line 459
-;459:			if (!MonsterReadInt(
+line 462
+;462:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 656
+CNSTI4 652
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -2615,20 +2625,19 @@ ADDRLP4 244
 INDIRI4
 CNSTI4 0
 NEI4 $258
-line 462
-;460:				&text, &def->attackFireFrame,
-;461:				error, errorSize
-;462:			)) return qfalse;
+line 465
+;463:				&text, &def->attackCooldown,
+;464:				error, errorSize
+;465:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 463
-;463:		}
+line 466
+;466:		}
 LABELV $257
-line 465
-;464:		
-;465:		else if (!Q_stricmp(key, "meleeRange")) {
+line 467
+;467:		else if (!Q_stricmp(key, "attackFireFrame")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $264
@@ -2641,8 +2650,57 @@ ADDRLP4 244
 INDIRI4
 CNSTI4 0
 NEI4 $262
-line 466
-;466:			if (!MonsterReadFloat(
+line 468
+;468:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 656
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 248
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 248
+INDIRI4
+CNSTI4 0
+NEI4 $263
+line 471
+;469:				&text, &def->attackFireFrame,
+;470:				error, errorSize
+;471:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 472
+;472:		}
+LABELV $262
+line 474
+;473:		
+;474:		else if (!Q_stricmp(key, "meleeRange")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $269
+ARGP4
+ADDRLP4 248
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 248
+INDIRI4
+CNSTI4 0
+NEI4 $267
+line 475
+;475:			if (!MonsterReadFloat(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -2656,79 +2714,29 @@ ARGP4
 ADDRFP4 12
 INDIRI4
 ARGI4
-ADDRLP4 248
-ADDRGP4 MonsterReadFloat
-CALLI4
-ASGNI4
-ADDRLP4 248
-INDIRI4
-CNSTI4 0
-NEI4 $263
-line 471
-;467:				&text,
-;468:				&def->meleeRange,
-;469:				error,
-;470:				errorSize
-;471:			)) return qfalse;
-CNSTI4 0
-RETI4
-ADDRGP4 $111
-JUMPV
-line 472
-;472:		}
-LABELV $262
-line 473
-;473:		else if (!Q_stricmp(key, "meleeFireFrame")) {
-ADDRLP4 0
-ARGP4
-ADDRGP4 $269
-ARGP4
-ADDRLP4 248
-ADDRGP4 Q_stricmp
-CALLI4
-ASGNI4
-ADDRLP4 248
-INDIRI4
-CNSTI4 0
-NEI4 $267
-line 474
-;474:			if (!MonsterReadInt(
-ADDRFP4 0
-ARGP4
-ADDRFP4 4
-INDIRP4
-CNSTI4 664
-ADDP4
-ARGP4
-ADDRFP4 8
-INDIRP4
-ARGP4
-ADDRFP4 12
-INDIRI4
-ARGI4
 ADDRLP4 252
-ADDRGP4 MonsterReadInt
+ADDRGP4 MonsterReadFloat
 CALLI4
 ASGNI4
 ADDRLP4 252
 INDIRI4
 CNSTI4 0
 NEI4 $268
-line 479
-;475:				&text,
-;476:				&def->meleeFireFrame,
-;477:				error,
-;478:				errorSize
-;479:			)) return qfalse;
+line 480
+;476:				&text,
+;477:				&def->meleeRange,
+;478:				error,
+;479:				errorSize
+;480:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 480
-;480:		}
-LABELV $267
 line 481
-;481:		else if (!Q_stricmp(key, "meleeDamage")) {
+;481:		}
+LABELV $267
+line 482
+;482:		else if (!Q_stricmp(key, "meleeFireFrame")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $274
@@ -2741,13 +2749,13 @@ ADDRLP4 252
 INDIRI4
 CNSTI4 0
 NEI4 $272
-line 482
-;482:			if (!MonsterReadInt(
+line 483
+;483:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 668
+CNSTI4 664
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -2764,22 +2772,21 @@ ADDRLP4 256
 INDIRI4
 CNSTI4 0
 NEI4 $273
-line 487
-;483:				&text,
-;484:				&def->meleeDamage,
-;485:				error,
-;486:				errorSize
-;487:			)) return qfalse;
+line 488
+;484:				&text,
+;485:				&def->meleeFireFrame,
+;486:				error,
+;487:				errorSize
+;488:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 488
-;488:		}
+line 489
+;489:		}
 LABELV $272
 line 490
-;489:		
-;490:		else if (!Q_stricmp(key, "burstCount")) {
+;490:		else if (!Q_stricmp(key, "meleeDamage")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $279
@@ -2798,7 +2805,7 @@ ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 672
+CNSTI4 668
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -2815,19 +2822,22 @@ ADDRLP4 260
 INDIRI4
 CNSTI4 0
 NEI4 $278
-line 494
-;492:				&text, &def->burstCount,
-;493:				error, errorSize
-;494:			)) return qfalse;
+line 496
+;492:				&text,
+;493:				&def->meleeDamage,
+;494:				error,
+;495:				errorSize
+;496:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 495
-;495:		}
+line 497
+;497:		}
 LABELV $277
-line 496
-;496:		else if (!Q_stricmp(key, "burstInterval")) {
+line 499
+;498:		
+;499:		else if (!Q_stricmp(key, "burstCount")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $284
@@ -2840,13 +2850,13 @@ ADDRLP4 260
 INDIRI4
 CNSTI4 0
 NEI4 $282
-line 497
-;497:			if (!MonsterReadInt(
+line 500
+;500:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 676
+CNSTI4 672
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -2863,19 +2873,19 @@ ADDRLP4 264
 INDIRI4
 CNSTI4 0
 NEI4 $283
-line 500
-;498:				&text, &def->burstInterval,
-;499:				error, errorSize
-;500:			)) return qfalse;
+line 503
+;501:				&text, &def->burstCount,
+;502:				error, errorSize
+;503:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 501
-;501:		}
+line 504
+;504:		}
 LABELV $282
-line 502
-;502:		else if (!Q_stricmp(key, "projectileSpeed")) {
+line 505
+;505:		else if (!Q_stricmp(key, "burstInterval")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $289
@@ -2888,8 +2898,56 @@ ADDRLP4 264
 INDIRI4
 CNSTI4 0
 NEI4 $287
-line 503
-;503:			if (!MonsterReadFloat(
+line 506
+;506:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 676
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 268
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 268
+INDIRI4
+CNSTI4 0
+NEI4 $288
+line 509
+;507:				&text, &def->burstInterval,
+;508:				error, errorSize
+;509:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 510
+;510:		}
+LABELV $287
+line 511
+;511:		else if (!Q_stricmp(key, "projectileSpeed")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $294
+ARGP4
+ADDRLP4 268
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 268
+INDIRI4
+CNSTI4 0
+NEI4 $292
+line 512
+;512:			if (!MonsterReadFloat(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
@@ -2903,75 +2961,27 @@ ARGP4
 ADDRFP4 12
 INDIRI4
 ARGI4
-ADDRLP4 268
-ADDRGP4 MonsterReadFloat
-CALLI4
-ASGNI4
-ADDRLP4 268
-INDIRI4
-CNSTI4 0
-NEI4 $288
-line 506
-;504:				&text, &def->projectileSpeed,
-;505:				error, errorSize
-;506:			)) return qfalse;
-CNSTI4 0
-RETI4
-ADDRGP4 $111
-JUMPV
-line 507
-;507:		}
-LABELV $287
-line 508
-;508:		else if (!Q_stricmp(key, "projectileDamage")) {
-ADDRLP4 0
-ARGP4
-ADDRGP4 $294
-ARGP4
-ADDRLP4 268
-ADDRGP4 Q_stricmp
-CALLI4
-ASGNI4
-ADDRLP4 268
-INDIRI4
-CNSTI4 0
-NEI4 $292
-line 509
-;509:			if (!MonsterReadInt(
-ADDRFP4 0
-ARGP4
-ADDRFP4 4
-INDIRP4
-CNSTI4 684
-ADDP4
-ARGP4
-ADDRFP4 8
-INDIRP4
-ARGP4
-ADDRFP4 12
-INDIRI4
-ARGI4
 ADDRLP4 272
-ADDRGP4 MonsterReadInt
+ADDRGP4 MonsterReadFloat
 CALLI4
 ASGNI4
 ADDRLP4 272
 INDIRI4
 CNSTI4 0
 NEI4 $293
-line 512
-;510:				&text, &def->projectileDamage,
-;511:				error, errorSize
-;512:			)) return qfalse;
+line 515
+;513:				&text, &def->projectileSpeed,
+;514:				error, errorSize
+;515:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 513
-;513:		}
+line 516
+;516:		}
 LABELV $292
-line 514
-;514:		else if (!Q_stricmp(key, "splashDamage")) {
+line 517
+;517:		else if (!Q_stricmp(key, "projectileDamage")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $299
@@ -2984,13 +2994,13 @@ ADDRLP4 272
 INDIRI4
 CNSTI4 0
 NEI4 $297
-line 515
-;515:			if (!MonsterReadInt(
+line 518
+;518:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 688
+CNSTI4 684
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3007,19 +3017,19 @@ ADDRLP4 276
 INDIRI4
 CNSTI4 0
 NEI4 $298
-line 518
-;516:				&text, &def->splashDamage,
-;517:				error, errorSize
-;518:			)) return qfalse;
+line 521
+;519:				&text, &def->projectileDamage,
+;520:				error, errorSize
+;521:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 519
-;519:		}
+line 522
+;522:		}
 LABELV $297
-line 520
-;520:		else if (!Q_stricmp(key, "splashRadius")) {
+line 523
+;523:		else if (!Q_stricmp(key, "splashDamage")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $304
@@ -3032,13 +3042,13 @@ ADDRLP4 276
 INDIRI4
 CNSTI4 0
 NEI4 $302
-line 521
-;521:			if (!MonsterReadInt(
+line 524
+;524:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 692
+CNSTI4 688
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3055,19 +3065,19 @@ ADDRLP4 280
 INDIRI4
 CNSTI4 0
 NEI4 $303
-line 524
-;522:				&text, &def->splashRadius,
-;523:				error, errorSize
-;524:			)) return qfalse;
+line 527
+;525:				&text, &def->splashDamage,
+;526:				error, errorSize
+;527:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 525
-;525:		}
+line 528
+;528:		}
 LABELV $302
-line 526
-;526:		else if (!Q_stricmp(key, "talkMinDelay")) {
+line 529
+;529:		else if (!Q_stricmp(key, "splashRadius")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $309
@@ -3080,13 +3090,13 @@ ADDRLP4 280
 INDIRI4
 CNSTI4 0
 NEI4 $307
-line 527
-;527:			if (!MonsterReadInt(
+line 530
+;530:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 696
+CNSTI4 692
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3103,19 +3113,19 @@ ADDRLP4 284
 INDIRI4
 CNSTI4 0
 NEI4 $308
-line 530
-;528:				&text, &def->talkMinDelay,
-;529:				error, errorSize
-;530:			)) return qfalse;
+line 533
+;531:				&text, &def->splashRadius,
+;532:				error, errorSize
+;533:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 531
-;531:		}
+line 534
+;534:		}
 LABELV $307
-line 532
-;532:		else if (!Q_stricmp(key, "talkMaxDelay")) {
+line 535
+;535:		else if (!Q_stricmp(key, "talkMinDelay")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $314
@@ -3128,13 +3138,13 @@ ADDRLP4 284
 INDIRI4
 CNSTI4 0
 NEI4 $312
-line 533
-;533:			if (!MonsterReadInt(
+line 536
+;536:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 700
+CNSTI4 696
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3151,19 +3161,19 @@ ADDRLP4 288
 INDIRI4
 CNSTI4 0
 NEI4 $313
-line 536
-;534:				&text, &def->talkMaxDelay,
-;535:				error, errorSize
-;536:			)) return qfalse;
+line 539
+;537:				&text, &def->talkMinDelay,
+;538:				error, errorSize
+;539:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 537
-;537:		}
+line 540
+;540:		}
 LABELV $312
-line 538
-;538:		else if (!Q_stricmp(key, "animIdle")) {
+line 541
+;541:		else if (!Q_stricmp(key, "talkMaxDelay")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $319
@@ -3176,13 +3186,13 @@ ADDRLP4 288
 INDIRI4
 CNSTI4 0
 NEI4 $317
-line 539
-;539:			if (!MonsterReadAnimation(
+line 542
+;542:			if (!MonsterReadInt(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 708
+CNSTI4 700
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3192,26 +3202,26 @@ ADDRFP4 12
 INDIRI4
 ARGI4
 ADDRLP4 292
-ADDRGP4 MonsterReadAnimation
+ADDRGP4 MonsterReadInt
 CALLI4
 ASGNI4
 ADDRLP4 292
 INDIRI4
 CNSTI4 0
 NEI4 $318
-line 542
-;540:				&text, &def->idleAnimation,
-;541:				error, errorSize
-;542:			)) return qfalse;
+line 545
+;543:				&text, &def->talkMaxDelay,
+;544:				error, errorSize
+;545:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 543
-;543:		}
+line 546
+;546:		}
 LABELV $317
-line 544
-;544:		else if (!Q_stricmp(key, "animMove")) {
+line 547
+;547:		else if (!Q_stricmp(key, "animIdle")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $324
@@ -3224,13 +3234,13 @@ ADDRLP4 292
 INDIRI4
 CNSTI4 0
 NEI4 $322
-line 545
-;545:			if (!MonsterReadAnimation(
+line 548
+;548:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 736
+CNSTI4 712
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3247,20 +3257,19 @@ ADDRLP4 296
 INDIRI4
 CNSTI4 0
 NEI4 $323
-line 548
-;546:				&text, &def->moveAnimation,
-;547:				error, errorSize
-;548:			)) return qfalse;
+line 551
+;549:				&text, &def->idleAnimation,
+;550:				error, errorSize
+;551:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 549
-;549:		}
+line 552
+;552:		}
 LABELV $322
-line 551
-;550:		
-;551:		else if (!Q_stricmp(key, "animMelee1")) {
+line 553
+;553:		else if (!Q_stricmp(key, "animMove")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $329
@@ -3273,13 +3282,13 @@ ADDRLP4 296
 INDIRI4
 CNSTI4 0
 NEI4 $327
-line 552
-;552:			if (!MonsterReadAnimation(
+line 554
+;554:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 764
+CNSTI4 740
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3297,10 +3306,8 @@ INDIRI4
 CNSTI4 0
 NEI4 $328
 line 557
-;553:				&text,
-;554:				&def->meleeAnimations[0],
-;555:				error,
-;556:				errorSize
+;555:				&text, &def->moveAnimation,
+;556:				error, errorSize
 ;557:			)) return qfalse;
 CNSTI4 0
 RETI4
@@ -3309,8 +3316,9 @@ JUMPV
 line 558
 ;558:		}
 LABELV $327
-line 559
-;559:		else if (!Q_stricmp(key, "animMelee2")) {
+line 560
+;559:		
+;560:		else if (!Q_stricmp(key, "animMelee1")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $334
@@ -3323,13 +3331,13 @@ ADDRLP4 300
 INDIRI4
 CNSTI4 0
 NEI4 $332
-line 560
-;560:			if (!MonsterReadAnimation(
+line 561
+;561:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 792
+CNSTI4 768
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3346,21 +3354,21 @@ ADDRLP4 304
 INDIRI4
 CNSTI4 0
 NEI4 $333
-line 565
-;561:				&text,
-;562:				&def->meleeAnimations[1],
-;563:				error,
-;564:				errorSize
-;565:			)) return qfalse;
+line 566
+;562:				&text,
+;563:				&def->meleeAnimations[0],
+;564:				error,
+;565:				errorSize
+;566:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 566
-;566:		}
-LABELV $332
 line 567
-;567:		else if (!Q_stricmp(key, "animMelee3")) {
+;567:		}
+LABELV $332
+line 568
+;568:		else if (!Q_stricmp(key, "animMelee2")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $339
@@ -3373,13 +3381,13 @@ ADDRLP4 304
 INDIRI4
 CNSTI4 0
 NEI4 $337
-line 568
-;568:			if (!MonsterReadAnimation(
+line 569
+;569:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 820
+CNSTI4 796
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3396,22 +3404,21 @@ ADDRLP4 308
 INDIRI4
 CNSTI4 0
 NEI4 $338
-line 573
-;569:				&text,
-;570:				&def->meleeAnimations[2],
-;571:				error,
-;572:				errorSize
-;573:			)) return qfalse;
+line 574
+;570:				&text,
+;571:				&def->meleeAnimations[1],
+;572:				error,
+;573:				errorSize
+;574:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 574
-;574:		}
+line 575
+;575:		}
 LABELV $337
 line 576
-;575:		
-;576:		else if (!Q_stricmp(key, "animRanged1")) {
+;576:		else if (!Q_stricmp(key, "animMelee3")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $344
@@ -3430,7 +3437,7 @@ ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 848
+CNSTI4 824
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3447,19 +3454,22 @@ ADDRLP4 312
 INDIRI4
 CNSTI4 0
 NEI4 $343
-line 580
-;578:				&text, &def->rangedAnimations[0],
-;579:				error, errorSize
-;580:			)) return qfalse;
+line 582
+;578:				&text,
+;579:				&def->meleeAnimations[2],
+;580:				error,
+;581:				errorSize
+;582:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 581
-;581:		}
+line 583
+;583:		}
 LABELV $342
-line 582
-;582:		else if (!Q_stricmp(key, "animRanged2")) {
+line 585
+;584:		
+;585:		else if (!Q_stricmp(key, "animRanged1")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $349
@@ -3472,13 +3482,13 @@ ADDRLP4 312
 INDIRI4
 CNSTI4 0
 NEI4 $347
-line 583
-;583:			if (!MonsterReadAnimation(
+line 586
+;586:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 876
+CNSTI4 852
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3495,19 +3505,19 @@ ADDRLP4 316
 INDIRI4
 CNSTI4 0
 NEI4 $348
-line 586
-;584:				&text, &def->rangedAnimations[1],
-;585:				error, errorSize
-;586:			)) return qfalse;
+line 589
+;587:				&text, &def->rangedAnimations[0],
+;588:				error, errorSize
+;589:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 587
-;587:		}
+line 590
+;590:		}
 LABELV $347
-line 588
-;588:		else if (!Q_stricmp(key, "animRanged3")) {
+line 591
+;591:		else if (!Q_stricmp(key, "animRanged2")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $354
@@ -3520,13 +3530,13 @@ ADDRLP4 316
 INDIRI4
 CNSTI4 0
 NEI4 $352
-line 589
-;589:			if (!MonsterReadAnimation(
+line 592
+;592:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 904
+CNSTI4 880
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3543,19 +3553,19 @@ ADDRLP4 320
 INDIRI4
 CNSTI4 0
 NEI4 $353
-line 592
-;590:				&text, &def->rangedAnimations[2],
-;591:				error, errorSize
-;592:			)) return qfalse;
+line 595
+;593:				&text, &def->rangedAnimations[1],
+;594:				error, errorSize
+;595:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 593
-;593:		}
+line 596
+;596:		}
 LABELV $352
-line 594
-;594:		else if (!Q_stricmp(key, "animPain1")) {
+line 597
+;597:		else if (!Q_stricmp(key, "animRanged3")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $359
@@ -3568,13 +3578,13 @@ ADDRLP4 320
 INDIRI4
 CNSTI4 0
 NEI4 $357
-line 595
-;595:			if (!MonsterReadAnimation(
+line 598
+;598:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 932
+CNSTI4 908
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3591,19 +3601,19 @@ ADDRLP4 324
 INDIRI4
 CNSTI4 0
 NEI4 $358
-line 598
-;596:				&text, &def->painAnimations[0],
-;597:				error, errorSize
-;598:			)) return qfalse;
+line 601
+;599:				&text, &def->rangedAnimations[2],
+;600:				error, errorSize
+;601:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 599
-;599:		}
+line 602
+;602:		}
 LABELV $357
-line 600
-;600:		else if (!Q_stricmp(key, "animPain2")) {
+line 603
+;603:		else if (!Q_stricmp(key, "animPain1")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $364
@@ -3616,13 +3626,13 @@ ADDRLP4 324
 INDIRI4
 CNSTI4 0
 NEI4 $362
-line 601
-;601:			if (!MonsterReadAnimation(
+line 604
+;604:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 960
+CNSTI4 936
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3639,19 +3649,19 @@ ADDRLP4 328
 INDIRI4
 CNSTI4 0
 NEI4 $363
-line 604
-;602:				&text, &def->painAnimations[1],
-;603:				error, errorSize
-;604:			)) return qfalse;
+line 607
+;605:				&text, &def->painAnimations[0],
+;606:				error, errorSize
+;607:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 605
-;605:		}
+line 608
+;608:		}
 LABELV $362
-line 606
-;606:		else if (!Q_stricmp(key, "animPain3")) {
+line 609
+;609:		else if (!Q_stricmp(key, "animPain2")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $369
@@ -3664,13 +3674,13 @@ ADDRLP4 328
 INDIRI4
 CNSTI4 0
 NEI4 $367
-line 607
-;607:			if (!MonsterReadAnimation(
+line 610
+;610:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 988
+CNSTI4 964
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3687,19 +3697,19 @@ ADDRLP4 332
 INDIRI4
 CNSTI4 0
 NEI4 $368
-line 610
-;608:				&text, &def->painAnimations[2],
-;609:				error, errorSize
-;610:			)) return qfalse;
+line 613
+;611:				&text, &def->painAnimations[1],
+;612:				error, errorSize
+;613:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 611
-;611:		}
+line 614
+;614:		}
 LABELV $367
-line 612
-;612:		else if (!Q_stricmp(key, "animDeath1")) {
+line 615
+;615:		else if (!Q_stricmp(key, "animPain3")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $374
@@ -3712,13 +3722,13 @@ ADDRLP4 332
 INDIRI4
 CNSTI4 0
 NEI4 $372
-line 613
-;613:			if (!MonsterReadAnimation(
+line 616
+;616:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 1016
+CNSTI4 992
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3735,19 +3745,19 @@ ADDRLP4 336
 INDIRI4
 CNSTI4 0
 NEI4 $373
-line 616
-;614:				&text, &def->deathAnimations[0],
-;615:				error, errorSize
-;616:			)) return qfalse;
+line 619
+;617:				&text, &def->painAnimations[2],
+;618:				error, errorSize
+;619:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 617
-;617:		}
+line 620
+;620:		}
 LABELV $372
-line 618
-;618:		else if (!Q_stricmp(key, "animDeath2")) {
+line 621
+;621:		else if (!Q_stricmp(key, "animDeath1")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $379
@@ -3760,13 +3770,13 @@ ADDRLP4 336
 INDIRI4
 CNSTI4 0
 NEI4 $377
-line 619
-;619:			if (!MonsterReadAnimation(
+line 622
+;622:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 1044
+CNSTI4 1020
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3783,19 +3793,19 @@ ADDRLP4 340
 INDIRI4
 CNSTI4 0
 NEI4 $378
-line 622
-;620:				&text, &def->deathAnimations[1],
-;621:				error, errorSize
-;622:			)) return qfalse;
+line 625
+;623:				&text, &def->deathAnimations[0],
+;624:				error, errorSize
+;625:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 623
-;623:		}
+line 626
+;626:		}
 LABELV $377
-line 624
-;624:		else if (!Q_stricmp(key, "animDeath3")) {
+line 627
+;627:		else if (!Q_stricmp(key, "animDeath2")) {
 ADDRLP4 0
 ARGP4
 ADDRGP4 $384
@@ -3808,13 +3818,13 @@ ADDRLP4 340
 INDIRI4
 CNSTI4 0
 NEI4 $382
-line 625
-;625:			if (!MonsterReadAnimation(
+line 628
+;628:			if (!MonsterReadAnimation(
 ADDRFP4 0
 ARGP4
 ADDRFP4 4
 INDIRP4
-CNSTI4 1072
+CNSTI4 1048
 ADDP4
 ARGP4
 ADDRFP4 8
@@ -3831,45 +3841,94 @@ ADDRLP4 344
 INDIRI4
 CNSTI4 0
 NEI4 $383
-line 628
-;626:				&text, &def->deathAnimations[2],
-;627:				error, errorSize
-;628:			)) return qfalse;
+line 631
+;629:				&text, &def->deathAnimations[1],
+;630:				error, errorSize
+;631:			)) return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-line 629
-;629:		}
+line 632
+;632:		}
 LABELV $382
-line 630
-;630:		else {
-line 631
-;631:			Com_sprintf(
+line 633
+;633:		else if (!Q_stricmp(key, "animDeath3")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $389
+ARGP4
+ADDRLP4 344
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 344
+INDIRI4
+CNSTI4 0
+NEI4 $387
+line 634
+;634:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 1076
+ADDP4
+ARGP4
 ADDRFP4 8
 INDIRP4
 ARGP4
 ADDRFP4 12
 INDIRI4
 ARGI4
-ADDRGP4 $387
+ADDRLP4 348
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 348
+INDIRI4
+CNSTI4 0
+NEI4 $388
+line 637
+;635:				&text, &def->deathAnimations[2],
+;636:				error, errorSize
+;637:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 638
+;638:		}
+LABELV $387
+line 639
+;639:		else {
+line 640
+;640:			Com_sprintf(
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRGP4 $392
 ARGP4
 ADDRLP4 0
 ARGP4
 ADDRGP4 Com_sprintf
 CALLV
 pop
-line 637
-;632:				error,
-;633:				errorSize,
-;634:				"Unknown monster.cfg key: %s",
-;635:				key
-;636:			);
-;637:			return qfalse;
+line 646
+;641:				error,
+;642:				errorSize,
+;643:				"Unknown monster.cfg key: %s",
+;644:				key
+;645:			);
+;646:			return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
+LABELV $388
 LABELV $383
 LABELV $378
 LABELV $373
@@ -3922,47 +3981,47 @@ LABELV $134
 LABELV $129
 LABELV $124
 LABELV $119
-line 639
-;638:		}
-;639:	}
+line 648
+;647:		}
+;648:	}
 LABELV $114
-line 260
+line 261
 ADDRGP4 $113
 JUMPV
 LABELV $115
-line 641
-;640:
-;641:	if (!def->name[0]) {
+line 650
+;649:
+;650:	if (!def->name[0]) {
 ADDRFP4 4
 INDIRP4
 INDIRI1
 CVII4 1
 CNSTI4 0
-NEI4 $388
-line 642
-;642:		MonsterParseError(error, errorSize, "Missing monster name");
+NEI4 $393
+line 651
+;651:		MonsterParseError(error, errorSize, "Missing monster name");
 ADDRFP4 8
 INDIRP4
 ARGP4
 ADDRFP4 12
 INDIRI4
 ARGI4
-ADDRGP4 $390
+ADDRGP4 $395
 ARGP4
 ADDRGP4 MonsterParseError
 CALLV
 pop
-line 643
-;643:		return qfalse;
+line 652
+;652:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-LABELV $388
-line 646
-;644:	}
-;645:
-;646:	if (!def->models[0][0]) {
+LABELV $393
+line 655
+;653:	}
+;654:
+;655:	if (!def->models[0][0]) {
 ADDRFP4 4
 INDIRP4
 CNSTI4 64
@@ -3970,31 +4029,31 @@ ADDP4
 INDIRI1
 CVII4 1
 CNSTI4 0
-NEI4 $391
-line 647
-;647:		MonsterParseError(error, errorSize, "Missing model1");
+NEI4 $396
+line 656
+;656:		MonsterParseError(error, errorSize, "Missing model1");
 ADDRFP4 8
 INDIRP4
 ARGP4
 ADDRFP4 12
 INDIRI4
 ARGI4
-ADDRGP4 $393
+ADDRGP4 $398
 ARGP4
 ADDRGP4 MonsterParseError
 CALLV
 pop
-line 648
-;648:		return qfalse;
+line 657
+;657:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-LABELV $391
-line 651
-;649:	}
-;650:
-;651:	if (def->monsterSlot < 0 ||
+LABELV $396
+line 660
+;658:	}
+;659:
+;660:	if (def->monsterSlot < 0 ||
 ADDRLP4 128
 ADDRFP4 4
 INDIRP4
@@ -4005,38 +4064,38 @@ ASGNI4
 ADDRLP4 128
 INDIRI4
 CNSTI4 0
-LTI4 $396
+LTI4 $401
 ADDRLP4 128
 INDIRI4
 CNSTI4 5
-LTI4 $394
-LABELV $396
-line 652
-;652:		def->monsterSlot >= MAX_MONSTERS_PER_TYPE) {
-line 653
-;653:		MonsterParseError(error, errorSize, "Invalid monsterSlot");
+LTI4 $399
+LABELV $401
+line 661
+;661:		def->monsterSlot >= MAX_MONSTERS_PER_TYPE) {
+line 662
+;662:		MonsterParseError(error, errorSize, "Invalid monsterSlot");
 ADDRFP4 8
 INDIRP4
 ARGP4
 ADDRFP4 12
 INDIRI4
 ARGI4
-ADDRGP4 $397
+ADDRGP4 $402
 ARGP4
 ADDRGP4 MonsterParseError
 CALLV
 pop
-line 654
-;654:		return qfalse;
+line 663
+;663:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-LABELV $394
-line 657
-;655:	}
-;656:
-;657:	if (def->health <= 0 || def->speed <= 0.0f) {
+LABELV $399
+line 666
+;664:	}
+;665:
+;666:	if (def->health <= 0 || def->speed <= 0.0f) {
 ADDRLP4 132
 ADDRFP4 4
 INDIRP4
@@ -4047,47 +4106,68 @@ CNSTI4 592
 ADDP4
 INDIRI4
 CNSTI4 0
-LEI4 $400
+LEI4 $405
 ADDRLP4 132
 INDIRP4
 CNSTI4 600
 ADDP4
 INDIRF4
 CNSTF4 0
-GTF4 $398
-LABELV $400
-line 658
-;658:		MonsterParseError(
+GTF4 $403
+LABELV $405
+line 667
+;667:		MonsterParseError(
 ADDRFP4 8
 INDIRP4
 ARGP4
 ADDRFP4 12
 INDIRI4
 ARGI4
-ADDRGP4 $401
+ADDRGP4 $406
 ARGP4
 ADDRGP4 MonsterParseError
 CALLV
 pop
-line 663
-;659:			error,
-;660:			errorSize,
-;661:			"Invalid monster health or speed"
-;662:		);
-;663:		return qfalse;
+line 672
+;668:			error,
+;669:			errorSize,
+;670:			"Invalid monster health or speed"
+;671:		);
+;672:		return qfalse;
 CNSTI4 0
 RETI4
 ADDRGP4 $111
 JUMPV
-LABELV $398
-line 666
-;664:	}
-;665:
-;666:	return qtrue;
+LABELV $403
+line 675
+;673:	}
+;674:	
+;675:	if (def->corpseTime < 0) {
+ADDRFP4 4
+INDIRP4
+CNSTI4 708
+ADDP4
+INDIRI4
+CNSTI4 0
+GEI4 $407
+line 676
+;676:		def->corpseTime = 0;
+ADDRFP4 4
+INDIRP4
+CNSTI4 708
+ADDP4
+CNSTI4 0
+ASGNI4
+line 677
+;677:	}
+LABELV $407
+line 679
+;678:
+;679:	return qtrue;
 CNSTI4 1
 RETI4
 LABELV $111
-endproc BG_ParseMonsterConfig 348 20
+endproc BG_ParseMonsterConfig 352 20
 import BG_PlayerTouchesItem
 import BG_PlayerStateToEntityStateExtraPolate
 import BG_PlayerStateToEntityState
@@ -4256,7 +4336,7 @@ import srand
 import qsort
 lit
 align 1
-LABELV $401
+LABELV $406
 byte 1 73
 byte 1 110
 byte 1 118
@@ -4290,7 +4370,7 @@ byte 1 101
 byte 1 100
 byte 1 0
 align 1
-LABELV $397
+LABELV $402
 byte 1 73
 byte 1 110
 byte 1 118
@@ -4312,7 +4392,7 @@ byte 1 111
 byte 1 116
 byte 1 0
 align 1
-LABELV $393
+LABELV $398
 byte 1 77
 byte 1 105
 byte 1 115
@@ -4329,7 +4409,7 @@ byte 1 108
 byte 1 49
 byte 1 0
 align 1
-LABELV $390
+LABELV $395
 byte 1 77
 byte 1 105
 byte 1 115
@@ -4352,7 +4432,7 @@ byte 1 109
 byte 1 101
 byte 1 0
 align 1
-LABELV $387
+LABELV $392
 byte 1 85
 byte 1 110
 byte 1 107
@@ -4382,7 +4462,7 @@ byte 1 37
 byte 1 115
 byte 1 0
 align 1
-LABELV $384
+LABELV $389
 byte 1 97
 byte 1 110
 byte 1 105
@@ -4393,6 +4473,19 @@ byte 1 97
 byte 1 116
 byte 1 104
 byte 1 51
+byte 1 0
+align 1
+LABELV $384
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 68
+byte 1 101
+byte 1 97
+byte 1 116
+byte 1 104
+byte 1 50
 byte 1 0
 align 1
 LABELV $379
@@ -4405,23 +4498,10 @@ byte 1 101
 byte 1 97
 byte 1 116
 byte 1 104
-byte 1 50
-byte 1 0
-align 1
-LABELV $374
-byte 1 97
-byte 1 110
-byte 1 105
-byte 1 109
-byte 1 68
-byte 1 101
-byte 1 97
-byte 1 116
-byte 1 104
 byte 1 49
 byte 1 0
 align 1
-LABELV $369
+LABELV $374
 byte 1 97
 byte 1 110
 byte 1 105
@@ -4433,7 +4513,7 @@ byte 1 110
 byte 1 51
 byte 1 0
 align 1
-LABELV $364
+LABELV $369
 byte 1 97
 byte 1 110
 byte 1 105
@@ -4445,7 +4525,7 @@ byte 1 110
 byte 1 50
 byte 1 0
 align 1
-LABELV $359
+LABELV $364
 byte 1 97
 byte 1 110
 byte 1 105
@@ -4455,6 +4535,20 @@ byte 1 97
 byte 1 105
 byte 1 110
 byte 1 49
+byte 1 0
+align 1
+LABELV $359
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 82
+byte 1 97
+byte 1 110
+byte 1 103
+byte 1 101
+byte 1 100
+byte 1 51
 byte 1 0
 align 1
 LABELV $354
@@ -4468,7 +4562,7 @@ byte 1 110
 byte 1 103
 byte 1 101
 byte 1 100
-byte 1 51
+byte 1 50
 byte 1 0
 align 1
 LABELV $349
@@ -4482,24 +4576,10 @@ byte 1 110
 byte 1 103
 byte 1 101
 byte 1 100
-byte 1 50
-byte 1 0
-align 1
-LABELV $344
-byte 1 97
-byte 1 110
-byte 1 105
-byte 1 109
-byte 1 82
-byte 1 97
-byte 1 110
-byte 1 103
-byte 1 101
-byte 1 100
 byte 1 49
 byte 1 0
 align 1
-LABELV $339
+LABELV $344
 byte 1 97
 byte 1 110
 byte 1 105
@@ -4512,7 +4592,7 @@ byte 1 101
 byte 1 51
 byte 1 0
 align 1
-LABELV $334
+LABELV $339
 byte 1 97
 byte 1 110
 byte 1 105
@@ -4525,7 +4605,7 @@ byte 1 101
 byte 1 50
 byte 1 0
 align 1
-LABELV $329
+LABELV $334
 byte 1 97
 byte 1 110
 byte 1 105
@@ -4538,7 +4618,7 @@ byte 1 101
 byte 1 49
 byte 1 0
 align 1
-LABELV $324
+LABELV $329
 byte 1 97
 byte 1 110
 byte 1 105
@@ -4549,7 +4629,7 @@ byte 1 118
 byte 1 101
 byte 1 0
 align 1
-LABELV $319
+LABELV $324
 byte 1 97
 byte 1 110
 byte 1 105
@@ -4560,7 +4640,7 @@ byte 1 108
 byte 1 101
 byte 1 0
 align 1
-LABELV $314
+LABELV $319
 byte 1 116
 byte 1 97
 byte 1 108
@@ -4575,7 +4655,7 @@ byte 1 97
 byte 1 121
 byte 1 0
 align 1
-LABELV $309
+LABELV $314
 byte 1 116
 byte 1 97
 byte 1 108
@@ -4590,7 +4670,7 @@ byte 1 97
 byte 1 121
 byte 1 0
 align 1
-LABELV $304
+LABELV $309
 byte 1 115
 byte 1 112
 byte 1 108
@@ -4605,13 +4685,32 @@ byte 1 117
 byte 1 115
 byte 1 0
 align 1
-LABELV $299
+LABELV $304
 byte 1 115
 byte 1 112
 byte 1 108
 byte 1 97
 byte 1 115
 byte 1 104
+byte 1 68
+byte 1 97
+byte 1 109
+byte 1 97
+byte 1 103
+byte 1 101
+byte 1 0
+align 1
+LABELV $299
+byte 1 112
+byte 1 114
+byte 1 111
+byte 1 106
+byte 1 101
+byte 1 99
+byte 1 116
+byte 1 105
+byte 1 108
+byte 1 101
 byte 1 68
 byte 1 97
 byte 1 109
@@ -4631,25 +4730,6 @@ byte 1 116
 byte 1 105
 byte 1 108
 byte 1 101
-byte 1 68
-byte 1 97
-byte 1 109
-byte 1 97
-byte 1 103
-byte 1 101
-byte 1 0
-align 1
-LABELV $289
-byte 1 112
-byte 1 114
-byte 1 111
-byte 1 106
-byte 1 101
-byte 1 99
-byte 1 116
-byte 1 105
-byte 1 108
-byte 1 101
 byte 1 83
 byte 1 112
 byte 1 101
@@ -4657,7 +4737,7 @@ byte 1 101
 byte 1 100
 byte 1 0
 align 1
-LABELV $284
+LABELV $289
 byte 1 98
 byte 1 117
 byte 1 114
@@ -4673,7 +4753,7 @@ byte 1 97
 byte 1 108
 byte 1 0
 align 1
-LABELV $279
+LABELV $284
 byte 1 98
 byte 1 117
 byte 1 114
@@ -4686,7 +4766,7 @@ byte 1 110
 byte 1 116
 byte 1 0
 align 1
-LABELV $274
+LABELV $279
 byte 1 109
 byte 1 101
 byte 1 108
@@ -4700,7 +4780,7 @@ byte 1 103
 byte 1 101
 byte 1 0
 align 1
-LABELV $269
+LABELV $274
 byte 1 109
 byte 1 101
 byte 1 108
@@ -4717,7 +4797,7 @@ byte 1 109
 byte 1 101
 byte 1 0
 align 1
-LABELV $264
+LABELV $269
 byte 1 109
 byte 1 101
 byte 1 108
@@ -4730,7 +4810,7 @@ byte 1 103
 byte 1 101
 byte 1 0
 align 1
-LABELV $259
+LABELV $264
 byte 1 97
 byte 1 116
 byte 1 116
@@ -4748,7 +4828,7 @@ byte 1 109
 byte 1 101
 byte 1 0
 align 1
-LABELV $254
+LABELV $259
 byte 1 97
 byte 1 116
 byte 1 116
@@ -4765,7 +4845,7 @@ byte 1 119
 byte 1 110
 byte 1 0
 align 1
-LABELV $249
+LABELV $254
 byte 1 97
 byte 1 116
 byte 1 116
@@ -4779,7 +4859,7 @@ byte 1 103
 byte 1 101
 byte 1 0
 align 1
-LABELV $244
+LABELV $249
 byte 1 104
 byte 1 97
 byte 1 115
@@ -4790,7 +4870,7 @@ byte 1 101
 byte 1 101
 byte 1 0
 align 1
-LABELV $239
+LABELV $244
 byte 1 104
 byte 1 97
 byte 1 115
@@ -4802,7 +4882,7 @@ byte 1 101
 byte 1 100
 byte 1 0
 align 1
-LABELV $234
+LABELV $239
 byte 1 100
 byte 1 114
 byte 1 105
@@ -4816,7 +4896,7 @@ byte 1 111
 byte 1 100
 byte 1 0
 align 1
-LABELV $229
+LABELV $234
 byte 1 100
 byte 1 114
 byte 1 105
@@ -4830,21 +4910,21 @@ byte 1 110
 byte 1 116
 byte 1 0
 align 1
-LABELV $224
+LABELV $229
 byte 1 109
 byte 1 97
 byte 1 120
 byte 1 115
 byte 1 0
 align 1
-LABELV $219
+LABELV $224
 byte 1 109
 byte 1 105
 byte 1 110
 byte 1 115
 byte 1 0
 align 1
-LABELV $214
+LABELV $219
 byte 1 104
 byte 1 111
 byte 1 118
@@ -4858,12 +4938,25 @@ byte 1 104
 byte 1 116
 byte 1 0
 align 1
-LABELV $209
+LABELV $214
 byte 1 115
 byte 1 112
 byte 1 101
 byte 1 101
 byte 1 100
+byte 1 0
+align 1
+LABELV $209
+byte 1 99
+byte 1 111
+byte 1 114
+byte 1 112
+byte 1 115
+byte 1 101
+byte 1 84
+byte 1 105
+byte 1 109
+byte 1 101
 byte 1 0
 align 1
 LABELV $204

@@ -146,8 +146,11 @@ if errorlevel 1 goto failed_vm
 
 echo Linking qagame.qvm...
 
+if exist qagame.qvm del /Q qagame.qvm
 q3asm -f ../game
 if errorlevel 1 goto failed_vm
+if not exist qagame.qvm goto failed_vm
+
 
 echo.
 echo ========================================

@@ -769,6 +769,7 @@ typedef struct {
 	menuradiobutton_s	noMegaHealth;
 	menuradiobutton_s	noPersonalTeleporter;
 	menuradiobutton_s	noPlasmaBFG;
+	menuradiobutton_s	noLightning;
 	menuradiobutton_s	noGrenadeRocket;
 	menuradiobutton_s 	noRailgun;
 	menuradiobutton_s	enableBlaster;
@@ -1235,6 +1236,19 @@ static void ServerOptions_Start( void ) {
 	trap_Cvar_SetValue(
 		"g_noPlasmaBFG",
 		s_serveroptions.noPlasmaBFG.curvalue
+	);
+	
+	trap_Cvar_SetValue(
+		"g_noLightning",
+		s_serveroptions.noLightning.curvalue
+	);
+
+	trap_Cmd_ExecuteText(
+		EXEC_APPEND,
+		va(
+			"seta ui_noLightning \"%i\"\n",
+			s_serveroptions.noLightning.curvalue
+		)
 	);
 
 	trap_Cvar_SetValue(
@@ -1746,6 +1760,11 @@ static void ServerOptions_SetMenuItems( void ) {
 
 	s_serveroptions.noPlasmaBFG.curvalue =
 		trap_Cvar_VariableValue( "ui_noPlasmaBFG" ) != 0;
+		
+	s_serveroptions.noLightning.curvalue =
+		trap_Cvar_VariableValue(
+			"ui_noLightning"
+		) != 0;	
 
 	s_serveroptions.noGrenadeRocket.curvalue =
 		trap_Cvar_VariableValue( "ui_noGrenadeRocket" ) != 0;
@@ -2124,13 +2143,20 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 	s_serveroptions.noPersonalTeleporter.generic.x = 240;
 	s_serveroptions.noPersonalTeleporter.generic.y = y;
 	
-	y=368;
+	y=350;
 	y += BIGCHAR_HEIGHT + 1;
 	s_serveroptions.noPlasmaBFG.generic.type = MTYPE_RADIOBUTTON;
-	s_serveroptions.noPlasmaBFG.generic.name = "No Energy Guns:";
+	s_serveroptions.noPlasmaBFG.generic.name = "No Plasma / BFG:";
 	s_serveroptions.noPlasmaBFG.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
 	s_serveroptions.noPlasmaBFG.generic.x = 440;
 	s_serveroptions.noPlasmaBFG.generic.y = y;
+	
+	y += BIGCHAR_HEIGHT + 1;
+	s_serveroptions.noLightning.generic.type = MTYPE_RADIOBUTTON;
+	s_serveroptions.noLightning.generic.name = "No Lightning:";
+	s_serveroptions.noLightning.generic.flags = QMF_PULSEIFFOCUS | QMF_SMALLFONT;
+	s_serveroptions.noLightning.generic.x = 440;
+	s_serveroptions.noLightning.generic.y = y;
 
 	y += BIGCHAR_HEIGHT + 1;
 	s_serveroptions.noGrenadeRocket.generic.type = MTYPE_RADIOBUTTON;
@@ -2213,6 +2239,7 @@ static void ServerOptions_MenuInit( qboolean multiplayer ) {
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.noHealth);
 	Menu_AddItem(&s_serveroptions.menu, &s_serveroptions.noArmor);
 	Menu_AddItem(&s_serveroptions.menu, &s_serveroptions.noPlasmaBFG);
+	Menu_AddItem(&s_serveroptions.menu,&s_serveroptions.noLightning);
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.noGrenadeRocket);
 	Menu_AddItem( &s_serveroptions.menu, &s_serveroptions.noRailgun);
 	

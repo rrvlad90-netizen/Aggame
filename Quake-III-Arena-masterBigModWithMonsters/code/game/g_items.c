@@ -936,21 +936,26 @@ void G_SpawnItem( gentity_t *ent, gitem_t *item ) {
 			item->giTag == HI_TELEPORTER ) {
 			return;
 		}	
-	if( g_noPlasmaBFG.integer ) {
-			if( item->giType == IT_WEAPON &&
-				( item->giTag == WP_LIGHTNING ||
-				  item->giTag == WP_PLASMAGUN ||
-				  item->giTag == WP_BFG ) ) {
-				return;
-			}
+	/*
+	 * Remove Plasma Gun, BFG and their ammunition.
+	 */
+	if( g_noPlasmaBFG.integer &&
+		(item->giType == IT_WEAPON ||
+		 item->giType == IT_AMMO) &&
+		(item->giTag == WP_PLASMAGUN ||
+		 item->giTag == WP_BFG) ) {
+		return;
+	}
 
-			if( item->giType == IT_AMMO &&
-				( item->giTag == WP_LIGHTNING ||
-				  item->giTag == WP_PLASMAGUN ||
-				  item->giTag == WP_BFG ) ) {
-				return;
-			}
-		}
+	/*
+	 * Remove Lightning Gun and its ammunition.
+	 */
+	if( g_noLightning.integer &&
+		(item->giType == IT_WEAPON ||
+		 item->giType == IT_AMMO) &&
+		item->giTag == WP_LIGHTNING ) {
+		return;
+	}
 
 	if( g_noGrenadeRocket.integer ) {
 		if( item->giType == IT_WEAPON &&

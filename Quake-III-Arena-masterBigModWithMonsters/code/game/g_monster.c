@@ -601,8 +601,11 @@ void G_MonsterInitDefinitions(void) {
 	
 	monsterWavesLoaded = qfalse;
 
-	if( g_monsterHunt.integer ==
-		MONSTER_HUNT_ONE_LIFE ) {
+	/*
+	 * Both Monster Hunt modes use monsterwaves.cfg.
+	 */
+	if( g_monsterHunt.integer !=
+		MONSTER_HUNT_OFF ) {
 		monsterWavesLoaded =
 			G_LoadMonsterWaveConfig(
 				"monsterwaves.cfg"
@@ -1107,8 +1110,25 @@ static void G_MonsterWaveComplete( void ) {
 	}
 
 	/*
-	 * Clearing the configured final wave is a
-	 * collective Monster Hunt victory.
+	 * Classic Monster Hunt repeats the final wave until
+	 * fraglimit or timelimit ends the match.
+	 */
+	if( g_monsterHunt.integer ==
+		MONSTER_HUNT_CLASSIC ) {
+		monsterWaveNextStart =
+			level.time +
+			monsterWaveDelay;
+
+		trap_SendServerCommand(
+			-1,
+			"print \"Monster Hunt: final wave restarting.\n\""
+		);
+
+		return;
+	}
+
+	/*
+	 * One Life ends after clearing the final wave.
 	 */
 	monsterWaveFinished = qtrue;
 
@@ -1221,8 +1241,8 @@ void G_MonsterRunFrame( void ) {
 	vec3_t origin;
 	int living;
 
-	if( g_monsterHunt.integer !=
-		MONSTER_HUNT_ONE_LIFE ) {
+	if( g_monsterHunt.integer ==
+		MONSTER_HUNT_OFF ) {
 		return;
 	}
 
@@ -1363,36 +1383,14 @@ void G_MonsterRunFrame( void ) {
 	}
 }
 
-qboolean G_MonsterTryReplaceItem(gentity_t *item) {
-
-	monsterDef_t *def;
-	
+qboolean G_MonsterTryReplaceItem(
+	gentity_t *item
+) {
 	/*
-	 * Item-bound monsters belong only to Classic mode.
-	 * One Life receives monsters exclusively from waves.
+	 * Both Monster Hunt modes now receive monsters
+	 * exclusively from the wave controller.
 	 */
-	if( g_monsterHunt.integer !=
-		MONSTER_HUNT_CLASSIC ) {
-		return qfalse;
-	}
-
-	if (!g_monsterDefLoaded[MONSTER_TYPE_MAGIC][0]) {
-		return qfalse;
-	}
-
-	if (!G_MonsterEligibleItem(item)) {
-		return qfalse;
-	}
-
-	monsterItemCounter++;
-
-	if (monsterItemCounter % 3 != 0) {
-		return qfalse;
-	}
-
-	def = &g_monsterDefs[MONSTER_TYPE_MAGIC][0];
-
-	return G_MonsterSpawnFromItem(item, def);
+	return qfalse;
 }
 
 static gentity_t *G_MonsterFindTarget(gentity_t *monster) {
@@ -1981,14 +1979,6 @@ static void G_MonsterFireProjectile(
 			direction
 		);
 	}
-	else if( projectile &&
-		!Q_stricmp(projectile, "blaster") ) {
-		bolt = fire_blaster(
-			monster,
-			start,
-			direction
-		);
-	}
 	else {
 		bolt = fire_plasma(
 			monster,
@@ -2088,13 +2078,6 @@ static void G_MonsterStartRangedAttack(
 		MONSTER_STATE_RANGED,
 		variant
 	);
-
-	G_MonsterSound(
-		monster,
-		def,
-		"ranged",
-		variant
-	);
 }
 
 static void G_MonsterStartMeleeAttack(
@@ -2137,17 +2120,6 @@ static void G_MonsterStartMeleeAttack(
 	G_MonsterSetAnimation(
 		monster,
 		MONSTER_STATE_MELEE,
-		variant
-	);
-
-	/*
-	 * Melee temporarily reuses the monster's
-	 * ranged attack sound group.
-	 */
-	G_MonsterSound(
-		monster,
-		def,
-		"ranged",
 		variant
 	);
 }
@@ -2218,6 +2190,13 @@ static void G_MonsterRunAttack(
 		MONSTER_STATE_MELEE;
 
 	if( meleeAttack ) {
+		G_MonsterSound(
+			monster,
+			def,
+			"melee",
+			monster->monsterAnimationVariant
+		);
+
 		G_MonsterFireProjectile(
 			monster,
 			monster->enemy,
@@ -2229,6 +2208,13 @@ static void G_MonsterRunAttack(
 		);
 	}
 	else {
+		G_MonsterSound(
+			monster,
+			def,
+			"ranged",
+			monster->monsterAnimationVariant
+		);
+
 		G_MonsterFireProjectile(
 			monster,
 			monster->enemy,
@@ -2374,11 +2360,23 @@ static void G_MonsterThink(gentity_t *monster) {
 
 	target = G_MonsterFindTarget(monster);
 
-		if (target) {
-			G_MonsterFaceTarget(
-				monster,
-				target
-			);
+	/*
+	 * During an attack, keep facing the target selected
+	 * at the beginning of the attack.
+	 */
+	if ((monster->monsterAnimation ==
+			MONSTER_STATE_RANGED ||
+		 monster->monsterAnimation ==
+			MONSTER_STATE_MELEE) &&
+		G_MonsterValidTarget(monster->enemy)) {
+		target = monster->enemy;
+	}
+
+	if (target) {
+		G_MonsterFaceTarget(
+			monster,
+			target
+		);
 
 			G_MonsterMove(
 				monster,
@@ -2618,7 +2616,9 @@ static void G_MonsterDie(
 		animation->frameLerp;
 
 	self->monsterDeathTime =
-		level.time + duration + 1000;
+		level.time +
+		duration +
+		def->corpseTime;
 
 	/*
 	 * Monster Hunt score is awarded only for a monster
