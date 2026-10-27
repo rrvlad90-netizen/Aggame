@@ -208,6 +208,10 @@ static const char *cg_monsterConfigFiles[] = {
 	"models/monsters/HereticDisciple/monster.cfg",
 	"models/monsters/DarkKnight/monster.cfg",
 	"models/monsters/LionGuy/monster.cfg",
+	"models/monsters/D3Imp/monster.cfg",
+	"models/monsters/Gross/monster.cfg",
+	"models/monsters/Mancubus/monster.cfg",
+	"models/monsters/MongGrunt/monster.cfg",
 	NULL
 };
 
@@ -802,6 +806,16 @@ static void CG_Missile( centity_t *cent ) {
 	if ( s1->weapon > WP_NUM_WEAPONS ) {
 		s1->weapon = 0;
 	}
+	/*
+	 * Lazy weapon registration: monster projectiles may
+	 * arrive for a weapon the local player never picked up
+	 */
+	if ( s1->weapon > WP_NONE &&
+		s1->weapon < WP_NUM_WEAPONS &&
+		!cg_weapons[s1->weapon].missileModel ) {
+		CG_RegisterWeapon( s1->weapon );
+	}
+
 	weapon = &cg_weapons[s1->weapon];
 
 	// calculate the axis

@@ -103,6 +103,10 @@ static const char *monsterConfigFiles[] = {
 	"models/monsters/HereticDisciple/monster.cfg",
 	"models/monsters/DarkKnight/monster.cfg",
 	"models/monsters/LionGuy/monster.cfg",
+	"models/monsters/D3Imp/monster.cfg",
+	"models/monsters/Gross/monster.cfg",
+	"models/monsters/Mancubus/monster.cfg",
+	"models/monsters/MongGrunt/monster.cfg",
 	NULL
 };
 
@@ -1921,6 +1925,138 @@ static qboolean G_MonsterValidTarget(gentity_t *target) {
 	return qtrue;
 }
 
+/*
+ * Hitscan-based monster attack with tracer.
+ * weaponType:
+ *   "hitscan"  - machinegun-like, 1 pellet, small spread
+ *   "rifle"    - accurate rifle, 1 pellet, no spread
+ *   "shotgun"  - shotgun, multiple pellets, wide spread
+ *
+ * damage is per pellet (for shotgun, total = damage * pellets).
+ */
+static void G_MonsterHitscan(
+	gentity_t *monster,
+	gentity_t *target,
+	monsterDef_t *def,
+	const char *weaponType,
+	int damage,
+	int splashDamage,
+	int splashRadius
+) {
+	vec3_t start;
+	vec3_t forward;
+	vec3_t right;
+	vec3_t up;
+	int pellets;
+	float spread;
+	int mod;
+	int i;
+
+	VectorCopy( monster->r.currentOrigin, start );
+
+	if( def->movementType == MONSTER_MOVEMENT_WALKING ) {
+		start[2] += 36;
+	}
+	else {
+		start[2] += 8;
+	}
+
+	VectorSubtract(
+		target->r.currentOrigin,
+		start,
+		forward
+	);
+
+	VectorNormalize( forward );
+
+	PerpendicularVector( right, forward );
+	CrossProduct( forward, right, up );
+
+	if( !Q_stricmp( weaponType, "shotgun" ) ) {
+		pellets = 11;
+		spread = 0.15f;
+		mod = MOD_SHOTGUN;
+	}
+	else if( !Q_stricmp( weaponType, "rifle" ) ) {
+		pellets = 1;
+		spread = 0.0f;
+		mod = MOD_MACHINEGUN;
+	}
+	else {
+		/* "hitscan" / machinegun */
+		pellets = 1;
+		spread = 0.02f;
+		mod = MOD_MACHINEGUN;
+	}
+
+	for( i = 0; i < pellets; i++ ) {
+		vec3_t dir;
+		vec3_t end;
+		trace_t trace;
+
+		VectorCopy( forward, dir );
+
+		if( spread > 0.0f ) {
+			VectorMA( dir, crandom() * spread, right, dir );
+			VectorMA( dir, crandom() * spread, up, dir );
+			VectorNormalize( dir );
+		}
+
+		VectorMA( start, 8192.0f, dir, end );
+
+		trap_Trace(
+			&trace,
+			start,
+			NULL,
+			NULL,
+			end,
+			monster->s.number,
+			MASK_SHOT
+		);
+
+		/* Damage only if we actually hit a player. */
+		if( trace.fraction < 1.0f &&
+			trace.entityNum < MAX_CLIENTS ) {
+			gentity_t *hit = &g_entities[trace.entityNum];
+
+			if( hit->client && hit->health > 0 ) {
+				G_Damage(
+					hit,
+					monster,
+					monster,
+					NULL,
+					trace.endpos,
+					damage,
+					0,
+					mod
+				);
+			}
+		}
+
+		/* Splash (usually 0 for hitscan; keep for flexibility). */
+		if( splashDamage > 0 && splashRadius > 0 ) {
+			G_RadiusDamage(
+				trace.endpos,
+				monster,
+				splashDamage,
+				splashRadius,
+				monster,
+				mod
+			);
+		}
+	}
+
+	/* Mark progress for wave relocation. */
+	if( monster->monsterWaveSpawn ) {
+		monster->monsterProgressTime = level.time;
+
+		VectorCopy(
+			monster->r.currentOrigin,
+			monster->monsterProgressOrigin
+		);
+	}
+}
+
 static void G_MonsterFireProjectile(
 	gentity_t *monster,
 	gentity_t *target,
@@ -1934,6 +2070,27 @@ static void G_MonsterFireProjectile(
 	vec3_t start;
 	vec3_t targetOrigin;
 	vec3_t direction;
+
+	/*
+	 * Hitscan branch: instant hit with tracer.
+	 * projectile can be "hitscan", "rifle" or "shotgun".
+	 */
+	if( projectile &&
+		( !Q_stricmp(projectile, "hitscan") ||
+		  !Q_stricmp(projectile, "rifle") ||
+		  !Q_stricmp(projectile, "shotgun") ) ) {
+		G_MonsterHitscan(
+			monster,
+			target,
+			def,
+			projectile,
+			damage,
+			splashDamage,
+			splashRadius
+		);
+
+		return;
+	}
 
 	VectorCopy(
 		monster->r.currentOrigin,
@@ -1974,6 +2131,23 @@ static void G_MonsterFireProjectile(
 	if( projectile &&
 		!Q_stricmp(projectile, "rocket") ) {
 		bolt = fire_rocket(
+			monster,
+			start,
+			direction
+		);
+	}
+	else if( projectile &&
+		!Q_stricmp(projectile, "grenade") ) {
+		/*
+		 * Ballistic arc: add elevation so the grenade
+		 * reaches a ground target instead of hitting
+		 * the floor immediately.
+		 * fire_grenade itself sets trType = TR_GRAVITY.
+		 */
+		direction[2] += 0.35f;
+		VectorNormalize( direction );
+
+		bolt = fire_grenade(
 			monster,
 			start,
 			direction
@@ -2197,15 +2371,57 @@ static void G_MonsterRunAttack(
 			monster->monsterAnimationVariant
 		);
 
-		G_MonsterFireProjectile(
-			monster,
-			monster->enemy,
-			def,
-			def->meleeProjectile,
-			def->meleeDamage,
-			0,
-			0
-		);
+		/*
+		 * meleeProjectile "none" (parser turns it into an
+		 * empty string) enables instant melee via G_Damage.
+		 * Any other value keeps the old projectile-based
+		 * melee behavior (plasma / rocket).
+		 */
+		if( def->meleeProjectile[0] ) {
+			G_MonsterFireProjectile(
+				monster,
+				monster->enemy,
+				def,
+				def->meleeProjectile,
+				def->meleeDamage,
+				0,
+				0
+			);
+		}
+		else {
+			vec3_t delta;
+			float dist;
+
+			VectorSubtract(
+				monster->enemy->r.currentOrigin,
+				monster->r.currentOrigin,
+				delta
+			);
+
+			dist = VectorLength( delta );
+
+			/*
+			 * 1.25f tolerance: during the attack windup the
+			 * target may have moved slightly; still allow the
+			 * hit if it is roughly within melee range.
+			 */
+			if( dist <= def->meleeRange * 1.25f &&
+				G_MonsterCanSeeTarget(
+					monster,
+					monster->enemy
+				) ) {
+				G_Damage(
+					monster->enemy,
+					monster,
+					monster,
+					NULL,
+					monster->r.currentOrigin,
+					def->meleeDamage,
+					0,
+					MOD_CRUSH
+				);
+			}
+		}
 	}
 	else {
 		G_MonsterSound(
@@ -2514,6 +2730,19 @@ static void G_MonsterPain(
 		[self->monsterType]
 		[self->monsterSlot];
 			
+
+	/*
+	 * painChance: probability (0..100) that a hit actually
+	 * triggers the pain animation. 100 keeps the old behavior.
+	 */
+	if( def->painChance <= 0 ) {
+		return;
+	}
+
+	if( def->painChance < 100 &&
+		(rand() % 100) >= def->painChance ) {
+		return;
+	}
 
 	variant = rand() % MAX_MONSTER_VARIANTS;
 

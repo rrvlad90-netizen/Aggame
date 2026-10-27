@@ -235,6 +235,7 @@ qboolean BG_ParseMonsterConfig(
 	def->scoreValue = 1;
 	def->respawnTime = 20000;
 	def->corpseTime = 3000;
+	def->painChance = 100;
 	def->speed = 160.0f;
 	def->hoverHeight = 48.0f;
 	def->attackCooldown = 1800;
@@ -402,6 +403,12 @@ qboolean BG_ParseMonsterConfig(
 				&def->corpseTime,
 				error,
 				errorSize
+			)) return qfalse;
+		}
+		else if (!Q_stricmp(key, "painChance")) {
+			if (!MonsterReadInt(
+				&text, &def->painChance,
+				error, errorSize
 			)) return qfalse;
 		}
 		else if (!Q_stricmp(key, "speed")) {
@@ -674,6 +681,13 @@ qboolean BG_ParseMonsterConfig(
 	
 	if (def->corpseTime < 0) {
 		def->corpseTime = 0;
+	}
+	
+	if (def->painChance < 0) {
+		def->painChance = 0;
+	}
+	if (def->painChance > 100) {
+		def->painChance = 100;
 	}
 
 	return qtrue;

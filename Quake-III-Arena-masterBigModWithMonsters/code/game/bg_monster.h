@@ -73,6 +73,7 @@ typedef struct {
 		
 	int respawnTime;
 	int corpseTime;
+	int painChance;
 
 	animation_t idleAnimation;
 	animation_t moveAnimation;
