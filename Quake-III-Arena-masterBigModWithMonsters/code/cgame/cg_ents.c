@@ -216,7 +216,6 @@ static const char *cg_monsterConfigFiles[] = {
 	"models/monsters/StrongF/monster.cfg",
 	"models/monsters/Gunner/monster.cfg",	
 	"models/monsters/MongGrunt/monster.cfg",
-	"models/monsters/MongGrunt/monster.cfg",
 	"models/monsters/MongGruntShotgun/monster.cfg",
 	"models/monsters/MongGruntRifle/monster.cfg",
 	"models/monsters/Faust/monster.cfg",
