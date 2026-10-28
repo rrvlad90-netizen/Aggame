@@ -251,6 +251,8 @@ qboolean BG_ParseMonsterConfig(
 		sizeof(def->meleeProjectile)
 	);	
 	
+	def->deathExplosion[0] = '\0';
+	
 	def->burstCount = 1;
 	def->burstInterval = 120;
 	def->talkMinDelay = 5000;
@@ -322,6 +324,16 @@ qboolean BG_ParseMonsterConfig(
 			if (!MonsterReadString(
 				&text,
 				def->meleeProjectile,
+				MAX_QPATH,
+				error,
+				errorSize
+			)) return qfalse;
+		}
+		
+		else if (!Q_stricmp(key, "deathExplosion")) {
+			if (!MonsterReadString(
+				&text,
+				def->deathExplosion,
 				MAX_QPATH,
 				error,
 				errorSize

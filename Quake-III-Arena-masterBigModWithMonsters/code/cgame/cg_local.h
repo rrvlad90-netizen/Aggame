@@ -3,7 +3,7 @@
 Copyright (C) 1999-2005 Id Software, Inc.
 
 This file is part of Quake III Arena source code.
-
+CG_InitMonsterShaders
 Quake III Arena source code is free software; you can redistribute it
 and/or modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of the License,
@@ -1369,6 +1369,8 @@ void CG_GrappleTrail( centity_t *ent, const weaponInfo_t *wi );
 void CG_AddViewWeapon (playerState_t *ps);
 void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent, int team );
 void CG_DrawWeaponSelect( void );
+
+void CG_BlasterTracer( vec3_t source, vec3_t dest ); //enemy blaster tracer
 
 void CG_OutOfAmmoChange( void );	// should this be in pmove?
 

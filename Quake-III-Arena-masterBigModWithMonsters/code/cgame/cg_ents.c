@@ -210,11 +210,11 @@ static const char *cg_monsterConfigFiles[] = {
 	"models/monsters/LionGuy/monster.cfg",
 	"models/monsters/D3Imp/monster.cfg",
 	"models/monsters/Gross/monster.cfg",
-	"models/monsters/Mancubus/monster.cfg",
-	"models/monsters/Mancubus2/monster.cfg",
-	"models/monsters/Mancubus3/monster.cfg",
-	"models/monsters/Mancubus4/monster.cfg",
-	"models/monsters/Mancubus5/monster.cfg",	
+	"models/monsters/Flyer/monster.cfg",
+	"models/monsters/Hover/monster.cfg",
+	"models/monsters/FlyingGuard/monster.cfg",
+	"models/monsters/StrongF/monster.cfg",
+	"models/monsters/Gunner/monster.cfg",	
 	"models/monsters/MongGrunt/monster.cfg",
 	"models/monsters/MongGrunt/monster.cfg",
 	"models/monsters/MongGruntShotgun/monster.cfg",
@@ -224,13 +224,13 @@ static const char *cg_monsterConfigFiles[] = {
 	"models/monsters/Mincer/monster.cfg",
 	"models/monsters/Forgotten/monster.cfg",
 	"models/monsters/Ghost/monster.cfg",
-	"models/monsters/Ghost2/monster.cfg",
-	"models/monsters/Ghost3/monster.cfg",
-	"models/monsters/MongGrunt2/monster.cfg",
-	"models/monsters/MongGruntShotgun2/monster.cfg",
-	"models/monsters/MongGruntRifle2/monster.cfg",
-	"models/monsters/Stratos2/monster.cfg",
-	"models/monsters/Faust2/monster.cfg",	
+	"models/monsters/Mancubus/monster.cfg",
+	"models/monsters/Frostatronach/monster.cfg",
+	"models/monsters/Trooper/monster.cfg",
+	"models/monsters/TrooperShotgun/monster.cfg",
+	"models/monsters/TrooperBlaster/monster.cfg",
+	"models/monsters/TrooperFlyer/monster.cfg",
+	"models/monsters/TrooperRocket/monster.cfg",	
 	NULL
 };
 
@@ -302,11 +302,6 @@ static void CG_LoadMonsterShader(
 		!Q_stricmp(def.shader, "none") ) {
 		return;
 	}
-
-	cg_monsterShaders
-		[def.monsterType]
-		[def.monsterSlot] =
-		trap_R_RegisterShader(def.shader);
 		
 	cg_monsterShaders[def.monsterType][def.monsterSlot] =
 		trap_R_RegisterShader(def.shader);
@@ -348,10 +343,10 @@ static void CG_Monster( centity_t *cent ) {
 		cent->currentState.generic1;
 
 	monsterType =
-		packedDefinition & 255;
+		packedDefinition / MAX_MONSTERS_PER_TYPE;
 
 	monsterSlot =
-		(packedDefinition >> 8) & 255;
+		packedDefinition % MAX_MONSTERS_PER_TYPE;
 
 	customShader = 0;
 

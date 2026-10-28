@@ -1035,6 +1035,11 @@ static void CG_RegisterGraphics( void ) {
 		}
 	}
 
+	CG_RegisterWeapon( WP_ROCKET_LAUNCHER );
+	CG_RegisterWeapon( WP_GRENADE_LAUNCHER );
+	CG_RegisterWeapon( WP_PLASMAGUN );
+	CG_RegisterWeapon( WP_BFG );
+
 	// wall marks
 	cgs.media.bulletMarkShader = trap_R_RegisterShader( "gfx/damage/bullet_mrk" );
 	cgs.media.burnMarkShader = trap_R_RegisterShader( "gfx/damage/burn_med_mrk" );

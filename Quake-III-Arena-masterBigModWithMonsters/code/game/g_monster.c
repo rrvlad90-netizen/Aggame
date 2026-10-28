@@ -105,26 +105,27 @@ static const char *monsterConfigFiles[] = {
 	"models/monsters/LionGuy/monster.cfg",
 	"models/monsters/D3Imp/monster.cfg",
 	"models/monsters/Gross/monster.cfg",
-	"models/monsters/Mancubus/monster.cfg",
-	"models/monsters/Mancubus2/monster.cfg",
-	"models/monsters/Mancubus3/monster.cfg",
-	"models/monsters/Mancubus4/monster.cfg",
-	"models/monsters/Mancubus5/monster.cfg",	
+	"models/monsters/Flyer/monster.cfg",
+	"models/monsters/Hover/monster.cfg",
+	"models/monsters/FlyingGuard/monster.cfg",
+	"models/monsters/StrongF/monster.cfg",
+	"models/monsters/Gunner/monster.cfg",	
+	"models/monsters/MongGrunt/monster.cfg",
 	"models/monsters/MongGrunt/monster.cfg",
 	"models/monsters/MongGruntShotgun/monster.cfg",
 	"models/monsters/MongGruntRifle/monster.cfg",
 	"models/monsters/Faust/monster.cfg",
-	"models/monsters/Stratos/monster.cfg",	
+	"models/monsters/Stratos/monster.cfg",
 	"models/monsters/Mincer/monster.cfg",
 	"models/monsters/Forgotten/monster.cfg",
 	"models/monsters/Ghost/monster.cfg",
-	"models/monsters/Ghost2/monster.cfg",
-	"models/monsters/Ghost3/monster.cfg",
-	"models/monsters/MongGrunt2/monster.cfg",
-	"models/monsters/MongGruntShotgun2/monster.cfg",
-	"models/monsters/MongGruntRifle2/monster.cfg",
-	"models/monsters/Stratos2/monster.cfg",
-	"models/monsters/Faust2/monster.cfg",	
+	"models/monsters/Mancubus/monster.cfg",
+	"models/monsters/Frostatronach/monster.cfg",
+	"models/monsters/Trooper/monster.cfg",
+	"models/monsters/TrooperShotgun/monster.cfg",
+	"models/monsters/TrooperBlaster/monster.cfg",
+	"models/monsters/TrooperFlyer/monster.cfg",
+	"models/monsters/TrooperRocket/monster.cfg",	
 	NULL
 };
 
@@ -740,11 +741,12 @@ static qboolean G_MonsterSpawnAtOrigin(
 		
 	/*
 	 * Send monster definition identity to cgame.
-	 * Low byte: type, high byte: slot.
+	 * Packed into a single byte: type * MAX_MONSTERS_PER_TYPE + slot.
+	 * (entityState generic1 is only 8 bits on the network.)
 	 */
 	monster->s.generic1 =
-		(def->monsterType & 255) |
-		((def->monsterSlot & 255) << 8);	
+		def->monsterType * MAX_MONSTERS_PER_TYPE +
+		def->monsterSlot;	
 
 	monster->monsterItem = item;
 	monster->monsterWaveSpawn = waveSpawn;
@@ -2127,6 +2129,16 @@ static void G_MonsterHitscan(
 		spread = 0.0f;
 		mod = MOD_LIGHTNING;
 	}
+	else if( !Q_stricmp( weaponType, "blaster" ) ) {
+		/*
+		 * Enemy blaster: hitscan like machinegun, but
+		 * a red Star Wars tracer is drawn on the client.
+		 * MOD_BLASTER doesn't exist, use MOD_MACHINEGUN.
+		 */
+		pellets = 1;
+		spread = 0.02f;
+		mod = MOD_MACHINEGUN;
+	}
 	else {
 		/* "hitscan" / machinegun */
 		pellets = 1;
@@ -2164,6 +2176,23 @@ static void G_MonsterHitscan(
 			monster->s.number,
 			MASK_SHOT
 		);
+		
+		/*
+		 * Enemy blaster tracer: spawn a temp entity
+		 * that the client draws as a red Star Wars bolt.
+		 * origin2 = muzzle (start), pos.trBase = impact (trace.endpos).
+		 */
+		if( !Q_stricmp( weaponType, "blaster" ) ) {
+			gentity_t *tent;
+			vec3_t snappedEnd;
+
+			VectorCopy( trace.endpos, snappedEnd );
+			SnapVector( snappedEnd );
+
+			tent = G_TempEntity( snappedEnd, EV_ENEMY_BLASTER_TRACER );
+			VectorCopy( start, tent->s.origin2 );
+			tent->s.eventParm = DirToByte( trace.plane.normal );
+		}
 
 		/* Damage only if we actually hit a player. */
 		if( trace.fraction < 1.0f &&
@@ -2230,7 +2259,8 @@ static void G_MonsterFireProjectile(
 		( !Q_stricmp(projectile, "hitscan") ||
 		  !Q_stricmp(projectile, "rifle") ||
 		  !Q_stricmp(projectile, "shotgun") ||
-		  !Q_stricmp(projectile, "lightning") ) ) {
+		  !Q_stricmp(projectile, "lightning") ||
+		  !Q_stricmp(projectile, "blaster") ) ) {
 		G_MonsterHitscan(
 			monster,
 			target,
@@ -2984,6 +3014,41 @@ static void G_MonsterDie(
 		MONSTER_STATE_DEATH,
 		variant
 	);
+
+	/*
+	 * Optional death explosion, configured per-monster
+	 * via 'deathExplosion' in monster.cfg.
+	 * Supported values: rocket, grenade, plasma, bfg, none.
+	 */
+	if( def->deathExplosion[0] ) {
+		int explosionWeapon = WP_NONE;
+
+		if( !Q_stricmp( def->deathExplosion, "rocket" ) ) {
+			explosionWeapon = WP_ROCKET_LAUNCHER;
+		}
+		else if( !Q_stricmp( def->deathExplosion, "grenade" ) ) {
+			explosionWeapon = WP_GRENADE_LAUNCHER;
+		}
+		else if( !Q_stricmp( def->deathExplosion, "plasma" ) ) {
+			explosionWeapon = WP_PLASMAGUN;
+		}
+		else if( !Q_stricmp( def->deathExplosion, "bfg" ) ) {
+			explosionWeapon = WP_BFG;
+		}
+
+		if( explosionWeapon != WP_NONE ) {
+			gentity_t *tent;
+			vec3_t snappedOrigin;
+
+			VectorCopy( self->r.currentOrigin, snappedOrigin );
+			SnapVector( snappedOrigin );
+
+			tent = G_TempEntity( snappedOrigin, EV_MISSILE_HIT );
+			tent->s.weapon = explosionWeapon;
+			tent->s.eventParm = DirToByte( tv( 0, 0, 1 ) );
+			tent->s.otherEntityNum = self->s.number;
+		}
+	}
 
 	G_MonsterSound(
 		self,

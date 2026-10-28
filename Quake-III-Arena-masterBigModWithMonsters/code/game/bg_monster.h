@@ -74,6 +74,7 @@ typedef struct {
 	int respawnTime;
 	int corpseTime;
 	int painChance;
+	char deathExplosion[MAX_QPATH];
 
 	animation_t idleAnimation;
 	animation_t moveAnimation;

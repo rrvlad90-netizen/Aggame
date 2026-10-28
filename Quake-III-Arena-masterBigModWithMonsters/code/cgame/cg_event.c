@@ -904,12 +904,20 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 	//
 	case EV_MISSILE_HIT:
 		DEBUGNAME("EV_MISSILE_HIT");
+		if ( es->weapon > WP_NONE && es->weapon < WP_NUM_WEAPONS &&
+			es->weapon != WP_BLASTER ) {
+			CG_RegisterWeapon( es->weapon );
+		}
 		ByteToDir( es->eventParm, dir );
 		CG_MissileHitPlayer( es->weapon, position, dir, es->otherEntityNum );
 		break;
 
 	case EV_MISSILE_MISS:
 		DEBUGNAME("EV_MISSILE_MISS");
+		if ( es->weapon > WP_NONE && es->weapon < WP_NUM_WEAPONS &&
+			es->weapon != WP_BLASTER ) {
+			CG_RegisterWeapon( es->weapon );
+		}
 		ByteToDir( es->eventParm, dir );
 		CG_MissileHitWall( es->weapon, 0, position, dir, IMPACTSOUND_DEFAULT );
 		break;
@@ -941,6 +949,11 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		DEBUGNAME("EV_BULLET_HIT_FLESH");
 		CG_Bullet( es->pos.trBase, es->otherEntityNum, dir, qtrue, es->eventParm );
 		break;
+		
+	case EV_ENEMY_BLASTER_TRACER:
+		DEBUGNAME("EV_ENEMY_BLASTER_TRACER");
+		CG_BlasterTracer( es->origin2, es->pos.trBase );
+		break;	
 
 	case EV_SHOTGUN:
 		DEBUGNAME("EV_SHOTGUN");

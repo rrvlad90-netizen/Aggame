@@ -2263,7 +2263,8 @@ void CG_Tracer( vec3_t source, vec3_t dest ) {
 CG_BlasterTracer
 =================
 */
-static void CG_BlasterTracer( vec3_t source, vec3_t dest ) {
+//static void CG_BlasterTracer( vec3_t source, vec3_t dest ) {
+void CG_BlasterTracer( vec3_t source, vec3_t dest ) {	
 	vec3_t		forward;
 	vec3_t		right;
 	polyVert_t	verts[4];
@@ -2279,8 +2280,8 @@ static void CG_BlasterTracer( vec3_t source, vec3_t dest ) {
 	int			i;
 
 	if( !blasterShader ) {
-		blasterShader =
-			trap_R_RegisterShader( "bigmod/blasterTrail" );
+		blasterShader = trap_R_RegisterShader( "bigmod/blasterTrail" );
+			//trap_R_RegisterShader( "gfx/misc/tracer" );
 	}
 
 	VectorSubtract( dest, source, forward );
