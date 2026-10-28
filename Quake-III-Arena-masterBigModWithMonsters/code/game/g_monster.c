@@ -2881,6 +2881,41 @@ static int G_MonsterTalkDelay(monsterDef_t *def) {
 	return def->talkMinDelay + rand() % (range + 1);
 }
 
+/*
+ * Standard flesh-hit blood spray, if the monster definition
+ * has blood enabled (noblood/blood 1 in monster.cfg).
+ */
+static void G_MonsterBleed(gentity_t *monster) {
+	monsterDef_t *def;
+	gentity_t *tent;
+	vec3_t origin;
+	int i;
+
+	def = &g_monsterDefs
+		[monster->monsterType]
+		[monster->monsterSlot];
+
+	if (!def->blood) {
+		return;
+	}
+
+	for (i = 0; i < 3; i++) {
+		origin[i] =
+			monster->r.currentOrigin[i] +
+			crandom() *
+			(monster->r.maxs[i] - monster->r.mins[i]) *
+			0.25f;
+	}
+
+	/* Lift blood to chest level. */
+	origin[2] +=
+		(monster->r.maxs[2] - monster->r.mins[2]) * 0.5f;
+
+	tent = G_TempEntity(origin, EV_BULLET_HIT_FLESH);
+	tent->s.eventParm = monster->s.number;
+	tent->s.otherEntityNum = ENTITYNUM_NONE;
+}
+
 static void G_MonsterPain(
 	gentity_t *self,
 	gentity_t *attacker,
@@ -2892,6 +2927,7 @@ static void G_MonsterPain(
 	if (self->monsterDead) {
 		return;
 	}
+	G_MonsterBleed(self);
 	
 	if( self->monsterWaveSpawn ) {
 	self->monsterProgressTime =
@@ -2994,6 +3030,7 @@ static void G_MonsterDie(
 
 	variant = rand() % MAX_MONSTER_VARIANTS;
 
+	G_MonsterBleed(self);
 	self->monsterDead = qtrue;
 	if( self->monsterWaveSpawn ) {
 		monsterWaveLastProgress = level.time;

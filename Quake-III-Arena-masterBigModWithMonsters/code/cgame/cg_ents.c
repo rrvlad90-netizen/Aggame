@@ -204,6 +204,66 @@ static qhandle_t cg_monsterShaders
 	[MONSTER_TYPE_RANDOM]
 	[MAX_MONSTERS_PER_TYPE];
 
+static int cg_monsterShadow
+	[MONSTER_TYPE_RANDOM]
+	[MAX_MONSTERS_PER_TYPE];
+
+#define MONSTER_SHADOW_DISTANCE 128
+
+/*
+ * Blob shadow on the floor under a monster.
+ * size: 1 small, 2 medium, 3 larger, 4 large
+ */
+static void CG_MonsterShadow( centity_t *cent, int size ) {
+	static float radii[5] = { 0, 14, 24, 36, 52 };
+	vec3_t end;
+	vec3_t mins = { -15, -15, 0 };
+	vec3_t maxs = { 15, 15, 2 };
+	trace_t trace;
+	float alpha;
+
+	if( size <= 0 || !cg_shadows.integer ) {
+		return;
+	}
+
+	if( size > 4 ) {
+		size = 4;
+	}
+
+	VectorCopy( cent->lerpOrigin, end );
+	end[2] -= MONSTER_SHADOW_DISTANCE;
+
+	trap_CM_BoxTrace(
+		&trace,
+		cent->lerpOrigin,
+		end,
+		mins,
+		maxs,
+		0,
+		MASK_PLAYERSOLID
+	);
+
+	if( trace.fraction == 1.0f ||
+		trace.startsolid ||
+		trace.allsolid ) {
+		return;
+	}
+
+	/* fade out with height */
+	alpha = 1.0f - trace.fraction;
+
+	CG_ImpactMark(
+		cgs.media.shadowMarkShader,
+		trace.endpos,
+		trace.plane.normal,
+		cent->lerpAngles[YAW],
+		alpha, alpha, alpha, 1,
+		qfalse,
+		radii[size],
+		qtrue
+	);
+}
+
 static const char *cg_monsterConfigFiles[] = {
 	"models/monsters/HereticDisciple/monster.cfg",
 	"models/monsters/DarkKnight/monster.cfg",
@@ -297,6 +357,10 @@ static void CG_LoadMonsterShader(
 		return;
 	}
 
+	cg_monsterShadow
+		[def.monsterType]
+		[def.monsterSlot] = def.shadow;
+
 	if( !def.shader[0] ||
 		!Q_stricmp(def.shader, "none") ) {
 		return;
@@ -313,6 +377,12 @@ void CG_InitMonsterShaders( void ) {
 		cg_monsterShaders,
 		0,
 		sizeof(cg_monsterShaders)
+	);
+
+	memset(
+		cg_monsterShadow,
+		0,
+		sizeof(cg_monsterShadow)
 	);
 
 	for( i = 0;
@@ -358,6 +428,13 @@ static void CG_Monster( centity_t *cent ) {
 			cg_monsterShaders
 				[monsterType]
 				[monsterSlot];
+
+		CG_MonsterShadow(
+			cent,
+			cg_monsterShadow
+				[monsterType]
+				[monsterSlot]
+		);
 	}
 
 	models[0] =

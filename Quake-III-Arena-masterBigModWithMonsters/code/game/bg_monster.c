@@ -340,6 +340,19 @@ qboolean BG_ParseMonsterConfig(
 			)) return qfalse;
 		}
 		
+		else if (!Q_stricmp(key, "noblood") ||
+			!Q_stricmp(key, "blood")) {
+			if (!MonsterReadInt(
+				&text, &def->blood,
+				error, errorSize
+			)) return qfalse;
+		}
+		else if (!Q_stricmp(key, "mshadow")) {
+			if (!MonsterReadInt(
+				&text, &def->shadow,
+				error, errorSize
+			)) return qfalse;
+		}
 		else if (!Q_stricmp(key, "monsterType")) {
 			if (!MonsterReadToken(
 				&text, value, sizeof(value),
@@ -700,6 +713,15 @@ qboolean BG_ParseMonsterConfig(
 	}
 	if (def->painChance > 100) {
 		def->painChance = 100;
+	}
+
+	def->blood = (def->blood != 0);
+
+	if (def->shadow < 0) {
+		def->shadow = 0;
+	}
+	if (def->shadow > 4) {
+		def->shadow = 4;
 	}
 
 	return qtrue;

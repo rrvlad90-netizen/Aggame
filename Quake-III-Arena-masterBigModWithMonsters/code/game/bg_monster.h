@@ -75,6 +75,8 @@ typedef struct {
 	int corpseTime;
 	int painChance;
 	char deathExplosion[MAX_QPATH];
+	int blood;		/* 0 = no blood, 1 = bleeds */
+	int shadow;		/* 0 = none, 1..4 = small..large */
 
 	animation_t idleAnimation;
 	animation_t moveAnimation;
