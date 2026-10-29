@@ -48,6 +48,7 @@ typedef struct {
 	monsterWaveEntry_t entries[MAX_MONSTERS_IN_WAVE];
 	int	numEntries;
 	qboolean repeat;
+	int maxActive;   /* 0 = use global monsterWaveMaxActive */
 } monsterWaveDef_t;
 
 static monsterWaveDef_t monsterWaves[MAX_MONSTER_WAVES];
@@ -375,6 +376,24 @@ static qboolean G_MonsterWaveParseWave(
 			continue;
 		}
 
+	if( !Q_stricmp(token, "maxActive") ) {
+				if( !G_MonsterWaveReadInt(
+					text,
+					&wave->maxActive
+				) ) {
+					return qfalse;
+				}
+
+				if( wave->maxActive < 0 ) {
+					wave->maxActive = 0;
+				}
+				else if( wave->maxActive > 64 ) {
+					wave->maxActive = 64;
+				}
+
+				continue;
+			}
+
 		G_Printf(
 			S_COLOR_RED
 			"Monster waves: unknown key %s in wave %i\n",
@@ -684,13 +703,12 @@ static qboolean G_MonsterSpawnAtOrigin(
 	gentity_t *monster;
 	vec3_t origin;
 
-	if( waveSpawn ) {
-		if( monsterActiveCount >=
-			monsterWaveMaxActive ) {
-			return qfalse;
-		}
-	}
-	else if( monsterActiveCount >= 8 ) {
+	/*
+	 * Wave limit is enforced by G_MonsterRunFrame
+	 * via wave->maxActive (per-wave) or the global
+	 * monsterWaveMaxActive fallback.
+	 */
+	if( !waveSpawn && monsterActiveCount >= 8 ) {
 		return qfalse;
 	}
 
@@ -1364,8 +1382,14 @@ void G_MonsterRunFrame( void ) {
 		return;
 	}
 
-	if( living >= monsterWaveMaxActive ) {
-		return;
+	{
+		int waveLimit = wave->maxActive > 0
+			? wave->maxActive
+			: monsterWaveMaxActive;
+
+		if( living >= waveLimit ) {
+			return;
+		}
 	}
 
 	if( level.time < monsterWaveNextSpawn ) {
