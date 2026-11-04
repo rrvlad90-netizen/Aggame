@@ -1,0 +1,529 @@
+ACTOR cl1 : StrictRoutePawn replaces ZombieMan
+{
+  Health 80 //90 bilo
+  Radius 18
+  Height 44   //56!! bilo
+  Speed 9   //11
+  PainChance 255
+  Monster
+  +SLIDESONWALLS
+  +FLOORCLIP
+  +FRIENDLY
+  //+BOSS
+  +NOBLOOD
+  +NOPAIN
+  Mass 9999
+  Obituary "You was shooted by republic clone"
+  
+	Damagefactor "BlueBolt", 0
+	//Damagefactor "BlueBolt2", 0
+	DamageFactor "VehicleBlueBolt", 0
+	
+	Damagefactor "BlueBolt3", 0
+  //DamageFactor "EnemyBolt", 0.0
+  //Damagefactor "EnemyVehicleBolt", 0
+  States
+  {
+	Spawn:
+		HEF1 A 0
+		HEF1 A 0 Thing_ChangeTID(0, 88)
+
+		HEF1 A 1 A_JumpIfInventory(
+			"ASpan", 1, "Spn"
+		)
+
+		HEF1 A 0
+		{
+			StartStrictRoute(50);  ////!!!!
+		}
+		Goto Diss
+
+	Spn:
+		TNT1 A 0
+		Goto Route
+
+	Route:
+		HEW1 ABCDEFGHIJKLMNOPQ 1 A_Look
+		TNT1 A 0 A_JumpIfInventory(
+			"StrictRouteFinished", 1, "Spn2"
+		)
+		Loop
+
+	Spn2:
+		TNT1 A 0 A_ChangeFlag("NOPAIN",false)
+		HEF1 A 0
+		HEF1 A 1 A_Look
+		Loop
+
+	See:
+		TNT1 A 0 A_ChangeFlag("NOPAIN",false)
+		//HEF1 A 0 Thing_ChangeTID(0, 88)
+		HEW1 ABCDEFGHIJKLMNOPQ 1 A_Chase
+		TNT1 A 0 A_ClearTarget
+		TNT1 A 0 A_JumpIfInventory(
+			"StrictRouteFinished", 1, "Spn2"
+		)
+		Goto Route
+	
+  Missile:
+  //HEF1 A 0
+  //HEF1 A 0 Thing_ChangeTID(0, 88)
+  TNT1 A 0 A_jump(120, "StrifeRight")
+  TNT1 A 0 A_jump(120, "StrifeLeft")  
+  StrifeLeft:
+	TNT1 A 0 
+	HEWL ABCD 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWL EFGH 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	HEWL IJKL 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWL MNOP 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	HEWL ABCD 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWL EFGH 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	HEWL IJKL 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWL MNOP 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+    Goto See
+   
+  StrifeRight:
+	HEWR ABCD 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWR EFGH 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	HEWR IJKL 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWR MNOP 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	HEWR ABCD 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWR EFGH 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	HEWR IJKL 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWR MNOP 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}	
+    Goto See
+	
+ Pain:
+  TNT1 A 0 A_ChangeFlag("NOPAIN",true) 
+  //POSS A 0 Thing_Hate(0, 88, 3)
+  HEW1 A 0 A_FaceTarget
+  //POSS RQPONMLKJIHGFEDCBA 1 A_Recoil(1)
+  TNT1 A 0 A_Stop
+  TNT1 A 0 A_Jump(120, "StrifeRight")
+  TNT1 A 0 A_Jump(120, "StrifeLeft")
+  Goto See
+  
+    Death:
+	TNT1 A 0 TakeInventory("ASpan2",1)
+    TNT1 A 0 ACS_Execute(2, 0, 0)
+	Death2:
+    //TNT1 A 0 A_KillChildren
+	TNT1 A 0 A_ClearTarget
+    HDD1 A 1
+    HDD1 B 1 A_Scream
+    HDD1 C 1 A_NoBlocking
+    HDD1 DEFGHIJKLMNOPQRSTUVWXYZ 1 Fast
+	HDF1 ABCDEFGHIJKLMNOP 1 Fast
+	HDF1 Q 1 Fast
+	TNT1 A 0
+    HDD2 S 180
+    HDD2 S 5 A_Respawn
+    Stop
+		
+   Diss: 
+    TNT1 A 0 GiveInventory("ASpan",1)
+    TNT1 A 5 A_ClearTarget
+    TNT1 A 5 A_Respawn
+    Stop	
+	}
+}
+
+
+ACTOR cl2 : StrictRoutePawn replaces ShotgunGuy
+{
+  Health 80 //90 bilo
+  Radius 18
+  Height 44   //56!! bilo
+  Speed 9   //11
+  PainChance 255
+  Monster
+  +SLIDESONWALLS
+  +FLOORCLIP
+  +FRIENDLY
+  //+BOSS
+  +LOOKALLAROUND
+  +NOBLOOD
+  +NOPAIN
+  Mass 9999
+  Obituary "You was shooted by republic clone"
+  
+	Damagefactor "BlueBolt", 0
+	//Damagefactor "BlueBolt2", 0
+	DamageFactor "VehicleBlueBolt", 0
+	
+	Damagefactor "BlueBolt3", 0
+  //DamageFactor "EnemyBolt", 0.0
+  //Damagefactor "EnemyVehicleBolt", 0
+  States
+  {
+	Spawn:
+		HEF1 A 0
+		HEF1 A 0 Thing_ChangeTID(0, 88)
+
+		HEF1 A 1 A_JumpIfInventory(
+			"ASpan", 1, "Spn"
+		)
+
+		HEF1 A 0
+		{
+			StartStrictRoute(4);  ////!!!!
+		}
+		Goto Diss
+
+	Spn:
+		TNT1 A 0
+		Goto Route
+
+	Route:
+		HEW1 ABCDEFGHIJKLMNOPQ 1 A_Look
+		TNT1 A 0 A_JumpIfInventory(
+			"StrictRouteFinished", 1, "Spn2"
+		)
+		Loop
+
+	Spn2:
+		TNT1 A 0 A_ChangeFlag("NOPAIN",false)
+		HEF1 A 0
+		HEF1 A 1 A_Look
+		Loop
+
+	See:
+		TNT1 A 0 A_ChangeFlag("NOPAIN",false)
+		//HEF1 A 0 Thing_ChangeTID(0, 88)
+		HEW1 ABCDEFGHIJKLMNOPQ 1 A_Chase
+		TNT1 A 0 A_ClearTarget
+		TNT1 A 0 A_JumpIfInventory(
+			"StrictRouteFinished", 1, "Spn2"
+		)
+		Goto Route 
+	
+  Missile:
+  //HEF1 A 0
+  //HEF1 A 0 Thing_ChangeTID(0, 88)
+  TNT1 A 0 A_jump(120, "StrifeRight")
+  TNT1 A 0 A_jump(120, "StrifeLeft")  
+  StrifeLeft:
+	TNT1 A 0 
+	HEWL ABCD 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWL EFGH 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	HEWL IJKL 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWL MNOP 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	HEWL ABCD 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWL EFGH 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	HEWL IJKL 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWL MNOP 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,2, 0, 0);
+	}
+    Goto See
+   
+  StrifeRight:
+	HEWR ABCD 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWR EFGH 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	HEWR IJKL 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWR MNOP 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	HEWR ABCD 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWR EFGH 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	HEWR IJKL 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("weapon/blaster/fire","SoundSlot5");	
+	A_CustomMissile("InfantrymanBlueBolt", 34, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	HEWR MNOP 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-2, 0, 0);
+	}	
+    Goto See
+	
+ Pain:
+  TNT1 A 0 A_ChangeFlag("NOPAIN",true) 
+  //POSS A 0 Thing_Hate(0, 88, 3)
+  HEW1 A 0 A_FaceTarget
+  //POSS RQPONMLKJIHGFEDCBA 1 A_Recoil(1)
+  TNT1 A 0 A_Stop
+  TNT1 A 0 A_Jump(120, "StrifeRight")
+  TNT1 A 0 A_Jump(120, "StrifeLeft")
+  Goto See
+  
+    Death:
+	TNT1 A 0 TakeInventory("ASpan2",1)
+    TNT1 A 0 ACS_Execute(2, 0, 0)
+	Death2:
+    //TNT1 A 0 A_KillChildren
+	TNT1 A 0 A_ClearTarget
+    HDD1 A 1
+    HDD1 B 1 A_Scream
+    HDD1 C 1 A_NoBlocking
+    HDD1 DEFGHIJKLMNOPQRSTUVWXYZ 1 Fast
+	HDF1 ABCDEFGHIJKLMNOP 1 Fast
+	HDF1 Q 1 Fast
+	TNT1 A 0
+    HDD2 S 180
+    HDD2 S 5 A_Respawn
+    Stop
+		
+   Diss: 
+    TNT1 A 0 GiveInventory("ASpan",1)
+    TNT1 A 5 A_ClearTarget
+    TNT1 A 5 A_Respawn
+    Stop	
+	}
+}

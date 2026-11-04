@@ -1,0 +1,16 @@
+Помогла такая конструкция Spawn:
+    //POSS A 1 NoDelay A_SpawnItem("BodyOfBot", 0, 56)
+POSS A 0
+POSS A 0 Thing_ChangeTID(0, 500)
+    POSS A 0 Thing_Hate(0, 199, 6)
+POSS A 0 Thing_SetGoal(500,1,0)
+    POSS A 1 A_JumpIfInventory("ASpan",1,"Spn")
+    Goto Diss
+  Spn:
+    POSS A 1 A_SpawnItemEx("BodyOfBot", 0, 0, 36, 0, 0, 0, 0, SXF_SETMASTER | SXF_TRANSFERPOINTERS, 0)
+   //POSS A 1 A_SpawnItem("BodyOfBot", 0, 56)
+POSS A 20
+    POSS A 3 A_Look
+Loop 
+
+Те. По простому вызваем Thing_SetGoal в Спавне а не в смерти персонажа! Ну и это работает только для монстра как у меня - т.е. это ноги, они не участвуют в битве они просто ходят (Thing_Hate(0, 199, 6) - 199 - это не сущесвтвующий актор). Таким образом получается бот который бегает по маршруту. Каждым ногам делать свои ид что бы не запутались.

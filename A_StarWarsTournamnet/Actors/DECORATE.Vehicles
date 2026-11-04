@@ -1,0 +1,338 @@
+ACTOR cloneTankUp
+{
+    Health 2100
+    Radius 0
+    Height 5
+    Speed 0
+    Mass 10000
+
+    Monster
+	//+INVULNERABLE ////!!!!неуязвинмы! Взорвуться только после корпуса
+    +FRIENDLY
+    +NOPAIN
+    +LOOKALLAROUND
+    -PUSHABLE
+    -SOLID
+
+    DamageFactor "BlueBolt2", 0
+	DamageFactor "VehicleBlueBolt", 0
+
+    States
+    {
+    Spawn:
+	    ITK1 A 0 
+		ITK1 A 0 Thing_ChangeTID(0, 88)
+		ITK1 A 0 Thing_Hate(0, 550, 3)
+		
+    Follow:
+        ITK1 A 1
+        {
+            A_Warp(
+                AAPTR_MASTER,
+                0, 0, 0, 0,
+                WARPF_NOCHECKPOSITION
+            );
+
+            A_Look;
+        }
+        Loop
+
+		See:
+			TNT1 A 0
+			Goto Missile
+
+		Missile:
+			ITK1 AAAAAA 1
+			{
+				A_Warp(
+					AAPTR_MASTER,
+					0, 0, 0, 0,
+					WARPF_NOCHECKPOSITION
+				);
+
+				A_FaceTarget;
+			}
+
+			ITK1 A 0
+			{
+				A_CustomMissile(
+					"VehicleBlueBolt",
+					//42, 96, 0
+					82, 0, 0
+				);
+			}
+
+			ITK1 AAAAAAAAAAAAAA 1
+			{
+				A_Warp(
+					AAPTR_MASTER,
+					0, 0, 0, 0,
+					WARPF_NOCHECKPOSITION
+				);
+
+				A_FaceTarget;
+			}
+
+		TNT1 A 0 A_JumpIfTargetInLOS("Missile")
+		TNT1 A 0 A_ClearTarget
+		Goto Follow
+
+	Death:
+		TNT1 A 0 A_SpawnItemEx(
+			"BarrelBrutalExplosion",
+			0, 0, 12,
+			0, 0, 0, 0,
+			SXF_NOCHECKPOSITION
+		)
+		TNT1 A 0 A_ClearTarget
+		TNT1 A 0 A_KillMaster
+		TNT1 A 1 A_NoBlocking
+		TNT1 A 1 A_FadeOut
+		Stop
+    }
+}
+
+
+ACTOR cloneTankDown : StrictRouteChassis replaces SpiderMasterMind
+{
+    Health 2100
+    Radius 68
+    Height 56
+    Speed 3
+    PainChance 0
+    Mass 10000
+
+    Monster
+    +FRIENDLY
+    +SLIDESONWALLS
+    +NOBLOOD
+    +NOPAIN
+
+    DamageFactor "BlueBolt2", 0
+	DamageFactor "VehicleBlueBolt", 0
+
+    States
+    {
+    Spawn:
+		ITK1 A 0 
+        ITK1 A 0 Thing_ChangeTID(0, 88)
+
+        ITK1 A 0
+        {
+            A_SpawnItemEx(
+                "cloneTankUp",
+                0, 0, 0,
+                0, 0, 0, 0,
+                SXF_SETMASTER
+            );
+
+            StartStrictRoute(20);
+        }
+        Goto Route
+
+    Route:
+        ITK1 A 1
+
+        TNT1 A 0 A_JumpIfInventory(
+            "StrictRouteFinished",
+            1,
+            "Stand"
+        )
+        Loop
+
+    Stand:
+        ITK1 A -1
+        Stop
+
+	Death:
+		TNT1 A 0 A_SpawnItemEx(
+			"BarrelBrutalExplosion",
+			0, 0, 42,
+			0, 0, 0, 0,
+			SXF_NOCHECKPOSITION
+		)
+		TNT1 A 0 ACS_Execute(2, 0, 0)
+		TNT1 A 0 A_KillChildren
+		ITK1 A 1 A_Scream
+		ITK1 A 1 A_NoBlocking
+		TNT1 A 180
+		TNT1 A 5 A_Respawn
+		Stop
+    }
+}
+
+////////////////
+
+ACTOR droidTankUp
+{
+    Health 2100
+    Radius 0
+    Height 5
+    Speed 0
+    Mass 10000
+
+    Monster
+    -FRIENDLY
+    +NOPAIN
+    +LOOKALLAROUND
+    -PUSHABLE
+    -SOLID
+
+    DamageFactor "RedBolt2", 0
+	DamageFactor "VehicleRedBolt", 0
+
+    States
+    {
+    Spawn:
+	    DTK1 A 0
+        DTK1 A 0 Thing_Hate(0, 88, 3)
+
+    Follow:
+        DTK1 A 1
+        {
+            A_Warp(
+                AAPTR_MASTER,
+                0, 0, 0, 0,
+                WARPF_NOCHECKPOSITION
+            );
+
+            A_Look;
+        }
+        Loop
+
+		See:
+			DTK1 A 1
+			{
+				A_Warp(
+					AAPTR_MASTER,
+					0, 0, 0, 0,
+					WARPF_NOCHECKPOSITION
+				);
+
+				A_FaceTarget;
+				A_Chase("Missile", "Missile", CHF_DONTMOVE);
+			}
+			Loop
+
+		Missile:
+			DTK1 AAAAAA 1
+			{
+				A_Warp(
+					AAPTR_MASTER,
+					0, 0, 0, 0,
+					WARPF_NOCHECKPOSITION
+				);
+
+				A_FaceTarget;
+			}
+
+			DTK1 A 0
+			{
+				A_CustomMissile(
+					"VehicleRedBolt",
+					//42, 96, 0  //96 (3й параметр - боковое смещение) 
+					82, 0, 0
+				);
+			}
+
+			DTK1 AAAAAAAAAAAAAA 1
+			{
+				A_Warp(
+					AAPTR_MASTER,
+					0, 0, 0, 0,
+					WARPF_NOCHECKPOSITION
+				);
+
+				A_FaceTarget;
+			}
+
+			TNT1 A 0 A_CPosRefire
+			Goto Missile
+
+	LostTarget:
+		TNT1 A 0 A_ClearTarget
+		Goto Follow
+
+	Death:
+		TNT1 A 0 A_SpawnItemEx(
+			"BarrelBrutalExplosion",
+			0, 0, 12,
+			0, 0, 0, 0,
+			SXF_NOCHECKPOSITION
+		)
+		TNT1 A 0 A_ClearTarget
+		TNT1 A 0 A_KillMaster
+		TNT1 A 1 A_NoBlocking
+		TNT1 A 1 A_FadeOut
+		Stop
+    }
+}
+
+
+ACTOR droidTankDown : StrictRouteChassis replaces Cyberdemon
+{
+    Health 2100
+    Radius 68
+    Height 56
+    Speed 3
+    PainChance 0
+    Mass 10000
+
+    Monster
+    -FRIENDLY
+    +SLIDESONWALLS
+    +NOBLOOD
+    +NOPAIN
+
+    DamageFactor "RedBolt2", 0
+	DamageFactor "VehicleRedBolt", 0
+
+    States
+    {
+    Spawn:
+        DTK1 A 0
+		DTK1 A 0 Thing_ChangeTID(0, 550)
+		
+		DTK1 A 0
+        {
+            A_SpawnItemEx(
+                "droidTankUp",
+                0, 0, 0,
+                0, 0, 0, 0,
+                SXF_SETMASTER
+            );
+
+            StartStrictRoute(1);
+        }
+        Goto Route
+
+    Route:
+        DTK1 A 1
+
+        TNT1 A 0 A_JumpIfInventory(
+            "StrictRouteFinished",
+            1,
+            "Stand"
+        )
+        Loop
+
+    Stand:
+        DTK1 A -1
+        Stop
+
+	Death:
+		TNT1 A 0 A_SpawnItemEx(
+			"BarrelBrutalExplosion",
+			0, 0, 42,
+			0, 0, 0, 0,
+			SXF_NOCHECKPOSITION
+		)
+		TNT1 A 0 A_KillChildren
+		TNT1 A 0 ACS_Execute(1, 0, 0)
+		DTK1 A 1 A_Scream
+		DTK1 A 1 A_NoBlocking
+		TNT1 A 180
+		TNT1 A 5 A_Respawn
+		Stop
+    }
+}

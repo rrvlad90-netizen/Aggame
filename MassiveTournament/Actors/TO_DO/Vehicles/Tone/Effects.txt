@@ -1,0 +1,58 @@
+Actor TitanGunFlash : HMFlashBase
+{
+	+MASTERNOSEE
+	Scale 3.0
+}
+
+Actor TitanGunShellExplosion
+{
+   Height 4
+   Radius 2
+   RenderStyle Add
+   Alpha 1.0
+   +NOINTERACTION
+   +ForceXYBillboard
+   +CLIENTSIDEONLY
+   +BRIGHT
+   States
+   {
+   Spawn:
+      BREX ABCDEFGHIJKLMNOP 1 A_SetScale(ScaleX+0.15)
+      Stop
+   }
+}
+
+ACTOR TitanWireFade
+{
+  Radius 1
+  Height 1
+  RenderStyle Add
+  Alpha 1.0
+  States
+  {
+  Spawn:
+    TNT1 A 0
+	NADA BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB 1 A_FadeOut(0.0075)
+    Goto Death
+  Death:
+    TNT1 A 1
+    stop
+  }
+}
+
+Actor ToneTitanPrecache
+{
+	Radius 4
+	Height 8
+	+NOTIMEFREEZE
+	+CLIENTSIDEONLY
+	+NONETID
+	+NOTONAUTOMAP
+	Scale 0.01
+	States
+	{
+	Spawn:
+		NADA A 17
+		Stop
+	}
+}

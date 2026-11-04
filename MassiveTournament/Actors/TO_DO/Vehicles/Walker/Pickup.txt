@@ -1,0 +1,242 @@
+actor GEVWalkerWireframe : CustomInventory 1701
+{
+  inventory.pickupmessage "$PKP_GEVWALKER"
+  inventory.pickupsound "misc/p_pkup"
+  Inventory.MaxAmount 1
+  Inventory.RespawnTics 0x7FFFFFFF
+  Inventory.Icon ICONA_WK
+  Tag "$INV_GEVWALKER"
+  RenderStyle Add
+  Alpha 1.0
+  Height 48
+  Radius 16
+  +COUNTITEM
+  -INVENTORY.AUTOACTIVATE
+  +INVENTORY.ALWAYSPICKUP
+  +INVENTORY.INVBAR
+  States
+  {
+	Spawn:
+	NADA A 1 BRIGHT
+	loop
+	Pickup:
+	TNT1 A 1 A_PlaySoundEx("Vehicle/Pickup",SoundSlot5,0,1)
+	Stop
+	Use:
+	TNT1 A 0 A_SpawnItemEx("WalkerPortActivating",0,0,0)
+	Stop
+  }
+}
+
+actor WalkerPortActivating
+{
+  Radius 1
+  Height 1
+  RenderStyle Add
+  Alpha 1.0
+  states
+  {
+  Spawn:
+    NADA A 35 BRIGHT
+	NADA A 1 BRIGHT A_JumpIf(ACS_NamedExecuteWithResult("CheckWalkerSize",0,0,0), "SpawnWalker")
+	NADA A 0 BRIGHT A_PlaySound("Vehicle/SpawnDeny")
+	NADA A 0 BRIGHT A_SpawnItemEx("GEVWalkerWireframe",0,0,0)
+    Goto Death
+  SpawnWalker:
+	NADA A 20 BRIGHT
+	NADA A 0 A_SpawnItemEx("BinarySpawner",0,0,0)
+	NADA A 210 BRIGHT A_PlaySound("Vehicle/PortACT")
+	NADA B 1 BRIGHT A_SpawnItemEx("WalkerPortActivated",0,0,0)
+	NADA BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB 1 BRIGHT A_FadeOut(0.015)
+	Goto Death
+  Death:
+    TNT1 A 1
+    stop
+  }
+}
+
+ACTOR GEVWalkerTestBox
+{
+  Radius 40
+  Height 120
+  +THRUACTORS
+  States
+  {
+  Spawn:
+	NADA A 1
+    Stop
+  Death:
+    TNT1 A 1
+    stop
+  }
+}
+
+ACTOR WalkerPortActivated
+{
+  Radius 1
+  Height 1
+  Alpha 0.0
+  States
+  {
+  Spawn:
+    TNT1 A 0
+	NADA BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB 1 A_FadeIn(0.015)
+	NADA B 1 ACS_NamedExecuteAlways("SpawnVehicle",0,2,0,0)
+    Goto Death
+  Death:
+    TNT1 A 1
+    stop
+  }
+}
+
+ACTOR WalkerPortActive : SwitchableDecoration
+{
+  Health 1500
+  Radius 40
+  Height 120
+  Mass 0x7FFFFFFF
+  Activation THINGSPEC_Activate|THINGSPEC_TriggerActs
+  Species Players
+	DamageFactor "GeneralDamage", 0.0
+	DamageFactor "Gauntlet", 0.0
+	DamageFactor "VehicleDamage", 0.0
+	DamageFactor "ShotgunDamage", 0.0
+	DamageFactor "ShotgunDamagePointBlank", 0.0
+	DamageFactor "KickDamage", 0.0
+	DamageFactor "CrushDamage", 0.0
+	DamageFactor "MassiveAttack", 0.0
+	DamageFactor "Disintegrate", 0.0
+	DamageFactor "Bodysplat", 0.0
+	DamageFactor "Monsters", 0.25
+	DamageFactor "Bossdamage", 3.0
+	DamageFactor "Slime", 0.25
+	DamageFactor "Melee", 0.3
+	DamageFactor "Normal", 0.25
+	DamageFactor "Falling", 0.3
+	DamageFactor "Telefrag", 0.0
+	DamageFactor "OrbitalDamage", 0.0
+	DamageFactor "TamerDamage", 2.0
+	DamageFactor "CynetikDamage", 0.0
+	DamageFactor "DoomslayerBerserk", 0.0
+	DamageFactor "KamikazeDamage", 0.0
+	DamageFactor "Slipstream", 0.0
+	DamageFactor "Ice", 0.0
+	DamageFactor "FritzGas", 0.0
+	DamageFactor "Reflection", 0.0
+	DamageFactor "BarrelDamage", 0.0
+	DamageFactor "CyberdemonDamage", 2.0
+	DamageFactor "AsmodeusDamage", 1.0
+	DamageFactor "AstralBlast", 4.0
+	DamageFactor "BaalgarDamage", 4.0
+  +SHOOTABLE
+  +SOLID
+  +THRUSPECIES
+  +USESPECIAL
+  States
+  {
+  Spawn:
+	NADA B 1 NoDelay A_SetSpecial(226,700,0,2,TID,0)
+    Goto Inactive
+  Active:
+	NADA B 2 A_UnsetSolid
+    Stop
+  Inactive:
+	NADA B 2100
+	NADA B 1 A_SpawnItemEx("WalkerReuse",0,0,0)
+    Stop
+  Death:
+  XDeath:
+    NADA B 1 A_NoBlocking
+	NADA B 1 A_SpawnItem("WalkerWireFade",0,0,0)
+	NADA BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB 0 A_SpawnItemEx("Number0Binary",random(-192,192),random(-192,192),random(4,128), (0.1)*Random(-32, 32), (0.1)*Random(-32, 32), (0.1)*Random(-32, 32), Random(0, 360))
+	NADA BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB 0 A_SpawnItemEx("Number1Binary",random(-192,192),random(-192,192),random(4,128), (0.1)*Random(-32, 32), (0.1)*Random(-32, 32), (0.1)*Random(-32, 32), Random(0, 360))
+    Stop
+  }
+}
+
+ACTOR WalkerTIDChanger : CustomInventory
+{
+  +INVENTORY.AUTOACTIVATE
+  +INVENTORY.ALWAYSPICKUP
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+	NADA B 1
+    Stop
+  Pickup:
+	NADA B 1 Thing_ChangeTID(0,CallACS("GetDummyVehicleTID"))
+	Stop
+  Death:
+    TNT1 A 1
+    stop
+  }
+}
+
+ACTOR WalkerPortUsing : PowerupGiver
+{
+  Radius 52
+  Height 64
+  Mass 0x7FFFFFFF
+  Powerup.Type WalkerPortSwitch
+  Powerup.Duration 0x7FFFFFFF
+  Inventory.MaxAmount 1
+  +INVENTORY.AUTOACTIVATE
+  States
+  {
+  Spawn:
+	TNT1 A 1
+    Loop
+  Death:
+    TNT1 A 1
+    stop
+  }
+}
+
+actor WalkerReuse
+{
+  Radius 40
+  Height 120
+  RenderStyle Add
+  Alpha 0.0
+  states
+  {
+  Spawn:
+    TNT1 A 0
+	TNT1 A 0 A_SpawnItemEx("BinarySpawner",0,0,0)
+	TNT1 A 0 A_SpawnItemEx("WalkerPortDeactivated",0,0,0)
+	NADA BBBBBBBBBB 1 BRIGHT A_FadeIn(0.05)
+	NADA B 210 BRIGHT A_PlaySound("Vehicle/PortUNA")
+	NADA A 1 BRIGHT A_SpawnItemEx("GEVWalkerWireframe",0,0,0)
+	NADA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 BRIGHT A_FadeOut(0.015)
+    loop
+  Death:
+    TNT1 A 1
+    stop
+  }
+}
+
+ACTOR WalkerPortDeactivated
+{
+  Radius 1
+  Height 1
+  Alpha 1.0
+  States
+  {
+  Spawn:
+    TNT1 A 0
+	NADA BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB 1 A_FadeOut(0.015)
+    Goto Death
+  Death:
+    TNT1 A 1
+    stop
+  }
+}
+
+ACTOR PowerWalkerPortSwitch : PowerMorph
+{
+  PowerMorph.PlayerClass "WalkerGEVPlayer"
+  PowerMorph.MorphStyle (MRF_WHENINVULNERABLE|MRF_LOSEACTUALWEAPON|MRF_NEWTIDBEHAVIOUR|MRF_UNDOALWAYS)
+  PowerMorph.MorphFlash "GEVon"
+  PowerMorph.UnMorphFlash "GEVon"
+}

@@ -1,0 +1,1319 @@
+/* =============================================================================
+================================================================================
+=================											   =================
+=================				Monsters/Enemies			   =================
+=================											   =================
+================================================================================
+==============================================================================*/
+$pitchshiftrange 0
+/* =============================================================================
+	Zombie Z-Secs (Pistol Soldier/Shotgun Sargeant)
+==============================================================================*/
+$random weapons/pstlf { weapons/pstl1 weapons/pstl2 weapons/pstl3 }
+weapons/pstl1               	DSPISTO1
+weapons/pstl2               	DSPISTO2
+weapons/pstl3               	DSPISTO3
+
+$random shotsight 		{ shotguy/sight1  shotguy/sight2  shotguy/sight3 shotguy/sight4 shotguy/sight5 shotguy/sight6 shotguy/sight7 }
+shotguy/sight1					zomsee1
+shotguy/sight2					zomsee2
+shotguy/sight3					zomsee3
+shotguy/sight4					zomsee4
+shotguy/sight5					zomsee5
+shotguy/sight6					zomsee6
+shotguy/sight7                  zomsee7
+
+$random shotactive		{ shotguy/active1 shotguy/active2 shotguy/active3 shotguy/active4 shotguy/active5 shotguy/active6 shotguy/active7 shotguy/active8 }
+shotguy/active1					zomidle1
+shotguy/active2					zomidle2
+shotguy/active3					zomidle3
+shotguy/active4					zomidle4
+shotguy/active5					zomidle5
+shotguy/active6					zomidle6
+shotguy/active7					zomidle7
+shotguy/active8					zomidle8
+
+$random shotpain		{ shotguy/pain1 shotguy/pain2 shotguy/pain3 shotguy/pain4 shotguy/pain5 shotguy/pain6 }
+shotguy/pain1					zompain1
+shotguy/pain2					zompain2
+shotguy/pain3					zompain3
+shotguy/pain4                   zompain4
+shotguy/pain5                   zompain5
+shotguy/pain6                   zompain6
+
+$random shotdeath		{ shotguy/death1  shotguy/death2  shotguy/death3 }
+shotguy/death1					zomdie1
+shotguy/death2					zomdie2
+shotguy/death3					zomdie3
+shotguy/death4                  zomdie4
+
+$random shotattack	        { shotguy/attack1 shotguy/attack2 shotguy/attack3 }
+shotguy/attack1                 sgfire_1
+shotguy/attack2                 sgfire_2
+shotguy/attack3                 sgfire_3
+
+/* =============================================================================
+	Chaingunner (Commando)
+==============================================================================*/
+
+$random comsight			{ comsight1  comsight2 comsight3 comsight4 comsight5 comsight6 comsight7 comsight8 }
+comsight1						cgrsee1
+comsight2						cgrsee2
+comsight3                       cgrsee3
+comsight4                       cgrsee4
+comsight5						cgrsee5
+comsight6						cgrsee6
+comsight7                       cgrsee7
+comsight8                       cgrsee8
+
+combeginfire					chngu1a
+
+$random comactive			{ comact1  comact2 comact3 comact4 comact5 }
+comact1							cgridl1
+comact2							cgridl2
+comact3							cgridl3
+comact4							cgridl4
+comact5							cgridl5
+
+$random compain				{ compain1 compain2 compain3 compain4 }
+compain1						cgrpai1
+compain2						cgrpai2
+compain3						cgrpai3
+compain4						cgrpai4
+
+$random comdeath			{ comdeath1 comdeath2 comdeath3 comdeath4 }
+comdeath1						cgrdea1
+comdeath2						cgrdea2
+comdeath3						cgrdea3
+comdeath4						cgrdea4
+
+$random comstep				{ comstep1 comstep2 comstep3 comstep4 }
+comstep1						cgrste1
+comstep2						cgrste2
+comstep3						cgrste3
+comstep4						cgrste4
+
+/* =============================================================================
+	Astral Rage
+==============================================================================*/
+
+$random AstralRage/WakeUp	{ ARageWake1 ARageWake2 ARageWake3 ARageWake4 }
+ARageWake1						ASRGS1
+ARageWake2						ASRGS2
+ARageWake3						ASRGS3
+ARageWake4						ASRGS4
+
+$random AstralRage/Chanting	{ ARageChant1 ARageChant2 ARageChant3 ARageChant4 ARageChant5 ARageChant6 }
+ARageChant1						ASRGI1
+ARageChant2						ASRGI2
+ARageChant3						ASRGI3
+ARageChant4						ASRGI4
+ARageChant5						ASRGI5
+ARageChant6						ASRGI6
+
+AstralRage/Explode				ASRGEXPL
+AstralRage/Explode				ASRGEXPL
+$limit AstralRage/Explode 0
+
+/* =============================================================================
+	Maggot
+==============================================================================*/
+
+$random Maggot/Sight		{ MaggotSee1 MaggotSee2 MaggotSee3 MaggotSee4 MaggotSee5 }
+MaggotSee1						maggsig1
+MaggotSee2						maggsig2
+MaggotSee3						maggsig3
+MaggotSee4						maggsig4
+MaggotSee5						maggsig5
+
+$random Maggot/Idle			{ MaggotIdle1 MaggotIdle2 MaggotIdle3 MaggotIdle4 }
+MaggotIdle1						maggidl1
+MaggotIdle2						maggidl2
+MaggotIdle3						maggidl3
+MaggotIdle4						maggidl4
+
+$random Maggot/Pain			{ MaggotPain1 MaggotPain2 MaggotPain3 MaggotPain4 MaggotPain5 MaggotPain6 }
+MaggotPain1						maggpai1
+MaggotPain2						maggpai2
+MaggotPain3						maggpai3
+MaggotPain4						maggpai4
+MaggotPain5						maggpai5
+MaggotPain6						maggpai6
+
+$random Maggot/Death		{ MaggotDeath1 MaggotDeath2 MaggotDeath3 MaggotDeath4 }
+MaggotDeath1					maggdea1
+MaggotDeath2					maggdea2
+MaggotDeath3					maggdea3
+MaggotDeath4					maggdea4
+
+$random Maggot/Step			{ MaggotStep1 MaggotStep2 MaggotStep3 MaggotStep4 }
+MaggotStep1						maggstp1
+MaggotStep2						maggstp2
+MaggotStep3						maggstp3
+MaggotStep4						maggstp4
+
+
+/* =============================================================================
+	Wraith
+==============================================================================*/
+
+Wraith/Sight					wrasight
+Wraith/Idle						wraidle
+Wraith/Teleport					wratelep
+
+$random Wraith/Pain			{ WraithPain1 WraithPain2 WraithPain3 WraithPain4 WraithPain5 }
+WraithPain1						wrapain1
+WraithPain2						wrapain2
+WraithPain3						wrapain3
+WraithPain4						wrapain4
+WraithPain5						wrapain5
+
+$random Wraith/Death		{ WraithDeath1 WraithDeath2 WraithDeath3 WraithDeath4 WraithDeath5 }
+WraithDeath1					wradeth1
+WraithDeath2					wradeth2
+WraithDeath3					wradeth3
+WraithDeath4					wradeth4
+WraithDeath5					wradeth5
+
+/* =============================================================================
+	Imp
+==============================================================================*/
+
+$random impsight			{ impsight1  impsight2 impsight3 impsight4 impsight5 }
+impsight1						imp_sig1
+impsight2						imp_sig2
+impsight3                       imp_sig3
+impsight4                       imp_sig4
+impsight5                       sight2_0          
+          
+$random impactive			{ impactive1 impactive2 impactive3 impactive4 impactive5 impactive6 }
+impactive1                      alert_t1
+impactive2                      alert_t2
+impactive3                      alert_t3
+impactive4                      breath_1
+impactive5                      breath_2
+impactive6                      breath_3
+
+$random imppain				{ imppain1 imppain2 imppain3 }
+imppain1                        pain_te1
+imppain2                        pain_te2
+imppain3                        pain_te3
+
+$random impmelee	      	{ impmelee1 impmelee2 impmelee3 }
+impmelee1                       hit_01
+impmelee2                       hit_03
+impmelee3                       hit_05
+
+$random impdeath            { impdeath1 impdeath2 impdeath3 impdeath4 }
+impdeath1						imp_dea1
+impdeath2						imp_dea2
+impdeath3                       imp_dea3
+impdeath4                       imp_dea4
+
+impattack						firebal1
+
+impshotx						firxpl
+
+impcreate						dscreate
+
+$random impfootstep         { impfootstep1 impfootstep2 impfootstep3 impfootstep4 }
+impfootstep1					impft01
+impfootstep2					impft02
+impfootstep3					impft03
+impfootstep4					impft04
+
+/* =============================================================================
+	Vulgar
+==============================================================================*/
+
+$random vugsight			{ vugsight1 vugsight2 vugsight3 vugsight4 vugsight5 }
+vugsight1						vulgsig1
+vugsight2						vulgsig2
+vugsight3						vulgsig3
+vugsight4						vulgsig4
+vugsight5						vulgsig5
+
+$random vugactive			{ vugidle1 vugidle2 vugidle3 vugidle4 vugidle5 }
+vugidle1						vulgidl1
+vugidle2						vulgidl2
+vugidle3						vulgidl3
+vugidle4						vulgidl4
+vugidle5						vulgidl5
+
+$random vugpain				{ vugpain1 vugpain2 vugpain3 vugpain4 vugpain5 vugpain6 }
+vugpain1						vugpai1
+vugpain2						vugpai2
+vugpain3						vugpai3
+vugpain4						vugpai4
+vugpain5						vugpai5
+vugpain6						vugpai6
+
+$random vugdeath			{ vugdeath1 vugdeath2 vugdeath3 vugdeath4 vugdeath5 }
+vugdeath1						vugdea1
+vugdeath2						vugdea2
+vugdeath3						vugdea3
+vugdeath4						vugdea4
+vugdeath5						vugdea5
+vugdeath6						vugdea6
+
+/* =============================================================================
+	Lost Soul
+==============================================================================*/
+
+$random skullsee			{ skull/see1 skull/see2 skull/see3 skull/see4 }
+skull/see1						lssee1
+skull/see2						lssee2
+skull/see3						lssee3
+skull/see4						lssee4
+
+$random skullactive			{ skull/active1 skull/active2 skull/active3 }
+skull/active1                   chatter1
+skull/active2                   chatter2
+skull/active3                   chatter3 
+
+$random skullpain	        { skull/pain1 skull/pain2 }
+skull/pain1                     pain_01
+skull/pain2                     pain_02
+
+$random skulldeath			{ skull/death2 skull/death3 skull/death4 }
+skull/death2                    death_02
+skull/death3                    death_03
+skull/death4                    death_04
+
+skullmelee                   	attack1
+skullcharge						LSCHARG
+
+/* =============================================================================
+	Forgotten
+==============================================================================*/
+
+$random forgsee				{ forgottensight1 forgottensight2 forgottensight3 forgottensight4 }
+forgottensight1					forgsig1
+forgottensight2					forgsig2
+forgottensight3					forgsig3
+forgottensight4					forgsig4
+
+$random forgactive			{ forgottenidl1 forgottenidl2 forgottenidl3 forgottenidl4 }
+forgottenidl1					forgidl1
+forgottenidl2					forgidl2
+forgottenidl3					forgidl3
+forgottenidl4					forgidl4
+
+$random forgmelee			{ forgottenattack1 forgottenattack2 forgottenattack3 }
+forgottenattack1				forgatk1
+forgottenattack2				forgatk2
+forgottenattack3				forgatk3
+
+$random forgpain			{ forgottenpain1 forgottenpain2 forgottenpain3 forgottenpain4 }
+forgottenpain1					forgpai1
+forgottenpain2					forgpai2
+forgottenpain3					forgpai3
+forgottenpain4					forgpai4
+
+$random forgdeath			{ forgottendeath1 forgottendeath2 forgottendeath3 }
+forgottendeath1					forgdea1
+forgottendeath2					forgdea2
+forgottendeath3					forgdea3
+
+/* =============================================================================
+	Cacodemon
+==============================================================================*/
+
+$random Caco/See			{ CacoSee1 CacoSee2 CacoSee3 CacoSee4 }
+CacoSee1						cacosee1
+CacoSee2						cacosee2
+CacoSee3						cacosee3
+CacoSee4						cacosee4
+
+$random Caco/Idle			{ CacoIdle1 CacoIdle2 CacoIdle3 CacoIdle4 }
+CacoIdle1						cacoidl1
+CacoIdle2						cacoidl2
+CacoIdle3						cacoidl3
+CacoIdle4						cacoidl4
+
+$random Caco/Attack			{ CacoAttack1 CacoAttack2 CacoAttack3 }
+CacoAttack1						cacoatk1
+CacoAttack2						cacoatk2
+CacoAttack3						cacoatk3
+
+$random Caco/Pain			{ CacoPain1 CacoPain2 CacoPain3 CacoPain4 }
+CacoPain1						cacopai1
+CacoPain2						cacopai2
+CacoPain3						cacopai3
+CacoPain4						cacopai4
+
+$random Caco/Death			{ Cacodeath1 Cacodeath2 Cacodeath3 Cacodeath4 }
+Cacodeath1						cacodie1
+Cacodeath2						cacodie2
+Cacodeath3						cacodie3
+Cacodeath4						cacodie4
+
+$random cacoshotx			{ caco/shotx1 caco/shotx2 caco/shotx3 }
+caco/shotx1                     pimpact1
+caco/shotx2                     pimpact2
+caco/shotx3                     pimpact3
+
+/* =============================================================================
+	Helltime
+==============================================================================*/
+
+HTsight							heltsee1
+
+$random HTactive			{ HelltimeIdle1 HelltimeIdle2 HelltimeIdle3 HelltimeIdle4 }
+HelltimeIdle1					heltidl1
+HelltimeIdle2					heltidl2
+HelltimeIdle3					heltidl3
+HelltimeIdle4					heltidl4
+
+$random HTpain				{ HelltimePain1 HelltimePain2 HelltimePain3 }
+HelltimePain1					heltpai1
+HelltimePain2					heltpai2
+HelltimePain3					heltpai3
+
+HTdeath							heltdeth
+
+/* =============================================================================
+	Pain Elemental
+==============================================================================*/
+
+$random painsight			{ pain/sight1 pain/sight2 pain/sight3 pain/sight4 }
+pain/sight1                     pain_si1
+pain/sight2                     pain_si2
+pain/sight3                     pain_si3
+pain/sight4                     pain_si4
+
+$random painactive			{ pain/active1 pain/active2 pain/active3 pain/active4 pain/active5 pain/active6 }
+pain/active1                    pain_ch1
+pain/active2                    pain_ch2
+pain/active3                    pain_ch3
+pain/active4                    pain_ch4
+pain/active5                    pain_ch5
+pain/active6                    pain_ch6
+
+$random painpain			{ pain/pain1 pain/pain2 pain/pain3 pain/pain4 pain/pain5 }
+pain/pain1                      pain_pa1
+pain/pain2                      pain_pa2
+pain/pain3                      pain_pa3
+pain/pain4                      pain_pa4
+pain/pain5                      pain_pa5
+
+$random paindeath			{ pain/death1 pain/death2 pain/death3 pain/death4 pain/death5 pain/death6 }
+pain/death1                     pain_de1
+pain/death2                     pain_de2
+pain/death3                     pain_de3
+pain/death4                     pain_de5
+pain/death5                     pain_de4
+pain/death6                     pain_de6
+
+$random painmelee	      	{ imp/melee1 imp/melee2 imp/melee3 }
+imp/melee1                      hit_01
+imp/melee2                      hit_03
+imp/melee3                      hit_05
+
+/* =============================================================================
+	Pinky (Doom 3 Variant)
+==============================================================================*/
+
+$random demonsight			{ demon/sight1 demon/sight3 demon/sight4 demon/sight5 demon/sight6 demon/sight7 demon/sight8 demon/sight9 demon/active1 demon/active2 demon/active3 demon/active4 }
+demon/sight1					pinkse1
+demon/sight3					pinkse3
+demon/sight4                    pinkse4
+demon/sight5                    pinkse5
+demon/sight6                    pinkse6
+demon/sight7                    pinkse7
+demon/sight8                    pinkse8
+demon/sight9                    pinkse9
+
+$random demonactive			{ demon/active1 demon/active2 demon/active3 demon/active4 }
+demon/active1					pinkidl1
+demon/active2					pinkidl2
+demon/active3					pinkidl3
+demon/active4                   pinkidl4
+
+$random demonpain			{ demon/pain1 demon/pain2 demon/pain3 demon/pain4 }
+demon/pain1						pinkpai1
+demon/pain2						pinkpai2
+demon/pain3						pinkpai3
+demon/pain4                     pinkpai4
+
+$random demonmelee			{ demon/melee1 demon/melee2 demon/melee3 demon/melee4 }
+demon/melee1                    pinkme1
+demon/melee2                    pinkme2
+demon/melee3                    pinkme3
+demon/melee4                    pinkme4
+
+$random demondeath			{ demon/death1 demon/death2 demon/death3 demon/death4 demon/death5 }
+demon/death1					pinkdea1
+demon/death2					pinkdea2
+demon/death3                    pinkdea3
+demon/death4                    pinkdea4
+demon/death5                    pinkdea5
+
+$random pinkystep			{ pinky/step1 pinky/step2 pinky/step3 pinky/step4 pinky/step5 }
+pinky/step1						pinkste1
+pinky/step2						pinkste2
+pinky/step3						pinkste3
+pinky/step4						pinkste4
+pinky/step5						pinkste5
+
+/* =============================================================================
+	Pinky (DOOM 2016 Variant)
+==============================================================================*/
+$random D4Pinky/Sight		{ D4pinkySight1 D4pinkySight2 D4pinkySight3 }
+D4pinkySight1					D4PKSEE1
+D4pinkySight2					D4PKSEE2
+D4pinkySight3					D4PKSEE3
+
+$random D4Pinky/Idle		{ D4pinkyIdle1 D4pinkyIdle2 D4pinkyIdle3 D4pinkyIdle4 D4pinkyIdle5 }
+D4pinkyIdle1					D4PKIDL1
+D4pinkyIdle2					D4PKIDL2
+D4pinkyIdle3					D4PKIDL3
+D4pinkyIdle4					D4PKIDL4
+D4pinkyIdle5					D4PKIDL5
+
+$random	D4Pinky/Pain		{ D4pinkyPain1 D4pinkyPain2 D4pinkyPain3 }
+D4pinkyPain1					D4PKPAI1
+D4pinkyPain2					D4PKPAI2
+D4pinkyPain3					D4PKPAI3
+
+$random D4Pinky/Death		{ D4pinkyDeath1 D4pinkyDeath2 D4pinkyDeath3 }
+D4pinkyDeath1					D4PKDIE1
+D4pinkyDeath2					D4PKDIE2
+D4pinkyDeath3					D4PKDIE3
+
+$random D4Pinky/MeleeGrunt	{ D4PinkyMelee1 D4PinkyMelee2 D4PinkyMelee3 }
+D4PinkyMelee1					D4PKATK1
+D4PinkyMelee2					D4PKATK2
+D4PinkyMelee3					D4PKATK3
+
+$random D4Pinky/Step		{ D4pinkyStep1 D4pinkyStep2 D4pinkyStep3 }
+D4pinkyStep1					D4PKSTP1
+D4pinkyStep2					D4PKSTP2
+D4pinkyStep3					D4PKSTP3
+
+/* =============================================================================
+	Revenant
+==============================================================================*/
+
+$random skeletonsight		{ skeleton/sight1 skeleton/sight2 skeleton/sight3 skeleton/sight4 skeleton/sight5 }
+skeleton/sight1                 revsee1
+skeleton/sight2                 revsee2
+skeleton/sight3                 revsee3
+skeleton/sight4                 revsee4
+skeleton/sight5                 revsee5
+
+$random skeletonactive		{ skeleton/active1 skeleton/active2 skeleton/active3 skeleton/active4 skeleton/active5 skeleton/active6 skeleton/active7 }
+skeleton/active1                revidle1
+skeleton/active2                revidle2 
+skeleton/active3                revidle3 
+skeleton/active4                revidle4 
+skeleton/active5                revidle5 
+skeleton/active6                revidle6 
+skeleton/active7                revidle7 
+
+$random skeletonpain		{ skeleton/pain1 skeleton/pain2 skeleton/pain3 }
+skeleton/pain1                  revouch1
+skeleton/pain2                  revouch2
+skeleton/pain3                  revouch3 
+
+$random skeletondeath		{ skeleton/death1 skeleton/death2 skeleton/death3 }
+skeleton/death1                 revdie1 
+skeleton/death2                 revdie2
+skeleton/death3                 revdie3
+
+$random weapons/d3rockl		{ weapons/d3rockl1 weapons/d3rockl2 weapons/d3rockl3 }
+weapons/d3rockl1				rblast1
+weapons/d3rockl2				rblast2
+weapons/d3rockl3				rblast3
+
+$random RevenantStep		{ revenant/step1 revenant/step2 revenant/step3 revenant/step4 }
+revenant/step1					revestp1
+revenant/step2					revestp2
+revenant/step3					revestp3
+revenant/step4					revestp4
+
+RevenantRocketExplode			REVRKTXP
+
+/* =============================================================================
+	Mancubus
+==============================================================================*/
+
+$random manc/sight			{ fatso/sight1 fatso/sight2 fatso/sight3 fatso/sight4 }
+fatso/sight1                    mancsee1
+fatso/sight2                    mancsee1
+fatso/sight3                    mancsee1
+fatso/sight4                    mancsee1
+
+$random manc/active			{ fatso/active1 fatso/active2 fatso/active3 fatso/active4 fatso/active5 fatso/active6 }
+fatso/active1                   mancidl1
+fatso/active2                   mancidl2
+fatso/active3                   mancidl3
+fatso/active4                   mancidl4
+fatso/active5                   mancidl5
+fatso/active6                   mancidl6
+
+$random manc/pain			{ fatso/pain1 fatso/pain2 fatso/pain3 fatso/pain4 }
+fatso/pain1                     pain5
+fatso/pain2                     pain6
+fatso/pain3                     pain7
+fatso/pain4                     pain8
+
+$random manc/death			{ fatso/death1 fatso/death2 fatso/death3 }
+fatso/death1                    mancdie1
+fatso/death2                    mancdie2
+fatso/death3                    mancdie3
+
+$random Big/step			{ Big/step1 Big/step2 Big/step3 Big/step4 Big/step5 }
+Big/step1                      	mcstep1
+Big/step2                      	mcstep2
+Big/step3                      	mcstep3
+Big/step4                      	mcstep4
+Big/step5                      	mcstep5
+
+manc/attack						ft_04
+
+fatso/shotx						firxpl
+
+/* =============================================================================
+	Bruiser
+==============================================================================*/
+
+$random bruis/sight			{ bruis/sight1 bruis/sight2 bruis/sight3 }
+bruis/sight1                    brsight1
+bruis/sight2                    brsight2
+bruis/sight3                    brsight3
+
+$random bruis/pain			{ bruis/pain1 bruis/pain2 bruis/pain3 }
+bruis/pain1                     brupain1
+bruis/pain2                     brpain2
+bruis/pain3                     brpain3
+
+$random bruis/death			{ bruis/death1 bruis/death2 bruis/death3 }
+bruis/death1                    brdea1
+bruis/death2                    brdea2
+bruis/death3                    brdea3
+
+$random bruiser/step		{ bruis/step1 bruis/step2 bruis/step3 bruis/step4 }
+bruis/step1                     bbstep1
+bruis/step2                     bbstep2
+bruis/step3                     bbstep3
+bruis/step4                     bbstep4
+
+bruis/attack					fireball
+
+/* =============================================================================
+	Berzerk
+==============================================================================*/
+
+$random BerzerkSee			{ ZerkSee1 ZerkSee2 ZerkSee3 ZerkSee4 }
+ZerkSee1						bezksee1
+ZerkSee2						bezksee2
+ZerkSee3						bezksee3
+ZerkSee4						bezksee4
+
+$random BerzerkActive		{ ZerkAct1 ZerkAct2 ZerkAct3 ZerkAct4 }
+ZerkAct1						bezkidl1
+ZerkAct2						bezkidl2
+ZerkAct3						bezkidl3
+ZerkAct4						bezkidl4
+
+$random BerzerkPain			{ ZerkPain1 ZerkPain2 ZerkPain3 ZerkPain4 }
+ZerkPain1						bezkpai1
+ZerkPain2						bezkpai2
+ZerkPain3						bezkpai3
+ZerkPain4						bezkpai4
+
+$random BerzerkDeath		{ ZerkDeath1 ZerkDeath2 ZerkDeath3 ZerkDeath4 }
+ZerkDeath1						bezkdea1
+ZerkDeath2						bezkdea2
+ZerkDeath3						bezkdea3
+ZerkDeath4						bezkdea4
+
+$random BerzerkStep			{ ZerkStep1 ZerkStep2 ZerkStep3 ZerkStep4 ZerkStep5 ZerkStep6 ZerkStep7 ZerkStep8 ZerkStep9 }
+ZerkStep1						bezkstp1
+ZerkStep2						bezkstp2
+ZerkStep3						bezkstp3
+ZerkStep4						bezkstp4
+ZerkStep5						bezkstp5
+ZerkStep6						bezkstp6
+ZerkStep7						bezkstp7
+ZerkStep8						bezkstp8
+ZerkStep9						bezkstp9
+
+/* =============================================================================
+	Hellknight
+==============================================================================*/
+
+$random HKsight				{ baron/sight1 baron/sight2 baron/sight3 baron/sight4 baron/sight5 baron/sight6 }
+baron/sight1                    sight1_1
+baron/sight2                    sight1_2
+baron/sight3                    sight2_1
+baron/sight4                    sight2_2
+baron/sight5                    sight3_1
+baron/sight6                    sight3_2
+
+$random HKactive			{ baron/active1 baron/active2 baron/active3 }
+baron/active1                   baronid6
+baron/active2                   baronid5
+baron/active3                   baronid4
+
+$random HKpain				{ baron/pain1 baron/pain2 baron/pain3 baron/pain4 baron/pain5 baron/pain6 }
+baron/pain1                     ncc_01
+baron/pain2                     ncc_01
+baron/pain3                     ncc_01
+baron/pain4                     baronid1
+baron/pain5                     baronid2
+baron/pain6                     baronid3
+
+$random HKmelee				{ baron/melee1 baron/melee2 baron/melee3 }
+baron/melee1                    chomp1
+baron/melee2                    chomp2
+baron/melee3                    chomp3
+
+$random HKdeath         	{ baron/death1 baron/death2 baron/death3 }
+baron/death1                    die1
+baron/death2                    die2
+baron/death3			        die3
+
+baron/attack				    baronfir
+baron/shotx				    	baronexp
+
+$random HKStep				{ baron/step1 baron/step2 baron/step3 baron/step4 }
+baron/step1                     hkstep1
+baron/step2                     hkstep2
+baron/step3                     hkstep3
+baron/step4                     hkstep4
+
+Hellknight/LeapExplode			HKLPIPCT
+$limit Hellknight/LeapExplode 	0
+
+/* =============================================================================
+	Baron Of Hell
+==============================================================================*/
+
+$random D4Baron/See { D4BaronSee1 D4BaronSee2 D4BaronSee3 D4BaronSee4 }
+D4BaronSee1						D4BSEE1
+D4BaronSee2						D4BSEE2
+D4BaronSee3						D4BSEE3
+D4BaronSee4						D4BSEE4
+
+$random D4Baron/Idle { D4BaronIdle1 D4BaronIdle2 D4BaronIdle3 D4BaronIdle4 }
+D4BaronIdle1					D4BIDLE1
+D4BaronIdle2					D4BIDLE2
+D4BaronIdle3					D4BIDLE3
+D4BaronIdle4					D4BIDLE4
+
+$random D4Baron/Pain { D4BaronPain1 D4BaronPain2 D4BaronPain3 D4BaronPain4 }
+D4BaronPain1					D4BPAIN1
+D4BaronPain2					D4BPAIN2
+D4BaronPain3					D4BPAIN3
+D4BaronPain4					D4BPAIN4
+
+$random D4Baron/Death { D4BaronDeath1 D4BaronDeath2 D4BaronDeath3 D4BaronDeath4 }
+D4BaronDeath1					D4BDEAT1
+D4BaronDeath2					D4BDEAT2
+D4BaronDeath3					D4BDEAT3
+D4BaronDeath4					D4BDEAT4
+
+$random BoHStep				{ baronhell/step1 baronhell/step2 baronhell/step3 baronhell/step4 }
+baronhell/step1                	bohstep1
+baronhell/step2                	bohstep2
+baronhell/step3                	bohstep3
+baronhell/step4                	bohstep4
+
+$random BaronAxeImpact		{ baronhell/axeimpact1 baronhell/axeimpact2 baronhell/axeimpact3 baronhell/axeimpact4 }
+baronhell/axeimpact1			axeipct1
+baronhell/axeimpact2			axeipct2
+baronhell/axeimpact3			axeipct3
+baronhell/axeimpact4			axeipct4
+
+$random BaronAxeHit			{ baronhell/axehit1 baronhell/axehit2 baronhell/axehit3 baronhell/axehit4 }
+baronhell/axehit1				axehit1
+baronhell/axehit2				axehit2
+baronhell/axehit3				axehit3
+baronhell/axehit4				axehit4
+
+$random BaronAxeSwing		{ baronhell/axeswing1 baronhell/axeswing3 baronhell/axeswing3 }
+baronhell/axeswing1				axewing1
+baronhell/axeswing2				axewing2
+baronhell/axeswing3				axewing4
+
+/* =============================================================================
+	Invul
+==============================================================================*/
+
+$random InvulSee			{ InvulSee1 InvulSee2 InvulSee3 }
+InvulSee1						invusee1
+InvulSee2						invusee2
+InvulSee3						invusee3
+
+$random InvulActive			{ InvulIdle1 InvulIdle2 InvulIdle3 InvulIdle4 InvulIdle5 InvulIdle6 }
+InvulIdle1						invuidl1
+InvulIdle2						invuidl2
+InvulIdle3						invuidl3
+InvulIdle4						invuidl4
+InvulIdle5						invuidl5
+InvulIdle6						invuidl6
+
+$random InvulPain			{ InvulPain1 InvulPain2 InvulPain3 }
+InvulPain1						invupai1
+InvulPain2						invupai2
+InvulPain3						invupai3
+
+$random InvulHammerHit		{ InvulHammer1 InvulHammer2 InvulHammer3 InvulHammer4 InvulHammer5 InvulHammer6 }
+InvulHammer1					invuham1
+InvulHammer2					invuham2
+InvulHammer3					invuham3
+InvulHammer4					invuham4
+InvulHammer5					invuham5
+InvulHammer6					invuham6
+
+InvulDeath						invudeth
+
+InvulStep						invustep
+
+/* =============================================================================
+	Arch-Vile
+==============================================================================*/
+
+$random vilesight			{ vile/sight1 vile/sight2 vile/sight3 vile/sight4 vile/sight5 vile/sight6 }
+vile/sight1						vilesee1
+vile/sight2						vilesee2
+vile/sight3						vilesee3
+vile/sight4						vilesee4
+vile/sight5						vilesee5
+vile/sight6						vilesee6
+
+$random vileactive			{ vile/active1 vile/active2 vile/active3 }
+vile/active1					breath1
+vile/active2					breath2
+vile/active3					breath3
+
+$random vilepain			{ vile/pain1 vile/pain2 vile/pain3 vile/pain4 }
+vile/pain1						vilpain1
+vile/pain2						vilpain2
+vile/pain3						vilpain3
+vile/pain4						vilpain4
+
+$random viledeath			{ vile/death1 vile/death2 vile/death3 vile/death4 }
+vile/death1						viledie1
+vile/death2						viledie2
+vile/death3						viledie3
+vile/death4						viledie4
+
+$random vilestep			{ vile/step1 vile/step2 vile/step3 vile/step4 }
+vile/step1						archstp1
+vile/step2						archstp2
+vile/step3						archstp3
+vile/step4						archstp4
+
+vilefire						fir_01
+
+vilemark						inptgr
+
+/* =============================================================================
+	Summoner
+==============================================================================*/
+
+$random Summoner/Attack			{ SummAtk1 SummAtk2 SummAtk3 SummAtk4 }
+SummAtk1						SUMMATK1
+SummAtk2						SUMMATK2
+SummAtk3						SUMMATK3
+SummAtk4						SUMMATK4
+
+$random Summoner/Pain			{ SummPain1 SummPain2 SummPain3 SummPain4 }
+SummPain1						SUMMPAI1
+SummPain2						SUMMPAI2
+SummPain3						SUMMPAI3
+SummPain4						SUMMPAI4
+
+$random Summoner/Death			{ SummDie1 SummDie2 SummDie3 SummDie4 }
+SummDie1						SUMMDIE1
+SummDie2						SUMMDIE2
+SummDie3						SUMMDIE3
+SummDie4						SUMMDIE4
+
+Summoner/PortalChannel			SUMMCHAN
+Summoner/PortalLoop				SUMMPTLP
+Summoner/PortalStop				SUMMCHED
+Summoner/MeleePulse				SUMMMLEE
+Summoner/FireBall				SUMMBALL
+Summoner/TeleportIn				SUMMTLIN
+Summoner/TeleportOut			SUMMTLOT
+Summoner/TeleportLoop			SUMMTLLP
+
+$random	Summoner/BallImpact { SummonerBImpact1 SummonerBImpact2 }
+SummonerBImpact1				SUMMIPC1
+SummonerBImpact2				SUMMIPC2
+
+/* =============================================================================
+	Harvester
+==============================================================================*/
+
+$random Harvester/See			{ HarvSee1 HarvSee2 HarvSee3 }
+HarvSee1						HRVTSEE1
+HarvSee2						HRVTSEE2
+HarvSee3						HRVTSEE3
+
+$random Harvester/Pain			{ HarvPai1 HarvPai2 HarvPai3 }
+HarvPai1						HRVTPAI1
+HarvPai2						HRVTPAI2
+HarvPai3						HRVTPAI3
+
+$random Harvester/Death			{ HarvDeath1 HarvDeath2 HarvDeath3 HarvDeath4 }
+HarvDeath1						HRVTDTH1
+HarvDeath2						HRVTDTH2
+HarvDeath3						HRVTDTH3
+HarvDeath4						HRVTDTH4
+
+$random Harvester/Idle			{ HarvIdle1 HarvIdle2 HarvIdle3 HarvIdle4 }
+HarvIdle1						HRVTIDL1
+HarvIdle2						HRVTIDL2
+HarvIdle3						HRVTIDL3
+HarvIdle4						HRVTIDL4
+
+$random Harvester/Attack		{ HarvAttack1 HarvAttack2 HarvAttack3 HarvAttack4 }
+HarvAttack1						HRVTATK1
+HarvAttack2						HRVTATK2
+HarvAttack3						HRVTATK3
+HarvAttack4						HRVTATK4
+
+Harvester/Raise					HRVSPWN
+Harvester/TeleportIn			HRVTTELE
+Harvester/TeleportLoop			HRVTTRAV
+Harvester/TeleportOut			HRVTTELO
+Harvester/Pulse					HRVTPULS
+Harvester/HandBall				HRVTHAND
+Harvester/HandLoop				HRVTHDLP
+Harvester/HandHit				HRVTHDHT
+
+
+/* =============================================================================
+	Tamers Of The Dark (Veridion, Ranerion, Zanieon)
+==============================================================================*/
+
+$random TamerSee			{ TamerSight1 TamerSight2 TamerSight3 TamerSight4 }
+TamerSight1						tamesee1
+TamerSight2						tamesee2
+TamerSight3						tamesee3
+TamerSight4						tamesee4
+$attenuation TamerSee 0
+
+$random TamerSeeFemale		{ TamerSight1f TamerSight2f TamerSight3f TamerSight4f }
+TamerSight1f					tamsee1f
+TamerSight2f					tamsee2f
+TamerSight3f					tamsee3f
+TamerSight4f					tamsee4f
+$attenuation TamerSeeFemale 0
+
+$rolloff TamerSeeFemale 1600 4800
+
+$random TamerIdle			{ TamerIdl1 TamerIdl2 TamerIdl3 TamerIdl4 TamerIdl5 TamerIdl6 TamerIdl7 TamerIdl8 }
+TamerIdl1						tameidl1
+TamerIdl2						tameidl2
+TamerIdl3						tameidl3
+TamerIdl4						tameidl4
+TamerIdl5						tameidl5
+TamerIdl6						tameidl6
+TamerIdl7						tameidl7
+TamerIdl8						tameidl8
+
+$rolloff TamerIdle 1240 3200
+
+$random TamerIdleFemale			{ TamerIdl1f TamerIdl2f TamerIdl3f TamerIdl4f TamerIdl5f TamerIdl6f TamerIdl7f TamerIdl8f }
+TamerIdl1f						tamidl1f
+TamerIdl2f						tamidl2f
+TamerIdl3f						tamidl3f
+TamerIdl4f						tamidl4f
+TamerIdl5f						tamidl5f
+TamerIdl6f						tamidl6f
+TamerIdl7f						tamidl7f
+TamerIdl8f						tamidl8f
+
+$rolloff TamerIdleFemale 1240 3200
+
+$random TamerAttack			{ TamerAtk1 TamerAtk2 TamerAtk3 TamerAtk4 TamerAtk5 TamerAtk6 }
+TamerAtk1						tameatk1
+TamerAtk2						tameatk2
+TamerAtk3						tameatk3
+TamerAtk4						tameatk4
+TamerAtk5						tameatk5
+TamerAtk6						tameatk6
+
+$rolloff TamerAttack 1240 3200
+
+$random TamerAttackFemale	{ TamerAtk1f TamerAtk2f TamerAtk3f TamerAtk4f TamerAtk5f TamerAtk6f }
+TamerAtk1f						tamatk1f
+TamerAtk2f						tamatk2f
+TamerAtk3f						tamatk3f
+TamerAtk4f						tamatk4f
+TamerAtk5f						tamatk5f
+TamerAtk6f						tamatk6f
+
+$rolloff TamerAttackFemale 1240 3200
+
+$random TamerPain			{ TamerPain1 TamerPain2 TamerPain3 }
+TamerPain1						tamepai1
+TamerPain2						tamepai2
+TamerPain3						tamepai3
+
+$rolloff TamerPain 1240 3200
+
+$random TamerPainFemale		{ TamerPain1f TamerPain2f TamerPain3f }
+TamerPain1f						tampai1f
+TamerPain2f						tampai2f
+TamerPain3f						tampai3f
+
+$rolloff TamerPain 1240 3200
+
+TamerCast						tamecast
+$rolloff TamerCast 4000 8000
+
+TamerLightningStrike			tamelght
+
+$random TamerStep			{ TamerFootstep1 TamerFootstep2 TamerFootstep3 TamerFootstep4 }
+TamerFootstep1					tamestp1
+TamerFootstep2					tamestp2
+TamerFootstep3					tamestp3
+TamerFootstep4					tamestp4
+
+$rolloff TamerStep 600 1800
+
+$random TamerStepLPF		{ TamerFootstep1LPF TamerFootstep2LPF TamerFootstep3LPF TamerFootstep4LPF }
+TamerFootstep1LPF				tstp1lpf
+TamerFootstep2LPF				tstp2lpf
+TamerFootstep3LPF				tstp3lpf
+TamerFootstep4LPF				tstp4lpf
+
+$rolloff TamerStepLPF 1800 3600
+
+$random TamerMeleeStomp			{ TamerMeleeStomp1 TamerMeleeStomp2 TamerMeleeStomp3 TamerMeleeStomp4 TamerMeleeStomp5 }
+TamerMeleeStomp1				tamlstp1
+TamerMeleeStomp2				tamlstp2
+TamerMeleeStomp3				tamlstp3
+TamerMeleeStomp4				tamlstp4
+TamerMeleeStomp5				tamlstp5
+
+$rolloff TamerMeleeStomp 1280 2500
+
+TamerTeleportIn					tametin
+$rolloff TamerTeleportIn 800 1600
+
+TamerTeleportOut				tametout
+$rolloff TamerTeleportOut 800 1600
+
+$random TamerSealWarn		{ TamerSeal1 TamerSeal2 TamerSeal3 TamerSeal4 }
+TamerSeal1						tseal1
+TamerSeal2						tseal2
+TamerSeal3						tseal3
+TamerSeal4						tseal4
+
+$random TamerSealExplode	{ TamerExplode1	TamerExplode2 }
+TamerExplode1					tsealxp1
+TamerExplode2					tsealxp2
+
+TamerScytheWarn					SCYTLOAD
+$rolloff TamerScytheWarn 1240 3200
+
+TamerScytheFloorHit				SCYTEHIT
+$rolloff TamerScytheFloorHit 1240 3200
+
+TamerPortal/Loop1				SCYPORT1
+$rolloff TamerPortal/Loop1 600 1200
+
+TamerPortal/Loop2				SCYPORT2
+$rolloff TamerPortal/Loop2 600 1800
+
+TamerPortal/Loop3				SCYPORT3
+$rolloff TamerPortal/Loop3 600 2600
+
+TamerPortal/Close				SPORTALF
+$rolloff TamerPortal/Close 600 1800
+
+Ranerion/Grenade				RANEGREN
+$rolloff Ranerion/Grenade 1240 3200
+
+Ranerion/Reload					RANELOAD
+$rolloff Ranerion/Reload 1240 3200
+
+Ranerion/GroundShot				RANEFLOR
+$rolloff Ranerion/GroundShot 1240 3200
+
+Ranerion/GrenadeBounce			RANGRBC
+Ranerion/TargetAlert			RANETRG
+
+Ranerion/CannonCharge			RANECHRG
+$rolloff Ranerion/CannonCharge 4000 8000
+
+Ranerion/CannonShot				RANESHOT
+
+Ranerion/BallTravel				RANEBALF
+
+$random Ranerion/BallExplode	{ Raneballexp1 Raneballexp2 }
+Raneballexp1					RANEXP1
+Raneballexp2					RANEXP2
+
+TamerZanieon/Pulse				ZANPULSE
+$rolloff TamerZanieon/Pulse 1024 2600
+
+TamerZanieon/Kick				ZANKICK
+$rolloff TamerZanieon/Kick 1280 3800
+
+TamerZanieon/SwordSwing			ZANSWSWG
+$rolloff TamerZanieon/SwordSwing 1280 3800
+
+TamerZanieon/SummonCircle		ZANCIRCL
+$rolloff TamerZanieon/SummonCircle 1280 3800
+
+TamerZanieon/PortalStart		ZANPORST
+$rolloff TamerZanieon/PortalStart 1280 3800
+
+TamerZanieon/MultiballEXP		ZBALLEX
+$rolloff TamerZanieon/MultiballEXP 1280 3800
+
+TamerZanieon/FireballFly		TORFIRE
+$rolloff TamerZanieon/FireballFly 600 1800
+$limit TamerZanieon/FireballFly 0
+
+TamerZanieon/FireballHit		ZFIREHIT
+$rolloff TamerZanieon/FireballHit 600 1800
+$limit TamerZanieon/FireballHit 0
+
+TamerZanieon/IceballFly			ZICEFLY
+$rolloff TamerZanieon/IceballFly 600 1800
+$limit TamerZanieon/IceballFly 0
+
+$random TamerZanieon/IceballHit	{ ZIceballHit1 ZIceballHit2 }
+ZIceballHit1					ZICEHIT1
+ZIceballHit2					ZICEHIT2
+$rolloff TamerZanieon/IceballHit 600 1800
+$limit TamerZanieon/IceballHit 0
+
+TamerZanieon/SwordAoE			ZSWRDHIT
+$rolloff TamerZanieon/SwordAoE 2560 5500
+
+TamerZanieon/BlackHole			ZANBLHOL
+
+/* =============================================================================
+	Asmodeus (Formely known as "Spider Mastermind")
+==============================================================================*/
+
+$random ASactive 			{ vact1 vact2 vact3 vact4 vact5 }
+vact1							ASalert1
+vact2							ASalert2
+vact3							ASalert3
+vact4							ASalert4
+vact5							ASalert5
+$rolloff ASactive 1600 4800
+
+$random ASSee 			{ vact1 vact2 vact3 vact4 vact5 }
+$attenuation ASSee 0
+
+$random ASstep 				{ ASstep1 ASstep2 ASstep3 ASstep4 }
+ASstep1							ASstep1
+ASstep2							ASstep2
+ASstep3							ASstep3
+ASstep4							ASstep4
+
+ASdeath							ASdeath
+$rolloff ASdeath 1600 4800
+
+BlueWaveCharge					DMGCHGK
+
+$rolloff BlueWaveCharge 1200 3000
+$limit BlueWaveCharge 0
+
+BlueWaveShot					ASMOSHOT
+
+$rolloff BlueWaveShot 1200 3000
+$limit BlueWaveShot 0
+
+$random AsmodeusChaingunShot	{ ACGSHOT1 ACGSHOT2 ACGSHOT3 }
+ACGSHOT1						ACGSHOT1
+ACGSHOT2						ACGSHOT2
+ACGSHOT3						ACGSHOT3
+$rolloff AsmodeusChaingunShot 1200 3000
+$limit AsmodeusChaingunShot 0
+$volume AsmodeusChaingunShot 0.5
+
+AsmodeusChaingunEngineStart		ACGENGST
+$rolloff AsmodeusChaingunEngineStart 1600 4800
+
+AsmodeusChaingunEngineLoop		ACGENGLO
+$rolloff AsmodeusChaingunEngineLoop 1600 4800
+
+AsmodeusChaingunEngineStop		ACGENGSP
+$rolloff AsmodeusChaingunEngineStop 1600 4800
+
+BlueWaveLoop					DMGLOP
+BlueWaveHit						GRVSHCK
+
+/* =============================================================================
+	Baalgar
+==============================================================================*/
+
+$random Baalgar/See { Baalgarsee1 Baalgarsee2 Baalgarsee3 Baalgarsee4 }
+Baalgarsee1						BALGSEE1
+Baalgarsee2						BALGSEE2
+Baalgarsee3						BALGSEE3
+Baalgarsee4						BALGSEE4
+$attenuation Baalgar/See 0
+
+$random Baalgar/Attack { Baalgaratk1 Baalgaratk2 Baalgaratk3 Baalgaratk4 }
+Baalgaratk1						BALGATK1
+Baalgaratk2						BALGATK2
+Baalgaratk3						BALGATK3
+Baalgaratk4						BALGATK4
+$rolloff Baalgar/Attack 1600 4800
+
+$random Baalgar/Idle { BaalgarIdle1 BaalgarIdle2 BaalgarIdle3 BaalgarIdle4 Baalgarsee1 Baalgarsee2 Baalgarsee3 Baalgarsee4 }
+BaalgarIdle1					BALGIDL1
+BaalgarIdle2					BALGIDL2
+BaalgarIdle3					BALGIDL3
+BaalgarIdle4					BALGIDL4
+$rolloff Baalgar/Idle 1600 4800
+
+$random Baalgar/Pain { Baalgarpain1 Baalgarpain2 Baalgarpain3 Baalgarpain4 }
+Baalgarpain1					BALGPAI1
+Baalgarpain2					BALGPAI2
+Baalgarpain3					BALGPAI3
+Baalgarpain4					BALGPAI4
+$rolloff Baalgar/Pain 1600 4800
+
+$random Baalgar/Death { Baalgardeath1 Baalgardeath2 Baalgardeath3 Baalgardeath4 }
+Baalgardeath1					BALGDTH1
+Baalgardeath2					BALGDTH2
+Baalgardeath3					BALGDTH3
+Baalgardeath4					BALGDTH4
+$rolloff Baalgar/Death 1600 4800
+
+$random Baalgar/Stonedebris { Baalgardebris1 Baalgardebris2 Baalgardebris3 Baalgardebris4 }
+Baalgardebris1					BALGSTN1
+Baalgardebris2					BALGSTN2
+Baalgardebris3					BALGSTN3
+Baalgardebris4					BALGSTN4
+$limit Baalgar/Stonedebris 0
+$rolloff Baalgar/Stonedebris 1250 2500
+
+Baalgar/RockThrow				BALGROCK
+$rolloff Baalgar/RockThrow 1600 4800
+$limit Baalgar/RockThrow 0
+
+Baalgar/RockImpact				BALGSTHT
+$rolloff Baalgar/RockImpact 1250 2500
+$limit Baalgar/RockImpact 0
+
+Baalgar/SlamImpact				BALGDSLD
+$rolloff Baalgar/SlamImpact 1250 2500
+$limit Baalgar/SlamImpact 0
+
+Baalgar/Footstep				BALGSTEP
+$rolloff Baalgar/Footstep 1250 2500
+$limit Baalgar/Footstep 0
+
+
+/* =============================================================================
+	Cyberdemon
+==============================================================================*/
+
+$random Cyber/See		{ cybsight1 cybsight2 cybsight3 cybsight4 cybsight5 }
+cybsight1						cybsee1
+cybsight2						cybsee2
+cybsight3						cybsee3
+cybsight4						cybsee4
+cybsight5						cybsee5
+$attenuation Cyber/See 0
+
+$random cybinter		{ cybactive1 cybactive2 cybactive3 cybactive4 }
+cybactive1						cybidle1
+cybactive2						cybidle2
+cybactive3						cybidle3
+cybactive4						cybidle4
+
+$rolloff cybinter 1600 4800
+
+$random cybpain			{ cybpain1 cybpain2 cybpain3 cybpain4 }
+cybpain1						cybpain1
+cybpain2						cybpain2
+cybpain3						cybpain3
+cybpain4						cybpain4
+
+$rolloff cybpain 1600 4800
+
+$random cyber/step      { cybhoof1 cybhoof2 cybhoof3 cybhoof4 }
+cybhoof1						cybhoof1
+cybhoof2						cybhoof2
+cybhoof3						cybhoof3
+cybhoof4						cybhoof4
+
+$rolloff cyber/step 1250 2500
+
+cyberland						CYBRLAND
+
+$random weapons/RocketFire      { R2FIR1  R2FIR2 }
+R2FIR1							RK2FIR1
+R2FIR2							RK2FIR2
+
+$rolloff weapons/RocketFire 1250 2500
+
+$random cyber/reload			{ Warhead1 Warhead2 Warhead3 }
+Warhead1						CybRld1
+Warhead2						CybRld2
+Warhead3						CybRld3
+
+weapons/rockfly					ROCKTFLY
+
+RocketEXPLODE		 			EXPLODE0
+
+/* =============================================================================
+	Undead Warriors
+==============================================================================*/
+
+$random Undead/Sight { UndeadSee1 UndeadSee2 UndeadSee3 UndeadSee4 }
+UndeadSee1						UNDNSEE1
+UndeadSee2						UNDNSEE2
+UndeadSee3						UNDNSEE3
+UndeadSee4						UNDNSEE4
+
+$random Undead/Idle { UndeadIdle1 UndeadIdle2 UndeadIdle3 }
+UndeadIdle1						UNDNIDL1
+UndeadIdle2						UNDNIDL2
+UndeadIdle3						UNDNIDL3
+
+$random Undead/Attack { UndeadAttack1 UndeadAttack2 }
+UndeadAttack1					UNDNATK1
+UndeadAttack2					UNDNATK2
+
+$random Undead/Pain { UndeadPain1 UndeadPain2 UndeadPain3 UndeadPain4 UndeadPain5 }
+UndeadPain1						UNDNPAI1
+UndeadPain2						UNDNPAI2
+UndeadPain3						UNDNPAI3
+UndeadPain4						UNDNPAI4
+UndeadPain5						UNDNPAI5
+
+$random Undead/Death { UndeadDeath1 UndeadDeath2 UndeadDeath3 }
+UndeadDeath1					UNDNDTH1
+UndeadDeath2					UNDNDTH2
+UndeadDeath3					UNDNDTH3
+
+$random Undead/Step { UndeadStep1 UndeadStep2 UndeadStep3 }
+UndeadStep1						UNDNSTP1
+UndeadStep2						UNDNSTP2
+UndeadStep3						UNDNSTP3
+
+Undead/AxeHit					UAXEHITW
+Undead/AxeCharge				UAXECHAG
+Undead/AxeHitPowered			UAXEHITF
+
+/* =============================================================================
+	Shared
+==============================================================================*/
+
+HellPortal/TeleportIn			HELLPIN
+$limit HellPortal/TeleportIn 0
+HellPortal/TeleportOut			HELLPOUT
+$limit HellPortal/TeleportOut 0
+
+explodeath						EXPLO9
+blastexplo						DSMDTF
+thatslotdmg						DSDAMG

@@ -1,0 +1,11 @@
+#include "Actors/DECORATE.Actors_bullets"
+#include "Actors/DECORATE.ATrooperBot"
+#include "Actors/DECORATE.PigcopBot"
+
+#include "Actors/DECORATE.Weapons"
+
+#include "Actors/BLOOD"
+#include "Actors/DECORATE.SuperGore"
+#include "Actors/DECORATE.Meat"
+
+#include "Actors/Decorate.EXPLOEFFECTS"

@@ -1,0 +1,4 @@
+#include "models/MODELDEF.SW"
+#include "models/MODELDEF.SW_player"
+#include "models/MODELDEF.SW_Decor"
+#include "models/MODELDEF.Vehicles"

@@ -1,0 +1,8795 @@
+// Generated MODELDEF for UpdatedDoom2Bot
+// Every state has an independent Model block.
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: STAND
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex STID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: RUN FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFW A 0 20
+	FrameIndex RNFW B 0 21
+	FrameIndex RNFW C 0 22
+	FrameIndex RNFW D 0 23
+	FrameIndex RNFW E 0 24
+	FrameIndex RNFW F 0 25
+	FrameIndex RNFW G 0 26
+	FrameIndex RNFW H 0 27
+	FrameIndex RNFW I 0 28
+	FrameIndex RNFW J 0 29
+	FrameIndex RNFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: RUN BACK
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBK A 0 31
+	FrameIndex RNBK B 0 32
+	FrameIndex RNBK C 0 33
+	FrameIndex RNBK D 0 34
+	FrameIndex RNBK E 0 35
+	FrameIndex RNBK F 0 36
+	FrameIndex RNBK G 0 37
+	FrameIndex RNBK H 0 38
+	FrameIndex RNBK I 0 39
+	FrameIndex RNBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: RUN LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNLF A 0 20
+	FrameIndex RNLF B 0 21
+	FrameIndex RNLF C 0 22
+	FrameIndex RNLF D 0 23
+	FrameIndex RNLF E 0 24
+	FrameIndex RNLF F 0 25
+	FrameIndex RNLF G 0 26
+	FrameIndex RNLF H 0 27
+	FrameIndex RNLF I 0 28
+	FrameIndex RNLF J 0 29
+	FrameIndex RNLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: RUN RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNRT A 0 20
+	FrameIndex RNRT B 0 21
+	FrameIndex RNRT C 0 22
+	FrameIndex RNRT D 0 23
+	FrameIndex RNRT E 0 24
+	FrameIndex RNRT F 0 25
+	FrameIndex RNRT G 0 26
+	FrameIndex RNRT H 0 27
+	FrameIndex RNRT I 0 28
+	FrameIndex RNRT J 0 29
+	FrameIndex RNRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: RUN FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFL A 0 20
+	FrameIndex RNFL B 0 21
+	FrameIndex RNFL C 0 22
+	FrameIndex RNFL D 0 23
+	FrameIndex RNFL E 0 24
+	FrameIndex RNFL F 0 25
+	FrameIndex RNFL G 0 26
+	FrameIndex RNFL H 0 27
+	FrameIndex RNFL I 0 28
+	FrameIndex RNFL J 0 29
+	FrameIndex RNFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: RUN FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFR A 0 20
+	FrameIndex RNFR B 0 21
+	FrameIndex RNFR C 0 22
+	FrameIndex RNFR D 0 23
+	FrameIndex RNFR E 0 24
+	FrameIndex RNFR F 0 25
+	FrameIndex RNFR G 0 26
+	FrameIndex RNFR H 0 27
+	FrameIndex RNFR I 0 28
+	FrameIndex RNFR J 0 29
+	FrameIndex RNFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: RUN BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBL A 0 31
+	FrameIndex RNBL B 0 32
+	FrameIndex RNBL C 0 33
+	FrameIndex RNBL D 0 34
+	FrameIndex RNBL E 0 35
+	FrameIndex RNBL F 0 36
+	FrameIndex RNBL G 0 37
+	FrameIndex RNBL H 0 38
+	FrameIndex RNBL I 0 39
+	FrameIndex RNBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: RUN BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBR A 0 31
+	FrameIndex RNBR B 0 32
+	FrameIndex RNBR C 0 33
+	FrameIndex RNBR D 0 34
+	FrameIndex RNBR E 0 35
+	FrameIndex RNBR F 0 36
+	FrameIndex RNBR G 0 37
+	FrameIndex RNBR H 0 38
+	FrameIndex RNBR I 0 39
+	FrameIndex RNBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFW A 0 20
+	FrameIndex FSFW B 0 21
+	FrameIndex FSFW C 0 22
+	FrameIndex FSFW D 0 23
+	FrameIndex FSFW E 0 24
+	FrameIndex FSFW F 0 25
+	FrameIndex FSFW G 0 26
+	FrameIndex FSFW H 0 27
+	FrameIndex FSFW I 0 28
+	FrameIndex FSFW J 0 29
+	FrameIndex FSFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBK A 0 31
+	FrameIndex FSBK B 0 32
+	FrameIndex FSBK C 0 33
+	FrameIndex FSBK D 0 34
+	FrameIndex FSBK E 0 35
+	FrameIndex FSBK F 0 36
+	FrameIndex FSBK G 0 37
+	FrameIndex FSBK H 0 38
+	FrameIndex FSBK I 0 39
+	FrameIndex FSBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSLF A 0 20
+	FrameIndex FSLF B 0 21
+	FrameIndex FSLF C 0 22
+	FrameIndex FSLF D 0 23
+	FrameIndex FSLF E 0 24
+	FrameIndex FSLF F 0 25
+	FrameIndex FSLF G 0 26
+	FrameIndex FSLF H 0 27
+	FrameIndex FSLF I 0 28
+	FrameIndex FSLF J 0 29
+	FrameIndex FSLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSRT A 0 20
+	FrameIndex FSRT B 0 21
+	FrameIndex FSRT C 0 22
+	FrameIndex FSRT D 0 23
+	FrameIndex FSRT E 0 24
+	FrameIndex FSRT F 0 25
+	FrameIndex FSRT G 0 26
+	FrameIndex FSRT H 0 27
+	FrameIndex FSRT I 0 28
+	FrameIndex FSRT J 0 29
+	FrameIndex FSRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFL A 0 20
+	FrameIndex FSFL B 0 21
+	FrameIndex FSFL C 0 22
+	FrameIndex FSFL D 0 23
+	FrameIndex FSFL E 0 24
+	FrameIndex FSFL F 0 25
+	FrameIndex FSFL G 0 26
+	FrameIndex FSFL H 0 27
+	FrameIndex FSFL I 0 28
+	FrameIndex FSFL J 0 29
+	FrameIndex FSFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFR A 0 20
+	FrameIndex FSFR B 0 21
+	FrameIndex FSFR C 0 22
+	FrameIndex FSFR D 0 23
+	FrameIndex FSFR E 0 24
+	FrameIndex FSFR F 0 25
+	FrameIndex FSFR G 0 26
+	FrameIndex FSFR H 0 27
+	FrameIndex FSFR I 0 28
+	FrameIndex FSFR J 0 29
+	FrameIndex FSFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBL A 0 31
+	FrameIndex FSBL B 0 32
+	FrameIndex FSBL C 0 33
+	FrameIndex FSBL D 0 34
+	FrameIndex FSBL E 0 35
+	FrameIndex FSBL F 0 36
+	FrameIndex FSBL G 0 37
+	FrameIndex FSBL H 0 38
+	FrameIndex FSBL I 0 39
+	FrameIndex FSBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBR A 0 31
+	FrameIndex FSBR B 0 32
+	FrameIndex FSBR C 0 33
+	FrameIndex FSBR D 0 34
+	FrameIndex FSBR E 0 35
+	FrameIndex FSBR F 0 36
+	FrameIndex FSBR G 0 37
+	FrameIndex FSBR H 0 38
+	FrameIndex FSBR I 0 39
+	FrameIndex FSBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH STAND
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFW A 0 0
+	FrameIndex CRFW B 0 1
+	FrameIndex CRFW C 0 2
+	FrameIndex CRFW D 0 3
+	FrameIndex CRFW E 0 4
+	FrameIndex CRFW F 0 5
+	FrameIndex CRFW G 0 6
+	FrameIndex CRFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH BACK
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBK A 0 7
+	FrameIndex CRBK B 0 6
+	FrameIndex CRBK C 0 5
+	FrameIndex CRBK D 0 4
+	FrameIndex CRBK E 0 3
+	FrameIndex CRBK F 0 2
+	FrameIndex CRBK G 0 1
+	FrameIndex CRBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRLF A 0 0
+	FrameIndex CRLF B 0 1
+	FrameIndex CRLF C 0 2
+	FrameIndex CRLF D 0 3
+	FrameIndex CRLF E 0 4
+	FrameIndex CRLF F 0 5
+	FrameIndex CRLF G 0 6
+	FrameIndex CRLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRRT A 0 0
+	FrameIndex CRRT B 0 1
+	FrameIndex CRRT C 0 2
+	FrameIndex CRRT D 0 3
+	FrameIndex CRRT E 0 4
+	FrameIndex CRRT F 0 5
+	FrameIndex CRRT G 0 6
+	FrameIndex CRRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFL A 0 0
+	FrameIndex CRFL B 0 1
+	FrameIndex CRFL C 0 2
+	FrameIndex CRFL D 0 3
+	FrameIndex CRFL E 0 4
+	FrameIndex CRFL F 0 5
+	FrameIndex CRFL G 0 6
+	FrameIndex CRFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFR A 0 0
+	FrameIndex CRFR B 0 1
+	FrameIndex CRFR C 0 2
+	FrameIndex CRFR D 0 3
+	FrameIndex CRFR E 0 4
+	FrameIndex CRFR F 0 5
+	FrameIndex CRFR G 0 6
+	FrameIndex CRFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBL A 0 7
+	FrameIndex CRBL B 0 6
+	FrameIndex CRBL C 0 5
+	FrameIndex CRBL D 0 4
+	FrameIndex CRBL E 0 3
+	FrameIndex CRBL F 0 2
+	FrameIndex CRBL G 0 1
+	FrameIndex CRBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBR A 0 7
+	FrameIndex CRBR B 0 6
+	FrameIndex CRBR C 0 5
+	FrameIndex CRBR D 0 4
+	FrameIndex CRBR E 0 3
+	FrameIndex CRBR F 0 2
+	FrameIndex CRBR G 0 1
+	FrameIndex CRBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFW A 0 0
+	FrameIndex CFFW B 0 1
+	FrameIndex CFFW C 0 2
+	FrameIndex CFFW D 0 3
+	FrameIndex CFFW E 0 4
+	FrameIndex CFFW F 0 5
+	FrameIndex CFFW G 0 6
+	FrameIndex CFFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBK A 0 7
+	FrameIndex CFBK B 0 6
+	FrameIndex CFBK C 0 5
+	FrameIndex CFBK D 0 4
+	FrameIndex CFBK E 0 3
+	FrameIndex CFBK F 0 2
+	FrameIndex CFBK G 0 1
+	FrameIndex CFBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFLF A 0 0
+	FrameIndex CFLF B 0 1
+	FrameIndex CFLF C 0 2
+	FrameIndex CFLF D 0 3
+	FrameIndex CFLF E 0 4
+	FrameIndex CFLF F 0 5
+	FrameIndex CFLF G 0 6
+	FrameIndex CFLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFRT A 0 0
+	FrameIndex CFRT B 0 1
+	FrameIndex CFRT C 0 2
+	FrameIndex CFRT D 0 3
+	FrameIndex CFRT E 0 4
+	FrameIndex CFRT F 0 5
+	FrameIndex CFRT G 0 6
+	FrameIndex CFRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFL A 0 0
+	FrameIndex CFFL B 0 1
+	FrameIndex CFFL C 0 2
+	FrameIndex CFFL D 0 3
+	FrameIndex CFFL E 0 4
+	FrameIndex CFFL F 0 5
+	FrameIndex CFFL G 0 6
+	FrameIndex CFFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFR A 0 0
+	FrameIndex CFFR B 0 1
+	FrameIndex CFFR C 0 2
+	FrameIndex CFFR D 0 3
+	FrameIndex CFFR E 0 4
+	FrameIndex CFFR F 0 5
+	FrameIndex CFFR G 0 6
+	FrameIndex CFFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset -20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBL A 0 7
+	FrameIndex CFBL B 0 6
+	FrameIndex CFBL C 0 5
+	FrameIndex CFBL D 0 4
+	FrameIndex CFBL E 0 3
+	FrameIndex CFBL F 0 2
+	FrameIndex CFBL G 0 1
+	FrameIndex CFBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: CROUCH FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 20
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBR A 0 7
+	FrameIndex CFBR B 0 6
+	FrameIndex CFBR C 0 5
+	FrameIndex CFBR D 0 4
+	FrameIndex CFBR E 0 3
+	FrameIndex CFBR F 0 2
+	FrameIndex CFBR G 0 1
+	FrameIndex CFBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: JUMP FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPFW A 0 51
+	FrameIndex JPFW B 0 52
+	FrameIndex JPFW C 0 53
+	FrameIndex JPFW D 0 54
+	FrameIndex JPFW E 0 55
+	FrameIndex JPFW F 0 56
+	FrameIndex JPFW G 0 57
+	FrameIndex JPFW H 0 58
+	FrameIndex JPFW I 0 59
+	FrameIndex JPFW J 0 60
+	FrameIndex JPFW K 0 61
+	FrameIndex JPFW L 0 62
+	FrameIndex JPFW M 0 63
+	FrameIndex JPFW N 0 64
+	FrameIndex JPFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: JUMP BACK
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPBK A 0 66
+	FrameIndex JPBK B 0 67
+	FrameIndex JPBK C 0 68
+	FrameIndex JPBK D 0 69
+	FrameIndex JPBK E 0 70
+	FrameIndex JPBK F 0 71
+	FrameIndex JPBK G 0 72
+	FrameIndex JPBK H 0 73
+	FrameIndex JPBK I 0 74
+	FrameIndex JPBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: JUMP FORWARD FIRE
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFFW A 0 51
+	FrameIndex JFFW B 0 52
+	FrameIndex JFFW C 0 53
+	FrameIndex JFFW D 0 54
+	FrameIndex JFFW E 0 55
+	FrameIndex JFFW F 0 56
+	FrameIndex JFFW G 0 57
+	FrameIndex JFFW H 0 58
+	FrameIndex JFFW I 0 59
+	FrameIndex JFFW J 0 60
+	FrameIndex JFFW K 0 61
+	FrameIndex JFFW L 0 62
+	FrameIndex JFFW M 0 63
+	FrameIndex JFFW N 0 64
+	FrameIndex JFFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: JUMP BACK FIRE
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFBK A 0 66
+	FrameIndex JFBK B 0 67
+	FrameIndex JFBK C 0 68
+	FrameIndex JFBK D 0 69
+	FrameIndex JFBK E 0 70
+	FrameIndex JFBK F 0 71
+	FrameIndex JFBK G 0 72
+	FrameIndex JFBK H 0 73
+	FrameIndex JFBK I 0 74
+	FrameIndex JFBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: KICK STAND
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKST A 0 76
+	FrameIndex KKST B 0 77
+	FrameIndex KKST C 0 78
+	FrameIndex KKST D 0 79
+	FrameIndex KKST E 0 80
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: KICK CROUCH
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKCR A 0 0
+	FrameIndex KKCR B 0 1
+	FrameIndex KKCR C 0 2
+	FrameIndex KKCR D 0 3
+	FrameIndex KKCR E 0 4
+	FrameIndex KKCR F 0 5
+	FrameIndex KKCR G 0 6
+	FrameIndex KKCR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: KICK AIR
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legs.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKAR A 0 66
+	FrameIndex KKAR B 0 67
+	FrameIndex KKAR C 0 68
+	FrameIndex KKAR D 0 69
+	FrameIndex KKAR E 0 70
+	FrameIndex KKAR F 0 71
+	FrameIndex KKAR G 0 72
+	FrameIndex KKAR H 0 73
+	FrameIndex KKAR I 0 74
+	FrameIndex KKAR J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: STAND
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex STID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: RUN FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFW A 0 20
+	FrameIndex RNFW B 0 21
+	FrameIndex RNFW C 0 22
+	FrameIndex RNFW D 0 23
+	FrameIndex RNFW E 0 24
+	FrameIndex RNFW F 0 25
+	FrameIndex RNFW G 0 26
+	FrameIndex RNFW H 0 27
+	FrameIndex RNFW I 0 28
+	FrameIndex RNFW J 0 29
+	FrameIndex RNFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: RUN BACK
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBK A 0 31
+	FrameIndex RNBK B 0 32
+	FrameIndex RNBK C 0 33
+	FrameIndex RNBK D 0 34
+	FrameIndex RNBK E 0 35
+	FrameIndex RNBK F 0 36
+	FrameIndex RNBK G 0 37
+	FrameIndex RNBK H 0 38
+	FrameIndex RNBK I 0 39
+	FrameIndex RNBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: RUN LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNLF A 0 20
+	FrameIndex RNLF B 0 21
+	FrameIndex RNLF C 0 22
+	FrameIndex RNLF D 0 23
+	FrameIndex RNLF E 0 24
+	FrameIndex RNLF F 0 25
+	FrameIndex RNLF G 0 26
+	FrameIndex RNLF H 0 27
+	FrameIndex RNLF I 0 28
+	FrameIndex RNLF J 0 29
+	FrameIndex RNLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: RUN RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNRT A 0 20
+	FrameIndex RNRT B 0 21
+	FrameIndex RNRT C 0 22
+	FrameIndex RNRT D 0 23
+	FrameIndex RNRT E 0 24
+	FrameIndex RNRT F 0 25
+	FrameIndex RNRT G 0 26
+	FrameIndex RNRT H 0 27
+	FrameIndex RNRT I 0 28
+	FrameIndex RNRT J 0 29
+	FrameIndex RNRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: RUN FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFL A 0 20
+	FrameIndex RNFL B 0 21
+	FrameIndex RNFL C 0 22
+	FrameIndex RNFL D 0 23
+	FrameIndex RNFL E 0 24
+	FrameIndex RNFL F 0 25
+	FrameIndex RNFL G 0 26
+	FrameIndex RNFL H 0 27
+	FrameIndex RNFL I 0 28
+	FrameIndex RNFL J 0 29
+	FrameIndex RNFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: RUN FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFR A 0 20
+	FrameIndex RNFR B 0 21
+	FrameIndex RNFR C 0 22
+	FrameIndex RNFR D 0 23
+	FrameIndex RNFR E 0 24
+	FrameIndex RNFR F 0 25
+	FrameIndex RNFR G 0 26
+	FrameIndex RNFR H 0 27
+	FrameIndex RNFR I 0 28
+	FrameIndex RNFR J 0 29
+	FrameIndex RNFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: RUN BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBL A 0 31
+	FrameIndex RNBL B 0 32
+	FrameIndex RNBL C 0 33
+	FrameIndex RNBL D 0 34
+	FrameIndex RNBL E 0 35
+	FrameIndex RNBL F 0 36
+	FrameIndex RNBL G 0 37
+	FrameIndex RNBL H 0 38
+	FrameIndex RNBL I 0 39
+	FrameIndex RNBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: RUN BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBR A 0 31
+	FrameIndex RNBR B 0 32
+	FrameIndex RNBR C 0 33
+	FrameIndex RNBR D 0 34
+	FrameIndex RNBR E 0 35
+	FrameIndex RNBR F 0 36
+	FrameIndex RNBR G 0 37
+	FrameIndex RNBR H 0 38
+	FrameIndex RNBR I 0 39
+	FrameIndex RNBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFW A 0 20
+	FrameIndex FSFW B 0 21
+	FrameIndex FSFW C 0 22
+	FrameIndex FSFW D 0 23
+	FrameIndex FSFW E 0 24
+	FrameIndex FSFW F 0 25
+	FrameIndex FSFW G 0 26
+	FrameIndex FSFW H 0 27
+	FrameIndex FSFW I 0 28
+	FrameIndex FSFW J 0 29
+	FrameIndex FSFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBK A 0 31
+	FrameIndex FSBK B 0 32
+	FrameIndex FSBK C 0 33
+	FrameIndex FSBK D 0 34
+	FrameIndex FSBK E 0 35
+	FrameIndex FSBK F 0 36
+	FrameIndex FSBK G 0 37
+	FrameIndex FSBK H 0 38
+	FrameIndex FSBK I 0 39
+	FrameIndex FSBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSLF A 0 20
+	FrameIndex FSLF B 0 21
+	FrameIndex FSLF C 0 22
+	FrameIndex FSLF D 0 23
+	FrameIndex FSLF E 0 24
+	FrameIndex FSLF F 0 25
+	FrameIndex FSLF G 0 26
+	FrameIndex FSLF H 0 27
+	FrameIndex FSLF I 0 28
+	FrameIndex FSLF J 0 29
+	FrameIndex FSLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSRT A 0 20
+	FrameIndex FSRT B 0 21
+	FrameIndex FSRT C 0 22
+	FrameIndex FSRT D 0 23
+	FrameIndex FSRT E 0 24
+	FrameIndex FSRT F 0 25
+	FrameIndex FSRT G 0 26
+	FrameIndex FSRT H 0 27
+	FrameIndex FSRT I 0 28
+	FrameIndex FSRT J 0 29
+	FrameIndex FSRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFL A 0 20
+	FrameIndex FSFL B 0 21
+	FrameIndex FSFL C 0 22
+	FrameIndex FSFL D 0 23
+	FrameIndex FSFL E 0 24
+	FrameIndex FSFL F 0 25
+	FrameIndex FSFL G 0 26
+	FrameIndex FSFL H 0 27
+	FrameIndex FSFL I 0 28
+	FrameIndex FSFL J 0 29
+	FrameIndex FSFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFR A 0 20
+	FrameIndex FSFR B 0 21
+	FrameIndex FSFR C 0 22
+	FrameIndex FSFR D 0 23
+	FrameIndex FSFR E 0 24
+	FrameIndex FSFR F 0 25
+	FrameIndex FSFR G 0 26
+	FrameIndex FSFR H 0 27
+	FrameIndex FSFR I 0 28
+	FrameIndex FSFR J 0 29
+	FrameIndex FSFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBL A 0 31
+	FrameIndex FSBL B 0 32
+	FrameIndex FSBL C 0 33
+	FrameIndex FSBL D 0 34
+	FrameIndex FSBL E 0 35
+	FrameIndex FSBL F 0 36
+	FrameIndex FSBL G 0 37
+	FrameIndex FSBL H 0 38
+	FrameIndex FSBL I 0 39
+	FrameIndex FSBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBR A 0 31
+	FrameIndex FSBR B 0 32
+	FrameIndex FSBR C 0 33
+	FrameIndex FSBR D 0 34
+	FrameIndex FSBR E 0 35
+	FrameIndex FSBR F 0 36
+	FrameIndex FSBR G 0 37
+	FrameIndex FSBR H 0 38
+	FrameIndex FSBR I 0 39
+	FrameIndex FSBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH STAND
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFW A 0 0
+	FrameIndex CRFW B 0 1
+	FrameIndex CRFW C 0 2
+	FrameIndex CRFW D 0 3
+	FrameIndex CRFW E 0 4
+	FrameIndex CRFW F 0 5
+	FrameIndex CRFW G 0 6
+	FrameIndex CRFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH BACK
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBK A 0 7
+	FrameIndex CRBK B 0 6
+	FrameIndex CRBK C 0 5
+	FrameIndex CRBK D 0 4
+	FrameIndex CRBK E 0 3
+	FrameIndex CRBK F 0 2
+	FrameIndex CRBK G 0 1
+	FrameIndex CRBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRLF A 0 0
+	FrameIndex CRLF B 0 1
+	FrameIndex CRLF C 0 2
+	FrameIndex CRLF D 0 3
+	FrameIndex CRLF E 0 4
+	FrameIndex CRLF F 0 5
+	FrameIndex CRLF G 0 6
+	FrameIndex CRLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRRT A 0 0
+	FrameIndex CRRT B 0 1
+	FrameIndex CRRT C 0 2
+	FrameIndex CRRT D 0 3
+	FrameIndex CRRT E 0 4
+	FrameIndex CRRT F 0 5
+	FrameIndex CRRT G 0 6
+	FrameIndex CRRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFL A 0 0
+	FrameIndex CRFL B 0 1
+	FrameIndex CRFL C 0 2
+	FrameIndex CRFL D 0 3
+	FrameIndex CRFL E 0 4
+	FrameIndex CRFL F 0 5
+	FrameIndex CRFL G 0 6
+	FrameIndex CRFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFR A 0 0
+	FrameIndex CRFR B 0 1
+	FrameIndex CRFR C 0 2
+	FrameIndex CRFR D 0 3
+	FrameIndex CRFR E 0 4
+	FrameIndex CRFR F 0 5
+	FrameIndex CRFR G 0 6
+	FrameIndex CRFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBL A 0 7
+	FrameIndex CRBL B 0 6
+	FrameIndex CRBL C 0 5
+	FrameIndex CRBL D 0 4
+	FrameIndex CRBL E 0 3
+	FrameIndex CRBL F 0 2
+	FrameIndex CRBL G 0 1
+	FrameIndex CRBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBR A 0 7
+	FrameIndex CRBR B 0 6
+	FrameIndex CRBR C 0 5
+	FrameIndex CRBR D 0 4
+	FrameIndex CRBR E 0 3
+	FrameIndex CRBR F 0 2
+	FrameIndex CRBR G 0 1
+	FrameIndex CRBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFW A 0 0
+	FrameIndex CFFW B 0 1
+	FrameIndex CFFW C 0 2
+	FrameIndex CFFW D 0 3
+	FrameIndex CFFW E 0 4
+	FrameIndex CFFW F 0 5
+	FrameIndex CFFW G 0 6
+	FrameIndex CFFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBK A 0 7
+	FrameIndex CFBK B 0 6
+	FrameIndex CFBK C 0 5
+	FrameIndex CFBK D 0 4
+	FrameIndex CFBK E 0 3
+	FrameIndex CFBK F 0 2
+	FrameIndex CFBK G 0 1
+	FrameIndex CFBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFLF A 0 0
+	FrameIndex CFLF B 0 1
+	FrameIndex CFLF C 0 2
+	FrameIndex CFLF D 0 3
+	FrameIndex CFLF E 0 4
+	FrameIndex CFLF F 0 5
+	FrameIndex CFLF G 0 6
+	FrameIndex CFLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFRT A 0 0
+	FrameIndex CFRT B 0 1
+	FrameIndex CFRT C 0 2
+	FrameIndex CFRT D 0 3
+	FrameIndex CFRT E 0 4
+	FrameIndex CFRT F 0 5
+	FrameIndex CFRT G 0 6
+	FrameIndex CFRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFL A 0 0
+	FrameIndex CFFL B 0 1
+	FrameIndex CFFL C 0 2
+	FrameIndex CFFL D 0 3
+	FrameIndex CFFL E 0 4
+	FrameIndex CFFL F 0 5
+	FrameIndex CFFL G 0 6
+	FrameIndex CFFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFR A 0 0
+	FrameIndex CFFR B 0 1
+	FrameIndex CFFR C 0 2
+	FrameIndex CFFR D 0 3
+	FrameIndex CFFR E 0 4
+	FrameIndex CFFR F 0 5
+	FrameIndex CFFR G 0 6
+	FrameIndex CFFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBL A 0 7
+	FrameIndex CFBL B 0 6
+	FrameIndex CFBL C 0 5
+	FrameIndex CFBL D 0 4
+	FrameIndex CFBL E 0 3
+	FrameIndex CFBL F 0 2
+	FrameIndex CFBL G 0 1
+	FrameIndex CFBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: CROUCH FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBR A 0 7
+	FrameIndex CFBR B 0 6
+	FrameIndex CFBR C 0 5
+	FrameIndex CFBR D 0 4
+	FrameIndex CFBR E 0 3
+	FrameIndex CFBR F 0 2
+	FrameIndex CFBR G 0 1
+	FrameIndex CFBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: JUMP FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPFW A 0 51
+	FrameIndex JPFW B 0 52
+	FrameIndex JPFW C 0 53
+	FrameIndex JPFW D 0 54
+	FrameIndex JPFW E 0 55
+	FrameIndex JPFW F 0 56
+	FrameIndex JPFW G 0 57
+	FrameIndex JPFW H 0 58
+	FrameIndex JPFW I 0 59
+	FrameIndex JPFW J 0 60
+	FrameIndex JPFW K 0 61
+	FrameIndex JPFW L 0 62
+	FrameIndex JPFW M 0 63
+	FrameIndex JPFW N 0 64
+	FrameIndex JPFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: JUMP BACK
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPBK A 0 66
+	FrameIndex JPBK B 0 67
+	FrameIndex JPBK C 0 68
+	FrameIndex JPBK D 0 69
+	FrameIndex JPBK E 0 70
+	FrameIndex JPBK F 0 71
+	FrameIndex JPBK G 0 72
+	FrameIndex JPBK H 0 73
+	FrameIndex JPBK I 0 74
+	FrameIndex JPBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: JUMP FORWARD FIRE
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFFW A 0 51
+	FrameIndex JFFW B 0 52
+	FrameIndex JFFW C 0 53
+	FrameIndex JFFW D 0 54
+	FrameIndex JFFW E 0 55
+	FrameIndex JFFW F 0 56
+	FrameIndex JFFW G 0 57
+	FrameIndex JFFW H 0 58
+	FrameIndex JFFW I 0 59
+	FrameIndex JFFW J 0 60
+	FrameIndex JFFW K 0 61
+	FrameIndex JFFW L 0 62
+	FrameIndex JFFW M 0 63
+	FrameIndex JFFW N 0 64
+	FrameIndex JFFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: JUMP BACK FIRE
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFBK A 0 66
+	FrameIndex JFBK B 0 67
+	FrameIndex JFBK C 0 68
+	FrameIndex JFBK D 0 69
+	FrameIndex JFBK E 0 70
+	FrameIndex JFBK F 0 71
+	FrameIndex JFBK G 0 72
+	FrameIndex JFBK H 0 73
+	FrameIndex JFBK I 0 74
+	FrameIndex JFBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: KICK STAND
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKST A 0 76
+	FrameIndex KKST B 0 77
+	FrameIndex KKST C 0 78
+	FrameIndex KKST D 0 79
+	FrameIndex KKST E 0 80
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: KICK CROUCH
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKCR A 0 0
+	FrameIndex KKCR B 0 1
+	FrameIndex KKCR C 0 2
+	FrameIndex KKCR D 0 3
+	FrameIndex KKCR E 0 4
+	FrameIndex KKCR F 0 5
+	FrameIndex KKCR G 0 6
+	FrameIndex KKCR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: KICK AIR
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "body.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKAR A 0 66
+	FrameIndex KKAR B 0 67
+	FrameIndex KKAR C 0 68
+	FrameIndex KKAR D 0 69
+	FrameIndex KKAR E 0 70
+	FrameIndex KKAR F 0 71
+	FrameIndex KKAR G 0 72
+	FrameIndex KKAR H 0 73
+	FrameIndex KKAR I 0 74
+	FrameIndex KKAR J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex STID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: RUN FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFW A 0 20
+	FrameIndex RNFW B 0 21
+	FrameIndex RNFW C 0 22
+	FrameIndex RNFW D 0 23
+	FrameIndex RNFW E 0 24
+	FrameIndex RNFW F 0 25
+	FrameIndex RNFW G 0 26
+	FrameIndex RNFW H 0 27
+	FrameIndex RNFW I 0 28
+	FrameIndex RNFW J 0 29
+	FrameIndex RNFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: RUN BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBK A 0 31
+	FrameIndex RNBK B 0 32
+	FrameIndex RNBK C 0 33
+	FrameIndex RNBK D 0 34
+	FrameIndex RNBK E 0 35
+	FrameIndex RNBK F 0 36
+	FrameIndex RNBK G 0 37
+	FrameIndex RNBK H 0 38
+	FrameIndex RNBK I 0 39
+	FrameIndex RNBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: RUN LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNLF A 0 20
+	FrameIndex RNLF B 0 21
+	FrameIndex RNLF C 0 22
+	FrameIndex RNLF D 0 23
+	FrameIndex RNLF E 0 24
+	FrameIndex RNLF F 0 25
+	FrameIndex RNLF G 0 26
+	FrameIndex RNLF H 0 27
+	FrameIndex RNLF I 0 28
+	FrameIndex RNLF J 0 29
+	FrameIndex RNLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: RUN RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNRT A 0 20
+	FrameIndex RNRT B 0 21
+	FrameIndex RNRT C 0 22
+	FrameIndex RNRT D 0 23
+	FrameIndex RNRT E 0 24
+	FrameIndex RNRT F 0 25
+	FrameIndex RNRT G 0 26
+	FrameIndex RNRT H 0 27
+	FrameIndex RNRT I 0 28
+	FrameIndex RNRT J 0 29
+	FrameIndex RNRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: RUN FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFL A 0 20
+	FrameIndex RNFL B 0 21
+	FrameIndex RNFL C 0 22
+	FrameIndex RNFL D 0 23
+	FrameIndex RNFL E 0 24
+	FrameIndex RNFL F 0 25
+	FrameIndex RNFL G 0 26
+	FrameIndex RNFL H 0 27
+	FrameIndex RNFL I 0 28
+	FrameIndex RNFL J 0 29
+	FrameIndex RNFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: RUN FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFR A 0 20
+	FrameIndex RNFR B 0 21
+	FrameIndex RNFR C 0 22
+	FrameIndex RNFR D 0 23
+	FrameIndex RNFR E 0 24
+	FrameIndex RNFR F 0 25
+	FrameIndex RNFR G 0 26
+	FrameIndex RNFR H 0 27
+	FrameIndex RNFR I 0 28
+	FrameIndex RNFR J 0 29
+	FrameIndex RNFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: RUN BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBL A 0 31
+	FrameIndex RNBL B 0 32
+	FrameIndex RNBL C 0 33
+	FrameIndex RNBL D 0 34
+	FrameIndex RNBL E 0 35
+	FrameIndex RNBL F 0 36
+	FrameIndex RNBL G 0 37
+	FrameIndex RNBL H 0 38
+	FrameIndex RNBL I 0 39
+	FrameIndex RNBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: RUN BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBR A 0 31
+	FrameIndex RNBR B 0 32
+	FrameIndex RNBR C 0 33
+	FrameIndex RNBR D 0 34
+	FrameIndex RNBR E 0 35
+	FrameIndex RNBR F 0 36
+	FrameIndex RNBR G 0 37
+	FrameIndex RNBR H 0 38
+	FrameIndex RNBR I 0 39
+	FrameIndex RNBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFW A 0 20
+	FrameIndex FSFW B 0 21
+	FrameIndex FSFW C 0 22
+	FrameIndex FSFW D 0 23
+	FrameIndex FSFW E 0 24
+	FrameIndex FSFW F 0 25
+	FrameIndex FSFW G 0 26
+	FrameIndex FSFW H 0 27
+	FrameIndex FSFW I 0 28
+	FrameIndex FSFW J 0 29
+	FrameIndex FSFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBK A 0 31
+	FrameIndex FSBK B 0 32
+	FrameIndex FSBK C 0 33
+	FrameIndex FSBK D 0 34
+	FrameIndex FSBK E 0 35
+	FrameIndex FSBK F 0 36
+	FrameIndex FSBK G 0 37
+	FrameIndex FSBK H 0 38
+	FrameIndex FSBK I 0 39
+	FrameIndex FSBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSLF A 0 20
+	FrameIndex FSLF B 0 21
+	FrameIndex FSLF C 0 22
+	FrameIndex FSLF D 0 23
+	FrameIndex FSLF E 0 24
+	FrameIndex FSLF F 0 25
+	FrameIndex FSLF G 0 26
+	FrameIndex FSLF H 0 27
+	FrameIndex FSLF I 0 28
+	FrameIndex FSLF J 0 29
+	FrameIndex FSLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSRT A 0 20
+	FrameIndex FSRT B 0 21
+	FrameIndex FSRT C 0 22
+	FrameIndex FSRT D 0 23
+	FrameIndex FSRT E 0 24
+	FrameIndex FSRT F 0 25
+	FrameIndex FSRT G 0 26
+	FrameIndex FSRT H 0 27
+	FrameIndex FSRT I 0 28
+	FrameIndex FSRT J 0 29
+	FrameIndex FSRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFL A 0 20
+	FrameIndex FSFL B 0 21
+	FrameIndex FSFL C 0 22
+	FrameIndex FSFL D 0 23
+	FrameIndex FSFL E 0 24
+	FrameIndex FSFL F 0 25
+	FrameIndex FSFL G 0 26
+	FrameIndex FSFL H 0 27
+	FrameIndex FSFL I 0 28
+	FrameIndex FSFL J 0 29
+	FrameIndex FSFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFR A 0 20
+	FrameIndex FSFR B 0 21
+	FrameIndex FSFR C 0 22
+	FrameIndex FSFR D 0 23
+	FrameIndex FSFR E 0 24
+	FrameIndex FSFR F 0 25
+	FrameIndex FSFR G 0 26
+	FrameIndex FSFR H 0 27
+	FrameIndex FSFR I 0 28
+	FrameIndex FSFR J 0 29
+	FrameIndex FSFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBL A 0 31
+	FrameIndex FSBL B 0 32
+	FrameIndex FSBL C 0 33
+	FrameIndex FSBL D 0 34
+	FrameIndex FSBL E 0 35
+	FrameIndex FSBL F 0 36
+	FrameIndex FSBL G 0 37
+	FrameIndex FSBL H 0 38
+	FrameIndex FSBL I 0 39
+	FrameIndex FSBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBR A 0 31
+	FrameIndex FSBR B 0 32
+	FrameIndex FSBR C 0 33
+	FrameIndex FSBR D 0 34
+	FrameIndex FSBR E 0 35
+	FrameIndex FSBR F 0 36
+	FrameIndex FSBR G 0 37
+	FrameIndex FSBR H 0 38
+	FrameIndex FSBR I 0 39
+	FrameIndex FSBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFW A 0 0
+	FrameIndex CRFW B 0 1
+	FrameIndex CRFW C 0 2
+	FrameIndex CRFW D 0 3
+	FrameIndex CRFW E 0 4
+	FrameIndex CRFW F 0 5
+	FrameIndex CRFW G 0 6
+	FrameIndex CRFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBK A 0 7
+	FrameIndex CRBK B 0 6
+	FrameIndex CRBK C 0 5
+	FrameIndex CRBK D 0 4
+	FrameIndex CRBK E 0 3
+	FrameIndex CRBK F 0 2
+	FrameIndex CRBK G 0 1
+	FrameIndex CRBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRLF A 0 0
+	FrameIndex CRLF B 0 1
+	FrameIndex CRLF C 0 2
+	FrameIndex CRLF D 0 3
+	FrameIndex CRLF E 0 4
+	FrameIndex CRLF F 0 5
+	FrameIndex CRLF G 0 6
+	FrameIndex CRLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRRT A 0 0
+	FrameIndex CRRT B 0 1
+	FrameIndex CRRT C 0 2
+	FrameIndex CRRT D 0 3
+	FrameIndex CRRT E 0 4
+	FrameIndex CRRT F 0 5
+	FrameIndex CRRT G 0 6
+	FrameIndex CRRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFL A 0 0
+	FrameIndex CRFL B 0 1
+	FrameIndex CRFL C 0 2
+	FrameIndex CRFL D 0 3
+	FrameIndex CRFL E 0 4
+	FrameIndex CRFL F 0 5
+	FrameIndex CRFL G 0 6
+	FrameIndex CRFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFR A 0 0
+	FrameIndex CRFR B 0 1
+	FrameIndex CRFR C 0 2
+	FrameIndex CRFR D 0 3
+	FrameIndex CRFR E 0 4
+	FrameIndex CRFR F 0 5
+	FrameIndex CRFR G 0 6
+	FrameIndex CRFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBL A 0 7
+	FrameIndex CRBL B 0 6
+	FrameIndex CRBL C 0 5
+	FrameIndex CRBL D 0 4
+	FrameIndex CRBL E 0 3
+	FrameIndex CRBL F 0 2
+	FrameIndex CRBL G 0 1
+	FrameIndex CRBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBR A 0 7
+	FrameIndex CRBR B 0 6
+	FrameIndex CRBR C 0 5
+	FrameIndex CRBR D 0 4
+	FrameIndex CRBR E 0 3
+	FrameIndex CRBR F 0 2
+	FrameIndex CRBR G 0 1
+	FrameIndex CRBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFW A 0 0
+	FrameIndex CFFW B 0 1
+	FrameIndex CFFW C 0 2
+	FrameIndex CFFW D 0 3
+	FrameIndex CFFW E 0 4
+	FrameIndex CFFW F 0 5
+	FrameIndex CFFW G 0 6
+	FrameIndex CFFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBK A 0 7
+	FrameIndex CFBK B 0 6
+	FrameIndex CFBK C 0 5
+	FrameIndex CFBK D 0 4
+	FrameIndex CFBK E 0 3
+	FrameIndex CFBK F 0 2
+	FrameIndex CFBK G 0 1
+	FrameIndex CFBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFLF A 0 0
+	FrameIndex CFLF B 0 1
+	FrameIndex CFLF C 0 2
+	FrameIndex CFLF D 0 3
+	FrameIndex CFLF E 0 4
+	FrameIndex CFLF F 0 5
+	FrameIndex CFLF G 0 6
+	FrameIndex CFLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFRT A 0 0
+	FrameIndex CFRT B 0 1
+	FrameIndex CFRT C 0 2
+	FrameIndex CFRT D 0 3
+	FrameIndex CFRT E 0 4
+	FrameIndex CFRT F 0 5
+	FrameIndex CFRT G 0 6
+	FrameIndex CFRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFL A 0 0
+	FrameIndex CFFL B 0 1
+	FrameIndex CFFL C 0 2
+	FrameIndex CFFL D 0 3
+	FrameIndex CFFL E 0 4
+	FrameIndex CFFL F 0 5
+	FrameIndex CFFL G 0 6
+	FrameIndex CFFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFR A 0 0
+	FrameIndex CFFR B 0 1
+	FrameIndex CFFR C 0 2
+	FrameIndex CFFR D 0 3
+	FrameIndex CFFR E 0 4
+	FrameIndex CFFR F 0 5
+	FrameIndex CFFR G 0 6
+	FrameIndex CFFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBL A 0 7
+	FrameIndex CFBL B 0 6
+	FrameIndex CFBL C 0 5
+	FrameIndex CFBL D 0 4
+	FrameIndex CFBL E 0 3
+	FrameIndex CFBL F 0 2
+	FrameIndex CFBL G 0 1
+	FrameIndex CFBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: CROUCH FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBR A 0 7
+	FrameIndex CFBR B 0 6
+	FrameIndex CFBR C 0 5
+	FrameIndex CFBR D 0 4
+	FrameIndex CFBR E 0 3
+	FrameIndex CFBR F 0 2
+	FrameIndex CFBR G 0 1
+	FrameIndex CFBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: JUMP FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPFW A 0 51
+	FrameIndex JPFW B 0 52
+	FrameIndex JPFW C 0 53
+	FrameIndex JPFW D 0 54
+	FrameIndex JPFW E 0 55
+	FrameIndex JPFW F 0 56
+	FrameIndex JPFW G 0 57
+	FrameIndex JPFW H 0 58
+	FrameIndex JPFW I 0 59
+	FrameIndex JPFW J 0 60
+	FrameIndex JPFW K 0 61
+	FrameIndex JPFW L 0 62
+	FrameIndex JPFW M 0 63
+	FrameIndex JPFW N 0 64
+	FrameIndex JPFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: JUMP BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPBK A 0 66
+	FrameIndex JPBK B 0 67
+	FrameIndex JPBK C 0 68
+	FrameIndex JPBK D 0 69
+	FrameIndex JPBK E 0 70
+	FrameIndex JPBK F 0 71
+	FrameIndex JPBK G 0 72
+	FrameIndex JPBK H 0 73
+	FrameIndex JPBK I 0 74
+	FrameIndex JPBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: JUMP FORWARD FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFFW A 0 51
+	FrameIndex JFFW B 0 52
+	FrameIndex JFFW C 0 53
+	FrameIndex JFFW D 0 54
+	FrameIndex JFFW E 0 55
+	FrameIndex JFFW F 0 56
+	FrameIndex JFFW G 0 57
+	FrameIndex JFFW H 0 58
+	FrameIndex JFFW I 0 59
+	FrameIndex JFFW J 0 60
+	FrameIndex JFFW K 0 61
+	FrameIndex JFFW L 0 62
+	FrameIndex JFFW M 0 63
+	FrameIndex JFFW N 0 64
+	FrameIndex JFFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: JUMP BACK FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFBK A 0 66
+	FrameIndex JFBK B 0 67
+	FrameIndex JFBK C 0 68
+	FrameIndex JFBK D 0 69
+	FrameIndex JFBK E 0 70
+	FrameIndex JFBK F 0 71
+	FrameIndex JFBK G 0 72
+	FrameIndex JFBK H 0 73
+	FrameIndex JFBK I 0 74
+	FrameIndex JFBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: KICK STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKST A 0 76
+	FrameIndex KKST B 0 77
+	FrameIndex KKST C 0 78
+	FrameIndex KKST D 0 79
+	FrameIndex KKST E 0 80
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: KICK CROUCH
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKCR A 0 0
+	FrameIndex KKCR B 0 1
+	FrameIndex KKCR C 0 2
+	FrameIndex KKCR D 0 3
+	FrameIndex KKCR E 0 4
+	FrameIndex KKCR F 0 5
+	FrameIndex KKCR G 0 6
+	FrameIndex KKCR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon1Layer: KICK AIR
+// ============================================================
+
+Model UpdatedDoom2BotWeapon1Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon1.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKAR A 0 66
+	FrameIndex KKAR B 0 67
+	FrameIndex KKAR C 0 68
+	FrameIndex KKAR D 0 69
+	FrameIndex KKAR E 0 70
+	FrameIndex KKAR F 0 71
+	FrameIndex KKAR G 0 72
+	FrameIndex KKAR H 0 73
+	FrameIndex KKAR I 0 74
+	FrameIndex KKAR J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex STID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: RUN FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFW A 0 20
+	FrameIndex RNFW B 0 21
+	FrameIndex RNFW C 0 22
+	FrameIndex RNFW D 0 23
+	FrameIndex RNFW E 0 24
+	FrameIndex RNFW F 0 25
+	FrameIndex RNFW G 0 26
+	FrameIndex RNFW H 0 27
+	FrameIndex RNFW I 0 28
+	FrameIndex RNFW J 0 29
+	FrameIndex RNFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: RUN BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBK A 0 31
+	FrameIndex RNBK B 0 32
+	FrameIndex RNBK C 0 33
+	FrameIndex RNBK D 0 34
+	FrameIndex RNBK E 0 35
+	FrameIndex RNBK F 0 36
+	FrameIndex RNBK G 0 37
+	FrameIndex RNBK H 0 38
+	FrameIndex RNBK I 0 39
+	FrameIndex RNBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: RUN LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNLF A 0 20
+	FrameIndex RNLF B 0 21
+	FrameIndex RNLF C 0 22
+	FrameIndex RNLF D 0 23
+	FrameIndex RNLF E 0 24
+	FrameIndex RNLF F 0 25
+	FrameIndex RNLF G 0 26
+	FrameIndex RNLF H 0 27
+	FrameIndex RNLF I 0 28
+	FrameIndex RNLF J 0 29
+	FrameIndex RNLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: RUN RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNRT A 0 20
+	FrameIndex RNRT B 0 21
+	FrameIndex RNRT C 0 22
+	FrameIndex RNRT D 0 23
+	FrameIndex RNRT E 0 24
+	FrameIndex RNRT F 0 25
+	FrameIndex RNRT G 0 26
+	FrameIndex RNRT H 0 27
+	FrameIndex RNRT I 0 28
+	FrameIndex RNRT J 0 29
+	FrameIndex RNRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: RUN FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFL A 0 20
+	FrameIndex RNFL B 0 21
+	FrameIndex RNFL C 0 22
+	FrameIndex RNFL D 0 23
+	FrameIndex RNFL E 0 24
+	FrameIndex RNFL F 0 25
+	FrameIndex RNFL G 0 26
+	FrameIndex RNFL H 0 27
+	FrameIndex RNFL I 0 28
+	FrameIndex RNFL J 0 29
+	FrameIndex RNFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: RUN FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFR A 0 20
+	FrameIndex RNFR B 0 21
+	FrameIndex RNFR C 0 22
+	FrameIndex RNFR D 0 23
+	FrameIndex RNFR E 0 24
+	FrameIndex RNFR F 0 25
+	FrameIndex RNFR G 0 26
+	FrameIndex RNFR H 0 27
+	FrameIndex RNFR I 0 28
+	FrameIndex RNFR J 0 29
+	FrameIndex RNFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: RUN BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBL A 0 31
+	FrameIndex RNBL B 0 32
+	FrameIndex RNBL C 0 33
+	FrameIndex RNBL D 0 34
+	FrameIndex RNBL E 0 35
+	FrameIndex RNBL F 0 36
+	FrameIndex RNBL G 0 37
+	FrameIndex RNBL H 0 38
+	FrameIndex RNBL I 0 39
+	FrameIndex RNBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: RUN BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBR A 0 31
+	FrameIndex RNBR B 0 32
+	FrameIndex RNBR C 0 33
+	FrameIndex RNBR D 0 34
+	FrameIndex RNBR E 0 35
+	FrameIndex RNBR F 0 36
+	FrameIndex RNBR G 0 37
+	FrameIndex RNBR H 0 38
+	FrameIndex RNBR I 0 39
+	FrameIndex RNBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFW A 0 20
+	FrameIndex FSFW B 0 21
+	FrameIndex FSFW C 0 22
+	FrameIndex FSFW D 0 23
+	FrameIndex FSFW E 0 24
+	FrameIndex FSFW F 0 25
+	FrameIndex FSFW G 0 26
+	FrameIndex FSFW H 0 27
+	FrameIndex FSFW I 0 28
+	FrameIndex FSFW J 0 29
+	FrameIndex FSFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBK A 0 31
+	FrameIndex FSBK B 0 32
+	FrameIndex FSBK C 0 33
+	FrameIndex FSBK D 0 34
+	FrameIndex FSBK E 0 35
+	FrameIndex FSBK F 0 36
+	FrameIndex FSBK G 0 37
+	FrameIndex FSBK H 0 38
+	FrameIndex FSBK I 0 39
+	FrameIndex FSBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSLF A 0 20
+	FrameIndex FSLF B 0 21
+	FrameIndex FSLF C 0 22
+	FrameIndex FSLF D 0 23
+	FrameIndex FSLF E 0 24
+	FrameIndex FSLF F 0 25
+	FrameIndex FSLF G 0 26
+	FrameIndex FSLF H 0 27
+	FrameIndex FSLF I 0 28
+	FrameIndex FSLF J 0 29
+	FrameIndex FSLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSRT A 0 20
+	FrameIndex FSRT B 0 21
+	FrameIndex FSRT C 0 22
+	FrameIndex FSRT D 0 23
+	FrameIndex FSRT E 0 24
+	FrameIndex FSRT F 0 25
+	FrameIndex FSRT G 0 26
+	FrameIndex FSRT H 0 27
+	FrameIndex FSRT I 0 28
+	FrameIndex FSRT J 0 29
+	FrameIndex FSRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFL A 0 20
+	FrameIndex FSFL B 0 21
+	FrameIndex FSFL C 0 22
+	FrameIndex FSFL D 0 23
+	FrameIndex FSFL E 0 24
+	FrameIndex FSFL F 0 25
+	FrameIndex FSFL G 0 26
+	FrameIndex FSFL H 0 27
+	FrameIndex FSFL I 0 28
+	FrameIndex FSFL J 0 29
+	FrameIndex FSFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFR A 0 20
+	FrameIndex FSFR B 0 21
+	FrameIndex FSFR C 0 22
+	FrameIndex FSFR D 0 23
+	FrameIndex FSFR E 0 24
+	FrameIndex FSFR F 0 25
+	FrameIndex FSFR G 0 26
+	FrameIndex FSFR H 0 27
+	FrameIndex FSFR I 0 28
+	FrameIndex FSFR J 0 29
+	FrameIndex FSFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBL A 0 31
+	FrameIndex FSBL B 0 32
+	FrameIndex FSBL C 0 33
+	FrameIndex FSBL D 0 34
+	FrameIndex FSBL E 0 35
+	FrameIndex FSBL F 0 36
+	FrameIndex FSBL G 0 37
+	FrameIndex FSBL H 0 38
+	FrameIndex FSBL I 0 39
+	FrameIndex FSBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBR A 0 31
+	FrameIndex FSBR B 0 32
+	FrameIndex FSBR C 0 33
+	FrameIndex FSBR D 0 34
+	FrameIndex FSBR E 0 35
+	FrameIndex FSBR F 0 36
+	FrameIndex FSBR G 0 37
+	FrameIndex FSBR H 0 38
+	FrameIndex FSBR I 0 39
+	FrameIndex FSBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFW A 0 0
+	FrameIndex CRFW B 0 1
+	FrameIndex CRFW C 0 2
+	FrameIndex CRFW D 0 3
+	FrameIndex CRFW E 0 4
+	FrameIndex CRFW F 0 5
+	FrameIndex CRFW G 0 6
+	FrameIndex CRFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBK A 0 7
+	FrameIndex CRBK B 0 6
+	FrameIndex CRBK C 0 5
+	FrameIndex CRBK D 0 4
+	FrameIndex CRBK E 0 3
+	FrameIndex CRBK F 0 2
+	FrameIndex CRBK G 0 1
+	FrameIndex CRBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRLF A 0 0
+	FrameIndex CRLF B 0 1
+	FrameIndex CRLF C 0 2
+	FrameIndex CRLF D 0 3
+	FrameIndex CRLF E 0 4
+	FrameIndex CRLF F 0 5
+	FrameIndex CRLF G 0 6
+	FrameIndex CRLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRRT A 0 0
+	FrameIndex CRRT B 0 1
+	FrameIndex CRRT C 0 2
+	FrameIndex CRRT D 0 3
+	FrameIndex CRRT E 0 4
+	FrameIndex CRRT F 0 5
+	FrameIndex CRRT G 0 6
+	FrameIndex CRRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFL A 0 0
+	FrameIndex CRFL B 0 1
+	FrameIndex CRFL C 0 2
+	FrameIndex CRFL D 0 3
+	FrameIndex CRFL E 0 4
+	FrameIndex CRFL F 0 5
+	FrameIndex CRFL G 0 6
+	FrameIndex CRFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFR A 0 0
+	FrameIndex CRFR B 0 1
+	FrameIndex CRFR C 0 2
+	FrameIndex CRFR D 0 3
+	FrameIndex CRFR E 0 4
+	FrameIndex CRFR F 0 5
+	FrameIndex CRFR G 0 6
+	FrameIndex CRFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBL A 0 7
+	FrameIndex CRBL B 0 6
+	FrameIndex CRBL C 0 5
+	FrameIndex CRBL D 0 4
+	FrameIndex CRBL E 0 3
+	FrameIndex CRBL F 0 2
+	FrameIndex CRBL G 0 1
+	FrameIndex CRBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBR A 0 7
+	FrameIndex CRBR B 0 6
+	FrameIndex CRBR C 0 5
+	FrameIndex CRBR D 0 4
+	FrameIndex CRBR E 0 3
+	FrameIndex CRBR F 0 2
+	FrameIndex CRBR G 0 1
+	FrameIndex CRBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFW A 0 0
+	FrameIndex CFFW B 0 1
+	FrameIndex CFFW C 0 2
+	FrameIndex CFFW D 0 3
+	FrameIndex CFFW E 0 4
+	FrameIndex CFFW F 0 5
+	FrameIndex CFFW G 0 6
+	FrameIndex CFFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBK A 0 7
+	FrameIndex CFBK B 0 6
+	FrameIndex CFBK C 0 5
+	FrameIndex CFBK D 0 4
+	FrameIndex CFBK E 0 3
+	FrameIndex CFBK F 0 2
+	FrameIndex CFBK G 0 1
+	FrameIndex CFBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFLF A 0 0
+	FrameIndex CFLF B 0 1
+	FrameIndex CFLF C 0 2
+	FrameIndex CFLF D 0 3
+	FrameIndex CFLF E 0 4
+	FrameIndex CFLF F 0 5
+	FrameIndex CFLF G 0 6
+	FrameIndex CFLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFRT A 0 0
+	FrameIndex CFRT B 0 1
+	FrameIndex CFRT C 0 2
+	FrameIndex CFRT D 0 3
+	FrameIndex CFRT E 0 4
+	FrameIndex CFRT F 0 5
+	FrameIndex CFRT G 0 6
+	FrameIndex CFRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFL A 0 0
+	FrameIndex CFFL B 0 1
+	FrameIndex CFFL C 0 2
+	FrameIndex CFFL D 0 3
+	FrameIndex CFFL E 0 4
+	FrameIndex CFFL F 0 5
+	FrameIndex CFFL G 0 6
+	FrameIndex CFFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFR A 0 0
+	FrameIndex CFFR B 0 1
+	FrameIndex CFFR C 0 2
+	FrameIndex CFFR D 0 3
+	FrameIndex CFFR E 0 4
+	FrameIndex CFFR F 0 5
+	FrameIndex CFFR G 0 6
+	FrameIndex CFFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBL A 0 7
+	FrameIndex CFBL B 0 6
+	FrameIndex CFBL C 0 5
+	FrameIndex CFBL D 0 4
+	FrameIndex CFBL E 0 3
+	FrameIndex CFBL F 0 2
+	FrameIndex CFBL G 0 1
+	FrameIndex CFBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: CROUCH FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBR A 0 7
+	FrameIndex CFBR B 0 6
+	FrameIndex CFBR C 0 5
+	FrameIndex CFBR D 0 4
+	FrameIndex CFBR E 0 3
+	FrameIndex CFBR F 0 2
+	FrameIndex CFBR G 0 1
+	FrameIndex CFBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: JUMP FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPFW A 0 51
+	FrameIndex JPFW B 0 52
+	FrameIndex JPFW C 0 53
+	FrameIndex JPFW D 0 54
+	FrameIndex JPFW E 0 55
+	FrameIndex JPFW F 0 56
+	FrameIndex JPFW G 0 57
+	FrameIndex JPFW H 0 58
+	FrameIndex JPFW I 0 59
+	FrameIndex JPFW J 0 60
+	FrameIndex JPFW K 0 61
+	FrameIndex JPFW L 0 62
+	FrameIndex JPFW M 0 63
+	FrameIndex JPFW N 0 64
+	FrameIndex JPFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: JUMP BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPBK A 0 66
+	FrameIndex JPBK B 0 67
+	FrameIndex JPBK C 0 68
+	FrameIndex JPBK D 0 69
+	FrameIndex JPBK E 0 70
+	FrameIndex JPBK F 0 71
+	FrameIndex JPBK G 0 72
+	FrameIndex JPBK H 0 73
+	FrameIndex JPBK I 0 74
+	FrameIndex JPBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: JUMP FORWARD FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFFW A 0 51
+	FrameIndex JFFW B 0 52
+	FrameIndex JFFW C 0 53
+	FrameIndex JFFW D 0 54
+	FrameIndex JFFW E 0 55
+	FrameIndex JFFW F 0 56
+	FrameIndex JFFW G 0 57
+	FrameIndex JFFW H 0 58
+	FrameIndex JFFW I 0 59
+	FrameIndex JFFW J 0 60
+	FrameIndex JFFW K 0 61
+	FrameIndex JFFW L 0 62
+	FrameIndex JFFW M 0 63
+	FrameIndex JFFW N 0 64
+	FrameIndex JFFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: JUMP BACK FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFBK A 0 66
+	FrameIndex JFBK B 0 67
+	FrameIndex JFBK C 0 68
+	FrameIndex JFBK D 0 69
+	FrameIndex JFBK E 0 70
+	FrameIndex JFBK F 0 71
+	FrameIndex JFBK G 0 72
+	FrameIndex JFBK H 0 73
+	FrameIndex JFBK I 0 74
+	FrameIndex JFBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: KICK STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKST A 0 76
+	FrameIndex KKST B 0 77
+	FrameIndex KKST C 0 78
+	FrameIndex KKST D 0 79
+	FrameIndex KKST E 0 80
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: KICK CROUCH
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKCR A 0 0
+	FrameIndex KKCR B 0 1
+	FrameIndex KKCR C 0 2
+	FrameIndex KKCR D 0 3
+	FrameIndex KKCR E 0 4
+	FrameIndex KKCR F 0 5
+	FrameIndex KKCR G 0 6
+	FrameIndex KKCR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon2Layer: KICK AIR
+// ============================================================
+
+Model UpdatedDoom2BotWeapon2Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon2.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKAR A 0 66
+	FrameIndex KKAR B 0 67
+	FrameIndex KKAR C 0 68
+	FrameIndex KKAR D 0 69
+	FrameIndex KKAR E 0 70
+	FrameIndex KKAR F 0 71
+	FrameIndex KKAR G 0 72
+	FrameIndex KKAR H 0 73
+	FrameIndex KKAR I 0 74
+	FrameIndex KKAR J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex STID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: RUN FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFW A 0 20
+	FrameIndex RNFW B 0 21
+	FrameIndex RNFW C 0 22
+	FrameIndex RNFW D 0 23
+	FrameIndex RNFW E 0 24
+	FrameIndex RNFW F 0 25
+	FrameIndex RNFW G 0 26
+	FrameIndex RNFW H 0 27
+	FrameIndex RNFW I 0 28
+	FrameIndex RNFW J 0 29
+	FrameIndex RNFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: RUN BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBK A 0 31
+	FrameIndex RNBK B 0 32
+	FrameIndex RNBK C 0 33
+	FrameIndex RNBK D 0 34
+	FrameIndex RNBK E 0 35
+	FrameIndex RNBK F 0 36
+	FrameIndex RNBK G 0 37
+	FrameIndex RNBK H 0 38
+	FrameIndex RNBK I 0 39
+	FrameIndex RNBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: RUN LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNLF A 0 20
+	FrameIndex RNLF B 0 21
+	FrameIndex RNLF C 0 22
+	FrameIndex RNLF D 0 23
+	FrameIndex RNLF E 0 24
+	FrameIndex RNLF F 0 25
+	FrameIndex RNLF G 0 26
+	FrameIndex RNLF H 0 27
+	FrameIndex RNLF I 0 28
+	FrameIndex RNLF J 0 29
+	FrameIndex RNLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: RUN RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNRT A 0 20
+	FrameIndex RNRT B 0 21
+	FrameIndex RNRT C 0 22
+	FrameIndex RNRT D 0 23
+	FrameIndex RNRT E 0 24
+	FrameIndex RNRT F 0 25
+	FrameIndex RNRT G 0 26
+	FrameIndex RNRT H 0 27
+	FrameIndex RNRT I 0 28
+	FrameIndex RNRT J 0 29
+	FrameIndex RNRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: RUN FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFL A 0 20
+	FrameIndex RNFL B 0 21
+	FrameIndex RNFL C 0 22
+	FrameIndex RNFL D 0 23
+	FrameIndex RNFL E 0 24
+	FrameIndex RNFL F 0 25
+	FrameIndex RNFL G 0 26
+	FrameIndex RNFL H 0 27
+	FrameIndex RNFL I 0 28
+	FrameIndex RNFL J 0 29
+	FrameIndex RNFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: RUN FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFR A 0 20
+	FrameIndex RNFR B 0 21
+	FrameIndex RNFR C 0 22
+	FrameIndex RNFR D 0 23
+	FrameIndex RNFR E 0 24
+	FrameIndex RNFR F 0 25
+	FrameIndex RNFR G 0 26
+	FrameIndex RNFR H 0 27
+	FrameIndex RNFR I 0 28
+	FrameIndex RNFR J 0 29
+	FrameIndex RNFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: RUN BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBL A 0 31
+	FrameIndex RNBL B 0 32
+	FrameIndex RNBL C 0 33
+	FrameIndex RNBL D 0 34
+	FrameIndex RNBL E 0 35
+	FrameIndex RNBL F 0 36
+	FrameIndex RNBL G 0 37
+	FrameIndex RNBL H 0 38
+	FrameIndex RNBL I 0 39
+	FrameIndex RNBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: RUN BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBR A 0 31
+	FrameIndex RNBR B 0 32
+	FrameIndex RNBR C 0 33
+	FrameIndex RNBR D 0 34
+	FrameIndex RNBR E 0 35
+	FrameIndex RNBR F 0 36
+	FrameIndex RNBR G 0 37
+	FrameIndex RNBR H 0 38
+	FrameIndex RNBR I 0 39
+	FrameIndex RNBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFW A 0 20
+	FrameIndex FSFW B 0 21
+	FrameIndex FSFW C 0 22
+	FrameIndex FSFW D 0 23
+	FrameIndex FSFW E 0 24
+	FrameIndex FSFW F 0 25
+	FrameIndex FSFW G 0 26
+	FrameIndex FSFW H 0 27
+	FrameIndex FSFW I 0 28
+	FrameIndex FSFW J 0 29
+	FrameIndex FSFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBK A 0 31
+	FrameIndex FSBK B 0 32
+	FrameIndex FSBK C 0 33
+	FrameIndex FSBK D 0 34
+	FrameIndex FSBK E 0 35
+	FrameIndex FSBK F 0 36
+	FrameIndex FSBK G 0 37
+	FrameIndex FSBK H 0 38
+	FrameIndex FSBK I 0 39
+	FrameIndex FSBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSLF A 0 20
+	FrameIndex FSLF B 0 21
+	FrameIndex FSLF C 0 22
+	FrameIndex FSLF D 0 23
+	FrameIndex FSLF E 0 24
+	FrameIndex FSLF F 0 25
+	FrameIndex FSLF G 0 26
+	FrameIndex FSLF H 0 27
+	FrameIndex FSLF I 0 28
+	FrameIndex FSLF J 0 29
+	FrameIndex FSLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSRT A 0 20
+	FrameIndex FSRT B 0 21
+	FrameIndex FSRT C 0 22
+	FrameIndex FSRT D 0 23
+	FrameIndex FSRT E 0 24
+	FrameIndex FSRT F 0 25
+	FrameIndex FSRT G 0 26
+	FrameIndex FSRT H 0 27
+	FrameIndex FSRT I 0 28
+	FrameIndex FSRT J 0 29
+	FrameIndex FSRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFL A 0 20
+	FrameIndex FSFL B 0 21
+	FrameIndex FSFL C 0 22
+	FrameIndex FSFL D 0 23
+	FrameIndex FSFL E 0 24
+	FrameIndex FSFL F 0 25
+	FrameIndex FSFL G 0 26
+	FrameIndex FSFL H 0 27
+	FrameIndex FSFL I 0 28
+	FrameIndex FSFL J 0 29
+	FrameIndex FSFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFR A 0 20
+	FrameIndex FSFR B 0 21
+	FrameIndex FSFR C 0 22
+	FrameIndex FSFR D 0 23
+	FrameIndex FSFR E 0 24
+	FrameIndex FSFR F 0 25
+	FrameIndex FSFR G 0 26
+	FrameIndex FSFR H 0 27
+	FrameIndex FSFR I 0 28
+	FrameIndex FSFR J 0 29
+	FrameIndex FSFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBL A 0 31
+	FrameIndex FSBL B 0 32
+	FrameIndex FSBL C 0 33
+	FrameIndex FSBL D 0 34
+	FrameIndex FSBL E 0 35
+	FrameIndex FSBL F 0 36
+	FrameIndex FSBL G 0 37
+	FrameIndex FSBL H 0 38
+	FrameIndex FSBL I 0 39
+	FrameIndex FSBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBR A 0 31
+	FrameIndex FSBR B 0 32
+	FrameIndex FSBR C 0 33
+	FrameIndex FSBR D 0 34
+	FrameIndex FSBR E 0 35
+	FrameIndex FSBR F 0 36
+	FrameIndex FSBR G 0 37
+	FrameIndex FSBR H 0 38
+	FrameIndex FSBR I 0 39
+	FrameIndex FSBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFW A 0 0
+	FrameIndex CRFW B 0 1
+	FrameIndex CRFW C 0 2
+	FrameIndex CRFW D 0 3
+	FrameIndex CRFW E 0 4
+	FrameIndex CRFW F 0 5
+	FrameIndex CRFW G 0 6
+	FrameIndex CRFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBK A 0 7
+	FrameIndex CRBK B 0 6
+	FrameIndex CRBK C 0 5
+	FrameIndex CRBK D 0 4
+	FrameIndex CRBK E 0 3
+	FrameIndex CRBK F 0 2
+	FrameIndex CRBK G 0 1
+	FrameIndex CRBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRLF A 0 0
+	FrameIndex CRLF B 0 1
+	FrameIndex CRLF C 0 2
+	FrameIndex CRLF D 0 3
+	FrameIndex CRLF E 0 4
+	FrameIndex CRLF F 0 5
+	FrameIndex CRLF G 0 6
+	FrameIndex CRLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRRT A 0 0
+	FrameIndex CRRT B 0 1
+	FrameIndex CRRT C 0 2
+	FrameIndex CRRT D 0 3
+	FrameIndex CRRT E 0 4
+	FrameIndex CRRT F 0 5
+	FrameIndex CRRT G 0 6
+	FrameIndex CRRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFL A 0 0
+	FrameIndex CRFL B 0 1
+	FrameIndex CRFL C 0 2
+	FrameIndex CRFL D 0 3
+	FrameIndex CRFL E 0 4
+	FrameIndex CRFL F 0 5
+	FrameIndex CRFL G 0 6
+	FrameIndex CRFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFR A 0 0
+	FrameIndex CRFR B 0 1
+	FrameIndex CRFR C 0 2
+	FrameIndex CRFR D 0 3
+	FrameIndex CRFR E 0 4
+	FrameIndex CRFR F 0 5
+	FrameIndex CRFR G 0 6
+	FrameIndex CRFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBL A 0 7
+	FrameIndex CRBL B 0 6
+	FrameIndex CRBL C 0 5
+	FrameIndex CRBL D 0 4
+	FrameIndex CRBL E 0 3
+	FrameIndex CRBL F 0 2
+	FrameIndex CRBL G 0 1
+	FrameIndex CRBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBR A 0 7
+	FrameIndex CRBR B 0 6
+	FrameIndex CRBR C 0 5
+	FrameIndex CRBR D 0 4
+	FrameIndex CRBR E 0 3
+	FrameIndex CRBR F 0 2
+	FrameIndex CRBR G 0 1
+	FrameIndex CRBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFW A 0 0
+	FrameIndex CFFW B 0 1
+	FrameIndex CFFW C 0 2
+	FrameIndex CFFW D 0 3
+	FrameIndex CFFW E 0 4
+	FrameIndex CFFW F 0 5
+	FrameIndex CFFW G 0 6
+	FrameIndex CFFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBK A 0 7
+	FrameIndex CFBK B 0 6
+	FrameIndex CFBK C 0 5
+	FrameIndex CFBK D 0 4
+	FrameIndex CFBK E 0 3
+	FrameIndex CFBK F 0 2
+	FrameIndex CFBK G 0 1
+	FrameIndex CFBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFLF A 0 0
+	FrameIndex CFLF B 0 1
+	FrameIndex CFLF C 0 2
+	FrameIndex CFLF D 0 3
+	FrameIndex CFLF E 0 4
+	FrameIndex CFLF F 0 5
+	FrameIndex CFLF G 0 6
+	FrameIndex CFLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFRT A 0 0
+	FrameIndex CFRT B 0 1
+	FrameIndex CFRT C 0 2
+	FrameIndex CFRT D 0 3
+	FrameIndex CFRT E 0 4
+	FrameIndex CFRT F 0 5
+	FrameIndex CFRT G 0 6
+	FrameIndex CFRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFL A 0 0
+	FrameIndex CFFL B 0 1
+	FrameIndex CFFL C 0 2
+	FrameIndex CFFL D 0 3
+	FrameIndex CFFL E 0 4
+	FrameIndex CFFL F 0 5
+	FrameIndex CFFL G 0 6
+	FrameIndex CFFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFR A 0 0
+	FrameIndex CFFR B 0 1
+	FrameIndex CFFR C 0 2
+	FrameIndex CFFR D 0 3
+	FrameIndex CFFR E 0 4
+	FrameIndex CFFR F 0 5
+	FrameIndex CFFR G 0 6
+	FrameIndex CFFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBL A 0 7
+	FrameIndex CFBL B 0 6
+	FrameIndex CFBL C 0 5
+	FrameIndex CFBL D 0 4
+	FrameIndex CFBL E 0 3
+	FrameIndex CFBL F 0 2
+	FrameIndex CFBL G 0 1
+	FrameIndex CFBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: CROUCH FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBR A 0 7
+	FrameIndex CFBR B 0 6
+	FrameIndex CFBR C 0 5
+	FrameIndex CFBR D 0 4
+	FrameIndex CFBR E 0 3
+	FrameIndex CFBR F 0 2
+	FrameIndex CFBR G 0 1
+	FrameIndex CFBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: JUMP FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPFW A 0 51
+	FrameIndex JPFW B 0 52
+	FrameIndex JPFW C 0 53
+	FrameIndex JPFW D 0 54
+	FrameIndex JPFW E 0 55
+	FrameIndex JPFW F 0 56
+	FrameIndex JPFW G 0 57
+	FrameIndex JPFW H 0 58
+	FrameIndex JPFW I 0 59
+	FrameIndex JPFW J 0 60
+	FrameIndex JPFW K 0 61
+	FrameIndex JPFW L 0 62
+	FrameIndex JPFW M 0 63
+	FrameIndex JPFW N 0 64
+	FrameIndex JPFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: JUMP BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPBK A 0 66
+	FrameIndex JPBK B 0 67
+	FrameIndex JPBK C 0 68
+	FrameIndex JPBK D 0 69
+	FrameIndex JPBK E 0 70
+	FrameIndex JPBK F 0 71
+	FrameIndex JPBK G 0 72
+	FrameIndex JPBK H 0 73
+	FrameIndex JPBK I 0 74
+	FrameIndex JPBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: JUMP FORWARD FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFFW A 0 51
+	FrameIndex JFFW B 0 52
+	FrameIndex JFFW C 0 53
+	FrameIndex JFFW D 0 54
+	FrameIndex JFFW E 0 55
+	FrameIndex JFFW F 0 56
+	FrameIndex JFFW G 0 57
+	FrameIndex JFFW H 0 58
+	FrameIndex JFFW I 0 59
+	FrameIndex JFFW J 0 60
+	FrameIndex JFFW K 0 61
+	FrameIndex JFFW L 0 62
+	FrameIndex JFFW M 0 63
+	FrameIndex JFFW N 0 64
+	FrameIndex JFFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: JUMP BACK FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFBK A 0 66
+	FrameIndex JFBK B 0 67
+	FrameIndex JFBK C 0 68
+	FrameIndex JFBK D 0 69
+	FrameIndex JFBK E 0 70
+	FrameIndex JFBK F 0 71
+	FrameIndex JFBK G 0 72
+	FrameIndex JFBK H 0 73
+	FrameIndex JFBK I 0 74
+	FrameIndex JFBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: KICK STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKST A 0 76
+	FrameIndex KKST B 0 77
+	FrameIndex KKST C 0 78
+	FrameIndex KKST D 0 79
+	FrameIndex KKST E 0 80
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: KICK CROUCH
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKCR A 0 0
+	FrameIndex KKCR B 0 1
+	FrameIndex KKCR C 0 2
+	FrameIndex KKCR D 0 3
+	FrameIndex KKCR E 0 4
+	FrameIndex KKCR F 0 5
+	FrameIndex KKCR G 0 6
+	FrameIndex KKCR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon3Layer: KICK AIR
+// ============================================================
+
+Model UpdatedDoom2BotWeapon3Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon3.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKAR A 0 66
+	FrameIndex KKAR B 0 67
+	FrameIndex KKAR C 0 68
+	FrameIndex KKAR D 0 69
+	FrameIndex KKAR E 0 70
+	FrameIndex KKAR F 0 71
+	FrameIndex KKAR G 0 72
+	FrameIndex KKAR H 0 73
+	FrameIndex KKAR I 0 74
+	FrameIndex KKAR J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex STID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: RUN FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFW A 0 20
+	FrameIndex RNFW B 0 21
+	FrameIndex RNFW C 0 22
+	FrameIndex RNFW D 0 23
+	FrameIndex RNFW E 0 24
+	FrameIndex RNFW F 0 25
+	FrameIndex RNFW G 0 26
+	FrameIndex RNFW H 0 27
+	FrameIndex RNFW I 0 28
+	FrameIndex RNFW J 0 29
+	FrameIndex RNFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: RUN BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBK A 0 31
+	FrameIndex RNBK B 0 32
+	FrameIndex RNBK C 0 33
+	FrameIndex RNBK D 0 34
+	FrameIndex RNBK E 0 35
+	FrameIndex RNBK F 0 36
+	FrameIndex RNBK G 0 37
+	FrameIndex RNBK H 0 38
+	FrameIndex RNBK I 0 39
+	FrameIndex RNBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: RUN LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNLF A 0 20
+	FrameIndex RNLF B 0 21
+	FrameIndex RNLF C 0 22
+	FrameIndex RNLF D 0 23
+	FrameIndex RNLF E 0 24
+	FrameIndex RNLF F 0 25
+	FrameIndex RNLF G 0 26
+	FrameIndex RNLF H 0 27
+	FrameIndex RNLF I 0 28
+	FrameIndex RNLF J 0 29
+	FrameIndex RNLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: RUN RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNRT A 0 20
+	FrameIndex RNRT B 0 21
+	FrameIndex RNRT C 0 22
+	FrameIndex RNRT D 0 23
+	FrameIndex RNRT E 0 24
+	FrameIndex RNRT F 0 25
+	FrameIndex RNRT G 0 26
+	FrameIndex RNRT H 0 27
+	FrameIndex RNRT I 0 28
+	FrameIndex RNRT J 0 29
+	FrameIndex RNRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: RUN FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFL A 0 20
+	FrameIndex RNFL B 0 21
+	FrameIndex RNFL C 0 22
+	FrameIndex RNFL D 0 23
+	FrameIndex RNFL E 0 24
+	FrameIndex RNFL F 0 25
+	FrameIndex RNFL G 0 26
+	FrameIndex RNFL H 0 27
+	FrameIndex RNFL I 0 28
+	FrameIndex RNFL J 0 29
+	FrameIndex RNFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: RUN FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFR A 0 20
+	FrameIndex RNFR B 0 21
+	FrameIndex RNFR C 0 22
+	FrameIndex RNFR D 0 23
+	FrameIndex RNFR E 0 24
+	FrameIndex RNFR F 0 25
+	FrameIndex RNFR G 0 26
+	FrameIndex RNFR H 0 27
+	FrameIndex RNFR I 0 28
+	FrameIndex RNFR J 0 29
+	FrameIndex RNFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: RUN BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBL A 0 31
+	FrameIndex RNBL B 0 32
+	FrameIndex RNBL C 0 33
+	FrameIndex RNBL D 0 34
+	FrameIndex RNBL E 0 35
+	FrameIndex RNBL F 0 36
+	FrameIndex RNBL G 0 37
+	FrameIndex RNBL H 0 38
+	FrameIndex RNBL I 0 39
+	FrameIndex RNBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: RUN BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBR A 0 31
+	FrameIndex RNBR B 0 32
+	FrameIndex RNBR C 0 33
+	FrameIndex RNBR D 0 34
+	FrameIndex RNBR E 0 35
+	FrameIndex RNBR F 0 36
+	FrameIndex RNBR G 0 37
+	FrameIndex RNBR H 0 38
+	FrameIndex RNBR I 0 39
+	FrameIndex RNBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFW A 0 20
+	FrameIndex FSFW B 0 21
+	FrameIndex FSFW C 0 22
+	FrameIndex FSFW D 0 23
+	FrameIndex FSFW E 0 24
+	FrameIndex FSFW F 0 25
+	FrameIndex FSFW G 0 26
+	FrameIndex FSFW H 0 27
+	FrameIndex FSFW I 0 28
+	FrameIndex FSFW J 0 29
+	FrameIndex FSFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBK A 0 31
+	FrameIndex FSBK B 0 32
+	FrameIndex FSBK C 0 33
+	FrameIndex FSBK D 0 34
+	FrameIndex FSBK E 0 35
+	FrameIndex FSBK F 0 36
+	FrameIndex FSBK G 0 37
+	FrameIndex FSBK H 0 38
+	FrameIndex FSBK I 0 39
+	FrameIndex FSBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSLF A 0 20
+	FrameIndex FSLF B 0 21
+	FrameIndex FSLF C 0 22
+	FrameIndex FSLF D 0 23
+	FrameIndex FSLF E 0 24
+	FrameIndex FSLF F 0 25
+	FrameIndex FSLF G 0 26
+	FrameIndex FSLF H 0 27
+	FrameIndex FSLF I 0 28
+	FrameIndex FSLF J 0 29
+	FrameIndex FSLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSRT A 0 20
+	FrameIndex FSRT B 0 21
+	FrameIndex FSRT C 0 22
+	FrameIndex FSRT D 0 23
+	FrameIndex FSRT E 0 24
+	FrameIndex FSRT F 0 25
+	FrameIndex FSRT G 0 26
+	FrameIndex FSRT H 0 27
+	FrameIndex FSRT I 0 28
+	FrameIndex FSRT J 0 29
+	FrameIndex FSRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFL A 0 20
+	FrameIndex FSFL B 0 21
+	FrameIndex FSFL C 0 22
+	FrameIndex FSFL D 0 23
+	FrameIndex FSFL E 0 24
+	FrameIndex FSFL F 0 25
+	FrameIndex FSFL G 0 26
+	FrameIndex FSFL H 0 27
+	FrameIndex FSFL I 0 28
+	FrameIndex FSFL J 0 29
+	FrameIndex FSFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFR A 0 20
+	FrameIndex FSFR B 0 21
+	FrameIndex FSFR C 0 22
+	FrameIndex FSFR D 0 23
+	FrameIndex FSFR E 0 24
+	FrameIndex FSFR F 0 25
+	FrameIndex FSFR G 0 26
+	FrameIndex FSFR H 0 27
+	FrameIndex FSFR I 0 28
+	FrameIndex FSFR J 0 29
+	FrameIndex FSFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBL A 0 31
+	FrameIndex FSBL B 0 32
+	FrameIndex FSBL C 0 33
+	FrameIndex FSBL D 0 34
+	FrameIndex FSBL E 0 35
+	FrameIndex FSBL F 0 36
+	FrameIndex FSBL G 0 37
+	FrameIndex FSBL H 0 38
+	FrameIndex FSBL I 0 39
+	FrameIndex FSBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBR A 0 31
+	FrameIndex FSBR B 0 32
+	FrameIndex FSBR C 0 33
+	FrameIndex FSBR D 0 34
+	FrameIndex FSBR E 0 35
+	FrameIndex FSBR F 0 36
+	FrameIndex FSBR G 0 37
+	FrameIndex FSBR H 0 38
+	FrameIndex FSBR I 0 39
+	FrameIndex FSBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFW A 0 0
+	FrameIndex CRFW B 0 1
+	FrameIndex CRFW C 0 2
+	FrameIndex CRFW D 0 3
+	FrameIndex CRFW E 0 4
+	FrameIndex CRFW F 0 5
+	FrameIndex CRFW G 0 6
+	FrameIndex CRFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBK A 0 7
+	FrameIndex CRBK B 0 6
+	FrameIndex CRBK C 0 5
+	FrameIndex CRBK D 0 4
+	FrameIndex CRBK E 0 3
+	FrameIndex CRBK F 0 2
+	FrameIndex CRBK G 0 1
+	FrameIndex CRBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRLF A 0 0
+	FrameIndex CRLF B 0 1
+	FrameIndex CRLF C 0 2
+	FrameIndex CRLF D 0 3
+	FrameIndex CRLF E 0 4
+	FrameIndex CRLF F 0 5
+	FrameIndex CRLF G 0 6
+	FrameIndex CRLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRRT A 0 0
+	FrameIndex CRRT B 0 1
+	FrameIndex CRRT C 0 2
+	FrameIndex CRRT D 0 3
+	FrameIndex CRRT E 0 4
+	FrameIndex CRRT F 0 5
+	FrameIndex CRRT G 0 6
+	FrameIndex CRRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFL A 0 0
+	FrameIndex CRFL B 0 1
+	FrameIndex CRFL C 0 2
+	FrameIndex CRFL D 0 3
+	FrameIndex CRFL E 0 4
+	FrameIndex CRFL F 0 5
+	FrameIndex CRFL G 0 6
+	FrameIndex CRFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFR A 0 0
+	FrameIndex CRFR B 0 1
+	FrameIndex CRFR C 0 2
+	FrameIndex CRFR D 0 3
+	FrameIndex CRFR E 0 4
+	FrameIndex CRFR F 0 5
+	FrameIndex CRFR G 0 6
+	FrameIndex CRFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBL A 0 7
+	FrameIndex CRBL B 0 6
+	FrameIndex CRBL C 0 5
+	FrameIndex CRBL D 0 4
+	FrameIndex CRBL E 0 3
+	FrameIndex CRBL F 0 2
+	FrameIndex CRBL G 0 1
+	FrameIndex CRBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBR A 0 7
+	FrameIndex CRBR B 0 6
+	FrameIndex CRBR C 0 5
+	FrameIndex CRBR D 0 4
+	FrameIndex CRBR E 0 3
+	FrameIndex CRBR F 0 2
+	FrameIndex CRBR G 0 1
+	FrameIndex CRBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFW A 0 0
+	FrameIndex CFFW B 0 1
+	FrameIndex CFFW C 0 2
+	FrameIndex CFFW D 0 3
+	FrameIndex CFFW E 0 4
+	FrameIndex CFFW F 0 5
+	FrameIndex CFFW G 0 6
+	FrameIndex CFFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBK A 0 7
+	FrameIndex CFBK B 0 6
+	FrameIndex CFBK C 0 5
+	FrameIndex CFBK D 0 4
+	FrameIndex CFBK E 0 3
+	FrameIndex CFBK F 0 2
+	FrameIndex CFBK G 0 1
+	FrameIndex CFBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFLF A 0 0
+	FrameIndex CFLF B 0 1
+	FrameIndex CFLF C 0 2
+	FrameIndex CFLF D 0 3
+	FrameIndex CFLF E 0 4
+	FrameIndex CFLF F 0 5
+	FrameIndex CFLF G 0 6
+	FrameIndex CFLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFRT A 0 0
+	FrameIndex CFRT B 0 1
+	FrameIndex CFRT C 0 2
+	FrameIndex CFRT D 0 3
+	FrameIndex CFRT E 0 4
+	FrameIndex CFRT F 0 5
+	FrameIndex CFRT G 0 6
+	FrameIndex CFRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFL A 0 0
+	FrameIndex CFFL B 0 1
+	FrameIndex CFFL C 0 2
+	FrameIndex CFFL D 0 3
+	FrameIndex CFFL E 0 4
+	FrameIndex CFFL F 0 5
+	FrameIndex CFFL G 0 6
+	FrameIndex CFFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFR A 0 0
+	FrameIndex CFFR B 0 1
+	FrameIndex CFFR C 0 2
+	FrameIndex CFFR D 0 3
+	FrameIndex CFFR E 0 4
+	FrameIndex CFFR F 0 5
+	FrameIndex CFFR G 0 6
+	FrameIndex CFFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBL A 0 7
+	FrameIndex CFBL B 0 6
+	FrameIndex CFBL C 0 5
+	FrameIndex CFBL D 0 4
+	FrameIndex CFBL E 0 3
+	FrameIndex CFBL F 0 2
+	FrameIndex CFBL G 0 1
+	FrameIndex CFBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: CROUCH FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBR A 0 7
+	FrameIndex CFBR B 0 6
+	FrameIndex CFBR C 0 5
+	FrameIndex CFBR D 0 4
+	FrameIndex CFBR E 0 3
+	FrameIndex CFBR F 0 2
+	FrameIndex CFBR G 0 1
+	FrameIndex CFBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: JUMP FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPFW A 0 51
+	FrameIndex JPFW B 0 52
+	FrameIndex JPFW C 0 53
+	FrameIndex JPFW D 0 54
+	FrameIndex JPFW E 0 55
+	FrameIndex JPFW F 0 56
+	FrameIndex JPFW G 0 57
+	FrameIndex JPFW H 0 58
+	FrameIndex JPFW I 0 59
+	FrameIndex JPFW J 0 60
+	FrameIndex JPFW K 0 61
+	FrameIndex JPFW L 0 62
+	FrameIndex JPFW M 0 63
+	FrameIndex JPFW N 0 64
+	FrameIndex JPFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: JUMP BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPBK A 0 66
+	FrameIndex JPBK B 0 67
+	FrameIndex JPBK C 0 68
+	FrameIndex JPBK D 0 69
+	FrameIndex JPBK E 0 70
+	FrameIndex JPBK F 0 71
+	FrameIndex JPBK G 0 72
+	FrameIndex JPBK H 0 73
+	FrameIndex JPBK I 0 74
+	FrameIndex JPBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: JUMP FORWARD FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFFW A 0 51
+	FrameIndex JFFW B 0 52
+	FrameIndex JFFW C 0 53
+	FrameIndex JFFW D 0 54
+	FrameIndex JFFW E 0 55
+	FrameIndex JFFW F 0 56
+	FrameIndex JFFW G 0 57
+	FrameIndex JFFW H 0 58
+	FrameIndex JFFW I 0 59
+	FrameIndex JFFW J 0 60
+	FrameIndex JFFW K 0 61
+	FrameIndex JFFW L 0 62
+	FrameIndex JFFW M 0 63
+	FrameIndex JFFW N 0 64
+	FrameIndex JFFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: JUMP BACK FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFBK A 0 66
+	FrameIndex JFBK B 0 67
+	FrameIndex JFBK C 0 68
+	FrameIndex JFBK D 0 69
+	FrameIndex JFBK E 0 70
+	FrameIndex JFBK F 0 71
+	FrameIndex JFBK G 0 72
+	FrameIndex JFBK H 0 73
+	FrameIndex JFBK I 0 74
+	FrameIndex JFBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: KICK STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKST A 0 76
+	FrameIndex KKST B 0 77
+	FrameIndex KKST C 0 78
+	FrameIndex KKST D 0 79
+	FrameIndex KKST E 0 80
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: KICK CROUCH
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKCR A 0 0
+	FrameIndex KKCR B 0 1
+	FrameIndex KKCR C 0 2
+	FrameIndex KKCR D 0 3
+	FrameIndex KKCR E 0 4
+	FrameIndex KKCR F 0 5
+	FrameIndex KKCR G 0 6
+	FrameIndex KKCR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon4Layer: KICK AIR
+// ============================================================
+
+Model UpdatedDoom2BotWeapon4Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon4.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKAR A 0 66
+	FrameIndex KKAR B 0 67
+	FrameIndex KKAR C 0 68
+	FrameIndex KKAR D 0 69
+	FrameIndex KKAR E 0 70
+	FrameIndex KKAR F 0 71
+	FrameIndex KKAR G 0 72
+	FrameIndex KKAR H 0 73
+	FrameIndex KKAR I 0 74
+	FrameIndex KKAR J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex STID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: RUN FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFW A 0 20
+	FrameIndex RNFW B 0 21
+	FrameIndex RNFW C 0 22
+	FrameIndex RNFW D 0 23
+	FrameIndex RNFW E 0 24
+	FrameIndex RNFW F 0 25
+	FrameIndex RNFW G 0 26
+	FrameIndex RNFW H 0 27
+	FrameIndex RNFW I 0 28
+	FrameIndex RNFW J 0 29
+	FrameIndex RNFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: RUN BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBK A 0 31
+	FrameIndex RNBK B 0 32
+	FrameIndex RNBK C 0 33
+	FrameIndex RNBK D 0 34
+	FrameIndex RNBK E 0 35
+	FrameIndex RNBK F 0 36
+	FrameIndex RNBK G 0 37
+	FrameIndex RNBK H 0 38
+	FrameIndex RNBK I 0 39
+	FrameIndex RNBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: RUN LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNLF A 0 20
+	FrameIndex RNLF B 0 21
+	FrameIndex RNLF C 0 22
+	FrameIndex RNLF D 0 23
+	FrameIndex RNLF E 0 24
+	FrameIndex RNLF F 0 25
+	FrameIndex RNLF G 0 26
+	FrameIndex RNLF H 0 27
+	FrameIndex RNLF I 0 28
+	FrameIndex RNLF J 0 29
+	FrameIndex RNLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: RUN RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNRT A 0 20
+	FrameIndex RNRT B 0 21
+	FrameIndex RNRT C 0 22
+	FrameIndex RNRT D 0 23
+	FrameIndex RNRT E 0 24
+	FrameIndex RNRT F 0 25
+	FrameIndex RNRT G 0 26
+	FrameIndex RNRT H 0 27
+	FrameIndex RNRT I 0 28
+	FrameIndex RNRT J 0 29
+	FrameIndex RNRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: RUN FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFL A 0 20
+	FrameIndex RNFL B 0 21
+	FrameIndex RNFL C 0 22
+	FrameIndex RNFL D 0 23
+	FrameIndex RNFL E 0 24
+	FrameIndex RNFL F 0 25
+	FrameIndex RNFL G 0 26
+	FrameIndex RNFL H 0 27
+	FrameIndex RNFL I 0 28
+	FrameIndex RNFL J 0 29
+	FrameIndex RNFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: RUN FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFR A 0 20
+	FrameIndex RNFR B 0 21
+	FrameIndex RNFR C 0 22
+	FrameIndex RNFR D 0 23
+	FrameIndex RNFR E 0 24
+	FrameIndex RNFR F 0 25
+	FrameIndex RNFR G 0 26
+	FrameIndex RNFR H 0 27
+	FrameIndex RNFR I 0 28
+	FrameIndex RNFR J 0 29
+	FrameIndex RNFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: RUN BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBL A 0 31
+	FrameIndex RNBL B 0 32
+	FrameIndex RNBL C 0 33
+	FrameIndex RNBL D 0 34
+	FrameIndex RNBL E 0 35
+	FrameIndex RNBL F 0 36
+	FrameIndex RNBL G 0 37
+	FrameIndex RNBL H 0 38
+	FrameIndex RNBL I 0 39
+	FrameIndex RNBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: RUN BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBR A 0 31
+	FrameIndex RNBR B 0 32
+	FrameIndex RNBR C 0 33
+	FrameIndex RNBR D 0 34
+	FrameIndex RNBR E 0 35
+	FrameIndex RNBR F 0 36
+	FrameIndex RNBR G 0 37
+	FrameIndex RNBR H 0 38
+	FrameIndex RNBR I 0 39
+	FrameIndex RNBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFW A 0 20
+	FrameIndex FSFW B 0 21
+	FrameIndex FSFW C 0 22
+	FrameIndex FSFW D 0 23
+	FrameIndex FSFW E 0 24
+	FrameIndex FSFW F 0 25
+	FrameIndex FSFW G 0 26
+	FrameIndex FSFW H 0 27
+	FrameIndex FSFW I 0 28
+	FrameIndex FSFW J 0 29
+	FrameIndex FSFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBK A 0 31
+	FrameIndex FSBK B 0 32
+	FrameIndex FSBK C 0 33
+	FrameIndex FSBK D 0 34
+	FrameIndex FSBK E 0 35
+	FrameIndex FSBK F 0 36
+	FrameIndex FSBK G 0 37
+	FrameIndex FSBK H 0 38
+	FrameIndex FSBK I 0 39
+	FrameIndex FSBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSLF A 0 20
+	FrameIndex FSLF B 0 21
+	FrameIndex FSLF C 0 22
+	FrameIndex FSLF D 0 23
+	FrameIndex FSLF E 0 24
+	FrameIndex FSLF F 0 25
+	FrameIndex FSLF G 0 26
+	FrameIndex FSLF H 0 27
+	FrameIndex FSLF I 0 28
+	FrameIndex FSLF J 0 29
+	FrameIndex FSLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSRT A 0 20
+	FrameIndex FSRT B 0 21
+	FrameIndex FSRT C 0 22
+	FrameIndex FSRT D 0 23
+	FrameIndex FSRT E 0 24
+	FrameIndex FSRT F 0 25
+	FrameIndex FSRT G 0 26
+	FrameIndex FSRT H 0 27
+	FrameIndex FSRT I 0 28
+	FrameIndex FSRT J 0 29
+	FrameIndex FSRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFL A 0 20
+	FrameIndex FSFL B 0 21
+	FrameIndex FSFL C 0 22
+	FrameIndex FSFL D 0 23
+	FrameIndex FSFL E 0 24
+	FrameIndex FSFL F 0 25
+	FrameIndex FSFL G 0 26
+	FrameIndex FSFL H 0 27
+	FrameIndex FSFL I 0 28
+	FrameIndex FSFL J 0 29
+	FrameIndex FSFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFR A 0 20
+	FrameIndex FSFR B 0 21
+	FrameIndex FSFR C 0 22
+	FrameIndex FSFR D 0 23
+	FrameIndex FSFR E 0 24
+	FrameIndex FSFR F 0 25
+	FrameIndex FSFR G 0 26
+	FrameIndex FSFR H 0 27
+	FrameIndex FSFR I 0 28
+	FrameIndex FSFR J 0 29
+	FrameIndex FSFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBL A 0 31
+	FrameIndex FSBL B 0 32
+	FrameIndex FSBL C 0 33
+	FrameIndex FSBL D 0 34
+	FrameIndex FSBL E 0 35
+	FrameIndex FSBL F 0 36
+	FrameIndex FSBL G 0 37
+	FrameIndex FSBL H 0 38
+	FrameIndex FSBL I 0 39
+	FrameIndex FSBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBR A 0 31
+	FrameIndex FSBR B 0 32
+	FrameIndex FSBR C 0 33
+	FrameIndex FSBR D 0 34
+	FrameIndex FSBR E 0 35
+	FrameIndex FSBR F 0 36
+	FrameIndex FSBR G 0 37
+	FrameIndex FSBR H 0 38
+	FrameIndex FSBR I 0 39
+	FrameIndex FSBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFW A 0 0
+	FrameIndex CRFW B 0 1
+	FrameIndex CRFW C 0 2
+	FrameIndex CRFW D 0 3
+	FrameIndex CRFW E 0 4
+	FrameIndex CRFW F 0 5
+	FrameIndex CRFW G 0 6
+	FrameIndex CRFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBK A 0 7
+	FrameIndex CRBK B 0 6
+	FrameIndex CRBK C 0 5
+	FrameIndex CRBK D 0 4
+	FrameIndex CRBK E 0 3
+	FrameIndex CRBK F 0 2
+	FrameIndex CRBK G 0 1
+	FrameIndex CRBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRLF A 0 0
+	FrameIndex CRLF B 0 1
+	FrameIndex CRLF C 0 2
+	FrameIndex CRLF D 0 3
+	FrameIndex CRLF E 0 4
+	FrameIndex CRLF F 0 5
+	FrameIndex CRLF G 0 6
+	FrameIndex CRLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRRT A 0 0
+	FrameIndex CRRT B 0 1
+	FrameIndex CRRT C 0 2
+	FrameIndex CRRT D 0 3
+	FrameIndex CRRT E 0 4
+	FrameIndex CRRT F 0 5
+	FrameIndex CRRT G 0 6
+	FrameIndex CRRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFL A 0 0
+	FrameIndex CRFL B 0 1
+	FrameIndex CRFL C 0 2
+	FrameIndex CRFL D 0 3
+	FrameIndex CRFL E 0 4
+	FrameIndex CRFL F 0 5
+	FrameIndex CRFL G 0 6
+	FrameIndex CRFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFR A 0 0
+	FrameIndex CRFR B 0 1
+	FrameIndex CRFR C 0 2
+	FrameIndex CRFR D 0 3
+	FrameIndex CRFR E 0 4
+	FrameIndex CRFR F 0 5
+	FrameIndex CRFR G 0 6
+	FrameIndex CRFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBL A 0 7
+	FrameIndex CRBL B 0 6
+	FrameIndex CRBL C 0 5
+	FrameIndex CRBL D 0 4
+	FrameIndex CRBL E 0 3
+	FrameIndex CRBL F 0 2
+	FrameIndex CRBL G 0 1
+	FrameIndex CRBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBR A 0 7
+	FrameIndex CRBR B 0 6
+	FrameIndex CRBR C 0 5
+	FrameIndex CRBR D 0 4
+	FrameIndex CRBR E 0 3
+	FrameIndex CRBR F 0 2
+	FrameIndex CRBR G 0 1
+	FrameIndex CRBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFW A 0 0
+	FrameIndex CFFW B 0 1
+	FrameIndex CFFW C 0 2
+	FrameIndex CFFW D 0 3
+	FrameIndex CFFW E 0 4
+	FrameIndex CFFW F 0 5
+	FrameIndex CFFW G 0 6
+	FrameIndex CFFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBK A 0 7
+	FrameIndex CFBK B 0 6
+	FrameIndex CFBK C 0 5
+	FrameIndex CFBK D 0 4
+	FrameIndex CFBK E 0 3
+	FrameIndex CFBK F 0 2
+	FrameIndex CFBK G 0 1
+	FrameIndex CFBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFLF A 0 0
+	FrameIndex CFLF B 0 1
+	FrameIndex CFLF C 0 2
+	FrameIndex CFLF D 0 3
+	FrameIndex CFLF E 0 4
+	FrameIndex CFLF F 0 5
+	FrameIndex CFLF G 0 6
+	FrameIndex CFLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFRT A 0 0
+	FrameIndex CFRT B 0 1
+	FrameIndex CFRT C 0 2
+	FrameIndex CFRT D 0 3
+	FrameIndex CFRT E 0 4
+	FrameIndex CFRT F 0 5
+	FrameIndex CFRT G 0 6
+	FrameIndex CFRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFL A 0 0
+	FrameIndex CFFL B 0 1
+	FrameIndex CFFL C 0 2
+	FrameIndex CFFL D 0 3
+	FrameIndex CFFL E 0 4
+	FrameIndex CFFL F 0 5
+	FrameIndex CFFL G 0 6
+	FrameIndex CFFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFR A 0 0
+	FrameIndex CFFR B 0 1
+	FrameIndex CFFR C 0 2
+	FrameIndex CFFR D 0 3
+	FrameIndex CFFR E 0 4
+	FrameIndex CFFR F 0 5
+	FrameIndex CFFR G 0 6
+	FrameIndex CFFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBL A 0 7
+	FrameIndex CFBL B 0 6
+	FrameIndex CFBL C 0 5
+	FrameIndex CFBL D 0 4
+	FrameIndex CFBL E 0 3
+	FrameIndex CFBL F 0 2
+	FrameIndex CFBL G 0 1
+	FrameIndex CFBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: CROUCH FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBR A 0 7
+	FrameIndex CFBR B 0 6
+	FrameIndex CFBR C 0 5
+	FrameIndex CFBR D 0 4
+	FrameIndex CFBR E 0 3
+	FrameIndex CFBR F 0 2
+	FrameIndex CFBR G 0 1
+	FrameIndex CFBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: JUMP FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPFW A 0 51
+	FrameIndex JPFW B 0 52
+	FrameIndex JPFW C 0 53
+	FrameIndex JPFW D 0 54
+	FrameIndex JPFW E 0 55
+	FrameIndex JPFW F 0 56
+	FrameIndex JPFW G 0 57
+	FrameIndex JPFW H 0 58
+	FrameIndex JPFW I 0 59
+	FrameIndex JPFW J 0 60
+	FrameIndex JPFW K 0 61
+	FrameIndex JPFW L 0 62
+	FrameIndex JPFW M 0 63
+	FrameIndex JPFW N 0 64
+	FrameIndex JPFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: JUMP BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPBK A 0 66
+	FrameIndex JPBK B 0 67
+	FrameIndex JPBK C 0 68
+	FrameIndex JPBK D 0 69
+	FrameIndex JPBK E 0 70
+	FrameIndex JPBK F 0 71
+	FrameIndex JPBK G 0 72
+	FrameIndex JPBK H 0 73
+	FrameIndex JPBK I 0 74
+	FrameIndex JPBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: JUMP FORWARD FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFFW A 0 51
+	FrameIndex JFFW B 0 52
+	FrameIndex JFFW C 0 53
+	FrameIndex JFFW D 0 54
+	FrameIndex JFFW E 0 55
+	FrameIndex JFFW F 0 56
+	FrameIndex JFFW G 0 57
+	FrameIndex JFFW H 0 58
+	FrameIndex JFFW I 0 59
+	FrameIndex JFFW J 0 60
+	FrameIndex JFFW K 0 61
+	FrameIndex JFFW L 0 62
+	FrameIndex JFFW M 0 63
+	FrameIndex JFFW N 0 64
+	FrameIndex JFFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: JUMP BACK FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFBK A 0 66
+	FrameIndex JFBK B 0 67
+	FrameIndex JFBK C 0 68
+	FrameIndex JFBK D 0 69
+	FrameIndex JFBK E 0 70
+	FrameIndex JFBK F 0 71
+	FrameIndex JFBK G 0 72
+	FrameIndex JFBK H 0 73
+	FrameIndex JFBK I 0 74
+	FrameIndex JFBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: KICK STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKST A 0 76
+	FrameIndex KKST B 0 77
+	FrameIndex KKST C 0 78
+	FrameIndex KKST D 0 79
+	FrameIndex KKST E 0 80
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: KICK CROUCH
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKCR A 0 0
+	FrameIndex KKCR B 0 1
+	FrameIndex KKCR C 0 2
+	FrameIndex KKCR D 0 3
+	FrameIndex KKCR E 0 4
+	FrameIndex KKCR F 0 5
+	FrameIndex KKCR G 0 6
+	FrameIndex KKCR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon5Layer: KICK AIR
+// ============================================================
+
+Model UpdatedDoom2BotWeapon5Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon5.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKAR A 0 66
+	FrameIndex KKAR B 0 67
+	FrameIndex KKAR C 0 68
+	FrameIndex KKAR D 0 69
+	FrameIndex KKAR E 0 70
+	FrameIndex KKAR F 0 71
+	FrameIndex KKAR G 0 72
+	FrameIndex KKAR H 0 73
+	FrameIndex KKAR I 0 74
+	FrameIndex KKAR J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex STID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: RUN FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFW A 0 20
+	FrameIndex RNFW B 0 21
+	FrameIndex RNFW C 0 22
+	FrameIndex RNFW D 0 23
+	FrameIndex RNFW E 0 24
+	FrameIndex RNFW F 0 25
+	FrameIndex RNFW G 0 26
+	FrameIndex RNFW H 0 27
+	FrameIndex RNFW I 0 28
+	FrameIndex RNFW J 0 29
+	FrameIndex RNFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: RUN BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBK A 0 31
+	FrameIndex RNBK B 0 32
+	FrameIndex RNBK C 0 33
+	FrameIndex RNBK D 0 34
+	FrameIndex RNBK E 0 35
+	FrameIndex RNBK F 0 36
+	FrameIndex RNBK G 0 37
+	FrameIndex RNBK H 0 38
+	FrameIndex RNBK I 0 39
+	FrameIndex RNBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: RUN LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNLF A 0 20
+	FrameIndex RNLF B 0 21
+	FrameIndex RNLF C 0 22
+	FrameIndex RNLF D 0 23
+	FrameIndex RNLF E 0 24
+	FrameIndex RNLF F 0 25
+	FrameIndex RNLF G 0 26
+	FrameIndex RNLF H 0 27
+	FrameIndex RNLF I 0 28
+	FrameIndex RNLF J 0 29
+	FrameIndex RNLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: RUN RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNRT A 0 20
+	FrameIndex RNRT B 0 21
+	FrameIndex RNRT C 0 22
+	FrameIndex RNRT D 0 23
+	FrameIndex RNRT E 0 24
+	FrameIndex RNRT F 0 25
+	FrameIndex RNRT G 0 26
+	FrameIndex RNRT H 0 27
+	FrameIndex RNRT I 0 28
+	FrameIndex RNRT J 0 29
+	FrameIndex RNRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: RUN FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFL A 0 20
+	FrameIndex RNFL B 0 21
+	FrameIndex RNFL C 0 22
+	FrameIndex RNFL D 0 23
+	FrameIndex RNFL E 0 24
+	FrameIndex RNFL F 0 25
+	FrameIndex RNFL G 0 26
+	FrameIndex RNFL H 0 27
+	FrameIndex RNFL I 0 28
+	FrameIndex RNFL J 0 29
+	FrameIndex RNFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: RUN FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNFR A 0 20
+	FrameIndex RNFR B 0 21
+	FrameIndex RNFR C 0 22
+	FrameIndex RNFR D 0 23
+	FrameIndex RNFR E 0 24
+	FrameIndex RNFR F 0 25
+	FrameIndex RNFR G 0 26
+	FrameIndex RNFR H 0 27
+	FrameIndex RNFR I 0 28
+	FrameIndex RNFR J 0 29
+	FrameIndex RNFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: RUN BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBL A 0 31
+	FrameIndex RNBL B 0 32
+	FrameIndex RNBL C 0 33
+	FrameIndex RNBL D 0 34
+	FrameIndex RNBL E 0 35
+	FrameIndex RNBL F 0 36
+	FrameIndex RNBL G 0 37
+	FrameIndex RNBL H 0 38
+	FrameIndex RNBL I 0 39
+	FrameIndex RNBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: RUN BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex RNBR A 0 31
+	FrameIndex RNBR B 0 32
+	FrameIndex RNBR C 0 33
+	FrameIndex RNBR D 0 34
+	FrameIndex RNBR E 0 35
+	FrameIndex RNBR F 0 36
+	FrameIndex RNBR G 0 37
+	FrameIndex RNBR H 0 38
+	FrameIndex RNBR I 0 39
+	FrameIndex RNBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSID A 0 76
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFW A 0 20
+	FrameIndex FSFW B 0 21
+	FrameIndex FSFW C 0 22
+	FrameIndex FSFW D 0 23
+	FrameIndex FSFW E 0 24
+	FrameIndex FSFW F 0 25
+	FrameIndex FSFW G 0 26
+	FrameIndex FSFW H 0 27
+	FrameIndex FSFW I 0 28
+	FrameIndex FSFW J 0 29
+	FrameIndex FSFW K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBK A 0 31
+	FrameIndex FSBK B 0 32
+	FrameIndex FSBK C 0 33
+	FrameIndex FSBK D 0 34
+	FrameIndex FSBK E 0 35
+	FrameIndex FSBK F 0 36
+	FrameIndex FSBK G 0 37
+	FrameIndex FSBK H 0 38
+	FrameIndex FSBK I 0 39
+	FrameIndex FSBK J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSLF A 0 20
+	FrameIndex FSLF B 0 21
+	FrameIndex FSLF C 0 22
+	FrameIndex FSLF D 0 23
+	FrameIndex FSLF E 0 24
+	FrameIndex FSLF F 0 25
+	FrameIndex FSLF G 0 26
+	FrameIndex FSLF H 0 27
+	FrameIndex FSLF I 0 28
+	FrameIndex FSLF J 0 29
+	FrameIndex FSLF K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSRT A 0 20
+	FrameIndex FSRT B 0 21
+	FrameIndex FSRT C 0 22
+	FrameIndex FSRT D 0 23
+	FrameIndex FSRT E 0 24
+	FrameIndex FSRT F 0 25
+	FrameIndex FSRT G 0 26
+	FrameIndex FSRT H 0 27
+	FrameIndex FSRT I 0 28
+	FrameIndex FSRT J 0 29
+	FrameIndex FSRT K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFL A 0 20
+	FrameIndex FSFL B 0 21
+	FrameIndex FSFL C 0 22
+	FrameIndex FSFL D 0 23
+	FrameIndex FSFL E 0 24
+	FrameIndex FSFL F 0 25
+	FrameIndex FSFL G 0 26
+	FrameIndex FSFL H 0 27
+	FrameIndex FSFL I 0 28
+	FrameIndex FSFL J 0 29
+	FrameIndex FSFL K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSFR A 0 20
+	FrameIndex FSFR B 0 21
+	FrameIndex FSFR C 0 22
+	FrameIndex FSFR D 0 23
+	FrameIndex FSFR E 0 24
+	FrameIndex FSFR F 0 25
+	FrameIndex FSFR G 0 26
+	FrameIndex FSFR H 0 27
+	FrameIndex FSFR I 0 28
+	FrameIndex FSFR J 0 29
+	FrameIndex FSFR K 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBL A 0 31
+	FrameIndex FSBL B 0 32
+	FrameIndex FSBL C 0 33
+	FrameIndex FSBL D 0 34
+	FrameIndex FSBL E 0 35
+	FrameIndex FSBL F 0 36
+	FrameIndex FSBL G 0 37
+	FrameIndex FSBL H 0 38
+	FrameIndex FSBL I 0 39
+	FrameIndex FSBL J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex FSBR A 0 31
+	FrameIndex FSBR B 0 32
+	FrameIndex FSBR C 0 33
+	FrameIndex FSBR D 0 34
+	FrameIndex FSBR E 0 35
+	FrameIndex FSBR F 0 36
+	FrameIndex FSBR G 0 37
+	FrameIndex FSBR H 0 38
+	FrameIndex FSBR I 0 39
+	FrameIndex FSBR J 0 40
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFW A 0 0
+	FrameIndex CRFW B 0 1
+	FrameIndex CRFW C 0 2
+	FrameIndex CRFW D 0 3
+	FrameIndex CRFW E 0 4
+	FrameIndex CRFW F 0 5
+	FrameIndex CRFW G 0 6
+	FrameIndex CRFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBK A 0 7
+	FrameIndex CRBK B 0 6
+	FrameIndex CRBK C 0 5
+	FrameIndex CRBK D 0 4
+	FrameIndex CRBK E 0 3
+	FrameIndex CRBK F 0 2
+	FrameIndex CRBK G 0 1
+	FrameIndex CRBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRLF A 0 0
+	FrameIndex CRLF B 0 1
+	FrameIndex CRLF C 0 2
+	FrameIndex CRLF D 0 3
+	FrameIndex CRLF E 0 4
+	FrameIndex CRLF F 0 5
+	FrameIndex CRLF G 0 6
+	FrameIndex CRLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRRT A 0 0
+	FrameIndex CRRT B 0 1
+	FrameIndex CRRT C 0 2
+	FrameIndex CRRT D 0 3
+	FrameIndex CRRT E 0 4
+	FrameIndex CRRT F 0 5
+	FrameIndex CRRT G 0 6
+	FrameIndex CRRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFL A 0 0
+	FrameIndex CRFL B 0 1
+	FrameIndex CRFL C 0 2
+	FrameIndex CRFL D 0 3
+	FrameIndex CRFL E 0 4
+	FrameIndex CRFL F 0 5
+	FrameIndex CRFL G 0 6
+	FrameIndex CRFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRFR A 0 0
+	FrameIndex CRFR B 0 1
+	FrameIndex CRFR C 0 2
+	FrameIndex CRFR D 0 3
+	FrameIndex CRFR E 0 4
+	FrameIndex CRFR F 0 5
+	FrameIndex CRFR G 0 6
+	FrameIndex CRFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBL A 0 7
+	FrameIndex CRBL B 0 6
+	FrameIndex CRBL C 0 5
+	FrameIndex CRBL D 0 4
+	FrameIndex CRBL E 0 3
+	FrameIndex CRBL F 0 2
+	FrameIndex CRBL G 0 1
+	FrameIndex CRBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CRBR A 0 7
+	FrameIndex CRBR B 0 6
+	FrameIndex CRBR C 0 5
+	FrameIndex CRBR D 0 4
+	FrameIndex CRBR E 0 3
+	FrameIndex CRBR F 0 2
+	FrameIndex CRBR G 0 1
+	FrameIndex CRBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FIRE STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFID A 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FIRE FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFW A 0 0
+	FrameIndex CFFW B 0 1
+	FrameIndex CFFW C 0 2
+	FrameIndex CFFW D 0 3
+	FrameIndex CFFW E 0 4
+	FrameIndex CFFW F 0 5
+	FrameIndex CFFW G 0 6
+	FrameIndex CFFW H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FIRE BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBK A 0 7
+	FrameIndex CFBK B 0 6
+	FrameIndex CFBK C 0 5
+	FrameIndex CFBK D 0 4
+	FrameIndex CFBK E 0 3
+	FrameIndex CFBK F 0 2
+	FrameIndex CFBK G 0 1
+	FrameIndex CFBK H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FIRE LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFLF A 0 0
+	FrameIndex CFLF B 0 1
+	FrameIndex CFLF C 0 2
+	FrameIndex CFLF D 0 3
+	FrameIndex CFLF E 0 4
+	FrameIndex CFLF F 0 5
+	FrameIndex CFLF G 0 6
+	FrameIndex CFLF H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FIRE RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFRT A 0 0
+	FrameIndex CFRT B 0 1
+	FrameIndex CFRT C 0 2
+	FrameIndex CFRT D 0 3
+	FrameIndex CFRT E 0 4
+	FrameIndex CFRT F 0 5
+	FrameIndex CFRT G 0 6
+	FrameIndex CFRT H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FIRE FORWARD LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFL A 0 0
+	FrameIndex CFFL B 0 1
+	FrameIndex CFFL C 0 2
+	FrameIndex CFFL D 0 3
+	FrameIndex CFFL E 0 4
+	FrameIndex CFFL F 0 5
+	FrameIndex CFFL G 0 6
+	FrameIndex CFFL H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FIRE FORWARD RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFFR A 0 0
+	FrameIndex CFFR B 0 1
+	FrameIndex CFFR C 0 2
+	FrameIndex CFFR D 0 3
+	FrameIndex CFFR E 0 4
+	FrameIndex CFFR F 0 5
+	FrameIndex CFFR G 0 6
+	FrameIndex CFFR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FIRE BACK LEFT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBL A 0 7
+	FrameIndex CFBL B 0 6
+	FrameIndex CFBL C 0 5
+	FrameIndex CFBL D 0 4
+	FrameIndex CFBL E 0 3
+	FrameIndex CFBL F 0 2
+	FrameIndex CFBL G 0 1
+	FrameIndex CFBL H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: CROUCH FIRE BACK RIGHT
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex CFBR A 0 7
+	FrameIndex CFBR B 0 6
+	FrameIndex CFBR C 0 5
+	FrameIndex CFBR D 0 4
+	FrameIndex CFBR E 0 3
+	FrameIndex CFBR F 0 2
+	FrameIndex CFBR G 0 1
+	FrameIndex CFBR H 0 0
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: JUMP FORWARD
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPFW A 0 51
+	FrameIndex JPFW B 0 52
+	FrameIndex JPFW C 0 53
+	FrameIndex JPFW D 0 54
+	FrameIndex JPFW E 0 55
+	FrameIndex JPFW F 0 56
+	FrameIndex JPFW G 0 57
+	FrameIndex JPFW H 0 58
+	FrameIndex JPFW I 0 59
+	FrameIndex JPFW J 0 60
+	FrameIndex JPFW K 0 61
+	FrameIndex JPFW L 0 62
+	FrameIndex JPFW M 0 63
+	FrameIndex JPFW N 0 64
+	FrameIndex JPFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: JUMP BACK
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JPBK A 0 66
+	FrameIndex JPBK B 0 67
+	FrameIndex JPBK C 0 68
+	FrameIndex JPBK D 0 69
+	FrameIndex JPBK E 0 70
+	FrameIndex JPBK F 0 71
+	FrameIndex JPBK G 0 72
+	FrameIndex JPBK H 0 73
+	FrameIndex JPBK I 0 74
+	FrameIndex JPBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: JUMP FORWARD FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFFW A 0 51
+	FrameIndex JFFW B 0 52
+	FrameIndex JFFW C 0 53
+	FrameIndex JFFW D 0 54
+	FrameIndex JFFW E 0 55
+	FrameIndex JFFW F 0 56
+	FrameIndex JFFW G 0 57
+	FrameIndex JFFW H 0 58
+	FrameIndex JFFW I 0 59
+	FrameIndex JFFW J 0 60
+	FrameIndex JFFW K 0 61
+	FrameIndex JFFW L 0 62
+	FrameIndex JFFW M 0 63
+	FrameIndex JFFW N 0 64
+	FrameIndex JFFW O 0 65
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: JUMP BACK FIRE
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex JFBK A 0 66
+	FrameIndex JFBK B 0 67
+	FrameIndex JFBK C 0 68
+	FrameIndex JFBK D 0 69
+	FrameIndex JFBK E 0 70
+	FrameIndex JFBK F 0 71
+	FrameIndex JFBK G 0 72
+	FrameIndex JFBK H 0 73
+	FrameIndex JFBK I 0 74
+	FrameIndex JFBK J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: KICK STAND
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKST A 0 76
+	FrameIndex KKST B 0 77
+	FrameIndex KKST C 0 78
+	FrameIndex KKST D 0 79
+	FrameIndex KKST E 0 80
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: KICK CROUCH
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKCR A 0 0
+	FrameIndex KKCR B 0 1
+	FrameIndex KKCR C 0 2
+	FrameIndex KKCR D 0 3
+	FrameIndex KKCR E 0 4
+	FrameIndex KKCR F 0 5
+	FrameIndex KKCR G 0 6
+	FrameIndex KKCR H 0 7
+}
+
+
+// ============================================================
+// UpdatedDoom2BotWeapon6Layer: KICK AIR
+// ============================================================
+
+Model UpdatedDoom2BotWeapon6Layer
+{
+	Path "models/updatedbot"
+	Model 0 "weapon6.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex KKAR A 0 66
+	FrameIndex KKAR B 0 67
+	FrameIndex KKAR C 0 68
+	FrameIndex KKAR D 0 69
+	FrameIndex KKAR E 0 70
+	FrameIndex KKAR F 0 71
+	FrameIndex KKAR G 0 72
+	FrameIndex KKAR H 0 73
+	FrameIndex KKAR I 0 74
+	FrameIndex KKAR J 0 75
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: DEATH 1
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legsdeath.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex D1AA A 0 0
+	FrameIndex D1AA B 0 1
+	FrameIndex D1AA C 0 2
+	FrameIndex D1AA D 0 3
+	FrameIndex D1AA E 0 4
+	FrameIndex D1AA F 0 5
+	FrameIndex D1AA G 0 6
+	FrameIndex D1AA H 0 7
+	FrameIndex D1AA I 0 8
+	FrameIndex D1AA J 0 9
+	FrameIndex D1AA K 0 10
+	FrameIndex D1AA L 0 11
+	FrameIndex D1AA M 0 12
+	FrameIndex D1AA N 0 13
+	FrameIndex D1AA O 0 14
+	FrameIndex D1AA P 0 15
+	FrameIndex D1AA Q 0 16
+	FrameIndex D1AA R 0 17
+	FrameIndex D1AA S 0 18
+	FrameIndex D1AA T 0 19
+	FrameIndex D1AA U 0 20
+	FrameIndex D1AA V 0 21
+	FrameIndex D1AA W 0 22
+	FrameIndex D1AA X 0 23
+	FrameIndex D1AA Y 0 24
+	FrameIndex D1AA Z 0 25
+
+	FrameIndex D1AB A 0 26
+	FrameIndex D1AB B 0 27
+	FrameIndex D1AB C 0 28
+	FrameIndex D1AB D 0 29
+	FrameIndex D1AB E 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: DEATH 2
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legsdeath.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex D2AA A 0 0
+	FrameIndex D2AA B 0 1
+	FrameIndex D2AA C 0 2
+	FrameIndex D2AA D 0 3
+	FrameIndex D2AA E 0 4
+	FrameIndex D2AA F 0 5
+	FrameIndex D2AA G 0 6
+	FrameIndex D2AA H 0 7
+	FrameIndex D2AA I 0 8
+	FrameIndex D2AA J 0 9
+	FrameIndex D2AA K 0 10
+	FrameIndex D2AA L 0 11
+	FrameIndex D2AA M 0 12
+	FrameIndex D2AA N 0 13
+	FrameIndex D2AA O 0 14
+	FrameIndex D2AA P 0 15
+	FrameIndex D2AA Q 0 16
+	FrameIndex D2AA R 0 17
+	FrameIndex D2AA S 0 18
+	FrameIndex D2AA T 0 19
+	FrameIndex D2AA U 0 20
+	FrameIndex D2AA V 0 21
+	FrameIndex D2AA W 0 22
+	FrameIndex D2AA X 0 23
+	FrameIndex D2AA Y 0 24
+	FrameIndex D2AA Z 0 25
+
+	FrameIndex D2AB A 0 26
+	FrameIndex D2AB B 0 27
+	FrameIndex D2AB C 0 28
+	FrameIndex D2AB D 0 29
+	FrameIndex D2AB E 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotLegsLayer: DEATH 3
+// ============================================================
+
+Model UpdatedDoom2BotLegsLayer
+{
+	Path "models/updatedbot"
+	Model 0 "legsdeath.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex D3AA A 0 0
+	FrameIndex D3AA B 0 1
+	FrameIndex D3AA C 0 2
+	FrameIndex D3AA D 0 3
+	FrameIndex D3AA E 0 4
+	FrameIndex D3AA F 0 5
+	FrameIndex D3AA G 0 6
+	FrameIndex D3AA H 0 7
+	FrameIndex D3AA I 0 8
+	FrameIndex D3AA J 0 9
+	FrameIndex D3AA K 0 10
+	FrameIndex D3AA L 0 11
+	FrameIndex D3AA M 0 12
+	FrameIndex D3AA N 0 13
+	FrameIndex D3AA O 0 14
+	FrameIndex D3AA P 0 15
+	FrameIndex D3AA Q 0 16
+	FrameIndex D3AA R 0 17
+	FrameIndex D3AA S 0 18
+	FrameIndex D3AA T 0 19
+	FrameIndex D3AA U 0 20
+	FrameIndex D3AA V 0 21
+	FrameIndex D3AA W 0 22
+	FrameIndex D3AA X 0 23
+	FrameIndex D3AA Y 0 24
+	FrameIndex D3AA Z 0 25
+
+	FrameIndex D3AB A 0 26
+	FrameIndex D3AB B 0 27
+	FrameIndex D3AB C 0 28
+	FrameIndex D3AB D 0 29
+	FrameIndex D3AB E 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: DEATH 1
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "bodydeath.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex D1AA A 0 0
+	FrameIndex D1AA B 0 1
+	FrameIndex D1AA C 0 2
+	FrameIndex D1AA D 0 3
+	FrameIndex D1AA E 0 4
+	FrameIndex D1AA F 0 5
+	FrameIndex D1AA G 0 6
+	FrameIndex D1AA H 0 7
+	FrameIndex D1AA I 0 8
+	FrameIndex D1AA J 0 9
+	FrameIndex D1AA K 0 10
+	FrameIndex D1AA L 0 11
+	FrameIndex D1AA M 0 12
+	FrameIndex D1AA N 0 13
+	FrameIndex D1AA O 0 14
+	FrameIndex D1AA P 0 15
+	FrameIndex D1AA Q 0 16
+	FrameIndex D1AA R 0 17
+	FrameIndex D1AA S 0 18
+	FrameIndex D1AA T 0 19
+	FrameIndex D1AA U 0 20
+	FrameIndex D1AA V 0 21
+	FrameIndex D1AA W 0 22
+	FrameIndex D1AA X 0 23
+	FrameIndex D1AA Y 0 24
+	FrameIndex D1AA Z 0 25
+
+	FrameIndex D1AB A 0 26
+	FrameIndex D1AB B 0 27
+	FrameIndex D1AB C 0 28
+	FrameIndex D1AB D 0 29
+	FrameIndex D1AB E 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: DEATH 2
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "bodydeath.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex D2AA A 0 0
+	FrameIndex D2AA B 0 1
+	FrameIndex D2AA C 0 2
+	FrameIndex D2AA D 0 3
+	FrameIndex D2AA E 0 4
+	FrameIndex D2AA F 0 5
+	FrameIndex D2AA G 0 6
+	FrameIndex D2AA H 0 7
+	FrameIndex D2AA I 0 8
+	FrameIndex D2AA J 0 9
+	FrameIndex D2AA K 0 10
+	FrameIndex D2AA L 0 11
+	FrameIndex D2AA M 0 12
+	FrameIndex D2AA N 0 13
+	FrameIndex D2AA O 0 14
+	FrameIndex D2AA P 0 15
+	FrameIndex D2AA Q 0 16
+	FrameIndex D2AA R 0 17
+	FrameIndex D2AA S 0 18
+	FrameIndex D2AA T 0 19
+	FrameIndex D2AA U 0 20
+	FrameIndex D2AA V 0 21
+	FrameIndex D2AA W 0 22
+	FrameIndex D2AA X 0 23
+	FrameIndex D2AA Y 0 24
+	FrameIndex D2AA Z 0 25
+
+	FrameIndex D2AB A 0 26
+	FrameIndex D2AB B 0 27
+	FrameIndex D2AB C 0 28
+	FrameIndex D2AB D 0 29
+	FrameIndex D2AB E 0 30
+}
+
+
+// ============================================================
+// UpdatedDoom2BotBodyLayer: DEATH 3
+// ============================================================
+
+Model UpdatedDoom2BotBodyLayer
+{
+	Path "models/updatedbot"
+	Model 0 "bodydeath.md3"
+	Skin 0 "blue.jpg"
+
+	AngleOffset 0
+	Scale 1.0 1.0 1.0
+
+	FrameIndex D3AA A 0 0
+	FrameIndex D3AA B 0 1
+	FrameIndex D3AA C 0 2
+	FrameIndex D3AA D 0 3
+	FrameIndex D3AA E 0 4
+	FrameIndex D3AA F 0 5
+	FrameIndex D3AA G 0 6
+	FrameIndex D3AA H 0 7
+	FrameIndex D3AA I 0 8
+	FrameIndex D3AA J 0 9
+	FrameIndex D3AA K 0 10
+	FrameIndex D3AA L 0 11
+	FrameIndex D3AA M 0 12
+	FrameIndex D3AA N 0 13
+	FrameIndex D3AA O 0 14
+	FrameIndex D3AA P 0 15
+	FrameIndex D3AA Q 0 16
+	FrameIndex D3AA R 0 17
+	FrameIndex D3AA S 0 18
+	FrameIndex D3AA T 0 19
+	FrameIndex D3AA U 0 20
+	FrameIndex D3AA V 0 21
+	FrameIndex D3AA W 0 22
+	FrameIndex D3AA X 0 23
+	FrameIndex D3AA Y 0 24
+	FrameIndex D3AA Z 0 25
+
+	FrameIndex D3AB A 0 26
+	FrameIndex D3AB B 0 27
+	FrameIndex D3AB C 0 28
+	FrameIndex D3AB D 0 29
+	FrameIndex D3AB E 0 30
+}
+
+

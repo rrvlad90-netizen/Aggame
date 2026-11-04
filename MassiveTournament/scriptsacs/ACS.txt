@@ -1,0 +1,107 @@
+Отлично! Вот обновлённый и красивый скрипт специально под твой режим:  
+«Кто быстрее отстрелит 250 монстров — та команда и победила»
+
+#include "zcommon.acs"
+
+// Глобальные счётчики убитых монстров
+global int 10: team1_kills;  // Команда 1 (красные)
+global int 11: team2_kills;  // Команда 2 (синие)
+
+// Инициализация при старте карты
+script 999 OPEN {
+    team1_kills = 0;
+    team2_kills = 0;
+
+    // Показываем счётчики в углу
+    SetFont("BIGFONT");
+    HudMessage(s:"TEAM 1: ", i:team1_kills, s:"    TEAM 2: ", i:team2_kills;
+                HUDMSG_PLAIN, 100, CR_UNTRANSLATED, 0.1, 0.05, 1.0);
+}
+
+// УБИЙСТВО МОНСТРА КОМАНДОЙ 1 (вызывай из Thing_Execute или DECORATE/ZSCRIPT)
+script 1 (void) {
+    team1_kills++;
+    UpdateScore();
+    CheckVictory();
+}
+
+// УБИЙСТВО МОНСТРА КОМАНДОЙ 2
+script 2 (void) {
+    team2_kills++;
+    UpdateScore();
+    CheckVictory();
+}
+
+// Обновление счётчиков на экране
+function void UpdateScore(void) {
+    SetFont("BIGFONT");
+    HudMessage(s:"1: ", i:team1_kills, s:"          2: ", i:team2_kills;
+                HUDMSG_PLAIN, 100, CR_UNTRANSLATED, 0.1, 0.05, 0.1);
+}
+
+// Проверка победы
+function void CheckVictory(void) {
+    if (team1_kills >= 250) {
+        VictoryTeam1();
+    }
+    else if (team2_kills >= 250) {
+        VictoryTeam2();
+    }
+}
+
+// ─────── ПОБЕДА КОМАНДЫ 1 ───────
+function void VictoryTeam1(void) {
+    Freeze();                                      // ПАУЗА ВСЕЙ ИГРЫ
+    SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);   // Все игроки замирают
+
+    HudMessage(s:"TEAM 1 WIN!"; 
+                HUDMSG_FADEOUT, 1, CR_RED, 0.5, 0.3, 4.0, 1.0);
+
+    // Большой текст по центру
+    SetFont("BIGFONT");
+    HudMessage(s:"TEAM 1 WIN!"; 
+                HUDMSG_FADEOUT, 2, CR_RED, 0.5, 0.5, 4.0, 1.0);
+
+    Delay(35*6);  // 6 секунд на радость
+    Exit_Normal(0); // Следующая карта
+}
+
+// ─────── ПОБЕДА КОМАНДЫ 2 ───────
+function void VictoryTeam2(void) {
+    Freeze();
+    SetPlayerProperty(0, 1, PROP_TOTALLYFROZEN);
+
+    HudMessage(s:"TEAM 2 WIN!"; 
+                HUDMSG_FADEOUT, 1, CR_CYAN, 0.5, 0.3, 4.0, 1.0);
+
+    SetFont("BIGFONT");
+    HudMessage(s:"TEAM 2 WIN!"; 
+                HUDMSG_FADEOUT, 2, CR_CYAN, 0.5, 0.5, 4.0, 1.0);
+
+    Delay(35*6);
+    Exit_Normal(0);
+}
+### Как использовать:
+1. Сохрани как SCORE.ACS и скомпилируй в SCORE.o.
+2. В DECORATE/ZSCRIPT монстров добавь:
+  
+   Death:
+       TNT1 A 0 A_PlaySound("misc/kill")
+       TNT1 A 0 ACS_NamedExecute("Team1Kill")  // если убил игрок из команды 1
+       // или
+       TNT1 A 0 ACS_NamedExecute("Team2Kill")  // если из команды 2
+   
+3. Или проще — сделай два невидимых Thing с +CLIENTSIDEONLY и стреляй в них:
+   - Thing_Execute(100, 1, 0, 0, 0) → скрипт 1 (команда 1)
+   - Thing_Execute(101, 2, 0, 0, 0) → скрипт 2 (команда 2)
+
+### Что ты получишь:
+- Счётчики в левом верхнем углу  
+- Полная пауза игры при победе  
+- Красивая надпись 4 секунды  
+- Автоматический переход на следующий уровень  
+
+Готово!  
+Кидай в PK3 — и вперёд, кто быстрее — тот и чемпион!  
+
+Если хочешь — могу добавить звук фанфар и конфетти через particles

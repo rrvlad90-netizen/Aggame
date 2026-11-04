@@ -1,0 +1,80 @@
+ACTOR Klesk : HMBasePawn
+{
+	Health 125
+	Radius 18
+	Height 72
+	Mass 125
+	Player.CrouchSprite "PLYC"
+	Player.DisplayName "Klesk"
+	Player.SoundClass "Klesk"
+	Player.ViewHeight 64
+	Player.AttackZOffset 26
+	DamageFactor "Slime", 2.0
+	States
+	{
+	Spawn:
+	  PLAY Z 1
+      Loop
+    See:
+      PLAY ABC 2
+	  PLAY D 2 A_SpawnItemEx("Stepskin",0,0,0,0,0,-8)
+	  PLAY EFG 2
+	  PLAY H 2 A_SpawnItemEx("Stepskin",0,0,0,0,0,-8)
+	  PLAY IJK 2
+	  PLAY L 2 A_SpawnItemEx("Stepskin",0,0,0,0,0,-8)
+	  PLAY MMNO 2
+	  PLAY P 2 A_SpawnItemEx("Stepskin",0,0,0,0,0,-8)
+	  PLAY QRS 2
+	  PLAY T 2 A_SpawnItemEx("Stepskin",0,0,0,0,0,-8)
+      Loop
+	See.Walk:
+      PLAW ABCDEFGHIJKLMNOPQRSTUVW 1
+      Loop
+	RunBack.Walk:
+	  PLAW WVUTSRQPONMLKJIHGFEDCBA 1
+      Loop
+	RunBack:
+	  PLAY VWX 2
+	  PLAY Y 2 A_SpawnItemEx("Stepskin",0,0,0,0,0,-8)
+	  PLA2 ABCDEF 2
+	  PLA2 G 2 A_SpawnItemEx("Stepskin",0,0,0,0,0,-8)
+	  PLA2 HIJK 2
+      Loop
+    JumpLoop:
+      PLYJ ABCDEFG 2 A_CheckFloor("Land")
+	  PLYJ H 0 A_JumpIf(waterlevel>=2,"Swim")
+	  PLYJ H 1 A_CheckFloor("Land")
+      Goto JumpLoop+7
+	JumpLoop.Back:
+      PLJ2 ABCDE 2 A_CheckFloor("Land")
+	  PLJ2 F 0 A_JumpIf(waterlevel>=2,"Swim")
+	  PLJ2 F 1 A_CheckFloor("Land")
+      Goto JumpLoop.Back+5
+    Land:
+	  PLYJ J 2 A_SetUserVar("user_landed",1)
+	  PLYJ KLMN 2 A_JumpIf(momz<-6,"JumpLoop")
+	  TNT1 A 0 A_SetUserVar("user_isrunningforward",0)
+	  TNT1 A 0 A_SetUserVar("user_iswalkingforward",0)
+	  TNT1 A 0 A_SetUserVar("user_isrunningback",0)
+	  TNT1 A 0 A_SetUserVar("user_iswalkingback",0)
+	  TNT1 A 0 A_SetUserVar("user_isplayerbusy",0)
+      Goto Spawn
+	Swim:
+      PLYS ABCDEFGHIJK 4 A_JumpIf(waterlevel<=1,"JumpLoop")
+      Loop
+	AnimTaunt:
+	  PLAY Z 0 A_PlaySound("KLETAUNT",2)
+	  PLAY Z 1 A_SetUserVar("user_istaunting",0)
+	  Goto Spawn
+    Death:
+	  PLAY Z 0 A_PlaySound("world/quake",5)
+	  PLAY Z 0 A_PlaySound("world/quake",6)
+	  PLAY Z 0 A_PlaySound("world/quake",7)
+	  NADD A 2 A_PlayerScream
+	  NADD B 2 A_NoBlocking
+	  NADD CDEFGHIJKLMNOPQRSTUVWXYZ 2
+	  NADE ABCDE 2
+	  NADE F -1
+	  Stop
+	}
+}

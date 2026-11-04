@@ -1,0 +1,241 @@
+class StrictRouteFinished : Inventory
+{
+    Default
+    {
+        Inventory.MaxAmount 1;
+    }
+}
+
+class StrictWaypoint : Actor
+{
+    Default
+    {
+        Radius 8;
+        Height 8;
+
+        +NOBLOCKMAP
+        +NOINTERACTION
+        +NOGRAVITY
+        +INVISIBLE
+    }
+
+    States
+    {
+    Spawn:
+        TNT1 A -1;
+        Stop;
+    }
+}
+
+class StrictRoutePawn : PlayerPawn
+{
+    Actor CurrentWaypoint;
+
+    bool RouteActive;
+    bool RoutePaused;
+    bool RestartRouteAfterDeath;
+
+    int FirstWaypointTID;
+
+    virtual bool PauseRouteForEnemy()
+    {
+        return true;
+    }
+
+    Actor FindStrictWaypoint(int pointTID)
+    {
+        if (pointTID == 0)
+            return null;
+
+        ActorIterator iterator =
+            ActorIterator.Create(pointTID);
+
+        return iterator.Next();
+    }
+
+    void FinishStrictRoute()
+    {
+        RouteActive = false;
+        RoutePaused = false;
+        CurrentWaypoint = null;
+
+        Vel.X = 0;
+        Vel.Y = 0;
+
+        A_GiveInventory(
+            "StrictRouteFinished",
+            1
+        );
+    }
+
+    void RestartStrictRoute()
+    {
+        A_TakeInventory(
+            "StrictRouteFinished",
+            1
+        );
+
+        CurrentWaypoint =
+            FindStrictWaypoint(FirstWaypointTID);
+
+        RoutePaused = false;
+
+        Vel.X = 0;
+        Vel.Y = 0;
+
+        // На карте отсутствует начальная точка.
+        if (CurrentWaypoint == null)
+        {
+            FinishStrictRoute();
+            return;
+        }
+
+        RouteActive = true;
+    }
+
+    void StartStrictRoute(int firstPointTID)
+    {
+        FirstWaypointTID = firstPointTID;
+        RestartStrictRoute();
+    }
+
+    void SelectNextWaypoint()
+    {
+        if (CurrentWaypoint == null)
+        {
+            FinishStrictRoute();
+            return;
+        }
+
+        int nextTID =
+            CurrentWaypoint.args[0];
+
+        if (nextTID == 0)
+        {
+            FinishStrictRoute();
+            return;
+        }
+
+        CurrentWaypoint =
+            FindStrictWaypoint(nextTID);
+
+        if (CurrentWaypoint == null)
+            FinishStrictRoute();
+    }
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        // Запоминаем смерть самого бота.
+        if (Health <= 0)
+        {
+            RestartRouteAfterDeath = true;
+            return;
+        }
+
+        // После возрождения начинаем маршрут заново.
+        if (RestartRouteAfterDeath)
+        {
+            RestartRouteAfterDeath = false;
+            RestartStrictRoute();
+        }
+
+        if (!RouteActive ||
+            CurrentWaypoint == null)
+        {
+            return;
+        }
+
+        // Обычный бот приостанавливает маршрут
+        // во время боя.
+        if (PauseRouteForEnemy() &&
+            Target != null &&
+            Target.Health > 0)
+        {
+            if (!RoutePaused)
+            {
+                Vel.X = 0;
+                Vel.Y = 0;
+                RoutePaused = true;
+            }
+
+            return;
+        }
+
+        RoutePaused = false;
+
+        // Достижение текущей точки.
+        if (Distance2D(CurrentWaypoint) <= 24)
+        {
+            SelectNextWaypoint();
+
+            if (!RouteActive)
+                return;
+        }
+
+        double direction =
+            AngleTo(CurrentWaypoint);
+
+        Angle = direction;
+
+        Vel.X = Cos(direction) * Speed;
+        Vel.Y = Sin(direction) * Speed;
+    }
+}
+
+// Корпуса и ноги не останавливаются из-за врагов.
+class StrictRouteChassis : StrictRoutePawn
+{
+    override bool PauseRouteForEnemy()
+    {
+        return false;
+    }
+}
+
+// Ноги дополнительно страйфятся на маршруте.
+class StrictRouteStrafingChassis
+    : StrictRouteChassis
+{
+    int StrafeTimer;
+    int StrafeDirection;
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        if (!RouteActive ||
+            CurrentWaypoint == null ||
+            Health <= 0)
+        {
+            StrafeTimer = 0;
+            return;
+        }
+
+        StrafeTimer--;
+
+        if (StrafeTimer <= 0)
+        {
+            // Новое направление через 15–40 тиков.
+            StrafeTimer = Random(15, 40);
+
+            if (Random(0, 1) == 0)
+                StrafeDirection = -1;
+            else
+                StrafeDirection = 1;
+        }
+
+        double sideAngle = Angle + 90;
+
+        // Сила страйфа.
+        double strafeSpeed = 6.0;
+
+        Vel.X += Cos(sideAngle) *
+                 strafeSpeed *
+                 StrafeDirection;
+
+        Vel.Y += Sin(sideAngle) *
+                 strafeSpeed *
+                 StrafeDirection;
+    }
+}

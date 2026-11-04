@@ -1,0 +1,14 @@
+//decor
+Actor TaooineCoat replaces BigTree
+{
+  Radius 19
+  Height 79
+
+  +SOLID
+  States
+  {
+  Spawn:
+    TNT1 A -1
+    Stop
+  }
+}

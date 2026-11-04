@@ -1,0 +1,196 @@
+ACTOR Grunt : HMBasePawn
+{
+	Player.DisplayName "Grunt"
+	Player.SoundClass "Q2Guy"
+	Player.Portrait "PROFGRNT"
+	States
+	{
+	Spawn:
+	  PLAY Z 1
+      Loop
+    See:
+      PLAY AB 2
+	  PLAY C 2 A_SpawnItemEx("FootStep",0,0,0,0,0,-8)
+	  PLAY DEFG 2
+	  PLAY H 2 A_SpawnItemEx("FootStep",0,0,0,0,0,-8)
+	  PLAY I 2
+      Loop
+	See.Walk:
+      PLAW ABCDEFGHIJKL 2
+      Loop
+	RunBack.Walk:
+	  PLAW LKJIHGFEDCBA 2
+      Loop
+	RunBack:
+      PLAY KL 2
+	  PLAY M 2 A_SpawnItemEx("FootStep",0,0,0,0,0,-8)
+	  PLAY NOPQ 2
+	  PLAY R 2 A_SpawnItemEx("FootStep",0,0,0,0,0,-8)
+	  PLAY ST 2
+      Loop
+    JumpLoop:
+      PLYJ ABCDEFGH 2 A_CheckFloor("Land")
+	  PLYJ I 0 A_JumpIf(waterlevel>=2,"Swim")
+	  PLYJ I 1 A_CheckFloor("Land")
+      Goto JumpLoop+8
+	JumpLoop.Back:
+      PLJ2 ABCDEFGHI 2 A_CheckFloor("Land")
+	  PLJ2 J 0 A_JumpIf(waterlevel>=2,"Swim")
+	  PLJ2 J 1 A_CheckFloor("Land")
+      Goto JumpLoop+9
+    Land: 
+	  PLYJ M 2 A_SetUserVar("user_landed",1)
+	  PLYJ NOP 2 A_JumpIf(momz<-6,"JumpLoop")
+	  TNT1 A 0 A_SetUserVar("user_isrunningforward",0)
+	  TNT1 A 0 A_SetUserVar("user_iswalkingforward",0)
+	  TNT1 A 0 A_SetUserVar("user_isrunningback",0)
+	  TNT1 A 0 A_SetUserVar("user_iswalkingback",0)
+	  TNT1 A 0 A_SetUserVar("user_isplayerbusy",0)
+      Goto Spawn
+	Swim:
+      PLYS ABCDEFGHIJ 3 A_JumpIf(waterlevel<=1,"JumpLoop")
+      Loop
+	AnimTaunt:
+	  PLAY Z 0 A_PlaySound("Q2TAUNT",2)
+	  PLAY Z 1 A_SetUserVar("user_istaunting",0)
+	  Goto Spawn
+	Death:
+	  PLAY Z 0 A_PlaySound("world/quake",5)
+	  PLAY Z 0 A_PlaySound("world/quake",6)
+	  PLAY Z 0 A_PlaySound("world/quake",7)
+	  PLAY Z 0 A_Jump(170,"Death1","Death2")
+	  NADD A 2 A_PlayerScream
+	  NADD B 2 A_NoBlocking
+	  NADD CDEFGHIJKLMNOPQRSTUVWXYZ 2
+	  NADE ABCD 2
+	  NADE E -1
+	  Stop
+	Death1:
+	  PLD2 A 2 A_PlayerScream
+	  PLD2 B 2 A_NoBlocking
+	  PLD2 CDEFGHIJKLMNOPQRSTUVWXYZ 2
+	  PLE2 ABC 2
+	  PLE2 D -1
+	  Stop
+	Death2:
+	  PLD3 A 2 A_PlayerScream
+	  PLD3 B 2 A_NoBlocking
+	  PLD3 CDEFGHIJKLMNOPQRSTUVWXYZ 2
+	  PLE3 ABC 2
+	  PLE3 D -1
+	  Stop
+	}
+}
+
+ACTOR FirebombCharge : Ammo
+{
+   Inventory.Amount 1
+   Inventory.MaxAmount 4
+   Ammo.BackpackAmount 0
+   Ammo.BackpackMaxAmount 4
+   Inventory.PickupMessage ""
+   Inventory.PickupSound ""
+   Inventory.Icon NADAA0
+   States
+   {
+   Spawn:
+      NADA A -1
+      Stop
+   }
+}
+
+actor FirebombUse : CustomInventory
+{
+  Inventory.MaxAmount 1
+  Inventory.Icon NADAA0
+  +INVENTORY.AUTOACTIVATE
+  +INVENTORY.ALWAYSPICKUP
+  States
+  {
+	Spawn:
+	NADA A 1
+	loop
+	Use:
+	TNT1 A 0 A_PlaySound("Grunt/FireFirebomb")
+	TNT1 A 1 A_FireCustomMissile("FirebombRocket", 0, 0, 0, 0, FPF_NOAUTOAIM)
+	Stop
+   }
+}
+
+ACTOR FirebombRocket
+{
+   Radius 2
+   Height 4
+   Speed 32
+   Damage 50
+   Decal EXPLScorch
+   DamageType "MassiveAttack"
+   RenderStyle Add
+   ReactionTime 35
+   Alpha 1.0
+   PROJECTILE
+   +MTHRUSPECIES
+   +EXTREMEDEATH
+   +ForceXYBillboard
+   +FORCERADIUSDMG
+   +SEEKERMISSILE
+   +SCREENSEEKER
+   +BRIGHT
+   States
+   {
+   Spawn:
+      NADA A 0 A_JumpIf(waterlevel > 1, "Death")
+	  NADA A 0 A_SpawnItemEx("RocketFTrail",0,0,0)
+	  NADA A 0 A_Countdown
+	  NADA A 1 A_SeekerMissile(15,20,SMF_LOOK|SMF_PRECISE,256,20)
+	  Loop
+   Death:
+	  NADA A 6 A_SpawnItemEx("FirebombCrossExplosions",0,0,0,0,0,0,0)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",64,0,0,0,0,0,0)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",64,0,0,0,0,0,90)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",64,0,0,0,0,0,-90)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",64,0,0,0,0,0,180)
+	  NADA A 6
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",128,0,0,0,0,0,0)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",128,0,0,0,0,0,90)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",128,0,0,0,0,0,-90)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",128,0,0,0,0,0,180)
+	  NADA A 6
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",192,0,0,0,0,0,0)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",192,0,0,0,0,0,90)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",192,0,0,0,0,0,-90)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",192,0,0,0,0,0,180)
+	  NADA A 6
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",256,0,0,0,0,0,0)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",256,0,0,0,0,0,90)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",256,0,0,0,0,0,-90)
+	  NADA A 0 A_SpawnItemEx("FirebombCrossExplosions",256,0,0,0,0,0,180)
+	  NADA A 6
+	  Stop
+   }
+}
+
+Actor FirebombCrossExplosions
+{
+   Height 4
+   Radius 2
+   RenderStyle Add
+   Alpha 1.0
+   Scale 1.5
+   DamageType "MassiveAttack"
+   +NOTIMEFREEZE
+   +ForceXYBillboard
+   +BRIGHT
+   +FORCERADIUSDMG
+   +NODAMAGETHRUST
+   +NOGRAVITY
+   States
+   {
+   Spawn:
+	  NKXP B 0 NoDelay A_PlaySound("Grunt/FirebombExplode",5)
+	  NKXP B 0 Radius_Quake(6,17,0,16,0)
+	  NKXP B 2 A_Explode(100,256,0,0,64)
+	  NKXP CDEFGHIJKLMNOPQRSTUV 2
+      Stop
+   }
+}

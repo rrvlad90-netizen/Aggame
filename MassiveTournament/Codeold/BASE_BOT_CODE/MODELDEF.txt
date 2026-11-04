@@ -1,0 +1,33 @@
+Model StandartBolt
+{
+   Path "models\tracer"
+   Model 0 "tracer.md3"
+   Skin 0 "tracer1.png"
+
+ PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
+
+   FrameIndex PRBT A 0 0
+}
+
+Model MyBolt
+{
+   Path "models\tracer"
+   Model 0 "tracer.md3"
+   Skin 0 "tracer1.png"
+
+ PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
+
+   FrameIndex PRBT A 0 0
+}
+
+
+Model EnemyBolt
+{
+   Path "models\tracer"
+   Model 0 "tracer.md3"
+   Skin 0 "tracer1.png"
+
+ PITCHFROMMOMENTUM // A flag that will fix the model pitch for projectiles  
+
+   FrameIndex PRBT A 0 0
+}

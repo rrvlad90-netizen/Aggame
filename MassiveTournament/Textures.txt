@@ -1,0 +1,18 @@
+texture SKY2, 1024, 273
+{
+xscale 1
+//yscale 4
+}
+
+
+texture ZZWOLF11, 800, 800
+{
+xscale 1
+yscale 1
+}
+
+texture BRICK12, 380, 350
+{
+xscale 0.40
+yscale 0.40
+}

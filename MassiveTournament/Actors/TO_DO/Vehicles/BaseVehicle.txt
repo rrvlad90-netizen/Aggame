@@ -1,0 +1,72 @@
+ACTOR HMVehiclePawn : PlayerPawn
+{
+	//Movement
+	var int user_iswalkingforward;
+	var int user_isrunningforward;
+	var int user_isrunningback;
+	var int user_iswalkingback;
+	
+	//Behavior
+	var int user_isplayerbusy;
+	var int user_istaunting;
+	var int user_isdead;
+	
+	//Vehicle Usage
+	var int user_armor;
+	var int user_health;
+	
+	//Active when seeing effects only for third person
+	var int user_chasecam;
+	
+	Mass 0x7FFFFFFF
+	Player.DamageScreenColor "00 00 00", 0.0
+	BloodType "HitPuff"
+	Species Players
+	PainChance 0
+	
+	+NOSKIN
+	+NORADIUSDMG
+	+NOPAIN
+	+DONTRIP
+	-PICKUP
+	
+	DamageFactor "GeneralDamage", 0.0
+	DamageFactor "Gauntlet", 0.0
+	DamageFactor "VehicleDamage", 0.0
+	DamageFactor "ShotgunDamage", 0.0
+	DamageFactor "ShotgunDamagePointBlank", 0.0
+	DamageFactor "KickDamage", 0.0
+	DamageFactor "CrushDamage", 0.0
+	DamageFactor "MassiveAttack", 0.0
+	DamageFactor "Disintegrate", 0.0
+	DamageFactor "Bodysplat", 0.0
+	DamageFactor "Monsters", 0.25
+	DamageFactor "Bossdamage", 3.0
+	DamageFactor "Slime", 0.25
+	DamageFactor "Melee", 0.3
+	DamageFactor "Normal", 0.25
+	DamageFactor "Falling", 0.3
+	DamageFactor "Telefrag", 0.0
+	DamageFactor "OrbitalDamage", 0.0
+	DamageFactor "TamerDamage", 2.0
+	DamageFactor "CynetikDamage", 0.0
+	DamageFactor "DoomslayerBerserk", 0.0
+	DamageFactor "KamikazeDamage", 0.0
+	DamageFactor "Slipstream", 0.0
+	DamageFactor "Ice", 0.0
+	DamageFactor "FritzGas", 0.0
+	DamageFactor "Reflection", 0.0
+	DamageFactor "BarrelDamage", 0.0
+	DamageFactor "SorlagBite", 0.0
+	DamageFactor "CyberdemonDamage", 2.0
+	DamageFactor "AsmodeusDamage", 1.0
+	DamageFactor "AstralBlast", 4.0
+	DamageFactor "BaalgarDamage", 4.0
+}
+
+actor BipedalVehicleRandomizer : RandomSpawner replaces Infrared
+{
+    DropItem "CyclopsWireframe", 255, 3
+    DropItem "GEVWalkerWireframe", 255, 4
+	DropItem "ToneTitanWireframe", 255, 2
+}

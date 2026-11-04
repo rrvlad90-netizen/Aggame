@@ -1,0 +1,39 @@
+//Sprites fix
+
+sprite BLSWA0, 974, 611
+{
+xscale 4
+yscale 4
+offset -375,-160 //or what you need
+patch BLSWA0, 0, 0 //simply the name of the sprite
+}
+
+sprite BLSWB0, 974, 611
+{
+xscale 4
+yscale 4
+offset -375,-160 //or what you need
+patch BLSWB0, 0, 0 //simply the name of the sprite
+}
+
+/////Textures fix
+
+
+texture SKY1, 1024, 305
+{
+xscale 1
+//yscale 4
+}
+
+
+texture ZZWOLF11, 800, 800
+{
+xscale 1
+yscale 1
+}
+
+texture BRICK12, 380, 350
+{
+xscale 0.40
+yscale 0.40
+}

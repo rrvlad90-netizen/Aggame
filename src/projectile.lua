@@ -62,8 +62,18 @@ function Projectile:new(config)
     projectile.entityType = "projectile"
     projectile.targetGroup = config.targetGroup or config.target_group or "projectile"
 
-    projectile.x = config.x or 0
+	projectile.x = config.x or 0
     projectile.y = config.y or 0
+    projectile.z = config.z or (config.owner and config.owner.z) or 0
+
+    projectile.baseScale = config.baseScale
+        or config.base_scale
+        or (config.owner and config.owner.baseScale)
+        or 1
+
+    projectile.depthYOffset = config.depthYOffset
+        or config.depth_y_offset
+        or (config.owner and config.owner.depthYOffset)
 
     projectile.canvas = config.canvas or {
         width = config.w or config.width or 24,

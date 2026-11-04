@@ -1,0 +1,133 @@
+Actor WalkerTracer : FastProjectile
+{
+	Radius 2
+	Height 4
+	Speed 512
+	RenderStyle Add
+	DamageType "VehicleDamage"
+	Alpha 1.0
+	Damage 30
+	Decal BulletChip
+	Scale 2.25
+	PROJECTILE
+	+DONTSPLASH
+	+BLOODSPLATTER
+	+EXTREMEDEATH
+	+MTHRUSPECIES
+	+THRUGHOST
+	+BRIGHT
+	States
+	{
+	Spawn:
+		TRAC A 1
+		Loop
+	Death:
+		TNT1 A 0 A_PlaySound("weapons/dsskldth",0,1,0)
+		TNT1 A 1 A_SpawnItemEx("HitPuff",0,0,0)
+		Stop
+	XDeath:
+		TNT1 A 1
+		Stop
+	}
+}
+
+ACTOR WalkerRocket
+{
+   Radius 2
+   Height 4
+   Speed 24
+   Damage 125
+   Decal EXPLScorch
+   DamageType "VehicleDamage"
+   DeathSound "Walker/RocketExplode"
+   MissileHeight 8
+   PROJECTILE
+   +BRIGHT
+   +MTHRUSPECIES
+   +THRUGHOST
+   +SEEKERMISSILE
+   +SCREENSEEKER
+   States
+   {
+   Spawn:
+		MISL A 0 A_PlaySound("Walker/Rocketfly",5,1.0,1)
+		MISL A 0 A_SpawnItemEx("WalkerRocketTrail",0,0,0,0,0,0)
+		MISL A 1 A_SeekerMissile(5,5,SMF_LOOK|SMF_PRECISE,256,20)
+		Loop
+    Death:
+		NADA A 0 A_PlaySound("Walker/RocketExplode",5,1.0,0,0.5)
+		NADA A 0 A_SpawnItemEx("WalkerRocketExplosion1",0,0,0)
+		NADA A 0 A_SpawnItemEx("WalkerRocketExplosion2",0,0,0)
+		NADA A 0 Radius_Quake(3,8,0,8,0)
+		NADA A 0 Radius_Quake(2,12,0,12,0)
+		NADA A 0 Radius_Quake(1,17,0,16,0)
+		NADA A 17 A_Explode(VH_WALKER_ROCKET_EXPLOSION_DMG*Random(1,2),VH_WALKER_ROCKET_EXPLOSION_RADIUS)
+		Stop
+   }
+}
+
+Actor WalkerNapalmOrb
+{
+   var int user_burntime;
+   
+   Height 4
+   Radius 2
+   Speed 32
+   RenderStyle Add
+   Alpha 1.0
+   Scale 0.25
+   Damage (0)
+   BounceSound "Walker/NapalmBounce"
+   DeathSound "Walker/NapalmExplode"
+   DamageType "VehicleDamage"
+   PROJECTILE
+   -NOGRAVITY
+   +BOUNCEONWALLS
+   +BRIGHT
+   +FORCEXYBILLBOARD
+   +DONTSPLASH
+   +NODAMAGETHRUST
+   +FORCERADIUSDMG
+   States
+   {
+   Spawn:
+	  FIRE A 0 A_JumpIf(waterlevel > 1, "Death")
+	  FIRE A 1 A_SpawnItemEx("WalkerNapalmTrail",0,0,0)
+	  Loop
+   Death:
+	  NADA A 0 A_PlaySound("Walker/NapalmExplode",6)
+      NADA A 0 A_SpawnItemEx("NapalmFireExplosion1",0,0,8,FRandom(2.0,8.0),0,FRandom(1.0,4.0),FRandom(0.0,359.9))
+	  NADA A 0 A_SpawnItemEx("NapalmFireExplosion2",0,0,8,FRandom(2.0,8.0),0,FRandom(1.0,4.0),FRandom(0.0,359.9))
+	  NADA A 0 A_Explode(150,256,0,0,128)
+      Goto Burning
+   Burning:
+	  NADA A 0 A_JumpIf(user_burntime>=175,"Dissolve")
+	  NADA A 0 A_PlaySound("Walker/NapalmBurning",5,1.0,1)
+	  NADA A 0 A_Explode(6,256,0,0,128)
+	  NADA AA 0 A_SpawnItemEx("NapalmFireFlame",Random(0,192),0,8,FRandom(1.0,4.0),0,FRandom(1.0,2.0),FRandom(0.0,359.9))
+	  NADA A 1 A_SetUserVar("user_burntime",user_burntime+1)
+	  Loop
+   Dissolve:
+	  NADA A 1 A_PlaySound("Walker/NapalmDissolve",5)
+	  Stop
+   }
+}
+
+Actor StepbodyWlkr
+{
+	+FORCERADIUSDMG
+	+NODAMAGETHRUST
+	+EXTREMEDEATH
+	+NOTIMEFREEZE
+	Radius 2
+	Height 4
+	DamageType "VehicleDamage"
+	States
+	{
+	Spawn:
+		NADA A 0 NoDelay A_PlaySound("Walker/Step",7)
+		NADA A 0 A_Quake(1,17,0,640,"")
+		NADA A 17 A_Explode(250,64,0,0,40)
+		Stop
+	}
+}

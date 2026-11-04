@@ -1,0 +1,21 @@
+ACTOR TeleportFog2 : TeleportFog replaces TeleportFog
+{
+  +NOBLOCKMAP
+  +NOTELEPORT
+  +NOGRAVITY
+  //RenderStyle Add
+  States
+  {
+  Spawn:
+    TFOG ABABCDEFGHIJ 6 //Bright
+    Stop
+  
+  Raven:
+    TELE ABCDEFGHGFEDC 6 //Bright
+    Stop
+  
+  Strife:
+    TFOG ABCDEFEDCB 6 //Bright
+    Stop
+  }
+}

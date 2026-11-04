@@ -1,0 +1,1232 @@
+Model Zanieon
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "Zanieon.md3"
+   Scale 10.0 10.0 10.0
+   IGNORETRANSLATION
+   
+   FrameIndex PLAY Z 0 0
+   FrameIndex CYBI A 0 0
+   FrameIndex CYBI B 0 1
+   FrameIndex CYBI C 0 2
+   FrameIndex CYBI D 0 3
+   FrameIndex CYBI E 0 4
+   FrameIndex CYBI F 0 5
+   FrameIndex CYBI G 0 6
+   FrameIndex CYBI H 0 7
+   FrameIndex CYBI I 0 8
+   FrameIndex CYBI J 0 9
+   FrameIndex CYBI K 0 10
+   
+   FrameIndex PLAW A 0 11
+   FrameIndex PLAW B 0 12
+   FrameIndex PLAW C 0 13
+   FrameIndex PLAW D 0 14
+   FrameIndex PLAW E 0 15
+   FrameIndex PLAW F 0 16
+   FrameIndex PLAW G 0 17
+   FrameIndex PLAW H 0 18
+   FrameIndex PLAW I 0 19
+   FrameIndex PLAW J 0 20
+   FrameIndex PLAW K 0 21
+   FrameIndex PLAW L 0 22
+   FrameIndex PLAW M 0 23
+   FrameIndex PLAW N 0 24
+   FrameIndex PLAW O 0 25
+   FrameIndex PLAW P 0 26
+   FrameIndex PLAW Q 0 27
+   FrameIndex PLAW R 0 28
+   FrameIndex PLAW S 0 29
+   FrameIndex PLAW T 0 30
+   
+   FrameIndex PLAY A 0 32
+   FrameIndex PLAY B 0 33
+   FrameIndex PLAY C 0 34
+   FrameIndex PLAY D 0 35
+   FrameIndex PLAY E 0 36
+   FrameIndex PLAY F 0 37
+   FrameIndex PLAY G 0 38
+   FrameIndex PLAY H 0 39
+   FrameIndex PLAY I 0 40
+   FrameIndex PLAY J 0 41
+   FrameIndex PLAY K 0 42
+   FrameIndex PLAY L 0 43
+   
+   FrameIndex PLAY M 0 45
+   FrameIndex PLAY N 0 46
+   FrameIndex PLAY O 0 47
+   FrameIndex PLAY P 0 48
+   FrameIndex PLAY Q 0 49
+   FrameIndex PLAY R 0 50
+   FrameIndex PLAY S 0 51
+   FrameIndex PLAY T 0 52
+   FrameIndex PLAY U 0 53
+   FrameIndex PLAY V 0 54
+   FrameIndex PLAY W 0 55
+   FrameIndex PLAY X 0 56
+   
+   FrameIndex PLYJ A 0 58
+   FrameIndex PLYJ B 0 59
+   FrameIndex PLYJ C 0 60
+   FrameIndex PLYJ D 0 61
+   FrameIndex PLYJ E 0 62
+   FrameIndex PLYJ F 0 63
+   FrameIndex PLYJ G 0 64
+   FrameIndex PLYJ H 0 65
+   FrameIndex PLYJ I 0 66
+   FrameIndex PLYJ J 0 67
+   FrameIndex PLYJ K 0 68
+   FrameIndex PLYJ L 0 69
+   FrameIndex PLYJ M 0 70
+   FrameIndex PLYJ N 0 71
+   FrameIndex PLYJ O 0 72
+   FrameIndex PLYJ P 0 73
+   
+   FrameIndex PLAL A 0 74
+   FrameIndex PLAL B 0 75
+   FrameIndex PLAL C 0 76
+   FrameIndex PLAL D 0 77
+   FrameIndex PLAL E 0 78
+   FrameIndex PLAL F 0 79
+   FrameIndex PLAL G 0 80
+   FrameIndex PLAL H 0 81
+   FrameIndex PLAL I 0 82
+   
+   FrameIndex PLJ2 A 0 83
+   FrameIndex PLJ2 B 0 84
+   FrameIndex PLJ2 C 0 85
+   FrameIndex PLJ2 D 0 86
+   FrameIndex PLJ2 E 0 87
+   FrameIndex PLJ2 F 0 88
+   FrameIndex PLJ2 G 0 89
+   FrameIndex PLJ2 H 0 90
+   FrameIndex PLJ2 I 0 91
+   FrameIndex PLJ2 J 0 92
+   FrameIndex PLJ2 K 0 93
+   FrameIndex PLJ2 L 0 94
+   FrameIndex PLJ2 M 0 95
+   
+   FrameIndex PLYS A 0 96
+   FrameIndex PLYS B 0 97
+   FrameIndex PLYS C 0 98
+   FrameIndex PLYS D 0 99
+   FrameIndex PLYS E 0 100
+   FrameIndex PLYS F 0 101
+   FrameIndex PLYS G 0 102
+   FrameIndex PLYS H 0 103
+   
+   FrameIndex ZATP A 0 105
+   FrameIndex ZATP B 0 106
+   FrameIndex ZATP C 0 107
+   FrameIndex ZATP D 0 108
+   FrameIndex ZATP E 0 109
+   FrameIndex ZATP F 0 110
+   FrameIndex ZATP G 0 111
+   FrameIndex ZATP H 0 112
+   FrameIndex ZATP I 0 113
+   FrameIndex ZATP J 0 114
+   FrameIndex ZATP K 0 115
+   FrameIndex ZATP L 0 116
+   FrameIndex ZATP M 0 117
+   FrameIndex ZATP N 0 118
+   FrameIndex ZATP O 0 119
+   FrameIndex ZATP P 0 120
+   FrameIndex ZATP Q 0 121
+   FrameIndex ZATP R 0 122
+   FrameIndex ZATP S 0 123
+   FrameIndex ZATP T 0 124
+   FrameIndex ZATP U 0 125
+   FrameIndex ZATP V 0 126
+   FrameIndex ZATP W 0 127
+   FrameIndex ZATP X 0 128
+   FrameIndex ZATP Y 0 129
+   FrameIndex ZAT2 Z 0 130
+   FrameIndex ZAT2 A 0 131
+   FrameIndex ZAT2 B 0 132
+   FrameIndex ZAT2 C 0 133
+   FrameIndex ZAT2 D 0 134
+   FrameIndex ZAT2 E 0 135
+   
+   FrameIndex ZANM A 0 136
+   FrameIndex ZANM B 0 137
+   FrameIndex ZANM C 0 138
+   FrameIndex ZANM D 0 139
+   FrameIndex ZANM E 0 140
+   FrameIndex ZANM F 0 141
+   FrameIndex ZANM G 0 142
+   FrameIndex ZANM H 0 143
+   FrameIndex ZANM I 0 144
+   FrameIndex ZANM J 0 145
+   FrameIndex ZANM K 0 146
+   FrameIndex ZANM L 0 147
+   FrameIndex ZANM M 0 148
+   
+   FrameIndex ZMTR A 0 148
+   FrameIndex ZMTR B 0 149
+   FrameIndex ZMTR C 0 150
+   FrameIndex ZMTR D 0 151
+   FrameIndex ZMTR E 0 152
+   FrameIndex ZMTR F 0 153
+   FrameIndex ZMTR G 0 154
+   FrameIndex ZMTR H 0 155
+   FrameIndex ZMTR I 0 156
+   FrameIndex ZMTR J 0 157
+   FrameIndex ZMTR K 0 158
+   FrameIndex ZMTR L 0 159
+   FrameIndex ZMTR M 0 160
+   FrameIndex ZMTR N 0 161
+   FrameIndex ZMTR O 0 162
+   
+   FrameIndex ZANS A 0 163
+   FrameIndex ZANS B 0 164
+   FrameIndex ZANS C 0 165
+   FrameIndex ZANS D 0 166
+   FrameIndex ZANS E 0 167
+   FrameIndex ZANS F 0 168
+   FrameIndex ZANS G 0 169
+   FrameIndex ZANS H 0 170
+   FrameIndex ZANS I 0 171
+   FrameIndex ZANS J 0 172
+   FrameIndex ZANS K 0 173
+   FrameIndex ZANS L 0 174
+   FrameIndex ZANS M 0 175
+   FrameIndex ZANS N 0 176
+   FrameIndex ZANS O 0 177
+   FrameIndex ZANS P 0 178
+   FrameIndex ZANS Q 0 179
+   FrameIndex ZANS R 0 180
+   FrameIndex ZANS S 0 181
+   
+   FrameIndex ZERT A 0 182
+   FrameIndex ZERT B 0 183
+   FrameIndex ZERT C 0 184
+   FrameIndex ZERT D 0 185
+   FrameIndex ZERT E 0 186
+   FrameIndex ZERT F 0 187
+   FrameIndex ZERT G 0 188
+   FrameIndex ZERT H 0 189
+   FrameIndex ZERT I 0 190
+   FrameIndex ZERT J 0 191
+   FrameIndex ZERT K 0 192
+   FrameIndex ZERT L 0 193
+   
+   FrameIndex ZNFM A 0 194
+   FrameIndex ZNFM B 0 196
+   FrameIndex ZNFM C 0 197
+   FrameIndex ZNFM D 0 198
+   FrameIndex ZNFM E 0 199
+   FrameIndex ZNFM F 0 200
+   FrameIndex ZNFM G 0 201
+   FrameIndex ZNFM H 0 202
+   FrameIndex ZNFM I 0 203
+   FrameIndex ZNFM J 0 204
+   FrameIndex ZNFM K 0 205
+   FrameIndex ZNFM L 0 206
+   FrameIndex ZNFM M 0 207
+   FrameIndex ZNFM N 0 208
+   FrameIndex ZNFM O 0 209
+   FrameIndex ZNFM P 0 210
+   FrameIndex ZNFM Q 0 211
+   FrameIndex ZNFM R 0 212
+   FrameIndex ZNFM S 0 213
+   FrameIndex ZNFM T 0 214
+   FrameIndex ZNFM U 0 215
+   
+   FrameIndex ZNBH A 0 216
+   FrameIndex ZNBH B 0 217
+   FrameIndex ZNBH C 0 218
+   FrameIndex ZNBH D 0 219
+   FrameIndex ZNBH E 0 220
+   FrameIndex ZNBH F 0 221
+   FrameIndex ZNBH G 0 222
+   FrameIndex ZNBH H 0 223
+   FrameIndex ZNBH I 0 224
+   FrameIndex ZNBH J 0 225
+   FrameIndex ZNBH K 0 226
+   FrameIndex ZNBH L 0 227
+   FrameIndex ZNBH M 0 228
+   FrameIndex ZNBH N 0 229
+   FrameIndex ZNBH O 0 230
+   FrameIndex ZNBH P 0 231
+   FrameIndex ZNBH Q 0 232
+   FrameIndex ZNBH R 0 233
+   FrameIndex ZNBH S 0 234
+   FrameIndex ZNBH T 0 235
+   FrameIndex ZNBH U 0 236
+   FrameIndex ZNBH V 0 237
+   FrameIndex ZNBH W 0 238
+   FrameIndex ZNBH X 0 239
+   FrameIndex ZNBH Y 0 240
+   FrameIndex ZNBH Z 0 241
+   FrameIndex ZNLV A 0 242
+   FrameIndex ZNLV B 0 243
+   FrameIndex ZNLV C 0 244
+   FrameIndex ZNLV D 0 245
+   FrameIndex ZNLV E 0 246
+   FrameIndex ZNLV F 0 247
+   FrameIndex ZNLV G 0 248
+   FrameIndex ZNLV H 0 249
+   FrameIndex ZNLV I 0 250
+   FrameIndex ZNLV J 0 251
+   FrameIndex ZNLV K 0 252
+   FrameIndex ZNLV L 0 253
+   FrameIndex ZNLV M 0 254
+   FrameIndex ZNLV N 0 255
+   FrameIndex ZNLV O 0 256
+   FrameIndex ZNLV P 0 257
+   FrameIndex ZNLV Q 0 258
+   FrameIndex ZNLV R 0 259
+   FrameIndex ZNLV S 0 260
+   FrameIndex ZNLV T 0 261
+   FrameIndex ZNLV U 0 262
+   FrameIndex ZNLV V 0 263
+   FrameIndex ZNLV W 0 264
+   FrameIndex ZNLV X 0 265
+   FrameIndex ZNLV Y 0 266
+   FrameIndex ZNLV Z 0 267
+   FrameIndex ZNLB A 0 268
+   FrameIndex ZNLB B 0 269
+   FrameIndex ZNLB C 0 270
+   FrameIndex ZNLB D 0 271
+   FrameIndex ZNLB E 0 272
+   FrameIndex ZNLB F 0 273
+   FrameIndex ZNLB G 0 274
+   
+   FrameIndex ZSMA A 0 275
+   FrameIndex ZSMA B 0 276
+   FrameIndex ZSMA C 0 277
+   FrameIndex ZSMA D 0 278
+   FrameIndex ZSMA E 0 279
+   FrameIndex ZSMA F 0 280
+   FrameIndex ZSMA G 0 281
+   FrameIndex ZSMA H 0 282
+   FrameIndex ZSMA I 0 283
+   FrameIndex ZSMA J 0 284
+   FrameIndex ZSMA K 0 285
+   FrameIndex ZSMA L 0 286
+   FrameIndex ZSMA M 0 287
+   FrameIndex ZSMA N 0 288
+   FrameIndex ZSMA O 0 289
+}
+
+Model ZanieonBody
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "Zanieon.md3"
+   Scale 10.0 10.0 10.0
+   
+   FrameIndex NADA A 0 290
+   FrameIndex NADA B 0 291
+   FrameIndex NADA C 0 292
+   FrameIndex NADA D 0 293
+   FrameIndex NADA E 0 294
+   FrameIndex NADA F 0 295
+   FrameIndex NADA G 0 296
+   FrameIndex NADA H 0 297
+   FrameIndex NADA I 0 298
+   FrameIndex NADA J 0 299
+   FrameIndex NADA K 0 300
+   FrameIndex NADA L 0 301
+   FrameIndex NADA M 0 302
+   FrameIndex NADA N 0 303
+   FrameIndex NADA O 0 304
+   FrameIndex NADA P 0 305
+   FrameIndex NADA Q 0 306
+   FrameIndex NADA R 0 307
+   FrameIndex NADA S 0 308
+   FrameIndex NADA T 0 309
+   FrameIndex NADA U 0 310
+}
+
+Model ZanieonMagicCircle
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "SummonFloorSeal.md3"
+   Skin 0 "SummonCircle.jpg"
+   Scale 10.0 10.0 1.0
+   
+   FrameIndex NADA A 0 0
+}
+
+Model ZanieonMagicCircleSealOnly
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "SummonFloorSeal.md3"
+   Skin 0 "SummonCircle.jpg"
+   Scale 10.0 10.0 1.0
+   
+   FrameIndex NADA A 0 0
+}
+
+Model ZanieonPortalBorder1
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "SummonFloorPortal.md3"
+   Skin 0 "SummonPortal.jpg"
+   Scale 10.0 10.0 1.0
+   ROTATING
+   Rotation-Speed 2
+   
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+}
+
+Model ZanieonPortalBorder2
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "SummonFloorPortal.md3"
+   Skin 0 "SummonPortal.png"
+   Scale 10.0 10.0 1.0
+   ROTATING
+   Rotation-Speed 3
+   
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+}
+
+Model ZanieonPortal
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "SummonFloorPortalMask.md3"
+   Skin 0 "PortalMask.png"
+   Scale 10.0 10.0 1.0
+   
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+}
+
+Model ZanieonBlackHole
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "Blackhole.md3"
+   Skin 0 "Grenade.jpg"
+   Scale 3.0 3.0 3.0
+   
+   FrameIndex BKHL A 0 0
+}
+
+Model BlackHoleAccretionDiskFlat
+{ 
+   Path "MD3/TAMER"
+   SKIN 0 "AccrDisk.jpg"
+   MODEL 0 "BlackHoleAccretionDisk.md3"
+   Scale 4.0 4.0 4.0
+   ROTATING
+   Rotation-Speed 8
+   
+   FrameIndex BKAD A 0 0
+}
+
+Model BlackHoleSpellRing
+{ 
+   Path "MD3/Tamer"
+   MODEL 0 "BlackHoleSpell.md3"
+   Scale 4.0 4.0 4.0
+   
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+   FrameIndex NADA C 0 2
+   FrameIndex NADA D 0 3
+   FrameIndex NADA E 0 4
+   FrameIndex NADA F 0 5
+   FrameIndex NADA G 0 6
+   FrameIndex NADA H 0 7
+   FrameIndex NADA I 0 8
+   FrameIndex NADA J 0 9
+   FrameIndex NADA K 0 10
+   FrameIndex NADA L 0 11
+   FrameIndex NADA M 0 12
+   FrameIndex NADA N 0 13
+   FrameIndex NADA O 0 14
+   FrameIndex NADA P 0 15
+   FrameIndex NADA Q 0 16
+   FrameIndex NADA R 0 17
+   FrameIndex NADA S 0 18
+   FrameIndex NADA T 0 19
+   FrameIndex NADA U 0 20
+   FrameIndex NADA V 0 21
+   FrameIndex NADA W 0 22
+   FrameIndex NADA X 0 23
+   FrameIndex NADA Y 0 24
+   FrameIndex NADA Z 0 25
+   FrameIndex NADB A 0 26
+   FrameIndex NADB B 0 27
+   FrameIndex NADB C 0 28
+   FrameIndex NADB D 0 29
+   FrameIndex NADB E 0 30
+   FrameIndex NADB F 0 31
+   FrameIndex NADB G 0 32
+   FrameIndex NADB H 0 33
+   FrameIndex NADB I 0 34
+   FrameIndex NADB J 0 35
+   FrameIndex NADB K 0 36
+   FrameIndex NADB L 0 37
+   FrameIndex NADB M 0 38
+   FrameIndex NADB N 0 39
+   FrameIndex NADB O 0 40
+   
+   FrameIndex NADB P 0 41
+   FrameIndex NADB Q 0 42
+   FrameIndex NADB R 0 43
+   FrameIndex NADB S 0 44
+   FrameIndex NADB T 0 45
+   FrameIndex NADB U 0 46
+   FrameIndex NADB V 0 47
+   FrameIndex NADB W 0 48
+   FrameIndex NADB X 0 49
+   FrameIndex NADB Y 0 50
+   FrameIndex NADB Z 0 51
+   FrameIndex NADC A 0 52
+   FrameIndex NADC B 0 53
+   FrameIndex NADC C 0 54
+   FrameIndex NADC D 0 55
+   FrameIndex NADC E 0 56
+}
+
+Model ZanieonProjectionFade
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "Zanieon.md3"
+   Scale 10.0 10.0 10.0
+   
+   FrameIndex NADA A 0 275
+}
+
+Model ZanieonProjectionFixed
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "Zanieon.md3"
+   Scale 10.0 10.0 10.0
+   
+   FrameIndex NADA A 0 275
+}
+
+Model ZanieonMaterializationStrike
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "Streakstrike.md3"
+   SKIN 0 "VioletBeam.jpg"
+   Scale 4.0 4.0 4.0
+   
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+   FrameIndex NADA C 0 2
+   FrameIndex NADA D 0 3
+   FrameIndex NADA E 0 4
+   FrameIndex NADA F 0 5
+   FrameIndex NADA G 0 6
+   FrameIndex NADA H 0 7
+   FrameIndex NADA I 0 8
+   FrameIndex NADA J 0 9
+   FrameIndex NADA K 0 10
+}
+
+Model ZanieonFloorShockwave
+{ 
+   Path "MD3/Projectiles"
+   SKIN 0 "WaveViolet.png"
+   MODEL 0 "DepthWave.md3"
+   Scale 1.0 1.0 1.0
+   
+   FrameIndex NADA A 0 0
+}
+
+Model MeteorShockwave1
+{ 
+   Path "MD3/Projectiles"
+   SKIN 0 "WaveViolet.png"
+   MODEL 0 "DepthWave.md3"
+   Scale 1.0 1.0 1.0
+   INHERITACTORPITCH
+   
+   FrameIndex NADA A 0 0
+}
+
+Model MeteorShockwave2
+{ 
+   Path "MD3/Projectiles"
+   SKIN 0 "WaveViolet.png"
+   MODEL 0 "DepthWave.md3"
+   Scale 1.0 1.0 1.0
+   INHERITACTORPITCH
+   
+   FrameIndex NADA A 0 0
+}
+
+Model MeteorShockwave3
+{ 
+   Path "MD3/Projectiles"
+   SKIN 0 "WaveViolet.png"
+   MODEL 0 "DepthWave.md3"
+   Scale 1.0 1.0 1.0
+   INHERITACTORPITCH
+   
+   FrameIndex NADA A 0 0
+}
+
+Model ZanieonMapPrecache
+{ 
+   Path "MD3/TAMER"
+   MODEL 0 "Zanieon.md3"
+   Scale 0.25 0.25 0.25
+   
+   FrameIndex NADA A 0 0
+}
+
+Model ZanieonMaterializationStrike2
+{ 
+  Path "MD3\Projectiles"
+  Model 0 "TrakExplode.md3"
+  Skin 0 "VioletCol.png"
+  Scale 4.0 4.0 4.0
+
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+   FrameIndex NADA C 0 2
+   FrameIndex NADA D 0 3
+   FrameIndex NADA E 0 4
+   FrameIndex NADA F 0 5
+   FrameIndex NADA G 0 6
+   FrameIndex NADA H 0 7
+   FrameIndex NADA I 0 8
+   FrameIndex NADA J 0 9
+   FrameIndex NADA K 0 10
+   FrameIndex NADA L 0 11
+   FrameIndex NADA M 0 12
+}
+
+Model MeteorPortal
+{ 
+  Path "MD3\TAMER"
+  Model 0 "CosmicRift.md3"
+  Skin 0 "CosmicRift.png"
+  Scale 10.0 10.0 10.0
+  ROTATING
+   Rotation-Speed 1
+   Rotation-Vector 1 0 0
+   INHERITACTORPITCH
+
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+   FrameIndex NADA C 0 2
+   FrameIndex NADA D 0 3
+   FrameIndex NADA E 0 4
+   FrameIndex NADA F 0 5
+   FrameIndex NADA G 0 6
+   FrameIndex NADA H 0 7
+   FrameIndex NADA I 0 8
+   FrameIndex NADA J 0 9
+   FrameIndex NADA K 0 10
+   FrameIndex NADA L 0 11
+   FrameIndex NADA M 0 12
+   FrameIndex NADA N 0 13
+   FrameIndex NADA O 0 14
+   FrameIndex NADA P 0 15
+   FrameIndex NADA Q 0 16
+   FrameIndex NADA R 0 17
+   FrameIndex NADA S 0 18
+   FrameIndex NADA T 0 19
+   FrameIndex NADA U 0 20
+   FrameIndex NADA V 0 21
+   FrameIndex NADA W 0 22
+   FrameIndex NADA X 0 23
+   FrameIndex NADA Y 0 24
+   FrameIndex NADA Z 0 25
+   FrameIndex NADB A 0 26
+   FrameIndex NADB B 0 27
+   FrameIndex NADB C 0 28
+   FrameIndex NADB D 0 29
+   FrameIndex NADB E 0 30
+   FrameIndex NADB F 0 31
+   FrameIndex NADB G 0 32
+   FrameIndex NADB H 0 33
+   FrameIndex NADB I 0 34
+   FrameIndex NADB J 0 35
+   FrameIndex NADB K 0 36
+   FrameIndex NADB L 0 37
+   FrameIndex NADB M 0 38
+   FrameIndex NADB N 0 39
+   FrameIndex NADB O 0 40
+   FrameIndex NADB P 0 41
+   FrameIndex NADB Q 0 42
+   FrameIndex NADB R 0 43
+   FrameIndex NADB S 0 44
+   FrameIndex NADB T 0 45
+   FrameIndex NADB U 0 46
+   FrameIndex NADB V 0 47
+   FrameIndex NADB W 0 48
+   FrameIndex NADB X 0 49
+   FrameIndex NADB Y 0 50
+   FrameIndex NADB Z 0 51
+   FrameIndex NADC A 0 52
+   FrameIndex NADC B 0 53
+   FrameIndex NADC C 0 54
+   FrameIndex NADC D 0 55
+   FrameIndex NADC E 0 56
+   FrameIndex NADC F 0 57
+   FrameIndex NADC G 0 58
+   FrameIndex NADC H 0 59
+   FrameIndex NADC I 0 60
+   FrameIndex NADC J 0 61
+   FrameIndex NADC K 0 62
+   FrameIndex NADC L 0 63
+   FrameIndex NADC M 0 64
+   FrameIndex NADC N 0 65
+   FrameIndex NADC O 0 66
+   FrameIndex NADC P 0 67
+   FrameIndex NADC Q 0 68
+   FrameIndex NADC R 0 69
+   FrameIndex NADC S 0 70
+   FrameIndex NADC T 0 71
+   FrameIndex NADC U 0 72
+   FrameIndex NADC V 0 73
+   FrameIndex NADC W 0 74
+   FrameIndex NADC X 0 75
+   FrameIndex NADC Y 0 76
+   FrameIndex NADC Z 0 77
+   FrameIndex NADD A 0 78
+   FrameIndex NADD B 0 79
+   FrameIndex NADD C 0 80
+   FrameIndex NADD D 0 81
+   FrameIndex NADD E 0 82
+   FrameIndex NADD F 0 83
+   FrameIndex NADD G 0 84
+   FrameIndex NADD H 0 85
+   FrameIndex NADD I 0 86
+   FrameIndex NADD J 0 87
+   FrameIndex NADD K 0 88
+   FrameIndex NADD L 0 89
+   FrameIndex NADD M 0 90
+}
+
+Model MeteorPortalMask
+{ 
+  Path "MD3\TAMER"
+  Model 0 "CosmicRiftFlat.md3"
+  Skin 0 "BlackPortalMask.jpg"
+  Scale 10.0 10.0 10.0
+   INHERITACTORPITCH
+
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+   FrameIndex NADA C 0 2
+   FrameIndex NADA D 0 3
+   FrameIndex NADA E 0 4
+   FrameIndex NADA F 0 5
+   FrameIndex NADA G 0 6
+   FrameIndex NADA H 0 7
+   FrameIndex NADA I 0 8
+   FrameIndex NADA J 0 9
+   FrameIndex NADA K 0 10
+   FrameIndex NADA L 0 11
+   FrameIndex NADA M 0 12
+   FrameIndex NADA N 0 13
+   FrameIndex NADA O 0 14
+   FrameIndex NADA P 0 15
+   FrameIndex NADA Q 0 16
+   FrameIndex NADA R 0 17
+   FrameIndex NADA S 0 18
+   FrameIndex NADA T 0 19
+   FrameIndex NADA U 0 20
+   FrameIndex NADA V 0 21
+   FrameIndex NADA W 0 22
+   FrameIndex NADA X 0 23
+   FrameIndex NADA Y 0 24
+   FrameIndex NADA Z 0 25
+   FrameIndex NADB A 0 26
+   FrameIndex NADB B 0 27
+   FrameIndex NADB C 0 28
+   FrameIndex NADB D 0 29
+   FrameIndex NADB E 0 30
+   FrameIndex NADB F 0 31
+   FrameIndex NADB G 0 32
+   FrameIndex NADB H 0 33
+   FrameIndex NADB I 0 34
+   FrameIndex NADB J 0 35
+   FrameIndex NADB K 0 36
+   FrameIndex NADB L 0 37
+   FrameIndex NADB M 0 38
+   FrameIndex NADB N 0 39
+   FrameIndex NADB O 0 40
+   FrameIndex NADB P 0 41
+   FrameIndex NADB Q 0 42
+   FrameIndex NADB R 0 43
+   FrameIndex NADB S 0 44
+   FrameIndex NADB T 0 45
+   FrameIndex NADB U 0 46
+   FrameIndex NADB V 0 47
+   FrameIndex NADB W 0 48
+   FrameIndex NADB X 0 49
+   FrameIndex NADB Y 0 50
+   FrameIndex NADB Z 0 51
+   FrameIndex NADC A 0 52
+   FrameIndex NADC B 0 53
+   FrameIndex NADC C 0 54
+   FrameIndex NADC D 0 55
+   FrameIndex NADC E 0 56
+   FrameIndex NADC F 0 57
+   FrameIndex NADC G 0 58
+   FrameIndex NADC H 0 59
+   FrameIndex NADC I 0 60
+   FrameIndex NADC J 0 61
+   FrameIndex NADC K 0 62
+   FrameIndex NADC L 0 63
+   FrameIndex NADC M 0 64
+   FrameIndex NADC N 0 65
+   FrameIndex NADC O 0 66
+   FrameIndex NADC P 0 67
+   FrameIndex NADC Q 0 68
+   FrameIndex NADC R 0 69
+   FrameIndex NADC S 0 70
+   FrameIndex NADC T 0 71
+   FrameIndex NADC U 0 72
+   FrameIndex NADC V 0 73
+   FrameIndex NADC W 0 74
+   FrameIndex NADC X 0 75
+   FrameIndex NADC Y 0 76
+   FrameIndex NADC Z 0 77
+   FrameIndex NADD A 0 78
+   FrameIndex NADD B 0 79
+   FrameIndex NADD C 0 80
+   FrameIndex NADD D 0 81
+   FrameIndex NADD E 0 82
+   FrameIndex NADD F 0 83
+   FrameIndex NADD G 0 84
+   FrameIndex NADD H 0 85
+   FrameIndex NADD I 0 86
+   FrameIndex NADD J 0 87
+   FrameIndex NADD K 0 88
+   FrameIndex NADD L 0 89
+   FrameIndex NADD M 0 90
+}
+
+Model RiftMeteor
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "Meteor_rev.jpg"
+   MODEL 0 "Meteor.md3"
+   Scale 2.5 2.5 2.5
+   ROTATING
+   Rotation-Speed 2
+   Rotation-Vector 1 0 0
+   PITCHFROMMOMENTUM
+   
+   FrameIndex NADA A 0 0
+}
+
+Model MeteorChopPiece1
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "Meteor_rev.jpg"
+   MODEL 0 "Meteor_Chopped0.md3"
+   Scale 1.0 1.0 1.0
+   PITCHFROMMOMENTUM
+   
+   FrameIndex NADA A 0 0
+}
+
+Model MeteorChopPiece2
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "Meteor_rev.jpg"
+   MODEL 0 "Meteor_Chopped1.md3"
+   Scale 1.0 1.0 1.0
+   PITCHFROMMOMENTUM
+   
+   FrameIndex NADA A 0 0
+}
+
+Model MeteorChopPiece3
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "Meteor_rev.jpg"
+   MODEL 0 "Meteor_Chopped2.md3"
+   Scale 1.0 1.0 1.0
+   PITCHFROMMOMENTUM
+   
+   FrameIndex NADA A 0 0
+}
+
+Model MeteorChunk
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "Meteor_rev.jpg"
+   MODEL 0 "Meteor_Chunk.md3"
+   Scale 1.0 1.0 1.0
+   PITCHFROMMOMENTUM
+   
+   FrameIndex NADA A 0 0
+}
+
+Model StoneChopPiece1
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "Meteor_rev.jpg"
+   MODEL 0 "Meteor_Chopped0.md3"
+   Scale 1.0 1.0 1.0
+   PITCHFROMMOMENTUM
+   
+   FrameIndex NADA A 0 0
+}
+
+Model StoneChopPiece2
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "Meteor_rev.jpg"
+   MODEL 0 "Meteor_Chopped1.md3"
+   Scale 1.0 1.0 1.0
+   PITCHFROMMOMENTUM
+   
+   FrameIndex NADA A 0 0
+}
+
+Model StoneChopPiece3
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "Meteor_rev.jpg"
+   MODEL 0 "Meteor_Chopped2.md3"
+   Scale 1.0 1.0 1.0
+   PITCHFROMMOMENTUM
+   
+   FrameIndex NADA A 0 0
+}
+
+Model StoneChunk
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "Meteor_rev.jpg"
+   MODEL 0 "Meteor_Chunk.md3"
+   Scale 1.0 1.0 1.0
+   PITCHFROMMOMENTUM
+   
+   FrameIndex NADA A 0 0
+}
+
+Model FloorSpell
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "GD_Runes_02.jpg"
+   MODEL 0 "FloorPortal.md3"
+   Scale 6.0 6.0 6.0
+   
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+   FrameIndex NADA C 0 2
+   FrameIndex NADA D 0 3
+   FrameIndex NADA E 0 4
+}
+
+Model FloorStoneRaise
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "FloorRock.jpg"
+   MODEL 0 "FloorStone.md3"
+   Scale 6.0 6.0 6.0
+   
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+   FrameIndex NADA C 0 2
+   FrameIndex NADA D 0 3
+   FrameIndex NADA E 0 4
+   FrameIndex NADA F 0 5
+   FrameIndex NADA G 0 6
+   FrameIndex NADA H 0 7
+   FrameIndex NADA I 0 8
+}
+
+Model FloorStoneMove
+{ 
+   Path "MD3\TAMER"
+   SKIN 0 "FloorRock.jpg"
+   MODEL 0 "FloorStone.md3"
+   Scale 6.0 6.0 6.0
+   
+   FrameIndex NADA A 0 8
+}
+
+Model UndeadWariorAxe
+{ 
+   Path "MD3/UNDEAD"
+   MODEL 0 "UndeadAxe.md3"
+   Scale 1.0 1.0 1.0
+   IGNORETRANSLATION
+   
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+   FrameIndex NADA C 0 2
+   FrameIndex NADA D 0 3
+   FrameIndex NADA E 0 4
+   FrameIndex NADA F 0 5
+   FrameIndex NADA G 0 6
+   FrameIndex NADA H 0 7
+   FrameIndex NADA I 0 8
+   FrameIndex NADA J 0 9
+   FrameIndex NADA K 0 10
+   FrameIndex NADA L 0 11
+   FrameIndex NADA M 0 12
+   FrameIndex NADA N 0 13
+   FrameIndex NADA O 0 14
+   FrameIndex NADA P 0 15
+   FrameIndex NADA Q 0 16
+   FrameIndex NADA R 0 17
+   FrameIndex NADA S 0 18
+   FrameIndex NADA T 0 19
+   FrameIndex NADA U 0 20
+   FrameIndex NADA V 0 21
+   FrameIndex NADA W 0 22
+   FrameIndex NADA X 0 23
+   FrameIndex NADA Y 0 24
+   FrameIndex NADA Z 0 25
+   
+   FrameIndex NADR A 0 26
+   FrameIndex NADR B 0 27
+   FrameIndex NADR C 0 28
+   FrameIndex NADR D 0 29
+   FrameIndex NADR E 0 30
+   FrameIndex NADR F 0 31
+   FrameIndex NADR G 0 32
+   FrameIndex NADR H 0 33
+   FrameIndex NADR I 0 34
+   FrameIndex NADR J 0 35
+   FrameIndex NADR K 0 36
+   FrameIndex NADR L 0 37
+   FrameIndex NADR M 0 39
+   FrameIndex NADR N 0 40
+   FrameIndex NADR O 0 41
+   
+   FrameIndex N2DM A 0 42
+   FrameIndex N2DM B 0 43
+   FrameIndex N2DM C 0 44
+   FrameIndex N2DM D 0 45
+   FrameIndex N2DM E 0 46
+   FrameIndex N2DM F 0 47
+   FrameIndex N2DM G 0 48
+   FrameIndex N2DM H 0 49
+   FrameIndex N2DM I 0 50
+   FrameIndex N2DM J 0 51
+   FrameIndex N2DM K 0 52
+   FrameIndex N2DM L 0 53
+   FrameIndex N2DM M 0 54
+   FrameIndex N2DM N 0 55
+   FrameIndex N2DM O 0 56
+   FrameIndex N2DM P 0 57
+   FrameIndex N2DM Q 0 58
+   FrameIndex N2DM R 0 59
+   FrameIndex N2DM S 0 60
+   FrameIndex N2DM T 0 61
+   FrameIndex N2DM U 0 62
+   FrameIndex N2DM V 0 63
+   FrameIndex N2DM W 0 64
+   FrameIndex N2DM X 0 65
+   FrameIndex N2DM Y 0 66
+   FrameIndex N2DM Z 0 67
+   
+   FrameIndex NADM A 0 68
+   FrameIndex NADM B 0 69
+   FrameIndex NADM C 0 70
+   FrameIndex NADM D 0 71
+   FrameIndex NADM E 0 72
+   FrameIndex NADM F 0 73
+   FrameIndex NADM G 0 74
+   FrameIndex NADM H 0 75
+   FrameIndex NADM I 0 76
+   FrameIndex NADM J 0 77
+   FrameIndex NADM K 0 78
+   FrameIndex NADM L 0 79
+   FrameIndex NADM M 0 80
+   FrameIndex NADM N 0 81
+   FrameIndex NADM O 0 82
+   FrameIndex NADM P 0 83
+   FrameIndex NADM Q 0 84
+   FrameIndex NADM R 0 85
+   FrameIndex NADM S 0 86
+   FrameIndex NADM T 0 87
+   FrameIndex NADM U 0 88
+   FrameIndex NADM V 0 90
+   FrameIndex NADM W 0 91
+   FrameIndex NADM X 0 92
+   
+   FrameIndex NADD A 0 93
+   FrameIndex NADD B 0 94
+   FrameIndex NADD C 0 95
+   FrameIndex NADD D 0 96
+   FrameIndex NADD E 0 97
+   FrameIndex NADD F 0 98
+   FrameIndex NADD G 0 99
+   FrameIndex NADD H 0 100
+   FrameIndex NADD I 0 101
+   FrameIndex NADD J 0 102
+   FrameIndex NADD K 0 103
+   FrameIndex NADD L 0 104
+   FrameIndex NADD M 0 105
+   FrameIndex NADD N 0 106
+   FrameIndex NADD O 0 107
+   FrameIndex NADD P 0 108
+   FrameIndex NADD Q 0 109
+   FrameIndex NADD R 0 110
+   FrameIndex NADD S 0 111
+   FrameIndex NADD T 0 112
+   FrameIndex NADD U 0 113
+   FrameIndex NADD V 0 114
+   FrameIndex NADD W 0 115
+   FrameIndex NADD X 0 116
+   FrameIndex NADD Y 0 117
+   FrameIndex NADD Z 0 118
+}
+
+Model UndeadWariorSword
+{ 
+   Path "MD3/UNDEAD"
+   MODEL 0 "UndeadSword.md3"
+   Scale 1.0 1.0 1.0
+   IGNORETRANSLATION
+   
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+   FrameIndex NADA C 0 2
+   FrameIndex NADA D 0 3
+   FrameIndex NADA E 0 4
+   FrameIndex NADA F 0 5
+   FrameIndex NADA G 0 6
+   FrameIndex NADA H 0 7
+   FrameIndex NADA I 0 8
+   FrameIndex NADA J 0 9
+   FrameIndex NADA K 0 10
+   FrameIndex NADA L 0 11
+   FrameIndex NADA M 0 12
+   FrameIndex NADA N 0 13
+   FrameIndex NADA O 0 14
+   FrameIndex NADA P 0 15
+   FrameIndex NADA Q 0 16
+   FrameIndex NADA R 0 17
+   FrameIndex NADA S 0 18
+   FrameIndex NADA T 0 19
+   FrameIndex NADA U 0 20
+   FrameIndex NADA V 0 21
+   FrameIndex NADA W 0 22
+   FrameIndex NADA X 0 23
+   FrameIndex NADA Y 0 24
+   FrameIndex NADA Z 0 25
+   
+   FrameIndex NADR A 0 26
+   FrameIndex NADR B 0 27
+   FrameIndex NADR C 0 28
+   FrameIndex NADR D 0 29
+   FrameIndex NADR E 0 30
+   FrameIndex NADR F 0 31
+   FrameIndex NADR G 0 32
+   FrameIndex NADR H 0 33
+   FrameIndex NADR I 0 34
+   FrameIndex NADR J 0 35
+   FrameIndex NADR K 0 36
+   FrameIndex NADR L 0 37
+   FrameIndex NADR M 0 39
+   FrameIndex NADR N 0 40
+   FrameIndex NADR O 0 41
+   
+   FrameIndex NADM A 0 42
+   FrameIndex NADM B 0 43
+   FrameIndex NADM C 0 44
+   FrameIndex NADM D 0 45
+   FrameIndex NADM E 0 46
+   FrameIndex NADM F 0 47
+   FrameIndex NADM G 0 48
+   FrameIndex NADM H 0 49
+   FrameIndex NADM I 0 40
+   FrameIndex NADM J 0 50
+   FrameIndex NADM K 0 51
+   FrameIndex NADM L 0 52
+   FrameIndex NADM M 0 53
+   FrameIndex NADM N 0 54
+   FrameIndex NADM O 0 55
+   FrameIndex NADM P 0 56
+   FrameIndex N2DM A 0 57
+   FrameIndex N2DM B 0 58
+   FrameIndex N2DM C 0 59
+   FrameIndex N2DM D 0 60
+   FrameIndex N2DM E 0 61
+   FrameIndex N2DM F 0 62
+   FrameIndex N2DM G 0 63
+   FrameIndex N2DM H 0 64
+   FrameIndex N2DM I 0 65
+   FrameIndex N2DM J 0 66
+   FrameIndex N2DM K 0 67
+   FrameIndex N2DM L 0 68
+   FrameIndex N2DM M 0 69
+   FrameIndex N3DM A 0 70
+   FrameIndex N3DM B 0 71
+   FrameIndex N3DM C 0 72
+   FrameIndex N3DM D 0 73
+   FrameIndex N3DM E 0 74
+   FrameIndex N3DM F 0 75
+   FrameIndex N3DM G 0 76
+   FrameIndex N3DM H 0 77
+   FrameIndex N3DM I 0 78
+   FrameIndex N3DM J 0 79
+   FrameIndex N3DM K 0 80
+   FrameIndex N3DM L 0 81
+   FrameIndex N3DM M 0 82
+   FrameIndex N3DM N 0 83
+   FrameIndex N3DM O 0 84
+   FrameIndex N3DM P 0 85
+   FrameIndex N3DM Q 0 86
+   FrameIndex N3DM R 0 87
+   FrameIndex N3DM S 0 88
+   FrameIndex N3DM T 0 89
+   FrameIndex N3DM U 0 90
+   FrameIndex N3DM V 0 91
+   FrameIndex N3DM W 0 92
+   
+   FrameIndex NADD A 0 93
+   FrameIndex NADD B 0 94
+   FrameIndex NADD C 0 95
+   FrameIndex NADD D 0 96
+   FrameIndex NADD E 0 97
+   FrameIndex NADD F 0 98
+   FrameIndex NADD G 0 99
+   FrameIndex NADD H 0 100
+   FrameIndex NADD I 0 101
+   FrameIndex NADD J 0 102
+   FrameIndex NADD K 0 103
+   FrameIndex NADD L 0 104
+   FrameIndex NADD M 0 105
+   FrameIndex NADD N 0 106
+   FrameIndex NADD O 0 107
+   FrameIndex NADD P 0 108
+   FrameIndex NADD Q 0 109
+   FrameIndex NADD R 0 110
+   FrameIndex NADD S 0 111
+   FrameIndex NADD T 0 112
+   FrameIndex NADD U 0 113
+   FrameIndex NADD V 0 114
+   FrameIndex NADD W 0 115
+   FrameIndex NADD X 0 116
+   FrameIndex NADD Y 0 117
+   FrameIndex NADD Z 0 118
+}
+
+Model PerimeterTurret
+{ 
+   Path "MD3/Lucy"
+   MODEL 0 "ChaingunTurret.md3"
+   Skin 0 "TurretChaingun.jpg"
+   Scale 1.0 1.0 1.0
+   IGNORETRANSLATION
+   
+   FrameIndex NADA A 0 0
+   FrameIndex NADA B 0 1
+   FrameIndex NADA C 0 2
+   FrameIndex NADA D 0 3
+   FrameIndex NADA E 0 4
+   FrameIndex NADA F 0 5
+   FrameIndex NADA G 0 6
+   FrameIndex NADA H 0 7
+   FrameIndex NADA I 0 8
+   FrameIndex NADA J 0 9
+   FrameIndex NADA K 0 10
+   FrameIndex NADA L 0 11
+   FrameIndex NADA M 0 12
+   FrameIndex NADA N 0 13
+   FrameIndex NADA O 0 14
+   FrameIndex NADA P 0 15
+}

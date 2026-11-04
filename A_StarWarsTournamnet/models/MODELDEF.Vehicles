@@ -1,0 +1,51 @@
+////////////////////VEHICLES
+Model cloneTankUp
+{
+   Path "models/vehicles"
+
+   Model 0 "IMP_TANK_up.md3"
+   Skin 0 "IMP_tank.jpg"
+
+   Scale 3.85 3.85 3.85
+
+   FrameIndex ITK1 A 0 0
+}
+
+
+Model cloneTankDown
+{
+   Path "models/vehicles"
+
+   Model 0 "IMP_TANK_down.md3"
+   Skin 0 "IMP_tank.jpg"
+
+   Scale 3.85 3.85 3.85
+
+   FrameIndex ITK1 A 0 0
+}
+///////
+
+Model droidTankUp
+{
+   Path "models/vehicles"
+
+   Model 0 "CIS_AAT_up.md3"
+   Skin 0 "CIS_aat_diff.jpg"
+
+   Scale 4.85 4.85 4.85
+
+   FrameIndex DTK1 A 0 0
+}
+
+
+Model droidTankDown
+{
+   Path "models/vehicles"
+
+   Model 0 "CIS_AAT_down.md3"
+   Skin 0 "CIS_aat_diff.jpg"
+
+   Scale 4.85 4.85 4.85
+
+   FrameIndex DTK1 A 0 0
+}

@@ -1,0 +1,176 @@
+ACTOR MyChaingun : Chaingun replaces pistol
+{
+   +INVENTORY.UNDROPPABLE
+   +WEAPON.NOAUTOAIM
+   Inventory.PickupMessage "$WP_MACHINEGUN"
+   Weapon.SelectionOrder 1900  //3
+   Weapon.AmmoType "Clip"
+   Weapon.AmmoGive 100
+   Weapon.AmmoUse 0
+   //Weapon.AmmoUse 1
+   Tag "$WP_MACHINEGUN"
+   States
+   {
+   Ready:
+      MGUN A 1 A_WeaponReady  //(WRF_ALLOWZOOM)
+      Loop
+   Deselect:
+      MGUN A 1 A_Lower
+      Loop
+   Select:
+      MGUN A 1 A_Raise
+	  Loop
+   Fire:
+	  MGUN B 0 A_AlertMonsters
+	  MGUN B 0 A_PlaySound("FFire")
+	  MGUN B 1 A_FireCustomMissile("MyBolt",0,true,0,0,0)
+      MGUN BCDE 1
+	  MGUN FGH 1 A_Refire
+      Goto Ready
+   Spawn:
+      NADA A -1
+      Stop
+   }
+}
+
+ACTOR MyChaingun2 : randomspawner replaces Chaingun
+{
+DropItem "MyChaingun", 255, 255
+}
+
+ACTOR MyChaingun3 : randomspawner replaces Chainsaw
+{
+DropItem "MyChaingun", 255, 255
+}
+
+ACTOR MyShotgun : Shotgun replaces Shotgun
+{
+	+INVENTORY.ALWAYSRESPAWN
+	Inventory.RespawnTics 500
+	
+	+WEAPON.NOAUTOAIM
+   Inventory.PickupMessage "$WP_SHOTGUN"
+   //Inventory.PickupSound "misc/sgpickup"
+   Weapon.SelectionOrder 2100//1
+   //Weapon.Kickback 80
+   Weapon.AmmoType "Shell"
+   Weapon.AmmoGive 10
+   Weapon.AmmoUse 1
+   Tag "$WP_SHOTGUN"
+   Weapon.UpSound "weapons/sgup"
+   States
+   {
+   Ready:
+      S31S A 1 A_WeaponReady
+      Loop
+   Deselect:
+      S31S A 1 A_Lower
+      Loop
+   Select:
+      S31S A 1 A_Raise
+	  Loop
+   Fire:
+	  //S31S B 0 A_PlayWeaponSound("weapons/sshotf1b")
+	  S31S A 2
+	  S31S B 1 A_FireShotgun
+	  S31S B 4
+	  S31S CDEFG 3
+      S31S G 17 A_WeaponReady
+      Goto Ready
+   Spawn:
+      NADA A -1
+      Stop
+   }
+}
+
+ACTOR MyShotgun2 : randomspawner replaces SuperShotgun
+{
+DropItem "MyShotgun", 255, 255
+}
+
+
+ACTOR MyRocketLauncher : RocketLauncher replaces RocketLauncher
+{ 
+	+INVENTORY.ALWAYSRESPAWN
+	Inventory.RespawnTics 500
+	
+   +WEAPON.NOAUTOAIM
+   Inventory.PickupMessage "$WP_ROCKETL" 
+   Inventory.PickupSound "misc/rlpickup" 
+   Weapon.SelectionOrder 2500 //1
+   Weapon.AmmoType1 "RocketAmmo"
+   //Weapon.AmmoType2 "UltimateCharge"
+   Weapon.AmmoGive1 10
+   Weapon.AmmoGive2 0
+   Weapon.AmmoUse1 1
+   Weapon.AmmoUse2 50
+   Tag "$WP_ROCKETL"
+   Weapon.UpSound "weapons/rlup"
+   DropItem "RocketAmmo"
+   States 
+   { 
+   Ready:
+      ROCK A 1 A_WeaponReady(WRF_ALLOWZOOM)
+      Loop
+   Deselect: 
+      ROCK A 1 A_Lower 
+      Loop
+   Select:
+      ROCK A 1 A_Raise 
+	  Loop
+   NoAmmo:
+	  ROCK A 0 A_PlayWeaponSound("Weapon/Empty")
+	  ROCK A 17 A_WeaponReady(12)
+      Goto Ready
+   NoAmmoUlt:
+	  ROCK A 0 A_PlayWeaponSound("Weapon/Empty")
+	  ROCK A 17 A_WeaponReady(12)
+      Goto Ready
+   Fire:
+	  ROCK F 0 A_JumpIfNoAmmo("NoAmmo")
+	  ROCK F 0 A_AlertMonsters
+      ROCK F 1 A_FireMissile //A_FireCustomMissile("Q3Rocket", 0, 1, 4)
+	  ROCK F 2 //A_JumpIf(ACS_NamedExecuteWithResult("XaeroWeaponPassive",0,0,0),"FireCancel")
+      ROCK BCDEG 2 A_WeaponReady(14)
+	  ROCK A 18 A_WeaponReady(14)
+      Goto Ready
+   Spawn: 
+      NADA A -1 
+      Stop
+   } 
+}
+
+ACTOR MyRocketLauncher2 : randomspawner replaces PlasmaRifle
+{
+DropItem "MyRocketLauncher", 255, 255
+}
+
+ACTOR MyRocketLauncher4 : randomspawner replaces BFG9000
+{
+DropItem "MyRocketLauncher", 255, 255
+}
+
+
+ACTOR Q3Rocket : Rocket replaces Rocket 
+{	
+  Radius 11
+  Height 8
+  Speed 38
+  Damage 0
+  Projectile
+  +RANDOMIZE
+  +DEHEXPLOSION
+  +ROCKETTRAIL
+  SeeSound "weapons/rocklf"
+  DeathSound "weapons/rocklx"
+  Obituary "$OB_MPROCKET" // "%o rode %k's rocket."
+  States
+  {
+  Spawn:
+    MISL A 1 Bright
+    Loop
+  Death:
+    TNT1 A 5 A_SpawnItemEx("BrutalExplosion",0,0,0,0,0,0,0,0)
+    Stop
+  }
+}

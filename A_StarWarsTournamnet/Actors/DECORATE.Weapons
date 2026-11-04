@@ -1,0 +1,310 @@
+ACTOR ASpan : Inventory {
+    Inventory.MaxAmount 1
+	+INVENTORY.UNDROPPABLE
+}
+
+ACTOR ASpan2 : Inventory {
+    Inventory.MaxAmount 1
+	+INVENTORY.UNDROPPABLE
+}
+
+
+////items
+ACTOR Medikit2 : Medikit replaces Medikit
+{
+	+INVENTORY.ALWAYSRESPAWN
+	Inventory.RespawnTics 500
+	scale 0.25
+}
+
+Actor RedSpark3
+{
++NOGRAVITY
+Scale 0.5
+States
+{
+  	Spawn:
+	TNT1 A 0
+  	Goto Death
+
+	Death:
+	SAPR ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 Bright
+	Stop
+}
+}
+
+Actor BlueSpark3
+{
++NOGRAVITY
+Scale 0.5
+States
+{
+  	Spawn:
+	TNT1 A 0
+  	Goto Death
+
+	Death:
+	BAPR ABCDEFGHIJKLMNOPQRSTUVWXYZ 1 Bright
+	Stop
+}
+}
+
+//-------------Standart--------------//
+Actor StandartRedBolt //: FastProjectile
+{
+	Radius 2
+	Height 2
+	Speed 85  //65
+	Projectile
+	+NOGRAVITY
+	+FORCEPAIN 
+	renderstyle add
+	Decal "Bullet"
+	DeathSound "BoltExplode"
+	States
+	{
+	Spawn:
+
+		PRBT A 1 Bright 
+		Loop
+	Death:
+   		TNT1 A 0 A_SpawnItemEx("RedSpark3")
+		SPRK ABCDEFGHIJKLMNOPQRSTUVW 1 Bright
+		Stop
+	}
+}
+//----------------------------------------//
+
+
+
+ACTOR bbboom2
+{
+  Radius 13
+  Height 8
+  Speed 1
+  Damage 5
+  //Projectile
+  +RANDOMIZE
+  //+ZDOOMTRANS
+  +NOGRAVITY
+  RenderStyle Add
+  Alpha 0.75
+  scale 2.5
+  //SeeSound "weapons/plasmaf"
+  //DeathSound "weapons/plasmax"
+  States
+  {
+  Spawn:
+    BOM3 A 1 Bright
+   // Goto
+  Death:
+    BOM3 ABCDEFGHIJKLMNOPQRSTU 1 Bright
+    TNT1 A 0 A_FadeOut
+    Stop
+  }
+}
+
+
+
+ACTOR bbboom3
+{
+  Radius 13
+  Height 8
+  Speed 1
+  Damage 5
+  //Projectile
+  +RANDOMIZE
+  //+ZDOOMTRANS
+  +NOGRAVITY
+  RenderStyle Add
+  Alpha 0.75
+  scale 2.5
+  //SeeSound "weapons/plasmaf"
+  //DeathSound "weapons/plasmax"
+  States
+  {
+  Spawn:
+    BOM4 A 1 Bright
+   // Goto
+  Death:
+    BOM4 ABCDEFGHIJKLMNOPQ 1 Bright
+	TNT1 A 0 A_FadeOut
+    Stop
+  }
+}
+
+
+
+//projectiles
+
+Actor VehicleRedBolt : StandartRedBolt 
+{ 
+DamageType "RedBolt2" 
+Damage (38) 
+}
+
+Actor VehicleBlueBolt : StandartRedBolt 
+{ 
+DamageType "BlueBolt2" 
+Damage (38) 
+States
+{
+Death:
+    TNT1 A 0 A_SpawnItemEx("BlueSpark3")
+    TNT1 A 0 A_FadeOut
+    Stop
+}
+}
+
+
+Actor InfantrymanRedBolt : StandartRedBolt 
+{ 
+DamageType "RedBolt" 
+Damage (11)   //Damage (5)
+}
+
+Actor InfantrymanBlueBolt : StandartRedBolt 
+{ 
+DamageType "BlueBolt" 
+Damage (11)  //Damage (5)
+States
+{
+Death:
+    TNT1 A 0 A_SpawnItemEx("BlueSpark3")
+    TNT1 A 0 A_FadeOut
+    Stop
+}
+}
+
+Actor InfantrymanBlueBoltPlayer : StandartRedBolt 
+{  
+DamageType "BlueBolt3" 
+Damage (11) 
+States
+{
+Death:
+    TNT1 A 0 A_SpawnItemEx("BlueSpark3")
+    TNT1 A 0 A_FadeOut
+    Stop
+}
+}
+
+
+
+ACTOR CBlaster: DoomWeapon replaces Shotgun //2001 //HereticWeapon 2001 //replaces Crossbow  2001 
+{
+  Weapon.SelectionOrder 2000
+  Weapon.AmmoUse 1
+  Weapon.AmmoGive 10
+  Weapon.AmmoType "clip"
+  Weapon.YAdjust 15
+        +WEAPON.NOAUTOFIRE
+		+WEAPON.NOAUTOAIM  
+  
+  
+//  Scale 0.15
+   Inventory.PickupMessage "Picked up a blaster"
+   Obituary "%k shoved %o's by a blaster"
+//  Obituary "blaster"
+//  Tag "blaster"
+
+DamageType "BlueBolt3" 
+    
+   States
+   {
+   Ready:
+      TNT1 A 0 
+      BLSW A 4 A_WeaponReady
+      Loop
+   Deselect:
+      TNT1 A 0 A_Lower 
+      BLSW A 1 A_Lower
+      Loop
+   Select:
+      TNT1 A 0 A_Raise
+      BLSW A 1 A_Raise
+      Loop
+   Fire:
+		BLSW A 2
+		//TNT1 A 0 A_TakeInventory("clip",1)	
+		BLSW A 1 A_PlayWeaponSound("weapon/blaster/fire")
+	    BLSW B 2 A_FireCustomMissile("InfantrymanBlueBoltPlayer", 0,0,0)  //InfantrymanBlueBolt
+		BLSW B 3
+		BLSW A 2
+		TNT1 A 0 A_Refire
+		BLSW A 2
+      Goto Ready
+
+
+ 
+	AltFire:
+		TNT1 A 0 A_JumpIfInventory("RocketAmmo",1,"Att")
+      Goto Ready		
+		
+	Att:
+		TNT1 A 0 A_TakeInventory("RocketAmmo",1)	
+	    TNT1 A 2 A_FireCustomMissile("CloneGrenade",0,0,1,7)
+		TNT1 A 24
+		TNT1 A 1 A_Refire
+      Goto Ready		  
+	  
+	  
+   Spawn:
+       BLSW A -1 bright
+      Stop
+   }
+}
+
+
+
+ACTOR CloneGrenade replaces RocketLauncher
+{
+	Radius 7
+	Height 8
+	Speed 15  //10
+	FastSpeed 15 //10
+	Damage (25)
+	Scale 0.05
+	Gravity 0.31 //0.25
+	Projectile
+	-NOGRAVITY
+	+RANDOMIZE
+	+FORCEPAIN
+	+GRENADETRAIL
+//	+DONTREFLECT
+	+FOILBUDDHA
+	+NOEXPLODEFLOOR
+	+BOUNCEONWALLS
+	+BOUNCEONFLOORS
+	+BOUNCEONCEILINGS
+	+DEHEXPLOSION
+	SeeSound "EMPTY/BLANK"
+//	DeathSound "GRBM"
+	Bouncesound "EMPTY/BLANK"
+	DamageType Grenade
+	BounceFactor 0.43
+	WallBounceFactor 0.25
+	BounceType Grenade
+	States
+	{
+	Spawn:
+		GREN ABC 6 Bright
+		GREN ABC 6 Bright
+	    GREN ABC 6 Bright
+//		GREN ABC 10 Bright
+//		GREN ABC 10 Bright
+//		GREN ABC 10 Bright
+//		GREN ABC 10 Bright
+//		GREN ABC 10 Bright
+//		GREN ABC 10 Bright
+		Goto Death
+	Death:
+		GREN ABC 6 Bright A_ChangeFlag(BOUNCEONFLOORS,0)
+		TNT1 A 0 A_PlaySound("GRBM")
+		TNT1 A 0 A_SpawnItemEx("bbboom2", 36, 0, 40)
+		TNT1 A 1 A_Explode 
+		//BOM3 A 3 Bright A_SetSpeed(1.0)
+		//BOM3 ABCDEFGHIJKLMNOPQRSTU 1 Bright A_Explode
+		Stop
+	}
+}

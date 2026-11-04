@@ -1,0 +1,279 @@
+actor TitanMinigun : Weapon
+{
+  +INVENTORY.UNDROPPABLE
+  +WEAPON.CHEATNOTWEAPON
+  +WEAPON.NOAUTOAIM
+  Weapon.BobRangeX 1.0
+  Weapon.BobRangeY 0.8
+  Weapon.BobStyle InverseSmooth
+  Tag "$VWP_TITANMINIGUN"
+  States
+  {
+   Spawn:
+      NADS A 1 Thing_Remove(0)
+      Loop
+   Ready:
+	  MGUN A 0 A_SetCrosshair(61)
+      MGUN A 1 A_WeaponReady
+      Loop
+   Deselect:
+	  MGUN AAAAA 0 A_Lower
+      MGUN A 1 A_Lower
+      Loop
+   Select:
+	  MGUN AAAAA 0 A_Raise
+      MGUN A 1 A_Raise
+      Loop
+	Fire:
+	  MGSS A 0 A_JumpIfInventory("TitanGunSpinning",1,"Hold")
+	  MGSS A 0 A_TakeInventory("VehicleGunReloaded",1)
+	  MGSS A 4 A_PlaySound("ToneTitan/HICannonStart",7,1.0,0)
+	  MGSS BCDEFGHIJ 4 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 11 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 10 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 9 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 8 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 7 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 6 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 5 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 4 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 3 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 2 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN A 0 A_GiveInventory("TitanGunSpinning",1)
+	  Goto Hold
+	AltFire:
+	  MGSS A 0 A_JumpIfInventory("TitanGunSpinning",1,"AltHold")
+	  MGSS A 0 A_TakeInventory("VehicleGunReloaded",1)
+	  MGSS A 4 A_PlaySound("ToneTitan/HICannonStart",7,1.0,0)
+	  MGSS BCDEFGHIJ 4 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 11 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 10 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 9 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 8 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 7 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 6 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 5 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 4 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 3 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 2 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN A 0 A_GiveInventory("TitanGunSpinning",1)
+      Goto AltHold
+	Hold:
+	  MGUF A 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUF A 0 A_PlaySound("ToneTitan/HICannonFire",6,1.0,1)
+	  MGUF A 0 A_SpawnItemEx("TitanGunFlash",312,80,242,momx,momy,0,0,SXF_SETMASTER)
+	  MGUF A 2 A_FireCustomMissile("TitanMGTracer", frandom(-3.0,3.0), 0, 8, 0, 0, frandom(-3.0,3.0))
+	  MGUF B 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUF B 0 A_PlaySound("ToneTitan/HICannonFire",6,1.0,1)
+	  MGUF B 2 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUF C 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUF C 0 A_PlaySound("ToneTitan/HICannonFire",6,1.0,1)
+	  MGUF C 0 A_SpawnItemEx("TitanGunFlash",312,80,242,momx,momy,0,0,SXF_SETMASTER)
+	  MGUF C 2 A_FireCustomMissile("TitanMGTracer", frandom(-3.0,3.0), 0, 8, 0, 0, frandom(-3.0,3.0))
+	  MGUF D 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUF D 0 A_PlaySound("ToneTitan/HICannonFire",6,1.0,1)
+	  MGUF D 2 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUF E 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUF E 0 A_PlaySound("ToneTitan/HICannonFire",6,1.0,1)
+	  MGUF E 0 A_SpawnItemEx("TitanGunFlash",312,80,242,momx,momy,0,0,SXF_SETMASTER)
+	  MGUF E 2 A_FireCustomMissile("TitanMGTracer", frandom(-3.0,3.0), 0, 8, 0, 0, frandom(-3.0,3.0))
+	  MGUF F 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUF F 0 A_PlaySound("ToneTitan/HICannonFire",6,1.0,1)
+	  MGUF F 2 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUF G 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUF G 0 A_PlaySound("ToneTitan/HICannonFire",6,1.0,1)
+	  MGUF G 0 A_SpawnItemEx("TitanGunFlash",312,80,242,momx,momy,0,0,SXF_SETMASTER)
+	  MGUF G 2 A_FireCustomMissile("TitanMGTracer", frandom(-3.0,3.0), 0, 8, 0, 0, frandom(-3.0,3.0))
+	  MGUF H 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUF H 0 A_PlaySound("ToneTitan/HICannonFire",6,1.0,1)
+	  MGUF H 2 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUF H 0 A_Refire
+	  MGUF H 0 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  Goto AltHold
+	AltHold:
+	  MGUN A 0 A_StopSound(6)
+	  MGUN A 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUN A 2 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN B 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUN B 2 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN C 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUN C 2 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN D 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUN D 2 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN E 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUN E 2 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN F 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUN F 2 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN G 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUN G 2 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN H 0 A_PlaySound("ToneTitan/HICannonLoop",7,1.0,1)
+	  MGUN H 2 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN H 0 A_Refire
+	  Goto SpinDown
+	SpinDown:
+	  MGUN A 0 A_TakeInventory("TitanGunSpinning",1)
+	  MGUN A 2 A_PlaySound("ToneTitan/HICannonEnd",7,1.0,0)
+	  MGUN BCD 2 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN EFGH 3 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN ABCD 4 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN EFGH 5 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN ABCD 6 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN EFGH 7 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN ABCD 8 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN EFGH 8 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN ABCD 8 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN EFGH 9 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN DCBA 2 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN A 0 A_GiveInventory("VehicleGunReloaded",1)
+      Goto Ready
+  }
+}
+
+actor TitanMinigunAlt : Weapon
+{
+  +INVENTORY.UNDROPPABLE
+  +WEAPON.CHEATNOTWEAPON
+  +WEAPON.NOAUTOAIM
+  Weapon.BobRangeX 1.0
+  Weapon.BobRangeY 0.8
+  Weapon.BobStyle InverseSmooth
+  Tag "$VWP_TITANMINIGUNALT"
+  States
+  {
+   Spawn:
+      NADS A 1 Thing_Remove(0)
+      Loop
+   Ready:
+	  MGUN A 0 A_SetCrosshair(7)
+      MGUN A 1 A_WeaponReady
+      Loop
+   Deselect:
+	  MGUN AAAAA 0 A_Lower
+      MGUN A 1 A_Lower
+      Loop
+   Select:
+	  MGUN AAAAA 0 A_Raise
+      MGUN A 1 A_Raise
+      Loop
+	Fire:
+	  MGSS A 0 A_JumpIfInventory("TitanGunSpinning",1,"Hold")
+	  MGSS A 0 A_TakeInventory("VehicleGunReloaded",1)
+	  MGSS A 3 A_PlaySound("ToneTitan/HICannonStartAlt",7,1.0,0)
+	  MGSS BCDEFGHIJ 3 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 6 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 5 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 4 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 3 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN A 0 A_GiveInventory("TitanGunSpinning",1)
+	  Goto Hold
+	AltFire:
+	  MGSS A 0 A_JumpIfInventory("TitanGunSpinning",1,"AltHold")
+	  MGSS A 0 A_TakeInventory("VehicleGunReloaded",1)
+	  MGSS A 3 A_PlaySound("ToneTitan/HICannonStartAlt",7,1.0,0)
+	  MGSS BCDEFGHIJ 3 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 6 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 5 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN ABCD 4 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN EFGH 3 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUN A 0 A_GiveInventory("TitanGunSpinning",1)
+      Goto AltHold
+	Hold:
+	  MGUF A 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUF A 0 A_PlaySound("ToneTitan/HICannonFireAlt",6,1.0,1)
+	  MGUF A 0 A_SpawnItemEx("TitanGunFlash",312,80,242,momx,momy,0,0,SXF_SETMASTER)
+	  MGUF A 1 A_FireCustomMissile("TitanPiercingTracer", frandom(-1.0,1.0), 0, 12, 0, 0, frandom(-1.0,1.0))
+	  MGUF B 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUF B 0 A_PlaySound("ToneTitan/HICannonFireAlt",6,1.0,1)
+	  MGUF B 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUF C 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUF C 0 A_PlaySound("ToneTitan/HICannonFireAlt",6,1.0,1)
+	  MGUF C 0 A_SpawnItemEx("TitanGunFlash",312,80,242,momx,momy,0,0,SXF_SETMASTER)
+	  MGUF C 1 A_FireCustomMissile("TitanPiercingTracer", frandom(-1.0,1.0), 0, 12, 0, 0, frandom(-1.0,1.0))
+	  MGUF D 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUF D 0 A_PlaySound("ToneTitan/HICannonFireAlt",6,1.0,1)
+	  MGUF D 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUF E 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUF E 0 A_PlaySound("ToneTitan/HICannonFireAlt",6,1.0,1)
+	  MGUF E 0 A_SpawnItemEx("TitanGunFlash",312,80,242,momx,momy,0,0,SXF_SETMASTER)
+	  MGUF E 1 A_FireCustomMissile("TitanPiercingTracer", frandom(-1.0,1.0), 0, 12, 0, 0, frandom(-1.0,1.0))
+	  MGUF F 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUF F 0 A_PlaySound("ToneTitan/HICannonFireAlt",6,1.0,1)
+	  MGUF F 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUF G 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUF G 0 A_PlaySound("ToneTitan/HICannonFireAlt",6,1.0,1)
+	  MGUF G 0 A_SpawnItemEx("TitanGunFlash",312,80,242,momx,momy,0,0,SXF_SETMASTER)
+	  MGUF G 1 A_FireCustomMissile("TitanPiercingTracer", frandom(-1.0,1.0), 0, 12, 0, 0, frandom(-1.0,1.0))
+	  MGUF H 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUF H 0 A_PlaySound("ToneTitan/HICannonFireAlt",6,1.0,1)
+	  MGUF H 1 A_WeaponReady(WRF_NOBOB|WRF_NOFIRE)
+	  MGUF H 0 A_Refire
+	  MGUF H 0 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  Goto AltHold
+	AltHold:
+	  MGUN A 0 A_StopSound(6)
+	  MGUN A 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUN A 1 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN B 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUN B 1 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN C 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUN C 1 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN D 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUN D 1 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN E 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUN E 1 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN F 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUN F 1 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN G 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUN G 1 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN H 0 A_PlaySound("ToneTitan/HICannonLoopAlt",7,1.0,1)
+	  MGUN H 1 A_WeaponReady(WRF_NOBOB|WRF_NOSECONDARY)
+	  MGUN H 0 A_Refire
+	  Goto SpinDown
+	SpinDown:
+	  MGUN A 0 A_TakeInventory("TitanGunSpinning",1)
+	  MGUN A 2 A_PlaySound("ToneTitan/HICannonEndAlt",7,1.0,0)
+	  MGUN BCD 2 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN EFGH 3 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN ABCD 4 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN EFGH 5 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN ABCD 6 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN DCBA 2 A_WeaponReady(WRF_NOBOB|WRF_NOPRIMARY)
+	  MGUN A 0 A_GiveInventory("VehicleGunReloaded",1)
+      Goto Ready
+  }
+}
+
+actor TitanLaunchShoulderGrenade : CustomInventory
+{
+  Inventory.MaxAmount 1
+  Inventory.Icon NADAA0
+  +INVENTORY.AUTOACTIVATE
+  +INVENTORY.ALWAYSPICKUP
+  States
+  {
+	Spawn:
+	NADA A 1
+	loop
+	Use:
+	TNT1 A 0 A_PlayWeaponSound("ToneTitan/GrenadeFire")
+	TNT1 A 0 A_FireCustomMissile("TitanGrenade",0,0,45,96,FPF_NOAUTOAIM,10)
+	TNT1 A 0 A_FireCustomMissile("TitanGrenade",0,0,-45,96,FPF_NOAUTOAIM,10)
+	Stop
+   }
+}
+
+ACTOR TitanShoulderGrenades : Inventory
+{
+  Inventory.MaxAmount 1
+  +INVENTORY.QUIET
+  +INVENTORY.IGNORESKILL
+  +INVENTORY.UNTOSSABLE
+}
+
+ACTOR TitanGunSpinning : Inventory
+{
+  Inventory.MaxAmount 1
+  +INVENTORY.QUIET
+  +INVENTORY.IGNORESKILL
+  +INVENTORY.UNTOSSABLE
+}

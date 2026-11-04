@@ -1,0 +1,24 @@
+$random KleskDie {KleskDie2 KleskDie1 }
+KleskDie1 KSDEA1
+KleskDie2 KSFALL
+
+$random KleskPain {KleskPain1 KleskPain2 KleskPain3 KleskPain4}
+KleskPain1 KSPAI2
+KleskPain2 KSPAI5
+KleskPain3 KSPAI7
+KleskPain4 KSPAI1
+
+
+$random GruntDie {GruntDie1 GruntDie2 GruntDie3 GruntDie4}
+GruntDie1 GRUDTH3
+GruntDie2 GRUDTH1
+GruntDie3 GRUDTH2
+GruntDie4 GRUDTH3
+
+
+PREDRG PREDRG
+PREDDY PREDDY
+PREDPN PREDPN
+
+PIGPN PIGPN
+PIGDY PIGDY

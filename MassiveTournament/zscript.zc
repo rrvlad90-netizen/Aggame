@@ -1,0 +1,5 @@
+version "3.3"
+
+#include "zscripts/StepEventHandler.zc"
+#include "zscripts/PlayerBot.zc"
+//#include "zscripts/BotRoute.zc"

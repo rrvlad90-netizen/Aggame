@@ -1,0 +1,197 @@
+class StrictRouteFinished : Inventory
+{
+    Default
+    {
+        Inventory.MaxAmount 1;
+    }
+}
+
+class StrictWaypoint : Actor
+{
+    Default
+    {
+        Radius 8;
+        Height 8;
+
+        +NOBLOCKMAP
+        +NOINTERACTION
+        +NOGRAVITY
+        +INVISIBLE
+    }
+
+    States
+    {
+    Spawn:
+        TNT1 A -1;
+        Stop;
+    }
+}
+
+class StrictRoutePawn : PlayerPawn
+{
+    Actor CurrentWaypoint;
+
+    bool RouteActive;
+    bool RoutePaused;
+
+    // Расстояние достижения точки для солдат.
+    virtual double GetWaypointDistance()
+    {
+        return 24;
+    }
+
+    // Ноль означает мгновенный поворот.
+    virtual double GetRouteTurnSpeed()
+    {
+        return 0;
+    }
+
+    void TurnTowards(double desiredAngle, double turnSpeed)
+    {
+        if (turnSpeed <= 0)
+        {
+            Angle = desiredAngle;
+            return;
+        }
+
+        double difference = desiredAngle - Angle;
+
+        if (difference > 180)
+            difference -= 360;
+
+        if (difference < -180)
+            difference += 360;
+
+        if (difference > turnSpeed)
+            difference = turnSpeed;
+
+        if (difference < -turnSpeed)
+            difference = -turnSpeed;
+
+        Angle += difference;
+    }
+
+	action void A_SlowFaceTarget(double turnSpeed)
+	{
+		if (invoker.Target != null)
+		{
+			invoker.TurnTowards(
+				invoker.AngleTo(invoker.Target),
+				turnSpeed
+			);
+		}
+	}
+
+    Actor FindStrictWaypoint(int pointTID)
+    {
+        if (pointTID == 0)
+            return null;
+
+        ActorIterator iterator = ActorIterator.Create(pointTID);
+        return iterator.Next();
+    }
+
+    void StartStrictRoute(int firstPointTID)
+    {
+        A_TakeInventory("StrictRouteFinished", 1);
+
+        CurrentWaypoint = FindStrictWaypoint(firstPointTID);
+        RouteActive = CurrentWaypoint != null;
+        RoutePaused = false;
+
+        Vel.X = 0;
+        Vel.Y = 0;
+    }
+
+    void FinishStrictRoute()
+    {
+        RouteActive = false;
+        RoutePaused = false;
+        CurrentWaypoint = null;
+
+        Vel.X = 0;
+        Vel.Y = 0;
+
+        A_GiveInventory("StrictRouteFinished", 1);
+    }
+
+    void SelectNextWaypoint()
+    {
+        if (CurrentWaypoint == null)
+        {
+            FinishStrictRoute();
+            return;
+        }
+
+        int nextTID = CurrentWaypoint.args[0];
+
+        if (nextTID == 0)
+        {
+            FinishStrictRoute();
+            return;
+        }
+
+        CurrentWaypoint = FindStrictWaypoint(nextTID);
+
+        if (CurrentWaypoint == null)
+            FinishStrictRoute();
+    }
+
+    override void Tick()
+    {
+        Super.Tick();
+
+        if (!RouteActive ||
+            CurrentWaypoint == null ||
+            Health <= 0)
+        {
+            return;
+        }
+
+        // Приостанавливаем маршрут во время боя.
+        if (Target != null && Target.Health > 0)
+        {
+            if (!RoutePaused)
+            {
+                Vel.X = 0;
+                Vel.Y = 0;
+                RoutePaused = true;
+            }
+
+            return;
+        }
+
+        RoutePaused = false;
+
+        // Проверяем достижение текущей точки.
+        if (Distance2D(CurrentWaypoint) <=
+            GetWaypointDistance())
+        {
+            SelectNextWaypoint();
+
+            if (!RouteActive)
+                return;
+        }
+
+        double direction = AngleTo(CurrentWaypoint);
+
+        TurnTowards(direction, GetRouteTurnSpeed());
+
+        Vel.X = Cos(Angle) * Speed;
+        Vel.Y = Sin(Angle) * Speed;
+    }
+}
+
+// Медленная и неповоротливая техника.
+class StrictRouteVehicle : StrictRoutePawn
+{
+    override double GetRouteTurnSpeed()
+    {
+        return 1.0;
+    }
+
+    override double GetWaypointDistance()
+    {
+        return 64;
+    }
+}

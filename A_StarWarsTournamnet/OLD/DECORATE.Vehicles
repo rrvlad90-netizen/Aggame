@@ -1,0 +1,121 @@
+ACTOR cloneTank : StrictRouteVehicle replaces SpiderMasterMind
+{
+    Health 1200
+    Radius 82
+    Height 56
+    Speed 3
+    PainChance 0
+    Mass 10000
+
+    Monster
+    +FRIENDLY
+    +SLIDESONWALLS
+    +DONTFALL
+    +NOBLOOD
+    +NOPAIN
+
+    DamageFactor "BlueBolt2", 0
+
+    States
+    {
+    Spawn:
+        ITK1 A 0 Thing_ChangeTID(0, 88)
+        ITK1 A 0
+        {
+            StartStrictRoute(30);
+        }
+        Goto Route
+
+    Route:
+        ITK1 A 2 A_Look
+        TNT1 A 0 A_JumpIfInventory(
+            "StrictRouteFinished", 1, "Stand"
+        )
+        Loop
+
+    Stand:
+        ITK1 A 4 A_Look
+        Loop
+
+    See:
+        ITK1 A 3 A_Chase
+        Loop
+
+    Missile:
+        ITK1 AAAAAAAA 1 A_SlowFaceTarget(0.75)
+        ITK1 A 0
+        {
+            A_CustomMissile("VehicleBlueBolt", 42, 0, 0);
+        }
+        ITK1 A 18
+        Goto See
+
+    Death:
+        ITK1 A 1 A_NoBlocking
+        ITK1 A 1 A_Scream
+        ITK1 A 1 A_FadeOut(0.05)
+        Wait
+    }
+}
+
+
+ACTOR droidTank : StrictRouteVehicle replaces Cyberdemon
+{
+    Health 1200
+    Radius 82
+    Height 56
+    Speed 3
+    PainChance 0
+    Mass 10000
+
+    Monster
+    -FRIENDLY
+    +SLIDESONWALLS
+    +DONTFALL
+    +NOBLOOD
+    +NOPAIN
+
+    DamageFactor "RedBolt2", 0
+
+    States
+    {
+    Spawn:
+        DTK1 A 0 Thing_ChangeTID(0, 552)
+        DTK1 A 0 Thing_Hate(0, 88, 3)
+        DTK1 A 0
+        {
+            StartStrictRoute(20);
+        }
+        Goto Route
+
+    Route:
+        DTK1 A 2 A_Look
+        TNT1 A 0 A_JumpIfInventory(
+            "StrictRouteFinished", 1, "Stand"
+        )
+        Loop
+
+    Stand:
+        DTK1 A 4 A_Look
+        Loop
+
+    See:
+        DTK1 A 3 A_Chase
+        Loop
+
+    Missile:
+        DTK1 AAAAAAAA 1 A_SlowFaceTarget(0.75)
+        DTK1 A 0
+        {
+            A_CustomMissile("VehicleRedBolt", 42, 0, 0);
+        }
+        DTK1 A 18
+        Goto See
+
+    Death:
+        DTK1 A 1 A_NoBlocking
+        DTK1 A 1 A_Scream
+        DTK1 A 1 A_FadeOut(0.05)
+        Wait
+    }
+}

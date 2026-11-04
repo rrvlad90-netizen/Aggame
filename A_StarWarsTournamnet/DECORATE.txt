@@ -1,0 +1,10 @@
+#include "Actors/DECORATE.droidbot"
+#include "Actors/DECORATE.clonebot"
+
+#include "Actors/DECORATE.player"
+#include "Actors/DECORATE.Weapons"
+#include "Actors/DECORATE.decor"
+#include "Actors/DECORATE.Vehicles"
+#include "Actors/DECORATE.teleportFOG"
+
+#include "Actors/Decorate.EXPLOEFFECTS"

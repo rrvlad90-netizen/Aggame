@@ -1,0 +1,3085 @@
+/* =============================================================================
+================================================================================
+=================											   =================
+=================		Player/Items/Weapons/Stuff			   =================
+=================											   =================
+================================================================================
+==============================================================================*/
+$pitchshiftrange 0
+/* =============================================================================
+	Doom
+==============================================================================*/
+$playeralias	player	male	*death		Doom/Death
+$playeralias	player	male	*xdeath		misc/gibbed
+$playeralias	player	male	*gibbed		misc/gibbed
+$playersound	player	male	*pain100	dsp25
+$playersound	player	male	*pain75		dsp50
+$playersound	player	male	*pain50		dsp75
+$playersound	player	male	*pain25		dsp100
+$playersound    player  male    *grunt      dsland
+$playersound    player  male    *land       dsoof
+$playersound	player	male	*jump		dsjump
+$playersound	player	male	*falling	dsfall
+$playersound	player	male	*usefail	dsp50
+$playersound	player	male	*dive		wtrin
+$playersound	player	male	*surface	dsgasp
+DOMTAUNT									dstaunt
+
+$random 	Doom/Death { DoomDeath1 DoomDeath2 DoomDeath3 }
+DoomDeath1									dsdeath1
+DoomDeath2									dsdeath2
+DoomDeath3									dsdeath3
+
+$playeralias	player	female	*death		Doom/Death
+$playeralias	player	female	*xdeath		misc/gibbed
+$playeralias	player	female	*gibbed		misc/gibbed
+$playersound	player	female	*pain100	dsp25
+$playersound	player	female	*pain75		dsp50
+$playersound	player	female	*pain50		dsp75
+$playersound	player	female	*pain25		dsp100
+$playersound    player  female  *grunt      dsland
+$playersound    player  female  *land       dsoof
+$playersound	player	female	*jump		dsjump
+$playersound	player	female	*falling	dsfall
+$playersound	player	female	*usefail	dsp50
+$playersound	player	female	*dive		wtrin
+$playersound	player	female	*surface	dsgasp
+
+$playeralias	player	other	*death		Doom/Death
+$playeralias	player	other	*xdeath		misc/gibbed
+$playeralias	player	other	*gibbed		misc/gibbed
+$playersound	player	other	*pain100	dsp25
+$playersound	player	other	*pain75		dsp50
+$playersound	player	other	*pain50		dsp75
+$playersound	player	other	*pain25		dsp100
+$playersound    player  other   *grunt      dsland
+$playersound    player  other   *land       dsoof
+$playersound	player	other	*jump		dsjump
+$playersound	player	other	*falling	dsfall
+$playersound	player	other	*usefail	dsp50
+$playersound	player	other	*dive		wtrin
+$playersound	player	other	*surface	dsgasp
+
+Doom/DoubleDamageReady						DOUBRDY
+Doom/DoubleDamageActivate					DOUBACTI
+
+/* =============================================================================
+	Crash
+==============================================================================*/
+
+$playeralias 	Crash  female 	*death  	Crash/Death
+$playeralias 	Crash  female 	*xdeath  	misc/gibbed
+$playeralias 	Crash  female 	*gibbed  	misc/gibbed
+$playersound 	Crash  female 	*Pain100 	dscr100
+$playersound 	Crash  female 	*Pain75 	dscr75
+$playersound 	Crash  female 	*Pain50 	dscr50
+$playersound 	Crash  female 	*Pain25 	dscr25
+$playersound 	Crash  female 	*grunt	 	dscrland
+$playersound    Crash  female   *land       dsoof
+$playersound 	Crash  female 	*jump   	dscrjump
+$playersound 	Crash  female 	*usefail 	dscr100
+$playersound 	Crash  female 	*falling 	dscrfall
+$playersound	Crash  female	*dive		wtrin
+$playersound	Crash  female	*surface	dscrgasp
+$playersound 	Crash  female 	*taunt 		crtaunt
+CRTTAUNT									crtaunt
+
+$random 	Crash/Death { CrashDeath1 CrashDeath2 CrashDeath3 }
+CrashDeath1									DSCRD1
+CrashDeath2									DSCRD2
+CrashDeath3									DSCRD3
+
+$playeralias 	Crash  male 	*death  	Crash/Death
+$playeralias 	Crash  male 	*xdeath  	misc/gibbed
+$playeralias 	Crash  male 	*gibbed  	misc/gibbed
+$playersound 	Crash  male 	*Pain100 	dscr100
+$playersound 	Crash  male 	*Pain75 	dscr75
+$playersound 	Crash  male 	*Pain50 	dscr50
+$playersound 	Crash  male 	*Pain25 	dscr25
+$playersound 	Crash  male 	*grunt	 	dscrland
+$playersound    Crash  male     *land       dsoof
+$playersound 	Crash  male 	*jump   	dscrjump
+$playersound 	Crash  male 	*usefail 	dscr100
+$playersound 	Crash  male 	*falling 	dscrfall
+$playersound	Crash  male		*dive		wtrin
+$playersound	Crash  male		*surface	dscrgasp
+$playersound 	Crash  male 	*taunt 		crtaunt
+
+$playeralias 	Crash  other 	*death  	Crash/Death
+$playeralias 	Crash  other 	*xdeath  	misc/gibbed
+$playeralias 	Crash  other 	*gibbed  	misc/gibbed
+$playersound 	Crash  other 	*Pain100 	dscr100
+$playersound 	Crash  other 	*Pain75 	dscr75
+$playersound 	Crash  other 	*Pain50 	dscr50
+$playersound 	Crash  other 	*Pain25 	dscr25
+$playersound 	Crash  other 	*grunt	 	dscrland
+$playersound    Crash  other    *land       dsoof
+$playersound 	Crash  other 	*jump   	dscrjump
+$playersound 	Crash  other 	*usefail 	dscr100
+$playersound 	Crash  other 	*falling 	dscrfall
+$playersound	Crash  other	*dive		wtrin
+$playersound	Crash  other	*surface	dscrgasp
+$playersound 	Crash  other 	*taunt 		crtaunt
+
+Crash/UnbreakableWillReady					CRYSRDY
+Crash/UnbreakableWillCharge					CRYSCHG
+$limit Crash/UnbreakableWillCharge 0
+Crash/UnbreakableWillPulse					CRYSPUS
+$limit Crash/UnbreakableWillPulse 0
+
+/* =============================================================================
+	Sarge
+==============================================================================*/
+
+$playeralias 	Dukk  male 	*death  		Sarge/Death
+$playeralias 	Dukk  male 	*xdeath  		misc/gibbed
+$playeralias 	Dukk  male 	*gibbed  		misc/gibbed
+$playersound 	Dukk  male 	*Pain100 		dssrg100
+$playersound 	Dukk  male 	*Pain75 		dssrg75
+$playersound 	Dukk  male 	*Pain50 		dssrg50
+$playersound 	Dukk  male 	*Pain25 		dssrg25
+$playersound 	Dukk  male 	*grunt	 		dssrglan
+$playersound    Dukk  male  *land       	dsoof
+$playersound 	Dukk  male 	*jump   		dssrgjum
+$playersound 	Dukk  male 	*usefail 		dssrg100
+$playersound 	Dukk  male 	*falling 		dssrgf
+$playersound	Dukk  male	*dive			wtrin
+$playersound	Dukk  male	*surface		dssgasp
+$playersound 	Dukk  male 	*taunt	 		dsstaunt
+SRGTAUNT									dsstaunt
+
+$random 	Sarge/Death { SargeDeath1 SargeDeath2 SargeDeath3 }
+SargeDeath1									DSSRGD1
+SargeDeath2									DSSRGD2
+SargeDeath3									DSSRGD3
+
+$playeralias 	Dukk  female 	*death  	Sarge/Death
+$playeralias 	Dukk  female 	*xdeath  	misc/gibbed
+$playeralias 	Dukk  female 	*gibbed  	misc/gibbed
+$playersound 	Dukk  female 	*Pain100 	dssrg100
+$playersound 	Dukk  female 	*Pain75 	dssrg75
+$playersound 	Dukk  female 	*Pain50 	dssrg50
+$playersound 	Dukk  female 	*Pain25 	dssrg25
+$playersound 	Dukk  female 	*grunt	 	dssrglan
+$playersound    Dukk  female  	*land       dsoof
+$playersound 	Dukk  female 	*jump   	dssrgjum
+$playersound 	Dukk  female 	*usefail 	dssrg100
+$playersound 	Dukk  female 	*falling 	dssrgf
+$playersound	Dukk  female	*dive		wtrin
+$playersound	Dukk  female	*surface	dssgasp
+$playersound 	Dukk  female 	*taunt	 	dsstaunt
+
+$playeralias 	Dukk  other 	*death  	Sarge/Death
+$playeralias 	Dukk  other 	*xdeath  	misc/gibbed
+$playeralias 	Dukk  other 	*gibbed  	misc/gibbed
+$playersound 	Dukk  other 	*Pain100 	dssrg100
+$playersound 	Dukk  other 	*Pain75 	dssrg75
+$playersound 	Dukk  other 	*Pain50 	dssrg50
+$playersound 	Dukk  other 	*Pain25 	dssrg25
+$playersound 	Dukk  other 	*grunt	 	dssrglan
+$playersound    Dukk  other  	*land       dsoof
+$playersound 	Dukk  other 	*jump   	dssrgjum
+$playersound 	Dukk  other 	*usefail 	dssrg100
+$playersound 	Dukk  other 	*falling 	dssrgf
+$playersound	Dukk  other		*dive		wtrin
+$playersound	Dukk  other		*surface	dssgasp
+$playersound 	Dukk  other 	*taunt	 	dsstaunt
+
+Sarge/ReactiveWarheadReady					RECTREDY
+Sarge/ReactiveWarheadFire					RECTFIRE
+Sarge/ReactiveWarheadExplode				RECTEXPL
+$limit Sarge/ReactiveWarheadExplode 0
+
+/* =============================================================================
+	Major
+==============================================================================*/
+
+$playeralias 	NiaS  female 	*death  	Major/Death
+$playeralias 	NiaS  female 	*xdeath  	misc/gibbed
+$playeralias 	NiaS  female 	*gibbed  	misc/gibbed
+$playersound 	NiaS  female 	*Pain100 	niap100
+$playersound 	NiaS  female 	*Pain75 	niap75
+$playersound 	NiaS  female 	*Pain50 	niap50
+$playersound 	NiaS  female 	*Pain25 	niap25
+$playersound 	NiaS  female 	*grunt	 	nialand
+$playersound    NiaS  female  	*land       dsoof
+$playersound 	NiaS  female 	*jump   	niajump
+$playersound 	NiaS  female 	*usefail 	niap75
+$playersound 	NiaS  female 	*falling 	niafall
+$playersound	NiaS  female	*dive		wtrin
+$playersound	NiaS  female	*surface	niagasp
+$playersound 	NiaS  female 	*taunt 		niataunt
+MAJTAUNT									niataunt
+
+$playeralias 	NiaS  male 	*death  		Major/Death
+$playeralias 	NiaS  male 	*xdeath  		misc/gibbed
+$playeralias 	NiaS  male 	*gibbed  		misc/gibbed
+$playersound 	NiaS  male 	*Pain100 		niap100
+$playersound 	NiaS  male 	*Pain75 		niap75
+$playersound 	NiaS  male 	*Pain50 		niap50
+$playersound 	NiaS  male 	*Pain25 		niap25
+$playersound 	NiaS  male 	*grunt	 		nialand
+$playersound    NiaS  male  *land       	dsoof
+$playersound 	NiaS  male 	*jump   		niajump
+$playersound 	NiaS  male 	*usefail 		niap75
+$playersound 	NiaS  male 	*falling 		niafall
+$playersound	NiaS  male	*dive			wtrin
+$playersound	NiaS  male	*surface		niagasp
+$playersound 	NiaS  male 	*taunt 			niataunt
+
+$playeralias 	NiaS  other 	*death  	Major/Death
+$playeralias 	NiaS  other 	*xdeath  	misc/gibbed
+$playeralias 	NiaS  other 	*gibbed  	misc/gibbed
+$playersound 	NiaS  other 	*Pain100 	niap100
+$playersound 	NiaS  other 	*Pain75 	niap75
+$playersound 	NiaS  other 	*Pain50 	niap50
+$playersound 	NiaS  other 	*Pain25 	niap25
+$playersound 	NiaS  other 	*grunt	 	nialand
+$playersound    NiaS  other  	*land       dsoof
+$playersound 	NiaS  other 	*jump   	niajump
+$playersound 	NiaS  other 	*usefail 	niap75
+$playersound 	NiaS  other 	*falling 	niafall
+$playersound	NiaS  other		*dive		wtrin
+$playersound	NiaS  other		*surface	niagasp
+$playersound 	NiaS  other 	*taunt 		niataunt
+
+$random 	Major/Death { MajorDeath1 MajorDeath2 MajorDeath3 }
+MajorDeath1									NIADTH1
+MajorDeath2									NIADTH2
+MajorDeath3									NIADTH3
+
+/* =============================================================================
+	Razor
+==============================================================================*/
+
+$playeralias 	Rikk  male 	*death  		Razor/Death
+$playeralias 	Rikk  male 	*xdeath  		misc/gibbed
+$playeralias 	Rikk  male 	*gibbed  		misc/gibbed
+$playersound 	Rikk  male 	*Pain100 		rkp100
+$playersound 	Rikk  male 	*Pain75 		rkp75
+$playersound 	Rikk  male 	*Pain50 		rkp50
+$playersound 	Rikk  male 	*Pain25 		rkp25
+$playersound 	Rikk  male 	*grunt	 		rkland
+$playersound    Rikk  male  *land       	dsoof
+$playersound 	Rikk  male 	*jump   		rkjump
+$playersound 	Rikk  male 	*usefail 		rkp100
+$playersound 	Rikk  male 	*falling 		rkfall
+$playersound	Rikk  male	*dive			wtrin
+$playersound	Rikk  male	*surface		rkgasp
+$playersound 	Rikk  male 	*taunt	 		rktaunt
+RAZTAUNT									rktaunt
+
+$playeralias 	Rikk  female 	*death  	Razor/Death
+$playeralias 	Rikk  female 	*xdeath  	misc/gibbed
+$playeralias 	Rikk  female 	*gibbed  	misc/gibbed
+$playersound 	Rikk  female 	*Pain100 	rkp100
+$playersound 	Rikk  female 	*Pain75 	rkp75
+$playersound 	Rikk  female 	*Pain50 	rkp50
+$playersound 	Rikk  female 	*Pain25 	rkp25
+$playersound 	Rikk  female 	*grunt	 	rkland
+$playersound    Rikk  female  	*land       dsoof
+$playersound 	Rikk  female 	*jump   	rkjump
+$playersound 	Rikk  female 	*usefail 	rkp100
+$playersound 	Rikk  female 	*falling 	rkfall
+$playersound	Rikk  female	*dive		wtrin
+$playersound	Rikk  female	*surface	rkgasp
+$playersound 	Rikk  female 	*taunt	 	rktaunt
+
+$playeralias 	Rikk  other 	*death  	Razor/Death
+$playeralias 	Rikk  other 	*xdeath  	misc/gibbed
+$playeralias 	Rikk  other 	*gibbed  	misc/gibbed
+$playersound 	Rikk  other 	*Pain100 	rkp100
+$playersound 	Rikk  other 	*Pain75 	rkp75
+$playersound 	Rikk  other 	*Pain50 	rkp50
+$playersound 	Rikk  other 	*Pain25 	rkp25
+$playersound 	Rikk  other 	*grunt	 	rkland
+$playersound    Rikk  other  	*land       dsoof
+$playersound 	Rikk  other 	*jump   	rkjump
+$playersound 	Rikk  other 	*usefail 	rkp100
+$playersound 	Rikk  other 	*falling 	rkfall
+$playersound	Rikk  other		*dive		wtrin
+$playersound	Rikk  other		*surface	rkgasp
+$playersound 	Rikk  other 	*taunt	 	rktaunt
+
+$random 	Razor/Death { RazorDeath1 RazorDeath2 RazorDeath3 }
+RazorDeath1									RKDTH1
+RazorDeath2									RKDTH2
+RazorDeath3									RKDTH3
+
+Razor/DemocracyReady						BMCHARG
+Razor/BombLaunch							BMLAUNCH
+$limit Razor/BombLaunch 0
+Razor/BombFly								BMBHOVER
+$limit Razor/BombFly 0
+Razor/FirstHit								BMFSTHIT
+$limit Razor/FirstHit 0
+Razor/CastNuke								BMCASTEX
+$limit Razor/CastNuke 0
+Razor/NukeExplosion							BMBEXPLO
+$limit Razor/NukeExplosion 0
+
+$random Razor/BombExplosion { Razorbomb1 Razorbomb2 Razorbomb3 Razorbomb4 Razorbomb5 }
+Razorbomb1									BMBSTM01
+Razorbomb2									BMBSTM02
+Razorbomb3									BMBSTM03
+Razorbomb4									BMBSTM04
+Razorbomb5									BMBSTM05
+$limit Razor/BombExplosion 0
+
+
+/* =============================================================================
+	Grunt
+==============================================================================*/
+
+$playeralias 	Q2Guy  male 	*death  	Grunt/Death
+$playeralias 	Q2Guy  male 	*xdeath  	misc/gibbed
+$playeralias 	Q2Guy  male 	*gibbed  	misc/gibbed
+$playersound 	Q2Guy  male 	*Pain100 	grup100
+$playersound 	Q2Guy  male 	*Pain75 	grup75
+$playersound 	Q2Guy  male 	*Pain50 	grup50
+$playersound 	Q2Guy  male 	*Pain25 	grup25
+$playersound 	Q2Guy  male 	*grunt	 	gruland
+$playersound    Q2Guy  male  	*land       dsoof
+$playersound 	Q2Guy  male 	*jump   	grujump
+$playersound 	Q2Guy  male 	*usefail 	grup100
+$playersound 	Q2Guy  male 	*falling 	grufall
+$playersound	Q2Guy  male		*dive		wtrin
+$playersound	Q2Guy  male		*surface	grugasp
+$playersound 	Q2Guy  male 	*taunt	 	grutaunt
+Q2TAUNT										grutaunt
+
+$playeralias 	Q2Guy  female 	*death  	Grunt/Death
+$playeralias 	Q2Guy  female 	*xdeath  	misc/gibbed
+$playeralias 	Q2Guy  female 	*gibbed  	misc/gibbed
+$playersound 	Q2Guy  female 	*Pain100 	grup100
+$playersound 	Q2Guy  female 	*Pain75 	grup75
+$playersound 	Q2Guy  female 	*Pain50 	grup50
+$playersound 	Q2Guy  female 	*Pain25 	grup25
+$playersound 	Q2Guy  female 	*grunt	 	gruland
+$playersound    Q2Guy  female  	*land       dsoof
+$playersound 	Q2Guy  female 	*jump   	grujump
+$playersound 	Q2Guy  female 	*usefail 	grup100
+$playersound 	Q2Guy  female 	*falling 	grufall
+$playersound	Q2Guy  female	*dive		wtrin
+$playersound	Q2Guy  female	*surface	grugasp
+$playersound 	Q2Guy  female 	*taunt	 	grutaunt
+
+$playeralias 	Q2Guy  other 	*death  	Grunt/Death
+$playeralias 	Q2Guy  other 	*xdeath  	misc/gibbed
+$playeralias 	Q2Guy  other 	*gibbed  	misc/gibbed
+$playersound 	Q2Guy  other 	*Pain100 	grup100
+$playersound 	Q2Guy  other 	*Pain75 	grup75
+$playersound 	Q2Guy  other 	*Pain50 	grup50
+$playersound 	Q2Guy  other 	*Pain25 	grup25
+$playersound 	Q2Guy  other 	*grunt	 	gruland
+$playersound    Q2Guy  other  	*land       dsoof
+$playersound 	Q2Guy  other 	*jump   	grujump
+$playersound 	Q2Guy  other 	*usefail 	grup100
+$playersound 	Q2Guy  other 	*falling 	grufall
+$playersound	Q2Guy  other	*dive		wtrin
+$playersound	Q2Guy  other	*surface	grugasp
+$playersound 	Q2Guy  other 	*taunt	 	grutaunt
+
+$random 	Grunt/Death { GruntDeath1 GruntDeath2 GruntDeath3 }
+GruntDeath1									GRUDTH1
+GruntDeath2									GRUDTH2
+GruntDeath3									GRUDTH3
+
+Grunt/FireFirebomb							GRUNTGR
+$limit Grunt/FireFirebomb 0
+Grunt/FirebombExplode						GRTGRDXP
+$limit Grunt/FirebombExplode 0
+
+/* =============================================================================
+	Ranger
+==============================================================================*/
+
+$playeralias 	Q1Guy  male 	*death  	Ranger/Death
+$playeralias 	Q1Guy  male 	*xdeath  	misc/gibbed
+$playeralias 	Q1Guy  male 	*gibbed  	misc/gibbed
+$playersound 	Q1Guy  male 	*Pain100 	ranp100
+$playersound 	Q1Guy  male 	*Pain75 	ranp75
+$playersound 	Q1Guy  male 	*Pain50 	ranp50
+$playersound 	Q1Guy  male 	*Pain25 	ranp25
+$playersound 	Q1Guy  male 	*grunt	 	ranland
+$playersound    Q1Guy  male  	*land       dsoof
+$playersound 	Q1Guy  male 	*jump   	ranjump
+$playersound 	Q1Guy  male 	*usefail 	ranp100
+$playersound 	Q1Guy  male 	*falling 	ranfall
+$playersound	Q1Guy  male		*dive		wtrin
+$playersound	Q1Guy  male		*surface	rangasp
+$playersound 	Q1Guy  male 	*taunt	 	rantaunt
+Q1TAUNT										rantaunt
+
+$playeralias 	Q1Guy  female 	*death  	Ranger/Death
+$playeralias 	Q1Guy  female 	*xdeath  	misc/gibbed
+$playeralias 	Q1Guy  female 	*gibbed  	misc/gibbed
+$playersound 	Q1Guy  female 	*Pain100 	ranp100
+$playersound 	Q1Guy  female 	*Pain75 	ranp75
+$playersound 	Q1Guy  female 	*Pain50 	ranp50
+$playersound 	Q1Guy  female 	*Pain25 	ranp25
+$playersound 	Q1Guy  female 	*grunt	 	ranland
+$playersound    Q1Guy  female  	*land       dsoof
+$playersound 	Q1Guy  female 	*jump   	ranjump
+$playersound 	Q1Guy  female 	*usefail 	ranp100
+$playersound 	Q1Guy  female 	*falling 	ranfall
+$playersound	Q1Guy  female	*dive		wtrin
+$playersound	Q1Guy  female	*surface	rangasp
+$playersound 	Q1Guy  female 	*taunt	 	rantaunt
+
+$playeralias 	Q1Guy  other 	*death  	Ranger/Death
+$playeralias 	Q1Guy  other 	*xdeath  	misc/gibbed
+$playeralias 	Q1Guy  other 	*gibbed  	misc/gibbed
+$playersound 	Q1Guy  other 	*Pain100 	ranp100
+$playersound 	Q1Guy  other 	*Pain75 	ranp75
+$playersound 	Q1Guy  other 	*Pain50 	ranp50
+$playersound 	Q1Guy  other 	*Pain25 	ranp25
+$playersound 	Q1Guy  other 	*grunt	 	ranland
+$playersound    Q1Guy  other  	*land       dsoof
+$playersound 	Q1Guy  other 	*jump   	ranjump
+$playersound 	Q1Guy  other 	*usefail 	ranp100
+$playersound 	Q1Guy  other 	*falling 	ranfall
+$playersound	Q1Guy  other	*dive		wtrin
+$playersound	Q1Guy  other	*surface	rangasp
+$playersound 	Q1Guy  other 	*taunt	 	rantaunt
+
+$random		Ranger/Death { RangerDeath1 RangerDeath2 RangerDeath3 }
+RangerDeath1								RANDTH1
+RangerDeath2								RANDTH2
+RangerDeath3								RANDTH3
+
+Ranger/SurgeReady							SLIPRDY
+Ranger/SurgeUse								SLIPUSE
+$limit Ranger/SurgeUse 0
+Ranger/SurgeHit								SLIPHIT
+$limit Ranger/SurgeHit 1 128
+
+/* =============================================================================
+	Hunter
+==============================================================================*/
+
+$playeralias 	Hunter  male 	*death  	Hunter/Death
+$playeralias 	Hunter  male 	*xdeath  	misc/gibbed
+$playeralias 	Hunter  male 	*gibbed  	misc/gibbed
+$playersound 	Hunter  male 	*Pain100 	hunp100
+$playersound 	Hunter  male 	*Pain75 	hunp75
+$playersound 	Hunter  male 	*Pain50 	hunp50
+$playersound 	Hunter  male 	*Pain25 	hunp25
+$playersound 	Hunter  male 	*grunt	 	hunland
+$playersound    Hunter  male  	*land       dsoof
+$playersound 	Hunter  male 	*jump   	hunjump
+$playersound 	Hunter  male 	*usefail 	hunp75
+$playersound 	Hunter  male 	*falling 	hunfall
+$playersound	Hunter  male	*dive		wtrin
+$playersound	Hunter  male	*surface	hungasp
+$playersound 	Hunter  male 	*taunt 		huntaunt
+HUNTAUNT									huntaunt
+
+$playeralias 	Hunter  female 	*death  	Hunter/Death
+$playeralias 	Hunter  female 	*xdeath  	misc/gibbed
+$playeralias 	Hunter  female 	*gibbed  	misc/gibbed
+$playersound 	Hunter  female 	*Pain100 	hunp100
+$playersound 	Hunter  female 	*Pain75 	hunp75
+$playersound 	Hunter  female 	*Pain50 	hunp50
+$playersound 	Hunter  female 	*Pain25 	hunp25
+$playersound 	Hunter  female 	*grunt	 	hunland
+$playersound    Hunter  female  *land       dsoof
+$playersound 	Hunter  female 	*jump   	hunjump
+$playersound 	Hunter  female 	*usefail 	hunp75
+$playersound 	Hunter  female 	*falling 	hunfall
+$playersound	Hunter  female	*dive		wtrin
+$playersound	Hunter  female	*surface	hungasp
+$playersound 	Hunter  female 	*taunt 		huntaunt
+
+$playeralias 	Hunter  other 	*death  	Hunter/Death
+$playeralias 	Hunter  other 	*xdeath  	misc/gibbed
+$playeralias 	Hunter  other 	*gibbed  	misc/gibbed
+$playersound 	Hunter  other 	*Pain100 	hunp100
+$playersound 	Hunter  other 	*Pain75 	hunp75
+$playersound 	Hunter  other 	*Pain50 	hunp50
+$playersound 	Hunter  other 	*Pain25 	hunp25
+$playersound 	Hunter  other 	*grunt	 	hunland
+$playersound    Hunter  other  	*land       dsoof
+$playersound 	Hunter  other 	*jump   	hunjump
+$playersound 	Hunter  other 	*usefail 	hunp75
+$playersound 	Hunter  other 	*falling 	hunfall
+$playersound	Hunter  other	*dive		wtrin
+$playersound	Hunter  other	*surface	hungasp
+$playersound 	Hunter  other 	*taunt 		huntaunt
+
+$random 	Hunter/Death { HunterDeath1 HunterDeath2 HunterDeath3 }
+HunterDeath1								HUNDEA1
+HunterDeath2								HUNDEA2
+HunterDeath3								HUNDEA3
+
+Hunter/ShockFieldReady						SHKFRYRD
+Hunter/ShockFieldStart						SHKFRYST
+Hunter/ShockFieldLoop						SHKFRYLP
+$limit Hunter/ShockFieldLoop 0
+Hunter/ShockFieldStop						SHKFRYOF
+
+/* =============================================================================
+	Visor
+==============================================================================*/
+
+$playeralias 	Visor  male 	*death  	Visor/Death
+$playeralias 	Visor  male 	*xdeath  	misc/gibbed
+$playeralias 	Visor  male 	*gibbed  	misc/gibbed
+$playersound 	Visor  male 	*Pain100 	visp100
+$playersound 	Visor  male 	*Pain75 	visp75
+$playersound 	Visor  male 	*Pain50 	visp50
+$playersound 	Visor  male 	*Pain25 	visp25
+$playersound 	Visor  male 	*grunt	 	visland
+$playersound    Visor  male  	*land       dsoof
+$playersound 	Visor  male 	*jump   	visjump
+$playersound 	Visor  male 	*usefail 	visp75
+$playersound 	Visor  male 	*falling 	visfall
+$playersound	Visor  male		*dive		wtrin
+$playersound	Visor  male		*surface	visgasp
+$playersound 	Visor  male 	*taunt	 	vitaunt
+VISTAUNT									vitaunt
+
+$playeralias 	Visor  female 	*death  	Visor/Death
+$playeralias 	Visor  female 	*xdeath  	misc/gibbed
+$playeralias 	Visor  female 	*gibbed  	misc/gibbed
+$playersound 	Visor  female 	*Pain100 	visp100
+$playersound 	Visor  female 	*Pain75 	visp75
+$playersound 	Visor  female 	*Pain50 	visp50
+$playersound 	Visor  female 	*Pain25 	visp25
+$playersound 	Visor  female 	*grunt	 	visland
+$playersound    Visor  female  	*land       dsoof
+$playersound 	Visor  female 	*jump   	visjump
+$playersound 	Visor  female 	*usefail 	visp75
+$playersound 	Visor  female 	*falling 	visfall
+$playersound	Visor  female	*dive		wtrin
+$playersound	Visor  female	*surface	visgasp
+$playersound 	Visor  female 	*taunt	 	vitaunt
+
+$playeralias 	Visor  other 	*death  	Visor/Death
+$playeralias 	Visor  other 	*xdeath  	misc/gibbed
+$playeralias 	Visor  other 	*gibbed  	misc/gibbed
+$playersound 	Visor  other 	*Pain100 	visp100
+$playersound 	Visor  other 	*Pain75 	visp75
+$playersound 	Visor  other 	*Pain50 	visp50
+$playersound 	Visor  other 	*Pain25 	visp25
+$playersound 	Visor  other 	*grunt	 	visland
+$playersound    Visor  Other  	*land       dsoof
+$playersound 	Visor  other 	*jump   	visjump
+$playersound 	Visor  other 	*usefail 	visp75
+$playersound 	Visor  other 	*falling 	visfall
+$playersound	Visor  other	*dive		wtrin
+$playersound	Visor  other	*surface	visgasp
+$playersound 	Visor  other 	*taunt	 	vitaunt
+
+$random 	Visor/Death { VisorDeath1 VisorDeath2 VisorDeath3 }
+VisorDeath1									VISDEA1
+VisorDeath2									VISDEA2
+VisorDeath3									VISDEA3
+
+Visor/GravityHammerReady					GRVHMRDY
+Visor/GravityHammerArming					GRAVHMAR
+$limit Visor/GravityHammerArming 0
+Visor/GravityHammerCharge					GRAVHMCG
+$limit Visor/GravityHammerCharge 0
+Visor/GravityHammerImpact					GRAVHMEX
+$limit Visor/GravityHammerImpact 0
+Visor/GravityHammerLaunch					GRVHMLCH
+
+/* =============================================================================
+	Mynx
+==============================================================================*/
+
+$playeralias 	Mynx  male 	*death  		Mynx/Death
+$playeralias 	Mynx  male 	*xdeath  		misc/gibbed
+$playeralias 	Mynx  male 	*gibbed  		misc/gibbed
+$playersound 	Mynx  male 	*Pain100 		mypai100
+$playersound 	Mynx  male 	*Pain75 		mypai75
+$playersound 	Mynx  male 	*Pain50 		mypai50
+$playersound 	Mynx  male 	*Pain25 		mypai25
+$playersound 	Mynx  male 	*grunt	 		myland
+$playersound    Mynx  male 	*land       	dsoof
+$playersound 	Mynx  male 	*jump   		myjump
+$playersound 	Mynx  male 	*usefail 		mypai75
+$playersound 	Mynx  male 	*falling 		myfall
+$playersound	Mynx  male	*dive			wtrin
+$playersound	Mynx  male	*surface		mygasp
+$playersound 	Mynx  male 	*taunt 			mytaunt
+MYNTAUNT									mytaunt
+
+$playeralias 	Mynx  female 	*death  	Mynx/Death
+$playeralias 	Mynx  female 	*xdeath  	misc/gibbed
+$playeralias 	Mynx  female 	*gibbed  	misc/gibbed
+$playersound 	Mynx  female 	*Pain100 	mypai100
+$playersound 	Mynx  female 	*Pain75 	mypai75
+$playersound 	Mynx  female 	*Pain50 	mypai50
+$playersound 	Mynx  female 	*Pain25 	mypai25
+$playersound 	Mynx  female 	*grunt	 	myland
+$playersound    Mynx  female 	*land       dsoof
+$playersound 	Mynx  female 	*jump   	myjump
+$playersound 	Mynx  female 	*usefail 	mypai75
+$playersound 	Mynx  female 	*falling 	myfall
+$playersound	Mynx  female	*dive		wtrin
+$playersound	Mynx  female	*surface	mygasp
+$playersound 	Mynx  female 	*taunt 		mytaunt
+
+$playeralias 	Mynx  other 	*death  	Mynx/Death
+$playeralias 	Mynx  other 	*xdeath  	misc/gibbed
+$playeralias 	Mynx  other 	*gibbed  	misc/gibbed
+$playersound 	Mynx  other 	*Pain100 	mypai100
+$playersound 	Mynx  other 	*Pain75 	mypai75
+$playersound 	Mynx  other 	*Pain50 	mypai50
+$playersound 	Mynx  other 	*Pain25 	mypai25
+$playersound 	Mynx  other 	*grunt	 	myland
+$playersound    Mynx  other 	*land       dsoof
+$playersound 	Mynx  other 	*jump   	myjump
+$playersound 	Mynx  other 	*usefail 	mypai75
+$playersound 	Mynx  other 	*falling 	myfall
+$playersound	Mynx  other		*dive		wtrin
+$playersound	Mynx  other		*surface	mygasp
+$playersound 	Mynx  other 	*taunt 		mytaunt
+
+$random Mynx/Death						{ Mynxdeath1 Mynxdeath2 Mynxdeath3 }
+Mynxdeath1									MYDEA1
+Mynxdeath2									MYDEA2
+Mynxdeath3									MYDEA3
+
+Mynx/FenceReady								CAGEREDY
+Mynx/FenceStart								CAGESTRT
+Mynx/FenceLoop								CAGELOOP
+Mynx/FenceDisarm							CAGESTOP
+
+$random Mynx/ShieldHit					{ Cagehit1 Cagehit2 Cagehit3 Cagehit4 }
+Cagehit1									CAGEHIT1
+Cagehit2									CAGEHIT2
+Cagehit3									CAGEHIT3
+Cagehit4									CAGEHIT4
+
+$limit Mynx/ShieldHit 0
+
+/* =============================================================================
+	Lucy
+==============================================================================*/
+
+$playeralias 	Lucy  male 	*death  		Lucy/Death
+$playeralias 	Lucy  male 	*xdeath  		misc/gibbed
+$playeralias 	Lucy  male 	*gibbed  		misc/gibbed
+$playersound 	Lucy  male 	*Pain100 		lupai100
+$playersound 	Lucy  male 	*Pain75 		lupai75
+$playersound 	Lucy  male 	*Pain50 		lupai50
+$playersound 	Lucy  male 	*Pain25 		lupai25
+$playersound 	Lucy  male 	*grunt	 		luland
+$playersound    Lucy  male 	*land       	dsoof
+$playersound 	Lucy  male 	*jump   		lujump
+$playersound 	Lucy  male 	*usefail 		lupai75
+$playersound 	Lucy  male 	*falling 		lufall
+$playersound	Lucy  male	*dive			wtrin
+$playersound	Lucy  male	*surface		lugasp
+$playersound 	Lucy  male 	*taunt 			lutaunt
+LUCTAUNT									lutaunt
+
+$playeralias 	Lucy  female 	*death  	Lucy/Death
+$playeralias 	Lucy  female 	*xdeath  	misc/gibbed
+$playeralias 	Lucy  female 	*gibbed  	misc/gibbed
+$playersound 	Lucy  female 	*Pain100 	lupai100
+$playersound 	Lucy  female 	*Pain75 	lupai75
+$playersound 	Lucy  female 	*Pain50 	lupai50
+$playersound 	Lucy  female 	*Pain25 	lupai25
+$playersound 	Lucy  female 	*grunt	 	luland
+$playersound    Lucy  female 	*land       dsoof
+$playersound 	Lucy  female 	*jump   	lujump
+$playersound 	Lucy  female 	*usefail 	lupai75
+$playersound 	Lucy  female 	*falling 	lufall
+$playersound	Lucy  female	*dive		wtrin
+$playersound	Lucy  female	*surface	lugasp
+$playersound 	Lucy  female 	*taunt 		lutaunt
+
+$playeralias 	Lucy  other 	*death  	Lucy/Death
+$playeralias 	Lucy  other 	*xdeath  	misc/gibbed
+$playeralias 	Lucy  other 	*gibbed  	misc/gibbed
+$playersound 	Lucy  other 	*Pain100 	lupai100
+$playersound 	Lucy  other 	*Pain75 	lupai75
+$playersound 	Lucy  other 	*Pain50 	lupai50
+$playersound 	Lucy  other 	*Pain25 	lupai25
+$playersound 	Lucy  other 	*grunt	 	luland
+$playersound    Lucy  other 	*land       dsoof
+$playersound 	Lucy  other 	*jump   	lujump
+$playersound 	Lucy  other 	*usefail 	lupai75
+$playersound 	Lucy  other 	*falling 	lufall
+$playersound	Lucy  other		*dive		wtrin
+$playersound	Lucy  other		*surface	lugasp
+$playersound 	Lucy  other 	*taunt 		lutaunt
+
+$random Lucy/Death { LucyDeath1 LucyDeath2 LucyDeath3 }
+LucyDeath1									ludea1
+LucyDeath2									ludea2
+LucyDeath3									ludea3
+
+Lucy/TurretReady							TURREADY
+Lucy/TurretLaunch							TURLUNC
+Lucy/TurretSpawn							TURSPWN
+Lucy/TurretStart							TURSTRT
+Lucy/TurretLoop								TURLOOP
+Lucy/TurretEnd								TURFEND
+Lucy/TurretScan								TURSCAN
+Lucy/TurretTurn								TURTURN
+Lucy/TurretTarget							TURTARG
+$random Lucy/TurretFire	{ TurretFire1 TurretFire2 TurretFire3 }
+TurretFire1									CGTFire1
+TurretFire2									CGTFire2
+TurretFire3									CGTFire3
+$limit Lucy/TurretFire 0
+
+/* =============================================================================
+	Keel
+==============================================================================*/
+
+$playeralias 	Keel  male 	*death  		Keel/Death
+$playeralias 	Keel  male 	*xdeath  		misc/gibbed
+$playeralias 	Keel  male 	*gibbed  		misc/gibbed
+$playersound 	Keel  male 	*Pain100 		kepai100
+$playersound 	Keel  male 	*Pain75 		kepai75
+$playersound 	Keel  male 	*Pain50 		kepai50
+$playersound 	Keel  male 	*Pain25 		kepai25
+$playersound 	Keel  male 	*grunt	 		keland
+$playersound    Keel  male 	*land       	dsoof
+$playersound 	Keel  male 	*jump   		kejump
+$playersound 	Keel  male 	*usefail 		kepai75
+$playersound 	Keel  male 	*falling 		kefall
+$playersound	Keel  male	*dive			wtrin
+$playersound	Keel  male	*surface		kegasp
+$playersound 	Keel  male 	*taunt 			ketaunt
+KEETAUNT									ketaunt
+
+$playeralias 	Keel  female 	*death  	Keel/Death
+$playeralias 	Keel  female 	*xdeath  	misc/gibbed
+$playeralias 	Keel  female 	*gibbed  	misc/gibbed
+$playersound 	Keel  female 	*Pain100 	kepai100
+$playersound 	Keel  female 	*Pain75 	kepai75
+$playersound 	Keel  female 	*Pain50 	kepai50
+$playersound 	Keel  female 	*Pain25 	kepai25
+$playersound 	Keel  female 	*grunt	 	keland
+$playersound    Keel  female 	*land       dsoof
+$playersound 	Keel  female 	*jump   	kejump
+$playersound 	Keel  female 	*usefail 	kepai75
+$playersound 	Keel  female 	*falling 	kefall
+$playersound	Keel  female	*dive		wtrin
+$playersound	Keel  female	*surface	kegasp
+$playersound 	Keel  female 	*taunt 		ketaunt
+
+$playeralias 	Keel  other 	*death  	Keel/Death
+$playeralias 	Keel  other 	*xdeath  	misc/gibbed
+$playeralias 	Keel  other 	*gibbed  	misc/gibbed
+$playersound 	Keel  other 	*Pain100 	kepai100
+$playersound 	Keel  other 	*Pain75 	kepai75
+$playersound 	Keel  other 	*Pain50 	kepai50
+$playersound 	Keel  other 	*Pain25 	kepai25
+$playersound 	Keel  other 	*grunt	 	keland
+$playersound    Keel  other 	*land       dsoof
+$playersound 	Keel  other 	*jump   	kejump
+$playersound 	Keel  other 	*usefail 	kepai75
+$playersound 	Keel  other 	*falling 	kefall
+$playersound	Keel  other		*dive		wtrin
+$playersound	Keel  other		*surface	kegasp
+$playersound 	Keel  other 	*taunt 		ketaunt
+
+$random Keel/Death	{ KeelDeath1 KeelDeath2 KeelDeath3 }
+KeelDeath1									kedea1
+KeelDeath2									kedea2
+KeelDeath3									kedea3
+
+Keel/MineLaunch								MINEFIRE
+Keel/MineLand								MINEFLOR
+Keel/MineTick								MINETICK
+$limit Keel/MineTick 0
+Keel/MineActivate							MINEACTV
+$limit Keel/MineActivate 0
+Keel/MineExplode							MINEEXPL
+$limit Keel/MineExplode 0
+
+/* =============================================================================
+	TankJr
+==============================================================================*/
+
+$playeralias 	TankJr  male 	*death  	TankJr/Death
+$playeralias 	TankJr  male 	*xdeath  	misc/gibbed
+$playeralias 	TankJr  male 	*gibbed  	misc/gibbed
+$playersound 	TankJr  male 	*Pain100 	tjpai100
+$playersound 	TankJr  male 	*Pain75 	tjpai75
+$playersound 	TankJr  male 	*Pain50 	tjpai50
+$playersound 	TankJr  male 	*Pain25 	tjpai25
+$playersound 	TankJr  male 	*grunt	 	tjland
+$playersound    TankJr  male 	*land       dsoof
+$playersound 	TankJr  male 	*jump   	tjjump
+$playersound 	TankJr  male 	*usefail 	tjpai75
+$playersound 	TankJr  male 	*falling 	tjfall
+$playersound	TankJr  male	*dive		wtrin
+$playersound	TankJr  male	*surface	tjgasp
+$playersound 	TankJr  male 	*taunt 		tjtaunt
+TANTAUNT									tjtaunt
+
+$playeralias 	TankJr  female 	*death  	TankJr/Death
+$playeralias 	TankJr  female 	*xdeath  	misc/gibbed
+$playeralias 	TankJr  female 	*gibbed  	misc/gibbed
+$playersound 	TankJr  female 	*Pain100 	tjpai100
+$playersound 	TankJr  female 	*Pain75 	tjpai75
+$playersound 	TankJr  female 	*Pain50 	tjpai50
+$playersound 	TankJr  female 	*Pain25 	tjpai25
+$playersound 	TankJr  female 	*grunt	 	tjland
+$playersound    TankJr  female 	*land       dsoof
+$playersound 	TankJr  female 	*jump   	tjjump
+$playersound 	TankJr  female 	*usefail 	tjpai75
+$playersound 	TankJr  female 	*falling 	tjfall
+$playersound	TankJr  female	*dive		wtrin
+$playersound	TankJr  female	*surface	tjgasp
+$playersound 	TankJr  female 	*taunt 		tjtaunt
+
+$playeralias 	TankJr  other 	*death  	TankJr/Death
+$playeralias 	TankJr  other 	*xdeath  	misc/gibbed
+$playeralias 	TankJr  other 	*gibbed  	misc/gibbed
+$playersound 	TankJr  other 	*Pain100 	tjpai100
+$playersound 	TankJr  other 	*Pain75 	tjpai75
+$playersound 	TankJr  other 	*Pain50 	tjpai50
+$playersound 	TankJr  other 	*Pain25 	tjpai25
+$playersound 	TankJr  other 	*grunt	 	tjland
+$playersound    TankJr  other 	*land       dsoof
+$playersound 	TankJr  other 	*jump   	tjjump
+$playersound 	TankJr  other 	*usefail 	tjpai75
+$playersound 	TankJr  other 	*falling 	tjfall
+$playersound	TankJr  other	*dive		wtrin
+$playersound	TankJr  other	*surface	tjgasp
+$playersound 	TankJr  other 	*taunt 		tjtaunt
+
+$random TankJr/Death { TankJrDeath1 TankJrDeath2 TankJrDeath3 }
+TankJrDeath1								TJDEA1
+TankJrDeath2								TJDEA2
+TankJrDeath3								TJDEA3
+
+/* =============================================================================
+	Xaero
+==============================================================================*/
+
+$playersound 	Xaero  male 	*death  	xedea1
+$playeralias 	Xaero  male 	*xdeath  	misc/gibbed
+$playeralias 	Xaero  male 	*gibbed  	misc/gibbed
+$playersound 	Xaero  male 	*Pain100 	xepai100
+$playersound 	Xaero  male 	*Pain75 	xepai75
+$playersound 	Xaero  male 	*Pain50 	xepai50
+$playersound 	Xaero  male 	*Pain25 	xepai25
+$playersound 	Xaero  male 	*grunt	 	xeland
+$playersound    Xaero  male 	*land       dsoof
+$playersound 	Xaero  male 	*jump   	xejump
+$playersound 	Xaero  male 	*usefail 	xepai75
+$playersound 	Xaero  male 	*falling 	xefall
+$playersound	Xaero  male		*dive		wtrin
+$playersound	Xaero  male		*surface	xegasp
+$playersound 	Xaero  male 	*taunt 		xetaunt
+XAETAUNT									xetaunt
+
+$playersound 	Xaero  female 	*death  	xedea1
+$playeralias 	Xaero  female 	*xdeath  	misc/gibbed
+$playeralias 	Xaero  female 	*gibbed  	misc/gibbed
+$playersound 	Xaero  female 	*Pain100 	xepai100
+$playersound 	Xaero  female 	*Pain75 	xepai75
+$playersound 	Xaero  female 	*Pain50 	xepai50
+$playersound 	Xaero  female 	*Pain25 	xepai25
+$playersound 	Xaero  female 	*grunt	 	xeland
+$playersound    Xaero  female 	*land       dsoof
+$playersound 	Xaero  female 	*jump   	xejump
+$playersound 	Xaero  female 	*usefail 	xepai75
+$playersound 	Xaero  female 	*falling 	xefall
+$playersound	Xaero  female	*dive		wtrin
+$playersound	Xaero  female	*surface	xegasp
+$playersound 	Xaero  female 	*taunt 		xetaunt
+
+$playersound 	Xaero  other 	*death  	xedea1
+$playeralias 	Xaero  other 	*xdeath  	misc/gibbed
+$playeralias 	Xaero  other 	*gibbed  	misc/gibbed
+$playersound 	Xaero  other 	*Pain100 	xepai100
+$playersound 	Xaero  other 	*Pain75 	xepai75
+$playersound 	Xaero  other 	*Pain50 	xepai50
+$playersound 	Xaero  other 	*Pain25 	xepai25
+$playersound 	Xaero  other 	*grunt	 	xeland
+$playersound    Xaero  other 	*land       dsoof
+$playersound 	Xaero  other 	*jump   	xejump
+$playersound 	Xaero  other 	*usefail 	xepai75
+$playersound 	Xaero  other 	*falling 	xefall
+$playersound	Xaero  other	*dive		wtrin
+$playersound	Xaero  other	*surface	xegasp
+$playersound 	Xaero  other 	*taunt 		xetaunt
+
+$random Xaero/Death { XaeroDeath1 XaeroDeath2 XaeroDeath3 }
+XaeroDeath1								XEDEA1
+XaeroDeath2								XEDEA2
+XaeroDeath3								XEDEA3
+
+$random Xaero/WeaponMasterActive { XRMaster1 XRMaster2 }
+XRMaster1								XRWPM01
+XRMaster2								XRWPM02
+
+Xaero/WeaponMasterEnd					XRWPMED
+/* =============================================================================
+	Hossman
+==============================================================================*/
+
+$playeralias 	Hossman  male 	*death  	Hossman/Death
+$playeralias 	Hossman  male 	*xdeath  	misc/gibbed
+$playeralias 	Hossman  male 	*gibbed  	misc/gibbed
+$playersound 	Hossman  male 	*Pain100 	hopai100
+$playersound 	Hossman  male 	*Pain75 	hopai75
+$playersound 	Hossman  male 	*Pain50 	hopai50
+$playersound 	Hossman  male 	*Pain25 	hopai25
+$playersound 	Hossman  male 	*grunt	 	holand
+$playersound    Hossman  male 	*land       dsoof
+$playersound 	Hossman  male 	*jump   	hojump
+$playersound 	Hossman  male 	*usefail 	hopai75
+$playersound 	Hossman  male 	*falling 	hofall
+$playersound	Hossman  male	*dive		wtrin
+$playersound	Hossman  male	*surface	hogasp
+$playersound 	Hossman  male 	*taunt 		hotaunt
+HOSTAUNT									hotaunt
+
+$playeralias 	Hossman  female 	*death  	Hossman/Death
+$playeralias 	Hossman  female 	*xdeath  	misc/gibbed
+$playeralias 	Hossman  female 	*gibbed  	misc/gibbed
+$playersound 	Hossman  female 	*Pain100 	hopai100
+$playersound 	Hossman  female 	*Pain75 	hopai75
+$playersound 	Hossman  female 	*Pain50 	hopai50
+$playersound 	Hossman  female 	*Pain25 	hopai25
+$playersound 	Hossman  female 	*grunt	 	holand
+$playersound    Hossman  female 	*land       dsoof
+$playersound 	Hossman  female 	*jump   	hojump
+$playersound 	Hossman  female 	*usefail 	hopai75
+$playersound 	Hossman  female 	*falling 	hofall
+$playersound	Hossman  female		*dive		wtrin
+$playersound	Hossman  female		*surface	hogasp
+$playersound 	Hossman  female 	*taunt 		hotaunt
+
+$playeralias 	Hossman  other 	*death  	Hossman/Death
+$playeralias 	Hossman  other 	*xdeath  	misc/gibbed
+$playeralias 	Hossman  other 	*gibbed  	misc/gibbed
+$playersound 	Hossman  other 	*Pain100 	hopai100
+$playersound 	Hossman  other 	*Pain75 	hopai75
+$playersound 	Hossman  other 	*Pain50 	hopai50
+$playersound 	Hossman  other 	*Pain25 	hopai25
+$playersound 	Hossman  other 	*grunt	 	holand
+$playersound    Hossman  other 	*land       dsoof
+$playersound 	Hossman  other 	*jump   	hojump
+$playersound 	Hossman  other 	*usefail 	hopai75
+$playersound 	Hossman  other 	*falling 	hofall
+$playersound	Hossman  other	*dive		wtrin
+$playersound	Hossman  other	*surface	hogasp
+$playersound 	Hossman  other 	*taunt 		hotaunt
+
+$random Hossman/Death	{ HossmanDeath1 HossmanDeath2 HossmanDeath3 }
+HossmanDeath1								HODEA1
+HossmanDeath2								HODEA2
+HossmanDeath3								HODEA3
+
+Hossman/PropulsionReady						HYPRRDY
+Hossman/PropulsionActivate					HYPRUSE
+
+/* =============================================================================
+	Bones
+==============================================================================*/
+
+$playeralias 	Bones  male 	*death  	Bones/Death
+$playeralias 	Bones  male 	*xdeath  	misc/gibbed
+$playeralias 	Bones  male 	*gibbed  	misc/gibbed
+$playersound 	Bones  male 	*Pain100 	bopai100
+$playersound 	Bones  male 	*Pain75 	bopai75
+$playersound 	Bones  male 	*Pain50 	bopai50
+$playersound 	Bones  male 	*Pain25 	bopai25
+$playersound 	Bones  male 	*grunt	 	boland
+$playersound    Bones  male 	*land       dsoof
+$playersound 	Bones  male 	*jump   	bojump
+$playersound 	Bones  male 	*usefail 	bopai75
+$playersound 	Bones  male 	*falling 	bofall
+$playersound	Bones  male		*dive		wtrin
+$playersound	Bones  male		*surface	watrout
+$playersound 	Bones  male 	*taunt 		botaunt
+BONTAUNT									botaunt
+
+$playeralias 	Bones  female 	*death  	Bones/Death
+$playeralias 	Bones  female 	*xdeath  	misc/gibbed
+$playeralias 	Bones  female 	*gibbed  	misc/gibbed
+$playersound 	Bones  female 	*Pain100 	bopai100
+$playersound 	Bones  female 	*Pain75 	bopai75
+$playersound 	Bones  female 	*Pain50 	bopai50
+$playersound 	Bones  female 	*Pain25 	bopai25
+$playersound 	Bones  female 	*grunt	 	boland
+$playersound    Bones  female 	*land       dsoof
+$playersound 	Bones  female 	*jump   	bojump
+$playersound 	Bones  female 	*usefail 	bopai75
+$playersound 	Bones  female 	*falling 	bofall
+$playersound	Bones  female	*dive		wtrin
+$playersound	Bones  female	*surface	watrout
+$playersound 	Bones  female 	*taunt 		botaunt
+
+$playeralias 	Bones  other 	*death  	Bones/Death
+$playeralias 	Bones  other 	*xdeath  	misc/gibbed
+$playeralias 	Bones  other 	*gibbed  	misc/gibbed
+$playersound 	Bones  other 	*Pain100 	bopai100
+$playersound 	Bones  other 	*Pain75 	bopai75
+$playersound 	Bones  other 	*Pain50 	bopai50
+$playersound 	Bones  other 	*Pain25 	bopai25
+$playersound 	Bones  other 	*grunt	 	boland
+$playersound    Bones  other 	*land       dsoof
+$playersound 	Bones  other 	*jump   	bojump
+$playersound 	Bones  other 	*usefail 	bopai75
+$playersound 	Bones  other 	*falling 	bofall
+$playersound	Bones  other	*dive		wtrin
+$playersound	Bones  other	*surface	watrout
+$playersound 	Bones  other 	*taunt 		botaunt
+
+$random Bones/Death { Bonesdeath1 Bonesdeath2 Bonesdeath3 }
+Bonesdeath1									BODEA1
+Bonesdeath2									BODEA2
+Bonesdeath3									BODEA3
+
+Bones/UnburyUndead							NECRCAST
+Bones/NecromancyReady						NECRREDY
+
+/* =============================================================================
+	Orbb
+==============================================================================*/
+
+$playeralias 	Orbb  male 	*death  	Orbb/Death
+$playeralias 	Orbb  male 	*xdeath  	misc/gibbed
+$playeralias 	Orbb  male 	*gibbed  	misc/gibbed
+$playersound 	Orbb  male 	*Pain100 	orpai100
+$playersound 	Orbb  male 	*Pain75 	orpai75
+$playersound 	Orbb  male 	*Pain50 	orpai50
+$playersound 	Orbb  male 	*Pain25 	orpai25
+$playersound 	Orbb  male 	*grunt	 	orland
+$playersound    Orbb  male 	*land       dsoof
+$playersound 	Orbb  male 	*jump   	orjump
+$playersound 	Orbb  male 	*usefail 	orpai75
+$playersound 	Orbb  male 	*falling 	orfall
+$playersound	Orbb  male	*dive		wtrin
+$playersound	Orbb  male	*surface	orgasp
+$playersound 	Orbb  male 	*taunt 		ortaunt
+ORBTAUNT								ortaunt
+
+$playeralias 	Orbb  female 	*death  	Orbb/Death
+$playeralias 	Orbb  female 	*xdeath  	misc/gibbed
+$playeralias 	Orbb  female 	*gibbed  	misc/gibbed
+$playersound 	Orbb  female 	*Pain100 	orpai100
+$playersound 	Orbb  female 	*Pain75 	orpai75
+$playersound 	Orbb  female 	*Pain50 	orpai50
+$playersound 	Orbb  female 	*Pain25 	orpai25
+$playersound 	Orbb  female 	*grunt	 	orland
+$playersound    Orbb  female 	*land       dsoof
+$playersound 	Orbb  female 	*jump   	orjump
+$playersound 	Orbb  female 	*usefail 	orpai75
+$playersound 	Orbb  female 	*falling 	orfall
+$playersound	Orbb  female	*dive		wtrin
+$playersound	Orbb  female	*surface	orgasp
+$playersound 	Orbb  female 	*taunt 		ortaunt
+
+$playeralias 	Orbb  other 	*death  	Orbb/Death
+$playeralias 	Orbb  other 	*xdeath  	misc/gibbed
+$playeralias 	Orbb  other 	*gibbed  	misc/gibbed
+$playersound 	Orbb  other 	*Pain100 	orpai100
+$playersound 	Orbb  other 	*Pain75 	orpai75
+$playersound 	Orbb  other 	*Pain50 	orpai50
+$playersound 	Orbb  other 	*Pain25 	orpai25
+$playersound 	Orbb  other 	*grunt	 	orland
+$playersound    Orbb  other 	*land       dsoof
+$playersound 	Orbb  other 	*jump   	orjump
+$playersound 	Orbb  other 	*usefail 	orpai75
+$playersound 	Orbb  other 	*falling 	orfall
+$playersound	Orbb  other		*dive		wtrin
+$playersound	Orbb  other		*surface	orgasp
+$playersound 	Orbb  other 	*taunt 		ortaunt
+
+$random Orbb/Death { OrbbDie1 OrbbDie2 OrbbDie3 }
+OrbbDie1									ORBDEA1
+OrbbDie2									ORBDEA2
+OrbbDie3									ORBDEA3
+
+Orbb/TargetLockReady						TLOCKRDY
+Orbb/TargetLockActivate						TLOCKACT
+
+/* =============================================================================
+	Bitterman
+==============================================================================*/
+
+$playeralias 	Bitt  male 	*death  	Bitterman/Death
+$playeralias 	Bitt  male 	*xdeath  	misc/gibbed
+$playeralias 	Bitt  male 	*gibbed  	misc/gibbed
+$playersound 	Bitt  male 	*Pain100 	bitpai10
+$playersound 	Bitt  male 	*Pain75 	bitpai75
+$playersound 	Bitt  male 	*Pain50 	bitpai50
+$playersound 	Bitt  male 	*Pain25 	bitpai25
+$playersound 	Bitt  male 	*grunt	 	bitland
+$playersound    Bitt  male 	*land       dsoof
+$playersound 	Bitt  male 	*jump   	bitjump
+$playersound    Bitt  male 	*usefail 	bitpai75
+$playersound 	Bitt  male 	*falling 	bitfall
+$playersound	Bitt  male	*dive		wtrin
+$playersound	Bitt  male	*surface	bitgasp
+$playersound 	Bitt  male 	*taunt 		bittaunt
+BITTAUNT								bittaunt
+
+$playeralias 	Bitt  female 	*death  	Bitterman/Death
+$playeralias 	Bitt  female 	*xdeath  	misc/gibbed
+$playeralias 	Bitt  female 	*gibbed  	misc/gibbed
+$playersound 	Bitt  female 	*Pain100 	bitpai10
+$playersound 	Bitt  female 	*Pain75 	bitpai75
+$playersound 	Bitt  female 	*Pain50 	bitpai50
+$playersound 	Bitt  female 	*Pain25 	bitpai25
+$playersound 	Bitt  female 	*grunt	 	bitland
+$playersound    Bitt  female 	*land       dsoof
+$playersound 	Bitt  female 	*jump   	bitjump
+$playersound    Bitt  female 	*usefail 	bitpai75
+$playersound 	Bitt  female 	*falling 	bitfall
+$playersound	Bitt  female	*dive		wtrin
+$playersound	Bitt  female	*surface	bitgasp
+$playersound 	Bitt  female 	*taunt 		bittaunt
+
+$playeralias 	Bitt  other 	*death  	Bitterman/Death
+$playeralias 	Bitt  other 	*xdeath  	misc/gibbed
+$playeralias 	Bitt  other 	*gibbed  	misc/gibbed
+$playersound 	Bitt  other 	*Pain100 	bitpai10
+$playersound 	Bitt  other 	*Pain75 	bitpai75
+$playersound 	Bitt  other 	*Pain50 	bitpai50
+$playersound 	Bitt  other 	*Pain25 	bitpai25
+$playersound 	Bitt  other 	*grunt	 	bitland
+$playersound    Bitt  other 	*land       dsoof
+$playersound 	Bitt  other 	*jump   	bitjump
+$playersound    Bitt  other 	*usefail 	bitpai75
+$playersound 	Bitt  other 	*falling 	bitfall
+$playersound	Bitt  other		*dive		wtrin
+$playersound	Bitt  other		*surface	bitgasp
+$playersound 	Bitt  other 	*taunt 		bittaunt
+
+$random Bitterman/Death		{ BittermanDeath1 BittermanDeath2 BittermanDeath3 }
+BittermanDeath1								bitdea1
+BittermanDeath2								bitdea2
+BittermanDeath3								bitdea3
+
+PhotonDisc/Ready							DISCREDY
+PhotonDisc/Charge							DISCCHRG
+PhotonDisc/Humming							DISCHUMM
+$limit PhotonDisc/Humming 0
+PhotonDisc/Impact							DISCIMPC
+$limit PhotonDisc/Impact 0
+
+/* =============================================================================
+	Arnarki
+==============================================================================*/
+
+$playeralias	Anarki	male	*death		Anarki/Death
+$playeralias	Anarki	male	*xdeath		misc/gibbed
+$playeralias	Anarki	male	*gibbed		misc/gibbed
+$playersound	Anarki	male	*pain100	akpai100
+$playersound	Anarki	male	*pain75		akpai75
+$playersound	Anarki	male	*pain50		akpai50
+$playersound	Anarki	male	*pain25		akpai25
+$playersound    Anarki  male    *grunt      akland
+$playersound	Anarki	male	*jump		akjump
+$playersound    Anarki  male 	*land       dsoof
+$playersound	Anarki	male	*falling	akfall
+$playersound	Anarki	male	*usefail	akpai75
+$playersound	Anarki	male	*dive		wtrin
+$playersound	Anarki	male	*surface	akgasp
+$playersound	Anarki	male	*taunt		aktaunt
+ANATAUNT									aktaunt
+
+$playeralias	Anarki	female	*death		Anarki/Death
+$playeralias	Anarki	female	*xdeath		misc/gibbed
+$playeralias	Anarki	female	*gibbed		misc/gibbed
+$playersound	Anarki	female	*pain100	akpai100
+$playersound	Anarki	female	*pain75		akpai75
+$playersound	Anarki	female	*pain50		akpai50
+$playersound	Anarki	female	*pain25		akpai25
+$playersound    Anarki  female  *grunt      akland
+$playersound    Anarki  female 	*land       dsoof
+$playersound	Anarki	female	*jump		akjump
+$playersound	Anarki	female	*falling	akfall
+$playersound	Anarki	female	*usefail	akpai75
+$playersound	Anarki	female	*dive		wtrin
+$playersound	Anarki	female	*surface	akgasp
+$playersound	Anarki	female	*taunt		aktaunt
+
+$playeralias	Anarki	other	*death		Anarki/Death
+$playeralias	Anarki	other	*xdeath		misc/gibbed
+$playeralias	Anarki	other	*gibbed		misc/gibbed
+$playersound	Anarki	other	*pain100	akpai100
+$playersound	Anarki	other	*pain75		akpai75
+$playersound	Anarki	other	*pain50		akpai50
+$playersound	Anarki	other	*pain25		akpai25
+$playersound    Anarki  other   *grunt      akland
+$playersound    Anarki  other 	*land       dsoof
+$playersound	Anarki	other	*jump		akjump
+$playersound	Anarki	other	*falling	akfall
+$playersound	Anarki	other	*usefail	akpai75
+$playersound	Anarki	other	*dive		wtrin
+$playersound	Anarki	other	*surface	akgasp
+$playersound	Anarki	other	*taunt		aktaunt
+
+$random Anarki/Death	{ AnarkiDeath1 AnarkiDeath2 AnarkiDeath3 }
+AnarkiDeath1								AKDEA1
+AnarkiDeath2								AKDEA2
+AnarkiDeath3								AKDEA3
+
+Anarki/StasisFieldReady						STASRDY
+Anarki/StasisFieldUse						STASUSE
+Anarki/StasisFieldLoop						STASLOP
+
+/* =============================================================================
+	Slash
+==============================================================================*/
+
+$playeralias 	Slash  female 	*death  	Slash/Death
+$playeralias 	Slash  female 	*xdeath  	misc/gibbed
+$playeralias 	Slash  female 	*gibbed  	misc/gibbed
+$playersound 	Slash  female 	*Pain100 	slpai100
+$playersound 	Slash  female 	*Pain75 	slpai75
+$playersound 	Slash  female 	*Pain50 	slpai50
+$playersound 	Slash  female 	*Pain25 	slpai25
+$playersound 	Slash  female 	*grunt	 	slland
+$playersound    Slash  female 	*land       dsoof
+$playersound 	Slash  female 	*jump   	sljump
+$playersound 	Slash  female 	*usefail 	slpai100
+$playersound 	Slash  female 	*falling 	slfall
+$playersound	Slash  female	*dive		wtrin
+$playersound	Slash  female	*surface	slgasp
+$playersound 	Slash  female 	*taunt 		sltaunt
+SLATAUNT									sltaunt
+
+$playeralias 	Slash  male 	*death  	Slash/Death
+$playeralias 	Slash  male 	*xdeath  	misc/gibbed
+$playeralias 	Slash  male 	*gibbed  	misc/gibbed
+$playersound 	Slash  male 	*Pain100 	slpai100
+$playersound 	Slash  male 	*Pain75 	slpai75
+$playersound 	Slash  male 	*Pain50 	slpai50
+$playersound 	Slash  male 	*Pain25 	slpai25
+$playersound 	Slash  male 	*grunt	 	slland
+$playersound    Slash  male 	*land       dsoof
+$playersound 	Slash  male 	*jump   	sljump
+$playersound 	Slash  male 	*usefail 	slpai100
+$playersound 	Slash  male 	*falling 	slfall
+$playersound	Slash  male		*dive		wtrin
+$playersound	Slash  male		*surface	slgasp
+$playersound 	Slash  male 	*taunt 		sltaunt
+
+$playeralias 	Slash  other 	*death  	Slash/Death
+$playeralias 	Slash  other 	*xdeath  	misc/gibbed
+$playeralias 	Slash  other 	*gibbed  	misc/gibbed
+$playersound 	Slash  other 	*Pain100 	slpai100
+$playersound 	Slash  other 	*Pain75 	slpai75
+$playersound 	Slash  other 	*Pain50 	slpai50
+$playersound 	Slash  other 	*Pain25 	slpai25
+$playersound 	Slash  other 	*grunt	 	slland
+$playersound    Slash  other 	*land       dsoof
+$playersound 	Slash  other 	*jump   	sljump
+$playersound 	Slash  other 	*usefail 	slpai100
+$playersound 	Slash  other 	*falling 	slfall
+$playersound	Slash  other	*dive		wtrin
+$playersound	Slash  other	*surface	slgasp
+$playersound 	Slash  other 	*taunt 		sltaunt
+
+$random 	Slash/Death { SlashDeath1 SlashDeath2 SlashDeath3 }
+SlashDeath1									SLDEA1
+SlashDeath2									SLDEA2
+SlashDeath3									SLDEA3
+
+Slash/DecoyReady							DECORDY
+Slash/DecoyUse								DECOUSE
+
+/* =============================================================================
+	Fritzkrieg
+==============================================================================*/
+
+$playeralias 	Fritz  male 	*death  	Fritz/Death
+$playeralias 	Fritz  male 	*xdeath  	misc/gibbed
+$playeralias 	Fritz  male 	*gibbed  	misc/gibbed
+$playersound 	Fritz  male 	*Pain100 	fkpai100
+$playersound 	Fritz  male 	*Pain75 	fkpai75
+$playersound 	Fritz  male 	*Pain50 	fkpai50
+$playersound 	Fritz  male 	*Pain25 	fkpai25
+$playersound 	Fritz  male 	*grunt	 	fkland
+$playersound    Fritz  male 	*land       dsoof
+$playersound 	Fritz  male 	*jump   	fkjump
+$playersound 	Fritz  male 	*usefail 	fkpai75
+$playersound 	Fritz  male 	*falling 	fkfall
+$playersound	Fritz  male		*dive		wtrin
+$playersound	Fritz  male		*surface	fkgasp
+$playersound 	Fritz  male 	*taunt 		fktaunt
+FRITAUNT									fktaunt
+
+$playeralias 	Fritz  female 	*death  	Fritz/Death
+$playeralias 	Fritz  female 	*xdeath  	misc/gibbed
+$playeralias 	Fritz  female 	*gibbed  	misc/gibbed
+$playersound 	Fritz  female 	*Pain100 	fkpai100
+$playersound 	Fritz  female 	*Pain75 	fkpai75
+$playersound 	Fritz  female 	*Pain50 	fkpai50
+$playersound 	Fritz  female 	*Pain25 	fkpai25
+$playersound 	Fritz  female 	*grunt	 	fkland
+$playersound    Fritz  female 	*land       dsoof
+$playersound 	Fritz  female 	*jump   	fkjump
+$playersound 	Fritz  female 	*usefail 	fkpai75
+$playersound 	Fritz  female 	*falling 	fkfall
+$playersound	Fritz  female	*dive		wtrin
+$playersound	Fritz  female	*surface	fkgasp
+$playersound 	Fritz  female 	*taunt 		fktaunt
+
+$playeralias 	Fritz  other 	*death  	Fritz/Death
+$playeralias 	Fritz  other 	*xdeath  	misc/gibbed
+$playeralias 	Fritz  other 	*gibbed  	misc/gibbed
+$playersound 	Fritz  other 	*Pain100 	fkpai100
+$playersound 	Fritz  other 	*Pain75 	fkpai75
+$playersound 	Fritz  other 	*Pain50 	fkpai50
+$playersound 	Fritz  other 	*Pain25 	fkpai25
+$playersound 	Fritz  other 	*grunt	 	fkland
+$playersound    Fritz  other 	*land       dsoof
+$playersound 	Fritz  other 	*jump   	fkjump
+$playersound 	Fritz  other 	*usefail 	fkpai75
+$playersound 	Fritz  other 	*falling 	fkfall
+$playersound	Fritz  other	*dive		wtrin
+$playersound	Fritz  other	*surface	fkgasp
+$playersound 	Fritz  other 	*taunt 		fktaunt
+
+$random Fritz/Death { FritzDeath1 FritzDeath2 FritzDeath3 }
+FritzDeath1									fkdea1
+FritzDeath2									fkdea2
+FritzDeath3									fkdea3
+
+Fritz/GasGrenadeReady						GASGLRDY
+Fritz/GasGrenadeThrow						GASGLTRW
+Fritz/GasGrenadeBreak						GASGLBRK
+Fritz/GasLoop								GASCLOOP
+
+/* =============================================================================
+	PI
+==============================================================================*/
+
+$playeralias 	PI  male 	*death  	PI/Death
+$playeralias 	PI  male 	*xdeath  	misc/gibbed
+$playeralias 	PI  male 	*gibbed  	misc/gibbed
+$playersound 	PI  male 	*Pain100 	pipai100
+$playersound 	PI  male 	*Pain75 	pipai75
+$playersound 	PI  male 	*Pain50 	pipai50
+$playersound 	PI  male 	*Pain25 	pipai25
+$playersound 	PI  male 	*grunt	 	piland
+$playersound    PI  male 	*land       dsoof
+$playersound 	PI  male 	*jump   	pijump
+$playersound 	PI  male 	*usefail 	pipai75
+$playersound 	PI  male 	*falling 	pifall
+$playersound	PI  male	*dive		wtrin
+$playersound	PI  male	*surface	pigasp
+$playersound 	PI  male 	*taunt 		pitaunt
+PITAUNT									pitaunt
+
+$playeralias 	PI  female 	*death  	PI/Death
+$playeralias 	PI  female 	*xdeath  	misc/gibbed
+$playeralias 	PI  female 	*gibbed  	misc/gibbed
+$playersound 	PI  female 	*Pain100 	pipai100
+$playersound 	PI  female 	*Pain75 	pipai75
+$playersound 	PI  female 	*Pain50 	pipai50
+$playersound 	PI  female 	*Pain25 	pipai25
+$playersound 	PI  female 	*grunt	 	piland
+$playersound    PI  female 	*land       dsoof
+$playersound 	PI  female 	*jump   	pijump
+$playersound 	PI  female 	*usefail 	pipai75
+$playersound 	PI  female 	*falling 	pifall
+$playersound	PI  female	*dive		wtrin
+$playersound	PI  female	*surface	pigasp
+$playersound 	PI  female 	*taunt 		pitaunt
+
+$playeralias 	PI  other 	*death  	PI/Death
+$playeralias 	PI  other 	*xdeath  	misc/gibbed
+$playeralias 	PI  other 	*gibbed  	misc/gibbed
+$playersound 	PI  other 	*Pain100 	pipai100
+$playersound 	PI  other 	*Pain75 	pipai75
+$playersound 	PI  other 	*Pain50 	pipai50
+$playersound 	PI  other 	*Pain25 	pipai25
+$playersound 	PI  other 	*grunt	 	piland
+$playersound    PI  other 	*land       dsoof
+$playersound 	PI  other 	*jump   	pijump
+$playersound 	PI  other 	*usefail 	pipai75
+$playersound 	PI  other 	*falling 	pifall
+$playersound	PI  other	*dive		wtrin
+$playersound	PI  other	*surface	pigasp
+$playersound 	PI  other 	*taunt 		pitaunt
+
+$random PI/Death { PIDeath1 PIDeath2 PIDeath3 }
+PIDeath1									PIDEA1
+PIDeath2									PIDEA2
+PIDeath3									PIDEA3
+
+PI/KnifesReady								KNIFREDY
+PI/KnifesStart								KNIFEST
+PI/KnifesHit								KNIFEHIT
+$limit PI/KnifesHit 0
+$random PI/KnifesThrow	{ KnifeThrow1 KnifeThrow2 KnifeThrow3 }
+KnifeThrow1									KNIFET1
+KnifeThrow2									KNIFET2
+KnifeThrow3									KNIFET3
+$limit PI/KnifesThrow 0
+
+/* =============================================================================
+	Megan
+==============================================================================*/
+
+$playeralias 	Megan  male 	*death  	Megan/Death
+$playeralias 	Megan  male 	*xdeath  	misc/gibbed
+$playeralias 	Megan  male 	*gibbed  	misc/gibbed
+$playersound 	Megan  male 	*Pain100 	mgp100
+$playersound 	Megan  male 	*Pain75 	mgp75
+$playersound 	Megan  male 	*Pain50 	mgp50
+$playersound 	Megan  male 	*Pain25 	mgp25
+$playersound 	Megan  male 	*grunt	 	mgland
+$playersound    Megan  male 	*land       dsoof
+$playersound 	Megan  male 	*jump   	mgjump
+$playersound 	Megan  male 	*usefail 	mgp75
+$playersound 	Megan  male 	*falling 	mgfall
+$playersound	Megan  male	    *dive		wtrin
+$playersound	Megan  male	    *surface	mggasp
+$playersound 	Megan  male 	*taunt 		mgtaunt
+MEGTAUNT									mgtaunt
+
+$playeralias 	Megan  female 	*death  	Megan/Death
+$playeralias 	Megan  female 	*xdeath  	misc/gibbed
+$playeralias 	Megan  female 	*gibbed  	misc/gibbed
+$playersound 	Megan  female 	*Pain100 	mgp100
+$playersound 	Megan  female 	*Pain75 	mgp75
+$playersound 	Megan  female 	*Pain50 	mgp50
+$playersound 	Megan  female 	*Pain25 	mgp25
+$playersound 	Megan  female 	*grunt	 	mgland
+$playersound    Megan  female 	*land       dsoof
+$playersound 	Megan  female 	*jump   	mgjump
+$playersound 	Megan  female 	*usefail 	mgp75
+$playersound 	Megan  female 	*falling 	mgfall
+$playersound	Megan  female	*dive		wtrin
+$playersound	Megan  female	*surface	mggasp
+$playersound 	Megan  female 	*taunt 		mgtaunt
+
+$playeralias 	Megan  other 	*death  	Megan/Death
+$playeralias 	Megan  other 	*xdeath  	misc/gibbed
+$playeralias 	Megan  other 	*gibbed  	misc/gibbed
+$playersound 	Megan  other 	*Pain100 	mgp100
+$playersound 	Megan  other 	*Pain75 	mgp75
+$playersound 	Megan  other 	*Pain50 	mgp50
+$playersound 	Megan  other 	*Pain25 	mgp25
+$playersound 	Megan  other 	*grunt	 	mgland
+$playersound    Megan  other 	*land       dsoof
+$playersound 	Megan  other 	*jump   	mgjump
+$playersound 	Megan  other 	*usefail 	mgp75
+$playersound 	Megan  other 	*falling 	mgfall
+$playersound	Megan  other	*dive		wtrin
+$playersound	Megan  other	*surface	mggasp
+$playersound 	Megan  other 	*taunt 		mgtaunt
+
+$random Megan/Death		{ MeganDeath1 MeganDeath2 MeganDeath3 }
+MeganDeath1									MGDEA1
+MeganDeath2									MGDEA2
+MeganDeath3 								MGDEA3
+
+Megan/InfiniteAmmoReady						MEINFAMR
+Megan/InfiniteAmmoActivate					MEINFAMU
+
+/* =============================================================================
+	Morgan
+==============================================================================*/
+
+$playeralias 	Morg   male 	*death  	Morgan/Death
+$playeralias 	Morg   male 	*xdeath  	misc/gibbed
+$playeralias 	Morg   male 	*gibbed  	misc/gibbed
+$playersound 	Morg   male 	*Pain100 	mrp100
+$playersound 	Morg   male 	*Pain75 	mrp75
+$playersound 	Morg   male 	*Pain50 	mrp50
+$playersound 	Morg   male 	*Pain25 	mrp25
+$playersound 	Morg   male 	*grunt	 	mrland
+$playersound    Morg   male 	*land       dsoof
+$playersound 	Morg   male 	*jump   	mrjump
+$playersound 	Morg   male 	*usefail 	mrp75
+$playersound 	Morg   male 	*falling 	mrfall
+$playersound	Morg   male	    *dive		wtrin
+$playersound	Morg   male	    *surface	mrgasp
+$playersound 	Morg   male 	*taunt 		mrtaunt
+MORTAUNT									mrtaunt
+
+$playeralias 	Morg   female 	*death  	Morgan/Death
+$playeralias 	Morg   female 	*xdeath  	misc/gibbed
+$playeralias 	Morg   female 	*gibbed  	misc/gibbed
+$playersound 	Morg   female 	*Pain100 	mrp100
+$playersound 	Morg   female 	*Pain75 	mrp75
+$playersound 	Morg   female 	*Pain50 	mrp50
+$playersound 	Morg   female 	*Pain25 	mrp25
+$playersound 	Morg   female 	*grunt	 	mrland
+$playersound    Morg   female 	*land       dsoof
+$playersound 	Morg   female 	*jump   	mrjump
+$playersound 	Morg   female 	*usefail 	mrp75
+$playersound 	Morg   female 	*falling 	mrfall
+$playersound	Morg   female	*dive		wtrin
+$playersound	Morg   female	*surface	mrgasp
+$playersound 	Morg   female 	*taunt 		mrtaunt
+
+$playeralias 	Morg   other 	*death  	Morgan/Death
+$playeralias 	Morg   other 	*xdeath  	misc/gibbed
+$playeralias 	Morg   other 	*gibbed  	misc/gibbed
+$playersound 	Morg   other 	*Pain100 	mrp100
+$playersound 	Morg   other 	*Pain75 	mrp75
+$playersound 	Morg   other 	*Pain50 	mrp50
+$playersound 	Morg   other 	*Pain25 	mrp25
+$playersound 	Morg   other 	*grunt	 	mrland
+$playersound    Morg   other 	*land       dsoof
+$playersound 	Morg   other 	*jump   	mrjump
+$playersound 	Morg   other 	*usefail 	mrp75
+$playersound 	Morg   other 	*falling 	mrfall
+$playersound	Morg   other	*dive		wtrin
+$playersound	Morg   other	*surface	mrgasp
+$playersound 	Morg   other 	*taunt 		mrtaunt
+
+$random Morgan/Death		{ MorgDeath1 MorgDeath2 MorgDeath3 }
+MorgDeath1									MRDEA1
+MorgDeath2									MRDEA2
+MorgDeath3									MRDEA3
+
+Morgan/DakkaActivate						DAKACTIV
+Morgan/DakkaReady							DAKAREDY					
+
+/* =============================================================================
+	Doomslayer
+==============================================================================*/
+
+$playeralias	Doomslayer	male	*death		Doomslayer/Death
+$playeralias	Doomslayer	male	*xdeath		misc/gibbed
+$playeralias	Doomslayer	male	*gibbed		misc/gibbed
+$playersound	Doomslayer	male	*pain100	dslpai10
+$playersound	Doomslayer	male	*pain75		dslpai75
+$playersound	Doomslayer	male	*pain50		dslpai50
+$playersound	Doomslayer	male	*pain25		dslpai25
+$playersound    Doomslayer  male    *grunt      dslland
+$playersound    Doomslayer  male    *land       dsoof
+$playersound	Doomslayer	male	*jump		dsljump
+$playersound	Doomslayer	male	*falling	dslfall
+$playersound	Doomslayer	male	*usefail	dslpai10
+$playersound	Doomslayer	male	*dive		wtrin
+$playersound	Doomslayer	male	*surface	watrout
+$playersound 	Doomslayer  male 	*taunt 		DSLTAUNT
+DSLTAUNT										DSLTAUNT
+DSLTAUNT2										DSLTAUN2
+
+$random 	Doomslayer/Death { DoomslayerDeath1 DoomslayerDeath2 DoomslayerDeath3 }
+DoomslayerDeath1								DSLDEA01
+DoomslayerDeath2								DSLDEA02
+DoomslayerDeath3								DSLDEA03
+
+$playeralias	Doomslayer	female	*death		Doomslayer/Death
+$playeralias	Doomslayer	female	*xdeath		misc/gibbed
+$playeralias	Doomslayer	female	*gibbed		misc/gibbed
+$playersound	Doomslayer	female	*pain100	dslpai10
+$playersound	Doomslayer	female	*pain75		dslpai75
+$playersound	Doomslayer	female	*pain50		dslpai50
+$playersound	Doomslayer	female	*pain25		dslpai25
+$playersound    Doomslayer  female  *grunt      dslland
+$playersound    Doomslayer  female  *land       dsoof
+$playersound	Doomslayer	female	*jump		dsljump
+$playersound	Doomslayer	female	*falling	dslfall
+$playersound	Doomslayer	female	*usefail	dslpai10
+$playersound	Doomslayer	female	*dive		wtrin
+$playersound	Doomslayer	female	*surface	watrout
+$playersound 	Doomslayer  female 	*taunt 		DSLTAUNT
+
+$playeralias	Doomslayer	other	*death		Doomslayer/Death
+$playeralias	Doomslayer	other	*xdeath		misc/gibbed
+$playeralias	Doomslayer	other	*gibbed		misc/gibbed
+$playersound	Doomslayer	other	*pain100	dslpai10
+$playersound	Doomslayer	other	*pain75		dslpai75
+$playersound	Doomslayer	other	*pain50		dslpai50
+$playersound	Doomslayer	other	*pain25		dslpai25
+$playersound    Doomslayer  other   *grunt      dslland
+$playersound    Doomslayer  other   *land       dsoof
+$playersound	Doomslayer	other	*jump		dsljump
+$playersound	Doomslayer	other	*falling	dslfall
+$playersound	Doomslayer	other	*usefail	dslpai10
+$playersound	Doomslayer	other	*dive		wtrin
+$playersound	Doomslayer	other	*surface	watrout
+$playersound 	Doomslayer   other 	*taunt 		DSLTAUNT
+
+DoomSlayer/BerserkReady							BERZREDY
+$limit DoomSlayer/BerserkReady 0
+
+DoomSlayer/BerserkWake							BERZWAKE
+$rolloff DoomSlayer/BerserkWake	960 2048
+
+DoomSlayer/BerserkActive						BERZLOOP
+$rolloff DoomSlayer/BerserkActive	960 2048
+
+DoomSlayer/BerserkHitPunch						BERZHITN
+$rolloff DoomSlayer/BerserkHitPunch	960 2048
+$limit DoomSlayer/BerserkHitPunch 0
+
+DoomSlayer/BerserkHitPower						BERZHITP
+$rolloff DoomSlayer/BerserkHitPower	960 2048
+$limit DoomSlayer/BerserkHitPower 0
+
+DoomSlayer/BerserkFade							BERZOFF
+$rolloff DoomSlayer/BerserkFade	960 2048
+
+/* =============================================================================
+	Klesk
+==============================================================================*/
+
+$playersound 	Klesk  male 	*death  	ksdea1
+$playeralias 	Klesk  male 	*xdeath  	misc/gibbed
+$playeralias 	Klesk  male 	*gibbed  	misc/gibbed
+$playersound 	Klesk  male 	*Pain100 	kspai100
+$playersound 	Klesk  male 	*Pain75 	kspai75
+$playersound 	Klesk  male 	*Pain50 	kspai50
+$playersound 	Klesk  male 	*Pain25 	kspai25
+$playersound 	Klesk  male 	*grunt	 	ksland
+$playersound    Klesk  male 	*land       dsoof
+$playersound 	Klesk  male 	*jump   	ksjump
+$playersound 	Klesk  male 	*usefail 	kspai75
+$playersound 	Klesk  male 	*falling 	ksfall
+$playersound	Klesk  male		*dive		wtrin
+$playersound	Klesk  male		*surface	ksgasp
+$playersound 	Klesk  male 	*taunt 		kstaunt
+KLETAUNT									kstaunt
+
+$playersound 	Klesk  female 	*death  	ksdea1
+$playeralias 	Klesk  female 	*xdeath  	misc/gibbed
+$playeralias 	Klesk  female 	*gibbed  	misc/gibbed
+$playersound 	Klesk  female 	*Pain100 	kspai100
+$playersound 	Klesk  female 	*Pain75 	kspai75
+$playersound 	Klesk  female 	*Pain50 	kspai50
+$playersound 	Klesk  female 	*Pain25 	kspai25
+$playersound 	Klesk  female 	*grunt	 	ksland
+$playersound    Klesk  female 	*land       dsoof
+$playersound 	Klesk  female 	*jump   	ksjump
+$playersound 	Klesk  female 	*usefail 	kspai75
+$playersound 	Klesk  female 	*falling 	ksfall
+$playersound	Klesk  female	*dive		wtrin
+$playersound	Klesk  female	*surface	ksgasp
+$playersound 	Klesk  female 	*taunt 		kstaunt
+
+$playersound 	Klesk  other 	*death  	ksdea1
+$playeralias 	Klesk  other 	*xdeath  	misc/gibbed
+$playeralias 	Klesk  other 	*gibbed  	misc/gibbed
+$playersound 	Klesk  other 	*Pain100 	kspai100
+$playersound 	Klesk  other 	*Pain75 	kspai75
+$playersound 	Klesk  other 	*Pain50 	kspai50
+$playersound 	Klesk  other 	*Pain25 	kspai25
+$playersound 	Klesk  other 	*grunt	 	ksland
+$playersound    Klesk  other 	*land       dsoof
+$playersound 	Klesk  other 	*jump   	ksjump
+$playersound 	Klesk  other 	*usefail 	kspai75
+$playersound 	Klesk  other 	*falling 	ksfall
+$playersound	Klesk  other	*dive		wtrin
+$playersound	Klesk  other	*surface	ksgasp
+$playersound 	Klesk  other 	*taunt 		kstaunt
+
+/* =============================================================================
+	Uriel
+==============================================================================*/
+
+$playeralias 	Uriel  male 	*death  	Uriel/Death
+$playeralias 	Uriel  male 	*xdeath  	misc/gibbed
+$playeralias 	Uriel  male 	*gibbed  	misc/gibbed
+$playersound 	Uriel  male 	*Pain100 	urpai100
+$playersound 	Uriel  male 	*Pain75 	urpai75
+$playersound 	Uriel  male 	*Pain50 	urpai50
+$playersound 	Uriel  male 	*Pain25 	urpai25
+$playersound 	Uriel  male 	*grunt	 	urland
+$playersound    Uriel  male 	*land       dsoof
+$playersound 	Uriel  male 	*jump   	urjump
+$playersound 	Uriel  male 	*usefail 	urpai75
+$playersound 	Uriel  male 	*falling 	urfall
+$playersound	Uriel  male		*dive		wtrin
+$playersound	Uriel  male		*surface	urgasp
+$playersound 	Uriel  male 	*taunt 		urtaunt
+URITAUNT									urtaunt
+
+$playeralias 	Uriel  female 	*death  	Uriel/Death
+$playeralias 	Uriel  female 	*xdeath  	misc/gibbed
+$playeralias 	Uriel  female 	*gibbed  	misc/gibbed
+$playersound 	Uriel  female 	*Pain100 	urpai100
+$playersound 	Uriel  female 	*Pain75 	urpai75
+$playersound 	Uriel  female 	*Pain50 	urpai50
+$playersound 	Uriel  female 	*Pain25 	urpai25
+$playersound 	Uriel  female 	*grunt	 	urland
+$playersound    Uriel  female 	*land       dsoof
+$playersound 	Uriel  female 	*jump   	urjump
+$playersound 	Uriel  female 	*usefail 	urpai75
+$playersound 	Uriel  female 	*falling 	urfall
+$playersound	Uriel  female	*dive		wtrin
+$playersound	Uriel  female	*surface	urgasp
+$playersound 	Uriel  female 	*taunt 		urtaunt
+
+$playeralias 	Uriel  other 	*death  	Uriel/Death
+$playeralias 	Uriel  other 	*xdeath  	misc/gibbed
+$playeralias 	Uriel  other 	*gibbed  	misc/gibbed
+$playersound 	Uriel  other 	*Pain100 	urpai100
+$playersound 	Uriel  other 	*Pain75 	urpai75
+$playersound 	Uriel  other 	*Pain50 	urpai50
+$playersound 	Uriel  other 	*Pain25 	urpai25
+$playersound 	Uriel  other 	*grunt	 	urland
+$playersound    Uriel  other 	*land       dsoof
+$playersound 	Uriel  other 	*jump   	urjump
+$playersound 	Uriel  other 	*usefail 	urpai75
+$playersound 	Uriel  other 	*falling 	urfall
+$playersound	Uriel  other	*dive		wtrin
+$playersound	Uriel  other	*surface	urgasp
+$playersound 	Uriel  other 	*taunt 		urtaunt
+
+$random 	Uriel/Death	{ UrielDeath1 UrielDeath2 UrielDeath3 }
+UrielDeath1									URDEA1
+UrielDeath2									URDEA2
+UrielDeath3									URDEA3
+
+/* =============================================================================
+	Trauma
+==============================================================================*/
+
+$playeralias 	Traumademon  male 	*death  	misc/gibbed
+$playeralias 	Traumademon  male 	*xdeath  	misc/gibbed
+$playeralias 	Traumademon  male 	*gibbed  	misc/gibbed
+$playeralias 	Traumademon  male 	*Pain100 	Trauma/Pain
+$playeralias 	Traumademon  male 	*Pain75 	Trauma/Pain
+$playeralias 	Traumademon  male 	*Pain50 	Trauma/Pain
+$playeralias 	Traumademon  male 	*Pain25 	Trauma/Pain
+$playersound 	Traumademon  male 	*grunt	 	TRMLAND
+$playersound    Traumademon  male 	*land       dsoof
+$playersound 	Traumademon  male 	*jump   	TRMJUMP
+$playersound 	Traumademon  male 	*usefail 	TRMTAUT2
+$playersound 	Traumademon  male 	*falling 	TRMFALL
+$playersound	Traumademon  male	*dive		wtrin
+$playersound	Traumademon  male	*surface	watrout
+$playeralias 	Traumademon  male 	*taunt 		Trauma/Taunt
+
+$playeralias 	Traumademon  female 	*death  	misc/gibbed
+$playeralias 	Traumademon  female 	*xdeath  	misc/gibbed
+$playeralias 	Traumademon  female 	*gibbed  	misc/gibbed
+$playeralias 	Traumademon  female 	*Pain100 	Trauma/Pain
+$playeralias 	Traumademon  female 	*Pain75 	Trauma/Pain
+$playeralias 	Traumademon  female 	*Pain50 	Trauma/Pain
+$playeralias 	Traumademon  female 	*Pain25 	Trauma/Pain
+$playersound 	Traumademon  female 	*grunt	 	TRMLAND
+$playersound    Traumademon  female 	*land       dsoof
+$playersound 	Traumademon  female 	*jump   	TRMJUMP
+$playersound 	Traumademon  female 	*usefail 	TRMTAUT2
+$playersound 	Traumademon  female 	*falling 	TRMFALL
+$playersound	Traumademon  female		*dive		wtrin
+$playersound	Traumademon  female		*surface	watrout
+$playeralias 	Traumademon  female 	*taunt 		Trauma/Taunt
+
+$playeralias 	Traumademon  other 	*death  	misc/gibbed
+$playeralias 	Traumademon  other 	*xdeath  	misc/gibbed
+$playeralias 	Traumademon  other 	*gibbed  	misc/gibbed
+$playeralias 	Traumademon  other 	*Pain100 	Trauma/Pain
+$playeralias 	Traumademon  other 	*Pain75 	Trauma/Pain
+$playeralias 	Traumademon  other 	*Pain50 	Trauma/Pain
+$playeralias 	Traumademon  other 	*Pain25 	Trauma/Pain
+$playersound 	Traumademon  other 	*grunt	 	TRMLAND
+$playersound    Traumademon  other 	*land       dsoof
+$playersound 	Traumademon  other 	*jump   	TRMJUMP
+$playersound 	Traumademon  other 	*usefail 	TRMTAUT2
+$playersound 	Traumademon  other 	*falling 	TRMFALL
+$playersound	Traumademon  other	*dive		wtrin
+$playersound	Traumademon  other	*surface	watrout
+$playeralias 	Traumademon  other 	*taunt 		Trauma/Taunt
+
+$random 	Trauma/Pain { TraumaPain1 TraumaPain2 TraumaPain3 }
+TraumaPain1									TRMPAI1
+TraumaPain2									TRMPAI2
+TraumaPain3									TRMPAI3
+
+$random 	Trauma/Attack	{ TraumaAttack1 TraumaAttack2 TraumaAttack3 }
+TraumaAttack1								TRMATK1
+TraumaAttack2								TRMATK2
+TraumaAttack3								TRMATK3
+
+$random		Trauma/Taunt { TraumaTaunt1 TraumaTaunt2 }
+TraumaTaunt1								TRMTAUT1
+TraumaTaunt2								TRMTAUT2
+
+$random		Trauma/FootStep	{ TraumaFootStep1 TraumaFootStep2 TraumaFootStep3 }
+TraumaFootStep1								TRMSTP1
+TraumaFootStep2								TRMSTP2
+TraumaFootStep3								TRMSTP3
+$limit Trauma/FootStep 0
+
+$random		Trauma/FloorPunch { Traumafloorpunch1 Traumafloorpunch2 Traumafloorpunch3 }
+Traumafloorpunch1							TRMPNCH1
+Traumafloorpunch2							TRMPNCH2
+Traumafloorpunch3							TRMPNCH3
+$limit Trauma/FloorPunch 0
+$attenuation Trauma/FloorPunch 0.75
+
+$random		Trauma/FloorKick { Traumafloorkick1 Traumafloorkick2 Traumafloorkick3 }
+Traumafloorkick1							TRMKICK1
+Traumafloorkick2							TRMKICK2
+Traumafloorkick3							TRMKICK3
+$limit Trauma/FloorKick 0
+$attenuation Trauma/FloorKick 0.5
+
+$random		Trauma/HighSmash { Traumasmash1 Traumasmash2 Traumasmash3 }
+Traumasmash1								TRMMASH1
+Traumasmash2								TRMMASH2
+Traumasmash3								TRMMASH3
+$limit Trauma/HighSmash 0
+$attenuation Trauma/HighSmash 0.25
+
+Trauma/PowerSlap							TRMSLAP
+$limit Trauma/PowerSlap 0
+$attenuation Trauma/PowerSlap 0.5
+
+Trauma/Transform							TRNSFRM
+Trauma/LandImpact							TRMIMPT
+
+/* =============================================================================
+	Sorlag
+==============================================================================*/
+
+$playeralias 	Sorlag  male 	*death  	Sorlag/Death
+$playeralias 	Sorlag  male 	*xdeath  	misc/gibbed
+$playeralias 	Sorlag  male 	*gibbed  	misc/gibbed
+$playersound 	Sorlag  male 	*Pain100 	sopai100
+$playersound 	Sorlag  male 	*Pain75 	sopai75
+$playersound 	Sorlag  male 	*Pain50 	sopai50
+$playersound 	Sorlag  male 	*Pain25 	sopai25
+$playersound 	Sorlag  male 	*grunt	 	soland
+$playersound    Sorlag  male 	*land       dsoof
+$playersound 	Sorlag  male 	*jump   	sojump
+$playersound 	Sorlag  male 	*usefail 	sopai75
+$playersound 	Sorlag  male 	*falling 	sofall
+$playersound	Sorlag  male	*dive		wtrin
+$playersound	Sorlag  male	*surface	watrout
+$playersound 	Sorlag  male 	*taunt 		sotaunt
+SORTAUNT									sotaunt
+
+$playeralias 	Sorlag  female 	*death  	Sorlag/Death
+$playeralias 	Sorlag  female 	*xdeath  	misc/gibbed
+$playeralias 	Sorlag  female 	*gibbed  	misc/gibbed
+$playersound 	Sorlag  female 	*Pain100 	sopai100
+$playersound 	Sorlag  female 	*Pain75 	sopai75
+$playersound 	Sorlag  female 	*Pain50 	sopai50
+$playersound 	Sorlag  female 	*Pain25 	sopai25
+$playersound 	Sorlag  female 	*grunt	 	soland
+$playersound    Sorlag  female 	*land       dsoof
+$playersound 	Sorlag  female 	*jump   	sojump
+$playersound 	Sorlag  female 	*usefail 	sopai75
+$playersound 	Sorlag  female 	*falling 	sofall
+$playersound	Sorlag  female	*dive		wtrin
+$playersound	Sorlag  female	*surface	watrout
+$playersound 	Sorlag  female 	*taunt 		sotaunt
+
+$playeralias 	Sorlag  other 	*death  	Sorlag/Death
+$playeralias 	Sorlag  other 	*xdeath  	misc/gibbed
+$playeralias 	Sorlag  other 	*gibbed  	misc/gibbed
+$playersound 	Sorlag  other 	*Pain100 	sopai100
+$playersound 	Sorlag  other 	*Pain75 	sopai75
+$playersound 	Sorlag  other 	*Pain50 	sopai50
+$playersound 	Sorlag  other 	*Pain25 	sopai25
+$playersound 	Sorlag  other 	*grunt	 	soland
+$playersound    Sorlag  other 	*land       dsoof
+$playersound 	Sorlag  other 	*jump   	sojump
+$playersound 	Sorlag  other 	*usefail 	sopai75
+$playersound 	Sorlag  other 	*falling 	sofall
+$playersound	Sorlag  other	*dive		wtrin
+$playersound	Sorlag  other	*surface	watrout
+$playersound 	Sorlag  other 	*taunt 		sotaunt
+
+Sorlag/Chomp								SORBITE
+
+$random Sorlag/Death { Sordeath1 Sordeath2 Sordeath3 }
+Sordeath1									SODEA1
+Sordeath2									SODEA2
+Sordeath3									SODEA3
+
+/* =============================================================================
+	Tyzen
+==============================================================================*/
+
+$playersound 	Vethitan  male 	*death  	KRLLDEAT
+$playeralias 	Vethitan  male 	*xdeath  	misc/gibbed
+$playeralias 	Vethitan  male 	*gibbed  	misc/gibbed
+$playersound 	Vethitan  male 	*Pain100 	KRLLP100
+$playersound 	Vethitan  male 	*Pain75 	KRLLP75
+$playersound 	Vethitan  male 	*Pain50 	KRLLP50
+$playersound 	Vethitan  male 	*Pain25 	KRLLP25
+$playersound 	Vethitan  male 	*grunt	 	KRLLLAND
+$playersound    Vethitan  male 	*land       dsoof
+$playersound 	Vethitan  male 	*falling	KRLLFALL
+$playersound 	Vethitan  male 	*jump   	KRLLJUMP
+$playersound 	Vethitan  male 	*usefail	KRLLJUMP
+$playersound 	Vethitan  male 	*dive		wtrin
+$playersound 	Vethitan  male 	*surface	watrout
+$playersound 	Vethitan  male 	*taunt		KRLLTAUN
+KRTTAUNT									KRLLTAUN
+
+$playersound 	Vethitan  female 	*death  	KRLLDEAT
+$playeralias 	Vethitan  female 	*xdeath  	misc/gibbed
+$playeralias 	Vethitan  female 	*gibbed  	misc/gibbed
+$playersound 	Vethitan  female 	*Pain100 	KRLLP100
+$playersound 	Vethitan  female 	*Pain75 	KRLLP75
+$playersound 	Vethitan  female 	*Pain50 	KRLLP50
+$playersound 	Vethitan  female 	*Pain25 	KRLLP25
+$playersound 	Vethitan  female 	*grunt	 	KRLLLAND
+$playersound    Vethitan  female 	*land       dsoof
+$playersound 	Vethitan  female 	*falling	KRLLFALL
+$playersound 	Vethitan  female 	*jump   	KRLLJUMP
+$playersound 	Vethitan  female 	*usefail	KRLLJUMP
+$playersound 	Vethitan  female 	*dive		wtrin
+$playersound 	Vethitan  female 	*surface	watrout
+$playersound 	Vethitan  female 	*taunt		KRLLTAUN
+
+$playersound 	Vethitan  other 	*death  	KRLLDEAT
+$playeralias 	Vethitan  other 	*xdeath  	misc/gibbed
+$playeralias 	Vethitan  other 	*gibbed  	misc/gibbed
+$playersound 	Vethitan  other 	*Pain100 	KRLLP100
+$playersound 	Vethitan  other 	*Pain75 	KRLLP75
+$playersound 	Vethitan  other 	*Pain50 	KRLLP50
+$playersound 	Vethitan  other 	*Pain25 	KRLLP25
+$playersound 	Vethitan  other 	*grunt	 	KRLLLAND
+$playersound    Vethitan  other 	*land       dsoof
+$playersound 	Vethitan  other 	*falling	KRLLFALL
+$playersound 	Vethitan  other 	*jump   	KRLLJUMP
+$playersound 	Vethitan  other 	*usefail	KRLLJUMP
+$playersound 	Vethitan  other 	*dive		wtrin
+$playersound 	Vethitan  other 	*surface	watrout
+$playersound 	Vethitan  other 	*taunt		KRLLTAUN
+
+Titan/Attack								TITANATK
+$rolloff Titan/Attack	800 2048
+$limit Titan/Attack 0
+Titan/Ready									TITANFUL
+
+/* =============================================================================
+	Zanieon
+==============================================================================*/
+
+$playersound 	Tamer  male 	*death  	tametin
+$playeralias 	Tamer  male 	*xdeath  	misc/gibbed
+$playeralias 	Tamer  male 	*gibbed  	misc/gibbed
+$playersound 	Tamer  male 	*Pain100 	tamepai3
+$playersound 	Tamer  male 	*Pain75 	tamepai2
+$playersound 	Tamer  male 	*Pain50 	tamepai1
+$playersound 	Tamer  male 	*Pain25 	tamepai1
+$playeralias 	Tamer  male 	*grunt	 	Zanieon/Landing
+$playersound    Tamer  male 	*land       dsoof
+$playersound 	Tamer  male 	*falling	tamepai2
+$playeralias 	Tamer  male 	*jump   	Zanieon/Jump
+$playeralias 	Tamer  male 	*usefail	Zanieon/BreathEffort
+$playersound 	Tamer  male 	*dive		wtrin
+$playersound 	Tamer  male 	*surface	watrout
+$playeralias 	Tamer  male 	*taunt		Zanieon/Taunt
+
+$playersound 	Tamer  female 	*death  	tametin
+$playeralias 	Tamer  female 	*xdeath  	misc/gibbed
+$playeralias 	Tamer  female 	*gibbed  	misc/gibbed
+$playersound 	Tamer  female 	*Pain100 	tamepai3
+$playersound 	Tamer  female 	*Pain75 	tamepai2
+$playersound 	Tamer  female 	*Pain50 	tamepai1
+$playersound 	Tamer  female 	*Pain25 	tamepai1
+$playeralias 	Tamer  female 	*grunt	 	Zanieon/Landing
+$playersound    Tamer  female 	*land       dsoof
+$playersound 	Tamer  female 	*falling	tamepai2
+$playeralias 	Tamer  female 	*jump   	Zanieon/Jump
+$playeralias 	Tamer  female 	*usefail	Zanieon/BreathEffort
+$playersound 	Tamer  female 	*dive		wtrin
+$playersound 	Tamer  female 	*surface	watrout
+$playeralias 	Tamer  female 	*taunt		Zanieon/Taunt
+
+$playersound 	Tamer  other 	*death  	tametin
+$playeralias 	Tamer  other 	*xdeath  	misc/gibbed
+$playeralias 	Tamer  other 	*gibbed  	misc/gibbed
+$playersound 	Tamer  other 	*Pain100 	tamepai3
+$playersound 	Tamer  other 	*Pain75 	tamepai2
+$playersound 	Tamer  other 	*Pain50 	tamepai1
+$playersound 	Tamer  other 	*Pain25 	tamepai1
+$playeralias 	Tamer  other 	*grunt	 	Zanieon/Landing
+$playersound    Tamer  other 	*land       dsoof
+$playersound 	Tamer  other 	*falling	tamepai2
+$playeralias 	Tamer  other 	*jump   	Zanieon/Jump
+$playeralias 	Tamer  other 	*usefail	Zanieon/BreathEffort
+$playersound 	Tamer  other 	*dive		wtrin
+$playersound 	Tamer  other 	*surface	watrout
+$playeralias 	Tamer  other 	*taunt		Zanieon/Taunt
+
+$random Zanieon/Taunt						{ Zanieon/Taunt1 Zanieon/Taunt2 Zanieon/Taunt3 Zanieon/Taunt4 Zanieon/Taunt5 Zanieon/Taunt6 }
+Zanieon/Taunt1								ZNVLTAU1
+Zanieon/Taunt2								ZNVLTAU2
+Zanieon/Taunt3								ZNVLTAU3
+Zanieon/Taunt4								ZNVLTAU4
+Zanieon/Taunt5								ZNVLTAU5
+Zanieon/Taunt6								ZNVLTAU6
+$attenuation Zanieon/Taunt 0.1
+
+$random Zanieon/Jump						{ Zanieon/Jump1 Zanieon/Jump2 Zanieon/Jump3 Zanieon/Jump4 }
+Zanieon/Jump1								ZNVLJMP1
+Zanieon/Jump2								ZNVLJMP2
+Zanieon/Jump3								ZNVLJMP3
+Zanieon/Jump4								ZNVLJMP4
+$attenuation Zanieon/Jump 0.1
+
+$random Zanieon/Landing						{ Zanieon/Land1 Zanieon/Land2 Zanieon/Land3 Zanieon/Land4 }
+Zanieon/Land1								ZNVLLND1
+Zanieon/Land2								ZNVLLND2
+Zanieon/Land3								ZNVLLND3
+Zanieon/Land4								ZNVLLND4
+$attenuation Zanieon/Landing 0.1
+
+$random Zanieon/AttackEffort				{ Zanieon/AtkEft1 Zanieon/AtkEft2 Zanieon/AtkEft3 }
+Zanieon/AtkEft1								ZNVLATK1
+Zanieon/AtkEft2								ZNVLATK2
+Zanieon/AtkEft3								ZNVLATK3
+$attenuation Zanieon/AttackEffort 0.1
+
+$random Zanieon/BreathEffort				{ Zaneion/BrthEft1 Zaneion/BrthEft2 Zaneion/BrthEft3 Zaneion/BrthEft4 }
+Zaneion/BrthEft1							ZNVLROF1
+Zaneion/BrthEft2							ZNVLROF2
+Zaneion/BrthEft3							ZNVLROF3
+Zaneion/BrthEft4							ZNVLROF4
+$attenuation Zanieon/BreathEffort 0.1
+
+$random Zanieon/Spawning					{ Zanieon/Spawnchat1 Zanieon/Spawnchat2 Zanieon/Spawnchat3 }
+Zanieon/Spawnchat1							ZNVSPW1
+Zanieon/Spawnchat2							ZNVSPW2
+Zanieon/Spawnchat3							ZNVSPW3
+$attenuation Zanieon/Spawning 0.1
+
+$random Zanieon/MeteorAttack				{ Zanieon/AtkEft1 Zanieon/AtkEft2 Zanieon/AtkEft3 Zanieon/MeteorAtk1 Zanieon/MeteorAtk2 Zanieon/MeteorAtk3 }
+Zanieon/MeteorAtk1							ZNVLMTR1
+Zanieon/MeteorAtk2							ZNVLMTR2
+Zanieon/MeteorAtk3							ZNVLMTR3
+$attenuation Zanieon/MeteorAttack 0.1
+
+$random Zanieon/ElementalAttack				{ Zanieon/ElementalAtk1 Zanieon/ElementalAtk2 Zanieon/ElementalAtk3 }
+Zanieon/ElementalAtk1						ZNVLELE1
+Zanieon/ElementalAtk2						ZNVLELE2
+Zanieon/ElementalAtk3						ZNVLELE3
+$attenuation Zanieon/ElementalAttack 0.1
+
+$random Zanieon/BlackHole					{ Zanieon/BLHCast1 Zanieon/BLHCast2 Zanieon/BLHCast3 Zanieon/BLHCast4 Zanieon/BLHCast5 Zanieon/BLHCast6 }
+Zanieon/BLHCast1							ZNVLBLH1
+Zanieon/BLHCast2							ZNVLBLH2
+Zanieon/BLHCast3							ZNVLBLH3
+Zanieon/BLHCast4							ZNVLBLH4
+Zanieon/BLHCast5							ZNVLBLH5
+Zanieon/BLHCast6							ZNVLBLH6
+$attenuation Zanieon/BlackHole 0.1
+
+$random Zanieon/Despawn						{ Zanieon/Leave1 Zanieon/Leave2 }
+Zanieon/Leave1								ZNVLLEV1
+Zanieon/Leave2								ZNVLLEV2
+$attenuation Zanieon/Despawn 0.1
+
+Zanieon/RiftOpen							ZNCORIFT
+$limit Zanieon/RiftOpen 0
+Zanieon/RiftClose							ZNRIFTCL
+$limit Zanieon/RiftClose 0
+Zanieon/MeteorImpact						ZNMIMPCT
+$limit Zanieon/MeteorImpact 0
+$attenuation Zanieon/MeteorImpact 0.5
+
+$random Zanieon/MeteorChunk					{ ZMeteorChunk1 ZMeteorChunk2 ZMeteorChunk3 ZMeteorChunk4 ZMeteorChunk5 ZMeteorChunk6 ZMeteorChunk7 ZMeteorChunk9 ZMeteorChunk10 }
+ZMeteorChunk1								ZNMCHNK1
+ZMeteorChunk2								ZNMCHNK2
+ZMeteorChunk3								ZNMCHNK3
+ZMeteorChunk4								ZNMCHNK4
+ZMeteorChunk5								ZNMCHNK5
+ZMeteorChunk6								ZNMCHNK6
+ZMeteorChunk7								ZNMCHNK7
+ZMeteorChunk8								ZNMCHNK8
+ZMeteorChunk9								ZNMCHNK9
+ZMeteorChunk10								ZNMCHNK10
+$limit Zanieon/MeteorChunk 0
+
+Zanieon/RockSummon							ZNSTONE1
+$limit Zanieon/RockSummon 0
+$attenuation Zanieon/RockSummon 0.5
+Zanieon/RockImpact							ZNSTONE2
+$limit Zanieon/RockImpact 0
+$attenuation Zanieon/RockImpact 0.5
+Zanieon/RockMove							ZNSTONEL
+$limit Zanieon/RockMove 0
+
+Zanieon/Landing								TMRLAND
+$limit Zanieon/Landing 0
+$attenuation Zanieon/Landing 0.3
+
+$random Zanieon/RockChunk					{ ZRockChunk1 ZRockChunk2 ZRockChunk3 ZRockChunk4 ZRockChunk5 ZRockChunk6 ZRockChunk7 ZRockChunk8 ZRockChunk9 ZRockChunk10 }
+ZRockChunk1									ZNSTNCK1
+ZRockChunk2									ZNSTNCK2
+ZRockChunk3									ZNSTNCK3
+ZRockChunk4									ZNSTNCK4
+ZRockChunk5									ZNSTNCK5
+ZRockChunk6									ZNSTNCK6
+ZRockChunk7									ZNSTNCK7
+ZRockChunk8									ZNSTNCK8
+ZRockChunk9									ZNSTNCK9
+ZRockChunk10								ZNSTNCK0
+$limit Zanieon/RockChunk 0
+
+Zanieon/SpellRing							ZANFIELD
+
+/* =============================================================================
+	Cyclops
+==============================================================================*/
+
+$playeralias 	CYMECH  male 	*death  	CYDEA
+$playeralias 	CYMECH  male 	*xdeath  	CYDEA
+$playeralias 	CYMECH  male 	*gibbed  	CYDEA
+$playersound 	CYMECH  male 	*Pain100 	DSRBPAN1
+$playersound 	CYMECH  male 	*Pain75 	DSRBPAN1
+$playersound 	CYMECH  male 	*Pain50 	DSRBPAN1
+$playersound 	CYMECH  male 	*Pain25 	DSRBPAN1
+$playersound 	CYMECH  male 	*grunt	 	GLand
+$playersound    CYMECH  male 	*land       dsoof
+$playersound 	CYMECH  male 	*jump   	CYCjump
+$playersound 	CYMECH  male 	*usefail 	DVEHICLE
+$playersound 	CYMECH  male 	*falling 	tjfall
+$playersound	CYMECH  male	*dive		wtrin
+$playersound	CYMECH  male	*surface	watrout
+$playeralias 	CYMECH  male 	*taunt 		CYCTAUNT
+
+$playeralias 	CYMECH  female 	*death  	CYDEA
+$playeralias 	CYMECH  female 	*xdeath  	CYDEA
+$playeralias 	CYMECH  female 	*gibbed  	CYDEA
+$playersound 	CYMECH  female 	*Pain100 	DSRBPAN1
+$playersound 	CYMECH  female 	*Pain75 	DSRBPAN1
+$playersound 	CYMECH  female 	*Pain50 	DSRBPAN1
+$playersound 	CYMECH  female 	*Pain25 	DSRBPAN1
+$playersound 	CYMECH  female 	*grunt	 	GLand
+$playersound    CYMECH  female 	*land       dsoof
+$playersound 	CYMECH  female 	*jump   	CYCjump
+$playersound 	CYMECH  female 	*usefail 	DVEHICLE
+$playersound 	CYMECH  female 	*falling 	tjfall
+$playersound	CYMECH  female	*dive		wtrin
+$playersound	CYMECH  female	*surface	watrout
+$playeralias 	CYMECH  female 	*taunt 		CYCTAUNT
+
+$playeralias 	CYMECH  other 	*death  	CYDEA
+$playeralias 	CYMECH  other 	*xdeath  	CYDEA
+$playeralias 	CYMECH  other 	*gibbed  	CYDEA
+$playersound 	CYMECH  other 	*Pain100 	DSRBPAN1
+$playersound 	CYMECH  other 	*Pain75 	DSRBPAN1
+$playersound 	CYMECH  other 	*Pain50 	DSRBPAN1
+$playersound 	CYMECH  other 	*Pain25 	DSRBPAN1
+$playersound 	CYMECH  other 	*grunt	 	GLand
+$playersound    CYMECH  other 	*land       dsoof
+$playersound 	CYMECH  other 	*jump   	CYCjump
+$playersound 	CYMECH  other 	*usefail 	DVEHICLE
+$playersound 	CYMECH  other 	*falling 	tjfall
+$playersound	CYMECH  other	*dive		wtrin
+$playersound	CYMECH  other	*surface	watrout
+$playeralias 	CYMECH  other 	*taunt 		CYCTAUNT
+
+CYCTAUNT									CYCtaunt
+$attenuation CYCTAUNT 0.2
+
+CYDEA										CYCDEATH
+$attenuation CYDEA 0.5
+
+$random Cyclops/LegPiston 	{ CyclopsPiston1 CyclopsPiston2 CyclopsPiston3 CyclopsPiston4 }
+CyclopsPiston1								CYCMOVE1
+CyclopsPiston2								CYCMOVE2
+CyclopsPiston3								CYCMOVE3
+CyclopsPiston4								CYCMOVE4
+
+$Random Cyclops/Step 		{ Cyclops/Step1 Cyclops/Step2 }
+Cyclops/Step1								FOOT_03
+Cyclops/Step2								FOOT_04
+
+Cyclops/Land								STOMP_02
+
+$Random Cyclops/PlasmaFire 	{ Cyclops/PFire1 Cyclops/PFire2 Cyclops/PFire3 }
+Cyclops/PFire1								CYPLASM1
+Cyclops/PFire2								CYPLASM2
+Cyclops/PFire3								CYPLASM3
+
+$attenuation Cyclops/PlasmaFire 0.5
+
+$random Cyclops/GaussFire	{ CyclopsGauss1 CyclopsGauss2 CyclopsGauss3 CyclopsGauss4 }
+CyclopsGauss1								CYCGUFR1
+CyclopsGauss2								CYCGUFR2
+CyclopsGauss3								CYCGUFR3
+CyclopsGauss4								CYCGUFR4
+
+$attenuation Cyclops/GaussFire 0.5
+
+$random Cyclops/GaussHit	{ CyclopsGaussHit1 CyclopsGaussHit2 CyclopsGaussHit3 }
+CyclopsGaussHit1							CYCGUHT1
+CyclopsGaussHit2							CYCGUHT2
+CyclopsGaussHit3							CYCGUHT3
+
+$attenuation Cyclops/GaussHit 0.5
+$limit Cyclops/GaussHit 0
+
+Cyclops/GaussChargeStart					CYCGUCHG
+$attenuation Cyclops/GaussChargeStart 0.5
+Cyclops/GaussChargeLoop						CYCGUCGL
+$attenuation Cyclops/GaussChargeLoop 0.5
+Cyclops/GaussChargeFire						CYCGUFRU
+$attenuation Cyclops/GaussChargeFire 0.5
+
+cyclops/footwing							WHOOSH05
+
+Cyclops/PlasmaHit		 					CYCPLHIT
+$limit Cyclops/PlasmaHit 0
+
+/* =============================================================================
+	GEV-Tank
+==============================================================================*/
+
+$playeralias	TANKV	male	*death		CYDEA
+$playeralias	TANKV	male	*xdeath		CYDEA
+$playeralias	TANKV	male	*gibbed		CYDEA
+$playersound	TANKV	male	*pain100	DSRBPAN1
+$playersound	TANKV	male	*pain75		DSRBPAN1
+$playersound	TANKV	male	*pain50		DSRBPAN1
+$playersound	TANKV	male	*pain25		DSRBPAN1
+$playersound	TANKV   male    *grunt      MECHLAND
+$playersound    TANKV	male 	*land       dsoof
+$playersound	TANKV	male	*jump		mejump
+$playersound	TANKV	male	*falling	mefall
+$playersound	TANKV	male	*usefail	mefail
+$playersound	TANKV   male	*dive		wtrin
+$playersound	TANKV   male	*surface	watrout
+$playeralias 	TANKV  	male 	*taunt 		MECTAUNT
+
+$playeralias	TANKV	female	*death		CYDEA
+$playeralias	TANKV	female	*xdeath		CYDEA
+$playeralias	TANKV	female	*gibbed		CYDEA
+$playersound	TANKV	female	*pain100	DSRBPAN1
+$playersound	TANKV	female	*pain75		DSRBPAN1
+$playersound	TANKV	female	*pain50		DSRBPAN1
+$playersound	TANKV	female	*pain25		DSRBPAN1
+$playersound	TANKV   female  *grunt      MECHLAND
+$playersound    TANKV	female 	*land       dsoof
+$playersound	TANKV	female	*jump		mejump
+$playersound	TANKV	female	*falling	mefall
+$playersound	TANKV	female	*usefail	mefail
+$playersound	TANKV   female	*dive		wtrin
+$playersound	TANKV   female	*surface	watrout
+$playeralias 	TANKV  	female 	*taunt 		MECTAUNT
+
+$playeralias	TANKV	other	*death		CYDEA
+$playeralias	TANKV	other	*xdeath		CYDEA
+$playeralias	TANKV	other	*gibbed		CYDEA
+$playersound	TANKV	other	*pain100	DSRBPAN1
+$playersound	TANKV	other	*pain75		DSRBPAN1
+$playersound	TANKV	other	*pain50		DSRBPAN1
+$playersound	TANKV	other	*pain25		DSRBPAN1
+$playersound	TANKV   other   *grunt      MECHLAND
+$playersound    TANKV	other 	*land       dsoof
+$playersound	TANKV	other	*jump		mejump
+$playersound	TANKV	other	*falling	mefall
+$playersound	TANKV	other	*usefail	mefail
+$playersound	TANKV   other	*dive		wtrin
+$playersound	TANKV   other	*surface	watrout
+$playeralias 	TANKV  	other 	*taunt 		MECTAUNT
+
+MECTAUNT										MECTAUNT
+MECHLAND										MECHLAND
+DSRBPAN1										DSRBPAN1
+$attenuation MECTAUNT 0.2
+Tank/Railfire									GEVFIRE
+$attenuation Tank/Railfire 0.5
+GEV/idle										GEVIDLE
+GEV/idlerun										GEVIDLE2
+GEV/hit											GEVHIT
+$limit GEV/hit 0
+$attenuation GEV/hit 0.5
+GEV/SpawnShield									SHIELDUP
+GEV/ShieldLoop									SHIELDLO
+GEV/ShieldHit									SHIELDHI
+$limit GEV/ShieldHit 0
+GEV/ShieldStop									SHIELDDO
+$random Tank/MFire								{ MGUN1  MGUN2 MGUN3 }
+MGUN1  											GEVMGUN1
+MGUN2  											GEVMGUN2
+MGUN3  											GEVMGUN3
+$limit Tank/MFire 0
+$attenuation Tank/MFire 0.75
+
+/* =============================================================================
+	GEV-Walker
+==============================================================================*/
+
+$playeralias	WALKV	male	*death		CYDEA
+$playeralias	WALKV	male	*xdeath		CYDEA
+$playeralias	WALKV	male	*gibbed		CYDEA
+$playersound	WALKV	male	*pain100	DSRBPAN1
+$playersound	WALKV	male	*pain75		DSRBPAN1
+$playersound	WALKV	male	*pain50		DSRBPAN1
+$playersound	WALKV	male	*pain25		DSRBPAN1
+$playersound	WALKV   male    *grunt      WKRLAND
+$playersound    WALKV	male 	*land       dsoof
+$playersound	WALKV	male	*jump		WKRJUMP
+$playersound	WALKV	male	*falling	WKRFALL
+$playersound	WALKV	male	*usefail	WKRFAIL
+$playersound	WALKV   male	*dive		wtrin
+$playersound	WALKV   male	*surface	watrout
+$playeralias 	WALKV  	male 	*taunt 		WKRHORN
+
+$playeralias	WALKV	female	*death		CYDEA
+$playeralias	WALKV	female	*xdeath		CYDEA
+$playeralias	WALKV	female	*gibbed		CYDEA
+$playersound	WALKV	female	*pain100	DSRBPAN1
+$playersound	WALKV	female	*pain75		DSRBPAN1
+$playersound	WALKV	female	*pain50		DSRBPAN1
+$playersound	WALKV	female	*pain25		DSRBPAN1
+$playersound	WALKV   female  *grunt      WKRLAND
+$playersound    WALKV	female 	*land       dsoof
+$playersound	WALKV	female	*jump		WKRJUMP
+$playersound	WALKV	female	*falling	WKRFALL
+$playersound	WALKV	female	*usefail	WKRFAIL
+$playersound	WALKV   female	*dive		wtrin
+$playersound	WALKV   female	*surface	watrout
+$playeralias 	WALKV  	female 	*taunt 		WKRHORN
+
+$playeralias	WALKV	other	*death		CYDEA
+$playeralias	WALKV	other	*xdeath		CYDEA
+$playeralias	WALKV	other	*gibbed		CYDEA
+$playersound	WALKV	other	*pain100	DSRBPAN1
+$playersound	WALKV	other	*pain75		DSRBPAN1
+$playersound	WALKV	other	*pain50		DSRBPAN1
+$playersound	WALKV	other	*pain25		DSRBPAN1
+$playersound	WALKV   other   *grunt      WKRLAND
+$playersound    WALKV	other 	*land       dsoof
+$playersound	WALKV	other	*jump		WKRJUMP
+$playersound	WALKV	other	*falling	WKRFALL
+$playersound	WALKV	other	*usefail	WKRFAIL
+$playersound	WALKV   other	*dive		wtrin
+$playersound	WALKV   other	*surface	watrout
+$playeralias 	WALKV  	other 	*taunt 		WKRHORN
+
+WKRHORN											WKRHORN
+$attenuation WKRHORN 0.2
+
+$random Walker/LegPiston 	{ WalkerPiston1 WalkerPiston2 WalkerPiston3 WalkerPiston4 WalkerPiston5 WalkerPiston6 }
+WalkerPiston1								WKRPST1
+WalkerPiston2								WKRPST2
+WalkerPiston3								WKRPST3
+WalkerPiston4								WKRPST4
+WalkerPiston5								WKRPST5
+WalkerPiston6								WKRPST6
+
+$random Walker/Step 	{ WalkerStep1 WalkerStep2 WalkerStep3 WalkerStep4 }
+WalkerStep1									WKRSTP1
+WalkerStep2									WKRSTP2
+WalkerStep3									WKRSTP3
+WalkerStep4									WKRSTP4
+
+Walker/RocketLauncher						WKRRKLR
+$attenuation Walker/RocketLauncher 0.5
+Walker/RocketReloading						WKRRELD
+
+Walker/RocketFly							WKRLFLY
+$limit Walker/RocketFly 0
+Walker/RocketExplode						WKRLEXP
+$limit Walker/RocketExplode 0
+
+Walker/NapalmFire							WKNPFIRE
+$limit Walker/NapalmFire 0
+Walker/NapalmBounce							WKNPBONC
+$limit Walker/NapalmBounce 0
+Walker/NapalmExplode						WKNPEXPL
+$limit Walker/NapalmExplode 0
+Walker/NapalmBurning						WKNPBURN
+Walker/NapalmDissolve						WKNPDISS
+$limit Walker/NapalmDissolve 0
+
+$random Walker/BarrelDispenser { WalkerBarrel1 WalkerBarrel2 }
+WalkerBarrel1								WKBARR1
+WalkerBarrel2								WKBARR2
+$limit Walker/BarrelDispenser 0
+
+/* =============================================================================
+	War Titan
+==============================================================================*/
+
+$playeralias	TONSND	male	*death		CYDEA
+$playeralias	TONSND	male	*xdeath		CYDEA
+$playeralias	TONSND	male	*gibbed		CYDEA
+$playersound	TONSND	male	*pain100	DSRBPAN1
+$playersound	TONSND	male	*pain75		DSRBPAN1
+$playersound	TONSND	male	*pain50		DSRBPAN1
+$playersound	TONSND	male	*pain25		DSRBPAN1
+$playersound	TONSND  male    *grunt      TONLAND
+$playersound    TONSND	male 	*land       dsoof
+$playersound	TONSND	male	*jump		TONJUMP
+$playersound	TONSND	male	*falling	TONFALL
+$playersound	TONSND	male	*usefail	TONFAIL
+$playersound	TONSND  male	*dive		wtrin
+$playersound	TONSND  male	*surface	watrout
+$playeralias 	TONSND  male 	*taunt 		TONTAUNT
+
+$playeralias	TONSND	female	*death		CYDEA
+$playeralias	TONSND	female	*xdeath		CYDEA
+$playeralias	TONSND	female	*gibbed		CYDEA
+$playersound	TONSND	female	*pain100	DSRBPAN1
+$playersound	TONSND	female	*pain75		DSRBPAN1
+$playersound	TONSND	female	*pain50		DSRBPAN1
+$playersound	TONSND	female	*pain25		DSRBPAN1
+$playersound	TONSND  female  *grunt      TONLAND
+$playersound    TONSND	female 	*land       dsoof
+$playersound	TONSND	female	*jump		TONJUMP
+$playersound	TONSND	female	*falling	TONFALL
+$playersound	TONSND	female	*usefail	TONFAIL
+$playersound	TONSND  female	*dive		wtrin
+$playersound	TONSND  female	*surface	watrout
+$playeralias 	TONSND  female 	*taunt 		TONTAUNT
+
+$playeralias	TONSND	other	*death		CYDEA
+$playeralias	TONSND	other	*xdeath		CYDEA
+$playeralias	TONSND	other	*gibbed		CYDEA
+$playersound	TONSND	other	*pain100	DSRBPAN1
+$playersound	TONSND	other	*pain75		DSRBPAN1
+$playersound	TONSND	other	*pain50		DSRBPAN1
+$playersound	TONSND	other	*pain25		DSRBPAN1
+$playersound	TONSND  other   *grunt      TONLAND
+$playersound    TONSND	other 	*land       dsoof
+$playersound	TONSND	other	*jump		TONJUMP
+$playersound	TONSND	other	*falling	TONFALL
+$playersound	TONSND	other	*usefail	TONFAIL
+$playersound	TONSND  other	*dive		wtrin
+$playersound	TONSND  other	*surface	watrout
+$playeralias 	TONSND  other 	*taunt 		TONTAUNT
+
+TONTAUNT									TONTAUNT
+$attenuation TONTAUNT 0.2
+
+$Random ToneTitan/Step 		{ ToneTitan/Step1 ToneTitan/Step2 ToneTitan/Step3 ToneTitan/Step4 ToneTitan/Step5 }
+ToneTitan/Step1								TONSTP1
+ToneTitan/Step2								TONSTP2
+ToneTitan/Step3								TONSTP3
+ToneTitan/Step4								TONSTP4
+ToneTitan/Step5								TONSTP5
+$attenuation ToneTitan/Step 0.5
+
+ToneTitan/Land								TONLAND
+$attenuation ToneTitan/Land 0.5
+ToneTitan/LegMove							TONMOVE
+
+$Random ToneTitan/GrenadeFire 		{ ToneTitan/GrenadeFire1 ToneTitan/GrenadeFire2 ToneTitan/GrenadeFire3 }
+ToneTitan/GrenadeFire1						TONGRE1
+ToneTitan/GrenadeFire2						TONGRE2
+ToneTitan/GrenadeFire3						TONGRE3
+
+$Random ToneTitan/GrenadeReload		{ ToneTitan/GrenadeReload1 ToneTitan/GrenadeReload2 ToneTitan/GrenadeReload3 }
+ToneTitan/GrenadeReload1					TONRLD1
+ToneTitan/GrenadeReload2					TONRLD2
+ToneTitan/GrenadeReload3					TONRLD3
+
+ToneTitan/HICannonStart						HIRSS
+ToneTitan/HICannonLoop						HIRSL
+ToneTitan/HICannonEnd						HIRSE
+ToneTitan/HICannonFire						HIRSHOT
+$attenuation ToneTitan/HICannonFire 0.3
+
+ToneTitan/HICannonStartAlt					TONSSTS
+ToneTitan/HICannonLoopAlt					TONSSTL
+ToneTitan/HICannonEndAlt					TONSSTE
+ToneTitan/HICannonFireAlt					TONSSTF
+$attenuation ToneTitan/HICannonFireAlt 0.3
+
+$Random ToneTitan/ShellExplode		{ ToneTitan/ShellExplode1 ToneTitan/ShellExplode2 ToneTitan/ShellExplode3 }
+ToneTitan/ShellExplode1						TONSHXP1
+ToneTitan/ShellExplode2						TONSHXP2
+ToneTitan/ShellExplode3						TONSHXP3
+$limit ToneTitan/ShellExplode 0
+$attenuation ToneTitan/ShellExplode 0.5
+
+$Random ToneTitan/ShellExplodeFar		{ ToneTitan/ShellExplodeFar1 ToneTitan/ShellExplodeFar2 ToneTitan/ShellExplodeFar3 }
+ToneTitan/ShellExplodeFar1					TONFRXP1
+ToneTitan/ShellExplodeFar2					TONFRXP2
+ToneTitan/ShellExplodeFar3					TONFRXP3
+$limit ToneTitan/ShellExplodeFar 0
+$attenuation ToneTitan/ShellExplodeFar 0.2
+
+/* =============================================================================
+	Vehicle Commons
+==============================================================================*/
+
+//Vehicle Weapon Change
+$limit Vehicle/WChange 0
+Vehicle/WChange					VEHWCHAN
+GEV/on							GEVON
+
+//Vehicle Flashlight
+vehicle/flashlighton			LIGHTSSW
+vehicle/flashlightoff			LIGHTSFR
+
+//Matter Compressor
+vehicle/SpawnDeny				DVEHICLE
+Vehicle/PortACT					VEHICLSZ
+Vehicle/Pickup					MATERI
+Vehicle/PortUNA					VEHICLZS
+$rolloff Vehicle/PortACT 		log	200 1.0
+$rolloff Vehicle/PortUNA 		log	200 1.0
+
+/* =============================================================================
+	Bullets
+==============================================================================*/
+
+$limit Weapons/BulletCasing 0
+$Random Weapons/BulletCasing { BULLCAS1 BULLCAS2 BULLCAS3 BULLCAS4 }
+BULLCAS1						BULLCAS1
+BULLCAS2						BULLCAS2
+BULLCAS3						BULLCAS3
+BULLCAS4						BULLCAS4
+
+$limit Weapons/ShellCasing 0
+$Random Weapons/ShellCasing { SHELCAS1 SHELCAS2 SHELCAS3 SHELCAS4 }
+SHELCAS1						SHELCAS1
+SHELCAS2						SHELCAS2
+SHELCAS3						SHELCAS3
+SHELCAS4						SHELCAS4
+
+$limit weapons/dsskldth 0
+$random weapons/dsskldth  { Rico1 Rico1 Rico3 Rico4 Rico5 Rico6 Rico7 Rico8 Rico9 }                 
+Rico1							RIC1
+Rico2							RIC2
+Rico3							RIC3
+Rico4							RIC4
+Rico5							RIC5
+Rico6							RIC6
+Rico7							RIC7
+Rico8							RIC8
+Rico9							RIC9
+
+$limit Weapons/WoodImpact 0
+$random Weapons/WoodImpact { WoodImpact1 WoodImpact2 WoodImpact3 WoodImpact4 WoodImpact5 }
+WoodImpact1						WDIMPT1
+WoodImpact2						WDIMPT2
+WoodImpact3						WDIMPT3
+WoodImpact4						WDIMPT4
+WoodImpact5						WDIMPT5
+
+/* =============================================================================
+	Weapons
+==============================================================================*/
+
+//Generic
+weapons/flashlight				LIGHT_OF
+$random weapons/fistswing { wing1 wing2 wing3 }
+wing1							WHOOSH01
+wing2							WHOOSH02
+wing3							WHOOSH03
+weapons/footwing				WHOOSH04
+Melee/Punch						PUNCHHIT
+Melee/Kick						FOOTHIT
+Ultimate/Ready					SULTIRDY
+Weapon/Empty					WPNOAMMO
+$limit Weapon/Empty 0
+
+//Gauntlet
+Melee/GHit						FSTATCK
+$limit Melee/GHit 0
+weapons/gauntact				FSTRUN
+
+//Heavy Machine Gun
+weapons/qlmgunf 				QLMGUNF
+weapons/hmgup					HMGUP
+$limit weapons/qlmgunf 0
+$random misc/hmgpickup			{ misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/mshmgpickup}
+misc/mshmgpickup				MSHMG
+$limit misc/mshmgpickup 0
+
+//Machine Gun
+$random weapons/q3mgunf { mgunf1 mgunf2 mgunf3 mgunf4 }
+mgunf1							MACHGF1B
+mgunf2							MACHGF2B
+mgunf3							MACHGF3B
+mgunf4							MACHGF4B
+$limit weapons/q3mgunf 0
+weapons/mgup					MGUP
+
+//Shotgun
+weapons/sshotf1b				SSHOTF1B
+$limit weapons/sshotf1b 0
+weapons/sshotf1a				SSHOTF1A
+$limit weapons/sshotf1a 0
+weapons/sgup					SGUP
+weapons/shotgunultimate			SGULTIMA
+$limit weapons/shotgunultimate 0
+$rolloff weapons/shotgunultimate 512 1600
+$random misc/sgpickup			{ misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/mssgpickup}
+misc/mssgpickup					MSSG
+$limit misc/mssgpickup 0
+
+//Grenade Launcher
+Gren/launch						GRENFIR
+$limit Gren/launch 0
+$limit weapons/grenadebounce 0
+$random weapons/grenadebounce { grbounce1 grbounce2 }
+grbounce1						GRNDBOU1
+grbounce2						GRNDBOU2
+weapons/glup					GLUP
+Gren/launchultimate			GRULTIMA
+$limit Gren/launchultimate 0
+$rolloff Gren/launchultimate 512 1600
+weapons/grenadeultimateexplode	GRULTEXP
+$rolloff weapons/grenadeultimateexplode 800 2048
+$limit weapons/grenadeultimateexplode 0
+
+//Rocket Launcher
+Q3RLFir							ROCKLF1A
+$limit Q3RLFir 0
+RocketExpl						ROCKLX1A
+$limit RocketExpl 0
+weapons/rocktfly				ROCKFLY
+$limit weapons/rocktfly 0
+weapons/rlup					RLUP
+weapons/rockultimate			ROCKULTI
+$limit weapons/rockultimate 0
+$rolloff weapons/rockultimate 512 1600
+weapons/rockultimateexplode		ROCKUTEX
+$rolloff weapons/rockultimateexplode 800 2048
+$limit weapons/rockultimateexplode 0
+$random misc/rlpickup			{ misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/q3pickup misc/msrlpickup}
+misc/msrlpickup					MSRL
+$limit misc/msrlpickup 0
+
+//Lightning Gun
+LightningHum					LGHUM
+LightningStrom					LGFIR
+LightningStromUltimate			LGULTI
+$limit LightningStromUltimate 0
+$rolloff LightningStromUltimate 512 1600
+LightningCore					LGCORULT
+$rolloff LightningCore 800 2048
+$limit LightningCore 0
+LightningElec					LGELEC
+$random LightningHit		{ LGHIT1  LGHIT2 LGHIT3 }
+LGHIT1  						LGHIT1
+LGHIT2  						LGHIT2
+LGHIT3  						LGHIT3
+$limit LightningHit 0
+$random LightningHitBody		{ LGHITB1  LGHITB2 LGHITB3 LGHITB4 }
+LGHITB1  						LGHITB1
+LGHITB2  						LGHITB2
+LGHITB3  						LGHITB3
+LGHITB4  						LGHITB4
+$limit LightningHitBody 0
+weapons/lgup					LGUP
+
+//Railgun
+weapons/railhum					RAILHUM
+weapons/railgf                  DSRAISHT
+$limit weapons/railgf 0
+weapons/railflyby				RGFLYBY
+$limit weapons/railflyby 0
+weapons/railreload              RGCHARGE
+$limit weapons/railreload 0
+weapons/rgup					RGUP
+weapons/railultimate			RGULTIMA
+$limit weapons/railultimate 0
+$rolloff weapons/railultimate 512 1600
+
+//Plasma Gun
+PlasmaFir						HYPRBF1A
+$limit PlasmaFir 0
+PlasmaFly						LASTFLY
+$limit PlasmaFly 0
+PlasmaHit						PLASMX1A
+$limit PlasmaHit 0
+weapons/pgup					PGUP
+weapons/PlasmaUltimate			PGULTIMA
+$limit weapons/PlasmaUltimate 0
+$rolloff weapons/PlasmaUltimate 512 1600
+PlasmaFlyUltimate				PGULTFLY
+$limit PlasmaFlyUltimate 0
+PlasmaHitUltimate				PGULTEXP
+$rolloff PlasmaHitUltimate 800 2048
+$limit PlasmaHitUltimate 0
+
+//Trakion Cannon
+TrakionCharge					TRKCHARG
+TrakionFire						TRKFIRE
+$limit TrakionFire 0
+$random Trakion/Impact	{ TrakionImpact1 TrakionImpact2 TrakionImpact3 }
+TrakionImpact1					TRKIPCT1
+TrakionImpact2					TRKIPCT2
+TrakionImpact3					TRKIPCT3
+$limit Trakion/Impact 0
+
+//BFG10k
+BFGFire							BFG_FIRE
+$limit BFGFire 0
+BFGHum							BFG_HUM
+BFGFireUltimate					BFGULTI
+$rolloff BFGFireUltimate 512 1600
+$limit BFGFireUltimate 0
+BFGFly							BFG_FLY
+weapons/d3bfgfly				BFGFLY
+weapons/bfgup					BFGUP
+weapons/d3bfgx					BFGULTXP
+$rolloff weapons/d3bfgx 800 2048
+$limit weapons/d3bfgx 0
+
+//Chaingun
+$random weapons/q3cgunf { cgunf1 cgunf2 cgunf3 cgunf4 }
+cgunf1							VULFIR1
+cgunf2							VULFIR2
+cgunf3							VULFIR3
+cgunf4							VULFIR4
+$limit weapons/q3cgunf 0
+$volume weapons/q3cgunf 0.7
+weapons/cgup					CGUP
+
+weapons/q3cgunhum				VULHUM
+$volume weapons/q3cgunhum 0.7
+weapons/q3cgunstop				VULSTOP
+$volume weapons/q3cgunstop 0.7
+
+//Nailgun
+NailgunFire						WNALFIRE
+$limit NailgunFire 0
+weapons/nailhit					WNALIMPL
+weapons/nailmiss				WNALIMPM
+weapons/nailfly					WNALFLIT
+weapons/ngup					NGUP
+
+$limit weapons/nailfly 0
+$limit weapons/nailmiss 0
+$limit weapons/nailhit 0
+
+//Dark Matter Gun
+DMG/Charge						DMGCHG
+DMG/Fire						DMGFIR
+DMG/EnergyLoop					DMGLOP3
+DMG/WooshLoop					DMGLOP2
+DMG/Burst						DMGBURST
+$rolloff DMG/Burst 800 2048
+weapons/dmgup					DMGUP
+
+//Cynetik Striker Cannon
+weapons/cynstrike				CSCSHOT
+$limit weapons/cynstrike 0
+Cynetik/EnergyLoop				CSCHUM
+weapons/cscup					CSCUP
+Cynetik/Blow					CSCEXPL
+$limit Cynetik/Blow 1 256
+$rolloff Cynetik/Blow 800 2048
+
+/* =============================================================================
+	Items/Powerups
+==============================================================================*/
+
+//Weapon and Ammo
+misc/q3pickup					DSWEAPON
+$limit misc/q3pickup 0
+misc/mgammo						MGPICK
+$limit misc/mgammo 0
+misc/sgammo						SGPICK
+$limit misc/sgammo 0
+misc/glammo						GLPICK
+$limit misc/glammo 0
+misc/rlammo						RLPICK
+$limit misc/rlammo 0
+misc/lgammo						LGPICK
+$limit misc/lgammo 0
+misc/rgammo						RGPICK
+$limit misc/rgammo 0
+misc/pgammo						PGPICK
+$limit misc/pgammo 0
+misc/bfgammo					BFGPICK
+$limit misc/bfgammo 0
+misc/ngammo						NGPICK
+$limit misc/ngammo 0
+misc/cgammo						CGPICK
+$limit misc/cgammo 0
+misc/gaammo						GAPICK
+$limit misc/gaammo 0
+
+//Weapon Switch
+misc/change						CHANGE
+$limit misc/change 0
+
+//Armor Vest
+ARMOR	                    	AR3PICK
+$limit ARMOR 0
+
+//Armor Shard
+HELMETPICK                  	DSHELMET
+$limit HELMETPICK 0
+
+//Armor Piece
+ARMORPIECE                  	ARPICE
+$limit ARMORPIECE 0
+
+//Health Vial
+HEALVIAL						SHPVIAL
+$limit HEALVIAL 0
+
+//Health Bonus
+HEALBSOUND						DSHEALB
+$limit HEALBSOUND 0
+
+//Medium Health
+MEDISOUND                   	DSHEUP
+$limit MEDISOUND 0
+
+//Large Health
+FieldKit/Use					FKITUSE
+$limit FieldKit/Use 0
+
+//Mega Health
+MEDIPAKSND                  	M_HEALTH
+$limit MEDIPAKSND 0
+
+//Hazard Protection
+Hazard/Pickup					HAZARDPI
+$limit Hazard/Pickup 0
+
+//REGENERATION!
+Regen/Pickup					REGEN
+$limit Regen/Pickup 0
+Regen/Active					DSREGEN
+$limit Regen/Active 0
+
+//QUAD DAMAGE!!!
+Quad/Pickup						QUADAM
+Quad/Shot						QUADSHOT
+$limit Quad/Shot 0
+
+//Life Binder
+LifeBinder/Pickup				LFBDPICK
+$limit Kamik/Pickup 0
+LifeBinder/Protect				LIFEPROT
+$limit Kamik/Protect 0
+LifeBinder/Explode				LFBDEXPL
+$limit LifeBinder/Explode 0
+
+//Backpack
+$random Backpack/Pick			{ Backpack/Pick Backpack/Pick Backpack/Pick Backpack/Pick Backpack/Pick Backpack/Pick Backpack/Pick Backpack/Pick Backpack/Pick misc/msbackpack }
+misc/msbackpack					MSBACPK
+Backpack/Pick					BPPICKUP
+$limit Backpack/Pick 0
+
+//Key Pickup
+misc/k_pkup						DSEYE
+$limit misc/k_pkup 0
+
+//Orbital Elemental Deconstructor Beacon (what a long name for an item)
+OEDB/Pickup						OEDB_P
+OED/Start						OEDBCG
+OED/Laser						OEDBLS
+OED/RockLoop					OEDBRL
+$attenuation OED/Start 0
+$limit OED/Start 0
+$attenuation OED/Laser 0
+$limit OED/Laser 0
+$attenuation OED/RockLoop 0.25
+$limit OED/RockLoop 0
+
+/* =============================================================================
+	Switches
+==============================================================================*/
+
+switches/electri2				dselec2
+switches/electri3				dselec3
+switches/eclunk					dseclunk
+switches/clunk					dsclunk
+switches/china					dschina1
+switches/gargoyle				dsgrgyle
+switches/skin					dsskinny
+switches/lever					dslever
+switches/lever2					dslever2
+switches/valve					dsvalve
+switches/skull					skulswch
+
+/* =============================================================================
+	FootSteps
+==============================================================================*/
+
+$limit floor/hard 0
+$random floor/hard			{ hard1 hard2 hard3 hard4 }
+hard1							HASTEP1
+hard2							HASTEP2
+hard3							HASTEP3
+hard4							HASTEP4
+
+$limit floor/metal 0
+$random floor/metal			{ metastep1 metastep2 metastep3 metastep4 }
+metastep1						FTCLANK1
+metastep2						FTCLANK2
+metastep3						FTCLANK3
+metastep4						FTCLANK4
+
+$limit floor/grass 0
+$random floor/grass			{ grass1 grass2 grass3 grass4 }
+grass1							SGRASS1
+grass2							SGRASS2
+grass3							SGRASS3
+grass4							SGRASS4
+
+$limit world/watersplash 0
+$random world/watersplash	{ world/watersplash1  world/watersplash2 world/watersplash3 world/watersplash4 }
+world/watersplash1				dssplas1
+world/watersplash2				dssplas2
+world/watersplash3				dssplas3
+world/watersplash4				dssplas4
+
+$limit world/lavastep 0
+$random world/lavastep		{ lva1 lva2 lva3 }
+lva1							STELAVA1
+lva2							STELAVA2
+lva3							STELAVA3
+
+$random step/skin			{ skinstep1 skinstep2 skinstep3 skinstep4 }
+skinstep1						SFLESH1
+skinstep2						SFLESH2
+skinstep3						SFLESH3
+skinstep4						SFLESH4
+
+$random step/heavy			{ hfstep1 hfstep2 hfstep3 hfstep4 }
+hfstep1							HFSTEP1
+hfstep2							HFSTEP2
+hfstep3							HFSTEP3
+hfstep4							HFSTEP4
+
+$random step/heavy2			{ fgstep1 fgstep2 fgstep3 fgstep4 }
+fgstep1							FGSTEP1
+fgstep2							FGSTEP2
+fgstep3							FGSTEP3
+fgstep4							FGSTEP4
+
+$random step/mech			{ mechstep1 mechstep2 mechstep3 mechstep4 }
+mechstep1						STMECH1
+mechstep2						STMECH2
+mechstep3						STMECH3
+mechstep4						STMECH4
+
+//Hoverboard sound effect (used by Anarki and Slash atm)
+$random floor/energy { floor/energy01 floor/energy02 floor/energy03 floor/energy04 }
+floor/energy01	FLOORE1
+floor/energy02	FLOORE2
+floor/energy03	FLOORE3
+floor/energy04	FLOORE4
+
+//Common player landing sound
+Player/Land						DSOOF
+$limit Player/Land 0
+
+//Landing Sound used for heavy characters (Sorlag/Tyzen)
+$limit Player/HeavyLanding 0
+Player/HeavyLanding				PHEAVYL
+
+/* =============================================================================
+	Announcers
+==============================================================================*/
+
+Vadrigar/Excellent				VADEXCEL
+Vadrigar/Impressive				VADIMPRE
+Vadrigar/Denied					VADDENYD
+
+Unreal/Excellent				UNREXCEL
+Unreal/Impressive				UNRIMPRE
+Unreal/Denied					UNDENYD
+
+QLMale/Excellent				QLMEXCEL
+QLMale/Impressive				QLMIMPRS
+QLMale/Denied					QLMDENYD
+
+QLFemale/Excellent				QLFEXCEL
+QLFemale/Impressive				QLFIMPRS
+QLFemale/Denied					QLFDENYD
+
+QChampions/Excellent			QCEXCEL
+QChampions/Impressive			QCIMPRE
+QChampions/Denied				QCDENYD
+
+/* =============================================================================
+	Menu
+==============================================================================*/
+
+menu/activate					MENUOPEN	// Activate a new menu
+menu/backup						MENUEXIT	// Backup to previous menu
+menu/prompt						MENUOPEN	// Activate a prompt "menu"
+menu/cursor						MENUSWIT	// Move cursor up/down
+menu/change						MENUCHAN	// Select new value for option
+menu/invalid					MENUDENY	// Menu not available
+menu/dismiss					MENUEXIT	// Dismiss a prompt message
+menu/choose						MENUSELE	// Choose a menu item
+menu/clear						MENUESC 	// Close top menu
+menu/quit						MENUQUIT 	// Quit game
+menu/chat						DSCHATT		// Chat beep
+
+/* =============================================================================
+	Movers (Doors/Lifts/Platforms/Ceil)
+==============================================================================*/
+
+HangarStart						HDOORO
+HangarLoop						HDOORL
+HangarStop						HDOORS
+$limit HangarStop 0
+
+MetalStart						MDOORO
+MetalStop						MDOORS
+$limit MetalStop 0
+
+FireDStart						FDOORO
+FireDLoop						FDOORL
+FireDStop						FDOORS
+$limit FireDStop 0
+
+ElevStart						ELEVTO
+ElevLoop						ELEVTL
+ElevStop						ELEVTS
+$limit ElevStop 0
+
+/* =============================================================================
+	Gore/Blood
+==============================================================================*/
+
+$limit misc/gibbed 0
+$random misc/gibbed		{ misc/gib1 misc/gib2 misc/gib3 misc/gib4 misc/gib5 }
+misc/gib1						GIBSPLT1
+misc/gib2						GIBSPLT2
+misc/gib3						GIBSPLT3
+misc/gib4						GIBSPLT4
+misc/gib5						GIBSPLT5
+
+$limit misc/gibbounce 0
+$random misc/gibbounce		{ misc/gibb1 misc/gibb2 misc/gibb3 misc/gibb4 misc/gibb5 misc/gibb6 misc/gibb7 }
+misc/gibb1						GIBIMP1
+misc/gibb2						GIBIMP2
+misc/gibb3						GIBIMP3
+misc/gibb4						GIBIMP4
+misc/gibb5						GIBIMP5
+misc/gibb6						GIBIMP6
+misc/gibb7						GIBIMP7
+
+$limit Bullet/BleedHit 0
+$random Bullet/BleedHit { BulletBleedHit1 BulletBleedHit2 BulletBleedHit3 }
+BulletBleedHit1					BLTHIT1
+BulletBleedHit2					BLTHIT2
+BulletBleedHit3					BLTHIT3
+
+/* =============================================================================
+	Extra/Other Content
+==============================================================================*/
+Ability/NotReadyBeep			NOABILI
+$limit Ability/NotReadyBeep 0
+world/silence					DSQUAKE
+Torch/Burn						TORFIRE
+DoorLock						DOORLCK
+$alias misc/keytry 				DoorLock
+
+Player/Windfall					PLFALWDL
+Player/WindfallStop				PLFALWDS
+
+Barrel/Explode					BAREXP1
+$limit Barrel/Explode 0
+
+Light/Humming1					LITHUM1
+Light/Humming2					LITHUM2
+Light/Humming3					LITHUM3
+
+FloatingSkull/Chanting			SKLLCHNT
+
+Pillar/Heartbeat				PHBEAT1
+
+PowerChest/Open					CHSTOPEN
+$limit PowerChest/Open 0
+ChestOrb/Pickup					PCORBGET
+$limit ChestOrb/Pickup 0

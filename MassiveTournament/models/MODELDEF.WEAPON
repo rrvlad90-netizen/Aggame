@@ -1,0 +1,110 @@
+Model MyChaingun
+{ 
+   Path "models/MD3/Weapons"
+   SKIN 0 "machinegun.jpg"
+   MODEL 0 "machinegun.md3"
+   Scale 1.3 1.3 1.3
+   ZOffset 8
+   ROTATING
+   Rotation-Speed 2
+   
+   FrameIndex NADA A 0 0
+}
+
+Model MyShotgun
+{ 
+   Path "models/MD3/Weapons"
+   SKIN 0 "shotgun.jpg"
+   MODEL 0 "S31.md3"
+   Scale 1.2 1.2 1.2
+   ZOffset 8
+   ROTATING
+   Rotation-Speed 2
+   
+   FrameIndex NADA A 0 0
+}
+
+Model MyRocketLauncher
+{ 
+   Path "models/MD3/Weapons"
+   SKIN 0 "rocketl.jpg"
+   MODEL 0 "rocketl.md3"
+   Scale 1.2 1.2 1.2
+   ZOffset 8
+   ROTATING
+   Rotation-Speed 2
+   
+   FrameIndex NADA A 0 0
+}
+
+Model MyChaingun
+{ 
+   Path "models/MD3/Weapons"
+   SKIN 0 "machinegun.jpg"
+   MODEL 0 "MGHUD.md3"
+   Scale -2.0 2.0 2.0
+   Offset -5 0 0
+//   SCALEWEAPONFOV
+   
+   FrameIndex MGUN A 0 0
+}   
+   
+Model MyChaingun
+{ 
+   Path "models/MD3/Weapons"
+   SKIN 0 "machinegun.jpg"
+   MODEL 0 "MGHUD.md3"
+   Scale -2.0 2.0 2.0
+   Offset -5 0 0   
+   FrameIndex MGUN B 0 1
+   FrameIndex MGUN C 0 2
+   FrameIndex MGUN D 0 3
+   FrameIndex MGUN E 0 4
+   FrameIndex MGUN F 0 5
+   FrameIndex MGUN G 0 6
+   FrameIndex MGUN H 0 7
+   
+//   FrameIndex MGUN H 0 7
+//   FrameIndex MGUN I 0 8
+//   FrameIndex MGUN J 0 9
+//   FrameIndex MGUN K 0 10
+}
+
+
+Model MyShotgun
+{ 
+   Path "models/MD3/Weapons"
+   SKIN 0 "shotgun.jpg"
+   MODEL 0 "SGHUD.md3"
+   Scale -2.0 2.0 2.0
+   Offset -5 0 0
+   //ZOffset 2
+//   SCALEWEAPONFOV
+   
+   FrameIndex S31S A 0 0
+   FrameIndex S31S B 0 1
+   FrameIndex S31S C 0 2
+   FrameIndex S31S D 0 3
+   FrameIndex S31S E 0 4
+   FrameIndex S31S F 0 5
+   FrameIndex S31S G 0 6
+}
+
+Model MyRocketLauncher
+{ 
+   Path "models/MD3/Weapons"
+   SKIN 0 "rocketl.jpg"
+   MODEL 0 "RLHUD.md3"
+   Scale -2.0 2.0 2.0
+   Offset -5 0 0
+   //ZOffset 2
+//   SCALEWEAPONFOV
+   
+   FrameIndex ROCK A 0 0
+   FrameIndex ROCK F 0 1
+   FrameIndex ROCK B 0 2
+   FrameIndex ROCK C 0 3
+   FrameIndex ROCK D 0 4
+   FrameIndex ROCK E 0 5
+   FrameIndex ROCK G 0 6
+}

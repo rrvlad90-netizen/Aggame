@@ -1,0 +1,464 @@
+//////////////////////
+
+Model BodyOfBot
+{
+   Path "models\MD3\Grunt"
+   Model 0 "head.md3"
+   Skin 0 "grunt_h.png"
+   Model 1 "upper.md3"
+   Skin 1 "grunt.png"
+   Model 2 "mguninhand.md3"
+   Skin 2 "machinegun.jpg"
+   
+   Offset -5 0 -7
+  // ZOffset -27
+
+   FrameIndex POSS A 0 0 FrameIndex POSS A 1 129 FrameIndex POSS A 2 0
+   FrameIndex POSS E 0 0 FrameIndex POSS E 1 130 FrameIndex POSS E 2 0
+   FrameIndex POSS F 0 0 FrameIndex POSS F 1 131 FrameIndex POSS F 2 0
+}
+
+Model LegsOfBot
+{
+   Path "models\MD3\Grunt"
+   Model 0 "lower.md3"
+   Skin 0 "grunt.png"
+
+   ZOffset 20
+
+   FrameIndex POSS A 0 110
+   FrameIndex POSS B 0 111
+   FrameIndex POSS C 0 112
+   FrameIndex POSS D 0 113
+   FrameIndex POSS E 0 114
+   FrameIndex POSS F 0 115
+   FrameIndex POSS G 0 116
+   FrameIndex POSS H 0 117
+   FrameIndex POSS I 0 118 
+ } 
+ 
+ 
+Model LegsOfBot
+{
+   Path "models\MD3\Grunt"
+   Model 0 "death.md3"
+   Skin 0 "gruntdie.jpg"
+   
+  scale 0.8 0.8 0.8
+  
+//Die
+FrameIndex POSD A 0 60
+FrameIndex POSD B 0 61
+FrameIndex POSD C 0 62
+FrameIndex POSD D 0 63
+FrameIndex POSD E 0 64
+FrameIndex POSD F 0 65
+FrameIndex POSD G 0 66
+FrameIndex POSD H 0 67
+FrameIndex POSD I 0 68
+FrameIndex POSD J 0 69
+FrameIndex POSD K 0 70
+FrameIndex POSD L 0 71
+FrameIndex POSD M 0 72
+FrameIndex POSD N 0 73
+FrameIndex POSD O 0 74
+FrameIndex POSD P 0 75
+FrameIndex POSD Q 0 76
+FrameIndex POSD R 0 77
+FrameIndex POSD S 0 78
+FrameIndex POSD T 0 79
+FrameIndex POSD U 0 80
+FrameIndex POSD V 0 81
+FrameIndex POSD W 0 82
+FrameIndex POSD X 0 83
+FrameIndex POSD Y 0 84
+FrameIndex POSD Z 0 85
+
+
+FrameIndex PODD A 0 86
+FrameIndex PODD B 0 87
+FrameIndex PODD C 0 88
+FrameIndex PODD D 0 89
+}
+
+////
+
+Model LegsOfBot2
+{
+   Path "models\MD3\Grunt"
+   Model 0 "lower.md3"
+   Skin 0 "grunt.png"
+
+   ZOffset 20
+
+   FrameIndex POSS A 0 110
+   FrameIndex POSS B 0 111
+   FrameIndex POSS C 0 112
+   FrameIndex POSS D 0 113
+   FrameIndex POSS E 0 114
+   FrameIndex POSS F 0 115
+   FrameIndex POSS G 0 116
+   FrameIndex POSS H 0 117
+   FrameIndex POSS I 0 118 
+ } 
+ 
+ 
+Model LegsOfBot2
+{
+   Path "models\MD3\Grunt"
+   Model 0 "death.md3"
+   Skin 0 "gruntdie.jpg"
+   
+  scale 0.8 0.8 0.8
+  
+//Die
+FrameIndex POSD A 0 60
+FrameIndex POSD B 0 61
+FrameIndex POSD C 0 62
+FrameIndex POSD D 0 63
+FrameIndex POSD E 0 64
+FrameIndex POSD F 0 65
+FrameIndex POSD G 0 66
+FrameIndex POSD H 0 67
+FrameIndex POSD I 0 68
+FrameIndex POSD J 0 69
+FrameIndex POSD K 0 70
+FrameIndex POSD L 0 71
+FrameIndex POSD M 0 72
+FrameIndex POSD N 0 73
+FrameIndex POSD O 0 74
+FrameIndex POSD P 0 75
+FrameIndex POSD Q 0 76
+FrameIndex POSD R 0 77
+FrameIndex POSD S 0 78
+FrameIndex POSD T 0 79
+FrameIndex POSD U 0 80
+FrameIndex POSD V 0 81
+FrameIndex POSD W 0 82
+FrameIndex POSD X 0 83
+FrameIndex POSD Y 0 84
+FrameIndex POSD Z 0 85
+
+
+FrameIndex PODD A 0 86
+FrameIndex PODD B 0 87
+FrameIndex PODD C 0 88
+FrameIndex PODD D 0 89
+}
+//////////////////////
+
+Model KleskBody
+{
+   Path "models\MD3\Klesk"
+   Model 0 "head.md3"
+   Skin 0 "klesk_h.png"
+   Model 1 "upper.md3"
+   Skin 1 "klesk.png"
+   Model 2 "mguninhand.md3"
+   Skin 2 "machinegun.jpg"
+   
+   Offset 0 0 -10
+   //ZOffset -30
+
+   FrameIndex POSS A 0 0 FrameIndex POSS A 1 151 FrameIndex POSS A 2 0
+   FrameIndex POSS E 0 0 FrameIndex POSS E 1 152 FrameIndex POSS E 2 0
+   FrameIndex POSS F 0 0 FrameIndex POSS F 1 153 FrameIndex POSS F 2 0
+}
+
+Model KleskLegs
+{
+   Path "models\MD3\Klesk"
+   Model 0 "lower.md3"
+   Skin 0 "klesk.png"
+
+   Offset 5 0 20
+
+   FrameIndex POSS A 0 120
+   FrameIndex POSS B 0 121
+   FrameIndex POSS C 0 122
+   FrameIndex POSS D 0 123
+   FrameIndex POSS E 0 124
+   FrameIndex POSS F 0 125
+   FrameIndex POSS G 0 126
+   FrameIndex POSS H 0 127
+   FrameIndex POSS I 0 128  
+   FrameIndex POSS J 0 129 
+   FrameIndex POSS K 0 130 
+   FrameIndex POSS L 0 131
+   FrameIndex POSS M 0 132
+   FrameIndex POSS N 0 133
+   FrameIndex POSS O 0 134
+   FrameIndex POSS P 0 135
+   FrameIndex POSS Q 0 136
+   FrameIndex POSS R 0 137
+   FrameIndex POSS S 0 138
+   FrameIndex POSS T 0 139
+   FrameIndex POSS U 0 140
+   FrameIndex POSS V 0 141
+   FrameIndex POSS W 0 142
+ } 
+
+
+Model KleskLegs
+{
+   Path "models\MD3\Klesk"
+   Model 0 "death.md3"
+   Skin 0 "kleskdie.png"
+   
+  scale 0.8 0.8 0.8
+  
+//Die
+FrameIndex POSD A 0 0
+FrameIndex POSD B 0 1
+FrameIndex POSD C 0 2
+FrameIndex POSD D 0 3
+FrameIndex POSD E 0 4
+FrameIndex POSD F 0 5
+FrameIndex POSD G 0 6
+FrameIndex POSD H 0 7
+FrameIndex POSD I 0 8
+FrameIndex POSD J 0 9
+FrameIndex POSD K 0 10
+FrameIndex POSD L 0 11
+FrameIndex POSD M 0 12
+FrameIndex POSD N 0 13
+FrameIndex POSD O 0 14
+FrameIndex POSD P 0 15
+FrameIndex POSD Q 0 16
+FrameIndex POSD R 0 17
+FrameIndex POSD S 0 18
+FrameIndex POSD T 0 19
+FrameIndex POSD U 0 20
+FrameIndex POSD V 0 21
+FrameIndex POSD W 0 22
+FrameIndex POSD X 0 23
+FrameIndex POSD Y 0 24
+FrameIndex POSD Z 0 25
+
+
+FrameIndex PODD A 0 26
+FrameIndex PODD B 0 27
+FrameIndex PODD C 0 28
+FrameIndex PODD D 0 29
+FrameIndex PODD E 0 30
+FrameIndex PODD F 0 31
+FrameIndex PODD G 0 32
+FrameIndex PODD H 0 33
+FrameIndex PODD I 0 34
+FrameIndex PODD J 0 35
+FrameIndex PODD K 0 36
+FrameIndex PODD L 0 37
+FrameIndex PODD M 0 38
+FrameIndex PODD N 0 39
+FrameIndex PODD O 0 40
+FrameIndex PODD P 0 41
+FrameIndex PODD Q 0 42
+FrameIndex PODD R 0 43
+FrameIndex PODD S 0 44
+FrameIndex PODD T 0 45
+FrameIndex PODD U 0 46
+FrameIndex PODD V 0 47
+FrameIndex PODD W 0 48
+FrameIndex PODD X 0 49
+FrameIndex PODD Y 0 50   
+}
+
+/////
+
+
+Model KleskLegs2
+{
+   Path "models\MD3\Klesk"
+   Model 0 "lower.md3"
+   Skin 0 "klesk.png"
+
+   Offset 5 0 20
+
+   FrameIndex POSS A 0 120
+   FrameIndex POSS B 0 121
+   FrameIndex POSS C 0 122
+   FrameIndex POSS D 0 123
+   FrameIndex POSS E 0 124
+   FrameIndex POSS F 0 125
+   FrameIndex POSS G 0 126
+   FrameIndex POSS H 0 127
+   FrameIndex POSS I 0 128  
+   FrameIndex POSS J 0 129 
+   FrameIndex POSS K 0 130 
+   FrameIndex POSS L 0 131
+   FrameIndex POSS M 0 132
+   FrameIndex POSS N 0 133
+   FrameIndex POSS O 0 134
+   FrameIndex POSS P 0 135
+   FrameIndex POSS Q 0 136
+   FrameIndex POSS R 0 137
+   FrameIndex POSS S 0 138
+   FrameIndex POSS T 0 139
+   FrameIndex POSS U 0 140
+   FrameIndex POSS V 0 141
+   FrameIndex POSS W 0 142
+ } 
+
+
+Model KleskLegs2
+{
+   Path "models\MD3\Klesk"
+   Model 0 "death.md3"
+   Skin 0 "kleskdie.png"
+  scale 0.8 0.8 0.8
+//Die
+FrameIndex POSD A 0 0
+FrameIndex POSD B 0 1
+FrameIndex POSD C 0 2
+FrameIndex POSD D 0 3
+FrameIndex POSD E 0 4
+FrameIndex POSD F 0 5
+FrameIndex POSD G 0 6
+FrameIndex POSD H 0 7
+FrameIndex POSD I 0 8
+FrameIndex POSD J 0 9
+FrameIndex POSD K 0 10
+FrameIndex POSD L 0 11
+FrameIndex POSD M 0 12
+FrameIndex POSD N 0 13
+FrameIndex POSD O 0 14
+FrameIndex POSD P 0 15
+FrameIndex POSD Q 0 16
+FrameIndex POSD R 0 17
+FrameIndex POSD S 0 18
+FrameIndex POSD T 0 19
+FrameIndex POSD U 0 20
+FrameIndex POSD V 0 21
+FrameIndex POSD W 0 22
+FrameIndex POSD X 0 23
+FrameIndex POSD Y 0 24
+FrameIndex POSD Z 0 25
+
+
+FrameIndex PODD A 0 26
+FrameIndex PODD B 0 27
+FrameIndex PODD C 0 28
+FrameIndex PODD D 0 29
+FrameIndex PODD E 0 30
+FrameIndex PODD F 0 31
+FrameIndex PODD G 0 32
+FrameIndex PODD H 0 33
+FrameIndex PODD I 0 34
+FrameIndex PODD J 0 35
+FrameIndex PODD K 0 36
+FrameIndex PODD L 0 37
+FrameIndex PODD M 0 38
+FrameIndex PODD N 0 39
+FrameIndex PODD O 0 40
+FrameIndex PODD P 0 41
+FrameIndex PODD Q 0 42
+FrameIndex PODD R 0 43
+FrameIndex PODD S 0 44
+FrameIndex PODD T 0 45
+FrameIndex PODD U 0 46
+FrameIndex PODD V 0 47
+FrameIndex PODD W 0 48
+FrameIndex PODD X 0 49
+FrameIndex PODD Y 0 50  
+}
+
+
+/////
+
+
+Model KleskLegs3
+{
+   Path "models\MD3\Klesk"
+   Model 0 "lower.md3"
+   Skin 0 "klesk.png"
+
+   Offset 5 0 20
+
+   FrameIndex POSS A 0 120
+   FrameIndex POSS B 0 121
+   FrameIndex POSS C 0 122
+   FrameIndex POSS D 0 123
+   FrameIndex POSS E 0 124
+   FrameIndex POSS F 0 125
+   FrameIndex POSS G 0 126
+   FrameIndex POSS H 0 127
+   FrameIndex POSS I 0 128  
+   FrameIndex POSS J 0 129 
+   FrameIndex POSS K 0 130 
+   FrameIndex POSS L 0 131
+   FrameIndex POSS M 0 132
+   FrameIndex POSS N 0 133
+   FrameIndex POSS O 0 134
+   FrameIndex POSS P 0 135
+   FrameIndex POSS Q 0 136
+   FrameIndex POSS R 0 137
+   FrameIndex POSS S 0 138
+   FrameIndex POSS T 0 139
+   FrameIndex POSS U 0 140
+   FrameIndex POSS V 0 141
+   FrameIndex POSS W 0 142
+ } 
+
+
+Model KleskLegs3
+{
+   Path "models\MD3\Klesk"
+   Model 0 "death.md3"
+   Skin 0 "kleskdie.png"
+   
+  scale 0.8 0.8 0.8
+//Die
+FrameIndex POSD A 0 0
+FrameIndex POSD B 0 1
+FrameIndex POSD C 0 2
+FrameIndex POSD D 0 3
+FrameIndex POSD E 0 4
+FrameIndex POSD F 0 5
+FrameIndex POSD G 0 6
+FrameIndex POSD H 0 7
+FrameIndex POSD I 0 8
+FrameIndex POSD J 0 9
+FrameIndex POSD K 0 10
+FrameIndex POSD L 0 11
+FrameIndex POSD M 0 12
+FrameIndex POSD N 0 13
+FrameIndex POSD O 0 14
+FrameIndex POSD P 0 15
+FrameIndex POSD Q 0 16
+FrameIndex POSD R 0 17
+FrameIndex POSD S 0 18
+FrameIndex POSD T 0 19
+FrameIndex POSD U 0 20
+FrameIndex POSD V 0 21
+FrameIndex POSD W 0 22
+FrameIndex POSD X 0 23
+FrameIndex POSD Y 0 24
+FrameIndex POSD Z 0 25
+
+
+FrameIndex PODD A 0 26
+FrameIndex PODD B 0 27
+FrameIndex PODD C 0 28
+FrameIndex PODD D 0 29
+FrameIndex PODD E 0 30
+FrameIndex PODD F 0 31
+FrameIndex PODD G 0 32
+FrameIndex PODD H 0 33
+FrameIndex PODD I 0 34
+FrameIndex PODD J 0 35
+FrameIndex PODD K 0 36
+FrameIndex PODD L 0 37
+FrameIndex PODD M 0 38
+FrameIndex PODD N 0 39
+FrameIndex PODD O 0 40
+FrameIndex PODD P 0 41
+FrameIndex PODD Q 0 42
+FrameIndex PODD R 0 43
+FrameIndex PODD S 0 44
+FrameIndex PODD T 0 45
+FrameIndex PODD U 0 46
+FrameIndex PODD V 0 47
+FrameIndex PODD W 0 48
+FrameIndex PODD X 0 49
+FrameIndex PODD Y 0 50   
+}

@@ -1,0 +1,106 @@
+Model PigcopBody
+{
+   Path "models\MD3\Pigcop"
+   Model 0 "pigcop1.md3"
+   Skin 0 "pigcop.bmp"
+   Model 1 "shotgunpigcop.md3"
+   Skin 1 "shotgun.jpg"
+   
+   Offset 0 -2 -39
+
+FrameIndex POSS A 0 0  FrameIndex POSS A 1 0  FrameIndex POSS A 2 0
+FrameIndex POSS B 0 1  FrameIndex POSS B 1 1  FrameIndex POSS B 2 1
+FrameIndex POSS C 0 2  FrameIndex POSS C 1 2  FrameIndex POSS C 2 2
+FrameIndex POSS D 0 3  FrameIndex POSS D 1 3  FrameIndex POSS D 2 3
+FrameIndex POSS E 0 4  FrameIndex POSS E 1 4  FrameIndex POSS E 2 4
+FrameIndex POSS F 0 5  FrameIndex POSS F 1 5  FrameIndex POSS F 2 5
+FrameIndex POSS G 0 6  FrameIndex POSS G 1 6  FrameIndex POSS G 2 6
+FrameIndex POSS H 0 7  FrameIndex POSS H 1 7  FrameIndex POSS H 2 7
+FrameIndex POSS I 0 8  FrameIndex POSS I 1 8  FrameIndex POSS I 2 8
+FrameIndex POSS J 0 9  FrameIndex POSS J 1 9  FrameIndex POSS J 2 9
+FrameIndex POSS K 0 10  FrameIndex POSS K 1 10  FrameIndex POSS K 2 10
+FrameIndex POSS L 0 11  FrameIndex POSS L 1 11  FrameIndex POSS L 2 11
+FrameIndex POSS M 0 12  FrameIndex POSS M 1 12  FrameIndex POSS M 2 12
+FrameIndex POSS N 0 13  FrameIndex POSS N 1 13  FrameIndex POSS N 2 13
+FrameIndex POSS O 0 14  FrameIndex POSS O 1 14  FrameIndex POSS O 2 14
+FrameIndex POSS P 0 15  FrameIndex POSS P 1 15  FrameIndex POSS P 2 15
+FrameIndex POSS Q 0 16  FrameIndex POSS Q 1 16  FrameIndex POSS Q 2 16
+FrameIndex POSS R 0 17  FrameIndex POSS R 1 17  FrameIndex POSS R 2 17
+}
+
+Model PigcopLegs
+{
+   Path "models\MD3\Pigcop"
+   Model 0 "pigcop2.md3"
+   Skin 0 "pigcop.bmp"
+
+
+FrameIndex POSS A 0 0  FrameIndex POSS A 1 0  FrameIndex POSS A 2 0
+FrameIndex POSS B 0 1  FrameIndex POSS B 1 1  FrameIndex POSS B 2 1
+FrameIndex POSS C 0 2  FrameIndex POSS C 1 2  FrameIndex POSS C 2 2
+FrameIndex POSS D 0 3  FrameIndex POSS D 1 3  FrameIndex POSS D 2 3
+FrameIndex POSS E 0 4  FrameIndex POSS E 1 4  FrameIndex POSS E 2 4
+FrameIndex POSS F 0 5  FrameIndex POSS F 1 5  FrameIndex POSS F 2 5
+FrameIndex POSS G 0 6  FrameIndex POSS G 1 6  FrameIndex POSS G 2 6
+FrameIndex POSS H 0 7  FrameIndex POSS H 1 7  FrameIndex POSS H 2 7
+FrameIndex POSS I 0 8  FrameIndex POSS I 1 8  FrameIndex POSS I 2 8
+FrameIndex POSS J 0 9  FrameIndex POSS J 1 9  FrameIndex POSS J 2 9
+FrameIndex POSS K 0 10  FrameIndex POSS K 1 10  FrameIndex POSS K 2 10
+FrameIndex POSS L 0 11  FrameIndex POSS L 1 11  FrameIndex POSS L 2 11
+FrameIndex POSS M 0 12  FrameIndex POSS M 1 12  FrameIndex POSS M 2 12
+FrameIndex POSS N 0 13  FrameIndex POSS N 1 13  FrameIndex POSS N 2 13
+FrameIndex POSS O 0 14  FrameIndex POSS O 1 14  FrameIndex POSS O 2 14
+FrameIndex POSS P 0 15  FrameIndex POSS P 1 15  FrameIndex POSS P 2 15
+FrameIndex POSS Q 0 16  FrameIndex POSS Q 1 16  FrameIndex POSS Q 2 16
+FrameIndex POSS R 0 17  FrameIndex POSS R 1 17  FrameIndex POSS R 2 17
+} 
+
+
+Model PigcopLegs
+{
+   Path "models\MD3\Pigcop"
+   Model 0 "pigcopdie.md3"
+   Skin 0 "pigcop.bmp"
+   
+   ZOffset 30
+ 
+//Die
+FrameIndex POSD A 0 0  FrameIndex POSD A 1 0
+FrameIndex POSD B 0 1  FrameIndex POSD B 1 1
+FrameIndex POSD C 0 2  FrameIndex POSD C 1 2
+FrameIndex POSD D 0 3  FrameIndex POSD D 1 3
+FrameIndex POSD E 0 4  FrameIndex POSD E 1 4
+FrameIndex POSD F 0 5  FrameIndex POSD F 1 5
+FrameIndex POSD G 0 6  FrameIndex POSD G 1 6
+FrameIndex POSD H 0 7  FrameIndex POSD H 1 7
+FrameIndex POSD I 0 8  FrameIndex POSD I 1 8
+FrameIndex POSD J 0 9  FrameIndex POSD J 1 9
+FrameIndex POSD K 0 10  FrameIndex POSD K 1 10
+FrameIndex POSD L 0 11  FrameIndex POSD L 1 11
+FrameIndex POSD M 0 12  FrameIndex POSD M 1 12
+FrameIndex POSD N 0 13  FrameIndex POSD N 1 13
+FrameIndex POSD O 0 14  FrameIndex POSD O 1 14
+FrameIndex POSD P 0 15  FrameIndex POSD P 1 15
+FrameIndex POSD Q 0 16  FrameIndex POSD Q 1 16
+FrameIndex POSD R 0 17  FrameIndex POSD R 1 17
+FrameIndex POSD S 0 18  FrameIndex POSD S 1 18
+FrameIndex POSD T 0 19  FrameIndex POSD T 1 19
+FrameIndex POSD U 0 20  FrameIndex POSD U 1 20
+FrameIndex POSD V 0 21  FrameIndex POSD V 1 21
+FrameIndex POSD W 0 22  FrameIndex POSD W 1 22
+FrameIndex POSD X 0 23  FrameIndex POSD X 1 23
+FrameIndex POSD Y 0 24  FrameIndex POSD Y 1 24
+FrameIndex POSD Z 0 25  FrameIndex POSD Z 1 25
+
+
+FrameIndex PODD A 0 26  FrameIndex PODD A 1 26
+FrameIndex PODD B 0 27  FrameIndex PODD B 1 27
+FrameIndex PODD C 0 28  FrameIndex PODD C 1 28
+FrameIndex PODD D 0 29  FrameIndex PODD D 1 29
+FrameIndex PODD E 0 30  FrameIndex PODD E 1 30
+FrameIndex PODD F 0 31  FrameIndex PODD F 1 31
+FrameIndex PODD G 0 32  FrameIndex PODD G 1 32
+FrameIndex PODD H 0 33  FrameIndex PODD H 1 33
+FrameIndex PODD I 0 34  FrameIndex PODD I 1 34
+FrameIndex PODD J 0 35  FrameIndex PODD J 1 35 
+}

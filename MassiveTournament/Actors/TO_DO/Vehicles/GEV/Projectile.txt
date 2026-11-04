@@ -1,0 +1,132 @@
+ACTOR TankBall : FastProjectile
+{
+   Radius 2
+   Height 2
+   Speed 384
+   Damage 100
+   Decal EXPLScorch
+   DamageType "VehicleDamage"
+   MissileType "TankBallTrail"
+   MissileHeight 8
+   RenderStyle Add
+   Alpha 1.0
+   Scale 0.2
+   +MTHRUSPECIES
+   +EXTREMEDEATH
+   +ForceXYBillboard
+   +FORCERADIUSDMG
+   +BRIGHT
+   States
+   {
+   Spawn:
+      FIR3 A 1
+	  Loop
+   Death:
+	  FIR3 A 0
+	  FIR3 A 0 A_SpawnItem("GravityShockWave",0,0,0)
+      FIR3 A 0 A_SpawnItem("GEVFireExplosion",0,0,0)
+	  FIR3 A 0 A_SpawnItem("GEVFireExplosionWave",0,0,0)
+	  FIR3 A 0 A_PlaySound("GEV/Hit")
+	  FIR3 AAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("BFire1", 0,0,0, (0.1)*Random(-80, 80), 0, (0.1)*Random(-80, 80), Random(0, 360), 128)
+	  FIR3 AAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("BFire2", 0,0,0, (0.1)*Random(-80, 80), 0, (0.1)*Random(-80, 80), Random(0, 360), 128)
+	  FIR3 AAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("BFire3", 0,0,0, (0.1)*Random(-80, 80), 0, (0.1)*Random(-80, 80), Random(0, 360), 128)
+	  FIR3 A 1 A_Explode(1000,512,0,0,192)
+	  Stop
+   }
+}
+
+ACTOR GEVFireExplosion
+{
+   Speed 0
+   Height 0
+   Radius 0
+   RenderStyle Add
+   Alpha 1.0
+   Scale 3.0
+   Decal RocketScorch
+   DamageType "VehicleDamage"
+   +NOINTERACTION
+   +CLIENTSIDEONLY
+   States
+   {
+   Spawn:
+	  SBLL KLMNOPQRSTU 1 BRIGHT
+      Goto Death
+   Death:
+      TNT1 A 0
+      Stop
+   }
+}
+
+Actor TankTracer : FastProjectile
+{
+	Radius 2
+	Height 4
+	Speed 512
+	RenderStyle Add
+	DamageType "VehicleDamage"
+	Alpha 1.0
+	Damage 20
+	Decal BulletChip
+	Scale 2.0
+	PROJECTILE
+	+DONTSPLASH
+	+BLOODSPLATTER
+	+EXTREMEDEATH
+	+MTHRUSPECIES
+	+THRUGHOST
+	+BRIGHT
+	States
+	{
+	Spawn:
+		TRAC A 1
+		Loop
+	Death:
+		TNT1 A 0 A_PlaySound("weapons/dsskldth",0,1,0)
+		TNT1 A 1 A_SpawnItemEx("HitPuff",0,0,0)
+		Stop
+	XDeath:
+		TNT1 A 1
+		Stop
+	}
+}
+
+actor ReflectiveShield
+{ 
+  Radius 128
+  Height 128
+  RenderStyle Add
+  Alpha 0.25
+  BloodType "TankShieldHit"
+  Mass 0x7FFFFFFF
+  ReactionTime 700
+  Species Players
+  +SHOOTABLE
+  +DONTRIP
+  +REFLECTIVE
+  +INVULNERABLE
+  -SOLID
+  +BRIGHT
+  States
+  {
+  Spawn:
+    NADA A 0
+	NADA A 0 A_PlaySound("GEV/SpawnShield",5,1.0,0,0.5)
+    NADA A 15 A_PlaySound("GEV/SpawnShield",6,1.0,0,0.5)
+	NADA B 1
+    Goto Idle
+  Idle:
+	NADA B 0 A_CountDown
+	NADA B 1 A_PlaySound("GEV/ShieldLoop",7,1.0,1,0.5)
+	Loop
+  Death:
+    NADA B 0 A_PlaySound("GEV/ShieldStop",5,1.0,0,0.5)
+	NADA B 0 A_PlaySound("GEV/ShieldStop",6,1.0,0,0.5)
+	NADA B 0 A_PlaySound("GEV/ShieldStop",7,1.0,0,0.5)
+	NADA B 1 A_SetTranslucent(1.0,1)
+	Goto FadeOut
+  FadeOut:
+	NADA B 1 A_FadeOut(0.08)
+    Loop
+  }
+}

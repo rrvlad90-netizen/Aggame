@@ -1,0 +1,118 @@
+ACTOR PlayerToneTitan : HMVehiclePawn
+{
+	var int user_titansprint;
+	var int user_titangrenades;
+	
+	Health 2500
+	Radius 80
+	Height 352
+	PainChance 0
+	Player.UseRange 128
+	Player.AirCapacity 0
+	Player.DisplayName "Raider Titan"
+	Player.SoundClass "TONSND"
+	Player.MorphWeapon "TitanMinigun"
+	Player.ViewHeight 332
+	Player.AttackZOffset 132
+	Player.MaxHealth 2500
+	Player.JumpZ 32
+	Player.CrouchSprite "PLYC"
+	MaxStepHeight 48
+	Player.ForwardMove 2, 1
+	+PLAYERPAWN.CROUCHABLEMORPH
+	+FORCERADIUSDMG
+	States
+	{
+	Spawn:
+      PLAY Z 1
+      Loop
+    See:
+	  PLAY ABCDEF 3 A_RadiusThrust(VH_TITAN_PUSHFORCE,192,RTF_NOTMISSILE|RTF_NOIMPACTDAMAGE,192)
+	  PLAY G 0 A_SpawnItemEx("StepbodyTone", 140, -50, 0, 0, 0, -1, 0, 0, 0)
+	  PLAY G 3 A_SpawnItemEx("FootStep", 140, -50, 0, 0, 0, -1, 0, 0, 0)
+	  PLAY HIJKLMNOP 3 A_RadiusThrust(VH_TITAN_PUSHFORCE,192,RTF_NOTMISSILE|RTF_NOIMPACTDAMAGE,192)
+	  PLAY Q 0 A_SpawnItemEx("StepbodyTone", 140, 50, 0, 0, 0, -1, 0, 0, 0)
+	  PLAY Q 3 A_SpawnItemEx("FootStep", 140, 50, 0, 0, 0, -1, 0, 0, 0)
+	  PLAY RST 3 A_RadiusThrust(VH_TITAN_PUSHFORCE,192,RTF_NOTMISSILE|RTF_NOIMPACTDAMAGE,192)
+      Loop
+   RunBack:
+      PLAY TSR 3 A_RadiusThrust(VH_TITAN_PUSHFORCE,192,RTF_NOTMISSILE|RTF_NOIMPACTDAMAGE,192)
+	  PLAY Q 0 A_SpawnItemEx("StepbodyTone", -125, -50, 0, 0, 0, -1, 0, 0, 0)
+	  PLAY Q 3 A_SpawnItemEx("FootStep", -125, -50, 0, 0, 0, -1, 0, 0, 0)
+	  PLAY PONMLKKJIH 3 A_RadiusThrust(VH_TITAN_PUSHFORCE,192,RTF_NOTMISSILE|RTF_NOIMPACTDAMAGE,192)
+	  PLAY G 0 A_SpawnItemEx("StepbodyTone", -125, 50, 0, 0, 0, -1, 0, 0, 0)
+	  PLAY G 3 A_SpawnItemEx("FootStep", -125, 50, 0, 0, 0, -1, 0, 0, 0)
+	  PLAY FEDCBA 3 A_RadiusThrust(VH_TITAN_PUSHFORCE,192,RTF_NOTMISSILE|RTF_NOIMPACTDAMAGE,192)
+      Loop
+   RunFaster:
+	  PLRF ABCDEF 2 A_RadiusThrust(VH_TITAN_PUSHFORCE,256,RTF_NOTMISSILE|RTF_NOIMPACTDAMAGE,256)
+	  PLRF G 0 A_SpawnItemEx("StepbodyTone",90,-50,0,0,0,-8)
+	  PLRF GHIJKLMNOPQR 2 A_RadiusThrust(VH_TITAN_PUSHFORCE,256,RTF_NOTMISSILE|RTF_NOIMPACTDAMAGE,256)
+	  PLRF S 0 A_SpawnItemEx("StepbodyTone",90,50,0,0,0,-8)
+	  PLRF STUVWX 2 A_RadiusThrust(VH_TITAN_PUSHFORCE,256,RTF_NOTMISSILE|RTF_NOIMPACTDAMAGE,256)
+	  Loop
+   Pain:
+      PLY2 Z 0
+      Goto Spawn
+   Swim:
+      PLAY Z 4 A_JumpIf(waterlevel<=1,"JumpLoop")
+      Loop
+   JumpLoop:
+   JumpLoop.Back:
+      PLYJ ABCDEFGHIJKL 4 A_CheckFloor("Land")
+	  PLYJ M 0 A_SpawnItemEx("ToneImpactSpawner", 0, 0, 0, 0, 0, 0, 0,SXF_NOCHECKPOSITION)
+	  PLYJ M 1 A_CheckFloor("Land")
+      Goto JumpLoop.Back+12
+   Land:
+      PLYL A 0 A_PlaySound("ToneTitan/Land",5)
+	  PLYL A 0 A_Stop
+	  PLYL ABCDEFGHIJKLM 2
+	  PLYL M 0 A_SetUserVar("user_isrunningforward",0)
+	  PLYL M 0 A_SetUserVar("user_iswalkingforward",0)
+	  PLYL M 0 A_SetUserVar("user_isrunningback",0)
+	  PLYL M 0 A_SetUserVar("user_iswalkingback",0)
+	  PLYL M 0 A_SetUserVar("user_isplayerbusy",0)
+      Goto Spawn
+   NoUser:
+      TNT1 A 0 ACS_NamedExecuteAlways("QuitVehicle",0,0,0,0)
+	  TNT1 A 1 SetPlayerProperty(0,0,4)
+	  Goto Spawn
+   MeleeAct.Up:
+	  PLAY Z 0 A_SetUserVar("user_isplayerbusy",0)
+	  PLAY Z 0 ACS_NamedExecuteAlways("TitanGrenadeRecharger",0,0,0,0)
+	  PLAY Z 0 A_JumpIf(user_titangrenades==0,"Spawn")
+	  PLAY Z 0 A_SetUserVar("user_titangrenades",user_titangrenades-1)
+	  PLAY Z 1 A_GiveInventory("TitanLaunchShoulderGrenade")
+	  Goto Spawn
+   MeleeAct.Down:
+	  PLYR A 0 A_SetUserVar("user_isplayerbusy",1)
+	  PLYR A 0 SetPlayerProperty(0,1,4)
+	  PLYR A 0 A_PlaySound("ToneTitan/LegMove",5)
+	  PLYR ABC 4
+	  PLYR DEF 2
+	  PLYR G 6 A_SpawnItemEx("ToneStomp",146,0,2,0,0,0)
+	  PLYR H 5
+	  PLYR IJKLMNO 3
+	  PLYR A 0 A_PlaySound("Tone/Step",5)
+	  PLYR A 0 SetPlayerProperty(0,0,4)
+	  PLYR A 0 A_SetUserVar("user_isplayerbusy",0)
+	  Goto Spawn
+   AnimTaunt:
+	  PLAY Z 0 A_PlaySound("TONTAUNT",CHAN_VOICE,1.0,0,0.25)
+	  PLAY Z 1 A_PlaySound("TONTAUNT",CHAN_BODY,1.0,0,0.5)
+	  TNT1 A 0 A_SetUserVar("user_istaunting",0)
+      Goto Spawn
+   Death: 
+   XDeath:
+      NADA A 1 SetPlayerProperty(0,0,4)
+	  NADA A 0 A_TakeInventory("TitanMinigun",999)
+      NADA A 0 A_NoBlocking
+	  NADA A 0 A_PlayerScream
+	  NADA A 0 ACS_NamedExecuteAlways("QuitVehicle",0,0,0,0)
+	  NADA A 0 A_SpawnItem("ToneWireFade",0,0,0)
+	  NADA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("Number0Binary",random(-192,192),random(-192,192),random(4,448), (0.1)*Random(-32, 32), (0.1)*Random(-32, 32), (0.1)*Random(-32, 32), Random(0, 360))
+	  NADA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("Number1Binary",random(-192,192),random(-192,192),random(4,448), (0.1)*Random(-32, 32), (0.1)*Random(-32, 32), (0.1)*Random(-32, 32), Random(0, 360))
+	  NADA A -1
+      Loop
+	}
+}

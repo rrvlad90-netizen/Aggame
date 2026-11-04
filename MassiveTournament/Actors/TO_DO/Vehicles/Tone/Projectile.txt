@@ -1,0 +1,160 @@
+Actor TitanMGTracer : FastProjectile
+{
+	Radius 2
+	Height 4
+	Speed 768
+	RenderStyle Add
+	DamageType "VehicleDamage"
+	DeathSound "ToneTitan/ShellExplode"
+	Alpha 1.0
+	Damage 10
+	Decal EXPLScorch
+	Scale 2.5
+	PROJECTILE
+	+DONTSPLASH
+	+BLOODSPLATTER
+	+EXTREMEDEATH
+	+MTHRUSPECIES
+	+THRUGHOST
+	+FORCERADIUSDMG
+	+NODAMAGETHRUST
+	+BRIGHT
+	States
+	{
+	Spawn:
+		TRAC A 1
+		Loop
+	Death:
+		TNT1 A 0 A_Scream
+		TNT1 A 0 A_PlaySound("ToneTitan/ShellExplodeFar",5)
+		TNT1 A 0 A_SpawnItemEx("TitanGunShellExplosion",0,0,0)
+		NADA A 0 A_Quake(1,17,0,384,"")
+		TNT1 A 17 A_Explode(VH_TITAN_WP_CANNON_EXPLOSION_DMG,VH_TITAN_WP_CANNON_EXPLOSION_RADIUS)
+		Stop
+	}
+}
+
+Actor TitanPiercingTracer : FastProjectile
+{
+	Radius 2
+	Height 4
+	Speed 512
+	RenderStyle Add
+	DamageType "VehicleDamage"
+	Alpha 1.0
+	Damage 50
+	Decal BulletChip
+	Scale 2.0
+	PROJECTILE
+	+STRIFEDAMAGE
+	+DONTSPLASH
+	+BLOODSPLATTER
+	+EXTREMEDEATH
+	+MTHRUSPECIES
+	+THRUGHOST
+	+RIPPER
+	+BRIGHT
+	States
+	{
+	Spawn:
+		TRAC A 1
+		Loop
+	Death:
+		TNT1 A 0 A_PlaySound("weapons/dsskldth",0,1,0)
+		TNT1 A 1 A_SpawnItemEx("HitPuff",0,0,0)
+		Stop
+	XDeath:
+		TNT1 A 1
+		Stop
+	}
+}
+
+ACTOR TitanGrenade
+{
+	Radius 2
+    Height 4
+	Speed 32
+	Damage 20
+	Projectile
+	-NOGRAVITY
+	-BOUNCEAUTOOFF
+	+THRUGHOST
+	+MTHRUSPECIES
+	DamageType "VehicleDamage"
+	DeathSound "Walker/RocketExplode"
+	Scale 2.0
+	States
+	{
+	Spawn:
+		GRAN A 0 A_JumpIf(waterlevel > 1, "Death")
+		GRAN A 1 A_SpawnItemEx("GrenadeSmoke",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Loop
+	Death:
+		NADA A 0 A_PlaySound("Walker/RocketExplode",5,1.0,0,0.5)
+		NADA A 0 A_SpawnItemEx("WalkerRocketExplosion1",0,0,0)
+		NADA A 0 A_SpawnItemEx("WalkerRocketExplosion2",0,0,0)
+		NADA AAA 0 A_CustomMissile("Q3Grenade", 0, 0, random (0, 360), CMF_AIMDIRECTION|CMF_TRACKOWNER, random(10, 160))
+		NADA A 0 Radius_Quake(3,8,0,8,0)
+		NADA A 0 Radius_Quake(2,12,0,12,0)
+		NADA A 0 Radius_Quake(1,17,0,16,0)
+		NADA A 17 A_Explode(VH_TITAN_GRENADE_EXPLOSION_DMG,VH_TITAN_GRENADE_EXPLOSION_RADIUS)
+		Stop
+	}
+}
+
+Actor StepbodyTone
+{
+	+FORCERADIUSDMG
+	+NODAMAGETHRUST
+	+EXTREMEDEATH
+	+NOTIMEFREEZE
+	Radius 2
+	Height 4
+	DamageType "VehicleDamage"
+	States
+	{
+	Spawn:
+		NADA A 0 NoDelay A_PlaySound("ToneTitan/Step",6)
+		NADA A 0 A_PlaySound("ToneTitan/Step",7)
+		NADA A 0 A_Quake(2,8,0,384,"")
+		NADA A 0 A_Quake(1,17,0,640,"")
+		NADA AAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("CyclopsFloorFog", random(32,40), 0, 0, frandom(0.0,1.5), 0, 0, random(0,359), 128)
+		NADA A 17 A_Explode(650,96,0,0,64)
+		Stop
+	}
+}
+
+Actor ToneStomp : StepbodyTone
+{
+	States
+	{
+	Spawn:
+		NADA A 0 NoDelay A_PlaySound("ToneTitan/Step",5)
+		NADA A 0 A_PlaySound("ToneTitan/Step",6)
+		NADA A 0 A_PlaySound("ToneTitan/Step",7)
+		NADA A 0 A_Quake(6,11,0,512,"")
+		NADA A 0 A_Quake(4,19,0,640,"")
+		NADA A 0 A_Quake(2,27,0,768,"")
+		NADA A 0 A_Quake(1,35,0,896,"")
+		NADA AAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("CyclopsFloorFog", random(32,64), 0, 0, frandom(1.0,4.0), 0, 0, random(0,359), 128)
+		NADA A 35 A_Explode(3250,160,0)
+		Stop
+	}
+}
+
+actor ToneImpactSpawner
+{
+  RenderStyle None
+  +FORCERADIUSDMG
+  +NODAMAGETHRUST
+  +EXTREMEDEATH
+  Radius 2
+  Height 2
+  DamageType "CrushDamage"
+  states
+  {
+  Spawn:
+	TNT1 A 4 NoDelay A_Explode(1500,128,0)
+    stop
+  }
+}

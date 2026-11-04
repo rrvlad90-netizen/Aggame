@@ -1,0 +1,193 @@
+Для второго бота нужно сделать классы визуальных слоёв виртуально заменяемыми. Тогда вся логика, патруль, Kick и анимации наследуются без копирования.
+
+1. Изменения в UpdatedDoom2Bot
+Добавь внутрь UpdatedDoom2Bot:
+
+c
+virtual class<Actor> GetLegsLayerClass()
+{
+	return "UpdatedDoom2BotLegsLayer";
+}
+
+
+virtual class<Actor> GetBodyLayerClass()
+{
+	return "UpdatedDoom2BotBodyLayer";
+}
+
+
+virtual class<Actor> GetWeaponLayerClass(int number)
+{
+	switch (number)
+	{
+	case 1:
+		return "UpdatedDoom2BotWeapon1Layer";
+
+	case 2:
+		return "UpdatedDoom2BotWeapon2Layer";
+
+	case 3:
+		return "UpdatedDoom2BotWeapon3Layer";
+
+	case 4:
+		return "UpdatedDoom2BotWeapon4Layer";
+
+	case 5:
+		return "UpdatedDoom2BotWeapon5Layer";
+
+	case 6:
+		return "UpdatedDoom2BotWeapon6Layer";
+	}
+
+	return null;
+}
+В PostBeginPlay() замени создание ног и тела:
+
+c
+LegsLayer = Spawn(
+	GetLegsLayerClass(),
+	Pos
+);
+
+if (LegsLayer != null)
+	LegsLayer.Master = self;
+
+
+BodyLayer = Spawn(
+	GetBodyLayerClass(),
+	Pos
+);
+
+if (BodyLayer != null)
+	BodyLayer.Master = self;
+Функцию SpawnWeaponLayer() замени:
+
+c
+Actor SpawnWeaponLayer(int number)
+{
+	class<Actor> layerClass =
+		GetWeaponLayerClass(number);
+
+	if (layerClass == null)
+		return null;
+
+	return Spawn(
+		layerClass,
+		Pos
+	);
+}
+2. Визуальные классы второго бота
+c
+class RedBotLegsLayer
+	: UpdatedDoom2BotLegsLayer
+{
+}
+
+
+class RedBotBodyLayer
+	: UpdatedDoom2BotBodyLayer
+{
+}
+
+
+class RedBotWeapon1Layer
+	: UpdatedDoom2BotWeapon1Layer
+{
+}
+
+
+class RedBotWeapon2Layer
+	: UpdatedDoom2BotWeapon2Layer
+{
+}
+
+
+class RedBotWeapon3Layer
+	: UpdatedDoom2BotWeapon3Layer
+{
+}
+
+
+class RedBotWeapon4Layer
+	: UpdatedDoom2BotWeapon4Layer
+{
+}
+
+
+class RedBotWeapon5Layer
+	: UpdatedDoom2BotWeapon5Layer
+{
+}
+
+
+class RedBotWeapon6Layer
+	: UpdatedDoom2BotWeapon6Layer
+{
+}
+Эти классы автоматически наследуют все состояния и синхронизацию.
+
+3. Второй класс игрока
+c
+class RedUpdatedDoom2Bot
+	: UpdatedDoom2Bot
+{
+	Default
+	{
+		Player.DisplayName "Red Updated Bot";
+
+		// Можно изменить характеристики при необходимости.
+		Health 100;
+		Player.MaxHealth 100;
+	}
+
+
+	override class<Actor> GetLegsLayerClass()
+	{
+		return "RedBotLegsLayer";
+	}
+
+
+	override class<Actor> GetBodyLayerClass()
+	{
+		return "RedBotBodyLayer";
+	}
+
+
+	override class<Actor> GetWeaponLayerClass(
+		int number
+	)
+	{
+		switch (number)
+		{
+		case 1:
+			return "RedBotWeapon1Layer";
+
+		case 2:
+			return "RedBotWeapon2Layer";
+
+		case 3:
+			return "RedBotWeapon3Layer";
+
+		case 4:
+			return "RedBotWeapon4Layer";
+
+		case 5:
+			return "RedBotWeapon5Layer";
+
+		case 6:
+			return "RedBotWeapon6Layer";
+		}
+
+		return null;
+	}
+}
+4. MAPINFO
+text
+GameInfo
+{
+	PlayerClasses =
+		"UpdatedDoom2Bot",
+		"RedUpdatedDoom2Bot"
+
+	AddEventHandlers = "StepEventHandler"
+}

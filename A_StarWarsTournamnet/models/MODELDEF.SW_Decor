@@ -1,0 +1,15 @@
+//decor
+/*
+Model TaooineCoat
+{
+   Path "models/decor" 
+   //Model 1 "treestolb.md2"
+   //Skin 1 "tree.jpg" 
+   Model 0 "tatooinecoat.md3"
+   Skin 0 "tatooinecoat.jpg" 
+
+   Scale 50 50 50
+
+   FrameIndex TNT1 A 0 0 //FrameIndex KGZ1 A 1 0
+}
+*/

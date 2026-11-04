@@ -1,0 +1,57 @@
+clearskills
+
+skill nightmare
+{
+   AmmoFactor = 2
+   FastMonsters
+//   DisableCheats
+   RespawnTime = 10
+   SpawnFilter = Nightmare
+   PicName = "M_NMARE"
+   Key = "n"
+}
+
+
+GameInfo
+{
+   PlayerClasses = "PlayerSWBF"
+}
+
+map MAP01 "MAP01"
+{
+sky1 = "SKY1"//,0.05
+AllowRespawn 
+ResetHealth
+ResetInventory
+ResetItems
+//---
+music = "D_RUNNIN"
+//next = "MAP02"
+next = "EndGame"
+}
+/*
+map MAP02 "MAP02"
+{
+sky1 = "SKY1"
+AllowRespawn 
+ResetHealth
+ResetInventory
+ResetItems
+//---
+music = "D_STALKS"
+next = "EndGame"
+}
+
+
+map MAP02 "MAP02"
+{
+sky1 = "SKY1"//,0.05
+AllowRespawn 
+
+ResetHealth
+ResetInventory
+ResetItems
+//---
+music = "D_RUNNIN"
+next = "EndGame"
+}*/

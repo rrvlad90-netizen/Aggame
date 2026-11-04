@@ -1,0 +1,172 @@
+///player  PlayerSWBF
+
+Model PlayerSWBF
+{
+   Path "models/clone"
+
+   Model 0 "ctorsoidle.md3"
+   Skin 0 "cloneTrooperBody_d.JPG"
+   Model 1 "cidle2.md3"
+   Skin 1 "cloneTrooperHead_d.JPG"
+   Model 2 "blaster2idle.md3"
+   Skin 2 "blaster_w.jpg"
+
+   Scale 0.70 0.70 0.70
+
+   FrameIndex HEF1 A 0 0   FrameIndex HEF1 A 1 0   FrameIndex HEF1 A 2 0   //FrameIndex HEF1 A 3 0
+   FrameIndex HEF1 B 0 1   FrameIndex HEF1 B 1 1   FrameIndex HEF1 B 2 1   //FrameIndex HEF1 B 3 1
+   FrameIndex HEF1 C 0 2   FrameIndex HEF1 C 1 2   FrameIndex HEF1 C 2 2   //FrameIndex HEF1 C 3 2
+   FrameIndex HEF1 D 0 3   FrameIndex HEF1 D 1 3   FrameIndex HEF1 D 2 3   //FrameIndex HEF1 D 3 3
+   FrameIndex HEF1 E 0 4   FrameIndex HEF1 E 1 4   FrameIndex HEF1 E 2 4   //FrameIndex HEF1 E 3 4
+}
+
+
+//-------------
+/*
+Model PlayerSWBF
+{
+   Path "models/clone"
+
+   Model 0 "ctorsocrouch.md3"
+   Skin 0 "cloneTrooperBody_d.JPG"
+   Model 1 "ccrouch2.md3"
+   Skin 1 "cloneTrooperHead_d.JPG"
+   Model 2 "blaster2crouch.md3"
+   Skin 2 "blaster_w.jpg"
+
+   Scale 0.70 0.70 0.70
+
+   FrameIndex HES1 A 0 0   FrameIndex HES1 A 1 0   FrameIndex HES1 A 2 0   //FrameIndex HES1 A 3 0
+   FrameIndex HES1 B 0 1   FrameIndex HES1 B 1 1   FrameIndex HES1 B 2 1   //FrameIndex HES1 B 3 1
+   FrameIndex HES1 C 0 2   FrameIndex HES1 C 1 2   FrameIndex HES1 C 2 2   //FrameIndex HES1 C 3 2
+
+
+//   FrameIndex HES1 B 0 1   FrameIndex HES1 B 1 1   FrameIndex HES1 B 2 1   FrameIndex HES1 B 3 1
+//   FrameIndex HES1 C 0 2   FrameIndex HES1 C 1 2   FrameIndex HES1 C 2 2   FrameIndex HES1 C 3 2
+}
+*/
+
+//-------------
+
+Model PlayerSWBF
+{
+   Path "models/clone"
+
+   Model 0 "ctorsorun.md3"
+   Skin 0 "cloneTrooperBody_d.JPG"
+   Model 1 "crun2.md3"
+   Skin 1 "cloneTrooperHead_d.JPG"
+   Model 2 "blaster2run.md3"
+   Skin 2 "blaster_w.jpg"
+
+   Scale 0.70 0.70 0.70
+   ZOffset 26
+   
+   FrameIndex HEW1 A 0 0   FrameIndex HEW1 A 1 0   FrameIndex HEW1 A 2 0   //FrameIndex HEW1 A 3 0
+   FrameIndex HEW1 B 0 1   FrameIndex HEW1 B 1 1   FrameIndex HEW1 B 2 1   //FrameIndex HEW1 B 3 1	
+   FrameIndex HEW1 C 0 2   FrameIndex HEW1 C 1 2   FrameIndex HEW1 C 2 2   //FrameIndex HEW1 C 3 2
+   FrameIndex HEW1 D 0 3   FrameIndex HEW1 D 1 3   FrameIndex HEW1 D 2 3   //FrameIndex HEW1 D 3 3
+   FrameIndex HEW1 E 0 4   FrameIndex HEW1 E 1 4   FrameIndex HEW1 E 2 4   //FrameIndex HEW1 E 3 4
+
+
+   FrameIndex HEW1 E 0 5   FrameIndex HEW1 E 1 5   FrameIndex HEW1 E 2 5   //FrameIndex HEW1 E 3 5
+   FrameIndex HEW1 F 0 6   FrameIndex HEW1 F 1 6   FrameIndex HEW1 F 2 6   //FrameIndex HEW1 F 3 6
+   FrameIndex HEW1 G 0 7   FrameIndex HEW1 G 1 7   FrameIndex HEW1 G 2 7   //FrameIndex HEW1 G 3 7
+   FrameIndex HEW1 H 0 8   FrameIndex HEW1 H 1 8   FrameIndex HEW1 H 2 8   //FrameIndex HEW1 H 3 8
+   FrameIndex HEW1 I 0 9   FrameIndex HEW1 I 1 9   FrameIndex HEW1 I 2 9   //FrameIndex HEW1 I 3 9
+   FrameIndex HEW1 J 0 10   FrameIndex HEW1 J 1 10   FrameIndex HEW1 J 2 10  //FrameIndex HEW1 J 3 10
+   FrameIndex HEW1 K 0 11   FrameIndex HEW1 K 1 11   FrameIndex HEW1 K 2 11  //FrameIndex HEW1 K 3 11
+   FrameIndex HEW1 L 0 12   FrameIndex HEW1 L 1 12   FrameIndex HEW1 L 2 12  //FrameIndex HEW1 L 3 12
+   FrameIndex HEW1 M 0 13   FrameIndex HEW1 M 1 13   FrameIndex HEW1 M 2 13  //FrameIndex HEW1 M 3 13
+   FrameIndex HEW1 N 0 14   FrameIndex HEW1 N 1 14   FrameIndex HEW1 N 2 14  //FrameIndex HEW1 N 3 14
+   FrameIndex HEW1 O 0 15   FrameIndex HEW1 O 1 15   FrameIndex HEW1 O 2 15  //FrameIndex HEW1 O 3 15
+   FrameIndex HEW1 P 0 16   FrameIndex HEW1 P 1 16   FrameIndex HEW1 P 2 16  //FrameIndex HEW1 P 3 16
+   FrameIndex HEW1 Q 0 17   FrameIndex HEW1 Q 1 17   FrameIndex HEW1 Q 2 17  //FrameIndex HEW1 Q 3 17
+}
+
+
+
+
+
+Model PlayerSWBF
+{
+   Path "models/clone"
+
+   Model 0 "h2.md3"
+   Skin 0 "cloneTrooperHead_d.JPG"
+   Model 1 "dtorso2.md3"
+   Skin 1 "cloneTrooperBody_d.JPG"
+//   Model 3 "clonegundie.md3"
+//   Skin 3 "blaster_w.jpg"
+
+   Scale 0.70 0.70 0.70
+
+   FrameIndex HDD1 A 0 0   FrameIndex HDD1 A 1 0   //FrameIndex HDD1 A 2 0 	//FrameIndex HDD1 A 3 0
+   FrameIndex HDD1 B 0 1   FrameIndex HDD1 B 1 1   //FrameIndex HDD1 B 2 1  	//FrameIndex HDD1 B 3 1	
+   FrameIndex HDD1 C 0 2   FrameIndex HDD1 C 1 2   //FrameIndex HDD1 C 2 2	//FrameIndex HDD1 C 3 2
+   FrameIndex HDD1 D 0 3   FrameIndex HDD1 D 1 3   //FrameIndex HDD1 D 2 3	//FrameIndex HDD1 D 3 3
+   FrameIndex HDD1 E 0 4   FrameIndex HDD1 E 1 4   //FrameIndex HDD1 E 2 4	//FrameIndex HDD1 E 3 4
+
+
+   FrameIndex HDD1 E 0 5   FrameIndex HDD1 E 1 5   //FrameIndex HDD1 E 2 5	//FrameIndex HDD1 E 3 5
+   FrameIndex HDD1 F 0 6   FrameIndex HDD1 F 1 6   //FrameIndex HDD1 F 2 6	//FrameIndex HDD1 F 3 6
+   FrameIndex HDD1 G 0 7   FrameIndex HDD1 G 1 7   //FrameIndex HDD1 G 2 7	//FrameIndex HDD1 G 3 7
+   FrameIndex HDD1 H 0 8   FrameIndex HDD1 H 1 8   //FrameIndex HDD1 H 2 8	//FrameIndex HDD1 H 3 8
+   FrameIndex HDD1 I 0 9   FrameIndex HDD1 I 1 9   //FrameIndex HDD1 I 2 9	//FrameIndex HDD1 I 3 9
+   FrameIndex HDD1 J 0 10   FrameIndex HDD1 J 1 10  // FrameIndex HDD1 J 2 10	//FrameIndex HDD1 J 3 10
+   FrameIndex HDD1 K 0 11   FrameIndex HDD1 K 1 11  // FrameIndex HDD1 K 2 11	//FrameIndex HDD1 K 3 11
+   FrameIndex HDD1 L 0 12   FrameIndex HDD1 L 1 12  // FrameIndex HDD1 L 2 12	//FrameIndex HDD1 L 3 12
+   FrameIndex HDD1 M 0 13   FrameIndex HDD1 M 1 13  // FrameIndex HDD1 M 2 13	//FrameIndex HDD1 M 3 13
+   FrameIndex HDD1 N 0 14   FrameIndex HDD1 N 1 14  // FrameIndex HDD1 N 2 14	//FrameIndex HDD1 N 3 14
+   FrameIndex HDD1 O 0 15   FrameIndex HDD1 O 1 15  // FrameIndex HDD1 O 2 15	//FrameIndex HDD1 O 3 15
+ 
+   FrameIndex HDD1 P 0 16   FrameIndex HDD1 P 1 16   //FrameIndex HDD1 P 2 16	//FrameIndex HDD1 P 3 16
+   FrameIndex HDD1 Q 0 17   FrameIndex HDD1 Q 1 17  // FrameIndex HDD1 Q 2 17	//FrameIndex HDD1 Q 3 17
+
+   FrameIndex HDD1 R 0 18   FrameIndex HDD1 R 1 18  // FrameIndex HDD1 R 2 18	//FrameIndex HDD1 R 3 18
+   FrameIndex HDD1 S 0 19   FrameIndex HDD1 S 1 19  // FrameIndex HDD1 S 2 19	//FrameIndex HDD1 R 3 18
+   FrameIndex HDD1 T 0 20   FrameIndex HDD1 T 1 20  // FrameIndex HDD1 T 2 20	//FrameIndex HDD1 R 3 18
+   FrameIndex HDD1 U 0 21   FrameIndex HDD1 U 1 21 //  FrameIndex HDD1 U 2 21	//FrameIndex HDD1 R 3 18
+   FrameIndex HDD1 V 0 22   FrameIndex HDD1 V 1 22  // FrameIndex HDD1 V 2 22	//FrameIndex HDD1 R 3 18
+   FrameIndex HDD1 W 0 23   FrameIndex HDD1 W 1 23 //  FrameIndex HDD1 W 2 23	//FrameIndex HDD1 R 3 18
+   FrameIndex HDD1 X 0 24   FrameIndex HDD1 X 1 24 //  FrameIndex HDD1 X 2 24	//FrameIndex HDD1 R 3 18
+   FrameIndex HDD1 Y 0 25   FrameIndex HDD1 Y 1 25 //  FrameIndex HDD1 Y 2 25	//FrameIndex HDD1 R 3 18
+   FrameIndex HDD1 Z 0 26   FrameIndex HDD1 Z 1 26 //  FrameIndex HDD1 Z 2 26	//FrameIndex HDD1 R 3 18
+
+
+   FrameIndex HDF1 A 0 27   FrameIndex HDF1 A 1 27  // FrameIndex HDF1 A 2 27 	//FrameIndex HDD1 A 3 0
+   FrameIndex HDF1 B 0 28   FrameIndex HDF1 B 1 28  // FrameIndex HDF1 B 2 28   	//FrameIndex HDD1 B 3 1	
+   FrameIndex HDF1 C 0 29   FrameIndex HDF1 C 1 29  // FrameIndex HDF1 C 2 29	//FrameIndex HDD1 C 3 2
+   FrameIndex HDF1 D 0 30   FrameIndex HDF1 D 1 30  // FrameIndex HDF1 D 2 30	//FrameIndex HDD1 D 3 3
+   FrameIndex HDF1 E 0 31   FrameIndex HDF1 E 1 31  // FrameIndex HDF1 E 2 31	//FrameIndex HDD1 E 3 4
+
+
+   FrameIndex HDF1 E 0 32   FrameIndex HDF1 E 1 32  // FrameIndex HDF1 E 2 32	//FrameIndex HDD1 E 3 5
+   FrameIndex HDF1 F 0 33   FrameIndex HDF1 F 1 33  // FrameIndex HDF1 F 2 33	//FrameIndex HDD1 F 3 6
+   FrameIndex HDF1 G 0 34   FrameIndex HDF1 G 1 34  // FrameIndex HDF1 G 2 34	//FrameIndex HDD1 G 3 7
+   FrameIndex HDF1 H 0 35   FrameIndex HDF1 H 1 35  // FrameIndex HDF1 H 2 35	//FrameIndex HDD1 H 3 8
+   FrameIndex HDF1 I 0 36   FrameIndex HDF1 I 1 36  // FrameIndex HDF1 I 2 36	//FrameIndex HDD1 I 3 9
+   FrameIndex HDF1 J 0 37   FrameIndex HDF1 J 1 37  // FrameIndex HDF1 J 2 37	//FrameIndex HDD1 J 3 10
+   FrameIndex HDF1 K 0 38   FrameIndex HDF1 K 1 38  // FrameIndex HDF1 K 2 38	//FrameIndex HDD1 K 3 11
+   FrameIndex HDF1 L 0 39   FrameIndex HDF1 L 1 39  // FrameIndex HDF1 L 2 39	//FrameIndex HDD1 L 3 12
+   FrameIndex HDF1 M 0 40   FrameIndex HDF1 M 1 40  // FrameIndex HDF1 M 2 40	//FrameIndex HDD1 M 3 13
+   FrameIndex HDF1 N 0 41   FrameIndex HDF1 N 1 41  // FrameIndex HDF1 N 2 41	//FrameIndex HDD1 N 3 14
+   FrameIndex HDF1 O 0 42   FrameIndex HDF1 O 1 42  // FrameIndex HDF1 O 2 42	//FrameIndex HDD1 O 3 15
+   FrameIndex HDF1 P 0 43   FrameIndex HDF1 P 1 43  // FrameIndex HDF1 P 2 43	//FrameIndex HDD1 P 3 16
+   FrameIndex HDF1 Q 0 44   FrameIndex HDF1 Q 1 44  // FrameIndex HDF1 Q 2 44	//FrameIndex HDD1 Q 3 17
+}
+
+
+Model PlayerSWBF
+{
+   Path "models/clone"
+
+   Model 0 "h3.md3"
+   Skin 0 "cloneTrooperHead_d.JPG"
+   Model 1 "dtorso3.md3"
+   Skin 1 "cloneTrooperBody_d.JPG"
+
+   Scale 0.70 0.70 0.70
+
+   FrameIndex HDD1 S 0 0   FrameIndex HDD1 S 1 0   //FrameIndex HDD1 S 2 0	//FrameIndex HDD1 S 3 0
+}
