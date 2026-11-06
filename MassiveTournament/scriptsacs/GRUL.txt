@@ -1,72 +1,209 @@
-﻿#include "zcommon.acs"
+#library "GRUL"
+#include "zcommon.acs"
 
-global int 10:team1_frags;  // TEAM 1
-global int 11:team2_frags;  // TEAM 2
+// Состояние относится только к текущей карте.
+int team1_frags;
+int team2_frags;
 
-script 998 RESPAWN
+int deathmatch_enabled;
+int deathmatch_limit;
+int deathmatch_finished;
+int deathmatch_winner;
+
+
+// ------------------------------------------------------------
+// ОСНОВНОЙ ЦИКЛ
+// ------------------------------------------------------------
+
+script 999 OPEN
 {
-	Delay(2);
+    while (TRUE)
+    {
+        if (deathmatch_enabled && !deathmatch_finished)
+        {
+            CheckDeathmatchVictory();
+        }
 
-	TakeInventory("MyShotgun", 0x7FFFFFFF);
-	TakeInventory("MyRocketLauncher", 0x7FFFFFFF);
-	TakeInventory("Shell", 0x7FFFFFFF);
-	TakeInventory("RocketAmmo", 0x7FFFFFFF);
-
-	SetWeapon("MyChaingun");
-}
-
-script 999 OPEN {
-    team1_frags = 0;
-    team2_frags = 0;
-    
-    while (1) {
-        UpdateScore();
-		CheckVictory();
-        Delay(35);  // 1 секунда
+        Delay(35);
     }
 }
 
-script 1 (void) {
+
+// ------------------------------------------------------------
+// ДИРЕКТОР
+// ------------------------------------------------------------
+
+script 700 (int requestedLimit)
+{
+    // Защита от нескольких директоров на карте.
+    if (deathmatch_enabled)
+    {
+        terminate;
+    }
+
+    deathmatch_enabled = TRUE;
+    deathmatch_finished = FALSE;
+    deathmatch_winner = 0;
+
+    team1_frags = 0;
+    team2_frags = 0;
+
+    if (requestedLimit > 0)
+    {
+        deathmatch_limit = requestedLimit;
+    }
+    else
+    {
+        deathmatch_limit = 50;
+    }
+}
+
+
+// ------------------------------------------------------------
+// HUD ДЛЯ КАЖДОГО ИГРОКА
+// ------------------------------------------------------------
+
+script 701 ENTER
+{
+    while (TRUE)
+    {
+        if (deathmatch_enabled)
+        {
+            SetFont("BIGFONT");
+
+            HudMessage(
+                s:"TEAM 1: ",
+                i:team1_frags,
+                s:" / ",
+                i:deathmatch_limit;
+
+                HUDMSG_PLAIN,
+                100,
+                CR_CYAN,
+                0.38,
+                0.05,
+                2.0
+            );
+
+            HudMessage(
+                s:"TEAM 2: ",
+                i:team2_frags,
+                s:" / ",
+                i:deathmatch_limit;
+
+                HUDMSG_PLAIN,
+                101,
+                CR_RED,
+                0.62,
+                0.05,
+                2.0
+            );
+
+            if (deathmatch_finished)
+            {
+                if (deathmatch_winner == 1)
+                {
+                    HudMessage(
+                        s:"TEAM 1 WINS!";
+
+                        HUDMSG_PLAIN,
+                        102,
+                        CR_CYAN,
+                        0.5,
+                        0.30,
+                        2.0
+                    );
+                }
+                else if (deathmatch_winner == 2)
+                {
+                    HudMessage(
+                        s:"TEAM 2 WINS!";
+
+                        HUDMSG_PLAIN,
+                        102,
+                        CR_RED,
+                        0.5,
+                        0.30,
+                        2.0
+                    );
+                }
+            }
+        }
+
+        Delay(35);
+    }
+}
+
+
+// ------------------------------------------------------------
+// СЧЁТЧИКИ СМЕРТЕЙ
+// ------------------------------------------------------------
+
+script 1 (void)
+{
+    if (!deathmatch_enabled || deathmatch_finished)
+    {
+        terminate;
+    }
+
     team1_frags++;
+    CheckDeathmatchVictory();
 }
 
-script 2 (void) {
+
+script 2 (void)
+{
+    if (!deathmatch_enabled || deathmatch_finished)
+    {
+        terminate;
+    }
+
     team2_frags++;
+    CheckDeathmatchVictory();
 }
 
-function void UpdateScore(void) {
-    SetFont("BIGFONT");
-    
-    HudMessage(s:"TEAM 1: ", i:team1_frags;
-               HUDMSG_PLAIN, 100, CR_CYAN, 0.45, 0.05, 2.0);
-    
-    HudMessage(s:"TEAM 2: ", i:team2_frags;
-               HUDMSG_PLAIN, 101, CR_RED,  0.55, 0.05, 2.0);
-}
 
-function void CheckVictory(void) {
-    if (team1_frags >= 50)
+// ------------------------------------------------------------
+// ПРОВЕРКА ПОБЕДЫ
+// ------------------------------------------------------------
+
+function void CheckDeathmatchVictory(void)
+{
+    if (!deathmatch_enabled || deathmatch_finished)
+    {
+        return;
+    }
+
+    if (team1_frags >= deathmatch_limit)
+    {
+        deathmatch_finished = TRUE;
+        deathmatch_winner = 1;
+
         ACS_ExecuteAlways(501, 0, 0, 0, 0);
-    else if (team2_frags >= 50)
+    }
+    else if (team2_frags >= deathmatch_limit)
+    {
+        deathmatch_finished = TRUE;
+        deathmatch_winner = 2;
+
         ACS_ExecuteAlways(502, 0, 0, 0, 0);
+    }
 }
 
-script 501 (void) {
-    SetFont("BIGFONT");
-    HudMessage(s:"TEAM 1 WINS!";
-               HUDMSG_FADEOUT, 1, CR_CYAN, 0.5, 0.3, 5.0, 1.0);
-    team1_frags=0;
-    team2_frags=0;
-    Delay(35*6);
+
+// ------------------------------------------------------------
+// ЗАВЕРШЕНИЕ DEATHMATCH
+// ------------------------------------------------------------
+
+script 501 (void)
+{
+    Delay(35 * 6);
     Exit_Normal(0);
 }
 
-script 502 (void) {
-    SetFont("BIGFONT");
-    HudMessage(s:"TEAM 2 WINS!";
-               HUDMSG_FADEOUT, 1, CR_RED, 0.5, 0.3, 5.0, 1.0);
-    team1_frags=0;
-    team2_frags=0;
-    Delay(35*6);
+
+script 502 (void)
+{
+    Delay(35 * 6);
     Exit_Normal(0);
 }

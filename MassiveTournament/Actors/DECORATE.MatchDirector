@@ -1,0 +1,24 @@
+Actor MTMatchDirector 17000
+{
+    Radius 1
+    Height 1
+
+    +NOBLOCKMAP
+    +NOGRAVITY
+    +NOTARGET
+
+    States
+    {
+    Spawn:
+        // Даём OPEN-скрипту инициализироваться.
+        TNT1 A 0 NoDelay
+        TNT1 A 2
+
+        // args[0] — число убийств для победы.
+        // Ноль означает значение по умолчанию: 50.
+        TNT1 A 0 ACS_ExecuteAlways(700, 0, args[0], 0, 0)
+
+        TNT1 A -1
+        Stop
+    }
+}

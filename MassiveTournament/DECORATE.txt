@@ -9,3 +9,4 @@
 #include "Actors/DECORATE.Meat"
 
 #include "Actors/Decorate.EXPLOEFFECTS"
+#include "Actors/DECORATE.MatchDirector"
