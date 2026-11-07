@@ -1,0 +1,208 @@
+// ============================================================
+// КОНТРОЛЬНАЯ ТОЧКА
+//
+// Health: 100
+// Радиус захвата: 192
+// Урон захвата: 5
+// Интервал: 35 тиков
+// Полное время захвата: примерно 20 секунд
+// ============================================================
+
+Actor MTControlPoint 17030
+{
+    Health 100
+    Radius 1
+    Height 1
+    Mass 999999
+
+    // Ноль мешает штатной логике A_Chase.
+    Speed 1
+
+    MeleeRange 192
+    MaxTargetRange 192
+    PainChance 0
+
+    Monster
+
+    -SOLID
+    -COUNTKILL
+    -FRIENDLY
+	
+	+NOCLIP
+    +NOTARGET
+    +NOPAIN
+    +NOBLOOD
+    +LOOKALLAROUND
+    +NOINFIGHTING
+	+INVULNERABLE
+	+NORADIUSDMG
+	
+	/*DamageFactor "StandartBolt", 0
+	DamageFactor "MyBolt1", 0
+	DamageFactor "MyBolt", 0
+	DamageFactor "EnemyBolt", 0
+	DamageFactor "EnemyBolt2", 0
+	DamageFactor "bullet", 0
+	DamageFactor "bullets", 0
+	DamageFactor "Rocket", 0*/
+	
+    States
+    {
+    Spawn:
+        ORMF A 0 NoDelay
+        ORMF A 0 ACS_ExecuteAlways(714,0,args[3],0,0)
+        Goto See
+
+    See:
+        TNT1 A 0 A_JumpIfHealthLower(26, "Stage25")
+        TNT1 A 0 A_JumpIfHealthLower(51, "Stage50")
+        TNT1 A 0 A_JumpIfHealthLower(76, "Stage75")
+        Goto Stage100
+
+
+    Stage100:
+	    ORMF A 10 Bright
+        ORMF A 1 Bright A_Chase("Melee","Melee",CHF_DONTMOVE)
+        Goto See
+
+
+    Stage75:
+		ORMF B 10 Bright
+        ORMF B 1 Bright A_Chase("Melee","Melee",CHF_DONTMOVE)
+        Goto See
+
+
+    Stage50:
+		ORMF C 10 Bright
+        ORMF C 1 Bright A_Chase("Melee","Melee",CHF_DONTMOVE)
+        Goto See
+
+
+    Stage25:
+		ORMF D 10 Bright
+        ORMF D 1 Bright A_Chase("Melee","Melee",CHF_DONTMOVE)
+        Goto See
+
+    Melee:
+        ORMF E 25 Bright
+		TNT1 A 0 A_ChangeFlag("INVULNERABLE",false)
+		TNT1 A 0 A_DamageSelf(5,"Capture")
+		TNT1 A 0 A_ChangeFlag("INVULNERABLE",true)
+		ORMF E 10
+		ORMF E 0 A_ClearTarget()
+        Goto See
+
+    Death:
+        ORMF A 0 A_KillMaster
+        ORMF A 0 ACS_ExecuteAlways(711,0,args[0],args[1],args[2])
+        BEXP ABCDE 4 Bright
+        TNT1 A 0 A_NoBlocking
+        Stop
+    }
+}
+
+
+// ============================================================
+// РАЗРУШАЕМАЯ ЦЕЛЬ
+//
+// Получает обычный урон.
+// Не ищет атакующих и не повреждает себя.
+// ============================================================
+
+Actor MTDestructibleObjective 17031
+{
+    Health 500
+    Radius 32
+    Height 64
+    Mass 999999
+    Speed 0
+    PainChance 0
+
+    Monster
+
+    -COUNTKILL
+    -FRIENDLY
+
+    +SOLID
+    +NOPAIN
+    +NOBLOOD
+    +NOINFIGHTING
+    +INVULNERABLE
+
+    /*
+     * Вражеский Trooper не сможет случайно уничтожить
+     * собственную цель своим снарядом.
+     */
+    DamageFactor "EnemyBolt", 0.0
+
+    States
+    {
+	Spawn:
+		TNT1 A 0 NoDelay
+
+		TNT1 A 0 ACS_ExecuteAlways(
+			714,
+			0,
+			args[3],
+			0,
+			0
+		)
+
+		COLU A -1
+		Stop
+
+
+    Pain:
+        COLU A 1
+        Goto Spawn
+
+
+    Death:
+		TNT1 A 0 A_KillMaster
+        TNT1 A 0 ACS_ExecuteAlways(
+            711,
+            0,
+            args[0],
+            args[1],
+            args[2]
+        )
+
+        TNT1 A 0 A_NoBlocking
+        BEXP ABCDE 5 Bright
+        Stop
+    }
+}
+
+
+// ============================================================
+// ФИНАЛЬНАЯ КОНТРОЛЬНАЯ ТОЧКА
+// ============================================================
+
+Actor MTFinalControlPoint : MTControlPoint 17032
+{
+    States
+    {
+    Death:
+        /*
+         * Сначала ACS устанавливает MatchFinished.
+         */
+        TNT1 A 0 ACS_ExecuteAlways(
+            711,
+            0,
+            args[0],
+            args[1],
+            args[2]
+        )
+
+        /*
+         * Один тик оставляем ACS для установки флага победы.
+         */
+        TNT1 A 1
+
+        BEXP ABCDE 4 Bright
+        TNT1 A 0 A_NoBlocking
+
+        TNT1 A 1 A_BrainDie
+        Stop
+    }
+}

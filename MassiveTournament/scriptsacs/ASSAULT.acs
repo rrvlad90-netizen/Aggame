@@ -1,0 +1,320 @@
+#library "ASSAULT"
+#include "zcommon.acs"
+
+
+// ============================================================
+// СОСТОЯНИЕ РЕЖИМА
+// ============================================================
+
+int AssaultEnabled;
+int AssaultStage;
+int MatchFinished;
+int RemainingSeconds;
+
+
+// ============================================================
+// ИЗМЕНЕНИЕ СВЯЗИ PATROLPOINT
+// ============================================================
+
+function void SetPatrolLinkNow(
+    int fromTid,
+    int toTid,
+    int waitTime
+)
+{
+    SetThingSpecial(
+        fromTid,
+        0,
+        toTid,
+        waitTime,
+        0,
+        0,
+        0
+    );
+}
+
+
+// ============================================================
+// ЗАПУСК РЕЖИМА
+//
+// matchMinutes — продолжительность матча в минутах.
+// ============================================================
+
+script 710 (int matchMinutes)
+{
+    if (AssaultEnabled)
+        terminate;
+
+    AssaultEnabled = TRUE;
+    AssaultStage = 1;
+    MatchFinished = FALSE;
+
+    if (matchMinutes <= 0)
+        matchMinutes = 15;
+
+    RemainingSeconds = matchMinutes * 60;
+
+    ACS_ExecuteAlways(
+        712,
+        0,
+        0,
+        0,
+        0
+    );
+}
+
+
+// ============================================================
+// ЗАВЕРШЕНИЕ ЦЕЛИ
+//
+// stage   — номер стадии;
+// nextTid — TID следующей цели;
+// doorTag — tag настоящей секторной двери.
+// ============================================================
+
+script 711 (
+    int stage,
+    int nextTid,
+    int doorTag
+)
+{
+    if (!AssaultEnabled || MatchFinished)
+        terminate;
+
+    // Защита от повторного выполнения старой стадии.
+    if (stage != AssaultStage)
+        terminate;
+
+
+    // --------------------------------------------------------
+    // ПЕРВАЯ ЦЕЛЬ
+    // --------------------------------------------------------
+
+    if (stage == 1)
+    {
+        // Маршруты наступающих.
+        SetPatrolLinkNow(30, 31, 0);
+        SetPatrolLinkNow(130, 131, 0);
+        SetPatrolLinkNow(230, 231, 0);
+
+        // Защитники отходят ко второй позиции.
+        SetPatrolLinkNow(1030, 1031, 0);
+        SetPatrolLinkNow(1130, 1131, 0);
+        SetPatrolLinkNow(1230, 1231, 0);
+
+        if (doorTag > 0)
+        {
+            Door_Open(
+                doorTag,
+                16
+            );
+        }
+
+        /*
+         * Сначала меняем стадию.
+         * Это защищает от быстрого уничтожения следующей цели.
+         */
+        AssaultStage = 2;
+
+        if (nextTid > 0)
+        {
+            Thing_Activate(nextTid);
+        }
+    }
+
+
+    // --------------------------------------------------------
+    // ВТОРАЯ ЦЕЛЬ
+    // --------------------------------------------------------
+
+    else if (stage == 2)
+    {
+        // Маршруты наступающих.
+        SetPatrolLinkNow(60, 61, 0);
+        SetPatrolLinkNow(160, 161, 0);
+        SetPatrolLinkNow(260, 261, 0);
+
+        // Защитники отходят к финальной позиции.
+        SetPatrolLinkNow(1060, 1061, 0);
+        SetPatrolLinkNow(1160, 1161, 0);
+        SetPatrolLinkNow(1260, 1261, 0);
+
+        if (doorTag > 0)
+        {
+            Door_Open(
+                doorTag,
+                16
+            );
+        }
+
+        AssaultStage = 3;
+
+        if (nextTid > 0)
+        {
+            Thing_Activate(nextTid);
+        }
+    }
+
+
+    // --------------------------------------------------------
+    // ФИНАЛЬНАЯ ЦЕЛЬ
+    // --------------------------------------------------------
+
+    else if (stage == 3)
+    {
+        /*
+         * Сначала фиксируем победу.
+         * После этого MTFinalControlPoint вызывает A_BrainDie.
+         */
+        MatchFinished = TRUE;
+        RemainingSeconds = 0;
+        AssaultStage = 4;
+    }
+}
+
+
+// ============================================================
+// ВНЕШНЕЕ ИЗМЕНЕНИЕ PATROLPOINT
+//
+// ACS_ExecuteAlways(720, 0, fromTid, toTid, waitTime)
+// ============================================================
+
+script 720 (
+    int fromTid,
+    int toTid,
+    int waitTime
+)
+{
+    SetPatrolLinkNow(
+        fromTid,
+        toTid,
+        waitTime
+    );
+}
+
+
+// ============================================================
+// ТАЙМЕР ПОРАЖЕНИЯ
+// ============================================================
+
+script 712 (void)
+{
+    while (
+        AssaultEnabled &&
+        !MatchFinished &&
+        RemainingSeconds > 0
+    )
+    {
+        Delay(35);
+
+        if (MatchFinished)
+            terminate;
+
+        RemainingSeconds--;
+    }
+
+    if (MatchFinished)
+        terminate;
+
+    /*
+     * Даём обработчику смерти финальной точки один тик,
+     * чтобы он успел установить MatchFinished.
+     */
+    Delay(1);
+
+    if (MatchFinished)
+        terminate;
+
+    RemainingSeconds = 0;
+
+    ChangeLevel(
+        "LOSEMAP",
+        0,
+        CHANGELEVEL_NOINTERMISSION,
+        -1
+    );
+}
+
+
+// ============================================================
+// HUD ТАЙМЕРА ДЛЯ КАЖДОГО ИГРОКА
+// ============================================================
+
+script 713 ENTER
+{
+    int minutes;
+    int seconds;
+
+    while (TRUE)
+    {
+        if (
+            AssaultEnabled &&
+            !MatchFinished
+        )
+        {
+            minutes =
+                RemainingSeconds / 60;
+
+            seconds =
+                RemainingSeconds % 60;
+
+            SetFont("BIGFONT");
+
+            if (seconds < 10)
+            {
+                HudMessage(
+                    s:"TIME ",
+                    i:minutes,
+                    s:":0",
+                    i:seconds;
+
+                    HUDMSG_PLAIN,
+                    120,
+                    CR_GOLD,
+                    0.5,
+                    0.04,
+                    2.0
+                );
+            }
+            else
+            {
+                HudMessage(
+                    s:"TIME ",
+                    i:minutes,
+                    s:":",
+                    i:seconds;
+
+                    HUDMSG_PLAIN,
+                    120,
+                    CR_GOLD,
+                    0.5,
+                    0.04,
+                    2.0
+                );
+            }
+        }
+
+        Delay(35);
+    }
+}
+
+
+// ============================================================
+// MASTER-POINTER ДЕКОРАТИВНЫХ ВОРОТ
+//
+// Активатор — цель.
+// masterTid — TID декоративных ворот.
+// ============================================================
+
+script 714 (int masterTid)
+{
+    if (masterTid <= 0)
+        terminate;
+
+    SetPointer(
+        0,
+        AAPTR_MASTER,
+        masterTid,
+        0
+    );
+}

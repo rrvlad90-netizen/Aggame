@@ -9,4 +9,8 @@
 #include "Actors/DECORATE.Meat"
 
 #include "Actors/Decorate.EXPLOEFFECTS"
+
 #include "Actors/DECORATE.MatchDirector"
+#include "Actors/DECORATE.AssaultController"
+#include "Actors/DECORATE.Objectives"
+#include "Actors/DECORATE.AssaultGates"

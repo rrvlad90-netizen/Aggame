@@ -18,6 +18,20 @@ GameInfo
    AddEventHandlers = "StepEventHandler"
 }
 
+clearepisodes
+
+episode MAP01
+{
+    name = "Team Deathmatch"
+    key = "t"
+}
+
+episode MAP03
+{
+    name = "Assault"
+    key = "a"
+}
+
 map MAP01 "MAP01"
 {
 sky1 = "SKY2"//,0.05
@@ -40,4 +54,17 @@ ResetItems
 //---
 music = "D_STALKS"
 next = "EndGame"
+}
+
+map MAP03 "Assault"
+{
+    sky1 = "SKY1"
+    AllowRespawn
+
+    ResetHealth
+    ResetInventory
+    ResetItems
+
+    music = "D_STALKS"
+    next = "EndGame"
 }
