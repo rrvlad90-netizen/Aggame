@@ -1,0 +1,916 @@
+ACTOR MTEnemyTrooper : PlayerPawn 17020
+{
+  Health 90
+  Radius 18
+  Height 44   //56!! bilo
+  Speed 13
+  PainChance 255
+  Monster
+  +SLIDESONWALLS
+  +FLOORCLIP
+  -FRIENDLY
+  +BOSS
+  +NOPAIN
+  Mass 9999
+  DeathSound "PREDDY"
+  Obituary "You was shooted by trooper alien"
+  
+  DamageFactor "MyBolt", 1
+  DamageFactor "EnemyBolt", 0 
+
+  States
+  {
+  Spawn:
+	POSS A 0 NoDelay
+	POSS A 0 Thing_ChangeTID(0, 6220)
+	POSS A 0 Thing_SetGoal(6220, args[0], 0)
+	//POSS A 0 Thing_Hate(0, 6100, 3)
+    TNT1 A 0 A_ChangeFlag("NOPAIN",false)
+    POSS A 1 A_Look
+    Loop
+  See:
+  	POSS A 0 Thing_ChangeTID(0, 6200)
+	TNT1 A 0 A_ChangeFlag("NOPAIN",false) 
+	POSS ABCDEFGHIJKLMNOPQR 1 A_Chase
+	//TNT1 A 0 A_ClearTarget
+	Loop 
+	
+  Missile:
+  TNT1 A 0 A_jump(120, "StrifeRight")
+  TNT1 A 0 A_jump(120, "StrifeLeft")  
+  StrifeLeft:
+  	//RQPONMLKJIHGFEDCBA  1
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	POSL RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSL NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSL IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSL EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	POSL RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSL NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSL IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSL EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_CPosRefire	
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	POSL RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSL NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSL IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSL EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+    Goto See
+   
+  StrifeRight:
+  	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	POSR RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSR NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSR IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSR EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	POSR RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSR NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSR IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSR EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_CPosRefire
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	POSR RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSR NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSR IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}
+	TNT1 A 0 A_Stop 
+	POSR EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 
+	{
+	A_PlaySoundEx("FFire","SoundSlot5");
+	A_CustomMissile("EnemyBolt", 66, 0, random(-5,5));
+	}	
+    Goto See
+	
+ Pain:
+  TNT1 A 0 A_ChangeFlag("NOPAIN",true) 
+  //POSS A 0 Thing_Hate(0, 88, 3)
+  POSS A 0 A_FaceTarget
+  //POSS RQPONMLKJIHGFEDCBA 1 A_Recoil(1)
+  TNT1 A 0 A_Stop
+  TNT1 A 0 A_Jump(120, "StrifeRight")
+  TNT1 A 0 A_Jump(120, "StrifeLeft")
+  Goto See
+  
+    Death:
+	Death2:
+	TNT1 A 0 A_ClearTarget
+    POSD A 1
+    POSD B 1 A_Scream
+    POSD C 1 A_NoBlocking
+    POSD DEFGHIJKLMNOPQRSTUVWXYZ 1
+	PODD ABCDEFGHIJ 1
+    PODD J 180
+    PODD J 5 A_Respawn
+    Stop
+	
+		XDeath:
+		POSD A 0 A_ClearTarget
+		TNT1 AAAAAA 0 A_CustomMissile ("CeilBloodLauncherLong", 0, 0, random (0, 360), 2, random (50, 130))
+		TNT1 AA 0 A_CustomMissile ("XDeath1", 32, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 AA 0 A_CustomMissile ("XDeath2", 32, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 AA 0 A_CustomMissile ("XDeath3", 32, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 A 0 A_CustomMissile ("XDeath4", 32, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 AAAAAAAA 0 A_CustomMissile ("SuperWallRedBlood", 40, 0, random (0, 360), 2, random (-5, 5))
+		 TNT1 AAAA 0 A_CustomMissile ("Instestin", 32, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 AAAAAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile ("Brutal_FlyingBlood", 35, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 AAAAAA 0 bright A_CustomMissile ("SuperGoreSpawner", 32, 0, random (0, 360), 2, random (50, 130))
+		POSD B 1 A_PlaySound("PREDDY")//A_XScream
+		POSD C 1 A_NoBlocking
+		//TNT1 A 0 A_CustomMissile ("GiantBloodSpot", 4, 0, random (0, 360), 2, random (0, 160))
+		TNT1 A 150
+		TNT1 A 1 A_Respawn
+		Stop
+	}
+}
+
+ACTOR MTEnemyPigcop : PlayerPawn 17021
+{
+  Health 100
+  Radius 20
+  Height 46   //56!! bilo
+  Speed 14
+  PainChance 255
+  Monster
+  +SLIDESONWALLS
+  +FLOORCLIP
+  -FRIENDLY
+  +BOSS
+  +NOPAIN
+  Mass 9999
+  DeathSound "PIGDY"
+  Obituary "You was shooted by angry pigcop"
+  
+  DamageFactor "MyBolt", 1
+  DamageFactor "EnemyBolt", 0
+
+  States
+  {
+  Spawn:
+	POSS A 0
+    POSS A 0 Thing_ChangeTID(0, 6210)
+	//POSS A 0 Thing_Hate(0, 6100, 3)
+	POSS A 0 Thing_SetGoal(6210, args[0], 0)
+    TNT1 A 0 A_ChangeFlag("NOPAIN",false)
+    POSS A 1 A_Look
+    Loop
+  See:	
+    POSS A 0 Thing_ChangeTID(0, 6200)
+	TNT1 A 0 A_ChangeFlag("NOPAIN",false) 
+	POSS ABCDEFGHIJKLMNOPQR 1 A_Chase
+	TNT1 A 0 A_ClearTarget
+	Loop 
+	
+  Missile:
+  // Пять союзных снарядов вместо обычного hitscan.
+  //POSS F 0 A_CustomMissile("EnemyBolt", 32, 0, -10, CMF_AIMDIRECTION)
+  //POSS F 0 A_CustomMissile("EnemyBolt", 32, 0,  -5, CMF_AIMDIRECTION)
+  //POSS F 0 A_CustomMissile("EnemyBolt", 32, 0,   0, CMF_AIMDIRECTION)
+  //POSS F 0 A_CustomMissile("EnemyBolt", 32, 0,   5, CMF_AIMDIRECTION)
+  //POSS F 0 A_CustomMissile("EnemyBolt", 32, 0,  10, CMF_AIMDIRECTION)
+  TNT1 A 0 A_jump(120, "StrifeRight")
+  TNT1 A 0 A_jump(120, "StrifeLeft")
+  StrifeLeft:
+    TNT1 A 0 A_jumpIfCloser(150,"StrifeLeft2")
+  	//RQPONMLKJIHGFEDCBA  1
+	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSL RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSL RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSL RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}	
+	Goto See
+	
+  StrifeRight:
+    TNT1 A 0 A_jumpIfCloser(150,"StrifeRight2")
+  	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSR RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSR RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSR RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(-1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}	
+    Goto See
+	
+	
+	
+	//////////
+	
+	StrifeLeft2:
+  	//RQPONMLKJIHGFEDCBA  1
+	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSL RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSL RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire
+	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSL RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSL EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,3, 0, 0);
+	}	
+	Goto See
+	
+  StrifeRight2:
+  	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSR RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSR RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_CPosRefire	
+	TNT1 A 0 
+	{
+	A_FaceTarget;
+	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
+	A_SPosAttack;
+	}
+	POSR RQPO 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR NMLKJ 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR IHGF 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+	TNT1 A 0 A_Stop 
+	POSR EDCBA 1
+	{  
+	A_FaceTarget;
+	A_Recoil(1);	
+	ThrustThing(angle*256/360+210,-3, 0, 0);
+	}
+    Goto See
+	
+ Pain:
+  TNT1 A 0 A_ChangeFlag("NOPAIN",true) 
+  //POSS A 0 Thing_Hate(0, 88, 3)
+  POSS A 0 A_FaceTarget
+  //POSS RQPONMLKJIHGFEDCBA 1 A_Recoil(1)
+  TNT1 A 0 A_Stop
+  TNT1 A 0 A_Jump(120, "StrifeRight")
+  TNT1 A 0 A_Jump(120, "StrifeLeft")
+  Goto See
+  
+    Death:
+	TNT1 A 0 TakeInventory("ASpan2",1)
+    //TNT1 A 0 ACS_Execute(1, 0, 0)
+    //TNT1 A 0 A_KillChildren
+	TNT1 A 0 A_ClearTarget
+    POSD A 1
+    POSD B 1 A_Scream
+    POSD C 1 A_NoBlocking
+    POSD DEFGHIJKLMNOPQRSTUVWXYZ 1
+	PODD ABCDEFGHIJ 1
+    PODD J 100
+    PODD J 5 A_Respawn
+    Stop
+	
+		XDeath:
+		TNT1 A 0 TakeInventory("ASpan2",1)
+		//TNT1 A 0 ACS_Execute(1, 0, 0)
+        //TNT1 A 0 A_KillChildren
+		POSD A 1
+		TNT1 AAAAAA 0 A_CustomMissile ("CeilBloodLauncherLong", 0, 0, random (0, 360), 2, random (50, 130))
+		TNT1 AA 0 A_CustomMissile ("XDeath1", 32, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 AA 0 A_CustomMissile ("XDeath2", 32, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 AA 0 A_CustomMissile ("XDeath3", 32, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 A 0 A_CustomMissile ("XDeath4", 32, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 AAAAAAAA 0 A_CustomMissile ("SuperWallRedBlood", 40, 0, random (0, 360), 2, random (-5, 5))
+		 TNT1 AAAA 0 A_CustomMissile ("Instestin", 32, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 AAAAAAAAAAAAAAAAAAAAAAAA 0 A_CustomMissile ("Brutal_FlyingBlood", 35, 0, random (0, 360), 2, random (0, 160))
+		 TNT1 AAAAAA 0 bright A_CustomMissile ("SuperGoreSpawner", 32, 0, random (0, 360), 2, random (50, 130))
+		POSD B 1 A_PlaySound("PIGDY")//A_XScream
+		POSD C 1 A_NoBlocking
+		//TNT1 A 0 A_CustomMissile ("GiantBloodSpot", 4, 0, random (0, 360), 2, random (0, 160))
+		TNT1 A 120
+		TNT1 A 1 A_Respawn
+		Stop	
+	}
+}

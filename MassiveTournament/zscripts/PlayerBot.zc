@@ -133,6 +133,8 @@ class UpdateBot : PlayerPawn
 	override void PostBeginPlay()
 	{
 		Super.PostBeginPlay();
+		
+		ChangeTid(6100);
 
 		BotJumpCooldown =
 			GetBotJumpCooldown();

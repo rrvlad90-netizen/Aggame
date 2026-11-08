@@ -14,3 +14,6 @@
 #include "Actors/DECORATE.AssaultController"
 #include "Actors/DECORATE.Objectives"
 #include "Actors/DECORATE.AssaultGates"
+#include "Actors/DECORATE.AssaultAllies"
+#include "Actors/DECORATE.AssaultEnemies"
+

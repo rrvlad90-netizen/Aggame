@@ -7,3 +7,5 @@
 #include "models/MODELDEF.SARGE"
 #include "models/MODELDEF.WEAPON"
 #include "models/MODELDEF.TRACER"
+#include "models/MODELDEF.AssaultAllies"
+#include "models/MODELDEF.AssaultEnemies"
