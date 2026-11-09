@@ -1701,7 +1701,7 @@ static void PM_Weapon( void ) {
 		addTime = 100;
 		break;
 	case WP_BLASTER:
-		addTime = 200;
+		addTime = 154; //addTime = 200; 200 - slowly shooter 154 - more quick
 		break;	
 #endif
 	}

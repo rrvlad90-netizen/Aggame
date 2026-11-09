@@ -18,6 +18,7 @@ GameInfo
    AddEventHandlers = "StepEventHandler"
 }
 
+/*
 clearepisodes
 
 episode MAP01
@@ -31,6 +32,7 @@ episode MAP03
     name = "Assault"
     key = "a"
 }
+*/
 
 map MAP01 "MAP01"
 {

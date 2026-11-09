@@ -2332,15 +2332,15 @@ void CG_BlasterTracer( vec3_t source, vec3_t dest ) {
 		VectorNormalize( up );
 
 	VectorMA( finish, 6, right, verts[0].xyz );
-	verts[0].st[0] = 0;
-	verts[0].st[1] = 1;
+	verts[0].st[0] = 1;
+	verts[0].st[1] = 0;
 
 	VectorMA( finish, -6, right, verts[1].xyz );
 	verts[1].st[0] = 1;
-	verts[1].st[1] = 0;
+	verts[1].st[1] = 1;
 
 	VectorMA( start, -6, right, verts[2].xyz );
-	verts[2].st[0] = 1;
+	verts[2].st[0] = 0;
 	verts[2].st[1] = 1;
 
 	VectorMA( start, 6, right, verts[3].xyz );

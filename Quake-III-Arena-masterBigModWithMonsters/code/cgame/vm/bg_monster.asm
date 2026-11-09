@@ -1,0 +1,5801 @@
+code
+proc MonsterParseError 0 16
+file "../../game/bg_monster.c"
+line 9
+;1:#include "q_shared.h"
+;2:#include "bg_public.h"
+;3:#include "bg_monster.h"
+;4:
+;5:static void MonsterParseError(
+;6:	char *error,
+;7:	int errorSize,
+;8:	const char *message
+;9:) {
+line 10
+;10:	Com_sprintf(error, errorSize, "%s", message);
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRFP4 4
+INDIRI4
+ARGI4
+ADDRGP4 $45
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRGP4 Com_sprintf
+CALLV
+pop
+line 11
+;11:}
+LABELV $44
+endproc MonsterParseError 0 16
+proc MonsterReadToken 8 12
+line 19
+;12:
+;13:static qboolean MonsterReadToken(
+;14:	char **text,
+;15:	char *result,
+;16:	int resultSize,
+;17:	char *error,
+;18:	int errorSize
+;19:) {
+line 22
+;20:	char *token;
+;21:
+;22:	token = COM_Parse(text);
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRLP4 4
+ADDRGP4 COM_Parse
+CALLP4
+ASGNP4
+ADDRLP4 0
+ADDRLP4 4
+INDIRP4
+ASGNP4
+line 23
+;23:	if (!token[0]) {
+ADDRLP4 0
+INDIRP4
+INDIRI1
+CVII4 1
+CNSTI4 0
+NEI4 $47
+line 24
+;24:		MonsterParseError(
+ADDRFP4 12
+INDIRP4
+ARGP4
+ADDRFP4 16
+INDIRI4
+ARGI4
+ADDRGP4 $49
+ARGP4
+ADDRGP4 MonsterParseError
+CALLV
+pop
+line 29
+;25:			error,
+;26:			errorSize,
+;27:			"Unexpected end of monster.cfg"
+;28:		);
+;29:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $46
+JUMPV
+LABELV $47
+line 32
+;30:	}
+;31:
+;32:	Q_strncpyz(result, token, resultSize);
+ADDRFP4 4
+INDIRP4
+ARGP4
+ADDRLP4 0
+INDIRP4
+ARGP4
+ADDRFP4 8
+INDIRI4
+ARGI4
+ADDRGP4 Q_strncpyz
+CALLV
+pop
+line 33
+;33:	return qtrue;
+CNSTI4 1
+RETI4
+LABELV $46
+endproc MonsterReadToken 8 12
+proc MonsterReadString 8 20
+line 42
+;34:}
+;35:
+;36:static qboolean MonsterReadString(
+;37:	char **text,
+;38:	char *result,
+;39:	int resultSize,
+;40:	char *error,
+;41:	int errorSize
+;42:) {
+line 43
+;43:	if (!MonsterReadToken(
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRFP4 4
+INDIRP4
+ARGP4
+ADDRFP4 8
+INDIRI4
+ARGI4
+ADDRFP4 12
+INDIRP4
+ARGP4
+ADDRFP4 16
+INDIRI4
+ARGI4
+ADDRLP4 0
+ADDRGP4 MonsterReadToken
+CALLI4
+ASGNI4
+ADDRLP4 0
+INDIRI4
+CNSTI4 0
+NEI4 $51
+line 49
+;44:		text,
+;45:		result,
+;46:		resultSize,
+;47:		error,
+;48:		errorSize
+;49:	)) {
+line 50
+;50:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $50
+JUMPV
+LABELV $51
+line 53
+;51:	}
+;52:
+;53:	if (!Q_stricmp(result, "none")) {
+ADDRFP4 4
+INDIRP4
+ARGP4
+ADDRGP4 $55
+ARGP4
+ADDRLP4 4
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 4
+INDIRI4
+CNSTI4 0
+NEI4 $53
+line 54
+;54:		result[0] = '\0';
+ADDRFP4 4
+INDIRP4
+CNSTI1 0
+ASGNI1
+line 55
+;55:	}
+LABELV $53
+line 57
+;56:
+;57:	return qtrue;
+CNSTI4 1
+RETI4
+LABELV $50
+endproc MonsterReadString 8 20
+proc MonsterReadInt 72 20
+line 65
+;58:}
+;59:
+;60:static qboolean MonsterReadInt(
+;61:	char **text,
+;62:	int *result,
+;63:	char *error,
+;64:	int errorSize
+;65:) {
+line 68
+;66:	char token[64];
+;67:
+;68:	if (!MonsterReadToken(
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRLP4 0
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 64
+ADDRGP4 MonsterReadToken
+CALLI4
+ASGNI4
+ADDRLP4 64
+INDIRI4
+CNSTI4 0
+NEI4 $57
+line 74
+;69:		text,
+;70:		token,
+;71:		sizeof(token),
+;72:		error,
+;73:		errorSize
+;74:	)) {
+line 75
+;75:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $56
+JUMPV
+LABELV $57
+line 78
+;76:	}
+;77:
+;78:	*result = atoi(token);
+ADDRLP4 0
+ARGP4
+ADDRLP4 68
+ADDRGP4 atoi
+CALLI4
+ASGNI4
+ADDRFP4 4
+INDIRP4
+ADDRLP4 68
+INDIRI4
+ASGNI4
+line 79
+;79:	return qtrue;
+CNSTI4 1
+RETI4
+LABELV $56
+endproc MonsterReadInt 72 20
+proc MonsterReadFloat 72 20
+line 87
+;80:}
+;81:
+;82:static qboolean MonsterReadFloat(
+;83:	char **text,
+;84:	float *result,
+;85:	char *error,
+;86:	int errorSize
+;87:) {
+line 90
+;88:	char token[64];
+;89:
+;90:	if (!MonsterReadToken(
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRLP4 0
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 64
+ADDRGP4 MonsterReadToken
+CALLI4
+ASGNI4
+ADDRLP4 64
+INDIRI4
+CNSTI4 0
+NEI4 $60
+line 96
+;91:		text,
+;92:		token,
+;93:		sizeof(token),
+;94:		error,
+;95:		errorSize
+;96:	)) {
+line 97
+;97:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $59
+JUMPV
+LABELV $60
+line 100
+;98:	}
+;99:
+;100:	*result = (float)atof(token);
+ADDRLP4 0
+ARGP4
+ADDRLP4 68
+ADDRGP4 atof
+CALLF4
+ASGNF4
+ADDRFP4 4
+INDIRP4
+ADDRLP4 68
+INDIRF4
+ASGNF4
+line 101
+;101:	return qtrue;
+CNSTI4 1
+RETI4
+LABELV $59
+endproc MonsterReadFloat 72 20
+proc MonsterReadVector 8 16
+line 109
+;102:}
+;103:
+;104:static qboolean MonsterReadVector(
+;105:	char **text,
+;106:	vec3_t result,
+;107:	char *error,
+;108:	int errorSize
+;109:) {
+line 112
+;110:	int i;
+;111:
+;112:	for (i = 0; i < 3; i++) {
+ADDRLP4 0
+CNSTI4 0
+ASGNI4
+LABELV $63
+line 113
+;113:		if (!MonsterReadFloat(
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRLP4 0
+INDIRI4
+CNSTI4 2
+LSHI4
+ADDRFP4 4
+INDIRP4
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 4
+ADDRGP4 MonsterReadFloat
+CALLI4
+ASGNI4
+ADDRLP4 4
+INDIRI4
+CNSTI4 0
+NEI4 $67
+line 118
+;114:			text,
+;115:			&result[i],
+;116:			error,
+;117:			errorSize
+;118:		)) {
+line 119
+;119:			return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $62
+JUMPV
+LABELV $67
+line 121
+;120:		}
+;121:	}
+LABELV $64
+line 112
+ADDRLP4 0
+ADDRLP4 0
+INDIRI4
+CNSTI4 1
+ADDI4
+ASGNI4
+ADDRLP4 0
+INDIRI4
+CNSTI4 3
+LTI4 $63
+line 123
+;122:
+;123:	return qtrue;
+CNSTI4 1
+RETI4
+LABELV $62
+endproc MonsterReadVector 8 16
+proc MonsterReadAnimation 24 16
+line 131
+;124:}
+;125:
+;126:static qboolean MonsterReadAnimation(
+;127:	char **text,
+;128:	animation_t *animation,
+;129:	char *error,
+;130:	int errorSize
+;131:) {
+line 134
+;132:	int fps;
+;133:
+;134:	memset(animation, 0, sizeof(*animation));
+ADDRFP4 4
+INDIRP4
+ARGP4
+CNSTI4 0
+ARGI4
+CNSTI4 28
+ARGI4
+ADDRGP4 memset
+CALLP4
+pop
+line 136
+;135:
+;136:	if (!MonsterReadInt(
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRFP4 4
+INDIRP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 4
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 4
+INDIRI4
+CNSTI4 0
+NEI4 $70
+line 141
+;137:		text,
+;138:		&animation->firstFrame,
+;139:		error,
+;140:		errorSize
+;141:	)) {
+line 142
+;142:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $69
+JUMPV
+LABELV $70
+line 145
+;143:	}
+;144:
+;145:	if (!MonsterReadInt(
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 4
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 8
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 8
+INDIRI4
+CNSTI4 0
+NEI4 $72
+line 150
+;146:		text,
+;147:		&animation->numFrames,
+;148:		error,
+;149:		errorSize
+;150:	)) {
+line 151
+;151:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $69
+JUMPV
+LABELV $72
+line 154
+;152:	}
+;153:
+;154:	if (!MonsterReadInt(
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 8
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 12
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 12
+INDIRI4
+CNSTI4 0
+NEI4 $74
+line 159
+;155:		text,
+;156:		&animation->loopFrames,
+;157:		error,
+;158:		errorSize
+;159:	)) {
+line 160
+;160:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $69
+JUMPV
+LABELV $74
+line 163
+;161:	}
+;162:
+;163:	if (!MonsterReadInt(
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRLP4 0
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 16
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 16
+INDIRI4
+CNSTI4 0
+NEI4 $76
+line 168
+;164:		text,
+;165:		&fps,
+;166:		error,
+;167:		errorSize
+;168:	)) {
+line 169
+;169:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $69
+JUMPV
+LABELV $76
+line 172
+;170:	}
+;171:
+;172:	if (fps <= 0) {
+ADDRLP4 0
+INDIRI4
+CNSTI4 0
+GTI4 $78
+line 173
+;173:		MonsterParseError(
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRGP4 $80
+ARGP4
+ADDRGP4 MonsterParseError
+CALLV
+pop
+line 178
+;174:			error,
+;175:			errorSize,
+;176:			"Monster animation FPS must be positive"
+;177:		);
+;178:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $69
+JUMPV
+LABELV $78
+line 181
+;179:	}
+;180:
+;181:	animation->frameLerp = 1000 / fps;
+ADDRFP4 4
+INDIRP4
+CNSTI4 12
+ADDP4
+CNSTI4 1000
+ADDRLP4 0
+INDIRI4
+DIVI4
+ASGNI4
+line 182
+;182:	animation->initialLerp = animation->frameLerp;
+ADDRLP4 20
+ADDRFP4 4
+INDIRP4
+ASGNP4
+ADDRLP4 20
+INDIRP4
+CNSTI4 16
+ADDP4
+ADDRLP4 20
+INDIRP4
+CNSTI4 12
+ADDP4
+INDIRI4
+ASGNI4
+line 183
+;183:	animation->reversed = qfalse;
+ADDRFP4 4
+INDIRP4
+CNSTI4 20
+ADDP4
+CNSTI4 0
+ASGNI4
+line 184
+;184:	animation->flipflop = qfalse;
+ADDRFP4 4
+INDIRP4
+CNSTI4 24
+ADDP4
+CNSTI4 0
+ASGNI4
+line 186
+;185:
+;186:	return qtrue;
+CNSTI4 1
+RETI4
+LABELV $69
+endproc MonsterReadAnimation 24 16
+proc MonsterParseType 20 8
+line 189
+;187:}
+;188:
+;189:static int MonsterParseType(const char *value) {
+line 190
+;190:	if (!Q_stricmp(value, "magic"))
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 $84
+ARGP4
+ADDRLP4 0
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 0
+INDIRI4
+CNSTI4 0
+NEI4 $82
+line 191
+;191:		return MONSTER_TYPE_MAGIC;
+CNSTI4 1
+RETI4
+ADDRGP4 $81
+JUMPV
+LABELV $82
+line 192
+;192:	if (!Q_stricmp(value, "technical"))
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 $87
+ARGP4
+ADDRLP4 4
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 4
+INDIRI4
+CNSTI4 0
+NEI4 $85
+line 193
+;193:		return MONSTER_TYPE_TECHNICAL;
+CNSTI4 2
+RETI4
+ADDRGP4 $81
+JUMPV
+LABELV $85
+line 194
+;194:	if (!Q_stricmp(value, "strange"))
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 $90
+ARGP4
+ADDRLP4 8
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 8
+INDIRI4
+CNSTI4 0
+NEI4 $88
+line 195
+;195:		return MONSTER_TYPE_STRANGE;
+CNSTI4 3
+RETI4
+ADDRGP4 $81
+JUMPV
+LABELV $88
+line 196
+;196:	if (!Q_stricmp(value, "military"))
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 $93
+ARGP4
+ADDRLP4 12
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 12
+INDIRI4
+CNSTI4 0
+NEI4 $91
+line 197
+;197:		return MONSTER_TYPE_MILITARY;
+CNSTI4 4
+RETI4
+ADDRGP4 $81
+JUMPV
+LABELV $91
+line 198
+;198:	if (!Q_stricmp(value, "additional"))
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 $96
+ARGP4
+ADDRLP4 16
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 16
+INDIRI4
+CNSTI4 0
+NEI4 $94
+line 199
+;199:		return MONSTER_TYPE_ADDITIONAL;
+CNSTI4 5
+RETI4
+ADDRGP4 $81
+JUMPV
+LABELV $94
+line 201
+;200:
+;201:	return -1;
+CNSTI4 -1
+RETI4
+LABELV $81
+endproc MonsterParseType 20 8
+proc MonsterParseMovement 8 8
+line 204
+;202:}
+;203:
+;204:static int MonsterParseMovement(const char *value) {
+line 205
+;205:	if (!Q_stricmp(value, "flying"))
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 $100
+ARGP4
+ADDRLP4 0
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 0
+INDIRI4
+CNSTI4 0
+NEI4 $98
+line 206
+;206:		return MONSTER_MOVEMENT_FLYING;
+CNSTI4 0
+RETI4
+ADDRGP4 $97
+JUMPV
+LABELV $98
+line 207
+;207:	if (!Q_stricmp(value, "walking"))
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 $103
+ARGP4
+ADDRLP4 4
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 4
+INDIRI4
+CNSTI4 0
+NEI4 $101
+line 208
+;208:		return MONSTER_MOVEMENT_WALKING;
+CNSTI4 1
+RETI4
+ADDRGP4 $97
+JUMPV
+LABELV $101
+line 210
+;209:
+;210:	return -1;
+CNSTI4 -1
+RETI4
+LABELV $97
+endproc MonsterParseMovement 8 8
+proc MonsterParsePattern 8 8
+line 213
+;211:}
+;212:
+;213:static int MonsterParsePattern(const char *value) {
+line 214
+;214:	if (!Q_stricmp(value, "direct"))
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 $107
+ARGP4
+ADDRLP4 0
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 0
+INDIRI4
+CNSTI4 0
+NEI4 $105
+line 215
+;215:		return MONSTER_PATTERN_DIRECT;
+CNSTI4 0
+RETI4
+ADDRGP4 $104
+JUMPV
+LABELV $105
+line 216
+;216:	if (!Q_stricmp(value, "drift"))
+ADDRFP4 0
+INDIRP4
+ARGP4
+ADDRGP4 $110
+ARGP4
+ADDRLP4 4
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 4
+INDIRI4
+CNSTI4 0
+NEI4 $108
+line 217
+;217:		return MONSTER_PATTERN_DRIFT;
+CNSTI4 1
+RETI4
+ADDRGP4 $104
+JUMPV
+LABELV $108
+line 219
+;218:
+;219:	return -1;
+CNSTI4 -1
+RETI4
+LABELV $104
+endproc MonsterParsePattern 8 8
+export BG_ParseMonsterConfig
+proc BG_ParseMonsterConfig 372 20
+line 227
+;220:}
+;221:
+;222:qboolean BG_ParseMonsterConfig(
+;223:	char *text,
+;224:	monsterDef_t *def,
+;225:	char *error,
+;226:	int errorSize
+;227:) {
+line 231
+;228:	char key[64];
+;229:	char value[MAX_QPATH];
+;230:
+;231:	memset(def, 0, sizeof(*def));
+ADDRFP4 4
+INDIRP4
+ARGP4
+CNSTI4 0
+ARGI4
+CNSTI4 1180
+ARGI4
+ADDRGP4 memset
+CALLP4
+pop
+line 232
+;232:	error[0] = '\0';
+ADDRFP4 8
+INDIRP4
+CNSTI1 0
+ASGNI1
+line 234
+;233:
+;234:	def->health = 100;
+ADDRFP4 4
+INDIRP4
+CNSTI4 592
+ADDP4
+CNSTI4 100
+ASGNI4
+line 235
+;235:	def->scoreValue = 1;
+ADDRFP4 4
+INDIRP4
+CNSTI4 596
+ADDP4
+CNSTI4 1
+ASGNI4
+line 236
+;236:	def->respawnTime = 20000;
+ADDRFP4 4
+INDIRP4
+CNSTI4 704
+ADDP4
+CNSTI4 20000
+ASGNI4
+line 237
+;237:	def->corpseTime = 3000;
+ADDRFP4 4
+INDIRP4
+CNSTI4 708
+ADDP4
+CNSTI4 3000
+ASGNI4
+line 238
+;238:	def->painChance = 100;
+ADDRFP4 4
+INDIRP4
+CNSTI4 712
+ADDP4
+CNSTI4 100
+ASGNI4
+line 239
+;239:	def->speed = 160.0f;
+ADDRFP4 4
+INDIRP4
+CNSTI4 600
+ADDP4
+CNSTF4 1126170624
+ASGNF4
+line 240
+;240:	def->hoverHeight = 48.0f;
+ADDRFP4 4
+INDIRP4
+CNSTI4 604
+ADDP4
+CNSTF4 1111490560
+ASGNF4
+line 241
+;241:	def->attackCooldown = 1800;
+ADDRFP4 4
+INDIRP4
+CNSTI4 652
+ADDP4
+CNSTI4 1800
+ASGNI4
+line 242
+;242:	def->attackFireFrame = 0;
+ADDRFP4 4
+INDIRP4
+CNSTI4 656
+ADDP4
+CNSTI4 0
+ASGNI4
+line 244
+;243:	
+;244:	def->meleeRange = 96.0f;
+ADDRFP4 4
+INDIRP4
+CNSTI4 660
+ADDP4
+CNSTF4 1119879168
+ASGNF4
+line 245
+;245:	def->meleeFireFrame = 0;
+ADDRFP4 4
+INDIRP4
+CNSTI4 664
+ADDP4
+CNSTI4 0
+ASGNI4
+line 246
+;246:	def->meleeDamage = 10;
+ADDRFP4 4
+INDIRP4
+CNSTI4 668
+ADDP4
+CNSTI4 10
+ASGNI4
+line 248
+;247:
+;248:	Q_strncpyz(
+ADDRFP4 4
+INDIRP4
+CNSTI4 512
+ADDP4
+ARGP4
+ADDRGP4 $112
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRGP4 Q_strncpyz
+CALLV
+pop
+line 254
+;249:		def->meleeProjectile,
+;250:		"plasma",
+;251:		sizeof(def->meleeProjectile)
+;252:	);	
+;253:	
+;254:	def->deathExplosion[0] = '\0';
+ADDRFP4 4
+INDIRP4
+CNSTI4 716
+ADDP4
+CNSTI1 0
+ASGNI1
+line 256
+;255:	
+;256:	def->burstCount = 1;
+ADDRFP4 4
+INDIRP4
+CNSTI4 672
+ADDP4
+CNSTI4 1
+ASGNI4
+line 257
+;257:	def->burstInterval = 120;
+ADDRFP4 4
+INDIRP4
+CNSTI4 676
+ADDP4
+CNSTI4 120
+ASGNI4
+line 258
+;258:	def->talkMinDelay = 5000;
+ADDRFP4 4
+INDIRP4
+CNSTI4 696
+ADDP4
+CNSTI4 5000
+ASGNI4
+line 259
+;259:	def->talkMaxDelay = 12000;
+ADDRFP4 4
+INDIRP4
+CNSTI4 700
+ADDP4
+CNSTI4 12000
+ASGNI4
+line 261
+;260:
+;261:	VectorSet(def->mins, -15, -15, -24);
+ADDRFP4 4
+INDIRP4
+CNSTI4 608
+ADDP4
+CNSTF4 3245342720
+ASGNF4
+ADDRFP4 4
+INDIRP4
+CNSTI4 612
+ADDP4
+CNSTF4 3245342720
+ASGNF4
+ADDRFP4 4
+INDIRP4
+CNSTI4 616
+ADDP4
+CNSTF4 3250585600
+ASGNF4
+line 262
+;262:	VectorSet(def->maxs, 15, 15, 32);
+ADDRFP4 4
+INDIRP4
+CNSTI4 620
+ADDP4
+CNSTF4 1097859072
+ASGNF4
+ADDRFP4 4
+INDIRP4
+CNSTI4 624
+ADDP4
+CNSTF4 1097859072
+ASGNF4
+ADDRFP4 4
+INDIRP4
+CNSTI4 628
+ADDP4
+CNSTF4 1107296256
+ASGNF4
+ADDRGP4 $114
+JUMPV
+LABELV $113
+line 264
+;263:
+;264:	while (1) {
+line 267
+;265:		char *token;
+;266:
+;267:		token = COM_Parse(&text);
+ADDRFP4 0
+ARGP4
+ADDRLP4 132
+ADDRGP4 COM_Parse
+CALLP4
+ASGNP4
+ADDRLP4 128
+ADDRLP4 132
+INDIRP4
+ASGNP4
+line 268
+;268:		if (!token[0]) {
+ADDRLP4 128
+INDIRP4
+INDIRI1
+CVII4 1
+CNSTI4 0
+NEI4 $116
+line 269
+;269:			break;
+ADDRGP4 $115
+JUMPV
+LABELV $116
+line 272
+;270:		}
+;271:
+;272:		Q_strncpyz(key, token, sizeof(key));
+ADDRLP4 0
+ARGP4
+ADDRLP4 128
+INDIRP4
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRGP4 Q_strncpyz
+CALLV
+pop
+line 274
+;273:
+;274:		if (!Q_stricmp(key, "name")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $120
+ARGP4
+ADDRLP4 136
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 136
+INDIRI4
+CNSTI4 0
+NEI4 $118
+line 275
+;275:			if (!MonsterReadString(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 140
+ADDRGP4 MonsterReadString
+CALLI4
+ASGNI4
+ADDRLP4 140
+INDIRI4
+CNSTI4 0
+NEI4 $119
+line 278
+;276:				&text, def->name, sizeof(def->name),
+;277:				error, errorSize
+;278:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 279
+;279:		}
+LABELV $118
+line 280
+;280:		else if (!Q_stricmp(key, "model1")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $125
+ARGP4
+ADDRLP4 140
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 140
+INDIRI4
+CNSTI4 0
+NEI4 $123
+line 281
+;281:			if (!MonsterReadString(
+ADDRFP4 0
+ARGP4
+ADDRLP4 144
+CNSTI4 64
+ASGNI4
+ADDRFP4 4
+INDIRP4
+ADDRLP4 144
+INDIRI4
+ADDP4
+ARGP4
+ADDRLP4 144
+INDIRI4
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 148
+ADDRGP4 MonsterReadString
+CALLI4
+ASGNI4
+ADDRLP4 148
+INDIRI4
+CNSTI4 0
+NEI4 $124
+line 284
+;282:				&text, def->models[0], MAX_QPATH,
+;283:				error, errorSize
+;284:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 285
+;285:		}
+LABELV $123
+line 286
+;286:		else if (!Q_stricmp(key, "model2")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $130
+ARGP4
+ADDRLP4 144
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 144
+INDIRI4
+CNSTI4 0
+NEI4 $128
+line 287
+;287:			if (!MonsterReadString(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 128
+ADDP4
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 148
+ADDRGP4 MonsterReadString
+CALLI4
+ASGNI4
+ADDRLP4 148
+INDIRI4
+CNSTI4 0
+NEI4 $129
+line 290
+;288:				&text, def->models[1], MAX_QPATH,
+;289:				error, errorSize
+;290:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 291
+;291:		}
+LABELV $128
+line 292
+;292:		else if (!Q_stricmp(key, "model3")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $135
+ARGP4
+ADDRLP4 148
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 148
+INDIRI4
+CNSTI4 0
+NEI4 $133
+line 293
+;293:			if (!MonsterReadString(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 192
+ADDP4
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 152
+ADDRGP4 MonsterReadString
+CALLI4
+ASGNI4
+ADDRLP4 152
+INDIRI4
+CNSTI4 0
+NEI4 $134
+line 296
+;294:				&text, def->models[2], MAX_QPATH,
+;295:				error, errorSize
+;296:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 297
+;297:		}
+LABELV $133
+line 298
+;298:		else if (!Q_stricmp(key, "model4")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $140
+ARGP4
+ADDRLP4 152
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 152
+INDIRI4
+CNSTI4 0
+NEI4 $138
+line 299
+;299:			if (!MonsterReadString(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 256
+ADDP4
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 156
+ADDRGP4 MonsterReadString
+CALLI4
+ASGNI4
+ADDRLP4 156
+INDIRI4
+CNSTI4 0
+NEI4 $139
+line 302
+;300:				&text, def->models[3], MAX_QPATH,
+;301:				error, errorSize
+;302:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 303
+;303:		}
+LABELV $138
+line 304
+;304:		else if (!Q_stricmp(key, "shader")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $145
+ARGP4
+ADDRLP4 156
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 156
+INDIRI4
+CNSTI4 0
+NEI4 $143
+line 305
+;305:			if (!MonsterReadString(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 320
+ADDP4
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 160
+ADDRGP4 MonsterReadString
+CALLI4
+ASGNI4
+ADDRLP4 160
+INDIRI4
+CNSTI4 0
+NEI4 $144
+line 308
+;306:				&text, def->shader, MAX_QPATH,
+;307:				error, errorSize
+;308:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 309
+;309:		}
+LABELV $143
+line 310
+;310:		else if (!Q_stricmp(key, "soundDir")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $150
+ARGP4
+ADDRLP4 160
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 160
+INDIRI4
+CNSTI4 0
+NEI4 $148
+line 311
+;311:			if (!MonsterReadString(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 384
+ADDP4
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 164
+ADDRGP4 MonsterReadString
+CALLI4
+ASGNI4
+ADDRLP4 164
+INDIRI4
+CNSTI4 0
+NEI4 $149
+line 314
+;312:				&text, def->soundDir, MAX_QPATH,
+;313:				error, errorSize
+;314:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 315
+;315:		}
+LABELV $148
+line 316
+;316:		else if (!Q_stricmp(key, "projectile")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $155
+ARGP4
+ADDRLP4 164
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 164
+INDIRI4
+CNSTI4 0
+NEI4 $153
+line 317
+;317:			if (!MonsterReadString(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 448
+ADDP4
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 168
+ADDRGP4 MonsterReadString
+CALLI4
+ASGNI4
+ADDRLP4 168
+INDIRI4
+CNSTI4 0
+NEI4 $154
+line 320
+;318:				&text, def->projectile, MAX_QPATH,
+;319:				error, errorSize
+;320:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 321
+;321:		}
+LABELV $153
+line 323
+;322:		
+;323:		else if (!Q_stricmp(key, "meleeProjectile")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $160
+ARGP4
+ADDRLP4 168
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 168
+INDIRI4
+CNSTI4 0
+NEI4 $158
+line 324
+;324:			if (!MonsterReadString(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 512
+ADDP4
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 172
+ADDRGP4 MonsterReadString
+CALLI4
+ASGNI4
+ADDRLP4 172
+INDIRI4
+CNSTI4 0
+NEI4 $159
+line 330
+;325:				&text,
+;326:				def->meleeProjectile,
+;327:				MAX_QPATH,
+;328:				error,
+;329:				errorSize
+;330:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 331
+;331:		}
+LABELV $158
+line 333
+;332:		
+;333:		else if (!Q_stricmp(key, "deathExplosion")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $165
+ARGP4
+ADDRLP4 172
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 172
+INDIRI4
+CNSTI4 0
+NEI4 $163
+line 334
+;334:			if (!MonsterReadString(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 716
+ADDP4
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 176
+ADDRGP4 MonsterReadString
+CALLI4
+ASGNI4
+ADDRLP4 176
+INDIRI4
+CNSTI4 0
+NEI4 $164
+line 340
+;335:				&text,
+;336:				def->deathExplosion,
+;337:				MAX_QPATH,
+;338:				error,
+;339:				errorSize
+;340:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 341
+;341:		}
+LABELV $163
+line 343
+;342:		
+;343:		else if (!Q_stricmp(key, "noblood") ||
+ADDRLP4 0
+ARGP4
+ADDRGP4 $170
+ARGP4
+ADDRLP4 176
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 176
+INDIRI4
+CNSTI4 0
+EQI4 $172
+ADDRLP4 0
+ARGP4
+ADDRGP4 $171
+ARGP4
+ADDRLP4 180
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 180
+INDIRI4
+CNSTI4 0
+NEI4 $168
+LABELV $172
+line 344
+;344:			!Q_stricmp(key, "blood")) {
+line 345
+;345:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 780
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 184
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 184
+INDIRI4
+CNSTI4 0
+NEI4 $169
+line 348
+;346:				&text, &def->blood,
+;347:				error, errorSize
+;348:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 349
+;349:		}
+LABELV $168
+line 350
+;350:		else if (!Q_stricmp(key, "mshadow")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $177
+ARGP4
+ADDRLP4 184
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 184
+INDIRI4
+CNSTI4 0
+NEI4 $175
+line 351
+;351:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 784
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 188
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 188
+INDIRI4
+CNSTI4 0
+NEI4 $176
+line 354
+;352:				&text, &def->shadow,
+;353:				error, errorSize
+;354:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 355
+;355:		}
+LABELV $175
+line 356
+;356:		else if (!Q_stricmp(key, "monsterType")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $182
+ARGP4
+ADDRLP4 188
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 188
+INDIRI4
+CNSTI4 0
+NEI4 $180
+line 357
+;357:			if (!MonsterReadToken(
+ADDRFP4 0
+ARGP4
+ADDRLP4 64
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 192
+ADDRGP4 MonsterReadToken
+CALLI4
+ASGNI4
+ADDRLP4 192
+INDIRI4
+CNSTI4 0
+NEI4 $183
+line 360
+;358:				&text, value, sizeof(value),
+;359:				error, errorSize
+;360:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+LABELV $183
+line 362
+;361:
+;362:			def->monsterType = MonsterParseType(value);
+ADDRLP4 64
+ARGP4
+ADDRLP4 196
+ADDRGP4 MonsterParseType
+CALLI4
+ASGNI4
+ADDRFP4 4
+INDIRP4
+CNSTI4 576
+ADDP4
+ADDRLP4 196
+INDIRI4
+ASGNI4
+line 363
+;363:			if (def->monsterType < 0) {
+ADDRFP4 4
+INDIRP4
+CNSTI4 576
+ADDP4
+INDIRI4
+CNSTI4 0
+GEI4 $181
+line 364
+;364:				MonsterParseError(
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRGP4 $187
+ARGP4
+ADDRGP4 MonsterParseError
+CALLV
+pop
+line 368
+;365:					error, errorSize,
+;366:					"Unknown monsterType"
+;367:				);
+;368:				return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 370
+;369:			}
+;370:		}
+LABELV $180
+line 371
+;371:		else if (!Q_stricmp(key, "movementType")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $190
+ARGP4
+ADDRLP4 192
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 192
+INDIRI4
+CNSTI4 0
+NEI4 $188
+line 372
+;372:			if (!MonsterReadToken(
+ADDRFP4 0
+ARGP4
+ADDRLP4 64
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 196
+ADDRGP4 MonsterReadToken
+CALLI4
+ASGNI4
+ADDRLP4 196
+INDIRI4
+CNSTI4 0
+NEI4 $191
+line 375
+;373:				&text, value, sizeof(value),
+;374:				error, errorSize
+;375:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+LABELV $191
+line 377
+;376:
+;377:			def->movementType = MonsterParseMovement(value);
+ADDRLP4 64
+ARGP4
+ADDRLP4 200
+ADDRGP4 MonsterParseMovement
+CALLI4
+ASGNI4
+ADDRFP4 4
+INDIRP4
+CNSTI4 584
+ADDP4
+ADDRLP4 200
+INDIRI4
+ASGNI4
+line 378
+;378:			if (def->movementType < 0) {
+ADDRFP4 4
+INDIRP4
+CNSTI4 584
+ADDP4
+INDIRI4
+CNSTI4 0
+GEI4 $189
+line 379
+;379:				MonsterParseError(
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRGP4 $195
+ARGP4
+ADDRGP4 MonsterParseError
+CALLV
+pop
+line 383
+;380:					error, errorSize,
+;381:					"Unknown movementType"
+;382:				);
+;383:				return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 385
+;384:			}
+;385:		}
+LABELV $188
+line 386
+;386:		else if (!Q_stricmp(key, "movePattern")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $198
+ARGP4
+ADDRLP4 196
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 196
+INDIRI4
+CNSTI4 0
+NEI4 $196
+line 387
+;387:			if (!MonsterReadToken(
+ADDRFP4 0
+ARGP4
+ADDRLP4 64
+ARGP4
+CNSTI4 64
+ARGI4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 200
+ADDRGP4 MonsterReadToken
+CALLI4
+ASGNI4
+ADDRLP4 200
+INDIRI4
+CNSTI4 0
+NEI4 $199
+line 390
+;388:				&text, value, sizeof(value),
+;389:				error, errorSize
+;390:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+LABELV $199
+line 392
+;391:
+;392:			def->movePattern = MonsterParsePattern(value);
+ADDRLP4 64
+ARGP4
+ADDRLP4 204
+ADDRGP4 MonsterParsePattern
+CALLI4
+ASGNI4
+ADDRFP4 4
+INDIRP4
+CNSTI4 588
+ADDP4
+ADDRLP4 204
+INDIRI4
+ASGNI4
+line 393
+;393:			if (def->movePattern < 0) {
+ADDRFP4 4
+INDIRP4
+CNSTI4 588
+ADDP4
+INDIRI4
+CNSTI4 0
+GEI4 $197
+line 394
+;394:				MonsterParseError(
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRGP4 $203
+ARGP4
+ADDRGP4 MonsterParseError
+CALLV
+pop
+line 398
+;395:					error, errorSize,
+;396:					"Unknown movePattern"
+;397:				);
+;398:				return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 400
+;399:			}
+;400:		}
+LABELV $196
+line 401
+;401:		else if (!Q_stricmp(key, "monsterSlot")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $206
+ARGP4
+ADDRLP4 200
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 200
+INDIRI4
+CNSTI4 0
+NEI4 $204
+line 402
+;402:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 580
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 204
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 204
+INDIRI4
+CNSTI4 0
+NEI4 $205
+line 405
+;403:				&text, &def->monsterSlot,
+;404:				error, errorSize
+;405:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 406
+;406:		}
+LABELV $204
+line 407
+;407:		else if (!Q_stricmp(key, "health")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $211
+ARGP4
+ADDRLP4 204
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 204
+INDIRI4
+CNSTI4 0
+NEI4 $209
+line 408
+;408:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 592
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 208
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 208
+INDIRI4
+CNSTI4 0
+NEI4 $210
+line 411
+;409:				&text, &def->health,
+;410:				error, errorSize
+;411:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 412
+;412:		}
+LABELV $209
+line 413
+;413:		else if (!Q_stricmp(key, "scoreValue")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $216
+ARGP4
+ADDRLP4 208
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 208
+INDIRI4
+CNSTI4 0
+NEI4 $214
+line 414
+;414:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 596
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 212
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 212
+INDIRI4
+CNSTI4 0
+NEI4 $215
+line 417
+;415:				&text, &def->scoreValue,
+;416:				error, errorSize
+;417:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 418
+;418:		}
+LABELV $214
+line 419
+;419:		else if (!Q_stricmp(key, "respawnTime")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $221
+ARGP4
+ADDRLP4 212
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 212
+INDIRI4
+CNSTI4 0
+NEI4 $219
+line 420
+;420:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 704
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 216
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 216
+INDIRI4
+CNSTI4 0
+NEI4 $220
+line 423
+;421:				&text, &def->respawnTime,
+;422:				error, errorSize
+;423:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 424
+;424:		}
+LABELV $219
+line 425
+;425:		else if (!Q_stricmp(key, "corpseTime")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $226
+ARGP4
+ADDRLP4 216
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 216
+INDIRI4
+CNSTI4 0
+NEI4 $224
+line 426
+;426:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 708
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 220
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 220
+INDIRI4
+CNSTI4 0
+NEI4 $225
+line 431
+;427:				&text,
+;428:				&def->corpseTime,
+;429:				error,
+;430:				errorSize
+;431:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 432
+;432:		}
+LABELV $224
+line 433
+;433:		else if (!Q_stricmp(key, "painChance")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $231
+ARGP4
+ADDRLP4 220
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 220
+INDIRI4
+CNSTI4 0
+NEI4 $229
+line 434
+;434:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 712
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 224
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 224
+INDIRI4
+CNSTI4 0
+NEI4 $230
+line 437
+;435:				&text, &def->painChance,
+;436:				error, errorSize
+;437:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 438
+;438:		}
+LABELV $229
+line 439
+;439:		else if (!Q_stricmp(key, "speed")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $236
+ARGP4
+ADDRLP4 224
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 224
+INDIRI4
+CNSTI4 0
+NEI4 $234
+line 440
+;440:			if (!MonsterReadFloat(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 600
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 228
+ADDRGP4 MonsterReadFloat
+CALLI4
+ASGNI4
+ADDRLP4 228
+INDIRI4
+CNSTI4 0
+NEI4 $235
+line 443
+;441:				&text, &def->speed,
+;442:				error, errorSize
+;443:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 444
+;444:		}
+LABELV $234
+line 445
+;445:		else if (!Q_stricmp(key, "hoverHeight")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $241
+ARGP4
+ADDRLP4 228
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 228
+INDIRI4
+CNSTI4 0
+NEI4 $239
+line 446
+;446:			if (!MonsterReadFloat(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 604
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 232
+ADDRGP4 MonsterReadFloat
+CALLI4
+ASGNI4
+ADDRLP4 232
+INDIRI4
+CNSTI4 0
+NEI4 $240
+line 449
+;447:				&text, &def->hoverHeight,
+;448:				error, errorSize
+;449:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 450
+;450:		}
+LABELV $239
+line 451
+;451:		else if (!Q_stricmp(key, "mins")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $246
+ARGP4
+ADDRLP4 232
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 232
+INDIRI4
+CNSTI4 0
+NEI4 $244
+line 452
+;452:			if (!MonsterReadVector(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 608
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 236
+ADDRGP4 MonsterReadVector
+CALLI4
+ASGNI4
+ADDRLP4 236
+INDIRI4
+CNSTI4 0
+NEI4 $245
+line 455
+;453:				&text, def->mins,
+;454:				error, errorSize
+;455:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 456
+;456:		}
+LABELV $244
+line 457
+;457:		else if (!Q_stricmp(key, "maxs")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $251
+ARGP4
+ADDRLP4 236
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 236
+INDIRI4
+CNSTI4 0
+NEI4 $249
+line 458
+;458:			if (!MonsterReadVector(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 620
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 240
+ADDRGP4 MonsterReadVector
+CALLI4
+ASGNI4
+ADDRLP4 240
+INDIRI4
+CNSTI4 0
+NEI4 $250
+line 461
+;459:				&text, def->maxs,
+;460:				error, errorSize
+;461:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 462
+;462:		}
+LABELV $249
+line 463
+;463:		else if (!Q_stricmp(key, "driftAmount")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $256
+ARGP4
+ADDRLP4 240
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 240
+INDIRI4
+CNSTI4 0
+NEI4 $254
+line 464
+;464:			if (!MonsterReadFloat(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 632
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 244
+ADDRGP4 MonsterReadFloat
+CALLI4
+ASGNI4
+ADDRLP4 244
+INDIRI4
+CNSTI4 0
+NEI4 $255
+line 467
+;465:				&text, &def->driftAmount,
+;466:				error, errorSize
+;467:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 468
+;468:		}
+LABELV $254
+line 469
+;469:		else if (!Q_stricmp(key, "driftPeriod")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $261
+ARGP4
+ADDRLP4 244
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 244
+INDIRI4
+CNSTI4 0
+NEI4 $259
+line 470
+;470:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 636
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 248
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 248
+INDIRI4
+CNSTI4 0
+NEI4 $260
+line 473
+;471:				&text, &def->driftPeriod,
+;472:				error, errorSize
+;473:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 474
+;474:		}
+LABELV $259
+line 475
+;475:		else if (!Q_stricmp(key, "hasRanged")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $266
+ARGP4
+ADDRLP4 248
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 248
+INDIRI4
+CNSTI4 0
+NEI4 $264
+line 476
+;476:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 640
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 252
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 252
+INDIRI4
+CNSTI4 0
+NEI4 $265
+line 479
+;477:				&text, &def->hasRanged,
+;478:				error, errorSize
+;479:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 480
+;480:		}
+LABELV $264
+line 481
+;481:		else if (!Q_stricmp(key, "hasMelee")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $271
+ARGP4
+ADDRLP4 252
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 252
+INDIRI4
+CNSTI4 0
+NEI4 $269
+line 482
+;482:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 644
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 256
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 256
+INDIRI4
+CNSTI4 0
+NEI4 $270
+line 485
+;483:				&text, &def->hasMelee,
+;484:				error, errorSize
+;485:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 486
+;486:		}
+LABELV $269
+line 487
+;487:		else if (!Q_stricmp(key, "attackRange")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $276
+ARGP4
+ADDRLP4 256
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 256
+INDIRI4
+CNSTI4 0
+NEI4 $274
+line 488
+;488:			if (!MonsterReadFloat(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 648
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 260
+ADDRGP4 MonsterReadFloat
+CALLI4
+ASGNI4
+ADDRLP4 260
+INDIRI4
+CNSTI4 0
+NEI4 $275
+line 491
+;489:				&text, &def->attackRange,
+;490:				error, errorSize
+;491:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 492
+;492:		}
+LABELV $274
+line 493
+;493:		else if (!Q_stricmp(key, "attackCooldown")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $281
+ARGP4
+ADDRLP4 260
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 260
+INDIRI4
+CNSTI4 0
+NEI4 $279
+line 494
+;494:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 652
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 264
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 264
+INDIRI4
+CNSTI4 0
+NEI4 $280
+line 497
+;495:				&text, &def->attackCooldown,
+;496:				error, errorSize
+;497:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 498
+;498:		}
+LABELV $279
+line 499
+;499:		else if (!Q_stricmp(key, "attackFireFrame")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $286
+ARGP4
+ADDRLP4 264
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 264
+INDIRI4
+CNSTI4 0
+NEI4 $284
+line 500
+;500:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 656
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 268
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 268
+INDIRI4
+CNSTI4 0
+NEI4 $285
+line 503
+;501:				&text, &def->attackFireFrame,
+;502:				error, errorSize
+;503:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 504
+;504:		}
+LABELV $284
+line 506
+;505:		
+;506:		else if (!Q_stricmp(key, "meleeRange")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $291
+ARGP4
+ADDRLP4 268
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 268
+INDIRI4
+CNSTI4 0
+NEI4 $289
+line 507
+;507:			if (!MonsterReadFloat(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 660
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 272
+ADDRGP4 MonsterReadFloat
+CALLI4
+ASGNI4
+ADDRLP4 272
+INDIRI4
+CNSTI4 0
+NEI4 $290
+line 512
+;508:				&text,
+;509:				&def->meleeRange,
+;510:				error,
+;511:				errorSize
+;512:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 513
+;513:		}
+LABELV $289
+line 514
+;514:		else if (!Q_stricmp(key, "meleeFireFrame")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $296
+ARGP4
+ADDRLP4 272
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 272
+INDIRI4
+CNSTI4 0
+NEI4 $294
+line 515
+;515:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 664
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 276
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 276
+INDIRI4
+CNSTI4 0
+NEI4 $295
+line 520
+;516:				&text,
+;517:				&def->meleeFireFrame,
+;518:				error,
+;519:				errorSize
+;520:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 521
+;521:		}
+LABELV $294
+line 522
+;522:		else if (!Q_stricmp(key, "meleeDamage")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $301
+ARGP4
+ADDRLP4 276
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 276
+INDIRI4
+CNSTI4 0
+NEI4 $299
+line 523
+;523:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 668
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 280
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 280
+INDIRI4
+CNSTI4 0
+NEI4 $300
+line 528
+;524:				&text,
+;525:				&def->meleeDamage,
+;526:				error,
+;527:				errorSize
+;528:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 529
+;529:		}
+LABELV $299
+line 531
+;530:		
+;531:		else if (!Q_stricmp(key, "burstCount")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $306
+ARGP4
+ADDRLP4 280
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 280
+INDIRI4
+CNSTI4 0
+NEI4 $304
+line 532
+;532:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 672
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 284
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 284
+INDIRI4
+CNSTI4 0
+NEI4 $305
+line 535
+;533:				&text, &def->burstCount,
+;534:				error, errorSize
+;535:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 536
+;536:		}
+LABELV $304
+line 537
+;537:		else if (!Q_stricmp(key, "burstInterval")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $311
+ARGP4
+ADDRLP4 284
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 284
+INDIRI4
+CNSTI4 0
+NEI4 $309
+line 538
+;538:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 676
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 288
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 288
+INDIRI4
+CNSTI4 0
+NEI4 $310
+line 541
+;539:				&text, &def->burstInterval,
+;540:				error, errorSize
+;541:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 542
+;542:		}
+LABELV $309
+line 543
+;543:		else if (!Q_stricmp(key, "projectileSpeed")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $316
+ARGP4
+ADDRLP4 288
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 288
+INDIRI4
+CNSTI4 0
+NEI4 $314
+line 544
+;544:			if (!MonsterReadFloat(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 680
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 292
+ADDRGP4 MonsterReadFloat
+CALLI4
+ASGNI4
+ADDRLP4 292
+INDIRI4
+CNSTI4 0
+NEI4 $315
+line 547
+;545:				&text, &def->projectileSpeed,
+;546:				error, errorSize
+;547:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 548
+;548:		}
+LABELV $314
+line 549
+;549:		else if (!Q_stricmp(key, "projectileDamage")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $321
+ARGP4
+ADDRLP4 292
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 292
+INDIRI4
+CNSTI4 0
+NEI4 $319
+line 550
+;550:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 684
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 296
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 296
+INDIRI4
+CNSTI4 0
+NEI4 $320
+line 553
+;551:				&text, &def->projectileDamage,
+;552:				error, errorSize
+;553:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 554
+;554:		}
+LABELV $319
+line 555
+;555:		else if (!Q_stricmp(key, "splashDamage")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $326
+ARGP4
+ADDRLP4 296
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 296
+INDIRI4
+CNSTI4 0
+NEI4 $324
+line 556
+;556:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 688
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 300
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 300
+INDIRI4
+CNSTI4 0
+NEI4 $325
+line 559
+;557:				&text, &def->splashDamage,
+;558:				error, errorSize
+;559:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 560
+;560:		}
+LABELV $324
+line 561
+;561:		else if (!Q_stricmp(key, "splashRadius")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $331
+ARGP4
+ADDRLP4 300
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 300
+INDIRI4
+CNSTI4 0
+NEI4 $329
+line 562
+;562:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 692
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 304
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 304
+INDIRI4
+CNSTI4 0
+NEI4 $330
+line 565
+;563:				&text, &def->splashRadius,
+;564:				error, errorSize
+;565:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 566
+;566:		}
+LABELV $329
+line 567
+;567:		else if (!Q_stricmp(key, "talkMinDelay")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $336
+ARGP4
+ADDRLP4 304
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 304
+INDIRI4
+CNSTI4 0
+NEI4 $334
+line 568
+;568:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 696
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 308
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 308
+INDIRI4
+CNSTI4 0
+NEI4 $335
+line 571
+;569:				&text, &def->talkMinDelay,
+;570:				error, errorSize
+;571:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 572
+;572:		}
+LABELV $334
+line 573
+;573:		else if (!Q_stricmp(key, "talkMaxDelay")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $341
+ARGP4
+ADDRLP4 308
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 308
+INDIRI4
+CNSTI4 0
+NEI4 $339
+line 574
+;574:			if (!MonsterReadInt(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 700
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 312
+ADDRGP4 MonsterReadInt
+CALLI4
+ASGNI4
+ADDRLP4 312
+INDIRI4
+CNSTI4 0
+NEI4 $340
+line 577
+;575:				&text, &def->talkMaxDelay,
+;576:				error, errorSize
+;577:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 578
+;578:		}
+LABELV $339
+line 579
+;579:		else if (!Q_stricmp(key, "animIdle")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $346
+ARGP4
+ADDRLP4 312
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 312
+INDIRI4
+CNSTI4 0
+NEI4 $344
+line 580
+;580:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 788
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 316
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 316
+INDIRI4
+CNSTI4 0
+NEI4 $345
+line 583
+;581:				&text, &def->idleAnimation,
+;582:				error, errorSize
+;583:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 584
+;584:		}
+LABELV $344
+line 585
+;585:		else if (!Q_stricmp(key, "animMove")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $351
+ARGP4
+ADDRLP4 316
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 316
+INDIRI4
+CNSTI4 0
+NEI4 $349
+line 586
+;586:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 816
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 320
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 320
+INDIRI4
+CNSTI4 0
+NEI4 $350
+line 589
+;587:				&text, &def->moveAnimation,
+;588:				error, errorSize
+;589:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 590
+;590:		}
+LABELV $349
+line 592
+;591:		
+;592:		else if (!Q_stricmp(key, "animMelee1")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $356
+ARGP4
+ADDRLP4 320
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 320
+INDIRI4
+CNSTI4 0
+NEI4 $354
+line 593
+;593:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 844
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 324
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 324
+INDIRI4
+CNSTI4 0
+NEI4 $355
+line 598
+;594:				&text,
+;595:				&def->meleeAnimations[0],
+;596:				error,
+;597:				errorSize
+;598:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 599
+;599:		}
+LABELV $354
+line 600
+;600:		else if (!Q_stricmp(key, "animMelee2")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $361
+ARGP4
+ADDRLP4 324
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 324
+INDIRI4
+CNSTI4 0
+NEI4 $359
+line 601
+;601:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 872
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 328
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 328
+INDIRI4
+CNSTI4 0
+NEI4 $360
+line 606
+;602:				&text,
+;603:				&def->meleeAnimations[1],
+;604:				error,
+;605:				errorSize
+;606:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 607
+;607:		}
+LABELV $359
+line 608
+;608:		else if (!Q_stricmp(key, "animMelee3")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $366
+ARGP4
+ADDRLP4 328
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 328
+INDIRI4
+CNSTI4 0
+NEI4 $364
+line 609
+;609:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 900
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 332
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 332
+INDIRI4
+CNSTI4 0
+NEI4 $365
+line 614
+;610:				&text,
+;611:				&def->meleeAnimations[2],
+;612:				error,
+;613:				errorSize
+;614:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 615
+;615:		}
+LABELV $364
+line 617
+;616:		
+;617:		else if (!Q_stricmp(key, "animRanged1")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $371
+ARGP4
+ADDRLP4 332
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 332
+INDIRI4
+CNSTI4 0
+NEI4 $369
+line 618
+;618:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 928
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 336
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 336
+INDIRI4
+CNSTI4 0
+NEI4 $370
+line 621
+;619:				&text, &def->rangedAnimations[0],
+;620:				error, errorSize
+;621:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 622
+;622:		}
+LABELV $369
+line 623
+;623:		else if (!Q_stricmp(key, "animRanged2")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $376
+ARGP4
+ADDRLP4 336
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 336
+INDIRI4
+CNSTI4 0
+NEI4 $374
+line 624
+;624:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 956
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 340
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 340
+INDIRI4
+CNSTI4 0
+NEI4 $375
+line 627
+;625:				&text, &def->rangedAnimations[1],
+;626:				error, errorSize
+;627:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 628
+;628:		}
+LABELV $374
+line 629
+;629:		else if (!Q_stricmp(key, "animRanged3")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $381
+ARGP4
+ADDRLP4 340
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 340
+INDIRI4
+CNSTI4 0
+NEI4 $379
+line 630
+;630:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 984
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 344
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 344
+INDIRI4
+CNSTI4 0
+NEI4 $380
+line 633
+;631:				&text, &def->rangedAnimations[2],
+;632:				error, errorSize
+;633:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 634
+;634:		}
+LABELV $379
+line 635
+;635:		else if (!Q_stricmp(key, "animPain1")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $386
+ARGP4
+ADDRLP4 344
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 344
+INDIRI4
+CNSTI4 0
+NEI4 $384
+line 636
+;636:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 1012
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 348
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 348
+INDIRI4
+CNSTI4 0
+NEI4 $385
+line 639
+;637:				&text, &def->painAnimations[0],
+;638:				error, errorSize
+;639:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 640
+;640:		}
+LABELV $384
+line 641
+;641:		else if (!Q_stricmp(key, "animPain2")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $391
+ARGP4
+ADDRLP4 348
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 348
+INDIRI4
+CNSTI4 0
+NEI4 $389
+line 642
+;642:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 1040
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 352
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 352
+INDIRI4
+CNSTI4 0
+NEI4 $390
+line 645
+;643:				&text, &def->painAnimations[1],
+;644:				error, errorSize
+;645:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 646
+;646:		}
+LABELV $389
+line 647
+;647:		else if (!Q_stricmp(key, "animPain3")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $396
+ARGP4
+ADDRLP4 352
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 352
+INDIRI4
+CNSTI4 0
+NEI4 $394
+line 648
+;648:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 1068
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 356
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 356
+INDIRI4
+CNSTI4 0
+NEI4 $395
+line 651
+;649:				&text, &def->painAnimations[2],
+;650:				error, errorSize
+;651:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 652
+;652:		}
+LABELV $394
+line 653
+;653:		else if (!Q_stricmp(key, "animDeath1")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $401
+ARGP4
+ADDRLP4 356
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 356
+INDIRI4
+CNSTI4 0
+NEI4 $399
+line 654
+;654:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 1096
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 360
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 360
+INDIRI4
+CNSTI4 0
+NEI4 $400
+line 657
+;655:				&text, &def->deathAnimations[0],
+;656:				error, errorSize
+;657:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 658
+;658:		}
+LABELV $399
+line 659
+;659:		else if (!Q_stricmp(key, "animDeath2")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $406
+ARGP4
+ADDRLP4 360
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 360
+INDIRI4
+CNSTI4 0
+NEI4 $404
+line 660
+;660:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 1124
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 364
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 364
+INDIRI4
+CNSTI4 0
+NEI4 $405
+line 663
+;661:				&text, &def->deathAnimations[1],
+;662:				error, errorSize
+;663:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 664
+;664:		}
+LABELV $404
+line 665
+;665:		else if (!Q_stricmp(key, "animDeath3")) {
+ADDRLP4 0
+ARGP4
+ADDRGP4 $411
+ARGP4
+ADDRLP4 364
+ADDRGP4 Q_stricmp
+CALLI4
+ASGNI4
+ADDRLP4 364
+INDIRI4
+CNSTI4 0
+NEI4 $409
+line 666
+;666:			if (!MonsterReadAnimation(
+ADDRFP4 0
+ARGP4
+ADDRFP4 4
+INDIRP4
+CNSTI4 1152
+ADDP4
+ARGP4
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRLP4 368
+ADDRGP4 MonsterReadAnimation
+CALLI4
+ASGNI4
+ADDRLP4 368
+INDIRI4
+CNSTI4 0
+NEI4 $410
+line 669
+;667:				&text, &def->deathAnimations[2],
+;668:				error, errorSize
+;669:			)) return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+line 670
+;670:		}
+LABELV $409
+line 671
+;671:		else {
+line 672
+;672:			Com_sprintf(
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRGP4 $414
+ARGP4
+ADDRLP4 0
+ARGP4
+ADDRGP4 Com_sprintf
+CALLV
+pop
+line 678
+;673:				error,
+;674:				errorSize,
+;675:				"Unknown monster.cfg key: %s",
+;676:				key
+;677:			);
+;678:			return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+LABELV $410
+LABELV $405
+LABELV $400
+LABELV $395
+LABELV $390
+LABELV $385
+LABELV $380
+LABELV $375
+LABELV $370
+LABELV $365
+LABELV $360
+LABELV $355
+LABELV $350
+LABELV $345
+LABELV $340
+LABELV $335
+LABELV $330
+LABELV $325
+LABELV $320
+LABELV $315
+LABELV $310
+LABELV $305
+LABELV $300
+LABELV $295
+LABELV $290
+LABELV $285
+LABELV $280
+LABELV $275
+LABELV $270
+LABELV $265
+LABELV $260
+LABELV $255
+LABELV $250
+LABELV $245
+LABELV $240
+LABELV $235
+LABELV $230
+LABELV $225
+LABELV $220
+LABELV $215
+LABELV $210
+LABELV $205
+LABELV $197
+LABELV $189
+LABELV $181
+LABELV $176
+LABELV $169
+LABELV $164
+LABELV $159
+LABELV $154
+LABELV $149
+LABELV $144
+LABELV $139
+LABELV $134
+LABELV $129
+LABELV $124
+LABELV $119
+line 680
+;679:		}
+;680:	}
+LABELV $114
+line 264
+ADDRGP4 $113
+JUMPV
+LABELV $115
+line 682
+;681:
+;682:	if (!def->name[0]) {
+ADDRFP4 4
+INDIRP4
+INDIRI1
+CVII4 1
+CNSTI4 0
+NEI4 $415
+line 683
+;683:		MonsterParseError(error, errorSize, "Missing monster name");
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRGP4 $417
+ARGP4
+ADDRGP4 MonsterParseError
+CALLV
+pop
+line 684
+;684:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+LABELV $415
+line 687
+;685:	}
+;686:
+;687:	if (!def->models[0][0]) {
+ADDRFP4 4
+INDIRP4
+CNSTI4 64
+ADDP4
+INDIRI1
+CVII4 1
+CNSTI4 0
+NEI4 $418
+line 688
+;688:		MonsterParseError(error, errorSize, "Missing model1");
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRGP4 $420
+ARGP4
+ADDRGP4 MonsterParseError
+CALLV
+pop
+line 689
+;689:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+LABELV $418
+line 692
+;690:	}
+;691:
+;692:	if (def->monsterSlot < 0 ||
+ADDRLP4 128
+ADDRFP4 4
+INDIRP4
+CNSTI4 580
+ADDP4
+INDIRI4
+ASGNI4
+ADDRLP4 128
+INDIRI4
+CNSTI4 0
+LTI4 $423
+ADDRLP4 128
+INDIRI4
+CNSTI4 5
+LTI4 $421
+LABELV $423
+line 693
+;693:		def->monsterSlot >= MAX_MONSTERS_PER_TYPE) {
+line 694
+;694:		MonsterParseError(error, errorSize, "Invalid monsterSlot");
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRGP4 $424
+ARGP4
+ADDRGP4 MonsterParseError
+CALLV
+pop
+line 695
+;695:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+LABELV $421
+line 698
+;696:	}
+;697:
+;698:	if (def->health <= 0 || def->speed <= 0.0f) {
+ADDRLP4 132
+ADDRFP4 4
+INDIRP4
+ASGNP4
+ADDRLP4 132
+INDIRP4
+CNSTI4 592
+ADDP4
+INDIRI4
+CNSTI4 0
+LEI4 $427
+ADDRLP4 132
+INDIRP4
+CNSTI4 600
+ADDP4
+INDIRF4
+CNSTF4 0
+GTF4 $425
+LABELV $427
+line 699
+;699:		MonsterParseError(
+ADDRFP4 8
+INDIRP4
+ARGP4
+ADDRFP4 12
+INDIRI4
+ARGI4
+ADDRGP4 $428
+ARGP4
+ADDRGP4 MonsterParseError
+CALLV
+pop
+line 704
+;700:			error,
+;701:			errorSize,
+;702:			"Invalid monster health or speed"
+;703:		);
+;704:		return qfalse;
+CNSTI4 0
+RETI4
+ADDRGP4 $111
+JUMPV
+LABELV $425
+line 707
+;705:	}
+;706:	
+;707:	if (def->corpseTime < 0) {
+ADDRFP4 4
+INDIRP4
+CNSTI4 708
+ADDP4
+INDIRI4
+CNSTI4 0
+GEI4 $429
+line 708
+;708:		def->corpseTime = 0;
+ADDRFP4 4
+INDIRP4
+CNSTI4 708
+ADDP4
+CNSTI4 0
+ASGNI4
+line 709
+;709:	}
+LABELV $429
+line 711
+;710:	
+;711:	if (def->painChance < 0) {
+ADDRFP4 4
+INDIRP4
+CNSTI4 712
+ADDP4
+INDIRI4
+CNSTI4 0
+GEI4 $431
+line 712
+;712:		def->painChance = 0;
+ADDRFP4 4
+INDIRP4
+CNSTI4 712
+ADDP4
+CNSTI4 0
+ASGNI4
+line 713
+;713:	}
+LABELV $431
+line 714
+;714:	if (def->painChance > 100) {
+ADDRFP4 4
+INDIRP4
+CNSTI4 712
+ADDP4
+INDIRI4
+CNSTI4 100
+LEI4 $433
+line 715
+;715:		def->painChance = 100;
+ADDRFP4 4
+INDIRP4
+CNSTI4 712
+ADDP4
+CNSTI4 100
+ASGNI4
+line 716
+;716:	}
+LABELV $433
+line 718
+;717:
+;718:	def->blood = (def->blood != 0);
+ADDRLP4 140
+ADDRFP4 4
+INDIRP4
+CNSTI4 780
+ADDP4
+ASGNP4
+ADDRLP4 140
+INDIRP4
+INDIRI4
+CNSTI4 0
+EQI4 $436
+ADDRLP4 136
+CNSTI4 1
+ASGNI4
+ADDRGP4 $437
+JUMPV
+LABELV $436
+ADDRLP4 136
+CNSTI4 0
+ASGNI4
+LABELV $437
+ADDRLP4 140
+INDIRP4
+ADDRLP4 136
+INDIRI4
+ASGNI4
+line 720
+;719:
+;720:	if (def->shadow < 0) {
+ADDRFP4 4
+INDIRP4
+CNSTI4 784
+ADDP4
+INDIRI4
+CNSTI4 0
+GEI4 $438
+line 721
+;721:		def->shadow = 0;
+ADDRFP4 4
+INDIRP4
+CNSTI4 784
+ADDP4
+CNSTI4 0
+ASGNI4
+line 722
+;722:	}
+LABELV $438
+line 723
+;723:	if (def->shadow > 4) {
+ADDRFP4 4
+INDIRP4
+CNSTI4 784
+ADDP4
+INDIRI4
+CNSTI4 4
+LEI4 $440
+line 724
+;724:		def->shadow = 4;
+ADDRFP4 4
+INDIRP4
+CNSTI4 784
+ADDP4
+CNSTI4 4
+ASGNI4
+line 725
+;725:	}
+LABELV $440
+line 727
+;726:
+;727:	return qtrue;
+CNSTI4 1
+RETI4
+LABELV $111
+endproc BG_ParseMonsterConfig 372 20
+import BG_PlayerTouchesItem
+import BG_PlayerStateToEntityStateExtraPolate
+import BG_PlayerStateToEntityState
+import BG_TouchJumpPad
+import BG_AddPredictableEventToPlayerstate
+import BG_EvaluateTrajectoryDelta
+import BG_EvaluateTrajectory
+import BG_CanItemBeGrabbed
+import BG_FindItemForHoldable
+import BG_FindItemForPowerup
+import BG_FindItemForWeapon
+import BG_FindItem
+import bg_numItems
+import bg_itemlist
+import Pmove
+import PM_UpdateViewAngles
+import Com_Printf
+import Com_Error
+import Info_NextPair
+import Info_Validate
+import Info_SetValueForKey_Big
+import Info_SetValueForKey
+import Info_RemoveKey_big
+import Info_RemoveKey
+import Info_ValueForKey
+import va
+import Q_CleanStr
+import Q_PrintStrlen
+import Q_strcat
+import Q_strncpyz
+import Q_strrchr
+import Q_strupr
+import Q_strlwr
+import Q_stricmpn
+import Q_strncmp
+import Q_stricmp
+import Q_isalpha
+import Q_isupper
+import Q_islower
+import Q_isprint
+import Com_sprintf
+import Parse3DMatrix
+import Parse2DMatrix
+import Parse1DMatrix
+import SkipRestOfLine
+import SkipBracedSection
+import COM_MatchToken
+import COM_ParseWarning
+import COM_ParseError
+import COM_Compress
+import COM_ParseExt
+import COM_Parse
+import COM_GetCurrentParseLine
+import COM_BeginParseSession
+import COM_DefaultExtension
+import COM_StripExtension
+import COM_SkipPath
+import Com_Clamp
+import PerpendicularVector
+import AngleVectors
+import MatrixMultiply
+import MakeNormalVectors
+import RotateAroundDirection
+import RotatePointAroundVector
+import ProjectPointOnPlane
+import PlaneFromPoints
+import AngleDelta
+import AngleNormalize180
+import AngleNormalize360
+import AnglesSubtract
+import AngleSubtract
+import LerpAngle
+import AngleMod
+import BoxOnPlaneSide
+import SetPlaneSignbits
+import AxisCopy
+import AxisClear
+import AnglesToAxis
+import vectoangles
+import Q_crandom
+import Q_random
+import Q_rand
+import Q_acos
+import Q_log2
+import VectorRotate
+import Vector4Scale
+import VectorNormalize2
+import VectorNormalize
+import CrossProduct
+import VectorInverse
+import VectorNormalizeFast
+import DistanceSquared
+import Distance
+import VectorLengthSquared
+import VectorLength
+import VectorCompare
+import AddPointToBounds
+import ClearBounds
+import RadiusFromBounds
+import NormalizeColor
+import ColorBytes4
+import ColorBytes3
+import _VectorMA
+import _VectorScale
+import _VectorCopy
+import _VectorAdd
+import _VectorSubtract
+import _DotProduct
+import ByteToDir
+import DirToByte
+import ClampShort
+import ClampChar
+import Q_rsqrt
+import Q_fabs
+import axisDefault
+import vec3_origin
+import g_color_table
+import colorDkGrey
+import colorMdGrey
+import colorLtGrey
+import colorWhite
+import colorCyan
+import colorMagenta
+import colorYellow
+import colorBlue
+import colorGreen
+import colorRed
+import colorBlack
+import bytedirs
+import Com_Memcpy
+import Com_Memset
+import Hunk_Alloc
+import FloatSwap
+import LongSwap
+import ShortSwap
+import acos
+import fabs
+import abs
+import tan
+import atan2
+import cos
+import sin
+import sqrt
+import floor
+import ceil
+import memcpy
+import memset
+import memmove
+import sscanf
+import vsprintf
+import _atoi
+import atoi
+import _atof
+import atof
+import toupper
+import tolower
+import strncpy
+import strstr
+import strchr
+import strcmp
+import strcpy
+import strcat
+import strlen
+import rand
+import srand
+import qsort
+lit
+align 1
+LABELV $428
+byte 1 73
+byte 1 110
+byte 1 118
+byte 1 97
+byte 1 108
+byte 1 105
+byte 1 100
+byte 1 32
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 32
+byte 1 104
+byte 1 101
+byte 1 97
+byte 1 108
+byte 1 116
+byte 1 104
+byte 1 32
+byte 1 111
+byte 1 114
+byte 1 32
+byte 1 115
+byte 1 112
+byte 1 101
+byte 1 101
+byte 1 100
+byte 1 0
+align 1
+LABELV $424
+byte 1 73
+byte 1 110
+byte 1 118
+byte 1 97
+byte 1 108
+byte 1 105
+byte 1 100
+byte 1 32
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 83
+byte 1 108
+byte 1 111
+byte 1 116
+byte 1 0
+align 1
+LABELV $420
+byte 1 77
+byte 1 105
+byte 1 115
+byte 1 115
+byte 1 105
+byte 1 110
+byte 1 103
+byte 1 32
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 49
+byte 1 0
+align 1
+LABELV $417
+byte 1 77
+byte 1 105
+byte 1 115
+byte 1 115
+byte 1 105
+byte 1 110
+byte 1 103
+byte 1 32
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 32
+byte 1 110
+byte 1 97
+byte 1 109
+byte 1 101
+byte 1 0
+align 1
+LABELV $414
+byte 1 85
+byte 1 110
+byte 1 107
+byte 1 110
+byte 1 111
+byte 1 119
+byte 1 110
+byte 1 32
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 32
+byte 1 107
+byte 1 101
+byte 1 121
+byte 1 58
+byte 1 32
+byte 1 37
+byte 1 115
+byte 1 0
+align 1
+LABELV $411
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 68
+byte 1 101
+byte 1 97
+byte 1 116
+byte 1 104
+byte 1 51
+byte 1 0
+align 1
+LABELV $406
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 68
+byte 1 101
+byte 1 97
+byte 1 116
+byte 1 104
+byte 1 50
+byte 1 0
+align 1
+LABELV $401
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 68
+byte 1 101
+byte 1 97
+byte 1 116
+byte 1 104
+byte 1 49
+byte 1 0
+align 1
+LABELV $396
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 80
+byte 1 97
+byte 1 105
+byte 1 110
+byte 1 51
+byte 1 0
+align 1
+LABELV $391
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 80
+byte 1 97
+byte 1 105
+byte 1 110
+byte 1 50
+byte 1 0
+align 1
+LABELV $386
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 80
+byte 1 97
+byte 1 105
+byte 1 110
+byte 1 49
+byte 1 0
+align 1
+LABELV $381
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 82
+byte 1 97
+byte 1 110
+byte 1 103
+byte 1 101
+byte 1 100
+byte 1 51
+byte 1 0
+align 1
+LABELV $376
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 82
+byte 1 97
+byte 1 110
+byte 1 103
+byte 1 101
+byte 1 100
+byte 1 50
+byte 1 0
+align 1
+LABELV $371
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 82
+byte 1 97
+byte 1 110
+byte 1 103
+byte 1 101
+byte 1 100
+byte 1 49
+byte 1 0
+align 1
+LABELV $366
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 77
+byte 1 101
+byte 1 108
+byte 1 101
+byte 1 101
+byte 1 51
+byte 1 0
+align 1
+LABELV $361
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 77
+byte 1 101
+byte 1 108
+byte 1 101
+byte 1 101
+byte 1 50
+byte 1 0
+align 1
+LABELV $356
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 77
+byte 1 101
+byte 1 108
+byte 1 101
+byte 1 101
+byte 1 49
+byte 1 0
+align 1
+LABELV $351
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 77
+byte 1 111
+byte 1 118
+byte 1 101
+byte 1 0
+align 1
+LABELV $346
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 73
+byte 1 100
+byte 1 108
+byte 1 101
+byte 1 0
+align 1
+LABELV $341
+byte 1 116
+byte 1 97
+byte 1 108
+byte 1 107
+byte 1 77
+byte 1 97
+byte 1 120
+byte 1 68
+byte 1 101
+byte 1 108
+byte 1 97
+byte 1 121
+byte 1 0
+align 1
+LABELV $336
+byte 1 116
+byte 1 97
+byte 1 108
+byte 1 107
+byte 1 77
+byte 1 105
+byte 1 110
+byte 1 68
+byte 1 101
+byte 1 108
+byte 1 97
+byte 1 121
+byte 1 0
+align 1
+LABELV $331
+byte 1 115
+byte 1 112
+byte 1 108
+byte 1 97
+byte 1 115
+byte 1 104
+byte 1 82
+byte 1 97
+byte 1 100
+byte 1 105
+byte 1 117
+byte 1 115
+byte 1 0
+align 1
+LABELV $326
+byte 1 115
+byte 1 112
+byte 1 108
+byte 1 97
+byte 1 115
+byte 1 104
+byte 1 68
+byte 1 97
+byte 1 109
+byte 1 97
+byte 1 103
+byte 1 101
+byte 1 0
+align 1
+LABELV $321
+byte 1 112
+byte 1 114
+byte 1 111
+byte 1 106
+byte 1 101
+byte 1 99
+byte 1 116
+byte 1 105
+byte 1 108
+byte 1 101
+byte 1 68
+byte 1 97
+byte 1 109
+byte 1 97
+byte 1 103
+byte 1 101
+byte 1 0
+align 1
+LABELV $316
+byte 1 112
+byte 1 114
+byte 1 111
+byte 1 106
+byte 1 101
+byte 1 99
+byte 1 116
+byte 1 105
+byte 1 108
+byte 1 101
+byte 1 83
+byte 1 112
+byte 1 101
+byte 1 101
+byte 1 100
+byte 1 0
+align 1
+LABELV $311
+byte 1 98
+byte 1 117
+byte 1 114
+byte 1 115
+byte 1 116
+byte 1 73
+byte 1 110
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 118
+byte 1 97
+byte 1 108
+byte 1 0
+align 1
+LABELV $306
+byte 1 98
+byte 1 117
+byte 1 114
+byte 1 115
+byte 1 116
+byte 1 67
+byte 1 111
+byte 1 117
+byte 1 110
+byte 1 116
+byte 1 0
+align 1
+LABELV $301
+byte 1 109
+byte 1 101
+byte 1 108
+byte 1 101
+byte 1 101
+byte 1 68
+byte 1 97
+byte 1 109
+byte 1 97
+byte 1 103
+byte 1 101
+byte 1 0
+align 1
+LABELV $296
+byte 1 109
+byte 1 101
+byte 1 108
+byte 1 101
+byte 1 101
+byte 1 70
+byte 1 105
+byte 1 114
+byte 1 101
+byte 1 70
+byte 1 114
+byte 1 97
+byte 1 109
+byte 1 101
+byte 1 0
+align 1
+LABELV $291
+byte 1 109
+byte 1 101
+byte 1 108
+byte 1 101
+byte 1 101
+byte 1 82
+byte 1 97
+byte 1 110
+byte 1 103
+byte 1 101
+byte 1 0
+align 1
+LABELV $286
+byte 1 97
+byte 1 116
+byte 1 116
+byte 1 97
+byte 1 99
+byte 1 107
+byte 1 70
+byte 1 105
+byte 1 114
+byte 1 101
+byte 1 70
+byte 1 114
+byte 1 97
+byte 1 109
+byte 1 101
+byte 1 0
+align 1
+LABELV $281
+byte 1 97
+byte 1 116
+byte 1 116
+byte 1 97
+byte 1 99
+byte 1 107
+byte 1 67
+byte 1 111
+byte 1 111
+byte 1 108
+byte 1 100
+byte 1 111
+byte 1 119
+byte 1 110
+byte 1 0
+align 1
+LABELV $276
+byte 1 97
+byte 1 116
+byte 1 116
+byte 1 97
+byte 1 99
+byte 1 107
+byte 1 82
+byte 1 97
+byte 1 110
+byte 1 103
+byte 1 101
+byte 1 0
+align 1
+LABELV $271
+byte 1 104
+byte 1 97
+byte 1 115
+byte 1 77
+byte 1 101
+byte 1 108
+byte 1 101
+byte 1 101
+byte 1 0
+align 1
+LABELV $266
+byte 1 104
+byte 1 97
+byte 1 115
+byte 1 82
+byte 1 97
+byte 1 110
+byte 1 103
+byte 1 101
+byte 1 100
+byte 1 0
+align 1
+LABELV $261
+byte 1 100
+byte 1 114
+byte 1 105
+byte 1 102
+byte 1 116
+byte 1 80
+byte 1 101
+byte 1 114
+byte 1 105
+byte 1 111
+byte 1 100
+byte 1 0
+align 1
+LABELV $256
+byte 1 100
+byte 1 114
+byte 1 105
+byte 1 102
+byte 1 116
+byte 1 65
+byte 1 109
+byte 1 111
+byte 1 117
+byte 1 110
+byte 1 116
+byte 1 0
+align 1
+LABELV $251
+byte 1 109
+byte 1 97
+byte 1 120
+byte 1 115
+byte 1 0
+align 1
+LABELV $246
+byte 1 109
+byte 1 105
+byte 1 110
+byte 1 115
+byte 1 0
+align 1
+LABELV $241
+byte 1 104
+byte 1 111
+byte 1 118
+byte 1 101
+byte 1 114
+byte 1 72
+byte 1 101
+byte 1 105
+byte 1 103
+byte 1 104
+byte 1 116
+byte 1 0
+align 1
+LABELV $236
+byte 1 115
+byte 1 112
+byte 1 101
+byte 1 101
+byte 1 100
+byte 1 0
+align 1
+LABELV $231
+byte 1 112
+byte 1 97
+byte 1 105
+byte 1 110
+byte 1 67
+byte 1 104
+byte 1 97
+byte 1 110
+byte 1 99
+byte 1 101
+byte 1 0
+align 1
+LABELV $226
+byte 1 99
+byte 1 111
+byte 1 114
+byte 1 112
+byte 1 115
+byte 1 101
+byte 1 84
+byte 1 105
+byte 1 109
+byte 1 101
+byte 1 0
+align 1
+LABELV $221
+byte 1 114
+byte 1 101
+byte 1 115
+byte 1 112
+byte 1 97
+byte 1 119
+byte 1 110
+byte 1 84
+byte 1 105
+byte 1 109
+byte 1 101
+byte 1 0
+align 1
+LABELV $216
+byte 1 115
+byte 1 99
+byte 1 111
+byte 1 114
+byte 1 101
+byte 1 86
+byte 1 97
+byte 1 108
+byte 1 117
+byte 1 101
+byte 1 0
+align 1
+LABELV $211
+byte 1 104
+byte 1 101
+byte 1 97
+byte 1 108
+byte 1 116
+byte 1 104
+byte 1 0
+align 1
+LABELV $206
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 83
+byte 1 108
+byte 1 111
+byte 1 116
+byte 1 0
+align 1
+LABELV $203
+byte 1 85
+byte 1 110
+byte 1 107
+byte 1 110
+byte 1 111
+byte 1 119
+byte 1 110
+byte 1 32
+byte 1 109
+byte 1 111
+byte 1 118
+byte 1 101
+byte 1 80
+byte 1 97
+byte 1 116
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 110
+byte 1 0
+align 1
+LABELV $198
+byte 1 109
+byte 1 111
+byte 1 118
+byte 1 101
+byte 1 80
+byte 1 97
+byte 1 116
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 110
+byte 1 0
+align 1
+LABELV $195
+byte 1 85
+byte 1 110
+byte 1 107
+byte 1 110
+byte 1 111
+byte 1 119
+byte 1 110
+byte 1 32
+byte 1 109
+byte 1 111
+byte 1 118
+byte 1 101
+byte 1 109
+byte 1 101
+byte 1 110
+byte 1 116
+byte 1 84
+byte 1 121
+byte 1 112
+byte 1 101
+byte 1 0
+align 1
+LABELV $190
+byte 1 109
+byte 1 111
+byte 1 118
+byte 1 101
+byte 1 109
+byte 1 101
+byte 1 110
+byte 1 116
+byte 1 84
+byte 1 121
+byte 1 112
+byte 1 101
+byte 1 0
+align 1
+LABELV $187
+byte 1 85
+byte 1 110
+byte 1 107
+byte 1 110
+byte 1 111
+byte 1 119
+byte 1 110
+byte 1 32
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 84
+byte 1 121
+byte 1 112
+byte 1 101
+byte 1 0
+align 1
+LABELV $182
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 84
+byte 1 121
+byte 1 112
+byte 1 101
+byte 1 0
+align 1
+LABELV $177
+byte 1 109
+byte 1 115
+byte 1 104
+byte 1 97
+byte 1 100
+byte 1 111
+byte 1 119
+byte 1 0
+align 1
+LABELV $171
+byte 1 98
+byte 1 108
+byte 1 111
+byte 1 111
+byte 1 100
+byte 1 0
+align 1
+LABELV $170
+byte 1 110
+byte 1 111
+byte 1 98
+byte 1 108
+byte 1 111
+byte 1 111
+byte 1 100
+byte 1 0
+align 1
+LABELV $165
+byte 1 100
+byte 1 101
+byte 1 97
+byte 1 116
+byte 1 104
+byte 1 69
+byte 1 120
+byte 1 112
+byte 1 108
+byte 1 111
+byte 1 115
+byte 1 105
+byte 1 111
+byte 1 110
+byte 1 0
+align 1
+LABELV $160
+byte 1 109
+byte 1 101
+byte 1 108
+byte 1 101
+byte 1 101
+byte 1 80
+byte 1 114
+byte 1 111
+byte 1 106
+byte 1 101
+byte 1 99
+byte 1 116
+byte 1 105
+byte 1 108
+byte 1 101
+byte 1 0
+align 1
+LABELV $155
+byte 1 112
+byte 1 114
+byte 1 111
+byte 1 106
+byte 1 101
+byte 1 99
+byte 1 116
+byte 1 105
+byte 1 108
+byte 1 101
+byte 1 0
+align 1
+LABELV $150
+byte 1 115
+byte 1 111
+byte 1 117
+byte 1 110
+byte 1 100
+byte 1 68
+byte 1 105
+byte 1 114
+byte 1 0
+align 1
+LABELV $145
+byte 1 115
+byte 1 104
+byte 1 97
+byte 1 100
+byte 1 101
+byte 1 114
+byte 1 0
+align 1
+LABELV $140
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 52
+byte 1 0
+align 1
+LABELV $135
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 51
+byte 1 0
+align 1
+LABELV $130
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 50
+byte 1 0
+align 1
+LABELV $125
+byte 1 109
+byte 1 111
+byte 1 100
+byte 1 101
+byte 1 108
+byte 1 49
+byte 1 0
+align 1
+LABELV $120
+byte 1 110
+byte 1 97
+byte 1 109
+byte 1 101
+byte 1 0
+align 1
+LABELV $112
+byte 1 112
+byte 1 108
+byte 1 97
+byte 1 115
+byte 1 109
+byte 1 97
+byte 1 0
+align 1
+LABELV $110
+byte 1 100
+byte 1 114
+byte 1 105
+byte 1 102
+byte 1 116
+byte 1 0
+align 1
+LABELV $107
+byte 1 100
+byte 1 105
+byte 1 114
+byte 1 101
+byte 1 99
+byte 1 116
+byte 1 0
+align 1
+LABELV $103
+byte 1 119
+byte 1 97
+byte 1 108
+byte 1 107
+byte 1 105
+byte 1 110
+byte 1 103
+byte 1 0
+align 1
+LABELV $100
+byte 1 102
+byte 1 108
+byte 1 121
+byte 1 105
+byte 1 110
+byte 1 103
+byte 1 0
+align 1
+LABELV $96
+byte 1 97
+byte 1 100
+byte 1 100
+byte 1 105
+byte 1 116
+byte 1 105
+byte 1 111
+byte 1 110
+byte 1 97
+byte 1 108
+byte 1 0
+align 1
+LABELV $93
+byte 1 109
+byte 1 105
+byte 1 108
+byte 1 105
+byte 1 116
+byte 1 97
+byte 1 114
+byte 1 121
+byte 1 0
+align 1
+LABELV $90
+byte 1 115
+byte 1 116
+byte 1 114
+byte 1 97
+byte 1 110
+byte 1 103
+byte 1 101
+byte 1 0
+align 1
+LABELV $87
+byte 1 116
+byte 1 101
+byte 1 99
+byte 1 104
+byte 1 110
+byte 1 105
+byte 1 99
+byte 1 97
+byte 1 108
+byte 1 0
+align 1
+LABELV $84
+byte 1 109
+byte 1 97
+byte 1 103
+byte 1 105
+byte 1 99
+byte 1 0
+align 1
+LABELV $80
+byte 1 77
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 32
+byte 1 97
+byte 1 110
+byte 1 105
+byte 1 109
+byte 1 97
+byte 1 116
+byte 1 105
+byte 1 111
+byte 1 110
+byte 1 32
+byte 1 70
+byte 1 80
+byte 1 83
+byte 1 32
+byte 1 109
+byte 1 117
+byte 1 115
+byte 1 116
+byte 1 32
+byte 1 98
+byte 1 101
+byte 1 32
+byte 1 112
+byte 1 111
+byte 1 115
+byte 1 105
+byte 1 116
+byte 1 105
+byte 1 118
+byte 1 101
+byte 1 0
+align 1
+LABELV $55
+byte 1 110
+byte 1 111
+byte 1 110
+byte 1 101
+byte 1 0
+align 1
+LABELV $49
+byte 1 85
+byte 1 110
+byte 1 101
+byte 1 120
+byte 1 112
+byte 1 101
+byte 1 99
+byte 1 116
+byte 1 101
+byte 1 100
+byte 1 32
+byte 1 101
+byte 1 110
+byte 1 100
+byte 1 32
+byte 1 111
+byte 1 102
+byte 1 32
+byte 1 109
+byte 1 111
+byte 1 110
+byte 1 115
+byte 1 116
+byte 1 101
+byte 1 114
+byte 1 46
+byte 1 99
+byte 1 102
+byte 1 103
+byte 1 0
+align 1
+LABELV $45
+byte 1 37
+byte 1 115
+byte 1 0
