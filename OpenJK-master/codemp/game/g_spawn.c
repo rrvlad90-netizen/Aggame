@@ -277,6 +277,7 @@ void SP_target_teleporter( gentity_t *ent );
 void SP_target_relay (gentity_t *ent);
 void SP_target_kill (gentity_t *ent);
 void SP_target_killbots (gentity_t *ent);
+void SP_target_killbots (gentity_t *ent);
 void SP_target_position (gentity_t *ent);
 void SP_target_location (gentity_t *ent);
 void SP_target_counter (gentity_t *self);

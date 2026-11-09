@@ -1579,12 +1579,32 @@ static const char* UI_GetGameTypeName(int gtEnum)
 	return UI_GetStringEdString("MENUS", "SAGA");//"Team FFA";
 }
 
+static qboolean UI_IsBattlesFFAType(
+	const gameTypeInfo_t *gameType
+) {
+	return (
+		gameType &&
+		gameType->gameType &&
+		!Q_stricmp(gameType->gameType, "Battles FFA")
+	);
+}
+
+static const char *UI_GetGameTypeDisplayName(
+	const gameTypeInfo_t *gameType
+) {
+	if (UI_IsBattlesFFAType(gameType)) {
+		return "Battles FFA";
+	}
+
+	return UI_GetGameTypeName(gameType->gtEnum);
+}
+
 
 
 // ui_gameType assumes gametype 0 is -1 ALL and will not show
 static void UI_DrawGameType(rectDef_t *rect, float scale, vec4_t color, int textStyle, int iMenuFont)
 {
-	Text_Paint(rect->x, rect->y, scale, color, UI_GetGameTypeName(uiInfo.gameTypes[ui_gametype.integer].gtEnum), 0, 0, textStyle, iMenuFont);
+	Text_Paint(rect->x, rect->y, scale, color, UI_GetGameTypeDisplayName(&uiInfo.gameTypes[ui_gametype.integer]), 0, 0, textStyle, iMenuFont);
 }
 
 static void UI_DrawNetGameType(rectDef_t *rect, float scale, vec4_t color, int textStyle, int iMenuFont)
@@ -1596,7 +1616,7 @@ static void UI_DrawNetGameType(rectDef_t *rect, float scale, vec4_t color, int t
 		trap->Cvar_Set("ui_actualNetGametype", "0");
 		trap->Cvar_Update(&ui_actualNetGametype);
 	}
-	Text_Paint(rect->x, rect->y, scale, color, UI_GetGameTypeName(uiInfo.gameTypes[ui_netGametype.integer].gtEnum) , 0, 0, textStyle, iMenuFont);
+	Text_Paint(rect->x, rect->y, scale, color, UI_GetGameTypeDisplayName(&uiInfo.gameTypes[ui_netGametype.integer]) , 0, 0, textStyle, iMenuFont);
 }
 
 static void UI_DrawAutoSwitch(rectDef_t *rect, float scale, vec4_t color, int textStyle, int iMenuFont) {
@@ -4587,6 +4607,19 @@ static void UI_StartSkirmish(qboolean next) {
 	}
 
 	g = uiInfo.gameTypes[ui_gametype.integer].gtEnum;
+	trap->Cvar_Set(
+		"g_battlesFFA",
+		UI_IsBattlesFFAType(
+			&uiInfo.gameTypes[ui_gametype.integer]
+		) ? "1" : "0"
+	);
+
+	trap->Cvar_Set(
+		"g_noPowersFFA",
+		UI_IsNoPowersFFAType(
+			&uiInfo.gameTypes[ui_gametype.integer]
+		) ? "1" : "0"
+	);
 	trap->Cvar_SetValue( "g_gametype", g );
 	trap->Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; map %s\n", uiInfo.mapList[ui_currentMap.integer].mapLoadName) );
 	skill = trap->Cvar_VariableValue( "g_spSkill" );
@@ -5929,10 +5962,43 @@ static void UI_RunMenuScript(char **args)
 			{
 				trap->Cvar_SetValue( "dedicated", Com_Clamp( 0, 2, ui_dedicated.integer ) );
 			}
-			trap->Cvar_SetValue( "g_gametype", Com_Clamp( 0, GT_MAX_GAME_TYPE, uiInfo.gameTypes[ui_netGametype.integer].gtEnum ) );
+
+			/*
+			 * Battles FFA internally uses Team FFA.
+			 * The additional cvar enables its special rules.
+			 */
+			trap->Cvar_Set(
+				"g_battlesFFA",
+				UI_IsBattlesFFAType(
+					&uiInfo.gameTypes[ui_netGametype.integer]
+				) ? "1" : "0"
+			);
+
+			trap->Cvar_Set(
+				"g_noPowersFFA",
+				UI_IsNoPowersFFAType(
+					&uiInfo.gameTypes[ui_netGametype.integer]
+				) ? "1" : "0"
+			);
+
+			trap->Cvar_SetValue(
+				"g_gametype",
+				Com_Clamp(
+					0,
+					GT_MAX_GAME_TYPE,
+					uiInfo.gameTypes[ui_netGametype.integer].gtEnum
+				)
+			);
+
 			//trap->Cvar_Set("g_redTeam", UI_Cvar_VariableString("ui_teamName"));
 			//trap->Cvar_Set("g_blueTeam", UI_Cvar_VariableString("ui_opponentName"));
-			trap->Cmd_ExecuteText( EXEC_APPEND, va( "wait ; wait ; map %s\n", uiInfo.mapList[ui_currentNetMap.integer].mapLoadName ) );
+			trap->Cmd_ExecuteText(
+				EXEC_APPEND,
+				va(
+					"wait ; wait ; map %s\n",
+					uiInfo.mapList[ui_currentNetMap.integer].mapLoadName
+				)
+			);
 			skill = trap->Cvar_VariableValue( "g_spSkill" );
 
 			//Cap the warmup values in case the user tries a dumb setting.
@@ -9098,66 +9164,175 @@ qboolean UI_FeederSelection(float feederFloat, int index, itemDef_t *item)
 }
 
 
-static qboolean GameType_Parse(char **p, qboolean join) {
+
+
+static qboolean GameType_Parse(char **p, qboolean join)
+{
+	static const char *extraGameTypes[] = {
+		"Battles FFA",
+		"No Powers FFA"
+	};
+
 	char *token;
+	const char *gameType;
+	int gtEnum;
+	int i;
+	int extraIndex;
+	qboolean alreadyAdded;
 
 	token = COM_ParseExt((const char **)p, qtrue);
 
-	if (token[0] != '{') {
+	if (!token || token[0] != '{')
+	{
 		return qfalse;
 	}
 
-	if (join) {
+	if (join)
+	{
 		uiInfo.numJoinGameTypes = 0;
-	} else {
+	}
+	else
+	{
 		uiInfo.numGameTypes = 0;
 	}
 
-	while ( 1 ) {
+	while (1)
+	{
 		token = COM_ParseExt((const char **)p, qtrue);
 
-		if (Q_stricmp(token, "}") == 0) {
-			return qtrue;
-		}
-
-		if ( !token || token[0] == 0 ) {
+		if (!token || !token[0])
+		{
 			return qfalse;
 		}
 
-		if (token[0] == '{') {
-			// two tokens per line, character name and sex
-			if (join) {
-				if (!String_Parse(p, &uiInfo.joinGameTypes[uiInfo.numJoinGameTypes].gameType) || !Int_Parse(p, &uiInfo.joinGameTypes[uiInfo.numJoinGameTypes].gtEnum)) {
-					return qfalse;
-				}
-			} else {
-				if (!String_Parse(p, &uiInfo.gameTypes[uiInfo.numGameTypes].gameType) || !Int_Parse(p, &uiInfo.gameTypes[uiInfo.numGameTypes].gtEnum)) {
-					return qfalse;
+		/*
+		 * End of the gametype list.
+		 */
+		if (Q_stricmp(token, "}") == 0)
+		{
+			if (!join)
+			{
+				for (
+					extraIndex = 0;
+					extraIndex < ARRAY_LEN(extraGameTypes);
+					extraIndex++
+				)
+				{
+					alreadyAdded = qfalse;
+
+					for (i = 0; i < uiInfo.numGameTypes; i++)
+					{
+						if (
+							uiInfo.gameTypes[i].gameType &&
+							!Q_stricmp(
+								uiInfo.gameTypes[i].gameType,
+								extraGameTypes[extraIndex]
+							)
+						)
+						{
+							alreadyAdded = qtrue;
+							break;
+						}
+					}
+
+					if (
+						!alreadyAdded &&
+						uiInfo.numGameTypes < MAX_GAMETYPES
+					)
+					{
+						uiInfo.gameTypes[
+							uiInfo.numGameTypes
+						].gameType = String_Alloc(
+							extraGameTypes[extraIndex]
+						);
+
+						uiInfo.gameTypes[
+							uiInfo.numGameTypes
+						].gtEnum = GT_TEAM;
+
+						uiInfo.numGameTypes++;
+					}
 				}
 			}
 
-			if (join) {
-				if (uiInfo.numJoinGameTypes < MAX_GAMETYPES) {
-					uiInfo.numJoinGameTypes++;
-				} else {
-					Com_Printf("Too many net game types, last one replace!\n");
-				}
-			} else {
-				if (uiInfo.numGameTypes < MAX_GAMETYPES) {
-					uiInfo.numGameTypes++;
-				} else {
-					Com_Printf("Too many game types, last one replace!\n");
-				}
-			}
+			return qtrue;
+		}
 
-			token = COM_ParseExt((const char **)p, qtrue);
-			if (token[0] != '}') {
-				return qfalse;
+		/*
+		 * Every entry must begin with an opening brace.
+		 */
+		if (token[0] != '{')
+		{
+			return qfalse;
+		}
+
+		gameType = NULL;
+		gtEnum = 0;
+
+		if (
+			!String_Parse(p, &gameType) ||
+			!Int_Parse(p, &gtEnum)
+		)
+		{
+			return qfalse;
+		}
+
+		if (join)
+		{
+			if (uiInfo.numJoinGameTypes < MAX_GAMETYPES)
+			{
+				uiInfo.joinGameTypes[
+					uiInfo.numJoinGameTypes
+				].gameType = gameType;
+
+				uiInfo.joinGameTypes[
+					uiInfo.numJoinGameTypes
+				].gtEnum = gtEnum;
+
+				uiInfo.numJoinGameTypes++;
+			}
+			else
+			{
+				Com_Printf(
+					"Too many net game types, entry ignored!\n"
+				);
 			}
 		}
+		else
+		{
+			if (uiInfo.numGameTypes < MAX_GAMETYPES)
+			{
+				uiInfo.gameTypes[
+					uiInfo.numGameTypes
+				].gameType = gameType;
+
+				uiInfo.gameTypes[
+					uiInfo.numGameTypes
+				].gtEnum = gtEnum;
+
+				uiInfo.numGameTypes++;
+			}
+			else
+			{
+				Com_Printf(
+					"Too many game types, entry ignored!\n"
+				);
+			}
+		}
+
+		token = COM_ParseExt((const char **)p, qtrue);
+
+		if (!token || token[0] != '}')
+		{
+			return qfalse;
+		}
 	}
+
 	return qfalse;
 }
+
+
+
 
 static qboolean MapList_Parse(char **p) {
 	char *token;

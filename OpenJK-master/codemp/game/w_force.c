@@ -5006,7 +5006,12 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 		self->client->ps.fd.saberAnimLevel = FORCE_LEVEL_1;
 	}
 
-	if (level.gametype != GT_SIEGE)
+	if (
+		level.gametype != GT_SIEGE &&
+		!((g_battlesFFA.integer || g_noPowersFFA.integer) &&
+		level.gametype == GT_TEAM
+		)
+	)
 	{
 		if (!(self->client->ps.fd.forcePowersKnown & (1 << FP_LEVITATION)))
 		{
@@ -5140,6 +5145,35 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 	}
 
 	SeekerDroneUpdate(self);
+	
+	
+	
+	if (
+		(g_battlesFFA.integer || g_noPowersFFA.integer) &&
+		level.gametype == GT_TEAM
+	) {
+		for (i = 0; i < NUM_FORCE_POWERS; i++) {
+			if (self->client->ps.fd.forcePowersActive & (1 << i)) {
+				WP_ForcePowerStop(self, (forcePowers_t)i);
+			}
+
+			self->client->ps.fd.forcePowerLevel[i] = 0;
+			self->client->ps.fd.forcePowerBaseLevel[i] = 0;
+			self->client->ps.fd.forcePowerDuration[i] = 0;
+		}
+
+		self->client->ps.fd.forcePowersKnown = 0;
+		self->client->ps.fd.forcePowersActive = 0;
+		self->client->ps.fd.forcePower = 0;
+		self->client->ps.fd.forcePowerMax = 0;
+		self->client->ps.fd.forceJumpZStart = 0;
+		self->client->ps.fd.forceJumpCharge = 0;
+		self->client->ps.fd.forceJumpSound = 0;
+
+		return;
+	}
+	
+	
 
 	if (self->client->ps.powerups[PW_FORCE_BOON])
 	{

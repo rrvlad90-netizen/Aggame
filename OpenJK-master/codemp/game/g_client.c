@@ -800,6 +800,144 @@ gentity_t *SelectRandomFurthestSpawnPoint ( vec3_t avoidPoint, vec3_t origin, ve
 	return list_spot[rnd];
 }
 
+/*
+=============================
+SelectBattlesFFASpawnPoint
+
+Finds the two most distant deathmatch spawn points and uses them
+as the centers of the red and blue team spawn areas.
+=============================
+*/
+static gentity_t *SelectBattlesFFASpawnPoint(
+	team_t team,
+	vec3_t origin,
+	vec3_t angles,
+	qboolean isbot
+) {
+	gentity_t *spots[MAX_SPAWN_POINTS];
+	gentity_t *candidates[MAX_SPAWN_POINTS];
+	gentity_t *spot = NULL;
+	gentity_t *redAnchor;
+	gentity_t *blueAnchor;
+	float maxDistance = -1.0f;
+	int count = 0;
+	int candidateCount = 0;
+	int redIndex = 0;
+	int blueIndex = 0;
+	int i;
+	int j;
+	int pass;
+
+	if (team != TEAM_RED && team != TEAM_BLUE) {
+		return SelectRandomFurthestSpawnPoint(
+			vec3_origin, origin, angles, team, isbot
+		);
+	}
+
+	while (
+		(spot = G_Find(
+			spot,
+			FOFS(classname),
+			"info_player_deathmatch"
+		)) != NULL &&
+		count < MAX_SPAWN_POINTS
+	) {
+		spots[count++] = spot;
+	}
+
+	if (count < 2) {
+		return SelectRandomFurthestSpawnPoint(
+			vec3_origin, origin, angles, team, isbot
+		);
+	}
+
+	for (i = 0; i < count; i++) {
+		for (j = i + 1; j < count; j++) {
+			float distance = DistanceSquared(
+				spots[i]->s.origin,
+				spots[j]->s.origin
+			);
+
+			if (distance > maxDistance) {
+				maxDistance = distance;
+				redIndex = i;
+				blueIndex = j;
+			}
+		}
+	}
+
+	redAnchor = spots[redIndex];
+	blueAnchor = spots[blueIndex];
+
+	/*
+	 * First pass uses only unoccupied spawn points.
+	 * Second pass permits a telefrag if the team's area is full.
+	 */
+	for (pass = 0; pass < 2; pass++) {
+		candidateCount = 0;
+
+		for (i = 0; i < count; i++) {
+			float redDistance;
+			float blueDistance;
+			qboolean belongsToRed;
+
+			if (
+				((spots[i]->flags & FL_NO_BOTS) && isbot) ||
+				((spots[i]->flags & FL_NO_HUMANS) && !isbot)
+			) {
+				continue;
+			}
+
+			redDistance = DistanceSquared(
+				spots[i]->s.origin,
+				redAnchor->s.origin
+			);
+			blueDistance = DistanceSquared(
+				spots[i]->s.origin,
+				blueAnchor->s.origin
+			);
+
+			/*
+			 * Equidistant points are divided between both teams.
+			 */
+			belongsToRed =
+				redDistance < blueDistance ||
+				(redDistance == blueDistance && !(i & 1));
+
+			if (
+				(team == TEAM_RED && !belongsToRed) ||
+				(team == TEAM_BLUE && belongsToRed)
+			) {
+				continue;
+			}
+
+			if (pass == 0 && SpotWouldTelefrag(spots[i])) {
+				continue;
+			}
+
+			candidates[candidateCount++] = spots[i];
+		}
+
+		if (candidateCount) {
+			break;
+		}
+	}
+
+	if (!candidateCount) {
+		return SelectRandomFurthestSpawnPoint(
+			vec3_origin, origin, angles, team, isbot
+		);
+	}
+
+	spot = candidates[Q_irand(0, candidateCount - 1)];
+
+	VectorCopy(spot->s.origin, origin);
+	origin[2] += 9;
+	VectorCopy(spot->s.angles, angles);
+
+	return spot;
+}
+
 gentity_t *SelectDuelSpawnPoint( int team, vec3_t avoidPoint, vec3_t origin, vec3_t angles, qboolean isbot )
 {
 	gentity_t	*spot;
@@ -3211,7 +3349,22 @@ void ClientSpawn(gentity_t *ent) {
 						spawn_origin, spawn_angles, !!(ent->r.svFlags & SVF_BOT));
 	}
 	else {
-		if (level.gametype == GT_POWERDUEL)
+		if (
+			g_battlesFFA.integer &&
+			level.gametype == GT_TEAM &&
+			(
+				client->sess.sessionTeam == TEAM_RED ||
+				client->sess.sessionTeam == TEAM_BLUE
+			)
+		) {
+			spawnPoint = SelectBattlesFFASpawnPoint(
+				client->sess.sessionTeam,
+				spawn_origin,
+				spawn_angles,
+				!!(ent->r.svFlags & SVF_BOT)
+			);
+		}
+		else if (level.gametype == GT_POWERDUEL)
 		{
 			spawnPoint = SelectDuelSpawnPoint(client->sess.duelTeam, client->ps.origin, spawn_origin, spawn_angles, !!(ent->r.svFlags & SVF_BOT));
 		}
@@ -3671,6 +3824,89 @@ void ClientSpawn(gentity_t *ent) {
 
 	//Do per-spawn force power initialization
 	WP_SpawnInitForcePowers( ent );
+	
+	if (
+		(g_battlesFFA.integer || g_noPowersFFA.integer) &&
+		level.gametype == GT_TEAM &&
+		client->sess.sessionTeam != TEAM_SPECTATOR
+	) {
+		/*
+		 * Stop every active Force power before clearing its state.
+		 */
+		for (i = 0; i < NUM_FORCE_POWERS; i++) {
+			if (client->ps.fd.forcePowersActive & (1 << i)) {
+				WP_ForcePowerStop(ent, (forcePowers_t)i);
+			}
+		}
+
+		client->ps.fd.forcePowersKnown = 0;
+		client->ps.fd.forcePowersActive = 0;
+		client->ps.fd.forcePowerSelected = 0;
+		client->ps.fd.forcePower = 0;
+		client->ps.fd.forcePowerMax = 0;
+		client->ps.fd.forceSide = 0;
+		client->ps.fd.forceRank = 0;
+		client->ps.fd.forceUsingAdded = 0;
+		client->ps.fd.forceJumpZStart = 0;
+		client->ps.fd.forceJumpCharge = 0;
+		client->ps.fd.forceJumpSound = 0;
+
+		memset(
+			client->ps.fd.forcePowerLevel,
+			0,
+			sizeof(client->ps.fd.forcePowerLevel)
+		);
+		memset(
+			client->ps.fd.forcePowerBaseLevel,
+			0,
+			sizeof(client->ps.fd.forcePowerBaseLevel)
+		);
+		memset(
+			client->ps.fd.forcePowerDuration,
+			0,
+			sizeof(client->ps.fd.forcePowerDuration)
+		);
+
+		client->ps.powerups[PW_FORCE_BOON] = 0;
+		client->ps.powerups[PW_FORCE_ENLIGHTENED_LIGHT] = 0;
+		client->ps.powerups[PW_FORCE_ENLIGHTENED_DARK] = 0;
+
+		/*
+		 * Remove the saber and always provide melee.
+		 * The Bryar pistol remains subject to g_weaponDisable.
+		 */
+		client->ps.stats[STAT_WEAPONS] &= ~(1 << WP_SABER);
+		client->ps.stats[STAT_WEAPONS] |= (1 << WP_MELEE);
+
+		if (
+			!g_weaponDisable.integer ||
+			!(g_weaponDisable.integer & (1 << WP_BRYAR_PISTOL))
+		) {
+			client->ps.stats[STAT_WEAPONS] |=
+				(1 << WP_BRYAR_PISTOL);
+		}
+
+		if (
+			client->ps.weapon == WP_SABER ||
+			!(client->ps.stats[STAT_WEAPONS] &
+				(1 << client->ps.weapon))
+		) {
+			if (
+				client->ps.stats[STAT_WEAPONS] &
+				(1 << WP_BRYAR_PISTOL)
+			) {
+				client->ps.weapon = WP_BRYAR_PISTOL;
+			}
+			else {
+				client->ps.weapon = WP_MELEE;
+			}
+		}
+
+		client->ps.saberInFlight = qfalse;
+		client->ps.trueJedi = qfalse;
+		client->ps.trueNonJedi = qtrue;
+		ent->s.weapon = client->ps.weapon;
+	}
 
 	// health will count down towards max_health
 	if (level.gametype == GT_SIEGE &&
