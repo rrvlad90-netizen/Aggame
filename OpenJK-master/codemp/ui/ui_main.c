@@ -1589,11 +1589,29 @@ static qboolean UI_IsBattlesFFAType(
 	);
 }
 
+static qboolean UI_IsNoPowersFFAType(
+	const gameTypeInfo_t *gameType
+) {
+	return (
+		gameType &&
+		gameType->gameType &&
+		!Q_stricmp(gameType->gameType, "No Powers FFA")
+	);
+}
+
 static const char *UI_GetGameTypeDisplayName(
 	const gameTypeInfo_t *gameType
 ) {
+	if (!gameType) {
+		return "";
+	}
+
 	if (UI_IsBattlesFFAType(gameType)) {
 		return "Battles FFA";
+	}
+
+	if (UI_IsNoPowersFFAType(gameType)) {
+		return "No Powers FFA";
 	}
 
 	return UI_GetGameTypeName(gameType->gtEnum);
