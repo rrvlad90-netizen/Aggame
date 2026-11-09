@@ -276,6 +276,7 @@ void SP_target_score( gentity_t *ent );
 void SP_target_teleporter( gentity_t *ent );
 void SP_target_relay (gentity_t *ent);
 void SP_target_kill (gentity_t *ent);
+void SP_target_killbots (gentity_t *ent);
 void SP_target_position (gentity_t *ent);
 void SP_target_location (gentity_t *ent);
 void SP_target_counter (gentity_t *self);
@@ -644,6 +645,7 @@ spawn_t	spawns[] = {
 	{ "target_give",						SP_target_give },
 	{ "target_interest",					SP_target_interest },
 	{ "target_kill",						SP_target_kill },
+	{ "target_killbots", 					SP_target_killbots },
 	{ "target_laser",						SP_target_laser },
 	{ "target_level_change",				SP_target_level_change },
 	{ "target_location",					SP_target_location },

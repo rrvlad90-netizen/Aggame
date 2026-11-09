@@ -563,6 +563,68 @@ void SP_target_kill( gentity_t *self ) {
 	self->use = target_kill_use;
 }
 
+/*
+ * Kills every living bot on both Siege teams.
+ * Human players and spectators are not affected.
+ */
+void SiegeRespawn(gentity_t *ent);
+
+static void target_killbots_use(
+	gentity_t *self,
+	gentity_t *other,
+	gentity_t *activator
+) {
+	int i;
+
+	(void)self;
+	(void)other;
+	(void)activator;
+
+	if (level.gametype != GT_SIEGE) {
+		return;
+	}
+
+	for (i = 0; i < level.maxclients; i++) {
+		gentity_t *bot = &g_entities[i];
+
+		if (!bot->inuse || !bot->client) {
+			continue;
+		}
+
+		if (bot->client->pers.connected != CON_CONNECTED) {
+			continue;
+		}
+
+		if (!(bot->r.svFlags & SVF_BOT)) {
+			continue;
+		}
+
+		if (
+			bot->client->sess.sessionTeam != TEAM_RED &&
+			bot->client->sess.sessionTeam != TEAM_BLUE
+		) {
+			continue;
+		}
+
+		/*
+		 * Убираем ожидание следующей Siege-волны.
+		 */
+		bot->client->tempSpectate = 0;
+		bot->client->noCorpse = qtrue;
+
+		/*
+		 * Удаляем старое положение из мира и сразу создаём
+		 * бота на одной из текущих активных Siege spawn-точек.
+		 */
+		trap->UnlinkEntity((sharedEntity_t *)bot);
+		SiegeRespawn(bot);
+	}
+}
+
+void SP_target_killbots(gentity_t *self) {
+	self->use = target_killbots_use;
+}
+
 /*QUAKED target_position (0 0.5 0) (-4 -4 -4) (4 4 4)
 Used as a positional target for in-game calculation, like jumppad targets.
 */
