@@ -3454,6 +3454,18 @@ void ClientThink_real( gentity_t *ent ) {
 	if ( client->ps.stats[STAT_HEALTH] <= 0
 		&& !(client->ps.eFlags2&EF2_HELD_BY_MONSTER)//can't respawn while being eaten
 		&& ent->s.eType != ET_NPC ) {
+			
+			if (
+				level.oneLifeTeamFFA &&
+				level.gametype == GT_TEAM
+			)
+			{
+				/*
+				 * Remain dead until the intermission begins.
+				 */
+				return;
+			}
+			
 		// wait for the attack button to be pressed
 		if ( level.time > client->respawnTime && !gDoSlowMoDuel ) {
 			// forcerespawn is to prevent users from waiting out powerups

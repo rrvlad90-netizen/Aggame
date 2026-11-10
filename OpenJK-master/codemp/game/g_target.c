@@ -621,6 +621,65 @@ static void target_killbots_use(
 	}
 }
 
+/*
+ * target_battlesffa
+ * Enables Battles FFA (team FFA without Force, without Force Jump,
+ * sabers replaced with fists, teams spawn at the two most distant
+ * deathmatch spawn points).
+ */
+static void target_battlesffa_use(
+    gentity_t *self,
+    gentity_t *other,
+    gentity_t *activator
+) {
+    (void)self;
+    (void)other;
+    (void)activator;
+
+    trap->Cvar_Set( "g_battlesFFA", "1" );
+    trap->Cvar_Update( &g_battlesFFA );
+
+    trap->Cvar_Set( "g_noPowersFFA", "0" );
+    trap->Cvar_Update( &g_noPowersFFA );
+
+    if ( g_battlesFFA.integer ) {
+        trap->SendServerCommand( -1, "cp \"Battles FFA enabled\"" );
+    }
+}
+
+void SP_target_battlesffa( gentity_t *self ) {
+    self->use = target_battlesffa_use;
+}
+
+/*
+ * target_nopowersffa
+ * Enables No Powers FFA (team FFA without Force, without Force Jump,
+ * sabers replaced with fists, standard bot spawns).
+ */
+static void target_nopowersffa_use(
+    gentity_t *self,
+    gentity_t *other,
+    gentity_t *activator
+) {
+    (void)self;
+    (void)other;
+    (void)activator;
+
+    trap->Cvar_Set( "g_noPowersFFA", "1" );
+    trap->Cvar_Update( &g_noPowersFFA );
+
+    trap->Cvar_Set( "g_battlesFFA", "0" );
+    trap->Cvar_Update( &g_battlesFFA );
+
+    if ( g_noPowersFFA.integer ) {
+        trap->SendServerCommand( -1, "cp \"No Powers FFA enabled\"" );
+    }
+}
+
+void SP_target_nopowersffa( gentity_t *self ) {
+    self->use = target_nopowersffa_use;
+}
+
 void SP_target_killbots(gentity_t *self) {
 	self->use = target_killbots_use;
 }

@@ -1902,6 +1902,146 @@ qboolean ScoreIsTied( void ) {
 	return a == b;
 }
 
+
+static int G_CountOneLifePlayers(qboolean aliveOnly)
+{
+	int i;
+	int count = 0;
+
+	for (i = 0; i < level.maxclients; i++)
+	{
+		gentity_t *player = &g_entities[i];
+		gclient_t *client = player->client;
+
+		if (
+			!player->inuse ||
+			!client ||
+			client->pers.connected != CON_CONNECTED
+		)
+		{
+			continue;
+		}
+
+		if (
+			client->sess.sessionTeam != TEAM_RED &&
+			client->sess.sessionTeam != TEAM_BLUE
+		)
+		{
+			continue;
+		}
+
+		if (
+			aliveOnly &&
+			(
+				player->health <= 0 ||
+				client->ps.stats[STAT_HEALTH] <= 0 ||
+				(client->ps.eFlags & EF_DEAD)
+			)
+		)
+		{
+			continue;
+		}
+
+		count++;
+	}
+
+	return count;
+}
+
+/*ONE LIFE TEAMFFA*/
+static qboolean G_CheckOneLifeTeamFFAExit(void)
+{
+	int livingPlayers;
+	int participatingPlayers;
+
+	if (
+		!level.oneLifeTeamFFA ||
+		level.gametype != GT_TEAM
+	)
+	{
+		return qfalse;
+	}
+
+	participatingPlayers = G_CountOneLifePlayers(qfalse);
+	livingPlayers = G_CountOneLifePlayers(qtrue);
+
+	if (!level.oneLifeTeamFFAArmed)
+	{
+		if (level.time < level.oneLifeTeamFFAArmTime)
+		{
+			return qfalse;
+		}
+
+		/*
+		 * Do not start the round until at least two players or bots
+		 * are alive simultaneously.
+		 */
+		if (
+			participatingPlayers >= 2 &&
+			livingPlayers >= 2
+		)
+		{
+			level.oneLifeTeamFFAArmed = qtrue;
+
+			trap->SendServerCommand(
+				-1,
+				"print \"One Life round started.\n\""
+			);
+		}
+
+		return qfalse;
+	}
+
+	if (livingPlayers > 1)
+	{
+		return qfalse;
+	}
+
+	if (
+		level.teamScores[TEAM_RED] >
+		level.teamScores[TEAM_BLUE]
+	)
+	{
+		trap->SendServerCommand(
+			-1,
+			va(
+				"print \"Red team wins: %i - %i\n\"",
+				level.teamScores[TEAM_RED],
+				level.teamScores[TEAM_BLUE]
+			)
+		);
+	}
+	else if (
+		level.teamScores[TEAM_BLUE] >
+		level.teamScores[TEAM_RED]
+	)
+	{
+		trap->SendServerCommand(
+			-1,
+			va(
+				"print \"Blue team wins: %i - %i\n\"",
+				level.teamScores[TEAM_BLUE],
+				level.teamScores[TEAM_RED]
+			)
+		);
+	}
+	else
+	{
+		trap->SendServerCommand(
+			-1,
+			va(
+				"print \"One Life draw: %i - %i\n\"",
+				level.teamScores[TEAM_RED],
+				level.teamScores[TEAM_BLUE]
+			)
+		);
+	}
+
+	LogExit("One Life Team FFA finished.");
+	return qtrue;
+}
+
+
 /*
 =================
 CheckExitRules
@@ -1965,6 +2105,10 @@ void CheckExitRules( void ) {
 			level.intermissionQueued = 0;
 			BeginIntermission();
 		}
+		return;
+	}
+	if (G_CheckOneLifeTeamFFAExit())
+	{
 		return;
 	}
 

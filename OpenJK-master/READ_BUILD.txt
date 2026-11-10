@@ -1,0 +1,81 @@
+Тогда используй эти команды.
+
+В PowerShell:
+
+cmd.exe /k '"D:\DevTools\VS2022BuildTools\Common7\Tools\VsDevCmd.bat" -arch=x86 -host_arch=x64'
+В открывшемся окне:
+
+cd /d D:\Git\ArcadeGAME\OpenJK-master
+Проверка:
+
+cl
+cmake --version
+Создание проекта:
+
+cmake -S . -B build-x86 -A Win32 -DBuildMPEngine=OFF -DBuildMPRdVanilla=OFF -DBuildMPDed=OFF -DBuildMPGame=ON -DBuildMPCGame=OFF -DBuildMPUI=OFF -DBuildMPRend2=OFF -DBuildSPEngine=OFF -DBuildSPGame=OFF -DBuildSPRdVanilla=OFF
+Сборка:
+
+cmake --build build-x86 --config RelWithDebInfo --target jampgamex86
+Поиск готовой DLL:
+
+dir /s /b build-x86\jampgamex86.dll
+Если cmake не распознаётся, пришли вывод команды:
+
+where cmake
+Выполнил cmd.exe /k '"D:\DevTools\VS2022BuildTools\Common7\Tools\VsDevCmd.bat" -arch=x86 -host_arch=x64' но окно не открылось вот что появилось Windows PowerShell
+(C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
+
+
+PS C:\Users\Vlad> cmd.exe /k '"D:\DevTools\VS2022BuildTools\Common7\Tools\VsDevCmd.bat" -arch=x86 -host_arch=x64'
+
+
+
+** Visual Studio 2022 Developer Command Prompt v17.14.44
+** Copyright (c) 2025 Microsoft Corporation
+
+
+
+C:\Users\Vlad>
+
+Всё успешно — Developer Command Prompt открылся в том же окне. Это видно по строке:
+
+Visual Studio 2022 Developer Command Prompt
+Теперь прямо там выполни:
+
+cd /d D:\Git\ArcadeGAME\OpenJK-master
+Затем:
+
+cl
+cmake --version
+Если обе команды работают, запускай конфигурацию:
+
+cmake -S . -B build-x86 -A Win32 -DBuildMPEngine=OFF -DBuildMPRdVanilla=OFF -DBuildMPDed=OFF -DBuildMPGame=ON -DBuildMPCGame=OFF -DBuildMPUI=OFF -DBuildMPRend2=OFF -DBuildSPEngine=OFF -DBuildSPGame=OFF -DBuildSPRdVanilla=OFF
+
+
+Теперь собери DLL:
+
+cmake --build build-x86 --config RelWithDebInfo --target jampgamex86
+После завершения найди файл:
+
+dir /s /b build-x86\jampgamex86.dll
+При успешной сборке появится строка вроде:
+
+text
+jampgamex86.vcxproj -> ...\jampgamex86.dll
+
+
+!!!!!!!!!!!Я закрыл случайно Powershell Как верно сделать сборку?
+
+Открой обычный PowerShell (Клавиши Win+R и введи powershell) после чего выполни:
+
+cmd.exe /k '"D:\DevTools\VS2022BuildTools\Common7\Tools\VsDevCmd.bat" -arch=x86 -host_arch=x64'
+В том же окне появится Developer Command Prompt. Затем:
+
+cd /d D:\Git\ArcadeGAME\OpenJK-master
+Запусти повторную сборку:
+
+cmake --build build-x86 --config RelWithDebInfo --target jampgamex86
+Готовая DLL появится здесь:
+
+D:\Git\ArcadeGAME\OpenJK-master\build-x86\RelWithDebInfo\jampgamex86.dll
+Повторно выполнять длинную команду cmake -S ... не нужно: проект уже настроен.

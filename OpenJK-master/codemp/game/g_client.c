@@ -3826,8 +3826,14 @@ void ClientSpawn(gentity_t *ent) {
 	WP_SpawnInitForcePowers( ent );
 	
 	if (
-		(g_battlesFFA.integer || g_noPowersFFA.integer) &&
-		level.gametype == GT_TEAM &&
+		(
+			(
+				(g_battlesFFA.integer ||
+				 g_noPowersFFA.integer) &&
+				level.gametype == GT_TEAM
+			) ||
+			G_IsNoForceIfNotJediBot(ent)
+		) &&
 		client->sess.sessionTeam != TEAM_SPECTATOR
 	) {
 		/*
