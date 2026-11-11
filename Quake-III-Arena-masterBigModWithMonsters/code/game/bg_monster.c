@@ -237,6 +237,9 @@ qboolean BG_ParseMonsterConfig(
 	def->corpseTime = 3000;
 	def->painChance = 100;
 	def->speed = 160.0f;
+	/* projectileSpread stays 0 until explicitly set in cfg */
+	def->projectileSpreadSet = qfalse;
+	def->projectileSpread = 0.0f;
 	def->hoverHeight = 48.0f;
 	def->attackCooldown = 1800;
 	def->attackFireFrame = 0;
@@ -552,6 +555,13 @@ qboolean BG_ParseMonsterConfig(
 				error, errorSize
 			)) return qfalse;
 		}
+		else if (!Q_stricmp(key, "projectileSpread")) {
+			if (!MonsterReadFloat(
+				&text, &def->projectileSpread,
+				error, errorSize
+			)) return qfalse;
+			def->projectileSpreadSet = qtrue;
+		}
 		else if (!Q_stricmp(key, "splashDamage")) {
 			if (!MonsterReadInt(
 				&text, &def->splashDamage,
@@ -713,6 +723,13 @@ qboolean BG_ParseMonsterConfig(
 	}
 	if (def->painChance > 100) {
 		def->painChance = 100;
+	}
+	
+	if (def->projectileSpread < 0.0f) {
+		def->projectileSpread = 0.0f;
+	}
+	if (def->projectileSpread > 1.0f) {
+		def->projectileSpread = 1.0f;
 	}
 
 	def->blood = (def->blood != 0);

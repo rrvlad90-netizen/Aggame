@@ -1,0 +1,17 @@
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\common\util_common.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\util_common.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\common\util_vector.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\util_vector.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\common\vector.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\vector.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\bot.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\bot.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\bot_chat.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\bot_chat.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\bot_client.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\bot_client.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\bot_combat.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\bot_combat.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\bot_commands.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\bot_commands.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\bot_logo.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\bot_logo.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\bot_navigate.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\bot_navigate.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\dll.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\dll.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\engine.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\engine.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\h_export.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\h_export.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\linkfunc.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\linkfunc.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\namefunc.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\namefunc.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\util.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\util.obj
+D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\xbm\waypoint.cpp;D:\Git\ArcadeGAME\XDM-SourceCode-main\XDM-SourceCode-main\build\xbm\Release\waypoint.obj

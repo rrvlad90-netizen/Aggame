@@ -67,6 +67,8 @@ typedef struct {
 	int projectileDamage;
 	int splashDamage;
 	int splashRadius;
+	qboolean projectileSpreadSet;   /* qtrue = projectileSpread explicitly set in cfg */
+	float projectileSpread;         /* 0.0 = perfect, 0.02 = machinegun, 0.15 = shotgun */
 
 	int talkMinDelay;
 	int talkMaxDelay;

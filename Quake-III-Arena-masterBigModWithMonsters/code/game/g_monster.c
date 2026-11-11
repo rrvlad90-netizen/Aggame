@@ -2139,17 +2139,21 @@ static void G_MonsterHitscan(
 
 	if( !Q_stricmp( weaponType, "shotgun" ) ) {
 		pellets = 11;
-		spread = 0.15f;
+		spread = def->projectileSpreadSet
+			? def->projectileSpread
+			: 0.15f;
 		mod = MOD_SHOTGUN;
 	}
 	else if( !Q_stricmp( weaponType, "rifle" ) ) {
 		pellets = 1;
-		spread = 0.0f;
+		spread = def->projectileSpreadSet
+			? def->projectileSpread
+			: 0.0f;
 		mod = MOD_MACHINEGUN;
 	}
 	else if( !Q_stricmp( weaponType, "lightning" ) ) {
 		pellets = 1;
-		spread = 0.0f;
+		spread = 0.0f;   /* lightning always precise */
 		mod = MOD_LIGHTNING;
 	}
 	else if( !Q_stricmp( weaponType, "blaster" ) ) {
@@ -2159,13 +2163,17 @@ static void G_MonsterHitscan(
 		 * MOD_BLASTER doesn't exist, use MOD_MACHINEGUN.
 		 */
 		pellets = 1;
-		spread = 0.02f;
+		spread = def->projectileSpreadSet
+			? def->projectileSpread
+			: 0.02f;
 		mod = MOD_MACHINEGUN;
 	}
 	else {
 		/* "hitscan" / machinegun */
 		pellets = 1;
-		spread = 0.02f;
+		spread = def->projectileSpreadSet
+			? def->projectileSpread
+			: 0.02f;
 		mod = MOD_MACHINEGUN;
 	}
 

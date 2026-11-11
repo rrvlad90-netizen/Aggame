@@ -249,8 +249,8 @@ tryloadmodel:
 	pBotEnt->v.idealpitch = pBotEnt->v.v_angle.x;
 	pBotEnt->v.ideal_yaw = pBotEnt->v.v_angle.y;
 	// these should REALLY be MOD dependant...
-	pBotEnt->v.pitch_speed = 240 - 40*(pBot->bot_skill/(BOT_SKILL_LEVELS-1));//240// slightly faster than HLDM of 225
-	pBotEnt->v.yaw_speed = pBotEnt->v.pitch_speed;//240;// slightly faster than HLDM of 210
+	pBotEnt->v.pitch_speed = 360.0f - 60.0f * ((float)pBot->bot_skill / (BOT_SKILL_LEVELS - 1));
+	pBotEnt->v.yaw_speed = pBotEnt->v.pitch_speed;
 	pBot->idle_angle = 0.0;
 	pBot->idle_angle_time = 0.0f;
 	// some individuality
@@ -460,7 +460,7 @@ void BotSpawnInit(bot_t *pBot)
 	//pBot->enemy_attack_count = 0;
 	pBot->f_duck_time = 0.0;
 	pBot->f_sniper_aim_time = 0.0;
-	pBot->f_shoot_time = gpGlobals->time+0.5f;
+	pBot->f_shoot_time = gpGlobals->time + 0.5f;
 	pBot->f_primary_charging = -1.0;
 	pBot->f_secondary_charging = -1.0;
 	pBot->b_primary_holding = false;
@@ -1170,6 +1170,9 @@ void BotThink(bot_t *pBot)
 	TraceResult tr;
 	bool found_waypoint;
 	bool bCrouchJump;
+	bool has_combat_aim = false;
+	float combat_ideal_pitch = 0.0f;
+	float combat_ideal_yaw = 0.0f;
 
 	// XDM3037: Empty hands! Try selecting something!
 	// XDM3038b: UNDONE: replace this!
@@ -1304,7 +1307,13 @@ void BotThink(bot_t *pBot)
 			}
 			pBot->f_reaction_target_time = 0.0f;
 		}
-		pBot->f_pause_time = 0;// dont't pause if enemy exists
+		// Navigation may temporarily change these angles.
+		// Restore the enemy aim before sending the movement command.
+		combat_ideal_pitch = pEdict->v.idealpitch;
+		combat_ideal_yaw = pEdict->v.ideal_yaw;
+		has_combat_aim = true;
+
+pBot->f_pause_time = 0;// dont't pause if enemy exists
 	}
 	else if (pBot->f_pause_time > gpGlobals->time)// is bot "paused"?
 	{
@@ -1727,11 +1736,62 @@ void BotThink(bot_t *pBot)
 
 	f_strafe_speed = pBot->f_strafe_direction * (pBot->f_move_speed / 2.0f);
 
-	BotFixIdealPitch(pEdict);
-	BotFixIdealYaw(pEdict);
-	BotFixBodyAngles(pEdict);
-	BotFixViewAngles(pEdict);
-	g_engfuncs.pfnRunPlayerMove(pEdict, pEdict->v.v_angle, pBot->f_move_speed, f_strafe_speed, 0, pEdict->v.button, 0, msecval);
+float command_forward = pBot->f_move_speed;
+float command_strafe = f_strafe_speed;
+
+// During combat, continue moving toward the waypoint while looking at the enemy.
+// This allows forward, backward and sideways movement independently of aim.
+if (has_combat_aim &&
+	pBot->curr_waypoint_index != WAYPOINT_NONE &&
+	!IsOnLadder(pEdict) &&
+	pBot->f_move_speed != 0.0f)
+{
+	Vector waypoint_direction = pBot->waypoint_origin - pEdict->v.origin;
+	waypoint_direction.z = 0.0f;
+
+	if (waypoint_direction.x != 0.0f || waypoint_direction.y != 0.0f)
+	{
+		float waypoint_yaw = VecToYaw(waypoint_direction);
+		float relative_yaw = waypoint_yaw - pEdict->v.v_angle.y;
+
+		if (relative_yaw > 180.0f)
+			relative_yaw -= 360.0f;
+		else if (relative_yaw < -180.0f)
+			relative_yaw += 360.0f;
+
+		float relative_radians = DEG2RAD(relative_yaw);
+
+		command_forward = cos(relative_radians) * pBot->f_move_speed;
+		command_strafe += -sin(relative_radians) * pBot->f_move_speed;
+
+		if (command_strafe > pBot->f_max_speed)
+			command_strafe = pBot->f_max_speed;
+		else if (command_strafe < -pBot->f_max_speed)
+			command_strafe = -pBot->f_max_speed;
+	}
+}
+
+// Waypoint processing must not overwrite combat aiming.
+if (has_combat_aim)
+{
+	pEdict->v.idealpitch = combat_ideal_pitch;
+	pEdict->v.ideal_yaw = combat_ideal_yaw;
+}
+
+BotFixIdealPitch(pEdict);
+BotFixIdealYaw(pEdict);
+BotFixBodyAngles(pEdict);
+BotFixViewAngles(pEdict);
+
+g_engfuncs.pfnRunPlayerMove(
+	pEdict,
+	pEdict->v.v_angle,
+	command_forward,
+	command_strafe,
+	0,
+	pEdict->v.button,
+	0,
+	msecval);
 }
 
 //-----------------------------------------------------------------------------

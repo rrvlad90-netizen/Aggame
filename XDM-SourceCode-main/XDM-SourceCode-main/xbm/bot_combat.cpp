@@ -19,13 +19,13 @@ DLL_GLOBAL int giAmmoIndex = 0;
 // UNDONE: nobody uses maxammo info!!! probably CanPickup allows us to.
 
 float react_delay_min[BOT_REACTION_LEVELS][BOT_SKILL_LEVELS] = {
-	{0.01, 0.02, 0.03, 0.04, 0.05},
-	{0.07, 0.09, 0.12, 0.14, 0.17},
-	{0.10, 0.12, 0.15, 0.18, 0.21}};
+	{0.00, 0.01, 0.01, 0.02, 0.02},
+	{0.03, 0.04, 0.05, 0.06, 0.08},
+	{0.05, 0.06, 0.07, 0.09, 0.10}};
 float react_delay_max[BOT_REACTION_LEVELS][BOT_SKILL_LEVELS] = {
-	{0.04, 0.06, 0.08, 0.10, 0.12},
-	{0.11, 0.14, 0.18, 0.21, 0.25},
-	{0.15, 0.18, 0.22, 0.25, 0.30}};
+	{0.02, 0.03, 0.04, 0.05, 0.06},
+	{0.05, 0.06, 0.08, 0.10, 0.12},
+	{0.08, 0.09, 0.11, 0.12, 0.15}};
 
 float aim_tracking_x_scale[BOT_SKILL_LEVELS] = {4.5, 4.0, 3.2, 2.5, 2.0};
 float aim_tracking_y_scale[BOT_SKILL_LEVELS] = {4.5, 4.0, 3.2, 2.5, 2.0};
@@ -608,7 +608,7 @@ edict_t *BotFindEnemy(bot_t *pBot)
 		BotFixIdealYaw(pEdict);
 		// keep track of when we last saw an enemy
 		pBot->f_bot_see_enemy_time = gpGlobals->time;
-		if (pBot->reaction > 0 && pBot->f_reaction_target_time == 0.0f)// XDM3035c: don't constantly increase this delay!!
+		if (pBot->reaction >= 0 && pBot->f_reaction_target_time == 0.0f)// XDM3035c: don't constantly increase this delay!!
 			pBot->f_reaction_target_time = gpGlobals->time + RANDOM_FLOAT(react_delay_min[pBot->reaction][pBot->bot_skill], react_delay_max[pBot->reaction][pBot->bot_skill]);
 	}
 	// has the bot NOT seen an ememy for at least 5 seconds (time to reload)?
@@ -759,8 +759,19 @@ bool BotFireWeapon(bot_t *pBot, const vec_t &fDistToTarget)//, const int &weapon
 	if (iId == WEAPON_NONE)
 		return false;
 	int select_index = GetWeaponSelectIndex(iId);
-	if (select_index < 0)
+
+	bot_fire_delay_t *pWeaponDelayTable =
+		(mod_id == GAME_XDM_DLL) ? xdm_fire_delay : valve_fire_delay;
+
+	const int weaponDelayCount =
+		(mod_id == GAME_XDM_DLL) ? ARRAYSIZE(xdm_fire_delay) : ARRAYSIZE(valve_fire_delay);
+
+	if (select_index < 0 || select_index >= weaponDelayCount)
+	{
+		BotPrintf(pBot, "BotFireWeapon() failed: invalid weapon table index %d for weapon %d.\n",
+			select_index, iId);
 		return false;
+	}
 
 	edict_t *pEdict = pBot->pEdict;
 	// are we charging the primary fire?
@@ -774,9 +785,9 @@ bool BotFireWeapon(bot_t *pBot, const vec_t &fDistToTarget)//, const int &weapon
 			pBot->f_primary_charging = -1.0f;// -1 means not charging
 			// find the correct fire delay for this weapon
 			// set next time to shoot
-			pBot->f_shoot_time = gpGlobals->time + g_pWeaponDelayTable[select_index].primary_base_delay +
-						RANDOM_FLOAT(g_pWeaponDelayTable[select_index].primary_min_delay[pBot->bot_skill],
-									g_pWeaponDelayTable[select_index].primary_max_delay[pBot->bot_skill]);
+			pBot->f_shoot_time = gpGlobals->time + pWeaponDelayTable[select_index].primary_base_delay +
+						RANDOM_FLOAT(pWeaponDelayTable[select_index].primary_min_delay[pBot->bot_skill],
+									pWeaponDelayTable[select_index].primary_max_delay[pBot->bot_skill]);
 			return true;
 		}
 		else
@@ -807,9 +818,9 @@ bool BotFireWeapon(bot_t *pBot, const vec_t &fDistToTarget)//, const int &weapon
 			pBot->f_secondary_charging = -1.0f;// -1 means not charging
 			// find the correct fire delay for this weapon
 			// set next time to shoot
-			pBot->f_shoot_time = gpGlobals->time + g_pWeaponDelayTable[select_index].secondary_base_delay +
-						RANDOM_FLOAT(g_pWeaponDelayTable[select_index].secondary_min_delay[pBot->bot_skill],
-									g_pWeaponDelayTable[select_index].secondary_max_delay[pBot->bot_skill]);
+			pBot->f_shoot_time = gpGlobals->time + pWeaponDelayTable[select_index].secondary_base_delay +
+						RANDOM_FLOAT(pWeaponDelayTable[select_index].secondary_min_delay[pBot->bot_skill],
+									pWeaponDelayTable[select_index].secondary_max_delay[pBot->bot_skill]);
 			return true;
 		}
 		else
@@ -861,7 +872,7 @@ bool BotFireWeapon(bot_t *pBot, const vec_t &fDistToTarget)//, const int &weapon
 		BotPrintf(pBot, "BotFireWeapon() failed: cannot use any mode.\n");
 		return false;
 	}
-	if (g_pWeaponDelayTable[select_index].iId != iId)
+	if (pWeaponDelayTable[select_index].iId != iId)
 	{
 		BotPrintf(pBot, "BotFireWeapon() failed: fire_delay mismatch for weapon id=%d!\n", iId);
 		return false;
@@ -901,8 +912,8 @@ bool BotFireWeapon(bot_t *pBot, const vec_t &fDistToTarget)//, const int &weapon
 		}
 		else// set next time to shoot
 		{
-			pBot->f_shoot_time = gpGlobals->time + g_pWeaponDelayTable[select_index].primary_base_delay +
-				RANDOM_FLOAT(g_pWeaponDelayTable[select_index].primary_min_delay[pBot->bot_skill], g_pWeaponDelayTable[select_index].primary_max_delay[pBot->bot_skill]);
+			pBot->f_shoot_time = gpGlobals->time + pWeaponDelayTable[select_index].primary_base_delay +
+				RANDOM_FLOAT(pWeaponDelayTable[select_index].primary_min_delay[pBot->bot_skill], pWeaponDelayTable[select_index].primary_max_delay[pBot->bot_skill]);
 		}
 	}
 	else// MUST be use_secondary...
@@ -926,8 +937,8 @@ bool BotFireWeapon(bot_t *pBot, const vec_t &fDistToTarget)//, const int &weapon
 		}
 		else// set next time to shoot
 		{
-			pBot->f_shoot_time = gpGlobals->time + g_pWeaponDelayTable[select_index].secondary_base_delay +
-				RANDOM_FLOAT(g_pWeaponDelayTable[select_index].secondary_min_delay[pBot->bot_skill], g_pWeaponDelayTable[select_index].secondary_max_delay[pBot->bot_skill]);
+			pBot->f_shoot_time = gpGlobals->time + pWeaponDelayTable[select_index].secondary_base_delay +
+				RANDOM_FLOAT(pWeaponDelayTable[select_index].secondary_min_delay[pBot->bot_skill], pWeaponDelayTable[select_index].secondary_max_delay[pBot->bot_skill]);
 		}
 	}
 	DBG_BOT_PRINT("BotFireWeapon(%s): used %s mode.\n", pBot->name, use_primary?"primary":"secondary");
@@ -991,17 +1002,17 @@ bool BotShootAtEnemy(bot_t *pBot)
 //	enemy_angle.x = -enemy_angle.x;// adjust the view angle pitch to aim correctly
 //#endif
 
-	float d_x = (enemy_angle.x - pEdict->v.v_angle.x);
+	float d_x = enemy_angle.x - pEdict->v.v_angle.x;
 	if (d_x > 180.0f)
-		d_x = 360.0f - d_x;// this code is suspicious!
+		d_x -= 360.0f;
 	else if (d_x < -180.0f)
-		d_x = 360.0f + d_x;
+		d_x += 360.0f;
 
-	float d_y = (enemy_angle.y - pEdict->v.v_angle.y);
+	float d_y = enemy_angle.y - pEdict->v.v_angle.y;
 	if (d_y > 180.0f)
-		d_y = 360.0f - d_y;
+		d_y -= 360.0f;
 	else if (d_y < -180.0f)
-		d_y = 360.0f + d_y;
+		d_y += 360.0f;
 
 	vec_t delta_dist_x = fabs(d_x / pBot->f_frame_time);
 	vec_t delta_dist_y = fabs(d_y / pBot->f_frame_time);
@@ -1022,13 +1033,13 @@ bool BotShootAtEnemy(bot_t *pBot)
 	if (RANDOM_LONG(1, 100) < ((pBot->bot_skill+1) * 10))
 		pBot->f_aim_y_angle_delta += aim_tracking_y_scale[pBot->bot_skill] * pBot->f_frame_time * 0.5f;
 
-	if (pBot->f_aim_x_angle_delta > 5.0f)
-		pBot->f_aim_x_angle_delta = 5.0f;
+if (pBot->f_aim_x_angle_delta > 2.0f)
+	pBot->f_aim_x_angle_delta = 2.0f;
 	else if (pBot->f_aim_x_angle_delta < 0.01f)
 		pBot->f_aim_x_angle_delta = 0.01f;
 
-	if (pBot->f_aim_y_angle_delta > 5.0f)
-		pBot->f_aim_y_angle_delta = 5.0f;
+if (pBot->f_aim_y_angle_delta > 2.0f)
+	pBot->f_aim_y_angle_delta = 2.0f;
 	else if (pBot->f_aim_y_angle_delta < 0.01f)
 		pBot->f_aim_y_angle_delta = 0.01f;
 
