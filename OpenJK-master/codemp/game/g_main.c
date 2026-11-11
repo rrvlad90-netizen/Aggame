@@ -1965,6 +1965,61 @@ static qboolean G_CheckOneLifeTeamFFAExit(void)
 	participatingPlayers = G_CountOneLifePlayers(qfalse);
 	livingPlayers = G_CountOneLifePlayers(qtrue);
 
+
+if (level.monsterHuntOneLife)
+	{
+		if (!level.oneLifeTeamFFAArmed)
+		{
+			if (level.time < level.oneLifeTeamFFAArmTime)
+			{
+				return qfalse;
+			}
+
+			/*
+			 * Unlike normal OneLife Team FFA, Monster Hunt
+			 * can begin with one player.
+			 */
+			if (
+				participatingPlayers >= 1 &&
+				livingPlayers >= 1
+			)
+			{
+				level.oneLifeTeamFFAArmed = qtrue;
+
+				trap->SendServerCommand(
+					-1,
+					"print \"Monster Hunt One Life started.\n\""
+				);
+			}
+
+			return qfalse;
+		}
+
+		if (livingPlayers > 0)
+		{
+			return qfalse;
+		}
+
+		/*
+		 * Successful completion is handled by the
+		 * Monster Hunt controller.
+		 */
+		if (level.monsterHuntFinished)
+		{
+			return qfalse;
+		}
+
+		trap->SendServerCommand(
+			-1,
+			"cp \"All hunters have been eliminated\""
+		);
+
+		LogExit("Monster Hunt One Life failed.");
+		return qtrue;
+	}
+
+
+
 	if (!level.oneLifeTeamFFAArmed)
 	{
 		if (level.time < level.oneLifeTeamFFAArmTime)

@@ -219,6 +219,7 @@ struct gentity_s {
 	qboolean	noLumbar; //see note in cg_local.h
 
 	qboolean	inuse;
+	qboolean	monsterHuntNPC;
 
 	int			lockCount; //used by NPCs
 
@@ -1006,6 +1007,10 @@ typedef struct level_locals_s {
 	qboolean	oneLifeTeamFFA;
 	qboolean	oneLifeTeamFFAArmed;
 	int			oneLifeTeamFFAArmTime;
+	
+	qboolean	monsterHunt;
+	qboolean	monsterHuntOneLife;
+	qboolean	monsterHuntFinished;
 
 	qboolean	noForceIfNotJedi;
 

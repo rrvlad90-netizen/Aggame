@@ -563,6 +563,9 @@ void SP_info_noforceifnotjedi(gentity_t *ent)
 	G_FreeEntity(ent);
 }
 
+void SP_info_monsterhunt(gentity_t *ent);
+void SP_info_monsterhuntonelife(gentity_t *ent);
+
 spawn_t	spawns[] = {
 	{ "emplaced_gun",						SP_emplaced_gun },
 	{ "func_bobbing",						SP_func_bobbing },
@@ -586,6 +589,9 @@ spawn_t	spawns[] = {
 	{ "fx_wind",							SP_CreateWind },
 	{ "gametype_item",						SP_gametype_item },
 	{ "info_camp",							SP_info_camp },
+	{ "info_monsterhunt",			SP_info_monsterhunt },
+	{ "info_monsterhunt_spawn",		SP_info_notnull },
+	{ "info_monsterhuntonelife",	SP_info_monsterhuntonelife },
 	{ "info_noforceifnotjedi", SP_info_noforceifnotjedi },
 	{ "info_onelifeteamffa", SP_info_onelifeteamffa },
 	{ "info_jedimaster_start",				SP_info_jedimaster_start },
