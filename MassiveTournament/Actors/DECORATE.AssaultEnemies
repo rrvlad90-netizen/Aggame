@@ -48,7 +48,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSL RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 
@@ -60,7 +59,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSL NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 
@@ -77,7 +75,7 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSL IHGF 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);	
+
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 
@@ -89,7 +87,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSL EDCBA 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);	
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_CPosRefire	
@@ -101,7 +98,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSL RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 
@@ -113,7 +109,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSL NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 
@@ -124,8 +119,7 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	TNT1 A 0 A_Stop 
 	POSL IHGF 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 
@@ -137,7 +131,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSL EDCBA 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);	
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 
@@ -154,7 +147,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSL RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 
@@ -166,7 +158,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSL NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 
@@ -178,7 +169,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSL IHGF 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);	
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 
@@ -190,7 +180,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSL EDCBA 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);	
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 
@@ -209,7 +198,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSR RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 
@@ -221,7 +209,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSR NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 
@@ -233,7 +220,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSR IHGF 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 
@@ -245,7 +231,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSR EDCBA 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_CPosRefire	
@@ -257,7 +242,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSR RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 
@@ -269,7 +253,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSR NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 
@@ -280,8 +263,7 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	TNT1 A 0 A_Stop 
 	POSR IHGF 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 
@@ -292,8 +274,7 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	TNT1 A 0 A_Stop 
 	POSR EDCBA 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 
@@ -310,7 +291,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSR RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 
@@ -322,7 +302,6 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	POSR NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 
@@ -333,8 +312,7 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	TNT1 A 0 A_Stop 
 	POSR IHGF 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 
@@ -345,8 +323,7 @@ ACTOR MTEnemyTrooper : PlayerPawn 17020
 	TNT1 A 0 A_Stop 
 	POSR EDCBA 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 
@@ -445,7 +422,6 @@ ACTOR MTEnemyPigcop : PlayerPawn 17021
   TNT1 A 0 A_jump(120, "StrifeRight")
   TNT1 A 0 A_jump(120, "StrifeLeft")
   StrifeLeft:
-    TNT1 A 0 A_jumpIfCloser(150,"StrifeLeft2")
   	//RQPONMLKJIHGFEDCBA  1
 	TNT1 A 0 
 	{
@@ -456,28 +432,24 @@ ACTOR MTEnemyPigcop : PlayerPawn 17021
 	POSL RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSL NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSL IHGF 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);	
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSL EDCBA 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_CPosRefire	
@@ -490,28 +462,24 @@ ACTOR MTEnemyPigcop : PlayerPawn 17021
 	POSL RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSL NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSL IHGF 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSL EDCBA 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_CPosRefire	
@@ -524,34 +492,29 @@ ACTOR MTEnemyPigcop : PlayerPawn 17021
 	POSL RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSL NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSL IHGF 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSL EDCBA 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,3, 0, 0);
 	}	
 	Goto See
 	
   StrifeRight:
-    TNT1 A 0 A_jumpIfCloser(150,"StrifeRight2")
   	TNT1 A 0 
 	{
 	A_FaceTarget;
@@ -561,28 +524,24 @@ ACTOR MTEnemyPigcop : PlayerPawn 17021
 	POSR RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSR NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSR IHGF 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSR EDCBA 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_CPosRefire	
@@ -595,28 +554,24 @@ ACTOR MTEnemyPigcop : PlayerPawn 17021
 	POSR RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSR NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSR IHGF 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSR EDCBA 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_CPosRefire	
@@ -629,243 +584,26 @@ ACTOR MTEnemyPigcop : PlayerPawn 17021
 	POSR RQPO 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSR NMLKJ 1
 	{  
 	A_FaceTarget;
-	A_Recoil(-1);
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSR IHGF 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}
 	TNT1 A 0 A_Stop 
 	POSR EDCBA 1
 	{  
-	A_FaceTarget;
-	A_Recoil(-1);	
+	A_FaceTarget;	
 	ThrustThing(angle*256/360+210,-3, 0, 0);
 	}	
-    Goto See
-	
-	
-	
-	//////////
-	
-	StrifeLeft2:
-  	//RQPONMLKJIHGFEDCBA  1
-	TNT1 A 0 
-	{
-	A_FaceTarget;
-	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
-	A_SPosAttack;
-	}
-	POSL RQPO 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSL NMLKJ 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSL IHGF 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSL EDCBA 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}
-	TNT1 A 0 A_CPosRefire	
-	TNT1 A 0 
-	{
-	A_FaceTarget;
-	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
-	A_SPosAttack;
-	}
-	POSL RQPO 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSL NMLKJ 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSL IHGF 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSL EDCBA 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}
-	TNT1 A 0 A_CPosRefire
-	TNT1 A 0 
-	{
-	A_FaceTarget;
-	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
-	A_SPosAttack;
-	}
-	POSL RQPO 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSL NMLKJ 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSL IHGF 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSL EDCBA 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,3, 0, 0);
-	}	
-	Goto See
-	
-  StrifeRight2:
-  	TNT1 A 0 
-	{
-	A_FaceTarget;
-	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
-	A_SPosAttack;
-	}
-	POSR RQPO 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSR NMLKJ 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSR IHGF 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSR EDCBA 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
-	TNT1 A 0 A_CPosRefire	
-	TNT1 A 0 
-	{
-	A_FaceTarget;
-	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
-	A_SPosAttack;
-	}
-	POSR RQPO 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSR NMLKJ 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSR IHGF 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSR EDCBA 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
-	TNT1 A 0 A_CPosRefire	
-	TNT1 A 0 
-	{
-	A_FaceTarget;
-	A_PlaySoundEx("DSSHOTGN","SoundSlot5");
-	A_SPosAttack;
-	}
-	POSR RQPO 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSR NMLKJ 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSR IHGF 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
-	TNT1 A 0 A_Stop 
-	POSR EDCBA 1
-	{  
-	A_FaceTarget;
-	A_Recoil(1);	
-	ThrustThing(angle*256/360+210,-3, 0, 0);
-	}
     Goto See
 	
  Pain:
