@@ -40,6 +40,9 @@ if errorlevel 1 goto failed_vm
 %cc% ../bg_monster.c
 if errorlevel 1 goto failed_vm
 
+%cc% ../bg_weapon.c
+if errorlevel 1 goto failed_vm
+
 %cc% ../g_monster.c
 if errorlevel 1 goto failed_vm
 

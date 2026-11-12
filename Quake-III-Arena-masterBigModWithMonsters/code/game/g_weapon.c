@@ -156,6 +156,86 @@ void SnapVectorTowards( vec3_t v, vec3_t to ) {
 #define	MACHINEGUN_DAMAGE	7
 #define	MACHINEGUN_TEAM_DAMAGE	5		// wimpier MG in teamplay
 
+//Star Wars blaster config
+void G_LoadBlasterConfig( void ) {
+	fileHandle_t file;
+	char text[MAX_BLASTER_CONFIG_TEXT];
+	char error[256];
+	char configString[MAX_INFO_STRING];
+	int length;
+
+	BG_SetDefaultBlasterConfig(&bg_blasterConfig);
+
+	length = trap_FS_FOpenFile(
+		BLASTER_CONFIG_PATH,
+		&file,
+		FS_READ
+	);
+
+	if (!file) {
+		G_Printf(
+			S_COLOR_YELLOW
+			"Blaster config not found: %s; using defaults\n",
+			BLASTER_CONFIG_PATH
+		);
+	}
+	else if (length <= 0 ||
+		length >= sizeof(text)) {
+		G_Printf(
+			S_COLOR_RED
+			"Invalid blaster config size: %s; using defaults\n",
+			BLASTER_CONFIG_PATH
+		);
+
+		trap_FS_FCloseFile(file);
+	}
+	else {
+		trap_FS_Read(text, length, file);
+		text[length] = '\0';
+		trap_FS_FCloseFile(file);
+
+		if (!BG_ParseBlasterConfig(
+			text,
+			&bg_blasterConfig,
+			error,
+			sizeof(error)
+		)) {
+			G_Printf(
+				S_COLOR_RED
+				"Blaster config error: %s; using defaults\n",
+				error
+			);
+
+			BG_SetDefaultBlasterConfig(
+				&bg_blasterConfig
+			);
+		}
+		else {
+			G_Printf(
+				"Loaded blaster config: "
+				"interval=%i damage=%i "
+				"teamDamage=%i spread=%i\n",
+				bg_blasterConfig.fireInterval,
+				bg_blasterConfig.damage,
+				bg_blasterConfig.teamDamage,
+				bg_blasterConfig.spread
+			);
+		}
+	}
+
+	BG_BuildBlasterConfigString(
+		&bg_blasterConfig,
+		configString,
+		sizeof(configString)
+	);
+
+	trap_SetConfigstring(
+		CS_BLASTER_CONFIG,
+		configString
+	);
+}
+
+
 void Bullet_Fire (gentity_t *ent, float spread, int damage ) {
 	trace_t		tr;
 	vec3_t		end;
@@ -858,18 +938,18 @@ void FireWeapon( gentity_t *ent ) {
 		}
 		break;
 	case WP_BLASTER:
-		if( g_gametype.integer != GT_TEAM ) {
+		if (g_gametype.integer != GT_TEAM) {
 			Bullet_Fire(
 				ent,
-				MACHINEGUN_SPREAD,
-				MACHINEGUN_DAMAGE * 2
+				bg_blasterConfig.spread,
+				bg_blasterConfig.damage
 			);
 		}
 		else {
 			Bullet_Fire(
 				ent,
-				MACHINEGUN_SPREAD,
-				MACHINEGUN_TEAM_DAMAGE * 2
+				bg_blasterConfig.spread,
+				bg_blasterConfig.teamDamage
 			);
 		}
 		break;	

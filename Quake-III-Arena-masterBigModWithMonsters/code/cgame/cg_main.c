@@ -1868,6 +1868,7 @@ Will perform callbacks to make the loading info screen update.
 */
 void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum ) {
 	const char	*s;
+	char blasterError[256];
 
 	// clear everything
 	memset( &cgs, 0, sizeof( cgs ) );
@@ -1905,6 +1906,26 @@ void CG_Init( int serverMessageNum, int serverCommandSequence, int clientNum ) {
 
 	// get the gamestate from the client system
 	trap_GetGameState( &cgs.gameState );
+//Star wars blaster
+	BG_SetDefaultBlasterConfig(&bg_blasterConfig);
+
+	if (!BG_ParseBlasterConfigString(
+		CG_ConfigString(CS_BLASTER_CONFIG),
+		&bg_blasterConfig,
+		blasterError,
+		sizeof(blasterError)
+	)) {
+		CG_Printf(
+			S_COLOR_YELLOW
+			"Invalid server blaster config: %s; "
+			"using defaults\n",
+			blasterError
+		);
+
+		BG_SetDefaultBlasterConfig(
+			&bg_blasterConfig
+		);
+	}
 
 	// check version
 	s = CG_ConfigString( CS_GAME_VERSION );

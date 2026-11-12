@@ -3,6 +3,7 @@ g_main
 ..\g_syscalls
 bg_misc
 bg_monster
+bg_weapon
 g_monster
 bg_lib
 bg_pmove

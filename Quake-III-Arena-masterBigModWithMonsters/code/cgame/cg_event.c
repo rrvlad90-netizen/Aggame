@@ -952,7 +952,7 @@ void CG_EntityEvent( centity_t *cent, vec3_t position ) {
 		
 	case EV_ENEMY_BLASTER_TRACER:
 		DEBUGNAME("EV_ENEMY_BLASTER_TRACER");
-		CG_BlasterTracer( es->origin2, es->pos.trBase );
+		CG_BlasterTracer( es->origin2, es->pos.trBase, TEAM_FREE );
 		break;	
 
 	case EV_SHOTGUN:

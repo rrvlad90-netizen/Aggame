@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "tr_types.h"
 #include "../game/bg_public.h"
 #include "../game/bg_monster.h"
+#include "../game/bg_weapon.h"
 #include "cg_public.h"
 
 
@@ -1370,7 +1371,7 @@ void CG_AddViewWeapon (playerState_t *ps);
 void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent, int team );
 void CG_DrawWeaponSelect( void );
 
-void CG_BlasterTracer( vec3_t source, vec3_t dest ); //enemy blaster tracer
+void CG_BlasterTracer( vec3_t source, vec3_t dest, int team ); //blaster tracer
 
 void CG_OutOfAmmoChange( void );	// should this be in pmove?
 

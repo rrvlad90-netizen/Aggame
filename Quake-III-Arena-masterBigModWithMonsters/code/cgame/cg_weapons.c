@@ -1255,7 +1255,8 @@ void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent
 	weaponInfo_t	*weapon;
 	centity_t	*nonPredictedCent;
 //	int	col;
-
+	static qhandle_t blasterBlueFlashShader;
+	
 	weaponNum = cent->currentState.weapon;
 
 	CG_RegisterWeapon( weaponNum );
@@ -1355,6 +1356,23 @@ void CG_AddPlayerWeapon( refEntity_t *parent, playerState_t *ps, centity_t *cent
 	if (!flash.hModel) {
 		return;
 	}
+	/*
+	 * blue blaster flash for blue team
+	 */
+	if (weaponNum == WP_BLASTER &&
+		team == TEAM_BLUE) {
+		if (!blasterBlueFlashShader) {
+			blasterBlueFlashShader =
+				trap_R_RegisterShader(
+					"models/weapons2/SWBlaster/"
+					"f_blaster_blue"
+				);
+		}
+
+		flash.customShader =
+			blasterBlueFlashShader;
+	}
+	
 	angles[YAW] = 0;
 	angles[PITCH] = 0;
 	angles[ROLL] = crandom() * 10;
@@ -2264,42 +2282,99 @@ CG_BlasterTracer
 =================
 */
 //static void CG_BlasterTracer( vec3_t source, vec3_t dest ) {
-void CG_BlasterTracer( vec3_t source, vec3_t dest ) {	
-	vec3_t		forward;
-	vec3_t		right;
-	polyVert_t	verts[4];
-	vec3_t		line;
-	float		len;
-	float		begin;
-	float		end;
-	vec3_t		start;
-	vec3_t		finish;
-	static qhandle_t	blasterShader;
-	vec3_t		up;
-	polyVert_t	verts2[4];
-	int			i;
+void CG_BlasterTracer(
+	vec3_t source,
+	vec3_t dest,
+	int team
+) {
+	int tracerRed;
+	int tracerGreen;
+	int tracerBlue;
+	int i;
 
-	if( !blasterShader ) {
-		blasterShader = trap_R_RegisterShader( "bigmod/blasterTrail" );
-			//trap_R_RegisterShader( "gfx/misc/tracer" );
+	vec3_t forward;
+	vec3_t right;
+	vec3_t up;
+	vec3_t line;
+	vec3_t start;
+	vec3_t finish;
+
+	polyVert_t verts[4];
+	polyVert_t verts2[4];
+
+	float len;
+	float begin;
+	float end;
+
+	qhandle_t tracerShader;
+
+	static qhandle_t redBlasterShader;
+	static qhandle_t blueBlasterShader;
+
+	if (!redBlasterShader) {
+		redBlasterShader = trap_R_RegisterShader(
+			"bigmod/blasterTrail"
+		);
 	}
 
-	VectorSubtract( dest, source, forward );
-	len = VectorNormalize( forward );
+	if (!blueBlasterShader) {
+		blueBlasterShader = trap_R_RegisterShader(
+			"bigmod/blasterTrailBlue"
+		);
+	}
 
-	if( len < 48 ) {
+	/*
+	 * Основной цвет и шейдер используются в FFA,
+	 * красной командой и монстрами.
+	 */
+	tracerShader = redBlasterShader;
+
+	tracerRed = bg_blasterConfig.tracerRed;
+	tracerGreen = bg_blasterConfig.tracerGreen;
+	tracerBlue = bg_blasterConfig.tracerBlue;
+
+	/*
+	 * Для синей команды используются отдельные
+	 * цвет и шейдер.
+	 */
+	if (team == TEAM_BLUE) {
+		tracerShader = blueBlasterShader;
+
+		tracerRed =
+			bg_blasterConfig.blueTracerRed;
+		tracerGreen =
+			bg_blasterConfig.blueTracerGreen;
+		tracerBlue =
+			bg_blasterConfig.blueTracerBlue;
+	}
+
+	VectorSubtract(dest, source, forward);
+	len = VectorNormalize(forward);
+
+	if (len < 48) {
 		return;
 	}
 
-	begin = 24 + random() * ( len - 32 );
+	begin = 24 + random() * (len - 32);
 	end = begin + 120;
 
-	if( end > len ) {
+	if (end > len) {
 		end = len;
 	}
 
-	VectorMA( source, begin, forward, start );
-	VectorMA( source, end, forward, finish );
+	VectorMA(
+		source,
+		begin,
+		forward,
+		start
+	);
+
+	VectorMA(
+		source,
+		end,
+		forward,
+		finish
+	);
 
 	line[0] = DotProduct(
 		forward,
@@ -2324,69 +2399,110 @@ void CG_BlasterTracer( vec3_t source, vec3_t dest ) {
 		right
 	);
 
-	if( VectorNormalize( right ) == 0 ) {
-			VectorCopy( cg.refdef.viewaxis[1], right );
-		}
+	if (VectorNormalize(right) == 0) {
+		VectorCopy(
+			cg.refdef.viewaxis[1],
+			right
+		);
+	}
 
-		CrossProduct( forward, right, up );
-		VectorNormalize( up );
+	CrossProduct(forward, right, up);
+	VectorNormalize(up);
 
-	VectorMA( finish, 6, right, verts[0].xyz );
+	/*
+	 * Первый полигон.
+	 */
+	VectorMA(
+		finish,
+		6,
+		right,
+		verts[0].xyz
+	);
 	verts[0].st[0] = 1;
 	verts[0].st[1] = 0;
 
-	VectorMA( finish, -6, right, verts[1].xyz );
+	VectorMA(
+		finish,
+		-6,
+		right,
+		verts[1].xyz
+	);
 	verts[1].st[0] = 1;
 	verts[1].st[1] = 1;
 
-	VectorMA( start, -6, right, verts[2].xyz );
+	VectorMA(
+		start,
+		-6,
+		right,
+		verts[2].xyz
+	);
 	verts[2].st[0] = 0;
 	verts[2].st[1] = 1;
 
-	VectorMA( start, 6, right, verts[3].xyz );
+	VectorMA(
+		start,
+		6,
+		right,
+		verts[3].xyz
+	);
 	verts[3].st[0] = 0;
 	verts[3].st[1] = 0;
 
-	verts[0].modulate[0] = 255;
-	verts[0].modulate[1] = 32;
-	verts[0].modulate[2] = 32;
-	verts[0].modulate[3] = 200;
+	/*
+	 * Цвет и прозрачность из weapon.cfg.
+	 */
+	for (i = 0; i < 4; i++) {
+		verts[i].modulate[0] = tracerRed;
+		verts[i].modulate[1] = tracerGreen;
+		verts[i].modulate[2] = tracerBlue;
+		verts[i].modulate[3] =
+			bg_blasterConfig.tracerAlpha;
 
-	verts[1].modulate[0] = 255;
-	verts[1].modulate[1] = 32;
-	verts[1].modulate[2] = 32;
-	verts[1].modulate[3] = 200;
+		verts2[i] = verts[i];
+	}
 
-	verts[2].modulate[0] = 255;
-	verts[2].modulate[1] = 32;
-	verts[2].modulate[2] = 32;
-	verts[2].modulate[3] = 200;
+	/*
+	 * Второй перекрёстный полигон.
+	 */
+	VectorMA(
+		finish,
+		6,
+		up,
+		verts2[0].xyz
+	);
 
-	verts[3].modulate[0] = 255;
-	verts[3].modulate[1] = 32;
-	verts[3].modulate[2] = 32;
-	verts[3].modulate[3] = 200;
+	VectorMA(
+		finish,
+		-6,
+		up,
+		verts2[1].xyz
+	);
 
-	for( i = 0; i < 4; i++ ) {
-			verts2[i] = verts[i];
-		}
+	VectorMA(
+		start,
+		-6,
+		up,
+		verts2[2].xyz
+	);
 
-		VectorMA( finish, 6, up, verts2[0].xyz );
-		VectorMA( finish, -6, up, verts2[1].xyz );
-		VectorMA( start, -6, up, verts2[2].xyz );
-		VectorMA( start, 6, up, verts2[3].xyz );
+	VectorMA(
+		start,
+		6,
+		up,
+		verts2[3].xyz
+	);
 
 	trap_R_AddPolyToScene(
-			blasterShader,
-			4,
-			verts
-		);
+		tracerShader,
+		4,
+		verts
+	);
 
-		trap_R_AddPolyToScene(
-			blasterShader,
-			4,
-			verts2
-		);
+	trap_R_AddPolyToScene(
+		tracerShader,
+		4,
+		verts2
+	);
 }
 
 /*
@@ -2426,6 +2542,22 @@ static qboolean	CG_CalcMuzzlePoint( int entityNum, vec3_t muzzle ) {
 
 	return qtrue;
 
+}
+//Star wars blaster tracer
+
+static int CG_BlasterTracerTeam(
+	int entityNum
+) {
+	if (entityNum < 0 ||
+		entityNum >= MAX_CLIENTS) {
+		return TEAM_FREE;
+	}
+
+	if (!cgs.clientinfo[entityNum].infoValid) {
+		return TEAM_FREE;
+	}
+
+	return cgs.clientinfo[entityNum].team;
 }
 
 /*
@@ -2519,7 +2651,7 @@ void CG_Bullet(
 				);
 			}
 			if( blasterShot ) {
-				CG_BlasterTracer( start, end );	
+				CG_BlasterTracer( start, end, CG_BlasterTracerTeam(sourceEntityNum) );	
 			}
 			else if( random() < cg_tracerChance.value ) {
 				CG_Tracer( start, end );

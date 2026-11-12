@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "q_shared.h"
 #include "bg_public.h"
 #include "bg_local.h"
+#include "bg_weapon.h"
 
 pmove_t		*pm;
 pml_t		pml;
@@ -1687,23 +1688,24 @@ static void PM_Weapon( void ) {
 	case WP_GRAPPLING_HOOK:
 		addTime = 400;
 		break;
-#ifdef MISSIONPACK
+
+	#ifdef MISSIONPACK
 	case WP_NAILGUN:
 		addTime = 1000;
 		break;
+
 	case WP_PROX_LAUNCHER:
 		addTime = 800;
 		break;
+
 	case WP_CHAINGUN:
 		addTime = 30;
 		break;
-	case WP_MACHINEGUN:
-		addTime = 100;
-		break;
+	#endif
+
 	case WP_BLASTER:
-		addTime = 154; //addTime = 200; 200 - slowly shooter 154 - more quick
-		break;	
-#endif
+		addTime = bg_blasterConfig.fireInterval;
+		break;
 	}
 
 #ifdef MISSIONPACK
