@@ -38,27 +38,6 @@ extern qboolean BG_FullBodyTauntAnim( int anim );
 
 extern bot_state_t *botstates[MAX_CLIENTS];
 
-/*ONE LIFE TEAM FFA */
-qboolean G_IsNoForceIfNotJediBot(gentity_t *ent)
-{
-	if (
-		!level.noForceIfNotJedi ||
-		level.gametype != GT_TEAM ||
-		!ent ||
-		!ent->client ||
-		ent->s.number < 0 ||
-		ent->s.number >= MAX_CLIENTS ||
-		!(ent->r.svFlags & SVF_BOT) ||
-		!botstates[ent->s.number] ||
-		!botstates[ent->s.number]->inuse
-	)
-	{
-		return qfalse;
-	}
-
-	return botstates[ent->s.number]->saberSpecialist == 0;
-}
-
 int		speedLoopSound		= 0;
 int		rageLoopSound		= 0;
 int		protectLoopSound	= 0;
@@ -4991,7 +4970,6 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 {
 	int			i, holo, holoregen;
 	int			prepower = 0;
-	qboolean	disableForce;
 	//see if any force powers are running
 	if ( !self )
 	{
@@ -5012,14 +4990,6 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 		return;
 	}
 
-	disableForce =
-		(
-			(g_battlesFFA.integer ||
-			 g_noPowersFFA.integer) &&
-			level.gametype == GT_TEAM
-		) ||
-		G_IsNoForceIfNotJediBot(self);
-
 	/*
 	if (self->client->ps.fd.saberAnimLevel > self->client->ps.fd.forcePowerLevel[FP_SABER_OFFENSE])
 	{
@@ -5036,10 +5006,7 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 		self->client->ps.fd.saberAnimLevel = FORCE_LEVEL_1;
 	}
 
-	if (
-			level.gametype != GT_SIEGE &&
-			!disableForce
-		)
+	if (level.gametype != GT_SIEGE)
 	{
 		if (!(self->client->ps.fd.forcePowersKnown & (1 << FP_LEVITATION)))
 		{
@@ -5173,80 +5140,6 @@ void WP_ForcePowersUpdate( gentity_t *self, usercmd_t *ucmd )
 	}
 
 	SeekerDroneUpdate(self);
-	
-	if (disableForce)
-	{
-		for (i = 0; i < NUM_FORCE_POWERS; i++)
-		{
-			if (
-				self->client->ps.fd.forcePowersActive &
-				(1 << i)
-			)
-			{
-				WP_ForcePowerStop(
-					self,
-					(forcePowers_t)i
-				);
-			}
-
-			self->client->ps.fd.forcePowerLevel[i] = 0;
-			self->client->ps.fd.forcePowerBaseLevel[i] = 0;
-			self->client->ps.fd.forcePowerDuration[i] = 0;
-			self->client->ps.fd.forcePowerDebounce[i] = 0;
-		}
-
-		self->client->ps.fd.forcePowersKnown = 0;
-		self->client->ps.fd.forcePowersActive = 0;
-		self->client->ps.fd.forcePowerSelected = 0;
-		self->client->ps.fd.forceButtonNeedRelease = 0;
-		self->client->ps.fd.forceUsingAdded = 0;
-		self->client->ps.fd.forceDeactivateAll = 0;
-
-		self->client->ps.fd.forcePower = 0;
-		self->client->ps.fd.forcePowerMax = 0;
-
-		self->client->ps.fd.forceJumpZStart = 0;
-		self->client->ps.fd.forceJumpCharge = 0;
-		self->client->ps.fd.forceJumpSound = 0;
-		self->client->ps.fd.forceJumpAddTime = 0;
-
-		self->client->ps.powerups[PW_FORCE_BOON] = 0;
-		self->client->ps.powerups[
-			PW_FORCE_ENLIGHTENED_LIGHT
-		] = 0;
-		self->client->ps.powerups[
-			PW_FORCE_ENLIGHTENED_DARK
-		] = 0;
-		self->client->ps.powerups[PW_SPEED] = 0;
-
-		return;
-	}
-	
-	if (
-((g_battlesFFA.integer || g_noPowersFFA.integer) &&
-			level.gametype == GT_TEAM) ||G_IsNoForceIfNotJediBot(self)) {
-		for (i = 0; i < NUM_FORCE_POWERS; i++) {
-			if (self->client->ps.fd.forcePowersActive & (1 << i)) {
-				WP_ForcePowerStop(self, (forcePowers_t)i);
-			}
-
-			self->client->ps.fd.forcePowerLevel[i] = 0;
-			self->client->ps.fd.forcePowerBaseLevel[i] = 0;
-			self->client->ps.fd.forcePowerDuration[i] = 0;
-		}
-
-		self->client->ps.fd.forcePowersKnown = 0;
-		self->client->ps.fd.forcePowersActive = 0;
-		self->client->ps.fd.forcePower = 0;
-		self->client->ps.fd.forcePowerMax = 0;
-		self->client->ps.fd.forceJumpZStart = 0;
-		self->client->ps.fd.forceJumpCharge = 0;
-		self->client->ps.fd.forceJumpSound = 0;
-
-		return;
-	}
-	
-	
 
 	if (self->client->ps.powerups[PW_FORCE_BOON])
 	{

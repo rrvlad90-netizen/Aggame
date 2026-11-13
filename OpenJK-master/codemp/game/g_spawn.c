@@ -276,9 +276,6 @@ void SP_target_score( gentity_t *ent );
 void SP_target_teleporter( gentity_t *ent );
 void SP_target_relay (gentity_t *ent);
 void SP_target_kill (gentity_t *ent);
-void SP_target_killbots (gentity_t *ent);
-void SP_target_battlesffa( gentity_t *ent );
-void SP_target_nopowersffa( gentity_t *ent );
 void SP_target_position (gentity_t *ent);
 void SP_target_location (gentity_t *ent);
 void SP_target_counter (gentity_t *self);
@@ -496,76 +493,6 @@ void SP_gametype_item ( gentity_t* ent )
 
 void SP_emplaced_gun( gentity_t *ent );
 
-/*
-========================
-SP_info_onelifeteamffa
-
-Enables Team FFA with one life per player.
-"delay" - seconds before elimination checks begin.
-Default: 10 seconds, allowing delayed bots to spawn.
-========================
-*/
-void SP_info_onelifeteamffa(gentity_t *ent)
-{
-	float delay;
-
-	if (level.gametype != GT_TEAM)
-	{
-		trap->Print(
-			"info_onelifeteamffa requires Team FFA\n"
-		);
-		G_FreeEntity(ent);
-		return;
-	}
-
-	G_SpawnFloat("delay", "10", &delay);
-
-	if (delay < 0.0f)
-	{
-		delay = 0.0f;
-	}
-
-	level.oneLifeTeamFFA = qtrue;
-	level.oneLifeTeamFFAArmed = qfalse;
-	level.oneLifeTeamFFAArmTime =
-		level.time + (int)(delay * 1000.0f);
-
-	trap->Print(
-		"OneLifeTeamFFA enabled; start delay %.1f seconds\n",
-		delay
-	);
-
-	G_FreeEntity(ent);
-}
-
-/*
-========================
-SP_info_noforceifnotjedi
-
-Bots with saberspecialist 0 receive no saber or Force powers.
-========================
-*/
-void SP_info_noforceifnotjedi(gentity_t *ent)
-{
-	if (level.gametype != GT_TEAM)
-	{
-		trap->Print(
-			"info_noforceifnotjedi requires Team FFA\n"
-		);
-		G_FreeEntity(ent);
-		return;
-	}
-
-	level.noForceIfNotJedi = qtrue;
-
-	trap->Print("NoForceIfNotJedi enabled\n");
-
-	G_FreeEntity(ent);
-}
-
-void SP_info_monsterhunt(gentity_t *ent);
-void SP_info_monsterhuntonelife(gentity_t *ent);
-
 spawn_t	spawns[] = {
 	{ "emplaced_gun",						SP_emplaced_gun },
 	{ "func_bobbing",						SP_func_bobbing },
@@ -589,11 +516,6 @@ spawn_t	spawns[] = {
 	{ "fx_wind",							SP_CreateWind },
 	{ "gametype_item",						SP_gametype_item },
 	{ "info_camp",							SP_info_camp },
-	{ "info_monsterhunt",			SP_info_monsterhunt },
-	{ "info_monsterhunt_spawn",		SP_info_notnull },
-	{ "info_monsterhuntonelife",	SP_info_monsterhuntonelife },
-	{ "info_noforceifnotjedi", SP_info_noforceifnotjedi },
-	{ "info_onelifeteamffa", SP_info_onelifeteamffa },
 	{ "info_jedimaster_start",				SP_info_jedimaster_start },
 	{ "info_notnull",						SP_info_notnull }, // use target_position instead
 	{ "info_null",							SP_info_null },
@@ -722,9 +644,6 @@ spawn_t	spawns[] = {
 	{ "target_give",						SP_target_give },
 	{ "target_interest",					SP_target_interest },
 	{ "target_kill",						SP_target_kill },
-	{ "target_killbots", 					SP_target_killbots },
-	{ "target_battlesffa",  				SP_target_battlesffa },
-	{ "target_nopowersffa", 				SP_target_nopowersffa },
 	{ "target_laser",						SP_target_laser },
 	{ "target_level_change",				SP_target_level_change },
 	{ "target_location",					SP_target_location },

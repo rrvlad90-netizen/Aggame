@@ -219,7 +219,6 @@ struct gentity_s {
 	qboolean	noLumbar; //see note in cg_local.h
 
 	qboolean	inuse;
-	qboolean	monsterHuntNPC;
 
 	int			lockCount; //used by NPCs
 
@@ -1003,17 +1002,6 @@ typedef struct level_locals_s {
 		locationData_t data[MAX_LOCATIONS];
 	} locations;
 
-
-	qboolean	oneLifeTeamFFA;
-	qboolean	oneLifeTeamFFAArmed;
-	int			oneLifeTeamFFAArmTime;
-	
-	qboolean	monsterHunt;
-	qboolean	monsterHuntOneLife;
-	qboolean	monsterHuntFinished;
-
-	qboolean	noForceIfNotJedi;
-
 	gametype_t	gametype;
 	char		mapname[MAX_QPATH];
 	char		rawmapname[MAX_QPATH];
@@ -1441,8 +1429,6 @@ void ForceSeeing( gentity_t *self );
 void ForceThrow( gentity_t *self, qboolean pull );
 void ForceTelepathy(gentity_t *self);
 qboolean Jedi_DodgeEvasion( gentity_t *self, gentity_t *shooter, trace_t *tr, int hitLoc );
-
-qboolean G_IsNoForceIfNotJediBot(gentity_t *ent);
 
 // g_log.c
 void QDECL G_LogWeaponPickup(int client, int weaponid);

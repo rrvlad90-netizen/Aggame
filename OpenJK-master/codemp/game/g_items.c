@@ -2427,33 +2427,6 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 		return;
 	if (other->health < 1)
 		return;		// dead people can't pickup
-	
-	if (
-			(
-				(g_battlesFFA.integer ||
-				 g_noPowersFFA.integer) &&
-				level.gametype == GT_TEAM
-			) ||
-			G_IsNoForceIfNotJediBot(other)
-		) {
-		if (
-			ent->item->giType == IT_WEAPON &&
-			ent->item->giTag == WP_SABER
-		) {
-			return;
-		}
-
-		if (
-			ent->item->giType == IT_POWERUP &&
-			(
-				ent->item->giTag == PW_FORCE_BOON ||
-				ent->item->giTag == PW_FORCE_ENLIGHTENED_LIGHT ||
-				ent->item->giTag == PW_FORCE_ENLIGHTENED_DARK
-			)
-		) {
-			return;
-		}
-	}
 
 	if (ent->item->giType == IT_POWERUP &&
 		(ent->item->giTag == PW_FORCE_ENLIGHTENED_LIGHT || ent->item->giTag == PW_FORCE_ENLIGHTENED_DARK))
